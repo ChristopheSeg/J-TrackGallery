@@ -12,11 +12,11 @@ We will soon configure the repro, contacts, propose a website and wikis dedicate
 ####Status of the Project
 At present time, the component is partly working under J! 2.5.9. Main features have been recoded. 
 Backend is quite OK. Displaying Maps is OK but Charts need further works.  
-J!Track Gallery will be published in the repro after significant work will be achieved (see [project schedule](/schedule/)
+J!Track Gallery will be published in the repro after significant work will be achieved : see [project schedule](https://github.com/ChristopheSeg/J-TrackGallery/wiki/project_schedule)
 ####History of J!TrackGallery
 J!TrackGallery may be considered as a fork of [InJooosm](http://injooosm.sourceforge.net/)
 This valuable component is no longer maintained (last version is for Joomla 1.5) and the author are not reachable. 
 It may be note that **InJooosm** was a fork of [joomgpstracks](http://www.joomlaos.de/Joomla_CMS_Downloads/Joomla_Komponenten/JoomGPSTracks.html)
-
+More information (soon available) on [J!Track Gallery website](http://jtrackgallery.net/)
 N.B. For those who always use InJooosm 0.5.7, we will provide a *migrate from injooosm to J!TrackGallery* feature in our component
 
