@@ -1,0 +1,13 @@
+<xml>
+	<sizex>13</sizex>
+	<sizey>20</sizey>
+	<offsetx>-2</offsetx>
+	<offsety>-17</offsety>
+</xml>
+<!--
+Um dieses Icon verfügbar zu machen, erstelle dieses Bild: "Waypoint.png",
+und vervollständige obige 4 Parameter.
+"offsetx" beschreibt die Anzahl der Pixel von links bis zum Punkt (negativ) und
+"offsety" beschreibt die Anzahl der Pixel von oben bis zum Punkt (ebenfalls negativ).
+Mit "Punkt" ist der Punkt gemeint, der auf der Koordinate sitzt.
+-->

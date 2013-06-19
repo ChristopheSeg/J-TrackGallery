@@ -1,0 +1,164 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<gpx xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd'>
+  <metadata>
+      <name>Peak District - Kinder Plateau</name>
+      <copyright author='RSInfotech' />
+      <link href='http://www.rsinfotech.co.uk/index.php?option=com_jtg&amp;view=track&amp;layout=track&amp;id=5'>
+          <text>Peak District - Kinder Plateau on RSInfotech</text>
+      </link>
+  </metadata>
+  <trk>
+      <name>Peak District - Kinder Plateau</name>
+      <link href='http://www.rsinfotech.co.uk/index.php?option=com_jtg&amp;view=track&amp;layout=track&amp;id=5' />
+          <trkseg>
+              <trkpt lat='53.36503909' lon='-1.816278759'>
+                  <ele>246.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='53.36960474' lon='-1.815898476'>
+                  <ele>259.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='53.37204261' lon='-1.817165522'>
+                  <ele>267.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='53.37557809' lon='-1.819104451'>
+                  <ele>302.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='53.38002351' lon='-1.822467989'>
+                  <ele>344.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='53.38249401' lon='-1.834033475'>
+                  <ele>448.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='53.38155911' lon='-1.840576498'>
+                  <ele>526.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='53.38148078' lon='-1.842516056'>
+                  <ele>563.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='53.38165472' lon='-1.84493575'>
+                  <ele>589.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='53.38084699' lon='-1.845900778'>
+                  <ele>589.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='53.38166283' lon='-1.851324802'>
+                  <ele>593.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='53.38216969' lon='-1.854164337'>
+                  <ele>601.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='53.3818952' lon='-1.85762291'>
+                  <ele>574.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='53.389414' lon='-1.86129673'>
+                  <ele>628.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='53.39350285' lon='-1.868411158'>
+                  <ele>612.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='53.39610311' lon='-1.870749128'>
+                  <ele>614.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='53.39764502' lon='-1.875331299'>
+                  <ele>610.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='53.39698219' lon='-1.877589009'>
+                  <ele>587.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='53.39252508' lon='-1.878804696'>
+                  <ele>583.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='53.38886885' lon='-1.880935061'>
+                  <ele>591.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='53.38332597' lon='-1.884092539'>
+                  <ele>613.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='53.37788559' lon='-1.881777339'>
+                  <ele>606.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='53.37899624' lon='-1.877850837'>
+                  <ele>605.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='53.3799869' lon='-1.871098404'>
+                  <ele>613.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='53.37975047' lon='-1.860636529'>
+                  <ele>602.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='53.3818952' lon='-1.85762291'>
+                  <ele>574.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='53.38166283' lon='-1.851324802'>
+                  <ele>593.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='53.38102618' lon='-1.845449146'>
+                  <ele>589.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='53.38183283' lon='-1.843657284'>
+                  <ele>577.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='53.37911846' lon='-1.837068045'>
+                  <ele>571.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='53.37512773' lon='-1.830755249'>
+                  <ele>497.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='53.37433961' lon='-1.826489687'>
+                  <ele>418.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='53.37133639' lon='-1.82579547'>
+                  <ele>341.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='53.37007413' lon='-1.82317052'>
+                  <ele>298.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='53.36960474' lon='-1.815898476'>
+                  <ele>259.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='53.36736633' lon='-1.815742791'>
+                  <ele>251.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='53.36503909' lon='-1.816278759'>
+                  <ele>246.0</ele>
+                  <time>0</time>
+              </trkpt>
+          </trkseg>
+      </trk>
+</gpx>

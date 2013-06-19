@@ -1,0 +1,74 @@
+<?php
+/**
+ * Joomla! 2.5 component J!Track Gallery (jtg)
+ *
+ * @version $Id: view.html.php,v 1.1 2011/04/03 08:41:55 christianknorr Exp $
+ * @author Christophe Seguinot
+ * @package jtg
+ * @subpackage backend
+ * @license GNU/GPL
+ * @filesource
+ *
+ */
+
+// no direct access
+defined('_JEXEC') or die('Restricted access');
+
+// Import Joomla! libraries
+jimport( 'joomla.application.component.view');
+
+/**
+ *
+ */
+class jtgViewTerrain extends JView {
+	/**
+	 *
+	 * @global object $mainframe
+	 * @global string $option
+	 * @param object $tpl
+	 */
+	function display($tpl = null) {
+		$mainframe =& JFactory::getApplication(); $option = JRequest::getCmd('option');
+
+		if($this->getLayout() == 'form'):
+		$this->_displayForm($tpl);
+		return;
+		endif;
+
+		$model =& $this->getModel();
+
+		$rows =& $this->get( 'Data');
+		$total	=& $this->get( 'Total');
+		$pagination =& $this->get( 'Pagination' );
+		if (!isset($lists)) {$lists=false;}
+		$this->lists = $lists;
+		$this->rows = $rows;
+		$this->pagination = $pagination;
+
+		parent::display($tpl);
+	}
+
+	function _displayForm($tpl) {
+
+		$model = $this->getModel();
+		$cid =& JRequest::getVar( 'cid', array(), 'post', 'array' );
+		if ( count($cid) != 0 )
+		{
+			$id = $cid[0];
+			$terrain = $model->getData($id);
+			$terrain = $terrain[0];
+			$published = $terrain->published;
+		}
+		else
+		{
+			$terrain = $model->getData();
+			$published = 1;
+		}
+		$lists['block'] 	= JHTML::_('select.booleanlist', 'published', 'class="inputbox" size="1"', $published );
+		
+		$this->id = $id;
+		$this->lists = $lists;
+		$this->terrain = $terrain;
+		parent::display($tpl);
+	}
+}

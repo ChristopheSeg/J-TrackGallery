@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="COM_JTG_MENU_CATEGORIES_LAYOUT">
+		<message>
+			<![CDATA[COM_JTG_CATEGORIES_LAYOUT_DESCRIPTION]]>
+		</message>
+	</layout>
+	<state>
+		<name>COM_JTG_MENU_CATEGORIES_LAYOUT</name>
+		<description>COM_JTG_CATEGORIES_LAYOUT_ESCRIPTION</description>
+        <url>
+
+        </url>
+		<params>
+
+		</params>
+		<advanced>
+
+		</advanced>
+	</state>
+</metadata>

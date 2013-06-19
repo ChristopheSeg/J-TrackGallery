@@ -1,0 +1,13 @@
+<xml>
+	<sizex>16</sizex>
+	<sizey>16</sizey>
+	<offsetx>8</offsetx>
+	<offsety>8</offsety>
+</xml>
+<!--
+Um dieses Icon verfügbar zu machen, erstelle dieses Bild: "Convenience Store.png",
+und vervollständige obige 4 Parameter.
+"offsetx" beschreibt die Anzahl der Pixel von links bis zum Punkt (negativ) und
+"offsety" beschreibt die Anzahl der Pixel von oben bis zum Punkt (ebenfalls negativ).
+Mit "Punkt" ist der Punkt gemeint, der auf der Koordinate sitzt.
+-->

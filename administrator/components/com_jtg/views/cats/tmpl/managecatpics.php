@@ -1,0 +1,68 @@
+<?php
+/**
+ * Joomla! 2.5 component J!Track Gallery (jtg)
+ *
+ * @version $Id: managecatpics.php,v 1.1 2011/04/03 08:41:41 christianknorr Exp $
+ * @author Christophe Seguinot
+ * @package jtg
+ * @subpackage backend
+ * @license GNU/GPL
+ * @filesource
+ *
+ */
+
+defined('_JEXEC') or die('Restricted access');
+
+// toolbar
+JToolBarHelper::title(JText::_('COM_JTG_MANAGE_PICS'), 'categories.png');
+JToolBarHelper::back($alt= 'COM_JTG_BACK', $href= 'javascript:history.back();');
+JToolBarHelper::spacer();
+JToolBarHelper::addNew('newcatpic', 'New', 'new.png' );
+JToolBarHelper::deleteList('COM_JTG_DELETE_IMAGES','removepic');
+JToolBarHelper::help( 'cats/managecatpics',true );
+
+?>
+<form action="" method="post" name="adminForm" id="adminForm">
+<table class="adminlist" cellpadding="1">
+	<thead>
+		<tr>
+			<th width="5%" class="title"><?php echo JText::_( 'COM_JTG_NUM' ); ?></th>
+			<th width="5%" class="title"><input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($this->rows); ?>);" /></th>
+			<th width="10%" class="title"><?php echo JText::_( 'COM_JTG_NAME' ); ?></th>
+<!--			<th width="10%" class="title"><?php echo JText::_( 'COM_JTG_EXTENSION' ); ?></th>-->
+			<th width="5%" class="title"><?php echo JText::_( 'COM_JTG_IMAGE' ); ?></th>
+			<th class="title"></th>
+		</tr>
+	</thead>
+	<tbody>
+	<?php
+	$k = 0;
+	for ($i=0, $n=count( $this->rows ); $i < $n; $i++)
+	{
+		$row = &$this->rows[$i];
+		$checked 	= JHTML::_('grid.checkedout', $row, $i );
+?>
+		<tr class="<?php echo "row$k"; ?>">
+			<td align="center"><?php echo $i; ?></td>
+			<td align="center"><?php echo $checked; ?></td>
+			<td align="right">
+<!--				<a href="javascript:void(0);" onclick="javascript:return listItemTask('cb<?php echo $i; ?>','editcatpic')">-->
+					<?php echo $row->file; ?>
+<!--				</a>-->
+			</td>
+<!--			<td align="left"><?php echo $row->ext; ?></td>-->
+			<td align="left"><?php echo $row->image; ?></td>
+			<td></td>
+		</tr>
+		<?php
+		$k = 1 - $k;
+	}
+	?>
+		</tbody>
+	</table>
+	<input type="hidden" name="option" value="com_jtg" />
+	<input type="hidden" name="task" value="<?php echo JRequest::getVar('task'); ?>" />
+	<input type="hidden" name="boxchecked" value="0" />
+	<input type="hidden" name="controller" value="cats" />
+	<?php echo JHTML::_( 'form.token' ); ?>
+</form>

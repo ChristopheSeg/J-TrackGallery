@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="OSM_MENU_FILE_LIST">
+		<message>
+			<![CDATA[COM_JTG_FILE_LIST_LAYOUT_DESCRIPTION]]>
+		</message>
+	</layout>
+	<state>
+		<name>COM_JTG_MENU_FILE_LIST</name>
+		<description>COM_JTG_FILE_LIST_LAYOUT_DESCRIPTION</description>
+        <url>
+
+        </url>
+		<config><fields name="params"><fieldset name="basic" label="basic">
+
+		</fieldset></fields></config>
+		<advanced>
+
+		</advanced>
+	</state>
+</metadata>

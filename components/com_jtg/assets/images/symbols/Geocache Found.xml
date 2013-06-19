@@ -1,0 +1,13 @@
+<xml>
+	<sizex></sizex>
+	<sizey></sizey>
+	<offsetx></offsetx>
+	<offsety></offsety>
+</xml>
+<!--
+Um dieses Icon verfügbar zu machen, erstelle dieses Bild: "Geocache Found.png",
+und vervollständige obige 4 Parameter.
+"offsetx" beschreibt die Anzahl der Pixel von links bis zum Punkt (negativ) und
+"offsety" beschreibt die Anzahl der Pixel von oben bis zum Punkt (ebenfalls negativ).
+Mit "Punkt" ist der Punkt gemeint, der auf der Koordinate sitzt.
+-->

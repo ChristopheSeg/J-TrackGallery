@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" version="2.5.0" method="upgrade">
+	<name>jtg</name>
+	<author>Christian Knorr</author>
+	<creationDate>22.04.2011</creationDate>
+	<author>Christian Knorr</author>
+	<license>GNU/GPL</license>
+	<authorEmail>christianknorr@users.sourceforge.net</authorEmail>
+	<authorUrl>http://jtg.sourceforge.net/</authorUrl>
+	<version>0.6.5</version>
+	<description>
+		J!Track Gallery integrades OpenStreetMap in Joomla. It shows Tracks and Waypoints in a SlippyMap.
+		Registred Users can upload own Files.
+	</description>
+	<install>
+		<sql>
+			<file driver="mysql" charset="utf8">sql/install.sql</file>
+			<file driver="mysqli" charset="utf8">sql/install.sql</file>
+		</sql>
+	</install>
+	<update>
+		<schemas>
+			<schemapath type="mysql">sql/upgrade</schemapath>
+			<schemapath type="mysqli">sql/upgrade</schemapath>
+		</schemas>
+	</update>
+
+	<uninstall>
+		<sql>
+			<file driver="mysql" charset="utf8">sql/uninstall.sql</file>
+			<file driver="mysqli" charset="utf8">sql/uninstall.sql</file>
+		</sql>
+	</uninstall>
+
+	<scriptfile>installuninstallscript.php</scriptfile>
+
+	<files folder="components/com_jtg">
+		<file>controller.php</file>
+		<file>index.html</file>
+		<file>jtg.php</file>
+		<file>router.php</file>
+		<folder>assets</folder>
+		<folder>controllers</folder>
+		<folder>docs</folder>
+		<folder>helpers</folder>
+		<folder>models</folder>
+		<folder>uploads</folder>
+		<folder>views</folder>
+	</files>
+	<languages folder="language">
+		<language tag="de-DE">de-DE/de-DE.com_jtg.ini</language>
+		<language tag="de-DE">de-DE/de-DE.com_jtg_additional.ini</language>
+		<language tag="en-GB">en-GB/en-GB.com_jtg.ini</language>
+		<language tag="en-GB">en-GB/en-GB.com_jtg_additional.ini</language>
+	</languages>
+	<media />
+	<administration>
+		<menu img="../components/com_jtg/assets/images/icon-16-jtg.png">J!Track Gallery</menu>
+		<submenu>
+			<menu controller="config" task="config">configuration</menu>
+			<menu controller="files" task="files">files</menu>
+			<menu controller="maps" task="maps">maps</menu>
+			<menu controller="cats" task="cats">categories</menu>
+			<menu controller="terrain" task="terrain">terrain</menu>
+			<menu controller="comments" task="comments">comments</menu>
+			<menu controller="translations" task="translations">translations</menu>
+			<menu controller="info" task="info">info</menu>
+		</submenu>
+		<files folder="">
+			<file>jtg.xml</file>
+		</files>
+		<files folder="administrator/components/com_jtg">
+			<file>config.xml</file>
+			<file>controller.php</file>
+			<file>template.css</file>
+			<file>index.html</file>
+			<file>jtg.php</file>
+			<file>installuninstallscript.php</file>
+			<folder>controllers</folder>
+			<folder>elements</folder>
+			<folder>help</folder>
+			<folder>helpers</folder>
+			<folder>models</folder>
+			<folder>sql</folder>
+			<folder>tables</folder>
+			<folder>views</folder>
+		</files>
+		<languages folder="administrator/language">
+			<language tag="de-DE">de-DE/de-DE.com_jtg.ini</language>
+			<language tag="en-GB">en-GB/en-GB.com_jtg.ini</language>
+			<language tag="de-DE">de-DE/de-DE.com_jtg.sys.ini</language>
+			<language tag="en-GB">en-GB/en-GB.com_jtg.sys.ini</language>
+		</languages>
+	</administration>
+	<params/>
+	<modules/>
+</extension>

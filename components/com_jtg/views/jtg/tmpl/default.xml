@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="COM_JTG_MENU_DEFAULT_LAYOUT">
+		<message>
+			<![CDATA[COM_JTG_DEFAULT_LAYOUT_DESCRIPTION]]>
+		</message>
+	</layout>
+	<state>
+		<name>COM_JTG_MENU_DEFAULT_LAYOUT</name>
+		<description>COM_JTG_DEFAULT_LAYOUT_DESCRIPTION</description>
+<!--		<params addpath="/administrator/components/com_jtg/elements">
+			<param name="newest" type="text" default="10" size="3" label="COM_JTG_MENU_NEWEST" description="COM_JTG_TT_MENU_NEWEST" />
+			<param name="mostklicks" type="text" default="10" size="3" label="COM_JTG_MENU_HITS" description="COM_JTG_TT_MENU_HITS" />
+			<param name="best" type="text" default="0" size="3" label="COM_JTG_MENU_BEST" description="COM_JTG_TT_MENU_BEST" />
+			<param name="rand" type="text" default="0" size="3" label="COM_JTG_MENU_RANDOM" description="COM_JTG_TT_MENU_RANDOM" />
+			<param name="lh" type="radio" default="1" label="COM_JTG_MENU_LH" description="COM_JTG_TT_MENU_LH">
+				<option value="0">No</option>
+  				<option value="1">Yes</option>
+			</param>
+			<param name="helpbutton" type="ownlist" label="Help" />
+			<param type="spacer" />
+			<param type="spacer" default="COM_JTG_MENUSPACER_LIMITS" />
+			<param name="limittext" type="ownlist" label=" " />
+		</params>
+		<advanced addpath="/administrator/components/com_jtg/elements">
+			<param type="spacer" default="COM_JTG_MENUSPACER_OVERVIEW" />
+			<param type="spacer" />
+			<param type="spacer" default="COM_JTG_MENUSPACER_LIMITS2" />
+			<param name="cats" type="ownlist" label="COM_JTG_CATS" description="COM_JTG_TT_MENU_LIMIT_CATS" />
+			<param name="subcats" type="ownlist" label="COM_JTG_CATS_WITH_SUBCATS" description="COM_JTG_TT_MENU_LIMIT_SUBCATS" />
+			<param name="user" type="ownlist" label="USER" description="COM_JTG_TT_MENU_LIMIT_USER" />
+			<param name="usergroup" type="ownlist" label="GROUP" description="COM_JTG_TT_MENU_LIMIT_USERGROUP" />
+			<param name="terrain" type="ownlist" label="COM_JTG_TERRAIN" description="COM_JTG_TT_MENU_LIMIT_TERRAIN" />
+			<param name="level_from" type="ownlist" label="COM_JTG_MENU_LEVEL_FROM" description="COM_JTG_TT_MENU_LIMIT_LEVEL" />
+			<param name="level_to" type="ownlist" label="COM_JTG_MENU_LEVEL_TO" description="COM_JTG_TT_MENU_LIMIT_LEVEL" />
+			<param name="vote_from" type="ownlist" label="COM_JTG_MENU_VOTE_FROM" description="COM_JTG_TT_MENU_LIMIT_VOTE" />
+			<param name="vote_to" type="ownlist" label="COM_JTG_MENU_VOTE_TO" description="COM_JTG_TT_MENU_LIMIT_VOTE" />
+			<param type="spacer" />
+			<param type="spacer" default="COM_JTG_MENUSPACER_APPEARANCE" />
+			<param name="vote_show_stars" type="radio" default="0" label="COM_JTG_MENU_VOTE_SHOW_STARS" description="COM_JTG_TT_MENU_SHOW_STARS">
+				<option value="0">No</option>
+  				<option value="1">Yes</option>
+			</param>
+			<param name="tracks" type="radio" default="0" label="COM_JTG_MENU_TRACKS" description="COM_JTG_TT_MENU_TRACKS">
+				<option value="0">No</option>
+  				<option value="1">Yes</option>
+			</param>
+			<param name="helpbutton" type="ownlist" label="Help" />
+		</advanced> -->
+	</state>
+</metadata>

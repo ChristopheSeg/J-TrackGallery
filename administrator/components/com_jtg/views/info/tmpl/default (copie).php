@@ -1,0 +1,84 @@
+<?php
+/**
+ * Joomla! 2.5 component J!Track Gallery (jtg)
+ *
+ * @version $Id: default.php,v 1.1 2011/04/03 08:41:48 christianknorr Exp $
+ * @author Christophe Seguinot
+ * @package jtg
+ * @subpackage backend
+ * @license GNU/GPL
+ * @filesource
+ *
+ */
+
+defined('_JEXEC') or die('Restricted access');
+
+// toolbar
+JToolBarHelper::title(JText::_('COM_JTG_INFO'), 'generic.png');
+JToolBarHelper::back($alt= 'COM_JTG_BACK', $href= 'javascript:history.back();');
+// JToolBarHelper::save('saveconfig', $alt='COM_JTG_SAVE', 'save.png' );
+
+// jimport('joomla.html.pane');
+// JHTML::_('behavior.tooltip');
+
+/*
+J!Track Gallery integrates OpenStreetMap in Joomla. It shows Tracks and Waypoints in a SlippyMap. Registred Users can uploads own Files.
+
+J!Track Gallery integriert eine OpenStreetMap in Joomla. Es zeigt Spuren und Wegpunkte in einer SlippyMap an. Registrierte können eigene Dateien hochladen.
+*/
+$link = "..".DS."components".DS."com_jtg".DS."assets".DS."images".DS."logo_JTG.png";
+$version = $this->getVersion();
+?>
+    <div style="margin: auto">
+<div style="float:left; margin-left:30px">
+    <table border="0" align="center" cellspacing="2" cellpadding="2">
+        <tbody>
+            <tr>
+                <td colspan="2"><img src="<?php echo $link;?>"  alt="J!Track Gallery"/></td>
+            </tr>
+            <tr>
+                <td><?php echo(JText::_('COM_JTG_DESCRIPTION'));?>:</td>
+                <td><?php echo(JText::_('COM_JTG_INFO_TXT'));?></td>
+            </tr>
+            <tr>
+                <td><?php echo(JText::_('COM_JTG_INSTALLED_VERSION'));?>:</td>
+                <td><?php echo ($version["this"]);?></td>
+            </tr>
+            <tr>
+                <td><?php echo(JText::_('COM_JTG_LATEST_VERSION'));?>:</td>
+                <td><?php echo($version["latest"]);?></td>
+            </tr>
+            <tr>
+                <td><?php echo(JText::_('COM_JTG_DEVELOPPERS'));?>:</td>
+                <td><a href="<?php echo(JText::_('COM_JTG_DEVELOPPERS_LIST'));?>">Christian Knorr</a></td>
+            </tr>
+            <tr>
+                <td>Demo:</td>
+                <td><a href="http://jtg.sourceforge.net" target="_blank">http://jtg.sourceforge.net</a></td>
+            </tr>
+            <tr>
+                <td><?php echo(JText::_('COM_JTG_PROJECT_PAGE'));?>:</td>
+                <td><a href="http://jtrackgallery.net" target="_blank">http://jtrackgallery.net</a></td>
+            </tr>
+            <tr>
+                <td><?php echo(JText::_('COM_JTG_SUPPORT'));?>:</td>
+                <td><a href="https://sourceforge.net/projects/jtg/forums/forum/1042963" target="_blank">https://sourceforge.net/projects/jtg/forums/forum/1042963</a></td>
+            </tr>
+            <tr>
+                <td><?php echo(JText::_('COM_JTG_LICENSE'));?>:</td>
+                <td><a href="http://www.gnu.org/licenses/gpl-2.0.html" target="_blank">GNU/GPL2</a></td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+<div style="clear:both"></div>
+    </div>
+<?php
+
+    echo JHTML::_( 'form.token' );
+    ?>
+    <input type="hidden" name="option" value="com_jtg" />
+    <input type="hidden" name="id" value="1" />
+    <input type="hidden" name="task" value="" />
+</form>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id: metadata.xml,v 1.1 2011/04/03 08:41:44 christianknorr Exp $ -->
+<metadata>
+	<view title="COM_JTG_MENU_JTG">
+		<message><![CDATA[COM_JTG_TT_MENU_JTG]]></message>
+	</view>
+</metadata>
