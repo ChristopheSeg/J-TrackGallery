@@ -5,9 +5,10 @@ Our Goal is to provide a non commercial, free, open source, GNU/GPL licensed com
 Allowing to seamlessly upload GPX tracks and display maps on Joomla based website.
 
 ####Status of the Repro
-The present repro was set up on May 29th 2013.   
-Please wait a while, we have a lot of stuff at present time!  
-We will soon configure the repro, contacts, propose a website and wikis dedicated to this project (may be a forum ?).
+First version of J!Track Gallery (0.6.0) have been pushed on June 19 2013. 
+- this version is only working on Joomla 2.5 (tested with 2.5.9) 
+- install script is minimalist and has to be improved
+- charts displaying has not been rewritten and is no longer working
 
 ####Status of the Project
 At present time, the component is partly working under J! 2.5.9. Main features have been recoded. 
