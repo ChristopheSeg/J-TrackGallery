@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="component" version="2.5.0" method="upgrade">
-	<name>jtg</name>
-	<author>Christian Knorr</author>
+	<name>J!Track Gallery</name>
+	<author>J!Track Gallery, InJooOSM and joomGPStracks teams</author>
 	<creationDate>22.04.2011</creationDate>
-	<author>Christian Knorr</author>
-	<license>GNU/GPL</license>
-	<authorEmail>christianknorr@users.sourceforge.net</authorEmail>
-	<authorUrl>http://jtg.sourceforge.net/</authorUrl>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL2</license>
+	<authorEmail>christophe@jtrackgallery.net</authorEmail>
+	<authorUrl>http://jtrackgallery.net/</authorUrl>
 	<version>0.6.0</version>
 	<description>COM_JTG_INFO_TXT</description>
 	<install>

@@ -1,13 +1,13 @@
 <?php
 /**
- * Joomla! 2.5 component J!Track Gallery (jtg)
+ * @component  J!Track Gallery (jtg) for Joomla! 2.5
  *
- * @version $Id: default.php,v 1.1 2011/04/03 08:41:48 christianknorr Exp $
- * @author Christophe Seguinot
- * @package jtg
+ * 
+ * @author     J!Track Gallery, InJooOSM and joomGPStracks teams
+ * @package    com_jtg
  * @subpackage backend
- * @license GNU/GPL
- * @filesource
+ * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL2
+ * @link       http://jtrackgallery.net/
  *
  */
 
@@ -50,7 +50,8 @@ $version = $this->getVersion();
             </tr>
             <tr>
                 <td><?php echo(JText::_('COM_JTG_DEVELOPPERS'));?>:</td>
-                <td><a href="<?php echo(JText::_('COM_JTG_DEVELOPPERS_LIST'));?>">Christian Knorr</a></td>
+                <td><a href="<?php echo(JText::_('COM_JTG_DEVELOPPERS_WEBSITE'));?>">
+		    <?php echo(JText::_('COM_JTG_DEVELOPPERS_LIST'));?></a></td>
             </tr>
             <tr>
                 <td><?php echo(JText::_('COM_JTG_DEMO_PAGE'));?>:</td>

@@ -1,7 +1,7 @@
 ###J!TrackGallery
 
 J!TrackGallery is a Joomla Track Gallery component.  
-Our Goal is to provide a non commercial, free, open source, GNU/GPL licensed component for Joomla 2.5 and 3.x. 
+Our Goal is to provide a non commercial, free, open source, GNU/GPL2 licensed component for Joomla 2.5 and 3.x. 
 Allowing to seamlessly upload GPX tracks and display maps on Joomla based website.
 
 ####Status of the Repro

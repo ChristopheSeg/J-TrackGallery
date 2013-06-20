@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- $Id: metadata.xml,v 1.1 2011/04/03 08:41:52 christianknorr Exp $ -->
+    <!-- com_jtg J!Track Gallery -->
 <metadata>
 	<view title="OSM_MENU_FILES">
 		<message><![CDATA[COM_JTG_TT_MENU_FILES]]></message>

@@ -1,14 +1,15 @@
 <?php
 /**
- * @version		$Id: ownlist.php,v 1.1 2011/04/03 08:41:50 christianknorr Exp $
- * @package		Joomla
- * @copyright	Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
+ * @component  J!Track Gallery (jtg) for Joomla! 2.5
+ *
+ * 
+ * @author     J!Track Gallery, InJooOSM and joomGPStracks teams
+ * @package    com_jtg
+ * @subpackage backend
+ * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL2
+ * @link       http://jtrackgallery.net/
+ *
+ *
  */
 
 // Check to ensure this file is included in Joomla!

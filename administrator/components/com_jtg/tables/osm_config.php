@@ -1,13 +1,13 @@
 <?php
 /**
- * Joomla! 2.5 component J!Track Gallery (jtg)
+ * @component  J!Track Gallery (jtg) for Joomla! 2.5
  *
- * @version $Id: osm_config.php,v 1.3 2011/04/09 09:33:39 christianknorr Exp $
- * @author Christophe Seguinot
- * @package jtg
+ * 
+ * @author     J!Track Gallery, InJooOSM and joomGPStracks teams
+ * @package    com_jtg
  * @subpackage backend
- * @license GNU/GPL
- * @filesource
+ * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL2
+ * @link       http://jtrackgallery.net/
  *
  */
 

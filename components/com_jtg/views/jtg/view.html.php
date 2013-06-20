@@ -1,13 +1,13 @@
 <?php
 /**
- * Joomla! 2.5 component J!Track Gallery (jtg)
+ * @component  J!Track Gallery (jtg) for Joomla! 2.5
  *
- * @version $Id: view.html.php,v 1.2 2011/04/08 15:48:23 christianknorr Exp $
- * @author Christophe Seguinot
- * @package jtg
+ * 
+ * @author     J!Track Gallery, InJooOSM and joomGPStracks teams
+ * @package    com_jtg
  * @subpackage frontend
- * @license GNU/GPL
- * @filesource
+ * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL2
+ * @link       http://jtrackgallery.net/
  *
  */
 
