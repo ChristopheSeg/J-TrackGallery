@@ -11,7 +11,7 @@
  *
  */
 
-// no direct access
+// No direct access
 defined('_JEXEC') or die('Restricted access');
 
 JToolBarHelper::title(JText::_('COM_JTG_ADD_CAT'), 'categories.png');
@@ -48,11 +48,11 @@ JToolBarHelper::help( 'cats/form',true );
 foreach ($this->images as $img) {
 	$imageurl = JURI::root().'images/jtg/cats/';
 	$pic = "";
-	$pic .= "<input type=\"radio\" name=\"catpic\" value=\"".$img."\" title=\"".$img."\"";
+	$pic .= "<input type=\"radio\" name=\"catpic\" value=\"" . $img . "\" title=\"" . $img . "\"";
 	$pic .= ">".
 	"<img src=\"".
 	$imageurl.$img.
-	"\" title=\".$img.\" />".
+	"\" title=\" . $img.\" />".
 	" \n";
 	echo $pic;
 }

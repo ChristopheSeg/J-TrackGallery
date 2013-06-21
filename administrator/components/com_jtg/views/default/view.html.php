@@ -11,23 +11,24 @@
  *
  */
 
-// no direct access
+// No direct access
 defined('_JEXEC') or die('Restricted access');
 
 // Import Joomla! libraries
 jimport( 'joomla.application.component.view');
-require_once JPATH_ROOT.DS.'components'.DS.'com_jtg'.DS.'helpers'.DS.'gpsClass.php';
+require_once JPATH_ROOT . DS . 'components' . DS . 'com_jtg' . DS . 'helpers' . DS . 'gpsClass.php';
 /**
  *
  */
-class jtgViewDefault extends JView {
+class JtgViewDefault extends JView
+{
     /**
      *
      * @param obejct $tpl
      */
     function display($tpl = null,$map=false) {
 
-        $cfg =& jtgHelper::getConfig();
+        $cfg =& JtgHelper::getConfig();
 
         $gps = new gpsClass();
 

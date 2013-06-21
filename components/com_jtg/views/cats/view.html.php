@@ -11,7 +11,7 @@
  *
  */
 
-// no direct access
+// No direct access
 defined('_JEXEC') or die('Restricted access');
 
 jimport( 'joomla.application.component.view');
@@ -19,10 +19,10 @@ jimport( 'joomla.application.component.view');
 /**
  * HTML View class for the jtg component
  */
-class jtgViewCats extends JView {
-
-function display($tpl = null)
+class JtgViewCats extends JView
 {
+    function display($tpl = null)
+    {
 	$mainframe =& JFactory::getApplication();
 	$this->lh = layoutHelper::navigation();
 	$this->footer = layoutHelper::footer();
@@ -30,11 +30,11 @@ function display($tpl = null)
 	$pathway->addItem(JText::_('COM_JTG_CATS'), '');
 	$sitename = $mainframe->getCfg('sitename');
 	$document = JFactory::getDocument();
-	$document->setTitle(JText::_('COM_JTG_CATS')." - ".$sitename);
+	$document->setTitle(JText::_('COM_JTG_CATS') . " - " . $sitename);
 	$model = $this->getModel();
 	$this->cats = $model->getCats();
 
 
-	parent::display($tpl);
-}
+	    parent::display($tpl);
+    }
 }

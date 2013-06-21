@@ -11,7 +11,7 @@
  *
  */
 
-// no direct access
+// No direct access
 defined('_JEXEC') or die('Restricted access');
 $user =& JFactory::getUser();
 if ($user->id != 0) {
@@ -54,22 +54,22 @@ if ($user->id != 0) {
 	<?php
 	$edit = JTExt::_('edit');
 	$delete = JTExt::_('delete');
-	$edit = "title=\"".$edit."\" alt=\"".$edit."\"";
-	$delete = "title=\"".$delete."\" alt=\"".$delete."\"";
+	$edit = "title=\"" . $edit . "\" alt=\"" . $edit . "\"";
+	$delete = "title=\"" . $delete . "\" alt=\"" . $delete . "\"";
 	$k = 0;
 	for ($i=0, $n=count( $this->rows ); $i < $n; $i++)
 	{
 		$row = &$this->rows[$i];
-		$terrain = jtgHelper::parseMoreTerrains($this->sortedter,$row->terrain,"array");
+		$terrain = JtgHelper::parseMoreTerrains($this->sortedter,$row->terrain,"array");
 		$terrain = implode(", ",$terrain);
 		if($this->cfg->unit == "Miles") {
-			$distance = jtgHelper::getLocatedFloat(jtgHelper::getMiles($row->distance,"-","Miles"));
+			$distance = JtgHelper::getLocatedFloat(JtgHelper::getMiles($row->distance,"-","Miles"));
 		} else {
-			$distance = jtgHelper::getLocatedFloat($row->distance,"-","km");
+			$distance = JtgHelper::getLocatedFloat($row->distance,"-","km");
 		}
 		$votes = layoutHelper::parseVoteFloat($row->vote);
 		$link = JRoute::_('index.php?option=com_jtg&view=files&layout=file&id='.$row->id,false);
-		$cats = jtgHelper::parseMoreCats($this->cats,$row->catid,"array");
+		$cats = JtgHelper::parseMoreCats($this->cats,$row->catid,"array");
 		$cats = implode(", ",$cats);
 		?>
 		<tr class="sectiontableentry<?php echo $k; ?>">

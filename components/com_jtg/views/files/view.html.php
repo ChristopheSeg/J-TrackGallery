@@ -13,7 +13,7 @@
  *
  */
 
-// no direct access
+// No direct access
 defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.view');
@@ -22,9 +22,9 @@ jimport('joomla.html.pagination');
 /**
  * HTML View class for the jtg component
  */
-// class jtgViewTracks extends JView {
-class jtgViewFiles extends JView {
 
+class JtgViewFiles extends JView
+{
 	/**
 	 * Returns true|false if it is allowed to see the file
 	 * @param <obj> $this
@@ -100,7 +100,7 @@ class jtgViewFiles extends JView {
 	 * @return <type>$gps
 	 */
 	function display($tpl = null) {
-		$file = JPATH_SITE.DS."components".DS."com_jtg".DS."models".DS."jtg.php";
+		$file = JPATH_SITE . DS . "components" . DS . "com_jtg" . DS . "models" . DS . "jtg.php";
 		require_once $file;
 
 		if ($this->getLayout() == 'form')
@@ -145,12 +145,12 @@ class jtgViewFiles extends JView {
 		array('id' => 1, 'title' => JText::_('JYES'))
 		);
 
-		$cfg = jtgHelper :: getConfig();
+		$cfg = JtgHelper :: getConfig();
 
 		// Make sure you are logged in and have the necessary access rights
 
 		// TODO check this if ($user->get('gid') < $cfg->gid) {
-		if (! jtgHelper :: userHasFrontendRights() ) {
+		if (! JtgHelper :: userHasFrontendRights() ) {
 		    JResponse :: setHeader('HTTP/1.0 403', true);
 			JError :: raiseWarning(403, JText :: _('ALERTNOTAUTH'));
 			return;
@@ -187,7 +187,7 @@ class jtgViewFiles extends JView {
 			$catid = explode(",",$catid);
 			$pathway->addItem(JText::_( 'COM_JTG_UPDATE'), '');
 			$document = JFactory::getDocument();
-			$document->setTitle(JText::_( 'COM_JTG_UPDATE')." (".$track->title.") - ".$sitename);
+			$document->setTitle(JText::_( 'COM_JTG_UPDATE') . " (" . $track->title . ") - " . $sitename);
 			$selterrain = explode(',', $track->terrain);
 			$value_published = $track->published;
 			$value_hidden = $track->hidden;
@@ -196,7 +196,7 @@ class jtgViewFiles extends JView {
 		else
 		{
 			//new file
-			$document->setTitle(JText::_( 'COM_JTG_NEW_TRACK')." - ".$sitename);
+			$document->setTitle(JText::_( 'COM_JTG_NEW_TRACK') . " - " . $sitename);
 			$track = array("access"=>"0");
 			$track = JArrayHelper::toObject($track);
 			$catid = null;
@@ -206,8 +206,8 @@ class jtgViewFiles extends JView {
 			$sellevel = 0;
 		}
 		$level = $model->getLevelSelect($sellevel);
-		$img_dir = JPATH_SITE.DS.'images'.DS.'jtg'.DS.$id.DS;
-		$imgpath = JURI::root().'images/jtg/'.$id."/";
+		$img_dir = JPATH_SITE . DS . 'images' . DS . 'jtg' . DS . $id.DS;
+		$imgpath = JURI::root().'images/jtg/'.$id . "/";
 		$images = null;
 		$imgcount = 0;
 		if(JFolder::exists($img_dir)) {
@@ -217,8 +217,8 @@ class jtgViewFiles extends JView {
 				foreach($imgs AS $image)
 				{
 					$imgcount++;
-					$images .= "<input type=\"checkbox\" name=\"deleteimage_".str_replace('.',null,$image)."\" value=\"".$image."\">".JText::_( 'COM_JTG_DELETE_IMAGE' )." (".$image.")<br />".
-					"<img src=\"".$imgpath.$image."\" alt=\"".$image."\" title=\"".$image."\" /><br /><br />\n";
+					$images .= "<input type=\"checkbox\" name=\"deleteimage_".str_replace('.',null,$image) . "\" value=\"" . $image . "\">".JText::_( 'COM_JTG_DELETE_IMAGE' ) . " (" . $image . ")<br />".
+					"<img src=\"" . $imgpath.$image . "\" alt=\"" . $image . "\" title=\"" . $image . "\" /><br /><br />\n";
 				}
 			}
 		}
@@ -230,7 +230,7 @@ class jtgViewFiles extends JView {
 		if ( $size > 6 ) $size = 6;
 		$lists['terrain'] = JHTML :: _('select.genericlist', $terrain, 'terrain[]', 'multiple="multiple" size="'.$size.'"', 'id', 'title', $selterrain);
 		//			$lists['access'] = JHTML :: _('select.genericlist', $access, 'access', 'size="4"', 'id', 'text', $track->access);
-		$lists['access'] = jtgHelper::getAccessList($track->access);
+		$lists['access'] = JtgHelper::getAccessList($track->access);
 		$lists['hidden']	= JHTML::_('select.genericlist', $yesnolist, 'hidden', 'class="inputbox" size="1"', 'id', 'title',$value_hidden);
 		$lists['published']	= JHTML::_('select.genericlist', $yesnolist, 'published', 'class="inputbox" size="1"', 'id', 'title',$value_published);
 		// $gps = new gpsClass();
@@ -268,7 +268,7 @@ class jtgViewFiles extends JView {
 		else
 		$lh = null;
 		$footer = layoutHelper :: footer();
-		$cfg = jtgHelper :: getConfig();
+		$cfg = JtgHelper :: getConfig();
 
 		$model = $this->getModel();
 		$pathway = & $mainframe->getPathway();
@@ -277,9 +277,9 @@ class jtgViewFiles extends JView {
 		// $track = $cache->get(array($model, 'getTrack'), array($id));
 		// if (!$id) die ("Schau mal in datei view.html.php Zeile 152 :-P");
 		// if (!$id) $id = 1;
-		//		$file = JPATH_SITE.DS."components".DS."com_jtg".DS."models".DS."jtg.php";
+		//		$file = JPATH_SITE . DS . "components" . DS . "com_jtg" . DS . "models" . DS . "jtg.php";
 		//		require_once $file;
-		$sortedcats = jtgModeljtg::getCatsData(true);
+		$sortedcats = JtgModeljtg::getCatsData(true);
 		$track = $cache->get(array ( $model, 'getFile' ), array ( $id ));
 		if ( ( !$track ) OR ( $track->id === null ) )
 		{
@@ -299,9 +299,9 @@ class jtgViewFiles extends JView {
 		$vote = $model->getVotes($id);
 		$pathway->addItem($track->title, '');
 		$document = JFactory::getDocument();
-		$document->setTitle($track->title." - ".$sitename);
+		$document->setTitle($track->title . " - " . $sitename);
 		$date = JHTML :: _('date', $track->date, JText :: _('COM_JTG_DATE_FORMAT_LC4'));
-		$profile = jtgHelper::getProfileLink($track->uid, $track->user);
+		$profile = JtgHelper::getProfileLink($track->uid, $track->user);
 		$comments = $model->getComments($id, $cfg->ordering);
 		//		$comments = $cache->get(array (
 		//			$model,
@@ -324,11 +324,11 @@ class jtgViewFiles extends JView {
 			//			$document->addScript('http://maps.google.com/maps?file=api&amp;v=2&amp;key='.$cfg->apikey);
 			//			$document->addScript('http://api.maps.yahoo.com/ajaxymap?v=3.0&appid=');
 			$document->addScript('http://www.openlayers.org/api/OpenLayers.js');
-			//		JHTML::script('OpenLayers.js', 'components'.DS.'com_jtg'.DS.'assets'.DS.'js'.DS.'OpenLayers'., false); // IE-Fehler
+			//		JHTML::script('OpenLayers.js', 'components' . DS . 'com_jtg' . DS . 'assets' . DS . 'js' . DS . 'OpenLayers'., false); // IE-Fehler
 			$document->addScript('http://www.openstreetmap.org/openlayers/OpenStreetMap.js');
 			$document->addScript('http://www.openlayers.org/api/Ajax.js');
 			// 		$document->addScript('components/com_jtg/assets/js/GPX.js');
-			//		$document->addScript('components'.DS.'com_jtg'.DS.'assets'.DS.'js'.DS.'jtg.js');
+			//		$document->addScript('components' . DS . 'com_jtg' . DS . 'assets' . DS . 'js' . DS . 'jtg.js');
 			// 		$document->addScript('');
 			$document->addScript('http://ajax.googleapis.com/ajax/libs/dojo/1.3.2/dojo/dojo.xd.js.uncompressed.js');
 			//			$document->addScript('http://ajax.googleapis.com/ajax/libs/dojo/1.3/dojo/dojo.xd.js');
@@ -353,7 +353,7 @@ class jtgViewFiles extends JView {
 		$unit = $cfg->unit;
 		$distance_float = (float) $track->distance;
 		//		$distance_float = (int)
-		$distance = jtgHelper::getLocatedFloat($distance_float,0,$unit);
+		$distance = JtgHelper::getLocatedFloat($distance_float,0,$unit);
 		// charts
 		$file = '.' . DS . 'components' . DS . 'com_jtg' . DS . 'uploads' . DS . strtolower($track->file);
 		/*
@@ -452,9 +452,9 @@ class jtgViewFiles extends JView {
 						if ( in_array(strtolower($ext),$imgtypes) )
 						{
 							$imageBlock .= "	<div class=\"imageElement\">
-			<h3>".$track->title." <small>(".$image.")</small></h3>
+			<h3>" . $track->title . " <small>(" . $image . ")</small></h3>
 			<p></p>
-			<img src=\"".JURI::base()."images/jtg/".$id."/".$image."\" class=\"full\" height=\"0px\" />
+			<img src=\"".JURI::base() . "images/jtg/" . $id . "/" . $image . "\" class=\"full\" height=\"0px\" />
 		</div>\n";
 						}
 					}
@@ -474,7 +474,7 @@ class jtgViewFiles extends JView {
 						if ( in_array(strtolower($ext),$imgtypes) ) {
 							if ($i != 0)
 							$imageBlock .= "<br /><br />";
-							$imageBlock .= "<img src=\"".JURI::base()."images/jtg/".$id."/".$image."\" alt=\"".$track->title." (".$image.")"."\" title=\"".$track->title." (".$image.")"."\" />\n";
+							$imageBlock .= "<img src=\"".JURI::base() . "images/jtg/" . $id . "/" . $image . "\" alt=\"" . $track->title . " (" . $image . ")" . "\" title=\"" . $track->title . " (" . $image . ")" . "\" />\n";
 						}
 					}
 					break;
@@ -530,20 +530,20 @@ class jtgViewFiles extends JView {
 
 		$model = & $this->getModel();
 		$cache = & JFactory :: getCache('com_jtg');
-		$sortedcats = jtgModeljtg::getCatsData(true);
-		$sortedter = jtgModeljtg::getTerrainData(true);
+		$sortedcats = JtgModeljtg::getCatsData(true);
+		$sortedter = JtgModeljtg::getTerrainData(true);
 		$user = & JFactory :: getUser();
 		$uid = $user->get('id');
 		// TODO upgrade ACL
 		$gid = $user->get('gid');
 		$lh = layoutHelper :: navigation();
 		$footer = layoutHelper :: footer();
-		$cfg = jtgHelper :: getConfig();
+		$cfg = JtgHelper :: getConfig();
 		$pathway = & $mainframe->getPathway();
 		$pathway->addItem(JText::_( 'COM_JTG_FILES'), '');
 		$sitename = $mainframe->getCfg('sitename');
 		$document = JFactory::getDocument();
-		$document->setTitle(JText::_( 'COM_JTG_FILES')." - ".$sitename);
+		$document->setTitle(JText::_( 'COM_JTG_FILES') . " - " . $sitename);
 		$params = & $mainframe->getParams();
 
 		$order = JRequest :: getVar('order', 'order', 'post', 'string');
@@ -589,12 +589,12 @@ class jtgViewFiles extends JView {
 		$lh = layoutHelper :: navigation();
 		$footer = layoutHelper :: footer();
 		$model = & $this->getModel();
-		$cfg = jtgHelper :: getConfig();
+		$cfg = JtgHelper :: getConfig();
 		$pathway = & $mainframe->getPathway();
 		$pathway->addItem(JText::_( 'COM_JTG_MY_FILES'), '');
 		$sitename = $mainframe->getCfg('sitename');
 		$document = JFactory::getDocument();
-		$document->setTitle(JText::_( 'COM_JTG_MY_FILES')." - ".$sitename);
+		$document->setTitle(JText::_( 'COM_JTG_MY_FILES') . " - " . $sitename);
 
 		$order = JRequest :: getVar('order', 'order', 'post', 'string');
 
@@ -615,9 +615,9 @@ class jtgViewFiles extends JView {
 		$rows = $cache->get(array ( $model, 'getData' ), array ( $limit, $limitstart ));
 		$total = & $this->get('Total');
 		$pagination = new JPagination($total, $limitstart, $limit);
-		$cats = jtgModeljtg::getCatsData(true);
+		$cats = JtgModeljtg::getCatsData(true);
 		//		$cats = $model->getCats();
-		$sortedter = jtgModeljtg::getTerrainData(true);
+		$sortedter = JtgModeljtg::getTerrainData(true);
 		$params = & $mainframe->getParams();
 		$this->params = $params;
 		$this->sortedter = $sortedter;
@@ -789,7 +789,7 @@ class jtgViewFiles extends JView {
 				);
 				break;
 			case 'easy' :
-				$cfg = jtgHelper :: getConfig();
+				$cfg = JtgHelper :: getConfig();
 				$link = $this->model->approacheasy($this->track->start_n, $this->track->start_e, $lang);
 				break;
 		}

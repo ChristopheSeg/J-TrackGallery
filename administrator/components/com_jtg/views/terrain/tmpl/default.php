@@ -57,7 +57,7 @@ JToolBarHelper::help( 'terrain',true );
 		$published 	= JHTML::_('grid.published', $row, $i );
 
              ?>
-             <tr class="<?php echo "row".$k; ?>">
+             <tr class="<?php echo "row" . $k; ?>">
                 <td align="center"><?php echo $this->pagination->getRowOffset( $i ); ?></td>
                 <td align="center"><?php echo $checked; ?></td>
                 <td align="center"><a href="javascript:void(0);" onclick="javascript:return listItemTask('cb<?php echo $i; ?>','editterrain')"><?php echo JText::_($row->title); ?></a></td>

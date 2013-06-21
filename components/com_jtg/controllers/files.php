@@ -11,13 +11,13 @@
  *
  */
 
-// no direct access
+// No direct access
 defined('_JEXEC') or die('Restricted access');
 
-jimport( 'joomla.application.component.controller' );
+jimport('joomla.application.component.controller');
 
-class jtgControllerFiles extends jtgController {
-
+class JtgControllerFiles extends JtgController
+{
 	function __construct()
 	{
 		parent::__construct();
@@ -35,12 +35,12 @@ class jtgControllerFiles extends jtgController {
 		$ext = JFile::getExt($file['name']);
 		if($ext == 'kml' || $ext == 'gpx' || $ext == 'tcx') {
 			if(!$model->saveFile()) {
-				echo "<script> alert('".$model->getError(true)."'); window.history.go(-1); </script>\n";
+				echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 			}
 			$this->setRedirect( JRoute::_('index.php', false), false );
 
 		} else {
-			echo "<script> alert('".JText::_('COM_JTG_FILE_ERROR')."'); window.history.go(-1); </script>\n";
+			echo "<script> alert('".JText::_('COM_JTG_FILE_ERROR') . "'); window.history.go(-1); </script>\n";
 			exit;
 		}
 	}
@@ -67,7 +67,7 @@ class jtgControllerFiles extends jtgController {
 		$model = $this->getModel('files');
 
 		if(!$model->deleteFile($id)) {
-			echo "<script> alert('".$model->getError(true)."'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		} else {
 			$this->setRedirect( JRoute::_('index.php?option=com_jtg&view=files&layout=user',false), false);
 		}
@@ -87,7 +87,7 @@ class jtgControllerFiles extends jtgController {
 		$model = $this->getModel('files');
 		$errormsg = $model->updateFile($id);
 		if($errormsg !== true) {
-			echo "<script> alert('Error: \"".$errormsg."\"'); window.history.go(-1); </script>\n";
+			echo "<script> alert('Error: \"" . $errormsg . "\"'); window.history.go(-1); </script>\n";
 		}else
 		$this->setRedirect( JRoute::_('index.php?option=com_jtg&view=files&layout=file&id='.$id, false), false );
 
@@ -104,7 +104,7 @@ class jtgControllerFiles extends jtgController {
 
 		// Check for request forgeries
 		JRequest::checkToken() or jexit( 'Invalid Token' );
-		$cfg = jtgHelper::getConfig();
+		$cfg = JtgHelper::getConfig();
 		$id = JRequest::getInt('id');
 
 		if($cfg->captcha == 1) {
@@ -112,7 +112,7 @@ class jtgControllerFiles extends jtgController {
 			$word = JRequest::getVar('word', false, '', 'CMD');
 			$mainframe->triggerEvent('onCaptcha_confirm', array($word, &$return));
 			if (!$return) {
-				echo "<script> alert('".JText::_('COM_JTG_CAPTCHA_WRONG')."'); window.history.go(-1); </script>\n";
+				echo "<script> alert('".JText::_('COM_JTG_CAPTCHA_WRONG') . "'); window.history.go(-1); </script>\n";
 			} else {
 				$model = $this->getModel('files');
 				if(!$model->savecomment($id, $cfg))

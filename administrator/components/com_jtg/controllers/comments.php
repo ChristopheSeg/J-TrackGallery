@@ -12,13 +12,13 @@
  */
 
 
-// no direct access
+// No direct access
 defined('_JEXEC') or die('Restricted access');
 
-jimport( 'joomla.application.component.controller' );
+jimport('joomla.application.component.controller');
 
-class jtgControllerComments extends jtgController  {
-
+class JtgControllerComments extends JtgController
+{
         /**
          * 
          */
@@ -36,7 +36,7 @@ class jtgControllerComments extends jtgController  {
 
 		$model = $this->getModel('comments');
 		if(!$model->publish($cid, 1)) {
-			echo "<script> alert('".$model->getError(true)."'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
 
 		$this->setRedirect( JRoute::_('index.php?option=com_jtg&task=comments&controller=comments', false ));
@@ -59,7 +59,7 @@ class jtgControllerComments extends jtgController  {
 
 		$model = $this->getModel('comments');
 		if(!$model->publish($cid, 0)) {
-			echo "<script> alert('".$model->getError(true)."'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
 
 		$this->setRedirect( JRoute::_('index.php?option=com_jtg&task=comments&controller=comments', false ));
@@ -82,7 +82,7 @@ class jtgControllerComments extends jtgController  {
 
 		$model = $this->getModel('comments');
 		if(!$model->delete($cid)) {
-			echo "<script> alert('".$model->getError(true)."'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
 
 		$this->setRedirect( JRoute::_('index.php?option=com_jtg&task=comments&controller=comments', false ));
@@ -98,7 +98,7 @@ class jtgControllerComments extends jtgController  {
 
                 $model = $this->getModel('comments');
                 if(!$model->saveComment())  {
-                    echo "<script> alert('".$model->getError(true)."'); window.history.go(-1); </script>\n";
+                    echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
                 }
 
                 $this->setRedirect( JRoute::_('index.php?option=com_jtg&task=comments&controller=comments', false ));

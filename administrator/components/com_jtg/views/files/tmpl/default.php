@@ -65,13 +65,13 @@ $document->addStyleSheet(JURI::base().'components/com_jtg/template.css');
 	$missingcat = array();
 	$missingterrain = false;
 	$cfg = $this->cfg;
-	$iconpath	= JURI::root()."components/com_jtg/assets/template/".$cfg->template."/images/";
+	$iconpath	= JURI::root() . "components/com_jtg/assets/template/" . $cfg->template . "/images/";
 	for ($i=0, $n=count( $this->rows ); $i < $n; $i++)
 	{
 		$row = &$this->rows[$i];
 		$row->groupname = $this->buildRowGroupname($row->access); // wird für die Zugriffsebene benötigt
 		if ( $row->access == 9 )
-		$access 	= "<font color='orange'>".JText::_('COM_JTG_PRIVATE')."</font>";
+		$access 	= "<font color='orange'>".JText::_('COM_JTG_PRIVATE') . "</font>";
 		else
 		$access 	= JHTML::_('grid.access', $row, $i );
 		$checked 	= JHTML::_('grid.checkedout', $row, $i );
@@ -83,7 +83,7 @@ $document->addStyleSheet(JURI::base().'components/com_jtg/template.css');
 		$hiddenlink	= $this->buildHiddenImage($iconpath,$hidden,$i);
 		$catids		= explode(",",$row->catid);
 		if ( ( $catids === $row->catid ) OR ( $row->catid == "0" ) OR ( $row->catid == "" ) )
-		$cats = "<font class=\"emptyEntry\">".JText::_('COM_JTG_NOTHING')."</font>";
+		$cats = "<font class=\"emptyEntry\">".JText::_('COM_JTG_NOTHING') . "</font>";
 		else
 		{
 			$cats = "<ul class=\"cattree\">";
@@ -97,7 +97,7 @@ $document->addStyleSheet(JURI::base().'components/com_jtg/template.css');
 						$missingcat[$miss] = $miss;
 					}
 				}
-				$cats .= "<li>".$cattree["tree"]."</li>";
+				$cats .= "<li>" . $cattree["tree"] . "</li>";
 				$l++;
 			}
 			$cats .= "</ul>";
@@ -110,9 +110,9 @@ $document->addStyleSheet(JURI::base().'components/com_jtg/template.css');
 		$terrains = $row->terrain;
 		$terrains = explode(",",$terrains);
 		$terrain = array();
-		$model = new jtgModelFiles;
+		$model = new JtgModelFiles;
 		foreach ($terrains as $v) {
-			$tmp = $model->getTerrain("*",false, "WHERE id = ".$v);
+			$tmp = $model->getTerrain("*",false, "WHERE id = " . $v);
 			if ( isset( $tmp[0] ) AND ( $tmp[0]->title ) )
 			{
 				$terrain[] = JText::_($tmp[0]->title);
@@ -131,7 +131,7 @@ $document->addStyleSheet(JURI::base().'components/com_jtg/template.css');
 		else
 			$terrain = implode(", ",$terrain);
 		?>
-		<tr class="<?php echo "row".$k; ?>">
+		<tr class="<?php echo "row" . $k; ?>">
 			<td align="center"><?php echo $this->pagination->getRowOffset( $i ); ?></td>
 			<td align="center"><?php echo $row->id; ?></td>
 			<td align="center"><?php echo $checked; ?></td>
@@ -183,7 +183,7 @@ else
 	// 'file', @$this->lists['order_Dir'], @$this->lists['order'], 'files' ); ?>:</th>
 -->
 			<th class="title"><?php
-			echo JHTML::_('grid.sort', JText::_('COM_JTG_TITLE') ."<small> (". JText::_('COM_JTG_FILE') .")</small> ",
+			echo JHTML::_('grid.sort', JText::_('COM_JTG_TITLE')  . "<small> (" . JText::_('COM_JTG_FILE')  . ")</small> ",
 	'title', @$this->lists['order_Dir'], @$this->lists['order'], 'files' ); ?>:</th>
 			<th class="title"><?php
 			echo JText::_('COM_JTG_FILETYPE');

@@ -33,7 +33,7 @@ class JElementArticle extends JElement
 		$doc 		=& JFactory::getDocument();
 //		$template 	= $mainframe->getTemplate();
 		$fieldName	= $control_name.'['.$name.']';
-		$path = JPATH_SITE.DS."administrator".DS."components".DS."com_jtg".DS."tables".DS;
+		$path = JPATH_SITE . DS . "administrator" . DS . "components" . DS . "com_jtg" . DS . "tables".DS;
 		JTable::addIncludePath($path);
 		$article =& JTable::getInstance('osm_files','Table');
 		if ($value) {
@@ -53,8 +53,8 @@ class JElementArticle extends JElement
 		
 		JHTML::_('behavior.modal', 'a.modal');
 		$html = "\n".'<div style="float: left;"><input style="background: #ffffff;" type="text" id="'.$name.'_name" value="'.htmlspecialchars($article->title, ENT_QUOTES, 'UTF-8').'" disabled="disabled" /></div>';
-//		$html .= "\n &nbsp; <input class=\"inputbox modal-button\" type=\"button\" value=\"".JText::_('COM_JTG_SELECT')."\" />";
-		$html .= '<div class="button2-left"><div class="blank"><a class="modal" title="'.JText::_('COM_JTG_SELECT_A_FILE').'"  href="'.$link.'" rel="{handler: \'iframe\', size: {x: 650, y: 375}}">'.JText::_('COM_JTG_SELECT').'</a></div></div>'."\n";
+//		$html .= "\n &nbsp; <input class=\"inputbox modal-button\" type=\"button\" value=\"".JText::_('COM_JTG_SELECT') . "\" />";
+		$html .= '<div class="button2-left"><div class="blank"><a class="modal" title="'.JText::_('COM_JTG_SELECT_A_FILE').'"  href="'.$link.'" rel="{handler: \'iframe\', size: {x: 650, y: 375}}">'.JText::_('COM_JTG_SELECT').'</a></div></div>' . "\n";
 		$html .= "\n".'<input type="hidden" id="'.$name.'_id" name="'.$fieldName.'" value="'.(int)$value.'" />';
 
 		return $html;

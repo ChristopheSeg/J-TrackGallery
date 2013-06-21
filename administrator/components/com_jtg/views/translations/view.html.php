@@ -11,7 +11,7 @@
  *
  */
 
-// no direct access
+// No direct access
 defined('_JEXEC') or die('Restricted access');
 
 // Import Joomla! libraries
@@ -20,7 +20,8 @@ jimport( 'joomla.application.component.view');
 /**
  *
  */
-class jtgViewTranslations extends JView {
+class JtgViewTranslations extends JView
+{
 	function display($tpl = null) {
 		$mainframe =& JFactory::getApplication(); $option = JRequest::getCmd('option');
 

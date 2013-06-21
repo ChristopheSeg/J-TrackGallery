@@ -11,7 +11,7 @@
  *
  */
 
-// no direct access
+// No direct access
 defined('_JEXEC') or die('Restricted access');
 
 // Import Joomla! libraries
@@ -21,8 +21,8 @@ jimport( 'joomla.application.component.view');
 /**
  *
  */
-class jtgViewFiles extends JView {
-
+class JtgViewFiles extends JView
+{
 	/**
 	 * Build the select list for access level
 	 */
@@ -82,7 +82,7 @@ class jtgViewFiles extends JView {
 		if($needcolor===false)
 		return $access;
 		else
-		return "<font color='".$color."'>".$access."</font>";
+		return "<font color='" . $color . "'>" . $access . "</font>";
 	}
 
 	/**
@@ -92,8 +92,8 @@ class jtgViewFiles extends JView {
 	 * @return string
 	 */
 	public function buildChooseKlicks($id,$title){
-		$onclick = "window.parent.jSelectArticle('".$id."', '".$title."', 'id');";
-		return "<a style=\"cursor: pointer;\" href=\"javascript:void(0);\" onclick=\"".$onclick."\">".$title."</a>";
+		$onclick = "window.parent.jSelectArticle('" . $id . "', '" . $title . "', 'id');";
+		return "<a style=\"cursor: pointer;\" href=\"javascript:void(0);\" onclick=\"" . $onclick . "\">" . $title . "</a>";
 	}
 
 	/**
@@ -103,32 +103,32 @@ class jtgViewFiles extends JView {
 	 * @return string
 	 */
 	public function buildEditKlicks($file,$count){
-		return "<a href=\"javascript:void(0);\" onclick=\"javascript:return listItemTask('cb".$count.
-			"','editfile')\">".$file."</a>";
+		return "<a href=\"javascript:void(0);\" onclick=\"javascript:return listItemTask('cb" . $count.
+			"','editfile')\">" . $file . "</a>";
 	}
 
 	public function buildHiddenImage($iconpath,$hidden,$count) {
 		switch ($hidden) {
 			case null: // not saved
 				$tt = JText::_('COM_JTG_NOT_SAVED');
-				$item = "<span title=\"".$tt."\">-- ? --</span>";
+				$item = "<span title=\"" . $tt . "\">-- ? --</span>";
 				return $item;
 				break;
 			case "0": // visible
 				$link = "tohide";
-				$icon = $iconpath."icon_visible.png";
+				$icon = $iconpath . "icon_visible.png";
 				$tt = JText::_('COM_JTG_TOHIDE');
-				$item = "<img alt=\"".$tt."\" title=\"".$tt."\" src=\"".$icon."\" />";
+				$item = "<img alt=\"" . $tt . "\" title=\"" . $tt . "\" src=\"" . $icon . "\" />";
 				break;
 			case "1": // hidden
 				$link = "toshow";
-				$icon = $iconpath."icon_hidden.png";
+				$icon = $iconpath . "icon_hidden.png";
 				$tt = JText::_('COM_JTG_TOSHOW');
-				$item = "<img alt=\"".$tt."\" title=\"".$tt."\" src=\"".$icon."\" />";
+				$item = "<img alt=\"" . $tt . "\" title=\"" . $tt . "\" src=\"" . $icon . "\" />";
 				break;
 		}
-		return "<a href=\"javascript:void(0);\" onclick=\"javascript:return listItemTask('cb".$count.
-			"','".$link."')\">".$item."</a>";
+		return "<a href=\"javascript:void(0);\" onclick=\"javascript:return listItemTask('cb" . $count.
+			"','" . $link . "')\">" . $item . "</a>";
 	}
 	/**
 	 * Gibt eine Bilderliste der Dateitypen zurück
@@ -141,36 +141,36 @@ class jtgViewFiles extends JView {
 		if ( ( isset($track) ) AND ( $track == "1" ) ) $m = (string)1; else $m = (string)0;
 		$imagelink .= "<td class=\"icon\">";
 		if ( isset($track) )
-		$imagelink .= "<span class=\"track".$m."\" title=\"".JText::_( 'COM_JTG_ISTRACK'.$m )."\"></span>";
+		$imagelink .= "<span class=\"track" . $m . "\" title=\"".JText::_( 'COM_JTG_ISTRACK'.$m ) . "\"></span>";
 		else
-		$imagelink .= "<span class=\"track".$m."\" title=\"".JText::_( 'COM_JTG_DKTRACK' ).
+		$imagelink .= "<span class=\"track" . $m . "\" title=\"".JText::_( 'COM_JTG_DKTRACK' ).
 				"\" style=\"text-align:center\"><font size=\"+2\">?</font>";
 		$imagelink .= "</td>";
 
 		if ( ( isset($wp) ) AND ( $wp == "1" ) ) $m = (string)1; else $m = (string)0;
 		$imagelink .= "<td class=\"icon\">";
 		if ( isset($wp) )
-		$imagelink .= "<span class=\"wp".$m."\" title=\"".JText::_( 'COM_JTG_ISWP'.$m)."\"></span>";
+		$imagelink .= "<span class=\"wp" . $m . "\" title=\"".JText::_( 'COM_JTG_ISWP'.$m) . "\"></span>";
 		else
-		$imagelink .= "<span class=\"wp".$m."\" title=\"".JText::_( 'COM_JTG_DKWP' ).
+		$imagelink .= "<span class=\"wp" . $m . "\" title=\"".JText::_( 'COM_JTG_DKWP' ).
 				"\" style=\"text-align:center\"><font size=\"+2\">?</font>";
 		$imagelink .= "</td>";
 /*
 		if ( ( isset($route) ) AND ( $route == "1" ) ) $m = (string)1; else $m = (string)0;
 		$imagelink .= "<td class=\"icon\">";
 		if ( isset($route) )
-			$imagelink .= "<span class=\"route".$m."\" title=\"".JText::_( 'COM_JTG_ISROUTE'.$m )."\">";
+			$imagelink .= "<span class=\"route" . $m . "\" title=\"".JText::_( 'COM_JTG_ISROUTE'.$m ) . "\">";
 		else
-			$imagelink .= "<span class=\"route".$m."\" title=\"".JText::_( 'COM_JTG_DKROUTE' )."\" style=\"text-align:center\"><font size=\"+2\">?</font>";
+			$imagelink .= "<span class=\"route" . $m . "\" title=\"".JText::_( 'COM_JTG_DKROUTE' ) . "\" style=\"text-align:center\"><font size=\"+2\">?</font>";
 		$imagelink .= "</span>";
 		$imagelink .= "</td>";
 */
 		if ( ( isset($cache) ) AND ( $cache == "1" ) ) $m = (string)1; else $m = (string)0;
 		$imagelink .= "<td class=\"icon\">";
 		if ( isset($cache) )
-			$imagelink .= "<span class=\"cache".$m."\" title=\"".JText::_( 'COM_JTG_ISCACHE'.$m )."\">";
+			$imagelink .= "<span class=\"cache" . $m . "\" title=\"".JText::_( 'COM_JTG_ISCACHE'.$m ) . "\">";
 		else
-			$imagelink .= "<span class=\"cache".$m."\" title=\"".JText::_( 'COM_JTG_DKCACHE' )."\" style=\"text-align:center\"><font size=\"+2\">?</font>";
+			$imagelink .= "<span class=\"cache" . $m . "\" title=\"".JText::_( 'COM_JTG_DKCACHE' ) . "\" style=\"text-align:center\"><font size=\"+2\">?</font>";
 		$imagelink .= "</span>";
 		$imagelink .= "</td>";
 
@@ -350,15 +350,15 @@ class jtgViewFiles extends JView {
 
 		$order = JRequest::getVar( 'order', 'order', 'post', 'string' );
 
-		$filter_order		= $mainframe->getUserStateFromRequest( $option."filter_order",
+		$filter_order		= $mainframe->getUserStateFromRequest( $option . "filter_order",
  	'filter_order',
  	'ordering',
  	'cmd' );
-		$filter_order_Dir	= $mainframe->getUserStateFromRequest( $option."filter_order_Dir",
+		$filter_order_Dir	= $mainframe->getUserStateFromRequest( $option . "filter_order_Dir",
  	'filter_order_Dir',
  	'',
  	'word' );
-		$search				= $mainframe->getUserStateFromRequest( $option."search",
+		$search				= $mainframe->getUserStateFromRequest( $option . "search",
 		'search',
 		'',
 		'string' );
@@ -370,7 +370,7 @@ class jtgViewFiles extends JView {
 		$rows		= & $this->get( 'Data');
 		$total		= & $this->get( 'Total');
 		$pagination = & $this->get( 'Pagination' );
-		$cfg = jtgHelper::getConfig();
+		$cfg = JtgHelper::getConfig();
 		$cats = $model->getCats();
 
 		$this->cats = $cats;
@@ -459,11 +459,11 @@ class jtgViewFiles extends JView {
 			if ( $size > 6) $size = 6;
 			$lists['terrain']	= $error.JHTML::_('select.genericlist', $terrain, 'terrain[]', 'multiple="multiple" size="'.$size.'"', 'id', 'title', $terrainlist );
 			//			$row->access = $access;
-			$lists['access']	= jtgHelper::getAccessList($access);
+			$lists['access']	= JtgHelper::getAccessList($access);
 			//			$lists['access']	= JHTML::_('list.accesslevel', $row );
 			$lists['hidden'] = JHTML::_('select.genericlist', $yesnolist, 'hidden', 'class="inputbox" size="2"', 'id', 'title',$track->hidden);
 			$lists['uid']		= JHTML::_('list.users', 'uid', $track->uid, 1, NULL, 'name', 0 );
-			$img_dir = JPATH_SITE.DS.'images'.DS.'jtg'.DS.$id.DS;
+			$img_dir = JPATH_SITE . DS . 'images' . DS . 'jtg' . DS . $id.DS;
 			$imgpath = JURI::root().'images/jtg/'.$id.'/';
 			$images = null;
 			if(JFolder::exists($img_dir)) {
@@ -472,14 +472,14 @@ class jtgViewFiles extends JView {
 				{
 					foreach($imgs AS $image)
 					{
-						$images .= "<input type=\"checkbox\" name=\"deleteimage_".str_replace('.',null,$image)."\" value=\"".$image."\">".JText::_( 'COM_JTG_DELETE_IMAGE' )." (".$image.")<br />".
-					"<img src=\"".$imgpath.$image."\" alt=\"".$image."\" title=\"".$image."\" /><br /><br />\n";
+						$images .= "<input type=\"checkbox\" name=\"deleteimage_".str_replace('.',null,$image) . "\" value=\"" . $image . "\">".JText::_( 'COM_JTG_DELETE_IMAGE' ) . " (" . $image . ")<br />".
+					"<img src=\"" . $imgpath.$image . "\" alt=\"" . $image . "\" title=\"" . $image . "\" /><br /><br />\n";
 					}
 				}
 			}
 			$lists['published'] = JHTML::_('select.genericlist', $yesnolist, 'published', 'class="inputbox" size="2"', 'id', 'title',$track->published);
 			// Values BEGIN
-			$lists['values'] = jtgHelper::giveGeneratedValues('backend',$this->buildImageFiletypes($track->istrack,$track->iswp,$track->isroute,$track->iscache),$track);
+			$lists['values'] = JtgHelper::giveGeneratedValues('backend',$this->buildImageFiletypes($track->istrack,$track->iswp,$track->isroute,$track->iscache),$track);
 			// Values END
 			$this->lists = $lists;
 			$this->track = $track;

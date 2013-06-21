@@ -11,7 +11,7 @@
  *
  */
 
-// no direct access
+// No direct access
 defined('_JEXEC') or die('Restricted access');
 
 // Import Joomla! libraries
@@ -20,7 +20,8 @@ jimport( 'joomla.application.component.view');
 /**
  *
  */
-class jtgViewTerrain extends JView {
+class JtgViewTerrain extends JView
+{
 	/**
 	 *
 	 * @global object $mainframe

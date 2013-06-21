@@ -46,18 +46,18 @@ echo ("<select name=\"map\" size=\"1\">
 							<option value=\"disabled\" ");
 if($this->config->map == "disabled")
 	echo ("selected=selected");
-echo (">".JText::_('COM_JTG_NOSERVICE')."</option>
+echo (">".JText::_('COM_JTG_NOSERVICE') . "</option>
 							<option value=\"google\" ");
 if($this->config->map == "google")
 	echo ("selected=selected");
-echo (">".JText::_('COM_JTG_MAPGOOGLE')." (".JText::_('COM_JTG_NOTSUPPORTED').")</option>
+echo (">".JText::_('COM_JTG_MAPGOOGLE') . " (".JText::_('COM_JTG_NOTSUPPORTED') . ")</option>
 							<option value=\"osm\" ");
 if($this->config->map == "osm")
 	echo ("selected=selected");
-echo (">".JText::_('COM_JTG_MAPOSM')."</option>
+echo (">".JText::_('COM_JTG_MAPOSM') . "</option>
 					</select>\n");
 if((!$this->config->apikey) AND ($this->config->map == "google")) {
-	echo ("</div><br /><div align=\"center\">".JText::_('COM_JTG_NO_APIKEY')."</div>\n");
+	echo ("</div><br /><div align=\"center\">".JText::_('COM_JTG_NO_APIKEY') . "</div>\n");
 
 	echo ("</div>");}
 
@@ -249,7 +249,7 @@ if ($this->config->comments != 0) {
 		</tr>
 		<tr>
 			<td valign="top"><span class="hasTip" title="<?php echo JText::_('COM_JTG_TT_TITLE'); ?> :: <?php echo JText::_('COM_JTG_TT_CAPTCHA'); ?>"><?php echo JText::_('COM_JTG_CAPTCHA'); ?></span></td>
-			<td><?php echo $this->lists['captcha']; ?><div><?php echo JText::_('COM_JTG_OST_CAPTCHA')." ".$this->captcha; ?></div></td>	 
+			<td><?php echo $this->lists['captcha']; ?><div><?php echo JText::_('COM_JTG_OST_CAPTCHA') . " " . $this->captcha; ?></div></td>	 
 		</tr>
 		<tr>
 			<td valign="top"><?php echo JText::_('COM_JTG_ORDERING'); ?></td>
@@ -286,7 +286,7 @@ if ($this->config->approach == "ors") {
 				<td><?php echo $this->lists['routingiconset']; ?></td>
 			</tr>
 			<tr><td colspan="2">
-<?php echo JText::_('COM_JTG_POWEREDBY').": <a href=\"http://openrouteservice.org\">openrouteservice.org</a> (<a href=\"http://wiki.openstreetmap.org/wiki/OpenRouteService\">".JText::_('COM_JTG_HELP')."</a>)\n";
+<?php echo JText::_('COM_JTG_POWEREDBY') . ": <a href=\"http://openrouteservice.org\">openrouteservice.org</a> (<a href=\"http://wiki.openstreetmap.org/wiki/OpenRouteService\">".JText::_('COM_JTG_HELP') . "</a>)\n";
 ?>
 			</td></tr><?php
 }
@@ -297,7 +297,7 @@ if ( ($this->config->approach == "cm") OR ($this->config->approach == "cmkey") )
 				<td><?php echo $this->lists['routingiconset']; ?></td>
 			</tr>
 			<tr><td colspan="2">
-<?php echo JText::_('COM_JTG_POWEREDBY').": <a href=\"http://cloudmade.com/\">CloudMade</a> (<a href=\"http://wiki.openstreetmap.org/wiki/Cloudmade\">".JText::_('COM_JTG_HELP')."</a>)\n";
+<?php echo JText::_('COM_JTG_POWEREDBY') . ": <a href=\"http://cloudmade.com/\">CloudMade</a> (<a href=\"http://wiki.openstreetmap.org/wiki/Cloudmade\">".JText::_('COM_JTG_HELP') . "</a>)\n";
 ?>
 			</td></tr><?php
 }

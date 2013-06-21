@@ -11,22 +11,22 @@
  *
  */
 
-// no direct access
+// No direct access
 defined('_JEXEC') or die('Restricted access');
 
-class layoutHelper {
-
+class layoutHelper
+{
 	function parseVoteFloat($float,$expressive = false) {
 		if ( ( $float === null ) OR ( $float == 0 ) )
 		{
 			if ( $expressive )
-				return "<font class=\"emptyEntry\">".JText::_('COM_JTG_NOT_VOTED')."</font>";
+				return "<font class=\"emptyEntry\">".JText::_('COM_JTG_NOT_VOTED') . "</font>";
 			else
 				return 0;
 		}
 		$int = (int)round($float,0);
 		$stars = JText::_('COM_JTG_STAR'.$int);
-		$return = "<font title=\"".jtgHelper::getLocatedFloat($float)."\">";
+		$return = "<font title=\"".JtgHelper::getLocatedFloat($float) . "\">";
 		$return .= $int;
 		$return .= " ";
 		if ( $expressive )
@@ -48,11 +48,11 @@ class layoutHelper {
 		JRoute::_("index.php?option=com_jtg&view=cats&layout=default").'">'.JText::_('COM_JTG_CATS').'</a></div>';
 		$navi .= '<div class="navi-part"><a href="'.
 		JRoute::_("index.php?option=com_jtg&view=files&layout=list").'">'.JText::_('COM_JTG_FILES').'</a></div>';
-		$cfg = jtgHelper::getConfig();
-		// $navi .= "ich bin ".$juser->get('gid')." und muss mindestens ".$cfg->gid." sein";
+		$cfg = JtgHelper::getConfig();
+		// $navi .= "ich bin " . $juser->get('gid') . " und muss mindestens " . $cfg->gid . " sein";
 		if ($user->get('id')) {
 			// Erscheint nur, wenn User kein Gast
-			if ( jtgHelper :: userHasFrontendRights() ) {
+			if ( JtgHelper :: userHasFrontendRights() ) {
 			    // if ($juser->get('gid') >= $cfg->gid ) {
 				// Erscheint nur, wenn User Berechtigung zum erstellen hat
 				$navi .= '<div class="navi-part"><a href="'.
@@ -64,7 +64,7 @@ class layoutHelper {
 			JRoute::_("index.php?option=com_jtg&view=files&layout=user").'">'.
 			JText::_('COM_JTG_MY_FILES').'</a></div>';
 			if ( ($uri != null) AND ($uri == 'file') ) {
-				$gps = new jtgModelFiles;
+				$gps = new JtgModelFiles;
 				$track =& JRequest::getVar('id');
 				$track = $gps->getFile($track);
 				// Erscheint nur bei einzelnen Dateien
@@ -110,7 +110,7 @@ class layoutHelper {
 				//  $document->addScript('http://www.google.com/uds/solutions/localsearch/gmlocalsearch.css');
 				break;
 			case "osm":
-				// $document->addScript('components'.DS.'com_jtg'.DS.'assets'.DS.'js'.DS.'OpenLayers'.DS.'OpenLayers.js'); // Benötigt für Spuransich in Übersicht
+				// $document->addScript('components' . DS . 'com_jtg' . DS . 'assets' . DS . 'js' . DS . 'OpenLayers' . DS . 'OpenLayers.js'); // Benötigt für Spuransich in Übersicht
 				$document->addScript('http://www.openlayers.org/api/OpenLayers.js');
 				// $document->addScript('http://www.openstreetmap.org/openlayers/OpenLayers.js'); // tuts nicht
 				$document->addScript('http://www.openstreetmap.org/openlayers/OpenStreetMap.js');
@@ -129,7 +129,7 @@ class layoutHelper {
 		if ($params->get('osm_mostklicks') != 0)	$i++;
 		if ($params->get('osm_best') != 0)			$i++;
 		if ($params->get('osm_rand') != 0)			$i++;
-		return "toptracks_".$i;
+		return "toptracks_" . $i;
 	}
 
 	function parseTopNewest($where,$access,$model,$newest) {
@@ -183,7 +183,7 @@ class layoutHelper {
 		$allbest = layoutHelper::giveBest($model,$best,false);
 		$return = array();
 		foreach ($allbest as $file) {
-			$track = jtgModeljtg::getFile($file['id']);
+			$track = JtgModeljtg::getFile($file['id']);
 			switch ($otherfiles) {
 				case 0: // no
 					if ((int)$track->access <= $access) $mayisee = 1; else $mayisee = 0;
@@ -199,16 +199,16 @@ class layoutHelper {
 			if ( ( $mayisee ) AND ( (int)$track->published == 1 ) )
 			//			if ( (int)$track->published == 1 )
 			{
-				$stars = "<ul class=\"rating ".$file['class']."\"><li></li></ul>";
+				$stars = "<ul class=\"rating " . $file['class'] . "\"><li></li></ul>";
 				$obj = array();
 				$obj['id'] = $file['id'];
 				$obj['title'] = $track->title;
 				$obj['voting'] = $file['voting'];
 				$obj['stars'] = $file['rate'];
 				if($showstars)
-				$obj['html'] = "<div title='".str_replace(".",",",$obj['voting'])." ".JText::_('COM_JTG_STARS') ."'>".$stars."</div>";
+				$obj['html'] = "<div title='".str_replace(" . ",",",$obj['voting']) . " ".JText::_('COM_JTG_STARS')  . "'>" . $stars . "</div>";
 				else
-				$obj['html'] = "<a title='".str_replace(".",",",$obj['voting'])." ".JText::_('COM_JTG_STARS') ."'>".$obj['stars']."</a>";
+				$obj['html'] = "<a title='".str_replace(" . ",",",$obj['voting']) . " ".JText::_('COM_JTG_STARS')  . "'>" . $obj['stars'] . "</a>";
 				$return[] = JArrayHelper::toObject($obj);
 			}
 		}
@@ -285,11 +285,11 @@ class layoutHelper {
 		{
 			$subwhere = array();
 			foreach ($val as $user) {
-				$subwhere[] = "a.uid = ".$user;
+				$subwhere[] = "a.uid = " . $user;
 			}
-			$where .= "( ".implode(' OR ',$subwhere)." )";
+			$where .= "( ".implode(' OR ',$subwhere) . " )";
 		}
-		elseif($val != 0)	$where .= "a.uid = ".$val;
+		elseif($val != 0)	$where .= "a.uid = " . $val;
 		return $where;
 	}
 
@@ -300,11 +300,11 @@ class layoutHelper {
 			$subwhere = array();
 			foreach ($val as $cat) {
 				if($cat == -1) break 2;
-				$subwhere[] = "a.catid LIKE '%".$cat."%'";
+				$subwhere[] = "a.catid LIKE '%" . $cat . "%'";
 			}
-			$catswhere .= "( ".implode(' OR ',$subwhere)." )";
+			$catswhere .= "( ".implode(' OR ',$subwhere) . " )";
 		}
-		elseif ($val != -1)	$catswhere .= "a.catid LIKE '%".$val."%'";
+		elseif ($val != -1)	$catswhere .= "a.catid LIKE '%" . $val . "%'";
 		return $catswhere;
 	}
 
@@ -315,11 +315,11 @@ class layoutHelper {
 			$subwhere = array();
 			foreach ($val as $cat) {
 				if($cat == -1) break 2;
-				$subwhere[] = "( ".layoutHelper::getParentcats($cat,$cats,true)." )";
+				$subwhere[] = "( ".layoutHelper::getParentcats($cat,$cats,true) . " )";
 			}
-			$catswhere .= "( ".implode(' OR ',$subwhere)." )";
+			$catswhere .= "( ".implode(' OR ',$subwhere) . " )";
 		}
-		elseif($val != -1)	$catswhere .= "( ".layoutHelper::getParentcats($val,$cats,true)." )";
+		elseif($val != -1)	$catswhere .= "( ".layoutHelper::getParentcats($val,$cats,true) . " )";
 		return $catswhere;
 	}
 
@@ -330,11 +330,11 @@ class layoutHelper {
 			$subwhere = array();
 			foreach ($val as $grp) {
 				if($grp == -1) break 2;
-				$subwhere[] = "a.access = ".$grp;
+				$subwhere[] = "a.access = " . $grp;
 			}
-			$where .= "( ".implode(' OR ',$subwhere)." )";
+			$where .= "( ".implode(' OR ',$subwhere) . " )";
 		}
-		elseif( ($val != -1) AND (!is_null($val) ) ) $where .= "a.access = ".$val;
+		elseif( ($val != -1) AND (!is_null($val) ) ) $where .= "a.access = " . $val;
 		return $where;
 	}
 
@@ -345,28 +345,28 @@ class layoutHelper {
 			$subwhere = array();
 			foreach ($val as $terrain) {
 				if($terrain == -1) break 2;
-				$subwhere[] = "a.terrain LIKE '%".$terrain."%'";
+				$subwhere[] = "a.terrain LIKE '%" . $terrain . "%'";
 			}
-			$where .= "( ".implode(' ) OR ( ',$subwhere)." )";
+			$where .= "( ".implode(' ) OR ( ',$subwhere) . " )";
 		}
-		elseif($val != -1)	$where = "a.terrain LIKE '%".$val."%'";
+		elseif($val != -1)	$where = "a.terrain LIKE '%" . $val . "%'";
 		return $where;
 	}
 
 	private function parseParam_LevelFrom($val) {
-		if( ($val != 0) AND (!is_null($val) ) ) return "a.level >= ".$val;
+		if( ($val != 0) AND (!is_null($val) ) ) return "a.level >= " . $val;
 	}
 
 	private function parseParam_LevelTo($val) {
-		if( ($val != 5) AND (!is_null($val) ) ) return "a.level <= ".$val;
+		if( ($val != 5) AND (!is_null($val) ) ) return "a.level <= " . $val;
 	}
 
 	private function parseParam_VotingFrom($val) {
-		if( ($val != 0) AND (!is_null($val) ) ) return "a.vote >= ".$val;
+		if( ($val != 0) AND (!is_null($val) ) ) return "a.vote >= " . $val;
 	}
 
 	private function parseParam_VotingTo($val) {
-		if( ($val != 10) AND (!is_null($val) ) ) return "a.vote <= ".$val;
+		if( ($val != 10) AND (!is_null($val) ) ) return "a.vote <= " . $val;
 	}
 
 	function filterTracks($cats)
@@ -406,12 +406,12 @@ class layoutHelper {
 		if(count($where) == 0)
 		$where = "";
 		else
-		$where = "( ".implode(" AND \n",$where)." )";
+		$where = "( ".implode(" AND \n",$where) . " )";
 		
 		if(count($catswhere) == 0)
 		$catswhere = "";
 		else
-		$catswhere = "( ".implode(" OR \n",$catswhere)." )";
+		$catswhere = "( ".implode(" OR \n",$catswhere) . " )";
 
 		if ( ( $catswhere != "") AND ( $where != "" ) )
 		$operand = " AND \n";
@@ -425,11 +425,11 @@ class layoutHelper {
 	private function getParentcats($catid,$cats,$lockage=false) {
 		$returncats = array();
 		if ( $lockage !== false )
-		$returncats[] = "a.catid LIKE '%".$catid."%'";
+		$returncats[] = "a.catid LIKE '%" . $catid . "%'";
 		foreach ($cats AS $cat)
 		{
 			if ($cat->parent_id == $catid)
-			$returncats[] = "a.catid LIKE '%".$cat->id."%'";
+			$returncats[] = "a.catid LIKE '%" . $cat->id . "%'";
 		}
 		$returncats = implode(" OR ",$returncats);
 		return $returncats;

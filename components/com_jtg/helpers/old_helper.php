@@ -11,7 +11,7 @@
  *
  */
 
-// no direct access
+// No direct access
 defined('_JEXEC') or die('Restricted access');
 
 function osmdebug2($val, $die=false) {
@@ -31,8 +31,8 @@ function osmdebug2($val, $die=false) {
 	// if ( JDEBUG )
 }
 
-class jtgHelper22 {
-
+class JtgHelper22
+{
 	/**
 	 * Configure the Linkbar.
 	 *
@@ -92,9 +92,9 @@ class jtgHelper22 {
 		$distance = (float)$track->distance;
 		if ( $distance != 0 )
 		{
-			$km = jtgHelper::getLocatedFloat($distance);
-			$miles = jtgHelper::getMiles($distance);
-			$miles = jtgHelper::getLocatedFloat($miles);
+			$km = JtgHelper::getLocatedFloat($distance);
+			$miles = JtgHelper::getMiles($distance);
+			$miles = JtgHelper::getLocatedFloat($miles);
 			$distance =  $km . " Km (" . $miles . " Miles)";
 		}
 		else
@@ -104,7 +104,7 @@ class jtgHelper22 {
 		$distance = JText::_('COM_JTG_DISTANCE') . ": " . $distance;
 		$ele_asc = JText::_('COM_JTG_ELEVATION_UP') . ": " . (float)$track->ele_asc;
 		$ele_desc = JText::_('COM_JTG_ELEVATION_DOWN') . ": " . (float)$track->ele_desc;
-		$voted = jtgHelper::howMuchVote($track->id);
+		$voted = JtgHelper::howMuchVote($track->id);
 		if ( ( $voted != 0 ) AND ( (float)$track->vote == 0 ) )
 		{
 			// Wenn gevoted wurde aber Voting gleich 0
@@ -117,7 +117,7 @@ class jtgHelper22 {
 		}
 		$voted = JText::sprintf('COM_JTG_MENU_LIMIT_CONSTRUCT_VOTED', $voted) . $error;
 		$vote = (float)$track->vote;
-		$vote = jtgHelper::getLocatedFloat($vote);
+		$vote = JtgHelper::getLocatedFloat($vote);
 		$vote = JText::sprintf('COM_JTG_MENU_LIMIT_CONSTRUCT_VOTE', $vote) . $error;
 		$button = "<button class=\"button\" type=\"button\" onclick=\"submitbutton('updateGeneratedValues')\">" . JText::_('COM_JTG_REFRESH_DATAS') . "</button>";
 		return "<ul><li>"
@@ -189,8 +189,8 @@ class jtgHelper22 {
 				$filename = $randname.JFile::makeSafe($file['name']);
 				// Man weiß ja nie ;)
 				if ( $fncount > 10000 )
-				JError::raiseError(501, "<p class=\"type\">".JText::_( 'COM_JTG_ERROR_NO_FREE_FILENAMES' )."</p>".
-				"<i>".JFile::makeSafe($file['name'])."</i></p>");
+				JError::raiseError(501, "<p class=\"type\">".JText::_( 'COM_JTG_ERROR_NO_FREE_FILENAMES' ) . "</p>".
+				"<i>".JFile::makeSafe($file['name']) . "</i></p>");
 				$fncount++;
 			}
 		}
@@ -199,7 +199,7 @@ class jtgHelper22 {
 
 	function parseMoreCats($allcats,$catid,$format="array",$link=false) {
 		$baseurl = "index.php?option=com_jtg&view=files&layout=list&cat=";
-		$image = JURI::base()."/images/jtg/cats/";
+		$image = JURI::base() . "/images/jtg/cats/";
 		$catids = explode(",",$catid);
 		$return = array();
 		switch ($format) {
@@ -216,7 +216,7 @@ class jtgHelper22 {
 					foreach ($catids as $catid) {
 						if ( isset($allcats[$catid]->id) ) {
 							$url = JRoute::_($baseurl . $allcats[$catid]->id, true);
-							$return[] = "<a href=\"" . $url ."\">".
+							$return[] = "<a href=\"" . $url  . "\">".
 							JText::_($allcats[$catid]->title).
 							"</a>";
 						}
@@ -240,14 +240,14 @@ class jtgHelper22 {
 							$url = JRoute::_($baseurl  . $allcats[$catid]->id, true);
 							if ( $allcats[$catid]->image != "")
 							{
-								$return[] = "<a href=\"" . $url ."\">".
-								"<img title=\"".JText::_($allcats[$catid]->title)."\" alt=\"".JText::_($allcats[$catid]->title)."\" src=\"".$image.$allcats[$catid]->image."\" />&nbsp;".
+								$return[] = "<a href=\"" . $url  . "\">".
+								"<img title=\"".JText::_($allcats[$catid]->title) . "\" alt=\"".JText::_($allcats[$catid]->title) . "\" src=\"" . $image.$allcats[$catid]->image . "\" />&nbsp;".
 //								JText::_($allcats[$catid]->title).
 								"</a>";
 							}
 							else
 							{
-								$return[] = "<a href=\"" . $url ."\">".
+								$return[] = "<a href=\"" . $url  . "\">".
 								JText::_($allcats[$catid]->title).
 								"</a>";
 							}
@@ -271,9 +271,9 @@ class jtgHelper22 {
 						if ( isset($allcats[$catid]->id) ) {
 							$url = JRoute::_($baseurl . $allcats[$catid]->id, true);
 							if ( $allcats[$catid]->image == "" )
-							$return[] = "<a href=\"" . $url . "\">".JText::_($allcats[$catid]->title)."</a>";
+							$return[] = "<a href=\"" . $url . "\">".JText::_($allcats[$catid]->title) . "</a>";
 							else
-							$return[] = "<a href=\"" . $url . "\"><img title=\"".JText::_($allcats[$catid]->title)."\" alt=\"".JText::_($allcats[$catid]->title)."\" src=\"".$image.$allcats[$catid]->image."\" /></a>";
+							$return[] = "<a href=\"" . $url . "\"><img title=\"".JText::_($allcats[$catid]->title) . "\" alt=\"".JText::_($allcats[$catid]->title) . "\" src=\"" . $image.$allcats[$catid]->image . "\" /></a>";
 						}
 					}
 				}
@@ -294,9 +294,9 @@ class jtgHelper22 {
 						if ( isset($allcats[$catid])) {
 							$url = JRoute::_($baseurl . $allcats[$catid]->id, true);
 							if ( $allcats[$catid]->image == "" )
-							$return[] = "<a href=\"" . $url . "\">".JText::_($allcats[$catid]->title)."</a>";
+							$return[] = "<a href=\"" . $url . "\">".JText::_($allcats[$catid]->title) . "</a>";
 							else
-							$return[] = "<a href=\"" . $url . "\"><img title=\"".JText::_($allcats[$catid]->title)."\" alt=\"".JText::_($allcats[$catid]->title)."\" src=\"".$image.$allcats[$catid]->image."\" /></a>";
+							$return[] = "<a href=\"" . $url . "\"><img title=\"".JText::_($allcats[$catid]->title) . "\" alt=\"".JText::_($allcats[$catid]->title) . "\" src=\"" . $image.$allcats[$catid]->image . "\" /></a>";
 						}
 					}
 				}
@@ -317,7 +317,7 @@ class jtgHelper22 {
 
 	function parseMoreTerrains($allterrains,$terrainid,$format="array",$link=false) {
 		$baseurl = "index.php?option=com_jtg&view=files&layout=list&terrain=";
-		$image = JURI::base()."/images/jtg/terrain/";
+		$image = JURI::base() . "/images/jtg/terrain/";
 		$terrainids = explode(",",$terrainid);
 		$return = array();
 		switch ($format) {
@@ -334,7 +334,7 @@ class jtgHelper22 {
 						if ( isset($allterrains[$terrainid]) )
 						{
 							$url = JRoute::_($baseurl . $allterrains[$terrainid]->id, false);
-							$return[] = "<a href=\"" .$url ."\">".
+							$return[] = "<a href=\"" .$url  . "\">".
 							JText::_($allterrains[$terrainid]->title).
 							"</a>";
 						}
@@ -351,7 +351,7 @@ class jtgHelper22 {
 				break;
 		}
 		if ( $return == "" )
-		$return = "<label title=\"".JText::_('COM_JTG_TERRAIN_NONE')."\">-</label>";
+		$return = "<label title=\"".JText::_('COM_JTG_TERRAIN_NONE') . "\">-</label>";
 		return $return;
 	}
 
@@ -433,9 +433,9 @@ class jtgHelper22 {
 		$db =& JFactory::getDBO();
 		$query = "SELECT id,name,username,osmlat,osmlon,osmvisible FROM #__users";
 		if ($uid !== false)
-		$query .= " WHERE id='".$uid."'";
+		$query .= " WHERE id='" . $uid . "'";
 		elseif ($exclude !== false)
-		$query .= " WHERE id<>'".$exclude."'";
+		$query .= " WHERE id<>'" . $exclude . "'";
 		$db->setQuery($query);
 		$object = $db->loadObjectList();
 		return $object;
@@ -478,7 +478,7 @@ class jtgHelper22 {
 		list($width,$height)=getimagesize($file_tmp_name);
 		//		$newwidth=460;//set file width to 460
 		//		$newheight=($height/$width)*460;//the height are set according to ratio
-		$cfg =& jtgHelper::getConfig();
+		$cfg =& JtgHelper::getConfig();
 		$maxfilesize = $cfg->max_size; // filesize in kb
 		$maxfilesize = (int)$maxfilesize;
 		$filesize = filesize($file_tmp_name)/1024; // Byte -> kb
@@ -566,25 +566,25 @@ class jtgHelper22 {
 	 */
 	function getProfileLink($uid, $username) {
 
-		$cfg = jtgHelper::getConfig();
+		$cfg = JtgHelper::getConfig();
 
 		switch($cfg->profile) {
 
 			case "cb":
-				$link = "<a href=".JRoute::_('index.php?option=com_comprofiler&task=userProfile&user='.$uid)." >".$username."</a>";
+				$link = "<a href=".JRoute::_('index.php?option=com_comprofiler&task=userProfile&user='.$uid) . " >" . $username . "</a>";
 				return $link;
 				break;
 
 			case "js":
-				$jspath = JPATH_BASE.DS.'components'.DS.'com_community';
-				include_once($jspath.DS.'libraries'.DS.'core.php');
+				$jspath = JPATH_BASE . DS . 'components' . DS . 'com_community';
+				include_once($jspath . DS . 'libraries' . DS . 'core.php');
 
-				$link = "<a href=".CRoute::_('index.php?option=com_community&view=profile&userid='.$uid)." >".$username."</a>";
+				$link = "<a href=".CRoute::_('index.php?option=com_community&view=profile&userid='.$uid) . " >" . $username . "</a>";
 				return $link;
 				break;
 
 			case "ku":
-				$link = "<a href=".JRoute::_('index.php?option=com_kunena&func=fbprofile&userid='.$uid)." >".$username."</a>";
+				$link = "<a href=".JRoute::_('index.php?option=com_kunena&func=fbprofile&userid='.$uid) . " >" . $username . "</a>";
 				return $link;
 				break;
 
@@ -597,14 +597,14 @@ class jtgHelper22 {
 
 	function MayIsee($where,$access,$otherfiles) {
 		$otherfiles = (int)$otherfiles;
-		if ( $where != "" ) $where = $where." AND ";
+		if ( $where != "" ) $where = $where . " AND ";
 		switch ($otherfiles) {
 			case 0: // No
-				return $where."a.access <= ".$access;
+				return $where . "a.access <= " . $access;
 				break;
 			case 1: // Registered
 				if ( ( $access == 0 ) OR ( $access == 1 ) )
-				return $where."( a.access = 0 OR a.access = 1 )";
+				return $where . "( a.access = 0 OR a.access = 1 )";
 				else
 				return;
 				break;
@@ -622,7 +622,7 @@ class jtgHelper22 {
 		}
 		if ( strtolower($unit) == "miles" )
 		{
-			$float = jtgHelper::getMiles($float);
+			$float = JtgHelper::getMiles($float);
 			$unit = JText::_('COM_JTG_MILES');
 		}
 		$float = (float) $float;
@@ -632,7 +632,7 @@ class jtgHelper22 {
 		}
 
 		if ( $unit !== null )
-		$unit = "&nbsp;".$unit;
+		$unit = "&nbsp;" . $unit;
 			
 		if ( preg_match('/\./',$float) ) { // has decimal place
 			$digit = explode('.',$float);
@@ -657,7 +657,7 @@ class jtgHelper22 {
 			$digits = strlen($digit[1]); // count of digits after decimal place
 		}
 		else $digits = 0;
-		jimport( 'joomla.language.language' );
+		jimport('joomla.language.language');
 		$lang =& JFactory::getLanguage();
 		$locale = $lang->getLocale();
 		setlocale (LC_ALL, $locale);

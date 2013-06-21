@@ -26,7 +26,7 @@ J!Track Gallery integrates OpenStreetMap in Joomla. It shows Tracks and Waypoint
 
 J!Track Gallery integriert eine OpenStreetMap in Joomla. Es zeigt Spuren und Wegpunkte in einer SlippyMap an. Registrierte können eigene Dateien hochladen.
 */
-$link = "..".DS."components".DS."com_jtg".DS."assets".DS."images".DS."logo_JTG.png";
+$link = " . . " . DS . "components" . DS . "com_jtg" . DS . "assets" . DS . "images" . DS . "logo_JTG.png";
 $version = $this->getVersion();
 
 // parse some Javascript used to install J!Track Gallery

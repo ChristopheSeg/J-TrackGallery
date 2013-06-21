@@ -11,7 +11,7 @@
  *
  */
 
-// no direct access
+// No direct access
 defined('_JEXEC') or die('Restricted access');
 
 JToolBarHelper::title(JText::_('COM_JTG_TRANSLATIONS'), 'categories.png');

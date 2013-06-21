@@ -11,7 +11,7 @@
  *
  */
 
-// no direct access
+// No direct access
 defined('_JEXEC') or die('Restricted access');
  
 /**
@@ -26,8 +26,8 @@ class com_jtgInstallerScript
          */
       function install($type) 
         {
-		jimport( 'joomla.filesystem.folder' );
-		jimport( 'joomla.filesystem.file' );
+		jimport('joomla.filesystem.folder');
+		jimport('joomla.filesystem.file');
 		$doc =& JFactory::getDocument();
 		
 		// load english language file for 'com_jtg' component then override with current language file
@@ -36,7 +36,7 @@ class com_jtgInstallerScript
 		
 		?>
 
-		<img src="<?php echo $imgdir."logo_JTG.png"; ?>"  alt="J!Track Gallery" />
+		<img src="<?php echo $imgdir . "logo_JTG.png"; ?>"  alt="J!Track Gallery" />
 		<br />
 		<table class="adminlist" border="1" width="100%">
 			<thead>
@@ -48,41 +48,41 @@ class com_jtgInstallerScript
 
 		<?php
 		$folders_to_create = array (
-		"images".DS."jtg",
-		"images".DS."jtg".DS."cats",
+		"images" . DS . "jtg",
+		"images" . DS . "jtg" . DS . "cats",
 		);
 
 		$folders_to_chmod = array (
-		"components".DS."com_jtg".DS."uploads",
-		"components".DS."com_jtg".DS."uploads".DS."import",
-		"components".DS."com_jtg".DS."assets".DS."images".DS."symbols",
+		"components" . DS . "com_jtg" . DS . "uploads",
+		"components" . DS . "com_jtg" . DS . "uploads" . DS . "import",
+		"components" . DS . "com_jtg" . DS . "assets" . DS . "images" . DS . "symbols",
 		);
-		$filetodelete = JPATH_SITE.DS."components".DS."com_jtg".DS."uploads".DS."import".DS."Miele.gpx~";
+		$filetodelete = JPATH_SITE . DS . "components" . DS . "com_jtg" . DS . "uploads" . DS . "import" . DS . "Miele.gpx~";
 		if (JFile::exists($filetodelete))
 			JFile::delete($filetodelete);
 		foreach ( $folders_to_create AS $folder ) {
-			if(JFolder::exists(JPATH_SITE.DS.$folder))
+			if(JFolder::exists(JPATH_SITE . DS . $folder))
 			echo "<tr><td>
-				<font color='green'>". JText::_('COM_JTG_SKIPPING')."</font>". 
-				JText::_('COM_JTG_FOLDER'). $folder. JText::_('COM_JTG_ALREADY_EXISTS').".</td></tr>";
-			elseif(JFolder::create(JPATH_SITE.DS.$folder)) {
+				<font color='green'>" . JText::_('COM_JTG_SKIPPING') . "</font>" . 
+				JText::_('COM_JTG_FOLDER'). $folder. JText::_('COM_JTG_ALREADY_EXISTS') . ".</td></tr>";
+			elseif(JFolder::create(JPATH_SITE . DS . $folder)) {
 				echo "<tr><td>
-				<font color='green'>". JText::_('COM_JTG_DELETING')."</font>". 
+				<font color='green'>" . JText::_('COM_JTG_DELETING') . "</font>" . 
 				JText::_('COM_JTG_FOLDER'). $folder. JText::_('COM_JTG_NOT_CREATED'). ".</td></tr>";
 			} else {
 				echo "<tr><td>
-				<font color='red'>". JText::_('COM_JTG_ERROR')."</font>". 
+				<font color='red'>" . JText::_('COM_JTG_ERROR') . "</font>" . 
 				JText::_('COM_JTG_FOLDER'). $folder. JText::_('COM_JTG_NOT_CREATED'). ".</td></tr>";
 			}
 		}
 
 		foreach ( $folders_to_chmod AS $folder ) {
 			;
-			if ( JPath::canChmod(JPATH_SITE.DS.$folder) AND (chmod(JPATH_SITE.DS.$folder, 0777))) {
-				echo "</tr><td><font color='green'>Finished:</font>". JText::_('COM_JTG_FOLDER'). 
+			if ( JPath::canChmod(JPATH_SITE . DS . $folder) AND (chmod(JPATH_SITE . DS . $folder, 0777))) {
+				echo "</tr><td><font color='green'>Finished:</font>" . JText::_('COM_JTG_FOLDER'). 
 					$folder. JText::_('COM_JTG_CHMODDED'). ".</td></tr>";
 			} else {
-				echo "</tr><td><font color='red'>Error:</font>". JText::_('COM_JTG_FOLDER'). 
+				echo "</tr><td><font color='red'>Error:</font>" . JText::_('COM_JTG_FOLDER'). 
 					$folder. JText::_('COM_JTG_NOT_CHMODDED'). ".</td></tr>";
 			}
 		}
@@ -119,16 +119,16 @@ class com_jtgInstallerScript
 	    $application->enqueueMessage( JText::_('COM_JTG_THANK_YOU_FOR_USING').' <u><a href="http://jtrackgallery.net/">J!Track Gallery</a></u> :-)' ) ;
 
 	    $folders_to_delete = array (
-	    "images".DS."jtg",
+	    "images" . DS . "jtg",
 	    );
 
 	    foreach ( $folders_to_delete AS $folder ) {
-		    if(!JFolder::exists(JPATH_SITE.DS.$folder))
-			    echo "<font color='green'>". JText::_('COM_JTG_SKIPPING')."</font>". JText::_('COM_JTG_FOLDER'). $folder. JText::_('COM_JTG_NOT_EXISTS').".<br />";
-		    elseif(JFolder::delete(JPATH_SITE.DS.$folder)) {
-			    echo "<font color='green'>". JText::_('COM_JTG_DELETING')."</font>". JText::_('COM_JTG_FOLDER'). $folder. JText::_('COM_JTG_DELETED').".<br />";
+		    if(!JFolder::exists(JPATH_SITE . DS . $folder))
+			    echo "<font color='green'>" . JText::_('COM_JTG_SKIPPING') . "</font>" . JText::_('COM_JTG_FOLDER'). $folder. JText::_('COM_JTG_NOT_EXISTS') . ".<br />";
+		    elseif(JFolder::delete(JPATH_SITE . DS . $folder)) {
+			    echo "<font color='green'>" . JText::_('COM_JTG_DELETING') . "</font>" . JText::_('COM_JTG_FOLDER'). $folder. JText::_('COM_JTG_DELETED') . ".<br />";
 		    } else {
-			    echo "<font color='red'>". JText::_('COM_JTG_ERROR')."</font>". JText::_('COM_JTG_FOLDER'). $folder. JText::_('COM_JTG_NOT_DELETED').".<br />";
+			    echo "<font color='red'>" . JText::_('COM_JTG_ERROR') . "</font>" . JText::_('COM_JTG_FOLDER'). $folder. JText::_('COM_JTG_NOT_DELETED') . ".<br />";
 		    }
 	    }
         }
@@ -173,16 +173,16 @@ class com_jtgInstallerScript
 
 	function parsejs($doc,$method,$href_id,$target,$returntext) {
 	$js = "	window.addEvent('domready', function() {
-		$('".$href_id."').addEvent('click', function(e) {
+		$('" . $href_id . "').addEvent('click', function(e) {
 			e = new Event(e).stop();
-			var url = \"index.php?option=com_jtg&task=install_".$method."&controller=install\";
+			var url = \"index.php?option=com_jtg&task=install_" . $method . "&controller=install\";
 			/**
 			* The simple way for an Ajax request, use onRequest/onComplete/onFailure
 			* to do add your own Ajax depended code.
 			*/
 			var request = new Request.HTML({
 				url: url,
-				onComplete: document.getElementById('".$target."').innerHTML = '".$returntext."'
+				onComplete: document.getElementById('" . $target . "').innerHTML = '" . $returntext . "'
 			}).request();
 		});
 	});

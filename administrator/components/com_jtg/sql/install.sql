@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS `#__jtg_config` (
 	`routingiconset` varchar(10) DEFAULT 'real',
 	`usevote` TINYINT(1) UNSIGNED ZEROFILL DEFAULT '1',
 	`download` TINYINT(1) UNSIGNED ZEROFILL DEFAULT '1',
-	`gpsstore` VARCHAR( 100 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'JPATH_SITE.DS."components".DS."com_jtg".DS."uploads".DS',
+	`gpsstore` VARCHAR( 100 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'JPATH_SITE . DS . "components" . DS . "com_jtg" . DS . "uploads".DS',
 	`gallery` VARCHAR(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'straight',
 	`showcharts` TINYINT(1) UNSIGNED ZEROFILL DEFAULT '2',
 	`level` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci,
@@ -121,7 +121,7 @@ INSERT IGNORE INTO `#__jtg_config` (
 	'real',
 	0,
 	2,
-	'JPATH_SITE.DS."components".DS."com_jtg".DS."uploads".DS',
+	'JPATH_SITE . DS . "components" . DS . "com_jtg" . DS . "uploads".DS',
 	'straight',
 	'2',
 	'OSM_LEVEL_1

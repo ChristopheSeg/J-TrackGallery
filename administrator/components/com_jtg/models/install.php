@@ -11,7 +11,7 @@
  *
  */
 
-// no direct access
+// No direct access
 defined('_JEXEC') or die('Restricted access');
 
 // Import Joomla! libraries
@@ -19,7 +19,8 @@ jimport('joomla.application.component.model');
 /**
  * Model Class Configuration
  */
-class jtgModelInstall extends JModel {
+class JtgModelInstall extends JModel
+{
 	/**
 	 *
 	 */
@@ -32,9 +33,9 @@ class jtgModelInstall extends JModel {
 	 * @return boolean
 	 */
 	function upackCatIcons() {
-		$source = JPATH_SITE.DS."components".DS."com_jtg".DS."assets".DS."images".DS."source".DS."samplecaticons.zip";
-		$destpath = JPATH_SITE.DS."images".DS."jtg".DS."cats";
-		jimport( 'joomla.filesystem.archive' );
+		$source = JPATH_SITE . DS . "components" . DS . "com_jtg" . DS . "assets" . DS . "images" . DS . "source" . DS . "samplecaticons.zip";
+		$destpath = JPATH_SITE . DS . "images" . DS . "jtg" . DS . "cats";
+		jimport('joomla.filesystem.archive');
 		if (JArchive::extract($source,$destpath)) return true;
 		return false;
 	}
@@ -49,7 +50,7 @@ class jtgModelInstall extends JModel {
 // TODO echo "<br><br> $table";die();
 		$db =& JFactory::getDBO();
 
-		$path = JPATH_ADMINISTRATOR.DS.'components'.DS.'com_jtg'.DS.'sql'.DS;
+		$path = JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_jtg' . DS . 'sql'.DS;
 		switch ($table) {
 			case "install":
 				$file = JPath::clean($path.'install.sql');

@@ -11,15 +11,16 @@
  *
  */
 
-// no direct access
+// No direct access
 defined('_JEXEC') or die('Restricted access');
 
-jimport( 'joomla.application.component.controller' );
-JTable::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_jtg'.DS.'tables');
+jimport('joomla.application.component.controller');
+JTable::addIncludePath(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_jtg' . DS . 'tables');
 /**
  * Controller Class Categories
  */
-class jtgControllerCats extends jtgController  {
+class JtgControllerCats extends JtgController
+{
     /**
      *
      */
@@ -48,7 +49,7 @@ class jtgControllerCats extends jtgController  {
 	/**
      *
      * @global object $mainframe
-     * @uses jtgModelCat::saveCat
+     * @uses JtgModelCat::saveCat
      * @return redirect
      *
      */
@@ -70,7 +71,7 @@ class jtgControllerCats extends jtgController  {
     }
 
     /**
-     * @uses jtgModelCat::move
+     * @uses JtgModelCat::move
      * @return redirect
      */
     function orderup()  {
@@ -85,7 +86,7 @@ class jtgControllerCats extends jtgController  {
     }
 
     /**
-     * @uses jtgModelCat::move
+     * @uses JtgModelCat::move
      *@return redirect
      */
     function orderdown()  {
@@ -100,7 +101,7 @@ class jtgControllerCats extends jtgController  {
     }
 
         /**
-         * @uses jtgModelCat::saveorder
+         * @uses JtgModelCat::saveorder
          * @return redirect
          */
 	function saveorder()
@@ -121,7 +122,7 @@ class jtgControllerCats extends jtgController  {
 
 
         /**
-         * @uses jtgModelCat::publish
+         * @uses JtgModelCat::publish
          * @return redirect
          */
 	function publish()
@@ -138,14 +139,14 @@ class jtgControllerCats extends jtgController  {
 
 		$model = $this->getModel('cat');
 		if(!$model->publish($cid, 1)) {
-			echo "<script> alert('".$model->getError(true)."'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
 
 		$this->setRedirect( JRoute::_('index.php?option=com_jtg&task=cats&controller=cats', false ));
 	}
 
         /**
-         * @uses jtgModelCat::publish
+         * @uses JtgModelCat::publish
          * @return redirect
          */
 	function unpublish()
@@ -162,14 +163,14 @@ class jtgControllerCats extends jtgController  {
 
 		$model = $this->getModel('cat');
 		if(!$model->publish($cid, 0)) {
-			echo "<script> alert('".$model->getError(true)."'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
 
 		$this->setRedirect( JRoute::_('index.php?option=com_jtg&task=cats&controller=cats', false ));
 	}
 
 		/**
-         * @uses jtgModelCat::deleteCatImage
+         * @uses JtgModelCat::deleteCatImage
          * @return redirect
          */
 	function removepic()
@@ -184,14 +185,14 @@ class jtgControllerCats extends jtgController  {
 		}
 		$model = $this->getModel('cat');
 		if(!$model->deleteCatImage($cid)) {
-			echo "<script> alert('".$model->getError(true)."'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
 
 		$this->setRedirect( JRoute::_('index.php?option=com_jtg&task=cats&controller=cats&task=managecatpics', false ));
 	}
 
         /**
-         * @uses jtgModelCat::delete
+         * @uses JtgModelCat::delete
          * @return redirect
          */
 	function remove()
@@ -208,13 +209,13 @@ class jtgControllerCats extends jtgController  {
 
 		$model = $this->getModel('cat');
 		if(!$model->delete($cid)) {
-			echo "<script> alert('".$model->getError(true)."'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
 
 		$this->setRedirect( JRoute::_('index.php?option=com_jtg&task=cats&controller=cats', false ));
 	}
     /**
-     * @uses jtgModelCat::updateCat
+     * @uses JtgModelCat::updateCat
      * @return redirect
      */
     function updatecat()  {

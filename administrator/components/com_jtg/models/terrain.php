@@ -11,7 +11,7 @@
  *
  */
 
-// no direct access
+// No direct access
 defined('_JEXEC') or die('Restricted access');
 
 // Import Joomla! libraries
@@ -19,8 +19,8 @@ jimport('joomla.application.component.model');
 /**
  * Model Class Terrain
  */
-class jtgModelTerrain extends JModel {
-
+class JtgModelTerrain extends JModel
+{
 	var $_data = null;
 
 	var $_total = null;
@@ -110,7 +110,7 @@ class jtgModelTerrain extends JModel {
 		$query = "SELECT * FROM #__jtg_terrains"
 		. $orderby;
 		if ( $terrain !== null )
-		$query .= " WHERE id=".$terrain
+		$query .= " WHERE id=" . $terrain
 		;
 
 		return $query;

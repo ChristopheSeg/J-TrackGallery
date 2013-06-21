@@ -35,7 +35,7 @@ endif;
 JToolBarHelper::help("maps/newmap", true);
 if($id) {
 	$cache =& JFactory::getCache('com_jtg');
-	$cfg = jtgHelper::getConfig();
+	$cfg = JtgHelper::getConfig();
 	$model = $this->getModel();
 	$document =& JFactory::getDocument();
 }

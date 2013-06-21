@@ -12,7 +12,7 @@
  *
  */
 
-// no direct access
+// No direct access
 defined('_JEXEC') or die('Restricted access');
 
 
@@ -21,7 +21,8 @@ jimport( 'joomla.application.component.view');
 /**
  *
  */
-class jtgViewCats extends JView {
+class JtgViewCats extends JView
+{
 	/**
 	 *
 	 * @param object $tpl
@@ -58,9 +59,9 @@ class jtgViewCats extends JView {
 		$model =& $this->getModel();
 		$rows =& $this->get('Pics');
 		$children = array();
-		$imagedir = JPATH_SITE.DS.'images'.DS.'jtg'.DS.'cats'.DS;
+		$imagedir = JPATH_SITE . DS . 'images' . DS . 'jtg' . DS . 'cats'.DS;
 		$imageurl = JURI::root().'images/jtg/cats/';
-		jimport( 'joomla.filesystem.files' );
+		jimport('joomla.filesystem.files');
 		$images = array();
 		foreach ($rows as $k => $v ) {
 			$new = new stdClass;
@@ -70,10 +71,10 @@ class jtgViewCats extends JView {
 			$new->name = JFile::stripext($v);
 			$new->ext = JFile::getext($v);
 			$new->checked_out = 0;
-			$new->image = " <image src='".$imageurl.$v."' title='".$v."' alt='".$v."' />";
+			$new->image = " <image src='" . $imageurl.$v . "' title='" . $v . "' alt='" . $v . "' />";
 			$images[$k] = $new;
 		}
-		$config = jtgHelper::getConfig();
+		$config = JtgHelper::getConfig();
 		$types = $config->type;
 		$this->types = $types;
 		$this->rows = $images;
@@ -93,11 +94,11 @@ class jtgViewCats extends JView {
 
 		$order = JRequest::getVar( 'order', 'order', 'post', 'string' );
 
-		$filter_order		= $mainframe->getUserStateFromRequest( $option."filter_order",
+		$filter_order		= $mainframe->getUserStateFromRequest( $option . "filter_order",
 		'filter_order',
 		'ordering',
 		'cmd' );
-		$filter_order_Dir	= $mainframe->getUserStateFromRequest( $option."filter_order_Dir",
+		$filter_order_Dir	= $mainframe->getUserStateFromRequest( $option . "filter_order_Dir",
 		'filter_order_Dir',
 		'',
 		'word' );
@@ -116,7 +117,7 @@ class jtgViewCats extends JView {
 			array_push( $list, $v );
 			$children[$pt] = $list;
 			if($v->image)
-			$image[$v->id] = " <image src='".$imagedir.$v->image."' title='".JText::_($v->title)."' alt='".JText::_($v->title)."' />";
+			$image[$v->id] = " <image src='" . $imagedir.$v->image . "' title='".JText::_($v->title) . "' alt='".JText::_($v->title) . "' />";
 		}
 		$levellimit = 50;
 		$list = JHTML::_('menu.treerecurse', 0, '', array(), $children, max( 0, $levellimit-1 ) );
@@ -149,7 +150,7 @@ class jtgViewCats extends JView {
 		$editor =& JFactory::getEditor();
 		$lists['block'] 	= JHTML::_('select.booleanlist', 'publish', 'class="inputbox" size="1"', 1 );
 		$lists['parent'] 	= JHTML::_('select.genericlist', $parent, 'parent', 'size="1"', 'id', 'name', '');
-		$config =& jtgHelper::getConfig();
+		$config =& JtgHelper::getConfig();
 		$max_file_size = $config->max_size * 1000;
 		$images = $model->getPics();
 		$this->images = $images;
@@ -179,7 +180,7 @@ class jtgViewCats extends JView {
 		$lists['block'] 	= JHTML::_('select.booleanlist', 'publish', 'class="inputbox" size="1"', $data->published );
 		$lists['parent'] 	= JHTML::_('select.genericlist', $parent, 'parent', 'size="1"', 'id', 'name', $data->parent_id);
 
-		$config =& jtgHelper::getConfig();
+		$config =& JtgHelper::getConfig();
 		$max_file_size = $config->max_size * 1000;
 
 		$images = $model->getPics();

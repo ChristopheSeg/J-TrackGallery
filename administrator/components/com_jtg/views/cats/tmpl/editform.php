@@ -11,7 +11,7 @@
  *
  */
 
-// no direct access
+// No direct access
 defined('_JEXEC') or die('Restricted access');
 
 JToolBarHelper::title(JText::_('COM_JTG_EDIT_CAT'), 'categories.png');
@@ -51,12 +51,12 @@ $image=$this->data->image;
 foreach ($this->images as $img) {
 	$imageurl = JURI::root().'images/jtg/cats/';
 	$pic = "";
-	$pic .= "<input type=\"radio\" name=\"catpic\" value=\"".$img."\" title=\"".$img."\"";
+	$pic .= "<input type=\"radio\" name=\"catpic\" value=\"" . $img . "\" title=\"" . $img . "\"";
 	if ( $image == $img ) $pic .= " checked=\"checked\"";
 	$pic .= ">".
 	"<img src=\"".
 	$imageurl.$img.
-	"\" title=\".$img.\" />".
+	"\" title=\" . $img.\" />".
 	" \n";
 	echo $pic;
 }
@@ -65,7 +65,7 @@ foreach ($this->images as $img) {
 if ( 0==1 ) {
 	if ($image != "") {
 		?><input type="hidden" name="catpic" value="<?php echo $image; ?>"><?php
-		$image = "../images/jtg/cats/".$image;
+		$image = "../images/jtg/cats/" . $image;
 		?><image src="<?php echo $image ?>" />
 		<?php echo $this->deleteBox;
 	} else {

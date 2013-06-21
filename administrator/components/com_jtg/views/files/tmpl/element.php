@@ -88,20 +88,20 @@ $document->addStyleSheet(JURI::base().'components/com_jtg/template.css');
 		$access 	= $this->buildRowGroupname($row->access,true);
 $published	= $row->published;
 if($published == 0)
-	$published = "<font color=red>".JText::_('JNO')."</font>";
+	$published = "<font color=red>".JText::_('JNO') . "</font>";
 else
-	$published = "<font color=green>".JText::_('JYES')."</font>";
+	$published = "<font color=green>".JText::_('JYES') . "</font>";
 $user		= JFactory::getUser($row->uid);
 		$imagelink	= $this->buildImageFiletypes($row->istrack,$row->iswp,$row->isroute);
 		$file		= $this->buildChooseKlicks($row->id,$row->title);
 		$parent		= $this->giveParentCat($row->catid);
 		if ( $parent !== null )
-			$row->cat = $parent."<br />&nbsp;&nbsp;&nbsp;|_&nbsp;&nbsp;&nbsp;".$row->cat;
+			$row->cat = $parent . "<br />&nbsp;&nbsp;&nbsp;|_&nbsp;&nbsp;&nbsp;" . $row->cat;
 		if($row->cat === null)
-			$row->cat = "<i>".JText::_('COM_JTG_NOTHING')."</i>";
+			$row->cat = "<i>".JText::_('COM_JTG_NOTHING') . "</i>";
 
         ?>
-             <tr class="<?php echo "row".$k; ?>">
+             <tr class="<?php echo "row" . $k; ?>">
                 <td align="center"><?php echo $this->pagination->getRowOffset( $i ); ?></td>
                 <td align="center"><?php echo $row->id; ?></td>
                 <td align="center"><?php echo $file; ?></td>

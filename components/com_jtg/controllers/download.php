@@ -11,13 +11,13 @@
  *
  */
 
-// no direct access
+// No direct access
 defined('_JEXEC') or die('Restricted access');
 
-jimport( 'joomla.application.component.controller' );
+jimport('joomla.application.component.controller');
 
-class jtgControllerDownload extends jtgController {
-
+class JtgControllerDownload extends JtgController
+{
 	function download() {
 
 		JRequest::checkToken() or jexit( 'Invalid Token' );
@@ -37,7 +37,7 @@ class jtgControllerDownload extends jtgController {
 
 		header("Pragma: public"); // required
 		header("Content-Type: " . $mime . "; charset=UTF-8");
-		header("Content-Disposition: attachment; filename=\"".$trackname.".".strtolower($format)."\"");
+		header("Content-Disposition: attachment; filename=\"" . $trackname . " . ".strtolower($format) . "\"");
 		header("Content Transfer-Encoding:binary");
 		header("Cache-Control: post-check=0, pre-check=0");
 

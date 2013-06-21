@@ -11,7 +11,7 @@
  *
  */
 
-// no direct access
+// No direct access
 defined('_JEXEC') or die('Restricted access');
 
 echo $this->lh;
@@ -69,24 +69,24 @@ echo $this->lh;
 	for ($i=0, $n=count( $this->rows ); $i < $n; $i++)
 	{
 		$row = &$this->rows[$i];
-		if (!$row->title) $row->title = "<font class=\"emptyEntry\">".JText::_('COM_JTG_NO_TITLE')."</font>";
+		if (!$row->title) $row->title = "<font class=\"emptyEntry\">".JText::_('COM_JTG_NO_TITLE') . "</font>";
 		$link = JRoute::_('index.php?option=com_jtg&view=files&layout=file&id='.$row->id,false);
-		$profile = jtgHelper::getProfileLink($row->uid, $row->user);
-		$cat = jtgHelper::parseMoreCats($this->sortedcats,$row->catid,"list",true);
-		$terrain = jtgHelper::parseMoreTerrains($this->sortedter,$row->terrain,"list",true);
-		$hits = jtgHelper::getLocatedFloat($row->hits);
+		$profile = JtgHelper::getProfileLink($row->uid, $row->user);
+		$cat = JtgHelper::parseMoreCats($this->sortedcats,$row->catid,"list",true);
+		$terrain = JtgHelper::parseMoreTerrains($this->sortedter,$row->terrain,"list",true);
+		$hits = JtgHelper::getLocatedFloat($row->hits);
 		$votes = layoutHelper::parseVoteFloat($row->vote,true);
 		$links = null;
 		if(!$row->distance) $row->distance = 0;
 		if($this->cfg->unit == "Miles") {
-			$distance = jtgHelper::getLocatedFloat(jtgHelper::getMiles($row->distance,"-","Miles"));
+			$distance = JtgHelper::getLocatedFloat(JtgHelper::getMiles($row->distance,"-","Miles"));
 		} else {
-			$distance = jtgHelper::getLocatedFloat($row->distance,"-","km");
+			$distance = JtgHelper::getLocatedFloat($row->distance,"-","km");
 		}
 		if ($profile != "")
 			$profile .= "<br />";
 		else
-			$profile .= "<font class=\"emptyEntry\">". JText::_('COM_JTG_NO_USER') ."</font><br />";
+			$profile .= "<font class=\"emptyEntry\">" . JText::_('COM_JTG_NO_USER')  . "</font><br />";
 		if ( 
 		( ( $this->uid != 0 ) AND ( $this->uid == $row->uid ) ) // My File
 		OR
@@ -96,11 +96,11 @@ echo $this->lh;
 			$editlink = JRoute::_('index.php?option=com_jtg&view=files&layout=form&id='.$row->id,false);
 			$deletelink = JRoute::_('index.php?option=com_jtg&controller=files&task=delete&id='.$row->id,false);
 			$links =
-			" <a href=\"".$editlink."\">".
-				"<img title=\"".JText::_('Edit')."\" alt=\"".JText::_('Edit')."\" src=\"./images/edit_f2.png\" width=\"16px\" />".
+			" <a href=\"" . $editlink . "\">".
+				"<img title=\"".JText::_('Edit') . "\" alt=\"".JText::_('Edit') . "\" src=\"./images/edit_f2.png\" width=\"16px\" />".
 			"</a> ".
-        	"<a href=\"".$deletelink."\">".
-        		"<img title=\"".JText::_('Delete')."\" alt=\"".JText::_('Delete')."\" src=\"./images/cancel_f2.png\" width=\"16px\" />".
+        	"<a href=\"" . $deletelink . "\">".
+        		"<img title=\"".JText::_('Delete') . "\" alt=\"".JText::_('Delete') . "\" src=\"./images/cancel_f2.png\" width=\"16px\" />".
         	"</a>";
 		}
 		?>

@@ -11,14 +11,14 @@
  *
  */
 
-// no direct access
+// No direct access
 defined('_JEXEC') or die('Restricted access');
 
 /**
  * Model Class Categorie
  */
-class jtgModelCat extends JModel {
-
+class JtgModelCat extends JModel
+{
 	function __construct()
 	{
 		parent::__construct();
@@ -137,7 +137,7 @@ class jtgModelCat extends JModel {
 
 	function deleteCatImage($files) {
 		jimport('joomla.filesystem.file');
-		$path = JPATH_SITE.DS."images".DS."jtg".DS."cats".DS;
+		$path = JPATH_SITE . DS . "images" . DS . "jtg" . DS . "cats".DS;
 		foreach($files as $file) {
 			if (!JFile::delete($path.$file)) return false;
 		}
@@ -172,7 +172,7 @@ class jtgModelCat extends JModel {
 			}
 
 			foreach($rows as $row) {
-				JFile::delete(JPATH_SITE.DS."images".DS."jtg".DS."cats".DS.$row->image);
+				JFile::delete(JPATH_SITE . DS . "images" . DS . "jtg" . DS . "cats" . DS . $row->image);
 			}
 
 			//delete from DB
@@ -214,7 +214,7 @@ class jtgModelCat extends JModel {
 		$image =& JRequest::getVar( 'catpic' );
 		
 		$query = "INSERT INTO #__jtg_cats SET"
-		. "\n parent_id='".$parent."',"
+		. "\n parent_id='" . $parent . "',"
 		. "\n title='" . $title . "',"
 		. "\n image='" . $image . "',"
 		. "\n description='" . $desc . "',"
@@ -234,7 +234,7 @@ class jtgModelCat extends JModel {
 	function uploadCatImage($file) {
 		if ($file['name'] != "") {
 			$file['ext'] = JFile::getext($file['name']);
-			$config = jtgHelper::getConfig();
+			$config = JtgHelper::getConfig();
 			$allowedimages = $config->type;
 			$allowedimages = explode(',',$allowedimages);
 			if ( !in_array($file['ext'],$allowedimages) )
@@ -242,7 +242,7 @@ class jtgModelCat extends JModel {
 				JError::raiseWarning( 1, JText::sprintf('COM_JTG_NOTALLOWED_FILETYPE',$file['ext']));
 				return false;
 			}
-			$upload_dir = JPATH_SITE.DS."images".DS."jtg".DS."cats".DS;
+			$upload_dir = JPATH_SITE . DS . "images" . DS . "jtg" . DS . "cats".DS;
 			$filename = JFile::makeSafe(strtolower($file['name']));
 				
 			if (JFile::exists($upload_dir.$filename)) {
@@ -288,7 +288,7 @@ class jtgModelCat extends JModel {
 		$parent =& JRequest::getInt('parent');
 
 		$query = "UPDATE #__jtg_cats SET"
-		. "\n parent_id='".$parent."',"
+		. "\n parent_id='" . $parent . "',"
 		. "\n title='" . $title . "',"
 		. "\n image='" . $image . "',"
 		. "\n description='" . $desc . "',"

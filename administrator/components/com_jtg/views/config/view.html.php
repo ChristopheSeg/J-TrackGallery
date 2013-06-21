@@ -11,7 +11,7 @@
  *
  */
 
-// no direct access
+// No direct access
 defined('_JEXEC') or die('Restricted access');
 
 // Import Joomla! libraries
@@ -20,7 +20,8 @@ jimport( 'joomla.application.component.view');
 /**
  *
  */
-class jtgViewConfig extends JView {
+class JtgViewConfig extends JView
+{
 	/**
 	 *
 	 * @param object $tpl
@@ -28,9 +29,9 @@ class jtgViewConfig extends JView {
 	function display($tpl = null) {
 
 		jimport('joomla.filesystem.file');
-		$config =& jtgHelper::getConfig();
+		$config =& JtgHelper::getConfig();
 
-		$captcha = jtgHelper::checkCaptcha();
+		$captcha = JtgHelper::checkCaptcha();
 		$cactiv = ($captcha > 0) ? '<font color="green">'.JText::_('COM_JTG_INSTALLED').'</font>' : '<font color="red">'.JText::_('COM_JTG_NOT_INSTALLED').'</font>';
 		$model = $this->getModel();
 		$row = $model->getContent();
@@ -87,22 +88,22 @@ class jtgViewConfig extends JView {
 		array('id' => 'osm', 'text' => JText::_('COM_JTG_OSM')),
 		);
 		$routingiconset = array();
-		$imgdir = "..".DS."components".DS."com_jtg".DS."assets".DS."images".DS."approach".DS;
-		$importdir = JPATH_SITE.DS."components".DS."com_jtg".DS."assets".DS."images".DS."approach".DS;
+		$imgdir = " . . " . DS . "components" . DS . "com_jtg" . DS . "assets" . DS . "images" . DS . "approach".DS;
+		$importdir = JPATH_SITE . DS . "components" . DS . "com_jtg" . DS . "assets" . DS . "images" . DS . "approach".DS;
 		$files = JFolder::folders($importdir);
 		for($i=0;$i<count($files);$i++) {
 			$nopic = "<font color=\"red\"><font size=\"+2\">X</font> (Icon missing) </font>";
-			$string = $files[$i]."<br />".JText::_( 'COM_JTG_PREVIEW' ).":&nbsp;&nbsp;";
-			if(is_file($imgdir.$files[$i].DS."car.png"))
-			$string .= "<img src=\"".$imgdir.$files[$i].DS."car.png\" alt=\"car.png\" title=\"car.png\" /> ";
+			$string = $files[$i] . "<br />".JText::_( 'COM_JTG_PREVIEW' ) . ":&nbsp;&nbsp;";
+			if(is_file($imgdir.$files[$i] . DS . "car.png"))
+			$string .= "<img src=\"" . $imgdir.$files[$i] . DS . "car.png\" alt=\"car.png\" title=\"car.png\" /> ";
 			else
 			$string .= $nopic;
-			if(is_file($imgdir.$files[$i].DS."bike.png"))
-			$string .= "<img src=\"".$imgdir.$files[$i].DS."bike.png\" alt=\"bike.png\" title=\"bike.png\" /> ";
+			if(is_file($imgdir.$files[$i] . DS . "bike.png"))
+			$string .= "<img src=\"" . $imgdir.$files[$i] . DS . "bike.png\" alt=\"bike.png\" title=\"bike.png\" /> ";
 			else
 			$string .= $nopic;
-			if(is_file($imgdir.$files[$i].DS."foot.png"))
-			$string .= "<img src=\"".$imgdir.$files[$i].DS."foot.png\" alt=\"foot.png\" title=\"foot.png\" />";
+			if(is_file($imgdir.$files[$i] . DS . "foot.png"))
+			$string .= "<img src=\"" . $imgdir.$files[$i] . DS . "foot.png\" alt=\"foot.png\" title=\"foot.png\" />";
 			else
 			$string .= $nopic;
 			if($i < count($files)-1)
@@ -125,7 +126,7 @@ class jtgViewConfig extends JView {
 		if ($row) // if article(s) found in section jtg and category term
 		$lists['content']		= JHTML::_('select.genericlist', $row, 'terms_id', 'size="1"', 'id', 'title', $config->terms_id );
 		else
-		$lists['content']		= "<font color=red>".JText::_('COM_JTG_TT_TERMS_NOTFOUND')."</font>";
+		$lists['content']		= "<font color=red>".JText::_('COM_JTG_TT_TERMS_NOTFOUND') . "</font>";
 		$lists['unit']				= JHTML::_('select.genericlist', $unit, 'unit', 'size="1"', 'unit', 'unit', $config->unit );
 		$lists['tmpl']				= JHTML::_('select.genericlist', $tmpl, 'template', 'size="1"', 'name', 'name', $config->template );
 		$lists['who']				= JHTML::_('select.genericlist', $users, 'comment_who', 'size="1"', 'id', 'text', $config->comment_who );
@@ -139,7 +140,7 @@ class jtgViewConfig extends JView {
 		$lists['approach']			= JHTML::_('select.genericlist', $approach, 'approach', 'size="1"', 'id', 'text', $config->approach );
 		$lists['routingiconset']	= JHTML::_('select.radiolist', $routingiconset, 'routingiconset', null, 'value', 'text', $config->routingiconset );
 		$lists['gallery']			= JHTML::_('select.genericlist', $gallery, 'gallery', 'size="1"', 'id', 'text', $config->gallery );
-		$lists['serviceprovider']	= $this->createCheckbox("serviceprovider_google","google","Google")."<br />\n".
+		$lists['serviceprovider']	= $this->createCheckbox("serviceprovider_google","google","Google") . "<br />\n".
 		$this->createCheckbox("serviceprovider_osm","osm","OpenStreetMap",true);
 		if ( $config->level == "" )
 		{
@@ -172,7 +173,7 @@ class jtgViewConfig extends JView {
 
 	function createCheckbox($name,$value,$label,$checked=null){
 		if($checked===true) $checked = " checked=\"checked\"";
-		return "<input type=\"checkbox\" name=\"".$name."\" value=\"".$value."\"".$checked." />&nbsp;".$label;
+		return "<input type=\"checkbox\" name=\"" . $name . "\" value=\"" . $value . "\"" . $checked . " />&nbsp;" . $label;
 	}
 
 	

@@ -35,11 +35,11 @@ $map = "";
 if($this->id >= 1) {
 	//	edit file
 	$cache =& JFactory::getCache('com_jtg');
-	$cfg = jtgHelper::getConfig();
+	$cfg = JtgHelper::getConfig();
 	$model = $this->getModel();
 	$track = $cache->get(array($model, 'getFile'), array($this->id));
 	$document =& JFactory::getDocument();
-	require_once("..".DS."components".DS."com_jtg".DS."helpers".DS."gpsClass.php");
+	require_once(" . . " . DS . "components" . DS . "com_jtg" . DS . "helpers" . DS . "gpsClass.php");
 	$gps = new gpsClass();
 	$document->addScript('http://www.openlayers.org/api/OpenLayers.js');
 	$document->addScript('http://www.openstreetmap.org/openlayers/OpenStreetMap.js');
@@ -67,7 +67,7 @@ if($this->id >= 1) {
 	</thead>
 	<tbody>
 		<tr>
-			<td><?php echo JText::_('COM_JTG_FILE').":"; if($this->id < 1) echo "*";?></td>
+			<td><?php echo JText::_('COM_JTG_FILE') . ":"; if($this->id < 1) echo "*";?></td>
 			<td><?php if($this->id < 1) { ?><input type="file" name="file"
 				value="" size="30" /><?php } else echo $this->track->file; ?></td>
 			<td rowspan="12" width="1" valign="top"><?php echo $map; ?></td>
@@ -136,11 +136,11 @@ if($this->id >= 1) {
 		<?php
 		/*
 		 echo ("	<tr>
-		 <td>".JText::_('COM_JTG_WPS').":</td>
+		 <td>".JText::_('COM_JTG_WPS') . ":</td>
 		 <td colspan=\"2\"></td>
 		 </tr>
 		 <tr>
-		 <td>".JText::_('COM_JTG_TRACKS').":</td>
+		 <td>".JText::_('COM_JTG_TRACKS') . ":</td>
 		 <td colspan=\"2\"></td>
 		 </tr>
 		 ");
@@ -159,7 +159,7 @@ if($this->id >= 1) {
 		 ?>
 		 <tr>
 		 <td><?php echo JText::_('COM_JTG_TERMS'); ?></td>
-		 <td><input id="terms" type="checkbox" name="terms" value="" /><?php echo JText::_('COM_JTG_AGREE'); ?> <a class="modal" href="<?php echo JURI::base()."../?option=com_content&view=article&id=".$cfg->terms_id; ?>" target="_blank"><?php echo JText::_('COM_JTG_TERMS'); ?></a></td>
+		 <td><input id="terms" type="checkbox" name="terms" value="" /><?php echo JText::_('COM_JTG_AGREE'); ?> <a class="modal" href="<?php echo JURI::base() . "../?option=com_content&view=article&id=" . $cfg->terms_id; ?>" target="_blank"><?php echo JText::_('COM_JTG_TERMS'); ?></a></td>
 		 </tr>
 		 <?php
 		 endif;
@@ -172,8 +172,8 @@ if($this->id >= 1) {
 <input type="hidden" name="task" value="" />
 <?php
 if ($this->id) {
-	echo ("<input type=\"hidden\" name=\"id\" value=\"".$this->id."\" />");
-	echo ("<input type=\"hidden\" name=\"file\" value=\"".$this->track->file."\" />");
+	echo ("<input type=\"hidden\" name=\"id\" value=\"" . $this->id . "\" />");
+	echo ("<input type=\"hidden\" name=\"file\" value=\"" . $this->track->file . "\" />");
 }
 ?>
 </form>

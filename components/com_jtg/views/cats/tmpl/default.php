@@ -11,7 +11,7 @@
  *
  */
 
-// no direct access
+// No direct access
 defined('_JEXEC') or die('Restricted access');
 
 echo $this->lh;
@@ -31,7 +31,7 @@ echo $this->lh;
             $cat = $this->cats[$i];
             $cat->img = null;
         	if ($cat->image)
-        		$cat->img = "&nbsp;<img title=\"".JText::_($cat->name)."\" alt=\"".JText::_($cat->name)."\" src=\"".$imgdir.$cat->image."\" />";
+        		$cat->img = "&nbsp;<img title=\"".JText::_($cat->name) . "\" alt=\"".JText::_($cat->name) . "\" src=\"" . $imgdir.$cat->image . "\" />";
             $link = JRoute::_('index.php?option=com_jtg&view=files&layout=list&cat='.$cat->id);
             ?>
     <tr class="sectiontableentry<?php echo $k; ?>">

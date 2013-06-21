@@ -68,6 +68,6 @@ JToolBarHelper::help( 'terrain/form',true );
     <input type="hidden" name="task" value="" />
 <?php
 if ($this->id)
-	echo ("<input type=\"hidden\" name=\"id\" value=\"".$this->id."\" />")
+	echo ("<input type=\"hidden\" name=\"id\" value=\"" . $this->id . "\" />")
 ?>
 </form>

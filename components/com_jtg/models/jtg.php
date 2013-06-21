@@ -12,12 +12,13 @@
  *
  */
 
-// no direct access
+// No direct access
 defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.model');
 
-class jtgModeljtg extends JModel {
+class JtgModeljtg extends JModel
+{
 	/**
 	 * Constructor
 	 */
@@ -46,13 +47,13 @@ class jtgModeljtg extends JModel {
 	}
 
 	function getTracksData($order, $limit,$where="",$access=null) {
-		if ( $where != "" ) $where = " AND ( ".$where." )";
-//		if ( $access !== null ) $where .= " AND a.access <= ".$access;
+		if ( $where != "" ) $where = " AND ( " . $where . " )";
+//		if ( $access !== null ) $where .= " AND a.access <= " . $access;
 		$mainframe =& JFactory::getApplication();
 		$db =& JFactory::getDBO();
 		$query = "SELECT a.*, b.title AS cat FROM #__jtg_files AS a"
 		. "\n LEFT JOIN #__jtg_cats AS b"
-		. "\n ON a.catid=b.id WHERE a.published = 1".$where
+		. "\n ON a.catid=b.id WHERE a.published = 1" . $where
 		. "\n" . $order
 		. "\n" . $limit;
 		$db->setQuery($query);
@@ -78,7 +79,7 @@ class jtgModeljtg extends JModel {
 			$nullcat = array(
 				"id"			=> 0,
 				"parent"		=> 0,
-				"title"			=> "<label title=\"".JText::_('COM_JTG_CAT_NONE')."\">-</label>",
+				"title"			=> "<label title=\"".JText::_('COM_JTG_CAT_NONE') . "\">-</label>",
 				"description"	=> null,
 				"image"			=> null,
 				"ordering"		=> 0,
@@ -112,7 +113,7 @@ class jtgModeljtg extends JModel {
 		{
 			$nullter = array(
 				"id"			=> 0,
-				"title"			=> "<label title=\"".JText::_('COM_JTG_TERRAIN_NONE')."\">-</label>",
+				"title"			=> "<label title=\"".JText::_('COM_JTG_TERRAIN_NONE') . "\">-</label>",
 				"ordering"		=> 0,
 				"published"		=> 1,
 				"checked_out"	=> 0

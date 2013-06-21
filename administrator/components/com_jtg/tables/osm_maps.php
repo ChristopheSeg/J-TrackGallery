@@ -11,13 +11,14 @@
  *
  */
 
-// no direct access
+// No direct access
 defined('_JEXEC') or die('Restricted access');
 /**
  * Table class
  * 
  */
-class TableOSM_maps extends JTable  {
+class TableOSM_maps extends JTable
+{
 	var $id				= NULL;
 	var $name			= NULL;
 	var $order			= NULL;

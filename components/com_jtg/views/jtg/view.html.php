@@ -11,7 +11,7 @@
  *
  */
 
-// no direct access
+// No direct access
 defined('_JEXEC') or die('Restricted access');
 
 jimport( 'joomla.application.component.view');
@@ -19,15 +19,15 @@ jimport( 'joomla.application.component.view');
 /**
  * HTML View class for the jtg component
  */
-class jtgViewjtg extends JView {
-
+class JtgViewjtg extends JView
+{
 	function display($tpl = null) {
 // @ToDo split in jtg and geoposition
 		$mainframe =& JFactory::getApplication();
-		$cfg = jtgHelper::getConfig();
+		$cfg = JtgHelper::getConfig();
 		$gps = new gpsClass();
 		$document =& JFactory::getDocument();
-		$sitename = $document->getTitle()." - ".$mainframe->getCfg('sitename');
+		$sitename = $document->getTitle() . " - " . $mainframe->getCfg('sitename');
 		// $mainframe->setPagetitle($sitename);
 		$mapsxml = JPATH_COMPONENT_ADMINISTRATOR . DS . 'views' . DS . 'maps' . DS . 'maps.xml';
 		$this->params_maps = new JRegistry( 'com_jtg', $mapsxml );
@@ -40,9 +40,9 @@ class jtgViewjtg extends JView {
 		$sortedcats = $model->getCatsData(true);
 		$where = layoutHelper::filterTracks($cats);
 
-		$access = jtgHelper::giveAccessLevel();
+		$access = JtgHelper::giveAccessLevel();
 		$otherfiles = $params->get('osm_otherfiles');
-		$mayisee = jtgHelper::MayIsee($where,$access,$otherfiles);
+		$mayisee = JtgHelper::MayIsee($where,$access,$otherfiles);
 		$boxlinktext = array(
 		0 => JText::_('COM_JTG_LINK_VIEWABLE_FOR_PUBLIC'),
 		1 => JText::_('COM_JTG_LINK_VIEWABLE_FOR_REGISTERED'),
@@ -78,15 +78,15 @@ class jtgViewjtg extends JView {
 			case null:
 				switch ($where) {
 					case "":
-						$where = " WHERE ".$published;
+						$where = " WHERE " . $published;
 						break;
 					default:
-						$where = " WHERE ".$where." AND ".$published;
+						$where = " WHERE " . $where . " AND " . $published;
 						break;
 				}
 				break;
 			default:
-				$where = " WHERE ".$mayisee." AND ".$published;
+				$where = " WHERE " . $mayisee . " AND " . $published;
 				break;
 		}
 		$this->map = $cfg->map;	// Zusatz für Kartenauswahl

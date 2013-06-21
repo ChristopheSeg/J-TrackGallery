@@ -77,9 +77,9 @@ else {
 		if($new->title != "")
 		echo htmlentities($new->title,ENT_QUOTES,"UTF-8");
 		else
-		echo ("<i>".JText::_('COM_JTG_NO_TITLE')."</i>");
+		echo ("<i>".JText::_('COM_JTG_NO_TITLE') . "</i>");
 		?></a></div>
-	<div class="list-right"><?php echo jtgHelper::parseMoreCats($this->sortedcats,$new->catid,"box",true); ?></div>
+	<div class="list-right"><?php echo JtgHelper::parseMoreCats($this->sortedcats,$new->catid,"box",true); ?></div>
 	<div class="no-float"></div>
 	</li>
 	<?php
@@ -122,10 +122,10 @@ else {
 		if($hits->title != "")
 		echo htmlentities($hits->title,ENT_QUOTES,"UTF-8");
 		else
-		echo ("<i>".JText::_('COM_JTG_NO_TITLE')."</i>");
+		echo ("<i>".JText::_('COM_JTG_NO_TITLE') . "</i>");
 		?></a></div>
 	<div class="list-right"><?php
-	echo jtgHelper::getLocatedFloat($hits->hits);
+	echo JtgHelper::getLocatedFloat($hits->hits);
 	?></div>
 	<div class="no-float"></div>
 	</li>
@@ -169,27 +169,27 @@ else {
 		if($best->title != "")
 		echo htmlentities($best->title,ENT_QUOTES,"UTF-8");
 		else
-		echo ("<i>".JText::_('COM_JTG_NO_TITLE')."</i>");
+		echo ("<i>".JText::_('COM_JTG_NO_TITLE') . "</i>");
 		?></a></div>
 	<div class="list-right"><?php
-	$stars_int = jtgHelper::getLocatedFloat((int)round($best->vote,0));
-	$stars_float = jtgHelper::getLocatedFloat((float)$best->vote);
-	$stars_float2 = jtgHelper::getLocatedFloat((float)round($best->vote,2));
+	$stars_int = JtgHelper::getLocatedFloat((int)round($best->vote,0));
+	$stars_float = JtgHelper::getLocatedFloat((float)$best->vote);
+	$stars_float2 = JtgHelper::getLocatedFloat((float)round($best->vote,2));
 	if ( $stars_float == 0 )
 	$title = JText::_('COM_JTG_NOT_VOTED');
 	elseif ( $best->vote == 1 )
 	$title = "1 ".JText::_('COM_JTG_STAR');
 	else
-	$title = $stars_float2." ".JText::_('COM_JTG_STARS');
+	$title = $stars_float2 . " ".JText::_('COM_JTG_STARS');
 	if($this->best[0])
 	{
 		// Picture
-		echo "<div title='".$title."'><ul class=\"rating ".$this->best[2][$stars_int]."\"><li></li></ul></div>";
+		echo "<div title='" . $title . "'><ul class=\"rating " . $this->best[2][$stars_int] . "\"><li></li></ul></div>";
 	}
 	else
 	{
 		// Float
-		echo "<a title='".$title."'>".$stars_int."</a>";
+		echo "<a title='" . $title . "'>" . $stars_int . "</a>";
 	}
 	?></div>
 	<div class="no-float"></div>
@@ -234,11 +234,11 @@ else {
 		if($rand->title != "")
 		echo htmlentities($rand->title,ENT_QUOTES,"UTF-8");
 		else
-		echo ("<i>".JText::_('COM_JTG_NO_TITLE')."</i>");
+		echo ("<i>".JText::_('COM_JTG_NO_TITLE') . "</i>");
 		?></a></div>
 	<div class="list-right"><?php
 //	echo $rand->cat;
-	echo jtgHelper::parseMoreCats($this->sortedcats,$rand->catid,"box",true);
+	echo JtgHelper::parseMoreCats($this->sortedcats,$rand->catid,"box",true);
 	?></div>
 	<div class="no-float"></div>
 	</li>

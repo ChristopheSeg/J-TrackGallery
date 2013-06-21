@@ -12,13 +12,13 @@
  */
 
 
-// no direct access
+// No direct access
 defined('_JEXEC') or die('Restricted access');
 
-jimport( 'joomla.application.component.controller' );
+jimport('joomla.application.component.controller');
 
-class jtgControllerMaps extends jtgController  {
-
+class JtgControllerMaps extends JtgController
+{
 	function bak__construct() {
 		parent::__construct();
 		$mainframe =& JFactory::getApplication(); // global _ $option;
@@ -50,7 +50,7 @@ class jtgControllerMaps extends jtgController  {
 	}
 
     /**
-     * @uses jtgModelMaps::move
+     * @uses JtgModelMaps::move
      * @return redirect
      */
     function orderup()  {
@@ -65,7 +65,7 @@ class jtgControllerMaps extends jtgController  {
     }
 
     /**
-     * @uses jtgModelMaps::move
+     * @uses JtgModelMaps::move
      *@return redirect
      */
     function orderdown()  {
@@ -79,7 +79,7 @@ class jtgControllerMaps extends jtgController  {
         $this->setRedirect( JRoute::_('index.php?option=com_jtg&task=maps&controller=maps', false));
 		    }
 	/**
-         * @uses jtgModelMaps::publish
+         * @uses JtgModelMaps::publish
          * @return redirect
          */
 	function publish()
@@ -96,13 +96,13 @@ class jtgControllerMaps extends jtgController  {
 
 		$model = $this->getModel('maps');
 		if(!$model->publish($cid, 1)) {
-			echo "<script> alert('".$model->getError(true)."'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
 		$this->setRedirect( JRoute::_('index.php?option=com_jtg&task=maps&controller=maps', false ));
 	}
 
         /**
-         * @uses jtgModelMaps::publish
+         * @uses JtgModelMaps::publish
          * @return redirect
          */
 	function unpublish()
@@ -118,14 +118,14 @@ class jtgControllerMaps extends jtgController  {
 
 		$model = $this->getModel('maps');
 		if(!$model->publish($cid, 0)) {
-			echo "<script> alert('".$model->getError(true)."'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
 
 		$this->setRedirect( JRoute::_('index.php?option=com_jtg&task=maps&controller=maps', false ));
 	}
 
         /**
-         * @uses jtgModelMaps::remove
+         * @uses JtgModelMaps::remove
          * @return redirect
          */
 	function remove()
@@ -142,7 +142,7 @@ class jtgControllerMaps extends jtgController  {
 
 		$model = $this->getModel('maps');
 		if(!$model->delete($cid)) {
-			echo "<script> alert('".$model->getError(true)."'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
 
 		$this->setRedirect( JRoute::_('index.php?option=com_jtg&task=maps&controller=maps', false ));
@@ -159,7 +159,7 @@ class jtgControllerMaps extends jtgController  {
 		$model = $this->getModel('maps');
 		$savemap = $model->saveMap();
 		if(!$savemap)
-			echo "<script> alert('".$model->getError(true)."'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		$this->setRedirect( JRoute::_('index.php?option=com_jtg&task=maps&controller=maps', false ));
         }
 
@@ -169,7 +169,7 @@ class jtgControllerMaps extends jtgController  {
 
                 $model = $this->getModel('maps');
 		if(!$model->saveMaps()) {
-			echo "<script> alert('".$model->getError(true)."'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
 
 		$this->setRedirect( JRoute::_('index.php?option=com_jtg&task=maps&controller=maps', false ));
@@ -181,7 +181,7 @@ class jtgControllerMaps extends jtgController  {
 
                 $model = $this->getModel('maps');
 		if(!$model->updateMap())
-			echo "<script> alert('".$model->getError(true)."'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 
 		$this->setRedirect( JRoute::_('index.php?option=com_jtg&task=maps&controller=maps', false ));
         }

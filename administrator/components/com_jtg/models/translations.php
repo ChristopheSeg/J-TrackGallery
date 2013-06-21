@@ -11,7 +11,7 @@
  *
  */
 
-// no direct access
+// No direct access
 defined('_JEXEC') or die('Restricted access');
 
 // Import Joomla! libraries
@@ -19,8 +19,8 @@ jimport('joomla.application.component.model');
 /**
  * Model Class Terrain
  */
-class jtgModelTranslations extends JModel {
-
+class JtgModelTranslations extends JModel
+{
 	function __construct() {
 		parent::__construct();
 	}
@@ -29,7 +29,7 @@ class jtgModelTranslations extends JModel {
 		JRequest::checkToken() or die( 'Invalid Token' );
 		$languages = $this->getRawLanguages();
 		foreach ($languages as $lang) {
-			$file = JPATH_SITE . DS . 'language' . DS . $lang['tag'] . DS . $lang['tag'] . "." . "com_jtg_additional.ini";
+			$file = JPATH_SITE . DS . 'language' . DS . $lang['tag'] . DS . $lang['tag'] . " . " . "com_jtg_additional.ini";
 			$inhalt =& JRequest::getVar( $lang['tag'] );
 			if(!JFile::write( $file, $inhalt ))
 			return false;
@@ -55,7 +55,7 @@ class jtgModelTranslations extends JModel {
 			// TODO  deprecated 
 			// $newlanguages[$lang['tag']]['backwardlang'] = $lang['backwardlang'];
 			$path = JPATH_SITE . DS . 'language' . DS . $lang['tag'] . DS;
-			$file = $path . $lang['tag'] . "." . "com_jtg_additional.ini";
+			$file = $path . $lang['tag'] . " . " . "com_jtg_additional.ini";
 			$newlanguages[$lang['tag']]['file'] = $file;
 			if (!JFile::exists($file))
 // TODO This string might appears in language file, not additional.....!!!

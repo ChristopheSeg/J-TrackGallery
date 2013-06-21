@@ -11,14 +11,14 @@
  *
  */
 
-// no direct access
+// No direct access
 defined('_JEXEC') or die('Restricted access');
 
 // Import Joomla! libraries
 jimport('joomla.application.component.model');
 
-class jtgModelComments extends JModel  {
-
+class JtgModelComments extends JModel
+{
     function __construct() {
         parent::__construct();
         $mainframe =& JFactory::getApplication(); // global _ $option;
@@ -170,7 +170,7 @@ class jtgModelComments extends JModel  {
             $db =& JFactory::getDBO();
             $cids = implode(',', $cid);
             
-            $query = "SELECT * FROM #__jtg_comments WHERE id IN( ".$cids." )";
+            $query = "SELECT * FROM #__jtg_comments WHERE id IN( " . $cids . " )";
             $db->setQuery($query);
             $result = $db->loadObject();
 
@@ -193,9 +193,9 @@ class jtgModelComments extends JModel  {
             $db =& JFactory::getDBO();
 
             $query = "UPDATE #__jtg_comments SET"
-                    . "\n title='".$title."',"
-                    . "\n text='".$text."'"
-                    . "\n WHERE id='".$id."'"
+                    . "\n title='" . $title . "',"
+                    . "\n text='" . $text . "'"
+                    . "\n WHERE id='" . $id . "'"
                     ;
             $db->setQuery($query);
             $db->query();

@@ -11,13 +11,14 @@
  *
  */
 
-// no direct access
+// No direct access
 defined('_JEXEC') or die('Restricted access');
 /**
  * Table class
  *
  */
-class TableOSM_config extends JTable  {
+class TableOSM_config extends JTable
+{
 	var $id				= NULL;
 	var $gid			= NULL;
 	var $apikey			= NULL;

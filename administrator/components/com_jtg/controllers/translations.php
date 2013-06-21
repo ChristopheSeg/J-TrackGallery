@@ -11,12 +11,13 @@
  *
  */
 
-// no direct access
+// No direct access
 defined('_JEXEC') or die('Restricted access');
 
-jimport( 'joomla.application.component.controller' );
+jimport('joomla.application.component.controller');
 
-class jtgControllertranslations extends jtgController {
+class JtgControllertranslations extends JtgController
+{
 	/**
 	 *
 	 */

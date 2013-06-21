@@ -1,6 +1,6 @@
 <?php
 
-// no direct access
+// No direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 define ('_parseTemplate_description_open', true);
 function parseTemplate_description_open($linkname) {

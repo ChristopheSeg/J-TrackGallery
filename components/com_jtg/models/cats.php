@@ -11,13 +11,13 @@
  *
  */
 
-// no direct access
+// No direct access
 defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.model');
 
-class jtgModelCats extends JModel {
-
+class JtgModelCats extends JModel
+{
 	function getCats()
 	{
 		$mainframe =& JFactory::getApplication();

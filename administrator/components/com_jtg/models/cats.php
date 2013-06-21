@@ -12,7 +12,7 @@
  *
  */
 
-// no direct access
+// No direct access
 defined('_JEXEC') or die('Restricted access');
 
 // Import Joomla! libraries
@@ -20,8 +20,8 @@ jimport('joomla.application.component.model');
 /**
  * Model Class Categories
  */
-class jtgModelCats extends JModel {
-
+class JtgModelCats extends JModel
+{
 	/**
 	 * Category Images array
 	 *
@@ -95,8 +95,8 @@ class jtgModelCats extends JModel {
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_pics))
 		{
-			$folder = JPATH_SITE.DS.'images'.DS.'jtg'.DS.'cats'.DS;
-			jimport( 'joomla.filesystem.folder' );
+			$folder = JPATH_SITE . DS . 'images' . DS . 'jtg' . DS . 'cats'.DS;
+			jimport('joomla.filesystem.folder');
 			$files = JFolder::files($folder);
 			$this->_pics = $files;
 		}
@@ -178,7 +178,7 @@ class jtgModelCats extends JModel {
 		$query = "SELECT * FROM #__jtg_cats"
 		. "\n WHERE published=1";
 		if ( $exclusion !== null )
-		$query .= " AND id != ".$exclusion;
+		$query .= " AND id != " . $exclusion;
 		$query .= "\n ORDER BY title ASC";
 
 		$db->setQuery($query);

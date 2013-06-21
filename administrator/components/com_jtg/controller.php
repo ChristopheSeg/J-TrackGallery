@@ -1,30 +1,31 @@
 <?php
 
 /**
- *    @component  J!Track Gallery (jtg) for Joomla! 2.5
+ *    @component   J!Track Gallery (jtg) for Joomla! 2.5
  * 
- *    @package    Com_Jtg
- *    @subpackage Backend
- *    @author     J!Track Gallery, InJooOSM and joomGPStracks teams <christophe@jtrackgallery.net>
- *    @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL2
- *    @link       http://jtrackgallery.net/
- *
+ *    @package     Com_Jtg
+ *    @subpackage  Backend
+ *    @author      J!Track Gallery, InJooOSM and joomGPStracks teams <christophe@jtrackgallery.net>
+ *    @copyright   test 
+ *    @license     http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL2 *
+ *    @link        http://jtrackgallery.net/
  */
 
-// no direct access
+// No direct access
 defined('_JEXEC') or die('Restricted access');
 
-jimport( 'joomla.application.component.controller' );
+jimport('joomla.application.component.controller');
 
 /**
  * maincontroller for backend
  */
-class jtgController extends JController {
-
+class JtgController extends JController
+{
 	/**
 	 *
 	 */
-	function __construct() {
+	function __construct() 
+	{
 		parent::__construct();
 		$this->registerTask( 'savecat'	 , 'savecat' );
 	}
@@ -33,12 +34,14 @@ class jtgController extends JController {
 	 * @use get task form uri and set view and layout
 	 */
 	function display() {
-		require_once JPATH_COMPONENT.'/helpers/jtg.php';
+		require_once JPATH_COMPONENT . '/helpers/jtg.php';
+
 		// JtgHelper::updateReset();
 
 		// Load the submenu.
 		JtgHelper::addSubmenu(JRequest::getCmd('view', 'jtg'));
-		switch($this->getTask()) {
+		switch ($this->getTask())
+		{
 			default:
 				JRequest::setVar('view',	'default');
 				break;
@@ -73,10 +76,10 @@ class jtgController extends JController {
 				JRequest::setVar('view',	'cats');
 				JRequest::setVar('layout',	'default');
 				break;
-					
+
 			case 'newcat':
-				JRequest::setVar('view',	'cats' );
-				JRequest::setVar('layout',	'form' );
+				JRequest::setVar('view',	'cats');
+				JRequest::setVar('layout',	'form');
 				break;
 
 			case 'editcat':
@@ -89,7 +92,7 @@ class jtgController extends JController {
 				JRequest::setVar('layout',	'managecatpics');
 				JRequest::setVar('task',	'default');
 				break;
-					
+
 			case 'newcatpic':
 				JRequest::setVar('view',	'cats');
 				JRequest::setVar('layout',	'managecatpicsform');
@@ -161,6 +164,7 @@ class jtgController extends JController {
 				JRequest::setVar('layout',	'default');
 				break;
 		}
+
 		parent::display();
 	}
 }

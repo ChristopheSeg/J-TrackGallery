@@ -11,7 +11,7 @@
  *
  */
 
-// no direct access
+// No direct access
 defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.controller');
@@ -19,7 +19,8 @@ jimport('joomla.application.component.controller');
 /**
  * jtg Component Controller
  */
-class jtgController extends JController {
+class JtgController extends JController
+{
 	function display() {
 		// Make sure we have a default view
 		if( !JRequest::getCmd( 'view' )) {

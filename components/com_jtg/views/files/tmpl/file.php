@@ -11,7 +11,7 @@
  *
  */
 
-// no direct access
+// No direct access
 defined('_JEXEC') or die('Restricted access');
 echo $this->lh;
 
@@ -70,7 +70,7 @@ if($speedchart) {
 dojo.require("dojox.charting.Chart2D");
 dojo.require("dojox.charting.widget.Legend");
     makeSpeedChart = function(){
-        <?php echo ("var speedchart = '".JText::_('COM_JTG_SPEED_'.strtoupper($this->cfg->unit))."';\n"); ?>
+        <?php echo ("var speedchart = '".JText::_('COM_JTG_SPEED_'.strtoupper($this->cfg->unit)) . "';\n"); ?>
         var chart2 = new dojox.charting.Chart2D("speedchart");
         chart2.addPlot("default", {type: "Lines", hAxis: "x", vAxis: "y", markers: false, tension:4, shadows: {dx: 2, dy: 2, dw: 2}});
         chart2.addAxis("x", {leftBottom: true, majorLabels: false, minorLabels: true, majorTickStep: 100});
@@ -157,7 +157,7 @@ echo $this->parseTemplate("headline",$this->track->title,"osm_header_map");
 if ( $this->clicklist !== false ) {
 	$return = ("<div><ul>\n");
 	foreach ($this->clicklist AS $value => $key ) {
-		$return .= ("<li><a href=\"".$key['link']."\">".JText::_('COM_JTG_TRACK').$value.": ".$key['name']."</a></li>\n");
+		$return .= ("<li><a href=\"" . $key['link'] . "\">".JText::_('COM_JTG_TRACK').$value . ": " . $key['name'] . "</a></li>\n");
 	}
 	$return .= ("</ul></div>\n");
 	echo $return;
@@ -280,15 +280,15 @@ if ( ($speedchart) AND ( $this->speed !== false ) ) {
 		<tr>
 			<td><?php echo JText::_('COM_JTG_CATS'); ?>:</td>
 			<td colspan="2"><?php
-			echo jtgHelper::parseMoreCats($this->sortedcats,$this->track->catid,"TrackDetails",true);
+			echo JtgHelper::parseMoreCats($this->sortedcats,$this->track->catid,"TrackDetails",true);
 			?></td>
 		</tr>
 		<tr>
 			<td><?php echo JText::_('COM_JTG_BIG_MAP') ?>:</td>
 			<td colspan="2">
-				<a rel="width[1000];height[700];" class="jcebox" href="http://maps.google.com/maps?q=<?php echo $this->track->start_n .",".$this->track->start_e; ?>" target="_blank">Google</a>,
-				<a rel="width[1000];height[700];" class="jcebox" href="http://openstreetmap.org/?mlat=<?php echo $this->track->start_n."&amp;mlon=".$this->track->start_e; ?>" target="_blank">OpenStreetMap</a>,
-				<a rel="width[1000];height[700];" class="jcebox" href="http://www.geocaching.com/map/default.aspx?lat=<?php echo $this->track->start_n."&amp;lng=".$this->track->start_e; ?>" target="_blank">Geocaching.com</a>
+				<a rel="width[1000];height[700];" class="jcebox" href="http://maps.google.com/maps?q=<?php echo $this->track->start_n  . "," . $this->track->start_e; ?>" target="_blank">Google</a>,
+				<a rel="width[1000];height[700];" class="jcebox" href="http://openstreetmap.org/?mlat=<?php echo $this->track->start_n . "&amp;mlon=" . $this->track->start_e; ?>" target="_blank">OpenStreetMap</a>,
+				<a rel="width[1000];height[700];" class="jcebox" href="http://www.geocaching.com/map/default.aspx?lat=<?php echo $this->track->start_n . "&amp;lng=" . $this->track->start_e; ?>" target="_blank">Geocaching.com</a>
 			</td>
 		</tr>
 	</tbody>
@@ -301,23 +301,23 @@ if ( ($speedchart) AND ( $this->speed !== false ) ) {
 			{
 				echo $this->parseTemplate("headline",JText::_('COM_JTG_VOTING'),"osm_header_rating");
 				$template = "<div id=\"ratingbox\">
-	<ul id=\"1001\" class=\"rating ".$this->vote['class']."\">\n";
+	<ul id=\"1001\" class=\"rating " . $this->vote['class'] . "\">\n";
 				for ($i = 1; $i <= 10; $i++) {
 					$link = "index.php?option=com_jtg&controller=files&id=" . $this->track->id . "&task=vote&rate=" . $i . "#osm_header_rating";
 					$link = JRoute::_($link,false);
-					$template .= "		<li id=\"".$i."\" class=\"rate ".$this->stars->$i."\">\n"
+					$template .= "		<li id=\"" . $i . "\" class=\"rate " . $this->stars->$i . "\">\n"
 						. "			<a href=\"" . $link . "\" title=\"" . JText::_('COM_JTG_STARS_'.$i) . "\">" . $i . "</a>\n"
 						. "		</li>\n";
 //if ( $i == 1 )
 				}
 				$template .= "	</ul>\n";
 				if ( $this->vote['count'] == 0 ) {
-					$template .= JText::_('COM_JTG_NOT_VOTED')."\n";
+					$template .= JText::_('COM_JTG_NOT_VOTED') . "\n";
 				} else {
-					$template .= JText::_('COM_JTG_ARITHMETICAL_MIDDLE').": ".
-					jtgHelper::getLocatedFloat($this->vote['rate'])
-					." ".JText::_('COM_JTG_FROM')." ".($i-1)."<br />\n";
-					$template .= $this->vote['count']."&nbsp;".JText::_('COM_JTG_RATINGS')."\n";
+					$template .= JText::_('COM_JTG_ARITHMETICAL_MIDDLE') . ": ".
+					JtgHelper::getLocatedFloat($this->vote['rate'])
+					 . " ".JText::_('COM_JTG_FROM') . " ".($i-1) . "<br />\n";
+					$template .= $this->vote['count'] . "&nbsp;".JText::_('COM_JTG_RATINGS') . "\n";
 				}
 				echo $this->parseTemplate("description",$template);
 				?>
@@ -370,7 +370,7 @@ echo JHTML::_( 'form.token' ) . "\n"; ?> <input type="hidden"
 				$terrain = explode(",",$terrain);
 				$newterrain = array();
 				foreach ($terrain as $t) {
-					$t = $this->model->getTerrain(" WHERE id=".$t);
+					$t = $this->model->getTerrain(" WHERE id=" . $t);
 					if ( ( isset($t[0])) AND ( $t[0]->published == 1 ) ) {
 						$newterrain[] = $t[0]->title;
 					}
@@ -414,7 +414,7 @@ echo JHTML::_( 'form.token' ) . "\n"; ?> <input type="hidden"
 
 				$description .= "		</tr>
 	</table>\n";
-				//	$description .= "<a rel=\"width[1000];height[700];\" class=\"jcebox\" href=\"http://maps.google.com/maps?daddr=".JText::_($this->track->start_n).",".JText::_($this->track->start_e)."\" target=\"_blank\" >Google</a>";
+				//	$description .= "<a rel=\"width[1000];height[700];\" class=\"jcebox\" href=\"http://maps.google.com/maps?daddr=".JText::_($this->track->start_n) . ",".JText::_($this->track->start_e) . "\" target=\"_blank\" >Google</a>";
 				echo $this->parseTemplate("description",$description);
 			} else echo "<a name=\"osm_header_approach\"></a>";
 			// Approach END
@@ -423,14 +423,14 @@ echo JHTML::_( 'form.token' ) . "\n"; ?> <input type="hidden"
 			if($this->cfg->comments == 1) {
 				echo $this->parseTemplate("headline",JText::_('COM_JTG_COMMENTS'),"osm_header_comment");
 				if(!$this->comments)  {
-					echo "<div>".JText::_('COM_JTG_NO_COMMENTS')."</div>";
+					echo "<div>".JText::_('COM_JTG_NO_COMMENTS') . "</div>";
 				} else {
 					for($i=0, $n=count($this->comments); $i<$n; $i++) {
 						$comment = $this->comments[$i];
 						?>
 <div class='comment'>
 <div class="comment-header">
-<div class="comment-title"><?php echo ($i+1).": ".$comment->title; ?></div>
+<div class="comment-title"><?php echo ($i+1) . ": " . $comment->title; ?></div>
 <div class="date"><?php echo JHTML::_('date', $comment->date, JText::_('COM_JTG_DATE_FORMAT_LC4'));; ?>
 </div>
 <div class="no-float"></div>
@@ -439,7 +439,7 @@ echo JHTML::_( 'form.token' ) . "\n"; ?> <input type="hidden"
 						<?php
 						echo $this->model->parseEMailIcon($comment->email);
 						if ($comment->homepage)
-						echo " ".$this->model->parseHomepageIcon($comment->homepage);
+						echo " " . $this->model->parseHomepageIcon($comment->homepage);
 						?></div>
 <div class="comment-text"><?php echo $comment->text; ?></div>
 <div class="no-float"></div>
@@ -462,7 +462,7 @@ echo JHTML::_( 'form.token' ) . "\n"; ?> <input type="hidden"
 				echo jomcomment($this->track->id, "com_jtg");
 			} elseif ($this->cfg->comments == 3) {
 				//		global $mosConfig_absolute_path;
-				require_once( 'components'.DS.'com_jcomments'.DS.'jcomments.php' );
+				require_once( 'components' . DS . 'com_jcomments' . DS . 'jcomments.php' );
 				echo JComments::showComments($this->track->id, "com_jtg");
 			} else echo "<a name=\"osm_header_comment\"></a>";
 			?>

@@ -11,7 +11,7 @@
  *
  */
 
-// no direct access
+// No direct access
 defined('_JEXEC') or die('Restricted access');
 
 // Import Joomla! libraries
@@ -19,7 +19,8 @@ jimport('joomla.application.component.model');
 /**
  * Model Class Configuration
  */
-class jtgModelConfig extends JModel  {
+class JtgModelConfig extends JModel
+{
 	/**
 	 *
 	 */
@@ -57,7 +58,7 @@ class jtgModelConfig extends JModel  {
 	 */
 	function createColumns($row, $tablekey)
 	{
-		echo "deprecated: jtgModelConfig::createColumns";
+		echo "deprecated: JtgModelConfig::createColumns";
 		//	find out exists columns
 		$db = &JFactory::getDBO();
 		$sql='Select * from #__jtg_'.$tablekey;
@@ -92,7 +93,7 @@ class jtgModelConfig extends JModel  {
 		return true;
 
 		//	load install.sql
-		$file = JPath::clean(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_jtg'.DS.'sql'.DS.'install.sql');
+		$file = JPath::clean(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_jtg' . DS . 'sql' . DS . 'install.sql');
 		if (!is_file($file))
 		return ('File "'.$file.'" not found');
 		if (jimport('joomla.filesystem.file'))
@@ -112,18 +113,18 @@ class jtgModelConfig extends JModel  {
 					$tempcontent = $tempcontent[1];
 					$zeile = str_replace(",",null, $zeile);
 					if (in_array($tempcontent, $missingcolumns)) {
-						$content .= $comma."ADD COLUMN ".$zeile;
+						$content .= $comma . "ADD COLUMN " . $zeile;
 						if($comma == "")
 						$comma = ",\n";
 					}
 				}
 			}
-			if ((preg_match("/#__jtg_".$tablekey."/", $zeile)) AND (preg_match("/CREATE/",$zeile)) AND (!$content_switch))
+			if ((preg_match("/#__jtg_" . $tablekey . "/", $zeile)) AND (preg_match("/CREATE/",$zeile)) AND (!$content_switch))
 			{
 				$zeile = str_replace("(", "", $zeile);
 				$zeile = str_replace("CREATE", "ALTER IGNORE", $zeile);
 				$zeile = str_replace("IF NOT EXISTS", null, $zeile);
-				$content .= $zeile."\n";
+				$content .= $zeile . "\n";
 				$content_switch = true;
 			}
 			if ((preg_match("/\;/", $zeile)) AND ($content_switch))
@@ -156,8 +157,8 @@ class jtgModelConfig extends JModel  {
 		return false;
 		$mainframe =& JFactory::getApplication();
 		$query = "SELECT id, title FROM #__content WHERE"
-		. "\n sectionid='".$secid."'"
-		. "\n AND catid='".$catid."'"
+		. "\n sectionid='" . $secid . "'"
+		. "\n AND catid='" . $catid . "'"
 		. "\n AND state='1'";
 
 		$db->setQuery($query);
@@ -174,7 +175,7 @@ class jtgModelConfig extends JModel  {
 	function getTemplates()  {
 		jimport('joomla.filesystem.file');
 
-		$templates = JFolder::listFolderTree('..'.DS.'components'.DS.'com_jtg'.DS.'assets'.DS.'template','',1);
+		$templates = JFolder::listFolderTree('..' . DS . 'components' . DS . 'com_jtg' . DS . 'assets' . DS . 'template','',1);
 		return $templates;
 	}
 }

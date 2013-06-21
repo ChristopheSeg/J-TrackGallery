@@ -15,11 +15,11 @@ defined('_JEXEC') or die('Restricted access');
 $document =& JFactory::getDocument();
 $user = JFactory::getUser();
 $userid = (int)$user->id;
-$iconpath = JURI::root()."components/com_jtg/assets/template/".$this->cfg->template."/images/";
+$iconpath = JURI::root() . "components/com_jtg/assets/template/" . $this->cfg->template . "/images/";
 if ( $userid ) {
-	$document->addScriptDeclaration ("var alerttext = '".JText::_('COM_JTG_SET_HOMEPOSITION')."';");
+	$document->addScriptDeclaration ("var alerttext = '".JText::_('COM_JTG_SET_HOMEPOSITION') . "';");
 } else {
-	$document->addScriptDeclaration ("var alerttext = '".JText::_('COM_JTG_HOMEPOSITION_GUESTS')."';");
+	$document->addScriptDeclaration ("var alerttext = '".JText::_('COM_JTG_HOMEPOSITION_GUESTS') . "';");
 }
 $document->addScript('media/system/js/mootools.js');
 $document->addScriptDeclaration('var iconpath = \''.$iconpath.'\';');
@@ -30,24 +30,24 @@ $document->addScript('components/com_jtg/assets/js/homeposition.js');
 $otherusers = 0;
 $scriptbody = "";
 $scriptheader = ("<script type=\"text/javascript\">
-	var iconpath = '".$iconpath."';\n");
+	var iconpath = '" . $iconpath . "';\n");
 $params = $this->params;
 				$defaultvars = (
-"	var osm_geo_lat = ".(float)$params->get('osm_geo_lat').";
-	var osm_geo_lon = ".(float)$params->get('osm_geo_lon').";
-	var osm_geo_zoom = ".(int)$params->get('osm_geo_zoom').";
-	var osm_geo_zoom_loggedin = ".(int)$params->get('osm_geo_zoom_loggedin').";\n");
+"	var osm_geo_lat = ".(float)$params->get('osm_geo_lat') . ";
+	var osm_geo_lon = ".(float)$params->get('osm_geo_lon') . ";
+	var osm_geo_zoom = ".(int)$params->get('osm_geo_zoom') . ";
+	var osm_geo_zoom_loggedin = ".(int)$params->get('osm_geo_zoom_loggedin') . ";\n");
 
 if ( $userid )
 {
 	$latlon = array_merge(
-	jtgHelper::getLatLon($userid),
-	jtgHelper::getLatLon(false,$userid)
+	JtgHelper::getLatLon($userid),
+	JtgHelper::getLatLon(false,$userid)
 	);	// sort logged in user to 1st place in array to give the option
 	// to calculate the distances
 	$homepos = JText::_('COM_JTG_MY_HOMEPOSITION');
 } else {
-	$latlon = jtgHelper::getLatLon();
+	$latlon = JtgHelper::getLatLon();
 	$homepos = "false";
 }
 $gps = new gpsClass();
@@ -68,9 +68,9 @@ for($x=0;$x<=count($latlon);$x++){
 				$distance = $gps->getDistance(array(
 				array($userlon,$userlat),
 				array($latlon[$x]->osmlon,$latlon[$x]->osmlat)));
-				$distance = jtgHelper::getLocatedFloat($distance,0,$this->cfg->unit);
+				$distance = JtgHelper::getLocatedFloat($distance,0,$this->cfg->unit);
 
-				$distancetext = "<br />".JText::_('COM_JTG_DISTANCE').": ";
+				$distancetext = "<br />".JText::_('COM_JTG_DISTANCE') . ": ";
 			}
 			else
 			{
@@ -81,10 +81,10 @@ for($x=0;$x<=count($latlon);$x++){
 				$vars = (
 "	var SizeIconOtherUser = new OpenLayers.Size(22,22);
 	var OffsetIconOtherUser = new OpenLayers.Pixel(-11,-14);
-	var IconOtherUser = '".$iconpath."user.png';
-	var MarkerHomePosition = '".$homepos."';
-	var inittext = '".JText::_('COM_JTG_HERE_LIVE').": ';
-	var distancetext = '".$distancetext."';
+	var IconOtherUser = '" . $iconpath . "user.png';
+	var MarkerHomePosition = '" . $homepos . "';
+	var inittext = '".JText::_('COM_JTG_HERE_LIVE') . ": ';
+	var distancetext = '" . $distancetext . "';
 	var distance=Array();
 	var username=Array();
 	var name=Array();
@@ -94,27 +94,27 @@ for($x=0;$x<=count($latlon);$x++){
 	var id=Array();\n");
 			}
 			$scriptbody .=
-"	lat[".$otherusers."] = '".$latlon[$x]->osmlat."';
-	lon[".$otherusers."] = '".$latlon[$x]->osmlon."';
-	username[".$otherusers."] = '".$latlon[$x]->username."';
-	distance[".$otherusers."] = '".$distance."';
-	name[".$otherusers."] = '".$latlon[$x]->name."';
-	id[".$otherusers."] = '".$latlon[$x]->id."';
-	link[".$otherusers."] = '".jtgHelper::getProfileLink($latlon[$x]->id,$latlon[$x]->username)."';\n";
+"	lat[" . $otherusers . "] = '" . $latlon[$x]->osmlat . "';
+	lon[" . $otherusers . "] = '" . $latlon[$x]->osmlon . "';
+	username[" . $otherusers . "] = '" . $latlon[$x]->username . "';
+	distance[" . $otherusers . "] = '" . $distance . "';
+	name[" . $otherusers . "] = '" . $latlon[$x]->name . "';
+	id[" . $otherusers . "] = '" . $latlon[$x]->id . "';
+	link[" . $otherusers . "] = '".JtgHelper::getProfileLink($latlon[$x]->id,$latlon[$x]->username) . "';\n";
 			$otherusers++;
 		}
 	} elseif (empty($vars)) {
-		$scriptbody = "	var MarkerHomePosition = '".$homepos."';\n";
+		$scriptbody = "	var MarkerHomePosition = '" . $homepos . "';\n";
 	}
 }
 if (empty($vars)) $vars=""; // if no other person saved
 $scriptfooter = ("</script>\n");
-$scriptbody = "	var otherusers = '".$otherusers."';\n".$scriptbody;
+$scriptbody = "	var otherusers = '" . $otherusers . "';\n" . $scriptbody;
 $script = $scriptheader.$defaultvars.$vars.$scriptbody.$scriptfooter;
 
 echo $script;
-echo ("<div id=\"map\" style=\"width: ".$this->cfg->map_width."px; height: ".$this->cfg->map_height."px;\" ></div>
-<div id=\"otheruser\" style=\"width: ".$this->cfg->map_width."px;\" >".JText::_('COM_JTG_HERE_LIVE_DESC')."</div>\n");
+echo ("<div id=\"map\" style=\"width: " . $this->cfg->map_width . "px; height: " . $this->cfg->map_height . "px;\" ></div>
+<div id=\"otheruser\" style=\"width: " . $this->cfg->map_width . "px;\" >".JText::_('COM_JTG_HERE_LIVE_DESC') . "</div>\n");
 if ( $userid ) {
 	?>
 <form action="<?php echo ($this->geo); ?>" method="post"
@@ -159,9 +159,9 @@ if ( $userid ) {
 		$sreg = " selected=\"selected\"";
 		else
 		$sall = " selected=\"selected\"";
-		echo "					<option value=\"all\"".$sall.">".JText::_('COM_JTG_VISIBLE_ALL')."</option>
-					<option value=\"reg\"".$sreg.">".JText::_('COM_JTG_VISIBLE_REG')."</option>
-					<option value=\"non\"".$snon.">".JText::_('COM_JTG_VISIBLE_NONE')."</option>
+		echo "					<option value=\"all\"" . $sall . ">".JText::_('COM_JTG_VISIBLE_ALL') . "</option>
+					<option value=\"reg\"" . $sreg . ">".JText::_('COM_JTG_VISIBLE_REG') . "</option>
+					<option value=\"non\"" . $snon . ">".JText::_('COM_JTG_VISIBLE_NONE') . "</option>
 				</select>
 ";
 		?></td>

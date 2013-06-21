@@ -11,14 +11,14 @@
  *
  */
 
-// no direct access
+// No direct access
 defined('_JEXEC') or die('Restricted access');
 
 // Import Joomla! libraries
 jimport('joomla.application.component.model');
 
-class jtgModelMaps extends JModel  {
-
+class JtgModelMaps extends JModel
+{
 	/**
 	 * Pagination object
 	 *
@@ -283,13 +283,13 @@ class jtgModelMaps extends JModel  {
 		$code =& JRequest::getVar('code');
 		$code = htmlentities($code);
 		$query = "INSERT INTO #__jtg_maps SET"
-		. "\n name='".$name."',"
-		. "\n ordering='".$order."',"
-		. "\n published='".$publish."',"
-		. "\n param='".$param."',"
-		. "\n checked_out='".$checked_out."',"
-		. "\n code='".$code."'";
-		if($script) $query .= ",\n script='".$script."'";
+		. "\n name='" . $name . "',"
+		. "\n ordering='" . $order . "',"
+		. "\n published='" . $publish . "',"
+		. "\n param='" . $param . "',"
+		. "\n checked_out='" . $checked_out . "',"
+		. "\n code='" . $code . "'";
+		if($script) $query .= ",\n script='" . $script . "'";
 		$db->setQuery($query);
 		$db->query();
 
@@ -335,14 +335,14 @@ class jtgModelMaps extends JModel  {
 		$script =& JRequest::getVar('script');
 		$script = htmlentities($script);
 		$query = "UPDATE #__jtg_maps SET"
-		. "\n name='".$name."',"
-		. "\n ordering='".$order."',"
-		. "\n published='".$publish."',"
-		. "\n param='".$param."',"
-		. "\n script='".$script."',"
-		. "\n checked_out='".$checked_out."',"
-		. "\n code='".$code."'"
-		. "\n WHERE id IN (".$id.")";
+		. "\n name='" . $name . "',"
+		. "\n ordering='" . $order . "',"
+		. "\n published='" . $publish . "',"
+		. "\n param='" . $param . "',"
+		. "\n script='" . $script . "',"
+		. "\n checked_out='" . $checked_out . "',"
+		. "\n code='" . $code . "'"
+		. "\n WHERE id IN (" . $id . ")";
 
 		$db->setQuery($query);
 		$db->query();

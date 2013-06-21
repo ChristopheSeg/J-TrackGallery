@@ -11,23 +11,23 @@
  *
  */
 
-// no direct access
+// No direct access
 defined('_JEXEC') or die('Restricted access');
 
-jimport( 'joomla.application.component.controller' );
-JTable::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_jtg'.DS.'tables');
+jimport('joomla.application.component.controller');
+JTable::addIncludePath(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_jtg' . DS . 'tables');
 /**
  * Controller Class Files
  */
-class jtgControllerFiles extends jtgController {
-
+class JtgControllerFiles extends JtgController
+{
 	function updateGeneratedValues() {
 		// Check for request forgeries
 		JRequest::checkToken() or jexit( 'Invalid Token' );
 
 		$model = $this->getModel('files');
 		if(!$model->updateGeneratedValues()) {
-			echo "<script> alert('".$model->getError(true)."'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
 
 		$this->setRedirect( JRoute::_('index.php?option=com_jtg&task=files&controller=files', false ));
@@ -39,13 +39,13 @@ class jtgControllerFiles extends jtgController {
 		$files =& JRequest::getVar('files', null, 'files', 'array');
 
 		if (count( $files["name"] ) <= 1) {
-			JError::raiseError(500, "<p class=\"type\">".JText::_( 'COM_JTG_ERROR_NO_FILES_CHOOSEN' )."</p>" );
+			JError::raiseError(500, "<p class=\"type\">".JText::_( 'COM_JTG_ERROR_NO_FILES_CHOOSEN' ) . "</p>" );
 		}
 
 		$model = $this->getModel('files');
-		$dest = JPATH_SITE.DS.'components'.DS.'com_jtg'.DS.'uploads'.DS.'import'.DS;
+		$dest = JPATH_SITE . DS . 'components' . DS . 'com_jtg' . DS . 'uploads' . DS . 'import'.DS;
 		if(!$model->uploadfiles( $files, $dest )) {
-			echo "<script> alert('".$model->getError(true)."'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
 		if ( JRequest::getVar('toimport') )
 		$this->setRedirect( JRoute::_('index.php?option=com_jtg&task=newfiles&controller=files', false ));
@@ -54,7 +54,7 @@ class jtgControllerFiles extends jtgController {
 	}
 
 	/**
-	 * @uses jtgModelFiles::publish
+	 * @uses JtgModelFiles::publish
 	 * @return redirect
 	 */
 	function publish()
@@ -71,13 +71,13 @@ class jtgControllerFiles extends jtgController {
 
 		$model = $this->getModel('files');
 		if(!$model->publish($cid, 1)) {
-			echo "<script> alert('".$model->getError(true)."'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
 		$this->setRedirect( JRoute::_('index.php?option=com_jtg&task=files&controller=files', false ));
 	}
 
 	/**
-	 * @uses jtgModelFiles::tohide
+	 * @uses JtgModelFiles::tohide
 	 * @return redirect
 	 */
 	function tohide() {
@@ -93,14 +93,14 @@ class jtgControllerFiles extends jtgController {
 
 		$model = $this->getModel('files');
 		if(!$model->showhide($cid, 1)) {
-			echo "<script> alert('".$model->getError(true)."'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
 
 		$this->setRedirect( JRoute::_('index.php?option=com_jtg&task=files&controller=files', false ));
 	}
 
 	/**
-	 * @uses jtgModelFiles::toshow
+	 * @uses JtgModelFiles::toshow
 	 * @return redirect
 	 */
 	function toshow() {
@@ -116,14 +116,14 @@ class jtgControllerFiles extends jtgController {
 
 		$model = $this->getModel('files');
 		if(!$model->showhide($cid, 0)) {
-			echo "<script> alert('".$model->getError(true)."'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
 
 		$this->setRedirect( JRoute::_('index.php?option=com_jtg&task=files&controller=files', false ));
 	}
 
 	/**
-	 * @uses jtgModelFiles::publish
+	 * @uses JtgModelFiles::publish
 	 * @return redirect
 	 */
 	function unpublish()
@@ -140,7 +140,7 @@ class jtgControllerFiles extends jtgController {
 
 		$model = $this->getModel('files');
 		if(!$model->publish($cid, 0)) {
-			echo "<script> alert('".$model->getError(true)."'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
 
 		$this->setRedirect( JRoute::_('index.php?option=com_jtg&task=files&controller=files', false ));
@@ -148,7 +148,7 @@ class jtgControllerFiles extends jtgController {
 
 
 	/**
-	 * @uses jtgModelFiles::accessregistered
+	 * @uses JtgModelFiles::accessregistered
 	 * @return redirect
 	 */
 	function accessregistered()
@@ -165,14 +165,14 @@ class jtgControllerFiles extends jtgController {
 
 		$model = $this->getModel('files');
 		if(!$model->access($cid, 1)) {
-			echo "<script> alert('".$model->getError(true)."'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
 
 		$this->setRedirect( JRoute::_('index.php?option=com_jtg&task=files&controller=files', false ));
 	}
 
 	/**
-	 * @uses jtgModelFiles::accessspecial
+	 * @uses JtgModelFiles::accessspecial
 	 * @return redirect
 	 */
 	function accessspecial()
@@ -189,14 +189,14 @@ class jtgControllerFiles extends jtgController {
 
 		$model = $this->getModel('files');
 		if(!$model->access($cid, 2)) {
-			echo "<script> alert('".$model->getError(true)."'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
 
 		$this->setRedirect( JRoute::_('index.php?option=com_jtg&task=files&controller=files', false ));
 	}
 
 	/**
-	 * @uses jtgModelFiles::accesspublic
+	 * @uses JtgModelFiles::accesspublic
 	 * @return redirect
 	 */
 	function accesspublic()
@@ -213,14 +213,14 @@ class jtgControllerFiles extends jtgController {
 
 		$model = $this->getModel('files');
 		if(!$model->access($cid, 0)) {
-			echo "<script> alert('".$model->getError(true)."'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
 
 		$this->setRedirect( JRoute::_('index.php?option=com_jtg&task=files&controller=files', false ));
 	}
 
 	/**
-	 * @uses jtgModelFiles::delete
+	 * @uses JtgModelFiles::delete
 	 * @return redirect
 	 */
 	function remove()
@@ -237,14 +237,14 @@ class jtgControllerFiles extends jtgController {
 
 		$model = $this->getModel('files');
 		if(!$model->delete($cid)) {
-			echo "<script> alert('".$model->getError(true)."'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
 
 		$this->setRedirect( JRoute::_('index.php?option=com_jtg&task=files&controller=files', false ));
 	}
 
 	/**
-	 * @uses jtgModelFiles::delete
+	 * @uses JtgModelFiles::delete
 	 * @return redirect
 	 */
 	function removeFromImport()
@@ -256,7 +256,7 @@ class jtgControllerFiles extends jtgController {
 
 		$model = $this->getModel('files');
 		if(!$model->deleteFromImport($found)) {
-			echo "<script> alert('".$model->getError(true)."'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
 
 		$this->setRedirect( JRoute::_('index.php?option=com_jtg&task=newfiles&controller=files', false ));
@@ -272,7 +272,7 @@ class jtgControllerFiles extends jtgController {
 
 		$model = $this->getModel('files');
 		if(!$model->saveFile()) {
-			// 			echo "<script> alert('".$model->getError(true)."'); window.history.go(-1); </script>\n";
+			// 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 			echo "<script> alert('Error');</script>";
 			// 			$this->setRedirect( JRoute::_('index.php?option=com_jtg&task=files&controller=files', false ));
 		} else
@@ -285,7 +285,7 @@ class jtgControllerFiles extends jtgController {
 
 		$model = $this->getModel('files');
 		if(!$model->saveFiles()) {
-			echo "<script> alert('".$model->getError(true)."'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
 
 		$this->setRedirect( JRoute::_('index.php?option=com_jtg&task=files&controller=files', false ));
@@ -297,7 +297,7 @@ class jtgControllerFiles extends jtgController {
 
 		$model = $this->getModel('files');
 		if(!$model->updateFile()) {
-			echo "<script> alert('".$model->getError(true)."'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
 
 		$this->setRedirect( JRoute::_('index.php?option=com_jtg&task=files&controller=files', false ));

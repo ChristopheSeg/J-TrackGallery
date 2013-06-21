@@ -11,15 +11,15 @@
  */
 
 
-// no direct access
+// No direct access
 defined('_JEXEC') or die('Restricted access');
 
-jimport( 'joomla.application.component.controller' );
-JTable::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_petcare'.DS.'tables');
+jimport('joomla.application.component.controller');
+JTable::addIncludePath(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_petcare' . DS . 'tables');
 /**
  * Controller Class Configuration
  */
-class jtgControllerConfig extends jtgController
+class JtgControllerConfig extends JtgController
 {
 	/**
 	 *
@@ -32,7 +32,7 @@ class jtgControllerConfig extends jtgController
 	/**
 	 *
 	 * @global object $mainframe
-	 * @uses jtgModelConfigat::saveConfig
+	 * @uses JtgModelConfigat::saveConfig
 	 * @return  redirect
 	 */
 	function saveconfig()

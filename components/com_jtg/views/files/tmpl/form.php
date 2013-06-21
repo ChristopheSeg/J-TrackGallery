@@ -11,7 +11,7 @@
  *
  */
 
-// no direct access
+// No direct access
 defined('_JEXEC') or die('Restricted access');
 
 if(isset($this->id))
@@ -27,7 +27,7 @@ if(isset($this->id))
 	$title = JText::_('COM_JTG_NEW_TRACK');
 }
 
-// $cfg = jtgHelper::getConfig();
+// $cfg = JtgHelper::getConfig();
 $user =& JFactory::getUser();
 $juser = new JUser($user->id);
 
@@ -66,7 +66,7 @@ Joomla.submitbutton = function(pressbutton)
         <?php echo $this->lh;
 	// TODO IMPORTANT!  ACL in Joomla 2.5 has been revisited. Check next if()
 //        if( ($user->get('id')) AND ($juser->get('gid') >= $this->cfg->gid ) OR (isset($this->id)) ){
-        if( (jtgHelper :: userHasFrontendRights() ) OR (isset($this->id)) ){
+        if( (JtgHelper :: userHasFrontendRights() ) OR (isset($this->id)) ){
         	?>
 <div class="componentheading"><?php echo $title; ?></div>
 <div>
@@ -142,7 +142,7 @@ if(isset($this->id))
 }
 $accept = $this->cfg->type; // e.g. jpg,png,gif
 $accept = explode(",",$accept);
-?><?php echo JText::_('COM_JTG_IMAGES'). " (".JText::sprintf('COM_JTG_ALLOWED_FILETYPES', implode(", ",$accept)); ?><br /><?php echo JText::_('COM_JTG_MAXIMAL')." ".$max; ?>)</td>
+?><?php echo JText::_('COM_JTG_IMAGES'). " (".JText::sprintf('COM_JTG_ALLOWED_FILETYPES', implode(", ",$accept)); ?><br /><?php echo JText::_('COM_JTG_MAXIMAL') . " " . $max; ?>)</td>
 			<td><input <?php if ( $max <= 0 ) echo "disabled=\"disabled\" ";?>type="file" name="images[]" class="multi" maxlength="<?php echo $max; ?>" accept="<?php echo implode("|",$accept) ?>"><br clear="all" />
 				<?php echo $this->images; ?></td>
 		</tr>
@@ -172,7 +172,7 @@ $accept = explode(",",$accept);
 </button>
 <!--<?php
 /*	if(isset($this->id))
-		$reject = "index.php?option=com_jtg&amp;view=files&amp;layout=file&amp;id=".$this->id;
+		$reject = "index.php?option=com_jtg&amp;view=files&amp;layout=file&amp;id=" . $this->id;
 	else
 		$reject = "index.php?option=com_jtg";
 */	?>

@@ -11,7 +11,7 @@
  *
  */
 
-// no direct access
+// No direct access
 defined('_JEXEC') or die('Restricted access');
 
 // Include library dependencies
@@ -21,8 +21,7 @@ jimport('joomla.filter.input');
  * Table class
  *
  */
-class TableOSM_files extends JTable {
-
+class TableOSM_files extends JTable{
 	var $id				= NULL;
 	var $uid			= NULL;
 	var $catid			= NULL;
@@ -79,7 +78,7 @@ class TableOSM_files extends JTable {
 	 */
 	function check()
 	{
-		jimport( 'joomla.filter.output' );
+		jimport('joomla.filter.output');
 		if(empty($this->alias)) {
 			$this->alias = $this->title;
 		}

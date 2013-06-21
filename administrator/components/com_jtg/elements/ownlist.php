@@ -81,27 +81,27 @@ class JFormFieldOwnList extends JFormField
 	}
 
 	private function parseHelpButton() {
-		return "<table class=\"toolbar\"><tr><td class=\"button\" id=\"toolbar-help\"><a href=\"#\" onclick=\"popupWindow('components/com_jtg/help/en-GB/menu/overviewmap.html', 'Hilfe', 640, 480, 1)\" class=\"toolbar\"><span class=\"icon-32-help\" title=\"".JText::_('COM_JTG_HELP') ."\"></span>".JText::_('COM_JTG_HELP') ."</a></td></tr></table>";
+		return "<table class=\"toolbar\"><tr><td class=\"button\" id=\"toolbar-help\"><a href=\"#\" onclick=\"popupWindow('components/com_jtg/help/en-GB/menu/overviewmap.html', 'Hilfe', 640, 480, 1)\" class=\"toolbar\"><span class=\"icon-32-help\" title=\"".JText::_('COM_JTG_HELP')  . "\"></span>".JText::_('COM_JTG_HELP')  . "</a></td></tr></table>";
 	}
 
 	private function parseHelpText() {
-		return "<a href=\"#\" onclick=\"popupWindow('components/com_jtg/help/en-GB/menu/overviewmap.html', 'Hilfe', 640, 480, 1)\" >".JText::_('COM_JTG_HELP') ."</a>";
+		return "<a href=\"#\" onclick=\"popupWindow('components/com_jtg/help/en-GB/menu/overviewmap.html', 'Hilfe', 640, 480, 1)\" >".JText::_('COM_JTG_HELP')  . "</a>";
 	}
 
 	private function parseLimitText() {
 		global $parseLimitText;
 		$p = $parseLimitText;
 		$r = array();
-		if ( $p['osm_cats'] != -1 )		$r[] = JText::_('COM_JTG_MENU_LIMIT_CONSTRUCT_CATS')." ".$this->getCatName($p['osm_cats']);
-//		if ( $p['osm_subcats'] != -1 )	$r[] = JText::_('COM_JTG_MENU_LIMIT_CONSTRUCT_SUBCATS')." ".$this->getCatName($p['osm_subcats']);
-		if ( $p['osm_user'] != 0 )		$r[] = JText::_('COM_JTG_MENU_LIMIT_CONSTRUCT_USER')." ".$this->giveRealname($p['osm_user']);
-		if ( $p['osm_usergroup'] != -1 )	$r[] = JText::_('COM_JTG_MENU_LIMIT_CONSTRUCT_USERGROUP')." ".$this->giveUsergroup($p['osm_usergroup']);
-		if ( $p['osm_terrain'] != -1 )	$r[] = JText::_('COM_JTG_MENU_LIMIT_CONSTRUCT_TERRAIN')." ".$this->getTerrainname($p['osm_terrain']);
+		if ( $p['osm_cats'] != -1 )		$r[] = JText::_('COM_JTG_MENU_LIMIT_CONSTRUCT_CATS') . " " . $this->getCatName($p['osm_cats']);
+//		if ( $p['osm_subcats'] != -1 )	$r[] = JText::_('COM_JTG_MENU_LIMIT_CONSTRUCT_SUBCATS') . " " . $this->getCatName($p['osm_subcats']);
+		if ( $p['osm_user'] != 0 )		$r[] = JText::_('COM_JTG_MENU_LIMIT_CONSTRUCT_USER') . " " . $this->giveRealname($p['osm_user']);
+		if ( $p['osm_usergroup'] != -1 )	$r[] = JText::_('COM_JTG_MENU_LIMIT_CONSTRUCT_USERGROUP') . " " . $this->giveUsergroup($p['osm_usergroup']);
+		if ( $p['osm_terrain'] != -1 )	$r[] = JText::_('COM_JTG_MENU_LIMIT_CONSTRUCT_TERRAIN') . " " . $this->getTerrainname($p['osm_terrain']);
 
 		if ( ( $p['osm_level_from'] != 0 ) OR ( $p['osm_level_to'] != 5 ) )
 		{
 			if ( $p['osm_level_from'] == $p['osm_level_to'] )
-			$r[] = JText::_('COM_JTG_MENU_LIMIT_CONSTRUCT_LEVEL')." ".$p['osm_level_from'];
+			$r[] = JText::_('COM_JTG_MENU_LIMIT_CONSTRUCT_LEVEL') . " " . $p['osm_level_from'];
 			elseif ( $p['osm_level_from'] > $p['osm_level_to'] )
 			$r[] = "<font color=red>".
 				JText::sprintf('COM_JTG_MENU_LIMIT_CONSTRUCT_LEVEL_FROM_TO',$p['osm_level_from'],$p['osm_level_to']).
@@ -116,14 +116,14 @@ class JFormFieldOwnList extends JFormField
 				$r[] = JText::sprintf('COM_JTG_MENU_LIMIT_CONSTRUCT_VOTE', $p['osm_vote_from']);
 			elseif ( $p['osm_vote_from'] > $p['osm_vote_to'] )
 				$r[] = "<font color=red>".
-				JText::sprintf('COM_JTG_MENU_LIMIT_CONSTRUCT_VOTE_FROM_TO',$p['osm_vote_from'],$p['osm_vote_to'])."</font>";
+				JText::sprintf('COM_JTG_MENU_LIMIT_CONSTRUCT_VOTE_FROM_TO',$p['osm_vote_from'],$p['osm_vote_to']) . "</font>";
 			else
 				$r[] = JText::sprintf('COM_JTG_MENU_LIMIT_CONSTRUCT_VOTE_FROM_TO',$p['osm_vote_from'],$p['osm_vote_to']);
 		}
 
 		if(count($r) == 0) return JText::_('COM_JTG_MENU_LIMIT_NO');
 		$r = $this->implodeDesc($r,"and",", \n<b>" ,"</b> \n");
-		return  JText::_('COM_JTG_MENU_LIMIT_HEADER')." ".$r.JText::_('COM_JTG_MENU_LIMIT_FOOTER');
+		return  JText::_('COM_JTG_MENU_LIMIT_HEADER') . " " . $r.JText::_('COM_JTG_MENU_LIMIT_FOOTER');
 	}
 
 	private function getTerrainname($cids) {
@@ -137,7 +137,7 @@ class JFormFieldOwnList extends JFormField
 		}
 		$db =& JFactory::getDBO();
 
-		$query = "SELECT * FROM #__jtg_terrains WHERE id='".$cids."'";
+		$query = "SELECT * FROM #__jtg_terrains WHERE id='" . $cids . "'";
 
 		$db->setQuery($query);
 		$result = $db->loadObject();
@@ -196,7 +196,7 @@ class JFormFieldOwnList extends JFormField
 		}
 		$db =& JFactory::getDBO();
 
-		$query = "SELECT * FROM #__jtg_cats WHERE id='".$cids."'";
+		$query = "SELECT * FROM #__jtg_cats WHERE id='" . $cids . "'";
 
 		$db->setQuery($query);
 		$result = $db->loadObject();
@@ -240,8 +240,8 @@ class JFormFieldOwnList extends JFormField
 		global $parseLimitText;
 		$parseLimitText[(string) $name] = $value;
 		jimport('joomla.filesystem.file');
-		require_once("components".DS."com_jtg".DS."models".DS."files.php");
-		$terrain = new jtgModelFiles;
+		require_once("components" . DS . "com_jtg" . DS . "models" . DS . "files.php");
+		$terrain = new JtgModelFiles;
 		$terrain = $terrain->getTerrain("title, id");
 		$nullterrain = array('title'=>JText::_('COM_JTG_ALL'), 'id'=>$all);
 		$nullterrain = JArrayHelper::toObject($nullterrain);
@@ -277,8 +277,8 @@ class JFormFieldOwnList extends JFormField
 		global $parseLimitText;
 		$parseLimitText[(string) $name] = $value;
 		jimport('joomla.filesystem.file');
-		require_once("components".DS."com_jtg".DS."models".DS."files.php");
-		$cats = new jtgModelFiles;
+		require_once("components" . DS . "com_jtg" . DS . "models" . DS . "files.php");
+		$cats = new JtgModelFiles;
 		$cats = $cats->getCats($nosubcats,'COM_JTG_ALL',-1);
 		$size = $this->getSelectSize($cats);
 		$list = JHTML::_('select.genericlist', $cats, $this->name.'[]', 'class="inputbox" multiple="multiple" size="'.$size.'"', 'id', 'treename', $this->value);

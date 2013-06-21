@@ -15,7 +15,8 @@ defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.model');
 
-class jtgModelFiles extends JModel {
+class JtgModelFiles extends JModel
+{
 	/**
 	 * files data array
 	 *
@@ -51,7 +52,7 @@ class jtgModelFiles extends JModel {
 
 	function getLevelSelect($selected) {
 		$return = "<select name=\"level\">\n";
-		$cfg = jtgHelper::getConfig();
+		$cfg = JtgHelper::getConfig();
 		$levels = explode("\n",$cfg->level);
 		array_unshift($levels,'dummy');
 		$i = 0;
@@ -79,7 +80,7 @@ class jtgModelFiles extends JModel {
 	 */
 	function getLevel($selected)  {
 		$return = "\n";
-		$cfg = jtgHelper::getConfig();
+		$cfg = JtgHelper::getConfig();
 		$levels = explode("\n",$cfg->level);
 		array_unshift($levels,'dummy');
 		$i = 0;
@@ -125,9 +126,9 @@ class jtgModelFiles extends JModel {
 		$userwhere	= "";
 
 		if(JRequest::getVar('layout') == 'user' && !$where) {
-			$userwhere = " WHERE uid='".$user->get('id')."'";
+			$userwhere = " WHERE uid='" . $user->get('id') . "'";
 		} else if(JRequest::getVar('layout') == 'user' && $where) {
-			$userwhere = " AND uid='".$user->get('id')."'";
+			$userwhere = " AND uid='" . $user->get('id') . "'";
 		}
 
 		$db =& JFactory::getDBO();
@@ -202,9 +203,9 @@ class jtgModelFiles extends JModel {
 		$pubhid = "( a.published = '1' AND a.hidden = '0' )";
 		$where = ( count( $where ) ? ' WHERE ' . implode( ' OR ', $where ) : '' );
 		if ( $where == "" )// bad :(
-		$where = " WHERE ".$pubhid;
+		$where = " WHERE " . $pubhid;
 		else
-		$where .= " AND ".$pubhid;
+		$where .= " AND " . $pubhid;
 		return $where;
 	}
 
@@ -292,13 +293,13 @@ class jtgModelFiles extends JModel {
 		$published =& JRequest::getInt('published', 0);
 
 		// upload the file
-		$upload_dir = JPATH_SITE.DS."components".DS."com_jtg".DS."uploads".DS;
+		$upload_dir = JPATH_SITE . DS . "components" . DS . "com_jtg" . DS . "uploads".DS;
 		$filename = JFile::makeSafe($file['name']);
 		//JFile::delete($upload_dir.strtolower($filename));
 		if ( JFile::exists($upload_dir.strtolower($filename)))
-		die("<script type='text/javascript'>alert('".JText::sprintf("COM_JTG_FILE_ALREADY_EXISTS",$filename)."');window.history.back(-1);</script>");
+		die("<script type='text/javascript'>alert('".JText::sprintf("COM_JTG_FILE_ALREADY_EXISTS",$filename) . "');window.history.back(-1);</script>");
 		if (!JFile::upload($file['tmp_name'], $upload_dir.strtolower($filename))) {
-			die("<script type='text/javascript'>alert('".JText::_('COM_JTG_UPLOAD_FAILS')."');window.history.back(-1);</script>");
+			die("<script type='text/javascript'>alert('".JText::_('COM_JTG_UPLOAD_FAILS') . "');window.history.back(-1);</script>");
 		} else {
 			chmod($upload_dir.strtolower($filename), 0777);
 		}
@@ -307,7 +308,7 @@ class jtgModelFiles extends JModel {
 		$gps = new gpsClass();
 		$gps->gpsFile = "./components/com_jtg/uploads/".strtolower($filename);
 		if(!$start = $gps->getStartCoordinates()) {
-			echo "<script type='text/javascript'>alert('".JText::_('COM_JTG_NO_SUPPORT')."');window.history.back(-1);</script>";
+			echo "<script type='text/javascript'>alert('".JText::_('COM_JTG_NO_SUPPORT') . "');window.history.back(-1);</script>";
 			exit;
 		}
 
@@ -326,7 +327,7 @@ class jtgModelFiles extends JModel {
 		$distance = $gps->getDistance($coords);
 		// 	 Na und was ist mit Wegpunkten?
 		//		 if($distance == NULL) {
-		//			 echo "<script type='text/javascript'>alert('".$distance."');window.history.back(-1);</script>";
+		//			 echo "<script type='text/javascript'>alert('" . $distance . "');window.history.back(-1);</script>";
 		//			 exit;
 		//		 }
 
@@ -334,26 +335,26 @@ class jtgModelFiles extends JModel {
 		$ele = $gps->getElevation($coords);
 
 		$query = "INSERT INTO #__jtg_files SET"
-		. "\n uid='".$uid."',"
-		. "\n catid='".$catid."',"
-		. "\n title='".$title."',"
-		. "\n file='".strtolower($filename)."',"
-		. "\n terrain='".$terrain."',"
-		. "\n description='".$desc."',"
-		. "\n published='".$published."',"
-		. "\n date='".$date."',"
-		. "\n start_n='".$start_n."',"
-		. "\n start_e='".$start_e."',"
-		. "\n distance='".$distance."',"
-		. "\n ele_asc='".$ele[0]."',"
-		. "\n ele_desc='".$ele[1]."',"
-		. "\n level='".$level."',"
-		. "\n access='".$access."',"
-		. "\n hidden='".$hidden."',"
-		. "\n istrack='".$isTrack."',"
-		. "\n iswp='".$isWaypoint."',"
-		. "\n isroute='".$isRoute."',"
-		. "\n iscache='".$isCache."'";
+		. "\n uid='" . $uid . "',"
+		. "\n catid='" . $catid . "',"
+		. "\n title='" . $title . "',"
+		. "\n file='".strtolower($filename) . "',"
+		. "\n terrain='" . $terrain . "',"
+		. "\n description='" . $desc . "',"
+		. "\n published='" . $published . "',"
+		. "\n date='" . $date . "',"
+		. "\n start_n='" . $start_n . "',"
+		. "\n start_e='" . $start_e . "',"
+		. "\n distance='" . $distance . "',"
+		. "\n ele_asc='" . $ele[0] . "',"
+		. "\n ele_desc='" . $ele[1] . "',"
+		. "\n level='" . $level . "',"
+		. "\n access='" . $access . "',"
+		. "\n hidden='" . $hidden . "',"
+		. "\n istrack='" . $isTrack . "',"
+		. "\n iswp='" . $isWaypoint . "',"
+		. "\n isroute='" . $isRoute . "',"
+		. "\n iscache='" . $isCache . "'";
 		;
 
 		$db->setQuery($query);
@@ -363,22 +364,22 @@ class jtgModelFiles extends JModel {
 			echo $db->stderr();
 			return false;
 		} else {
-			$query = "SELECT id FROM #__jtg_files WHERE file='".strtolower($filename)."'";
+			$query = "SELECT id FROM #__jtg_files WHERE file='".strtolower($filename) . "'";
 
 			$db->setQuery($query);
 			$rows = $db->loadObject();
 
 			// images upload part
-			$cfg = jtgHelper::getConfig();
+			$cfg = JtgHelper::getConfig();
 			$types = explode(',',$cfg->type);
 			if(count($images) > 0 ) {
-				$img_dir = JPATH_SITE.DS.'images'.DS.'jtg'.DS.$rows->id;
+				$img_dir = JPATH_SITE . DS . 'images' . DS . 'jtg' . DS . $rows->id;
 				JFolder::create($img_dir,0777);
 				foreach($images['name'] as $key => $value) {
 					$ext = explode('.',$images['name'][$key]);
 					if(in_array($ext[1], $types)) {
-						$path = $img_dir.DS.strtolower($images['name'][$key]);
-						(jtgHelper::createImage($images['tmp_name'][$key], $ext[1], $path));
+						$path = $img_dir . DS . strtolower($images['name'][$key]);
+						(JtgHelper::createImage($images['tmp_name'][$key], $ext[1], $path));
 					}
 				}
 			}
@@ -470,8 +471,8 @@ class jtgModelFiles extends JModel {
 				if ($rate === null) {
 					$newvote = (float) ( round( ( $givenvotes / $count ), 3 ) );
 					$query = "UPDATE #__jtg_files SET"
-					. " vote='" .$newvote."'"
-					. " WHERE id='" .$id."'"
+					. " vote='" .$newvote . "'"
+					. " WHERE id='" .$id . "'"
 					;
 					$db->setQuery($query);
 					if(!$db->query()) {
@@ -485,7 +486,7 @@ class jtgModelFiles extends JModel {
 		{ // save voting: 0
 			$query = "UPDATE #__jtg_files SET"
 			. " vote='0'"
-			. " WHERE id='" .$id."'"
+			. " WHERE id='" .$id . "'"
 			;
 			$db->setQuery($query);
 			if(!$db->query()) {
@@ -517,8 +518,8 @@ class jtgModelFiles extends JModel {
 		$db =& JFactory::getDBO();
 
 		$query = "INSERT INTO #__jtg_votes SET"
-		. "\n trackid='" .$id."',"
-		. "\n rating='" .$rate."'"
+		. "\n trackid='" .$id . "',"
+		. "\n rating='" .$rate . "'"
 		;
 		$db->setQuery($query);
 		if(!$db->query()) {
@@ -533,8 +534,8 @@ class jtgModelFiles extends JModel {
 		$newvote = (float)( round( ( ( $sum + $rate ) / ( $count + 1 ) ), 3 ) );
 
 		$query = "UPDATE #__jtg_files SET"
-		. " vote='" .$newvote."'"
-		. " WHERE id='" .$id."'"
+		. " vote='" .$newvote . "'"
+		. " WHERE id='" .$id . "'"
 		;
 		$db->setQuery($query);
 		if(!$db->query()) {
@@ -549,22 +550,22 @@ class jtgModelFiles extends JModel {
 
 	function deleteFile($id) {
 		$mainframe =& JFactory::getApplication();
-		jimport( 'joomla.filesystem.file' );
+		jimport('joomla.filesystem.file');
 		$db = JFactory::getDBO();
-		$query = "SELECT * FROM #__jtg_files WHERE id='".$id."'";
+		$query = "SELECT * FROM #__jtg_files WHERE id='" . $id . "'";
 		$this->_db->setQuery($query);
 		$file = $this->_db->loadObject();
 		// folder and Pictures within delete
-		$folder = JPATH_SITE.DS."images".DS."jtg".DS.$id;
+		$folder = JPATH_SITE . DS . "images" . DS . "jtg" . DS . $id;
 		if (JFolder::exists($folder))
 		JFolder::delete($folder);
 		// File (gpx?) delete
-		$filename = JPATH_SITE.DS."components".DS."com_jtg".DS."uploads".DS.$file->file;
+		$filename = JPATH_SITE . DS . "components" . DS . "com_jtg" . DS . "uploads" . DS . $file->file;
 		if (JFile::exists($filename))
 		JFile::delete($filename);
 		// delete from DB
 		$query = "DELETE FROM #__jtg_files"
-		. "\n WHERE id='".$id."'";
+		. "\n WHERE id='" . $id . "'";
 		$db->setQuery($query);
 		if($db->query()) {
 			return true;
@@ -574,7 +575,7 @@ class jtgModelFiles extends JModel {
 	}
 
 	function getImages($id) {
-		$img_dir = JPATH_SITE.DS.'images'.DS.'jtg'.DS.$id;
+		$img_dir = JPATH_SITE . DS . 'images' . DS . 'jtg' . DS . $id;
 		if (!JFolder::exists($img_dir))
 		return null;
 		$images = JFolder::files($img_dir);
@@ -596,7 +597,7 @@ class jtgModelFiles extends JModel {
 		$level =& JRequest::getInt('level');
 		$title =& JRequest::getVar('title');
 		$allimages = $this->getImages($id);
-		$imgpath = JPATH_SITE.DS.'images'.DS.'jtg'.DS.$id.DS;
+		$imgpath = JPATH_SITE . DS . 'images' . DS . 'jtg' . DS . $id.DS;
 		foreach ($allimages AS $key => $image) {
 			$image =& JRequest::getVar('deleteimage_'.str_replace('.',null,$image));
 			if($image !== NULL)
@@ -615,10 +616,10 @@ class jtgModelFiles extends JModel {
 		//		if($images["tmp_name"][0] == "") return "no tempname";
 
 		// images upload part
-		$cfg = jtgHelper::getConfig();
+		$cfg = JtgHelper::getConfig();
 		$types = explode(',',$cfg->type);
 		if($images) {
-			$img_dir = JPATH_SITE.DS.'images'.DS.'jtg'.DS.$id;
+			$img_dir = JPATH_SITE . DS . 'images' . DS . 'jtg' . DS . $id;
 			if(!JFolder::exists($img_dir)) {
 				JFolder::create($img_dir,0777);
 			}
@@ -626,23 +627,23 @@ class jtgModelFiles extends JModel {
 				if ($value) {
 					$ext = explode('.',$images['name'][$key]);
 					if(in_array(strtolower($ext[1]), $types)) {
-						$path = $img_dir.DS.strtolower($images['name'][$key]);
-						(jtgHelper::createImage($images['tmp_name'][$key], $ext[1], $path));
+						$path = $img_dir . DS . strtolower($images['name'][$key]);
+						(JtgHelper::createImage($images['tmp_name'][$key], $ext[1], $path));
 					}
 				}
 			}
 		}
 
 		$query = "UPDATE #__jtg_files SET"
-		. "\n catid='".$catid."',"
-		. "\n title='".$title."',"
-		. "\n terrain='".$terrain."',"
-		. "\n description='".$desc."',"
-		. "\n level='".$level."',"
-		. "\n hidden='".$hidden."',"
-		. "\n published='".$published."',"
-		. "\n access='".$access."'"
-		. "\n WHERE id='".$id."'"
+		. "\n catid='" . $catid . "',"
+		. "\n title='" . $title . "',"
+		. "\n terrain='" . $terrain . "',"
+		. "\n description='" . $desc . "',"
+		. "\n level='" . $level . "',"
+		. "\n hidden='" . $hidden . "',"
+		. "\n published='" . $published . "',"
+		. "\n access='" . $access . "'"
+		. "\n WHERE id='" . $id . "'"
 		;
 
 		$db->setQuery($query);
@@ -667,7 +668,7 @@ class jtgModelFiles extends JModel {
 		$db = JFactory::getDBO();
 
 		//		$query = "SELECT * FROM #__jtg_terrains ORDER BY ordering,title ASC";
-		$query = "SELECT * FROM #__jtg_terrains ".$where." ORDER BY title ASC";
+		$query = "SELECT * FROM #__jtg_terrains " . $where . " ORDER BY title ASC";
 
 		$db->setQuery($query);
 		$row = $db->loadObjectList();
@@ -695,9 +696,9 @@ class jtgModelFiles extends JModel {
 
 		$db = JFactory::getDBO();
 		$query = "SELECT * FROM #__jtg_comments WHERE"
-		. "\n tid='".$id."'"
+		. "\n tid='" . $id . "'"
 		. "\n AND published='1'"
-		. "\n ORDER BY date ".$order
+		. "\n ORDER BY date " . $order
 		;
 		$db->setQuery($query);
 		$result = $db->loadObjectList();
@@ -803,12 +804,12 @@ class jtgModelFiles extends JModel {
 
 		$db =& JFactory::getDBO();
 		$query = "INSERT INTO #__jtg_comments SET"
-		. "\n tid='".$id."',"
-		. "\n user='".$name."',"
-		. "\n email='".$email."',"
-		. "\n homepage='".$homepage."',"
-		. "\n title='".$title."',"
-		. "\n text='".$text."',"
+		. "\n tid='" . $id . "',"
+		. "\n user='" . $name . "',"
+		. "\n email='" . $email . "',"
+		. "\n homepage='" . $homepage . "',"
+		. "\n title='" . $title . "',"
+		. "\n text='" . $text . "',"
 		. "\n published='1'"
 		;
 
@@ -817,14 +818,14 @@ class jtgModelFiles extends JModel {
 
 		// send autor email if set
 		if($cfg->inform_autor == 1) {
-			jimport( 'joomla.mail.helper' );
+			jimport('joomla.mail.helper');
 			$jcfg = JFactory::getConfig();
 			$autor = $this->getAutorData($id);
 			$jcfg = $jcfg->_registry['config']['data'];
 			$email = $autor->email;
 			$from = $jcfg->mailfrom;
 			$sender = $jcfg->fromname;
-			$link = JURI::base()."index.php?option=com_jtg&view=files&layout=file&id=".$id;
+			$link = JURI::base() . "index.php?option=com_jtg&view=files&layout=file&id=" . $id;
 			$msg = JText::_('COM_JTG_CMAIL_MSG');
 			$body = sprintf($msg, $link);
 			$subject = JText::_('COM_JTG_CMAIL_SUBJECT');
@@ -851,7 +852,7 @@ class jtgModelFiles extends JModel {
 		$db = JFactory::getDBO();
 		$query = "SELECT a.uid, b.name, b.email FROM #__jtg_files AS a"
 		. "\n LEFT JOIN #__users AS b ON a.uid=b.id"
-		. "\n WHERE a.id='".$id."'";
+		. "\n WHERE a.id='" . $id . "'";
 
 		$db->setQuery($query);
 		$user = $db->loadObject();
@@ -871,15 +872,15 @@ class jtgModelFiles extends JModel {
 	 **/
 	function approachors($to_lat,$to_lon,$lang) {
 		$user = JFactory::getUser();
-		$latlon = jtgHelper::getLatLon($user->id);
+		$latlon = JtgHelper::getLatLon($user->id);
 		$link = "http://openrouteservice.org/?";
 		if(isset($latlon[0])) {
 			$middle_lon = ((float)$to_lon + (float)$latlon[0]->osmlon) / 2;
 			$middle_lat = ((float)$to_lat + (float)$latlon[0]->osmlat) / 2;
-			$link .= "start=".$latlon[0]->osmlon.",".$latlon[0]->osmlat."&amp;end=".$to_lon.",".$to_lat."&amp;lat=".$middle_lat."&amp;lon=".$middle_lon;
+			$link .= "start=" . $latlon[0]->osmlon . "," . $latlon[0]->osmlat . "&amp;end=" . $to_lon . "," . $to_lat . "&amp;lat=" . $middle_lat . "&amp;lon=" . $middle_lon;
 		} else
-		$link .= "end=".$to_lon.",".$to_lat;
-		return $link."&amp;lang=".$lang."&amp;pref=";
+		$link .= "end=" . $to_lon . "," . $to_lat;
+		return $link . "&amp;lang=" . $lang . "&amp;pref=";
 	}
 
 	/**
@@ -895,7 +896,7 @@ class jtgModelFiles extends JModel {
 	function approachcm($to_lat,$to_lon,$lang) {
 		$link = "http://maps.cloudmade.com/?";
 		$user = JFactory::getUser();
-		$latlon = jtgHelper::getLatLon($user->id);
+		$latlon = JtgHelper::getLatLon($user->id);
 		if(isset($latlon[0])) {
 			if ($latlon[0]->osmlat) $from_lat = $latlon[0]->osmlat;
 			if ($latlon[0]->osmlon) $from_lon = $latlon[0]->osmlon;
@@ -903,17 +904,17 @@ class jtgModelFiles extends JModel {
 		if (isset($from_lon) && isset($from_lat)){
 			$middle_lon = ((float)$to_lon + (float)$from_lon) / 2;
 			$middle_lat = ((float)$to_lat + (float)$from_lat) / 2;
-			$link .= "lat=".$middle_lat."&amp;";
-			$link .= "lng=".$middle_lon."&amp;";
-			$link .= "directions=".$from_lat.",".$from_lon;
-			$link .= ",".$to_lat.",".$to_lon."&amp;zoom=16";
+			$link .= "lat=" . $middle_lat . "&amp;";
+			$link .= "lng=" . $middle_lon . "&amp;";
+			$link .= "directions=" . $from_lat . "," . $from_lon;
+			$link .= "," . $to_lat . "," . $to_lon . "&amp;zoom=16";
 		} else {
-			$link .= "directions=".$to_lat.",".$to_lon."&amp;";
-			$link .= "lat=".$to_lat."&amp;";
-			$link .= "lng=".$to_lon."&amp;";
+			$link .= "directions=" . $to_lat . "," . $to_lon . "&amp;";
+			$link .= "lat=" . $to_lat . "&amp;";
+			$link .= "lng=" . $to_lon . "&amp;";
 			$link .= "zoom=15";
 		}
-		return $link."&amp;styleId=1&amp;opened_tab=1&amp;travel=";
+		return $link . "&amp;styleId=1&amp;opened_tab=1&amp;travel=";
 	}
 
 	/**
@@ -928,9 +929,9 @@ class jtgModelFiles extends JModel {
 	 **/
 	function approachcmkey($to_lat,$to_lon,$lang) {
 		$key="651006379c18424d8b5104ed4b7dc210";
-		$link = "http://navigation.cloudmade.com/".$key."/api/0.3/";
+		$link = "http://navigation.cloudmade.com/" . $key . "/api/0.3/";
 		$user = JFactory::getUser();
-		$latlon = jtgHelper::getLatLon($user->id);
+		$latlon = JtgHelper::getLatLon($user->id);
 		if(isset($latlon[0])) {
 			if ($latlon[0]->osmlat) $from_lat = $latlon[0]->osmlat;
 			if ($latlon[0]->osmlon) $from_lon = $latlon[0]->osmlon;
@@ -938,23 +939,23 @@ class jtgModelFiles extends JModel {
 		if (isset($from_lon) && isset($from_lat)){
 			$middle_lon = ((float)$to_lon + (float)$from_lon) / 2;
 			$middle_lat = ((float)$to_lat + (float)$from_lat) / 2;
-			$link .= "directions=".$from_lat.",".$from_lon.
-				",".$to_lat.",".$to_lon."&amp;".
-				"lat=".$middle_lat."&amp;".
-				"lng=".$middle_lon;
+			$link .= "directions=" . $from_lat . "," . $from_lon.
+				"," . $to_lat . "," . $to_lon . "&amp;".
+				"lat=" . $middle_lat . "&amp;".
+				"lng=" . $middle_lon;
 		} else {
-			$link .= "directions=".$to_lat.",".$to_lon.
-				"lat=".$to_lat."&amp;".
-				"lng=".$to_lon."&amp;zoom=15";
+			$link .= "directions=" . $to_lat . "," . $to_lon.
+				"lat=" . $to_lat . "&amp;".
+				"lng=" . $to_lon . "&amp;zoom=15";
 		}
-		return $link."&amp;zoom=15&amp;travel=";
+		return $link . "&amp;zoom=15&amp;travel=";
 	}
 
 	function parseHomepageIcon($www) {
 		if ((!preg_match('/http\:\/\//',$www))AND(!preg_match('/https\:\/\//',$www)))
-		$www = "http://".$www;
-		$cfg = jtgHelper::getConfig();
-		$return = "<a target=\"_blank\" href=\"".$www."\"><img src=\"" .
+		$www = "http://" . $www;
+		$cfg = JtgHelper::getConfig();
+		$return = "<a target=\"_blank\" href=\"" . $www . "\"><img src=\"" .
 		JURI :: base() .
 		"components/com_jtg/assets/template/" .
 		$cfg->template .
@@ -963,7 +964,7 @@ class jtgModelFiles extends JModel {
 	}
 
 	function parseEMailIcon($mail) {
-		$cfg = jtgHelper::getConfig();
+		$cfg = JtgHelper::getConfig();
 		$return = JHTML::_('email.cloak', $mail, true, "<img src=\"" .
 		JURI :: base() .
 		"components/com_jtg/assets/template/" .

@@ -11,7 +11,7 @@
  *
  */
 
-// no direct access
+// No direct access
 defined('_JEXEC') or die('Restricted access');
 
 // Include library dependencies
@@ -21,8 +21,8 @@ jimport('joomla.filter.input');
 * Table class
 *
 */
-class TableOSM_terrain extends JTable  {
-
+class TableOSM_terrain extends JTable
+{
         var $id             = NULL;
         var $title          = NULL;
         var $published      = NULL;

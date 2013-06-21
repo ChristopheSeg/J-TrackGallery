@@ -28,7 +28,7 @@ foreach ( $rows AS $track ) {
 	} else {
 		$color = "red";
 	}
-		echo("<font color=\"".$color."\">".$track["file"]."</font><br />\n");
+		echo("<font color=\"" . $color . "\">" . $track["file"] . "</font><br />\n");
 }
 if ($importdone == true)
 	JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_IMPORT_DONE'));

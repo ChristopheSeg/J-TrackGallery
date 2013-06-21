@@ -11,7 +11,7 @@
  *
  */
 
-// no direct access
+// No direct access
 defined('_JEXEC') or die('Restricted access');
 
 // Import Joomla! libraries
@@ -20,7 +20,8 @@ jimport( 'joomla.application.component.view');
 /**
  *
  */
-class jtgViewComments extends JView {
+class JtgViewComments extends JView
+{
 	/**
 	 *
 	 * @param object $tpl
