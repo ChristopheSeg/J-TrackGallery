@@ -1,14 +1,14 @@
-0.6.4   ( tested under Joomla 2.5.9 )
+0.6.0   ( tested under Joomla 2.5.9 )
 	New: English language loaded as default if no language file is present
 	Upgrade to joomla 2.5.9: some deprecated method have been replaced, numerous corrections....
 	ACL management in Joomla 2.5: 'group ID' gid is an array, and gid no longer correspond to a level
 	Deprecated: VirtualEarth maps no longer exists: have been suppressed
 
-  *********************************************************************************
-  * Versions upper to 0.5.7 are relative to J!Track Gallery plugin for Joomla 2.5 *
-  *                                                                               *
-  *     Versions 0.5.7 and below correspond to InJooOSM Plugin  for Joomla 1.5    * 
-  *********************************************************************************
+	*********************************************************************************
+	* Versions upper to 0.5.7 are relative to J!Track Gallery plugin for Joomla 2.5 *
+	*                                                                               *
+	*     Versions 0.5.7 and below correspond to InJooOSM Plugin  for Joomla 1.5    * 
+	*********************************************************************************
 
 0.5.7
 	Bugfix: Own Translations first filled in with Values from 0.5.5

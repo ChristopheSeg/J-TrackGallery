@@ -3,7 +3,7 @@
  * @component  J!Track Gallery (jtg) for Joomla! 2.5
  *
  * 
- * @author     J!Track Gallery, InJooOSM and joomGPStracks teams
+ * @author     J!Track Gallery, InJO3SM and joomGPStracks teams
  * @package    com_jtg
  * @subpackage frontend
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL2
@@ -252,13 +252,13 @@ class gpsClass
 				$i++;
 			}
 		} else return false;
-		$center = "// <!-- parseOSMMapCenterSingleTrack BEGIN -->\n";
+		$center = "// <!-- parseOLMapCenterSingleTrack BEGIN -->\n";
 		$center .= "var min = lonLatToMercator(new OpenLayers.LonLat";
 		$center .= "(" . $bbox_lon_min . "," . $bbox_lat_min . "));\n";
 		$center .= "var max = lonLatToMercator(new OpenLayers.LonLat";
 		$center .= "(" . $bbox_lon_max . "," . $bbox_lat_max . "));\n";
 		$center .= "map.zoomToExtent(new OpenLayers.Bounds(min.lon, min.lat, max.lon, max.lat));\n";
-		$center .= "// <!-- parseOSMMapCenterSingleTrack END -->\n";
+		$center .= "// <!-- parseOLMapCenterSingleTrack END -->\n";
 		return array( "wps" => $wp, "center" => $center );
 	}
 	/**
@@ -885,8 +885,8 @@ class gpsClass
 
 		return $dis;
 	}
-	// Osm BEGIN
-	public function writeOSMMap($where,$tracks,$params) {
+	// Openlayers write maps BEGIN
+	public function writeOLMap($where,$tracks,$params) {
 		$cfg =& JtgHelper::getConfig();
 
 		// 	$cnates = $this->getMapNates();
@@ -895,24 +895,24 @@ class gpsClass
 		// 	$userid = $user->id;
 		//		$rows = $this->maySee($rows);
 		$map = false;
-		$map .= $this->parseScriptOSMHead();
-		$map .= $this->parseOSMMapControl(false, $params);
-		$map .= $this->parseOSMLayer();
-		// 	$map .= $this->parseOSMPOIs(); // currently not active
+		$map .= $this->parseScriptOLHead();
+		$map .= $this->parseOLMapControl(false, $params);
+		$map .= $this->parseOLLayer();
+		// 	$map .= $this->parseOLPOIs(); // currently not active
 		if ($tracks)
 		{
 			//			die();
-			$map .= $this->parseOSMTracks($rows); // Schlecht bei vielen verfügbaren Tracks
+			$map .= $this->parseOLTracks($rows); // Schlecht bei vielen verfügbaren Tracks
 			//			$map .= $this->parseXMLlinesOSM($rows,"/" . $file);
 		}
 		$file = JPATH_SITE . DS . "components" . DS . "com_jtg" . DS . "models" . DS . "jtg.php";
 		require_once $file;
 		$this->sortedcats = JtgModeljtg::getCatsData(true);
 
-		$map .= $this->parseOSMMarker($rows);
-		$map .= $this->parseOSMMapCenter($rows);
-		$map .= $this->parseOSMMapFunctions();
-		$map .= $this->parseScriptOSMFooter();
+		$map .= $this->parseOLMarker($rows);
+		$map .= $this->parseOLMapCenter($rows);
+		$map .= $this->parseOLMapFunctions();
+		$map .= $this->parseScriptOLFooter();
 		// return $this->buildColorBalken();
 		// die();
 		return $map;
@@ -930,15 +930,15 @@ class gpsClass
 		// 	$userid = $user->id;
 		$rows = $this->maySee($rows);
 
-		$map .= $this->parseScriptOSMHead();
-		$map .= $this->parseOSMMapControl();
-		$map .= $this->parseOSMLayer();
-		//	$map .= $this->parseOSMPOIs();
-		// 	$map .= $this->parseOSMTracks($rows); // Schlecht bei vielen verfügbaren Tracks
+		$map .= $this->parseScriptOLHead();
+		$map .= $this->parseOLMapControl();
+		$map .= $this->parseOLLayer();
+		//	$map .= $this->parseOLPOIs();
+		// 	$map .= $this->parseOLTracks($rows); // Schlecht bei vielen verfügbaren Tracks
 		// 	$map .= $this->parseXMLlinesOSM($rows,"/" . $file);
-		//	$map .= $this->parseOSMMarker($rows);
-		//	$map .= $this->parseOSMMapCenter($rows);
-		$map .= "// <!-- parseOSMMapCenter BEGIN -->
+		//	$map .= $this->parseOLMarker($rows);
+		//	$map .= $this->parseOLMapCenter($rows);
+		$map .= "// <!-- parseOLMapCenter BEGIN -->
 	\n";
 		$map .= "	layerMarker_options= {styleMap: new OpenLayers.StyleMap({
 		externalGraphic: \"components/com_jtg/assets/images/home.png\",
@@ -994,10 +994,10 @@ map.events.register('click', map, handleMapClick);
 		$map .= "(" . $bbox_lon_min . "," . $bbox_lat_min . "));\nvar max = lonLatToMercator";
 		$map .= "(new OpenLayers.LonLat(" . $bbox_lon_max . "," . $bbox_lat_max . "));\n";
 		$map .= "map.zoomToExtent(new OpenLayers.Bounds(min.lon, min.lat, max.lon, max.lat));\n";
-		$map .= "// <!-- parseOSMMapCenter END -->\n";
+		$map .= "// <!-- parseOLMapCenter END -->\n";
 
-		$map .= $this->parseOSMMapFunctions();
-		$map .= $this->parseScriptOSMFooter();
+		$map .= $this->parseOLMapFunctions();
+		$map .= $this->parseScriptOLFooter();
 		return $map;
 	}
 
@@ -1029,7 +1029,7 @@ map.events.register('click', map, handleMapClick);
 	 *
 	 * @return string
 	 */
-	private function parseOSMMapCenter($rows) {
+	private function parseOLMapCenter($rows) {
 		if(!$rows)
 		{
 			//			Worldview without southpole
@@ -1056,12 +1056,12 @@ map.events.register('click', map, handleMapClick);
 			}
 		}
 		// 	echo ("\n<!--\n\$bbox_lat_max = " . $bbox_lat_max . "\n\$bbox_lat_min = " . $bbox_lat_min . "\n-->");
-		$center = "// <!-- parseOSMMapCenter BEGIN -->\n";
+		$center = "// <!-- parseOLMapCenter BEGIN -->\n";
 		$center .= "var min = lonLatToMercator(new OpenLayers.LonLat";
 		$center .= "(" . $bbox_lon_min . "," . $bbox_lat_min . "));\nvar max = lonLatToMercator";
 		$center .= "(new OpenLayers.LonLat(" . $bbox_lon_max . "," . $bbox_lat_max . "));\n";
 		$center .= "map.zoomToExtent(new OpenLayers.Bounds(min.lon, min.lat, max.lon, max.lat));\n";
-		$center .= "// <!-- parseOSMMapCenter END -->\n";
+		$center .= "// <!-- parseOLMapCenter END -->\n";
 		return $center;
 	}
 
@@ -1069,8 +1069,8 @@ map.events.register('click', map, handleMapClick);
 	 *
 	 * @return string
 	 */
-	private function parseOSMMapCenterSingleTrack($file) {
-		//		echo "deprecated function parseOSMMapCenterSingleTrack";
+	private function parseOLMapCenterSingleTrack($file) {
+		//		echo "deprecated function parseOLMapCenterSingleTrack";
 		//		global $osmmicrotime;
 		//		if ( ( microtime(true) - $osmmicrotime ) > 29 )
 		//		return "map.zoomToMaxExtent();\n"; // emergency brake
@@ -1136,13 +1136,13 @@ map.events.register('click', map, handleMapClick);
 				$i++;
 			}
 		}
-		$center = "// <!-- parseOSMMapCenterSingleTrack BEGIN -->\n";
+		$center = "// <!-- parseOLMapCenterSingleTrack BEGIN -->\n";
 		$center .= "var min = lonLatToMercator(new OpenLayers.LonLat";
 		$center .= "(" . $bbox_lon_min . "," . $bbox_lat_min . "));\n";
 		$center .= "var max = lonLatToMercator(new OpenLayers.LonLat";
 		$center .= "(" . $bbox_lon_max . "," . $bbox_lat_max . "));\n";
 		$center .= "map.zoomToExtent(new OpenLayers.Bounds(min.lon, min.lat, max.lon, max.lat));\n";
-		$center .= "// <!-- parseOSMMapCenterSingleTrack END -->\n";
+		$center .= "// <!-- parseOLMapCenterSingleTrack END -->\n";
 		return $center;
 	}
 
@@ -1150,8 +1150,8 @@ map.events.register('click', map, handleMapClick);
 	 *
 	 * @return string
 	 */
-	private function parseOSMMapFunctions() {
-		$marker = "// <!-- parseOSMMapFunctions BEGIN -->\n";
+	private function parseOLMapFunctions() {
+		$marker = "// <!-- parseOLMapFunctions BEGIN -->\n";
 		/*
 		 $marker .= "	/**
 		 * Function: lonLatToMercator
@@ -1170,7 +1170,7 @@ map.events.register('click', map, handleMapClick);
 		return new OpenLayers.LonLat(lon, lat);
 	}\n";
 
-		$marker .= "// <!-- parseOSMMapFunctions END -->\n";
+		$marker .= "// <!-- parseOLMapFunctions END -->\n";
 		return $marker;
 	}
 
@@ -1178,9 +1178,9 @@ map.events.register('click', map, handleMapClick);
 	 *
 	 * @return string
 	 */
-	//	 private function parseOSMStartZiel() {
-	// 	$startziel = "// <!-- parseOSMStartZiel BEGIN -->\n";
-	// 	$startziel .= "// <!-- parseOSMStartZiel END -->\n";
+	//	 private function parseOLStartZiel() {
+	// 	$startziel = "// <!-- parseOLStartZiel BEGIN -->\n";
+	// 	$startziel .= "// <!-- parseOLStartZiel END -->\n";
 	// 	return $startziel;
 	// }
 
@@ -1188,10 +1188,10 @@ map.events.register('click', map, handleMapClick);
 	 *
 	 * @return string
 	 */
-	private function parseOSMMarker($track_array,$visibility=true) {
+	private function parseOLMarker($track_array,$visibility=true) {
 		$cfg =& JtgHelper::getConfig();
 		if(!$track_array) return false;
-		$marker = "// <!-- parseOSMMarker BEGIN -->\n";
+		$marker = "// <!-- parseOLMarker BEGIN -->\n";
 		if ( $visibility != true )
 		$marker .= "	markers = new OpenLayers.Layer.Markers(\"".JText::_('COM_JTG_OTHER_STARTPOINTS') . "\");\n";
 		else
@@ -1339,17 +1339,17 @@ map.events.register('click', map, handleMapClick);
 		//$marker .= "		marker.events.register(\"mouseout\", feature, markerHover);\n";
 
 		$marker .= "		markers.addMarker(marker);}\n";
-		$marker .= "// <!-- parseOSMMarker END -->\n";
+		$marker .= "// <!-- parseOLMarker END -->\n";
 		return $marker;
 	}
 	/**
 	 *
 	 * @return string
 	 */
-	private function parseOSMTracks($rows) {
+	private function parseOLTracks($rows) {
 		if ( $rows === null ) return false;
 		$color = $this->calculateAllColors(count($rows));
-		$string = "// <!-- parseOSMTracks BEGIN -->\n";
+		$string = "// <!-- parseOLTracks BEGIN -->\n";
 		$string .= "layer_vectors = new OpenLayers.Layer.Vector(\"".JText::_('COM_JTG_TRACKS') . "\", { displayInLayerSwitcher: true } );\n";
 		$string .= "map.addLayer(layer_vectors);\n";
 		$i=0;
@@ -1365,7 +1365,7 @@ map.events.register('click', map, handleMapClick);
 			$string .= "],\n{strokeColor:\"" . $this->getHexColor("#" . $color[$i]) . "\",\nstrokeWidth: 2,\nfillColor: \"" . $this->getHexColor("#" . $color[$i]) . "\",\nfillOpacity: 0.4}));\n";
 			$i++;
 		}
-		$string .= "// <!-- parseOSMTracks END -->\n";
+		$string .= "// <!-- parseOLTracks END -->\n";
 		return $string;
 	}
 
@@ -1373,9 +1373,9 @@ map.events.register('click', map, handleMapClick);
 	 *
 	 * @return string
 	 */
-	private function parseOSMPOIs() {
-		$pois = "// <!-- parseOSMPOIs BEGIN -->\n";
-		$pois .= "// <!-- parseOSMPOIs END -->\n";
+	private function parseOLPOIs() {
+		$pois = "// <!-- parseOLPOIs BEGIN -->\n";
+		$pois .= "// <!-- parseOLPOIs END -->\n";
 		return $pois;
 	}
 
@@ -1436,12 +1436,12 @@ map.events.register('click', map, handleMapClick);
 		$return .= "hs2_1 =  new OpenLayers.Layer.WMS( hs_name , hs_url , hs2_1_options,{'buffer':1, transitionEffect:'resize', removeBackBufferDelay:0, className:'olLayerGridCustom'});\n";
 		$return .= "map.addLayer( hs2,hs2_1 );";
 
-// TODO osm_getTileURL see http://wiki.openstreetmap.org/wiki/Talk:Openlayers_POI_layer_example
-		$document->addScript('/components/com_jtg/assets/js/osm_getTileURL.js');
+// TODO jtg_getTileURL see http://wiki.openstreetmap.org/wiki/Talk:Openlayers_POI_layer_example
+		$document->addScript('/components/com_jtg/assets/js/jtg_getTileURL.js');
 		$return .= "hill = new OpenLayers.Layer.TMS(\"".JText::_('COM_JTG_HILL_SHADE_NASA') . "\"\n,
 			\"http://toolserver.org/~cmarqu/hill/\",
 			{
-					type: 'png', getURL: osm_getTileURL,
+					type: 'png', getURL: jtg_getTileURL,
 					displayOutsideMaxExtent: true, isBaseLayer: false,
 				transparent: true, \"visibility\": false
 				}
@@ -1459,10 +1459,10 @@ map.events.register('click', map, handleMapClick);
 	 *
 	 * @return string
 	 */
-	//	private function parseOSMLayer() {
-	private function parseOSMLayer() {
+	//	private function parseOLLayer() {
+	private function parseOLLayer() {
 		$maps = $this->buildMaps();
-		$layer = "// <!-- parseOSMLayer BEGIN -->\n";
+		$layer = "// <!-- parseOLLayer BEGIN -->\n";
 
 		$layertoshow = array();
 
@@ -1597,19 +1597,19 @@ map.events.register('click', map, handleMapClick);
 		 $baselayer = false;
 		 for($i=-1;$i<9;$i++) {
 		 if ( ( $i == -1 ) AND							// erster Durchlauf nur für Def.-Layer
-		 ( isset($osm_allow_map[$osm_allow_map_default])) AND			// existiert der Eintrag auf den der Def.-Layer verweist?
-		 ( $osm_allow_map[$osm_allow_map_default] != 0) ) {			// ... und ist dieser zugelassen?
-		 $layer .= $layertoshow[$osm_allow_map_default];			// Def.-Layer an erste Stelle
-		 $defaultmapisset = $osm_allow_map_default;			// Das wird der Def.-Layer (für die Schleife)
-		 $baselayer = explode('=',$layertoshow[$osm_allow_map_default]);	// Baselayer ebenfalls benannt
+		 ( isset($jtg_param_allow_map[$jtg_param_allow_map_default])) AND			// existiert der Eintrag auf den der Def.-Layer verweist?
+		 ( $jtg_param_allow_map[$jtg_param_allow_map_default] != 0) ) {			// ... und ist dieser zugelassen?
+		 $layer .= $layertoshow[$jtg_param_allow_map_default];			// Def.-Layer an erste Stelle
+		 $defaultmapisset = $jtg_param_allow_map_default;			// Das wird der Def.-Layer (für die Schleife)
+		 $baselayer = explode('=',$layertoshow[$jtg_param_allow_map_default]);	// Baselayer ebenfalls benannt
 		 $baselayer = trim($baselayer[0]);
-		 } elseif ( ( $osm_allow_map[$i] == 1 ) AND ( $defaultmapisset != $i ) )	// Füge Layer nur hinzu, wenn zugelassen ...
+		 } elseif ( ( $jtg_param_allow_map[$i] == 1 ) AND ( $defaultmapisset != $i ) )	// Füge Layer nur hinzu, wenn zugelassen ...
 		 $layer .= $layertoshow[$i];					// ... und es kein Def.-Layer ist
 		 }
 
 		 echo("<br>\nHallo Welt \"" . $layer . "\"");
 		 */
-		$layer .= $maps . "// <!-- parseOSMLayer END -->\n";
+		$layer .= $maps . "// <!-- parseOLLayer END -->\n";
 		return $layer;
 
 		if ( $baselayer != false ) {
@@ -1642,11 +1642,11 @@ map.events.register('click', map, handleMapClick);
 		return floatval($parts[0]) / floatval($parts[1]);
 	}
 
-	private function parseOSMGeotaggedImgs($id,$maxsize,$iconfolder,$httpiconpath)
+	private function parseOLGeotaggedImgs($id,$maxsize,$iconfolder,$httpiconpath)
 	{
 		$maxsize = (int)$maxsize;
 		$foundpics = false;
-		$map = "// <!-- parseOSMGeotaggedImgs BEGIN -->\n";
+		$map = "// <!-- parseOLGeotaggedImgs BEGIN -->\n";
 		$httppath = JURI::base() . "images/jtg/" . $id . "/";
 		$folder = JPATH_SITE . DS . "images" . DS . "jtg" . DS . $id.DS;
 		$map .= "layer_geotaggedImgs = new OpenLayers.Layer.Markers(\"".JText::_('COM_JTG_GEOTAGGED_IMAGES') . "\",".
@@ -1732,7 +1732,7 @@ map.events.register('click', map, handleMapClick);
 			}
 		}
 		if ( $foundpics == false ) return false;
-		$map .= "// <!-- parseOSMGeotaggedImgs END -->\n";
+		$map .= "// <!-- parseOLGeotaggedImgs END -->\n";
 		return $map;
 	}
 
@@ -1754,42 +1754,42 @@ map.events.register('click', map, handleMapClick);
 		$map = "\n<!-- writeTrackCOM_JTG BEGIN -->\n";
 		//		$rows = $this->maySee($rows);		// Berechtigung Okay?
 		// ToDo: Berechtigungen vorher schon checken?
-		$map .= $this->parseScriptOSMHead();
-		$zeiten .= (int) round( ( microtime(true) - $osmmicrotime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " parseScriptOSMHead<br />\n";
-		$map .= $this->parseOSMMap();
-		$zeiten .= (int) round( ( microtime(true) - $osmmicrotime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " parseOSMMap<br />\n";
-		$map .= $this->parseOSMMapControl(false,$params);
-		$zeiten .= (int) round( ( microtime(true) - $osmmicrotime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " parseOSMMapControl<br />\n";
-		$map .= $this->parseOSMLayer();
-		$zeiten .= (int) round( ( microtime(true) - $osmmicrotime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " parseOSMLayer<br />\n";
+		$map .= $this->parseScriptOLHead();
+		$zeiten .= (int) round( ( microtime(true) - $osmmicrotime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " parseScriptOLHead<br />\n";
+		$map .= $this->parseOLMap();
+		$zeiten .= (int) round( ( microtime(true) - $osmmicrotime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " parseOLMap<br />\n";
+		$map .= $this->parseOLMapControl(false,$params);
+		$zeiten .= (int) round( ( microtime(true) - $osmmicrotime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " parseOLMapControl<br />\n";
+		$map .= $this->parseOLLayer();
+		$zeiten .= (int) round( ( microtime(true) - $osmmicrotime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " parseOLLayer<br />\n";
 		$coords = $this->parseXMLlinesOSM($file,$xml);
 		$zeiten .= (int) round( ( microtime(true) - $osmmicrotime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " parseXMLlinesOSM<br />\n";
 		if ( $coords !== null )
 		$map .= $coords['coords'];
 		//	if ( isset($rows) )
-		//	$map .= $this->parseOSMMarker($rows,false); // Andere Tracks standardmäßig ausblenden
-		$zeiten .= (int) round( ( microtime(true) - $osmmicrotime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " parseOSMMarker<br />\n";
-		$map .= $this->parseOSMGeotaggedImgs($track->id,$maxsize,$iconpath,$httpiconpath);
-		$zeiten .= (int) round( ( microtime(true) - $osmmicrotime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " parseOSMGeotaggedImgs<br />\n";
+		//	$map .= $this->parseOLMarker($rows,false); // Andere Tracks standardmäßig ausblenden
+		$zeiten .= (int) round( ( microtime(true) - $osmmicrotime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " parseOLMarker<br />\n";
+		$map .= $this->parseOLGeotaggedImgs($track->id,$maxsize,$iconpath,$httpiconpath);
+		$zeiten .= (int) round( ( microtime(true) - $osmmicrotime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " parseOLGeotaggedImgs<br />\n";
 		// 	$map .= $this->parseStartPointOSM($coords); // ist jetzt für jede einzelne Spur definiert
 		$file_tmp = $file;
 		$wp = $this->extractWPs($xml);
 		$zeiten .= (int) round( ( microtime(true) - $osmmicrotime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " extractWPs<br />\n";
 		if ($wp !== false);
 		$map .= $this->parseWPs($wp['wps'] );
-		// 	$map .= $this->parseOSMStartZiel();
+		// 	$map .= $this->parseOLStartZiel();
 		$file = $file_tmp;
 		if ( $coords !== null )
 		$map .= $coords['center'];
 		else
 		$map .= $wp['center'];
-		//	$map .= $this->parseOSMMapCenterSingleTrack($file);
-		$zeiten .= (int) round( ( microtime(true) - $osmmicrotime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " parseOSMMapCenterSingleTrack<br />\n";
-		$map .= $this->parseOSMMapFunctions();
-		$zeiten .= (int) round( ( microtime(true) - $osmmicrotime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " parseOSMMapFunctions<br />\n";
+		//	$map .= $this->parseOLMapCenterSingleTrack($file);
+		$zeiten .= (int) round( ( microtime(true) - $osmmicrotime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " parseOLMapCenterSingleTrack<br />\n";
+		$map .= $this->parseOLMapFunctions();
+		$zeiten .= (int) round( ( microtime(true) - $osmmicrotime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " parseOLMapFunctions<br />\n";
 
-		$map .= $this->parseScriptOSMFooter();
-		$zeiten .= (int) round( ( microtime(true) - $osmmicrotime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " parseScriptOSMFooter<br />\n";
+		$map .= $this->parseScriptOLFooter();
+		$zeiten .= (int) round( ( microtime(true) - $osmmicrotime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " parseScriptOLFooter<br />\n";
 		$map .= "\n<!-- writeTrackCOM_JTG END -->\n";
 		return $map;
 	}
@@ -1803,27 +1803,27 @@ map.events.register('click', map, handleMapClick);
 		$this->gpsFile = $file;
 		$xml = $this->loadFile();
 		$map = "\n<!-- writeSingleTrackCOM_JTG BEGIN -->\n";
-		$map .= $this->parseScriptOSMHead();
-		$map .= $this->parseOSMMap();
-		$map .= $this->parseOSMMapControl(true,$params);
-		$map .= $this->parseOSMLayer();
+		$map .= $this->parseScriptOLHead();
+		$map .= $this->parseOLMap();
+		$map .= $this->parseOLMapControl(true,$params);
+		$map .= $this->parseOLLayer();
 		$coords = $this->parseXMLlinesOSM($file,$xml);
 		$map .= $coords['coords'];
-		// 	$map .= $this->parseOSMMarker($rows,false); // Andere Tracks standardmäßig ausblenden
+		// 	$map .= $this->parseOLMarker($rows,false); // Andere Tracks standardmäßig ausblenden
 		// 	$map .= $this->parseStartPointOSM($coords); // ist jetzt für jede einzelne Spur definiert
 		// 	$file_tmp = $file;
 		$wp = $this->extractWPs($xml);
 		if ($wp !== false);
 		$map .= $this->parseWPs($wp['wps'] );
-		// 	$map .= $this->parseOSMStartZiel();
+		// 	$map .= $this->parseOLStartZiel();
 		// 	$file = $file_tmp;
 		if ( $coords !== null )
 		$map .= $coords['center'];
 		else
 		$map .= $wp['center'];
-		$map .= $this->parseOSMMapFunctions();
+		$map .= $this->parseOLMapFunctions();
 
-		$map .= $this->parseScriptOSMFooter();
+		$map .= $this->parseScriptOLFooter();
 		$map .= "<!-- writeSingleTrackCOM_JTG END -->\n";
 		return $map;
 	}
@@ -1832,16 +1832,16 @@ map.events.register('click', map, handleMapClick);
 	 *
 	 * @return string
 	 */
-	private function parseScriptOSMHead() {
+	private function parseScriptOLHead() {
 
-		$map = "\n<!-- parseScriptOSMHead BEGIN -->\n";
+		$map = "\n<!-- parseScriptOLHead BEGIN -->\n";
 		$map .= "<script type=\"text/javascript\">\n";
 		$map .= "	OpenLayers.Popup.FramedCloud.prototype.autoSize = false;\n";
 		$map .= "	var AutoSizeFramedCloud = OpenLayers.Class(OpenLayers.Popup.FramedCloud, {\n	'autoSize': true\n	});\n";
 		$map .= "	var AutoSizeAnchored = OpenLayers.Class(OpenLayers.Popup.Anchored, {\n	'autoSize': true\n		});\n";
 		$map .= "	function slippymap_init(divName) {\n";
 		$map .= "		var map = new OpenLayers.Map (divName, {\n";
-		$map .= "// <!-- parseScriptOSMHead END -->\n";
+		$map .= "// <!-- parseScriptOLHead END -->\n";
 
 		return $map;
 	}
@@ -1850,12 +1850,12 @@ map.events.register('click', map, handleMapClick);
 	 *
 	 * @return string
 	 */
-	private function parseScriptOSMFooter() {
+	private function parseScriptOLFooter() {
 
-		$map = "// <!-- parseScriptOSMFooter BEGIN -->\n";
+		$map = "// <!-- parseScriptOLFooter BEGIN -->\n";
 		$map .= "}\n";
 		$map .= "</script>\n";
-		$map .= "<!-- parseScriptOSMFooter END -->\n";
+		$map .= "<!-- parseScriptOLFooter END -->\n";
 		// $map .= "<center><div id=\"map\" style=\"width: 600px; height: 400px;\" ><script type=\"text/javascript\">slippymap_init();</script></div></center>\"";
 
 		return $map;
@@ -1865,7 +1865,7 @@ map.events.register('click', map, handleMapClick);
 	 *
 	 * @return string
 	 */
-	private function parseOSMMapControl( $adminonly = false, $params ) {
+	private function parseOLMapControl( $adminonly = false, $params ) {
 		/*
 
 		*/
@@ -1884,30 +1884,30 @@ map.events.register('click', map, handleMapClick);
 			$bottomOutUnits = "km";
 			$bottomInUnits = "m";
 		}
-		$control = "// <!-- parseOSMMapControl BEGIN -->\n";
+		$control = "// <!-- parseOLMapControl BEGIN -->\n";
 		$control .= "		controls:[\n";
 		$control .= "//		Don't forget to remove comma in last line.\n//		Otherwise it doesn't work with IE.\n";
 		//$control .= "				new OpenLayers.Control.ArgParser(),	// ?\n";
-		if ( ( $params === false ) OR ( $params->get('osm_allow_keymove') != "0" ) )
+		if ( ( $params === false ) OR ( $params->get('jtg_param_allow_keymove') != "0" ) )
 		$control .= "				new OpenLayers.Control.KeyboardDefaults(),	// Tastatur: hoch, runter, links, rechts, +, -\n";
-		if ( ( $params === false ) OR ( $params->get('osm_show_mouselocation') != "0" ) )
+		if ( ( $params === false ) OR ( $params->get('jtg_param_show_mouselocation') != "0" ) )
 		$control .= "				new OpenLayers.Control.MousePosition(),		// Koordinate des Mauszeigers (lat, lon)\n";
-		if ( ( $params === false ) OR ( $params->get('osm_allow_mousemove') != "0" ) )
+		if ( ( $params === false ) OR ( $params->get('jtg_param_allow_mousemove') != "0" ) )
 		$control .= "				new OpenLayers.Control.Navigation(),		// mit Maus verschieb- und zoombar\n";
-		if ( ( $params === false ) OR ( $params->get('osm_show_layerswitcher') != "0" ) )
+		if ( ( $params === false ) OR ( $params->get('jtg_param_show_layerswitcher') != "0" ) )
 		$control .= "				new OpenLayers.Control.LayerSwitcher(),		// Menue zum ein/aus-Schalten der Layer\n";
 		if ( $adminonly === false){
-			if ( ( $params === false ) OR ( $params->get('osm_show_panzoombar') != "0" ) )
+			if ( ( $params === false ) OR ( $params->get('jtg_param_show_panzoombar') != "0" ) )
 			$control .= "				new OpenLayers.Control.PanZoomBar(),		// Zoombalken\n";
-			if ( ( $params === false ) OR ( $params->get('osm_show_attribution') != "0" ) )
+			if ( ( $params === false ) OR ( $params->get('jtg_param_show_attribution') != "0" ) )
 			$control .= "				new OpenLayers.Control.Attribution(),		// CC-By-SA ... \n";
 			//	$control .= "				new OpenLayers.Control.ScaleLine(),		// Maszstab (nur am Aequator genau?)\n";
-			if ( ( $params === false ) OR ( $params->get('osm_show_scale') != "0" ) )
+			if ( ( $params === false ) OR ( $params->get('jtg_param_show_scale') != "0" ) )
 			$control .= "				new OpenLayers.Control.ScaleLine({\n					topOutUnits: '" . $topOutUnits . "',\n					topInUnits: '" . $topInUnits . "',\n					bottomOutUnits: '" . $bottomOutUnits . "',\n					bottomInUnits: '" . $bottomInUnits . "'\n				}),					// Maßstab (nur an Äquator genau?)\n";
 			//	$control .= "				new OpenLayers.Control.Permalink(null,'t', permalinkOptions),\n";
 			//	$control .= "				new OpenLayers.Control.Permalink(),		// Permalink\n";
 		}
-		if ( ( $params === false ) OR ( $params->get('osm_allow_mousemove') != "0" ) )
+		if ( ( $params === false ) OR ( $params->get('jtg_param_allow_mousemove') != "0" ) )
 //		$control .= "				new OpenLayers.Control.MouseDefaults()		// mit Maus verschieb- und zoombar\n";
 		$control .= "				new OpenLayers.Control.Navigation()		// mit Maus verschieb- und zoombar\n";
 		$control .= "			],\n";
@@ -1924,7 +1924,7 @@ map.events.register('click', map, handleMapClick);
 			//	$control .= "				map.addControl(new OpenLayers.Control.OverviewMap({layers: [layer_overviewmap]}));\n";
 			//	$control .= "			// Uebersicht\n";
 		}
-		$control .= "// <!-- parseOSMMapControl END -->\n";
+		$control .= "// <!-- parseOLMapControl END -->\n";
 		return $control;
 	}
 
@@ -1950,8 +1950,8 @@ map.events.register('click', map, handleMapClick);
 	 *
 	 * @return string
 	 */
-	private function parseOSMMap() {
-		$string = "// <!-- parseOSMMap BEGIN -->\n";
+	private function parseOLMap() {
+		$string = "// <!-- parseOLMap BEGIN -->\n";
 		/*
 		 $cfg =& JtgHelper::getConfig();
 		 switch($cfg->map_type) {
@@ -1980,7 +1980,7 @@ map.events.register('click', map, handleMapClick);
 		// $string .= "map.addMapType(G_PHYSICAL_MAP);\n";
 		// $string .= "map.setMapType(" . $type . ");\n";
 
-		$string .= "// <!-- parseOSMMap END -->\n";
+		$string .= "// <!-- parseOLMap END -->\n";
 		return $string;
 	}
 
@@ -2167,13 +2167,13 @@ map.events.register('click', map, handleMapClick);
 		$string .= $string_se;
 		$string .= "// <!-- parseXMLlinesCOM_JTG END -->\n";
 
-		$center = "// <!-- parseOSMMapCenterSingleTrack BEGIN -->\n";
+		$center = "// <!-- parseOLMapCenterSingleTrack BEGIN -->\n";
 		$center .= "var min = lonLatToMercator(new OpenLayers.LonLat";
 		$center .= "(" . $bbox_lon_min . "," . $bbox_lat_min . "));\n";
 		$center .= "var max = lonLatToMercator(new OpenLayers.LonLat";
 		$center .= "(" . $bbox_lon_max . "," . $bbox_lat_max . "));\n";
 		$center .= "map.zoomToExtent(new OpenLayers.Bounds(min.lon, min.lat, max.lon, max.lat));\n";
-		$center .= "// <!-- parseOSMMapCenterSingleTrack END -->\n";
+		$center .= "// <!-- parseOLMapCenterSingleTrack END -->\n";
 
 		return array( "coords" => $string, "center" => $center );
 	}

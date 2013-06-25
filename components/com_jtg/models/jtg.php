@@ -3,7 +3,7 @@
  * @component  J!Track Gallery (jtg) for Joomla! 2.5
  *
  * 
- * @author     J!Track Gallery, InJooOSM and joomGPStracks teams
+ * @author     J!Track Gallery, InJO3SM and joomGPStracks teams
  * @package    com_jtg
  * @subpackage frontend
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL2
@@ -42,7 +42,7 @@ class JtgModeljtg extends JModel
 		$db->setQuery($query);
 		$result = $db->loadObject();
 		if (!$result)
-		return JTable::getInstance('osm_files', 'table');
+		return JTable::getInstance('jtg_files', 'table');
 		return $result;
 	}
 

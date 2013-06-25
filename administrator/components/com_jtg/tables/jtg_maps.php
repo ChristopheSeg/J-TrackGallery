@@ -3,7 +3,7 @@
  * @component  J!Track Gallery (jtg) for Joomla! 2.5
  *
  * 
- * @author     J!Track Gallery, InJooOSM and joomGPStracks teams
+ * @author     J!Track Gallery, InJO3SM and joomGPStracks teams
  * @package    com_jtg
  * @subpackage backend
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL2
@@ -17,7 +17,7 @@ defined('_JEXEC') or die('Restricted access');
  * Table class
  * 
  */
-class TableOSM_maps extends JTable
+class TableJTG_maps extends JTable
 {
 	var $id				= NULL;
 	var $name			= NULL;

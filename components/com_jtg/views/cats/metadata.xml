@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
     <!-- com_jtg J!Track Gallery -->
 <metadata>
-	<view title="OSM_MENU_CAT">
+	<view title="COM_JTG_MENU_CAT">
 		<message><![CDATA[COM_JTG_TT_MENU_CAT]]></message>
 	</view>
 </metadata>

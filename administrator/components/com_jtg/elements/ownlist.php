@@ -3,7 +3,7 @@
  * @component  J!Track Gallery (jtg) for Joomla! 2.5
  *
  * 
- * @author     J!Track Gallery, InJooOSM and joomGPStracks teams
+ * @author     J!Track Gallery, InJO3SM and joomGPStracks teams
  * @package    com_jtg
  * @subpackage backend
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL2
@@ -39,41 +39,41 @@ class JFormFieldOwnList extends JFormField
 		if (!is_array($parseLimitText)) $parseLimitText = array();
 		switch ($name)
 		{
-			case "osm_cats":
+			case "jtg_param_cats":
 				return $this->parseCatsSelect($value, $name,false);
 				break;
-//			case "osm_subcats":
+//			case "jtg_param_subcats":
 //				return $this->parseCatsSelect($name,true);
 //				break;
-			case "osm_user":
+			case "jtg_param_user":
 				return $this->parseUserSelect($value, $name);
 				break;
-			case "osm_usergroup":
+			case "jtg_param_usergroup":
 				return $this->parseUsergroupSelect($value, $name);
 				break;
-			case "osm_terrain":
+			case "jtg_param_terrain":
 				return $this->parseTerrainSelect($value, $name);
 				break;
-			case "osm_level_from":
+			case "jtg_param_level_from":
 				return $this->parseLevelSelect($value, $name,  5, 0);
 				break;
-			case "osm_level_to":
+			case "jtg_param_level_to":
 				return $this->parseLevelSelect($value, $name,  5, 5);
 				break;
-			case "osm_vote_from":
+			case "jtg_param_vote_from":
 				return $this->parseLevelSelect($value, $name,  10, 0);
 				break;
-			case "osm_vote_to":
+			case "jtg_param_vote_to":
 				return $this->parseLevelSelect($value, $name,  10, 10);
 				break;
-			case "osm_limittext":
+			case "jtg_param_limittext":
 				return $this->parseLimitText();
 				break;
-			case "osm_helpbutton":
+			case "jtg_param_helpbutton":
 				return $this->parseHelpButton();
 				break;
-			case "osm_helptext":
-				die("osm_helptext");
+			case "jtg_param_helptext":
+				die("jtg_param_helptext");
 				return $this->parseHelpText();
 				break;
 		}
@@ -92,33 +92,33 @@ class JFormFieldOwnList extends JFormField
 		global $parseLimitText;
 		$p = $parseLimitText;
 		$r = array();
-		if ( $p['osm_cats'] != -1 )		$r[] = JText::_('COM_JTG_MENU_LIMIT_CONSTRUCT_CATS') . " " . $this->getCatName($p['osm_cats']);
-//		if ( $p['osm_subcats'] != -1 )	$r[] = JText::_('COM_JTG_MENU_LIMIT_CONSTRUCT_SUBCATS') . " " . $this->getCatName($p['osm_subcats']);
-		if ( $p['osm_user'] != 0 )		$r[] = JText::_('COM_JTG_MENU_LIMIT_CONSTRUCT_USER') . " " . $this->giveRealname($p['osm_user']);
-		if ( $p['osm_usergroup'] != -1 )	$r[] = JText::_('COM_JTG_MENU_LIMIT_CONSTRUCT_USERGROUP') . " " . $this->giveUsergroup($p['osm_usergroup']);
-		if ( $p['osm_terrain'] != -1 )	$r[] = JText::_('COM_JTG_MENU_LIMIT_CONSTRUCT_TERRAIN') . " " . $this->getTerrainname($p['osm_terrain']);
+		if ( $p['jtg_param_cats'] != -1 )		$r[] = JText::_('COM_JTG_MENU_LIMIT_CONSTRUCT_CATS') . " " . $this->getCatName($p['jtg_param_cats']);
+//		if ( $p['jtg_param_subcats'] != -1 )	$r[] = JText::_('COM_JTG_MENU_LIMIT_CONSTRUCT_SUBCATS') . " " . $this->getCatName($p['jtg_param_subcats']);
+		if ( $p['jtg_param_user'] != 0 )		$r[] = JText::_('COM_JTG_MENU_LIMIT_CONSTRUCT_USER') . " " . $this->giveRealname($p['jtg_param_user']);
+		if ( $p['jtg_param_usergroup'] != -1 )	$r[] = JText::_('COM_JTG_MENU_LIMIT_CONSTRUCT_USERGROUP') . " " . $this->giveUsergroup($p['jtg_param_usergroup']);
+		if ( $p['jtg_param_terrain'] != -1 )	$r[] = JText::_('COM_JTG_MENU_LIMIT_CONSTRUCT_TERRAIN') . " " . $this->getTerrainname($p['jtg_param_terrain']);
 
-		if ( ( $p['osm_level_from'] != 0 ) OR ( $p['osm_level_to'] != 5 ) )
+		if ( ( $p['jtg_param_level_from'] != 0 ) OR ( $p['jtg_param_level_to'] != 5 ) )
 		{
-			if ( $p['osm_level_from'] == $p['osm_level_to'] )
-			$r[] = JText::_('COM_JTG_MENU_LIMIT_CONSTRUCT_LEVEL') . " " . $p['osm_level_from'];
-			elseif ( $p['osm_level_from'] > $p['osm_level_to'] )
+			if ( $p['jtg_param_level_from'] == $p['jtg_param_level_to'] )
+			$r[] = JText::_('COM_JTG_MENU_LIMIT_CONSTRUCT_LEVEL') . " " . $p['jtg_param_level_from'];
+			elseif ( $p['jtg_param_level_from'] > $p['jtg_param_level_to'] )
 			$r[] = "<font color=red>".
-				JText::sprintf('COM_JTG_MENU_LIMIT_CONSTRUCT_LEVEL_FROM_TO',$p['osm_level_from'],$p['osm_level_to']).
+				JText::sprintf('COM_JTG_MENU_LIMIT_CONSTRUCT_LEVEL_FROM_TO',$p['jtg_param_level_from'],$p['jtg_param_level_to']).
 				"</font>";
 			else
-				$r[] = JText::sprintf('COM_JTG_MENU_LIMIT_CONSTRUCT_LEVEL_FROM_TO',$p['osm_level_from'],$p['osm_level_to']);
+				$r[] = JText::sprintf('COM_JTG_MENU_LIMIT_CONSTRUCT_LEVEL_FROM_TO',$p['jtg_param_level_from'],$p['jtg_param_level_to']);
 		}
 
-		if ( ( $p['osm_vote_from'] != 0 ) OR ( $p['osm_vote_to'] != 10 ) )
+		if ( ( $p['jtg_param_vote_from'] != 0 ) OR ( $p['jtg_param_vote_to'] != 10 ) )
 		{
-			if ( $p['osm_vote_from'] == $p['osm_vote_to'] )
-				$r[] = JText::sprintf('COM_JTG_MENU_LIMIT_CONSTRUCT_VOTE', $p['osm_vote_from']);
-			elseif ( $p['osm_vote_from'] > $p['osm_vote_to'] )
+			if ( $p['jtg_param_vote_from'] == $p['jtg_param_vote_to'] )
+				$r[] = JText::sprintf('COM_JTG_MENU_LIMIT_CONSTRUCT_VOTE', $p['jtg_param_vote_from']);
+			elseif ( $p['jtg_param_vote_from'] > $p['jtg_param_vote_to'] )
 				$r[] = "<font color=red>".
-				JText::sprintf('COM_JTG_MENU_LIMIT_CONSTRUCT_VOTE_FROM_TO',$p['osm_vote_from'],$p['osm_vote_to']) . "</font>";
+				JText::sprintf('COM_JTG_MENU_LIMIT_CONSTRUCT_VOTE_FROM_TO',$p['jtg_param_vote_from'],$p['jtg_param_vote_to']) . "</font>";
 			else
-				$r[] = JText::sprintf('COM_JTG_MENU_LIMIT_CONSTRUCT_VOTE_FROM_TO',$p['osm_vote_from'],$p['osm_vote_to']);
+				$r[] = JText::sprintf('COM_JTG_MENU_LIMIT_CONSTRUCT_VOTE_FROM_TO',$p['jtg_param_vote_from'],$p['jtg_param_vote_to']);
 		}
 
 		if(count($r) == 0) return JText::_('COM_JTG_MENU_LIMIT_NO');
@@ -191,7 +191,7 @@ class JFormFieldOwnList extends JFormField
 				$return[] = $this->getCatName($cid);
 			}
 			$return = $this->implodeDesc($return,'or');
-			$parseLimitText['osm_catname'] = $return;
+			$parseLimitText['jtg_param_catname'] = $return;
 			return $return;
 		}
 		$db =& JFactory::getDBO();

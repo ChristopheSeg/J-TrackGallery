@@ -3,7 +3,7 @@
  * @component  J!Track Gallery (jtg) for Joomla! 2.5
  *
  * 
- * @author     J!Track Gallery, InJooOSM and joomGPStracks teams
+ * @author     J!Track Gallery, InJO3SM and joomGPStracks teams
  * @package    com_jtg
  * @subpackage frontend
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL2
@@ -27,9 +27,9 @@ class JtgControllerGeo extends JtgController
 		$visible =& JRequest::getVar('visible');
 		$mainframe =& JFactory::getApplication();
 		$query = "UPDATE #__users SET ".
-			"osmlat='" . $lat . "',".
-			"osmlon='" . $lon . "',".
-			"osmvisible='" . $visible . "' ".
+			"jtglat='" . $lat . "',".
+			"jtglon='" . $lon . "',".
+			"jtgvisible='" . $visible . "' ".
 			"WHERE id='" . $userid . "'";
 		$db = JFactory::getDBO();
 		$db->setQuery($query);

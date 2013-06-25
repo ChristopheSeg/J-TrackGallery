@@ -3,7 +3,7 @@
  * @component  J!Track Gallery (jtg) for Joomla! 2.5
  *
  * 
- * @author     J!Track Gallery, InJooOSM and joomGPStracks teams
+ * @author     J!Track Gallery, InJO3SM and joomGPStracks teams
  * @package    com_jtg
  * @subpackage backend
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL2
@@ -38,7 +38,7 @@ class JtgControllerInstall extends JtgController
 	{
 		//$mainframe =& JFactory::getApplication();
 		$model = $this->getModel('install');
-		echo "<br><br>";print_r($model);die();
+		echo "<br><br>admin/com_JTG// controllers/install.php:";print_r($model);die();
 		if(!$model->installCleanDB("install")) return false;
 		return true;
 	}

@@ -3,7 +3,7 @@
  * @component  J!Track Gallery (jtg) for Joomla! 2.5
  *
  * 
- * @author     J!Track Gallery, InJooOSM and joomGPStracks teams
+ * @author     J!Track Gallery, InJO3SM and joomGPStracks teams
  * @package    com_jtg
  * @subpackage backend
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL2
@@ -35,7 +35,7 @@ class JElementArticle extends JElement
 		$fieldName	= $control_name.'['.$name.']';
 		$path = JPATH_SITE . DS . "administrator" . DS . "components" . DS . "com_jtg" . DS . "tables".DS;
 		JTable::addIncludePath($path);
-		$article =& JTable::getInstance('osm_files','Table');
+		$article =& JTable::getInstance('jtg_files','Table');
 		if ($value) {
 			$article->load($value);
 		} else {

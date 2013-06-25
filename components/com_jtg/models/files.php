@@ -3,7 +3,7 @@
  * @component  J!Track Gallery (jtg) for Joomla! 2.5
  *
  * 
- * @author     J!Track Gallery, InJooOSM and joomGPStracks teams
+ * @author     J!Track Gallery, InJO3SM and joomGPStracks teams
  * @package    com_jtg
  * @subpackage frontend
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL2
@@ -401,7 +401,7 @@ class JtgModelFiles extends JModel
 
 		if ($id)
 		{
-			$tracks = & $this->getTable('osm_files');
+			$tracks = & $this->getTable('jtg_files', 'Table');
 			$tracks->hit($id);
 			return true;
 		}
@@ -428,7 +428,7 @@ class JtgModelFiles extends JModel
 		$db->setQuery($query);
 		$result = $db->loadObject();
 		if (!$result)
-		return JTable::getInstance('osm_files', 'table');
+		return JTable::getInstance('jtg_files', 'table');
 		return $result;
 	}
 
@@ -875,9 +875,9 @@ class JtgModelFiles extends JModel
 		$latlon = JtgHelper::getLatLon($user->id);
 		$link = "http://openrouteservice.org/?";
 		if(isset($latlon[0])) {
-			$middle_lon = ((float)$to_lon + (float)$latlon[0]->osmlon) / 2;
-			$middle_lat = ((float)$to_lat + (float)$latlon[0]->osmlat) / 2;
-			$link .= "start=" . $latlon[0]->osmlon . "," . $latlon[0]->osmlat . "&amp;end=" . $to_lon . "," . $to_lat . "&amp;lat=" . $middle_lat . "&amp;lon=" . $middle_lon;
+			$middle_lon = ((float)$to_lon + (float)$latlon[0]->jtglon) / 2;
+			$middle_lat = ((float)$to_lat + (float)$latlon[0]->jtglat) / 2;
+			$link .= "start=" . $latlon[0]->jtglon . "," . $latlon[0]->jtglat . "&amp;end=" . $to_lon . "," . $to_lat . "&amp;lat=" . $middle_lat . "&amp;lon=" . $middle_lon;
 		} else
 		$link .= "end=" . $to_lon . "," . $to_lat;
 		return $link . "&amp;lang=" . $lang . "&amp;pref=";
@@ -898,8 +898,8 @@ class JtgModelFiles extends JModel
 		$user = JFactory::getUser();
 		$latlon = JtgHelper::getLatLon($user->id);
 		if(isset($latlon[0])) {
-			if ($latlon[0]->osmlat) $from_lat = $latlon[0]->osmlat;
-			if ($latlon[0]->osmlon) $from_lon = $latlon[0]->osmlon;
+			if ($latlon[0]->jtglat) $from_lat = $latlon[0]->jtglat;
+			if ($latlon[0]->jtglon) $from_lon = $latlon[0]->jtglon;
 		}
 		if (isset($from_lon) && isset($from_lat)){
 			$middle_lon = ((float)$to_lon + (float)$from_lon) / 2;
@@ -933,8 +933,8 @@ class JtgModelFiles extends JModel
 		$user = JFactory::getUser();
 		$latlon = JtgHelper::getLatLon($user->id);
 		if(isset($latlon[0])) {
-			if ($latlon[0]->osmlat) $from_lat = $latlon[0]->osmlat;
-			if ($latlon[0]->osmlon) $from_lon = $latlon[0]->osmlon;
+			if ($latlon[0]->jtglat) $from_lat = $latlon[0]->jtglat;
+			if ($latlon[0]->jtglon) $from_lon = $latlon[0]->jtglon;
 		}
 		if (isset($from_lon) && isset($from_lat)){
 			$middle_lon = ((float)$to_lon + (float)$from_lon) / 2;

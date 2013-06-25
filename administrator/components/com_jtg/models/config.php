@@ -3,7 +3,7 @@
  * @component  J!Track Gallery (jtg) for Joomla! 2.5
  *
  * 
- * @author     J!Track Gallery, InJooOSM and joomGPStracks teams
+ * @author     J!Track Gallery, InJO3SM and joomGPStracks teams
  * @package    com_jtg
  * @subpackage backend
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL2
@@ -43,7 +43,7 @@ class JtgModelConfig extends JModel
 		return $createColumns;
 		//	Bereinige $row um OSM-Available Map
 		//	$row = $this->cleanOSMconfig($row);
-		$table = $this->getTable( 'osm_config' );
+		$table = $this->getTable( 'jtg_config' );
 		// for gid multiple select Normally done in bind  (/models/config.php but does not work!)
 		$row['gid'] = serialize($row['gid']) ;		
 		$table->bind( $row );
@@ -73,9 +73,9 @@ class JtgModelConfig extends JModel
 		$ignore = array();
 		if ($tablekey == "config")
 		{
-			$ignore = array('map','option','task','osm_default_map');
+			$ignore = array('map','option','task','jtg_param_default_map');
 			for($i=0;$i<10;$i++)
-			$ignore[] = 'osm_allow_map_'.$i;
+			$ignore[] = 'jtg_param_allow_map_'.$i;
 		}
 		//	find out missing columns
 		$missingcolumns = array();

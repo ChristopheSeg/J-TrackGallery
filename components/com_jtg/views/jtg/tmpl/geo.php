@@ -3,7 +3,7 @@
  * @component  J!Track Gallery (jtg) for Joomla! 2.5
  *
  * 
- * @author     J!Track Gallery, InJooOSM and joomGPStracks teams
+ * @author     J!Track Gallery, InJO3SM and joomGPStracks teams
  * @package    com_jtg
  * @subpackage frontend
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL2
@@ -33,10 +33,10 @@ $scriptheader = ("<script type=\"text/javascript\">
 	var iconpath = '" . $iconpath . "';\n");
 $params = $this->params;
 				$defaultvars = (
-"	var osm_geo_lat = ".(float)$params->get('osm_geo_lat') . ";
-	var osm_geo_lon = ".(float)$params->get('osm_geo_lon') . ";
-	var osm_geo_zoom = ".(int)$params->get('osm_geo_zoom') . ";
-	var osm_geo_zoom_loggedin = ".(int)$params->get('osm_geo_zoom_loggedin') . ";\n");
+"	var jtg_param_geo_lat = ".(float)$params->get('jtg_param_geo_lat') . ";
+	var jtg_param_geo_lon = ".(float)$params->get('jtg_param_geo_lon') . ";
+	var jtg_param_geo_zoom = ".(int)$params->get('jtg_param_geo_zoom') . ";
+	var jtg_param_geo_zoom_loggedin = ".(int)$params->get('jtg_param_geo_zoom_loggedin') . ";\n");
 
 if ( $userid )
 {
@@ -53,21 +53,21 @@ if ( $userid )
 $gps = new gpsClass();
 for($x=0;$x<=count($latlon);$x++){
 	if ((isset($latlon[$x])) AND
-	( (float)$latlon[$x]->osmlat != 0) AND
-	( (float)$latlon[$x]->osmlon != 0) AND
+	( (float)$latlon[$x]->jtglat != 0) AND
+	( (float)$latlon[$x]->jtglon != 0) AND
 	($latlon[$x]->id == $userid)) {
-		$userlat = $latlon[$x]->osmlat;
-		$userlon = $latlon[$x]->osmlon;
-		$uservis = $latlon[$x]->osmvisible;
+		$userlat = $latlon[$x]->jtglat;
+		$userlon = $latlon[$x]->jtglon;
+		$uservis = $latlon[$x]->jtgvisible;
 	} elseif ((isset($latlon[$x])) AND
-	( (float)$latlon[$x]->osmlat != 0) AND
-	( (float)$latlon[$x]->osmlon != 0) AND ($latlon[$x]->osmlat) && ($latlon[$x]->osmlon) && ($latlon[$x]->osmvisible)) {
-		if ( ( ( $userid ) && ( $latlon[$x]->osmvisible != "non" ) ) || ( ( !$userid ) && ( $latlon[$x]->osmvisible == "all" ) ) ) {
+	( (float)$latlon[$x]->jtglat != 0) AND
+	( (float)$latlon[$x]->jtglon != 0) AND ($latlon[$x]->jtglat) && ($latlon[$x]->jtglon) && ($latlon[$x]->jtgvisible)) {
+		if ( ( ( $userid ) && ( $latlon[$x]->jtgvisible != "non" ) ) || ( ( !$userid ) && ( $latlon[$x]->jtgvisible == "all" ) ) ) {
 			if (isset($userlon))
 			{
 				$distance = $gps->getDistance(array(
 				array($userlon,$userlat),
-				array($latlon[$x]->osmlon,$latlon[$x]->osmlat)));
+				array($latlon[$x]->jtglon,$latlon[$x]->jtglat)));
 				$distance = JtgHelper::getLocatedFloat($distance,0,$this->cfg->unit);
 
 				$distancetext = "<br />".JText::_('COM_JTG_DISTANCE') . ": ";
@@ -94,8 +94,8 @@ for($x=0;$x<=count($latlon);$x++){
 	var id=Array();\n");
 			}
 			$scriptbody .=
-"	lat[" . $otherusers . "] = '" . $latlon[$x]->osmlat . "';
-	lon[" . $otherusers . "] = '" . $latlon[$x]->osmlon . "';
+"	lat[" . $otherusers . "] = '" . $latlon[$x]->jtglat . "';
+	lon[" . $otherusers . "] = '" . $latlon[$x]->jtglon . "';
 	username[" . $otherusers . "] = '" . $latlon[$x]->username . "';
 	distance[" . $otherusers . "] = '" . $distance . "';
 	name[" . $otherusers . "] = '" . $latlon[$x]->name . "';

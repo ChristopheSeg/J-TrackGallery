@@ -3,7 +3,7 @@
  * @component  J!Track Gallery (jtg) for Joomla! 2.5
  *
  * 
- * @author     J!Track Gallery, InJooOSM and joomGPStracks teams
+ * @author     J!Track Gallery, InJO3SM and joomGPStracks teams
  * @package    com_jtg
  * @subpackage frontend
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL2
@@ -125,10 +125,10 @@ class layoutHelper
 	 */
 	function parseToptracks($params) {
 		$i = 0;
-		if ($params->get('osm_newest') != 0)		$i++;
-		if ($params->get('osm_mostklicks') != 0)	$i++;
-		if ($params->get('osm_best') != 0)			$i++;
-		if ($params->get('osm_rand') != 0)			$i++;
+		if ($params->get('jtg_param_newest') != 0)		$i++;
+		if ($params->get('jtg_param_mostklicks') != 0)	$i++;
+		if ($params->get('jtg_param_best') != 0)			$i++;
+		if ($params->get('jtg_param_rand') != 0)			$i++;
 		return "toptracks_" . $i;
 	}
 
@@ -373,35 +373,35 @@ class layoutHelper
 	{
 		$params = &JComponentHelper::getParams( 'com_jtg' );
 
-		$access = $params->get('osm_otherfiles');
+		$access = $params->get('jtg_param_otherfiles');
 		$where = array();
 		$catswhere = array();
 
-		$layout = layoutHelper::parseParam_User($params->get('osm_user'));
+		$layout = layoutHelper::parseParam_User($params->get('jtg_param_user'));
 		if($layout !== null) $where[] = $layout;
 
-		$layout = layoutHelper::parseParam_Cats($params->get('osm_cats'));
+		$layout = layoutHelper::parseParam_Cats($params->get('jtg_param_cats'));
 		if($layout !== null) $catswhere[] = $layout;
 
-//		$layout = layoutHelper::parseParam_Subcats($params->get('osm_subcats'),$cats);
+//		$layout = layoutHelper::parseParam_Subcats($params->get('jtg_param_subcats'),$cats);
 //		if($layout !== null) $catswhere[] = $layout;
 
-		$layout = layoutHelper::parseParam_Usergroup($params->get('osm_usergroup'));
+		$layout = layoutHelper::parseParam_Usergroup($params->get('jtg_param_usergroup'));
 		if($layout !== null) $where[] = $layout;
 
-		$layout = layoutHelper::parseParam_Terrain($params->get('osm_terrain'));
+		$layout = layoutHelper::parseParam_Terrain($params->get('jtg_param_terrain'));
 		if($layout !== null) $where[] = $layout;
 
-		$layout = layoutHelper::parseParam_LevelFrom($params->get('osm_level_from'));
+		$layout = layoutHelper::parseParam_LevelFrom($params->get('jtg_param_level_from'));
 		if($layout !== null) $where[] = $layout;
 
-		$layout = layoutHelper::parseParam_LevelTo($params->get('osm_level_to'));
+		$layout = layoutHelper::parseParam_LevelTo($params->get('jtg_param_level_to'));
 		if($layout !== null) $where[] = $layout;
 
-		$layout = layoutHelper::parseParam_VotingFrom($params->get('osm_vote_from'));
+		$layout = layoutHelper::parseParam_VotingFrom($params->get('jtg_param_vote_from'));
 		if($layout !== null) $where[] = $layout;
 
-		$layout = layoutHelper::parseParam_VotingTo($params->get('osm_vote_to'));
+		$layout = layoutHelper::parseParam_VotingTo($params->get('jtg_param_vote_to'));
 		if($layout !== null) $where[] = $layout;
 		if(count($where) == 0)
 		$where = "";

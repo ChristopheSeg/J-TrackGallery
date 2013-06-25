@@ -2,7 +2,7 @@
     Document   : style.css
     Created on : 19.09.2010
     Last edit  : 12.02.2011
-    Author     : J!Track Gallery, InJooOSM and joomGPStracks teams
+    Author     : J!Track Gallery, InJO3SM and joomGPStracks teams
 */
 
 .emptyEntry {
@@ -587,7 +587,7 @@ v\:rect,v\:roundrect,v\:line,v\:polyline,v\:curve,v\:arc,v\:oval,v\:image,v\:sha
 	display: inline-block
 }
 
-#osm_catlayer {
+#jtg_param_catlayer {
 	float: left;
 	margin-left: 20px;
 }

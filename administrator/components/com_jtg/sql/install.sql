@@ -190,9 +190,9 @@ PRIMARY KEY ( `id` )
 
 CREATE TABLE IF NOT EXISTS `#__jtg_users` (
 	`user_id` int(10) unsigned,
-	`osmlat` FLOAT(20,15),
-	`osmlon` FLOAT(20,15),
-	`osmvisible` VARCHAR(3),
+	`jtglat` FLOAT(20,15),
+	`jtglon` FLOAT(20,15),
+	`jtgvisible` VARCHAR(3),
 PRIMARY KEY (`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 

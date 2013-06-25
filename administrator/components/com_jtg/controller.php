@@ -5,7 +5,7 @@
  * 
  *    @package     Com_Jtg
  *    @subpackage  Backend
- *    @author      J!Track Gallery, InJooOSM and joomGPStracks teams <christophe@jtrackgallery.net>
+ *    @author      J!Track Gallery, InJO3SM and joomGPStracks teams <christophe@jtrackgallery.net>
  *    @copyright   test 
  *    @license     http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL2 *
  *    @link        http://jtrackgallery.net/
@@ -27,19 +27,21 @@ class JtgController extends JController
 	function __construct() 
 	{
 		parent::__construct();
-		$this->registerTask( 'savecat'	 , 'savecat' );
+		$this->registerTask('savecat', 'savecat');
 	}
 
 	/**
 	 * @use get task form uri and set view and layout
 	 */
-	function display() {
+	function display() 
+	{
 		require_once JPATH_COMPONENT . '/helpers/jtg.php';
 
 		// JtgHelper::updateReset();
 
 		// Load the submenu.
 		JtgHelper::addSubmenu(JRequest::getCmd('view', 'jtg'));
+
 		switch ($this->getTask())
 		{
 			default:

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<layout title="OSM_MENU_FILE_LAYOUT">
+	<layout title="COM_JTG_MENU_FILE_LAYOUT">
 		<message>
 			<![CDATA[COM_JTG_FILE_LAYOUT_DESCRIPTION]]>
 		</message>

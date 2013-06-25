@@ -38,11 +38,11 @@ function mapfirstcenter() {
 	var lat = document.getElementById("lat").value;
 	var lon = document.getElementById("lon").value;
 	if (!lat || !lon) {
-		lat = osm_geo_lat;
-		lon = osm_geo_lon;
-		zoom = osm_geo_zoom;
+		lat = jtg_param_geo_lat;
+		lon = jtg_param_geo_lon;
+		zoom = jtg_param_geo_zoom;
 		alert(alerttext);
-	} else zoom = osm_geo_zoom_loggedin;
+	} else zoom = jtg_param_geo_zoom_loggedin;
 	var lonlat = lonLatToMercator(new OpenLayers.LonLat(lon,lat));
 	map.setCenter(lonlat,zoom);
 }

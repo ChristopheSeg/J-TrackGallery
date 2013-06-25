@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="component" version="2.5.0" method="upgrade">
 	<name>jtg</name>
-	<author>J!Track Gallery, InJooOSM and joomGPStracks teams</author>
+	<author>J!Track Gallery, InJO3SM and joomGPStracks teams</author>
 	<creationDate>22.04.2011</creationDate>
 	<license>GNU/GPL2</license>
 	<authorEmail>christophe@jtrackgallery.net</authorEmail>

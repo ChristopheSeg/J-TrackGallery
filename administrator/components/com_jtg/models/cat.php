@@ -3,7 +3,7 @@
  * @component  J!Track Gallery (jtg) for Joomla! 2.5
  *
  * 
- * @author     J!Track Gallery, InJooOSM and joomGPStracks teams
+ * @author     J!Track Gallery, InJO3SM and joomGPStracks teams
  * @package    com_jtg
  * @subpackage backend
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL2
@@ -54,7 +54,7 @@ class JtgModelCat extends JModel
 	 */
 	function move($direction)
 	{
-		$row =& $this->getTable('osm_cats');
+		$row =& $this->getTable('jtg_cats');
 		if (!$row->load($this->_id)) {
 			$this->setError($this->_db->getErrorMsg());
 			return false;
@@ -76,7 +76,7 @@ class JtgModelCat extends JModel
 	 */
 	function saveorder($cid = array(), $order)
 	{
-		$row =& $this->getTable('osm_cats');
+		$row =& $this->getTable('jtg_cats');
 		$groupings = array();
 
 		// update ordering values

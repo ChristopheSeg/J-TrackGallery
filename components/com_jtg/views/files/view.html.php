@@ -5,7 +5,7 @@
  * @component  J!Track Gallery (jtg) for Joomla! 2.5
  *
  * 
- * @author     J!Track Gallery, InJooOSM and joomGPStracks teams
+ * @author     J!Track Gallery, InJO3SM and joomGPStracks teams
  * @package    com_jtg
  * @subpackage frontend
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL2
@@ -263,7 +263,7 @@ class JtgViewFiles extends JView
 		JHTML :: _('behavior.combobox');
 		$cache = & JFactory :: getCache('com_jtg');
 
-		if ( $params->get("osm_lh") == 1 )
+		if ( $params->get("jtg_param_lh") == 1 )
 		$lh = layoutHelper :: navigation();
 		else
 		$lh = null;

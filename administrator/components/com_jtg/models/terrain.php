@@ -3,7 +3,7 @@
  * @component  J!Track Gallery (jtg) for Joomla! 2.5
  *
  * 
- * @author     J!Track Gallery, InJooOSM and joomGPStracks teams
+ * @author     J!Track Gallery, InJO3SM and joomGPStracks teams
  * @package    com_jtg
  * @subpackage backend
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL2
@@ -149,7 +149,7 @@ class JtgModelTerrain extends JModel
 	function save() {
 		// get post data
 		$row =& JRequest::get( 'post' );
-		$table = $this->getTable( 'osm_terrain' );
+		$table = $this->getTable( 'jtg_terrain' );
 		$table->bind( $row );
 
 		if (!$table->store()) {

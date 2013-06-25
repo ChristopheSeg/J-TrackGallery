@@ -3,7 +3,7 @@
  * @component  J!Track Gallery (jtg) for Joomla! 2.5
  *
  * 
- * @author     J!Track Gallery, InJooOSM and joomGPStracks teams
+ * @author     J!Track Gallery, InJO3SM and joomGPStracks teams
  * @package    com_jtg
  * @subpackage frontend
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL2
@@ -119,7 +119,7 @@ class JtgControllerFiles extends JtgController
 				$msg = JText::_('COM_JTG_COMMENT_NOT_SAVED');
 				else
 				$msg = JText::_('COM_JTG_COMMENT_SAVED');
-				$this->setRedirect( JRoute::_('index.php?option=com_jtg&view=files&layout=file&id='.$id.'#osm_header_comment',false), $msg );
+				$this->setRedirect( JRoute::_('index.php?option=com_jtg&view=files&layout=file&id='.$id.'#jtg_param_header_comment',false), $msg );
 			}
 		} else {
 			$model = $this->getModel('files');
@@ -127,7 +127,7 @@ class JtgControllerFiles extends JtgController
 			$msg = JText::_('COM_JTG_COMMENT_NOT_SAVED');
 			else
 			$msg = JText::_('COM_JTG_COMMENT_SAVED');
-			$this->setRedirect( JRoute::_('index.php?option=com_jtg&view=files&layout=file&id='.$id.'#osm_header_comment',false), $msg );
+			$this->setRedirect( JRoute::_('index.php?option=com_jtg&view=files&layout=file&id='.$id.'#jtg_param_header_comment',false), $msg );
 		}
 
 	}

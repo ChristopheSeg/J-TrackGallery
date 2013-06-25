@@ -3,7 +3,7 @@
  * @component  J!Track Gallery (jtg) for Joomla! 2.5
  *
  * 
- * @author     J!Track Gallery, InJooOSM and joomGPStracks teams
+ * @author     J!Track Gallery, InJO3SM and joomGPStracks teams
  * @package    com_jtg
  * @subpackage frontend
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL2
@@ -33,7 +33,7 @@ class JtgViewjtg extends JView
 		$this->params_maps = new JRegistry( 'com_jtg', $mapsxml );
 		$params = &JComponentHelper::getParams( 'com_jtg' );
 		layoutHelper::parseMap($document,$cfg->map);
-		$tracks = (bool)$params->get('osm_tracks');	// show Tracks in Overview-Map?
+		$tracks = (bool)$params->get('jtg_param_tracks');	// show Tracks in Overview-Map?
 
 		$model = $this->getModel();
 		$cats = $model->getCatsData();
@@ -41,7 +41,7 @@ class JtgViewjtg extends JView
 		$where = layoutHelper::filterTracks($cats);
 
 		$access = JtgHelper::giveAccessLevel();
-		$otherfiles = $params->get('osm_otherfiles');
+		$otherfiles = $params->get('jtg_param_otherfiles');
 		$mayisee = JtgHelper::MayIsee($where,$access,$otherfiles);
 		$boxlinktext = array(
 		0 => JText::_('COM_JTG_LINK_VIEWABLE_FOR_PUBLIC'),
@@ -50,7 +50,7 @@ class JtgViewjtg extends JView
 		9 => JText::_('COM_JTG_LINK_VIEWABLE_FOR_PRIVATE')
 		);
 
-		if((bool)$params->get('osm_lh'))
+		if((bool)$params->get('jtg_param_lh'))
 		$lh = layoutHelper::navigation();
 		else
 		$lh = null;
@@ -59,17 +59,17 @@ class JtgViewjtg extends JView
 		$rows = $model->getTracksData(NULL,NULL,$where);
 		$geo = JRoute :: _('index.php?option=com_jtg&view=jtg&layout=geo', false);
 		$this->newest =	null;
-		if($params->get('osm_newest') != 0)
-		$this->newest =	layoutHelper::parseTopNewest($where,$mayisee,$model,$params->get('osm_newest'));
+		if($params->get('jtg_param_newest') != 0)
+		$this->newest =	layoutHelper::parseTopNewest($where,$mayisee,$model,$params->get('jtg_param_newest'));
 		$this->hits = null;
-		if($params->get('osm_mostklicks') != 0)
-		$this->hits =		layoutHelper::parseTopHits($where,$mayisee,$model,$params->get('osm_mostklicks'));
+		if($params->get('jtg_param_mostklicks') != 0)
+		$this->hits =		layoutHelper::parseTopHits($where,$mayisee,$model,$params->get('jtg_param_mostklicks'));
 		$this->best = null;
-		if($params->get('osm_best') != 0)
-		$this->best =		layoutHelper::parseTopBest($where,$mayisee,$model,$params->get('osm_best'),$params->get('osm_vote_show_stars'));
+		if($params->get('jtg_param_best') != 0)
+		$this->best =		layoutHelper::parseTopBest($where,$mayisee,$model,$params->get('jtg_param_best'),$params->get('jtg_param_vote_show_stars'));
 		$this->rand = null;
-		if($params->get('osm_rand') != 0)
-		$this->rand =		layoutHelper::parseTopRand($where,$mayisee,$model,$params->get('osm_rand'));
+		if($params->get('jtg_param_rand') != 0)
+		$this->rand =		layoutHelper::parseTopRand($where,$mayisee,$model,$params->get('jtg_param_rand'));
 		$toptracks = layoutHelper::parseToptracks($params);
 
 		$published = "\na.published = 1 AND a.hidden = 0";

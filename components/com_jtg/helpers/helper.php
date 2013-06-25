@@ -3,7 +3,7 @@
  * @component  J!Track Gallery (jtg) for Joomla! 2.5
  *
  * 
- * @author     J!Track Gallery, InJooOSM and joomGPStracks teams
+ * @author     J!Track Gallery, InJO3SM and joomGPStracks teams
  * @package    com_jtg
  * @subpackage frontend
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL2
@@ -486,8 +486,8 @@ class JtgHelper
 	function getLatLon($uid=false,$exclude=false) {
 		$mainframe =& JFactory::getApplication();
 		$db =& JFactory::getDBO();
-		$query = "SELECT id,name,username,osmlat,osmlon,osmvisible FROM #__users";
-		// SELECT u.id,u.name,u.username,u2.osmlat,u2.osmlon,u2.osmvisible FROM crl05_users as u left join crl05_osm_users as u2 ON u.id=u2.user_id
+		$query = "SELECT id,name,username,jtglat,jtglon,jtgvisible FROM #__users";
+		// SELECT u.id,u.name,u.username,u2.jtglat,u2.jtglon,u2.jtgvisible FROM crl05_users as u left join crl05_jtg_param_users as u2 ON u.id=u2.user_id
 		if ($uid !== false)
 		$query .= " WHERE id='" . $uid . "'";
 		elseif ($exclude !== false)

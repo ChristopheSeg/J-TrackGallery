@@ -3,7 +3,7 @@
  * @component  J!Track Gallery (jtg) for Joomla! 2.5
  *
  * 
- * @author     J!Track Gallery, InJooOSM and joomGPStracks teams
+ * @author     J!Track Gallery, InJO3SM and joomGPStracks teams
  * @package    com_jtg
  * @subpackage frontend
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL2
@@ -17,12 +17,12 @@ echo $this->lh;
 
 $maySeeSingleFile = $this->maySeeSingleFile($this);
 if ($maySeeSingleFile === true) {
-	$speedchart = (bool)$this->params->get("osm_show_speedchart");
-	$heightchart = (bool)$this->params->get("osm_show_heightchart");
-	$heightchart = true; //TODO parameter osm_show_heightchart not used !!
+	$speedchart = (bool)$this->params->get("jtg_param_show_speedchart");
+	$heightchart = (bool)$this->params->get("jtg_param_show_heightchart");
+	$heightchart = true; //TODO parameter jtg_param_show_heightchart not used !!
 
-	$durationbox = (bool)$this->params->get("osm_show_durationcalc");
-	$durationbox = true; //TODO parameter osm_show_heightchart not used !!
+	$durationbox = (bool)$this->params->get("jtg_param_show_durationcalc");
+	$durationbox = true; //TODO parameter jtg_param_show_heightchart not used !!
 	echo $this->map;
 	if ( ( $this->cfg->gallery == "jd2" ) OR ( $this->cfg->gallery == "jd21" ) ) {
 		echo $this->galscript;
@@ -142,7 +142,7 @@ TODO END TEST highcharts
 }
 ?>
 <?php
-echo $this->parseTemplate("headline",$this->track->title,"osm_header_map");
+echo $this->parseTemplate("headline",$this->track->title,"jtg_param_header_map");
 ?>
 <center>
 <div id="map" style="width: <?php echo $this->cfg->map_width; ?>px; height: <?php echo $this->cfg->map_height; ?>px; margin-bottom:20px;" ></div>
@@ -299,11 +299,11 @@ if ( ($speedchart) AND ( $this->speed !== false ) ) {
 			<?php
 			if ($this->cfg->usevote == 1)
 			{
-				echo $this->parseTemplate("headline",JText::_('COM_JTG_VOTING'),"osm_header_rating");
+				echo $this->parseTemplate("headline",JText::_('COM_JTG_VOTING'),"jtg_param_header_rating");
 				$template = "<div id=\"ratingbox\">
 	<ul id=\"1001\" class=\"rating " . $this->vote['class'] . "\">\n";
 				for ($i = 1; $i <= 10; $i++) {
-					$link = "index.php?option=com_jtg&controller=files&id=" . $this->track->id . "&task=vote&rate=" . $i . "#osm_header_rating";
+					$link = "index.php?option=com_jtg&controller=files&id=" . $this->track->id . "&task=vote&rate=" . $i . "#jtg_param_header_rating";
 					$link = JRoute::_($link,false);
 					$template .= "		<li id=\"" . $i . "\" class=\"rate " . $this->stars->$i . "\">\n"
 						. "			<a href=\"" . $link . "\" title=\"" . JText::_('COM_JTG_STARS_'.$i) . "\">" . $i . "</a>\n"
@@ -324,22 +324,22 @@ if ( ($speedchart) AND ( $this->speed !== false ) ) {
 <div class="no-float"></div>
 </div>
 				<?php
-			} else echo "<a name=\"osm_header_rating\"></a>";
+			} else echo "<a name=\"jtg_param_header_rating\"></a>";
 
 			if ($this->cfg->download >= 1)
 			{
-				echo $this->parseTemplate("headline",JText::_('COM_JTG_DOWNLOAD'),"osm_header_download");
+				echo $this->parseTemplate("headline",JText::_('COM_JTG_DOWNLOAD'),"jtg_param_header_download");
 				echo $this->parseTemplate("description",null,null,"open");
 				if (($this->cfg->download == 2) AND ($this->user->get('id') == 0))
 				// registered users only
 				echo $this->parseTemplate("description",JText::_('COM_JTG_NOT_DOWNLOAD'));
 				else {
 					$download_option = "";
-					if ( (bool)$this->params->get("osm_offer_download_gpx") )
+					if ( (bool)$this->params->get("jtg_param_offer_download_gpx") )
 					$download_option .= "	<option value=\"gpx\">GPX</option>\n";
-					if ( (bool)$this->params->get("osm_offer_download_kml") )
+					if ( (bool)$this->params->get("jtg_param_offer_download_kml") )
 					$download_option .= "	<option value=\"kml\">KML</option>\n";
-					if ( (bool)$this->params->get("osm_offer_download_tcx") )
+					if ( (bool)$this->params->get("jtg_param_offer_download_tcx") )
 					$download_option .= "	<option value=\"tcx\">Garmin (tcx)</option>\n";
 					echo $this->jscript;
 					?>
@@ -362,7 +362,7 @@ echo JHTML::_( 'form.token' ) . "\n"; ?> <input type="hidden"
 <!--</div>-->
 <?php
 				}
-			} else echo "<a name=\"osm_header_download\"></a>";
+			} else echo "<a name=\"jtg_param_header_download\"></a>";
 
 			if ($this->track->terrain)
 			{
@@ -376,24 +376,24 @@ echo JHTML::_( 'form.token' ) . "\n"; ?> <input type="hidden"
 					}
 				}
 				$terrain = implode(", ",$newterrain);
-				echo $this->parseTemplate("headline",JText::_('COM_JTG_TERRAIN'),"osm_header_terrain");
+				echo $this->parseTemplate("headline",JText::_('COM_JTG_TERRAIN'),"jtg_param_header_terrain");
 				echo $this->parseTemplate("description",$terrain);
-			} else echo "<a name=\"osm_header_terrain\"></a>";
+			} else echo "<a name=\"jtg_param_header_terrain\"></a>";
 
 			if ($this->track->description)
 			{
-				echo $this->parseTemplate("headline",JText::_('COM_JTG_DESCRIPTION'),"osm_header_description");
+				echo $this->parseTemplate("headline",JText::_('COM_JTG_DESCRIPTION'),"jtg_param_header_description");
 				echo $this->parseTemplate("description",$this->track->description);
-			} else echo "<a name=\"osm_header_description\"></a>";
+			} else echo "<a name=\"jtg_param_header_description\"></a>";
 
 			if (($this->images) AND ( $this->cfg->gallery != "none" ))
 			{
-				echo $this->parseTemplate("headline",JText::_('COM_JTG_GALLERY'),"osm_header_gallery");
+				echo $this->parseTemplate("headline",JText::_('COM_JTG_GALLERY'),"jtg_param_header_gallery");
 				echo $this->parseTemplate("description",$this->imageBlock);
-			} else echo "<a name=\"osm_header_gallery\"></a>";
+			} else echo "<a name=\"jtg_param_header_gallery\"></a>";
 
 			if ( $this->cfg->approach != 'no' ) {
-				echo $this->parseTemplate("headline",JText::_('COM_JTG_APPROACH'),"osm_header_approach");
+				echo $this->parseTemplate("headline",JText::_('COM_JTG_APPROACH'),"jtg_param_header_approach");
 				$description = "	<table id=\"approach\">
 		<tr valign=\"top\">";
 
@@ -416,12 +416,12 @@ echo JHTML::_( 'form.token' ) . "\n"; ?> <input type="hidden"
 	</table>\n";
 				//	$description .= "<a rel=\"width[1000];height[700];\" class=\"jcebox\" href=\"http://maps.google.com/maps?daddr=".JText::_($this->track->start_n) . ",".JText::_($this->track->start_e) . "\" target=\"_blank\" >Google</a>";
 				echo $this->parseTemplate("description",$description);
-			} else echo "<a name=\"osm_header_approach\"></a>";
+			} else echo "<a name=\"jtg_param_header_approach\"></a>";
 			// Approach END
 
 			// adding the comments
 			if($this->cfg->comments == 1) {
-				echo $this->parseTemplate("headline",JText::_('COM_JTG_COMMENTS'),"osm_header_comment");
+				echo $this->parseTemplate("headline",JText::_('COM_JTG_COMMENTS'),"jtg_param_header_comment");
 				if(!$this->comments)  {
 					echo "<div>".JText::_('COM_JTG_NO_COMMENTS') . "</div>";
 				} else {
@@ -464,7 +464,7 @@ echo JHTML::_( 'form.token' ) . "\n"; ?> <input type="hidden"
 				//		global $mosConfig_absolute_path;
 				require_once( 'components' . DS . 'com_jcomments' . DS . 'jcomments.php' );
 				echo JComments::showComments($this->track->id, "com_jtg");
-			} else echo "<a name=\"osm_header_comment\"></a>";
+			} else echo "<a name=\"jtg_param_header_comment\"></a>";
 			?>
 <div style="display: none"><!-- load necessary pics in background --> <img
 	src="http://www.openlayers.org/api/img/cloud-popup-relative.png"
