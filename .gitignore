@@ -1,1 +1,7 @@
 /nbproject/private/
+/components/com_jtg/uploads/import/
+/components/com_jtg/uploads/*.gpx
+/components/com_jtg/uploads/*.GPX
+/components/com_jtg/uploads/*.kml
+/components/com_jtg/uploads/*.KML
+

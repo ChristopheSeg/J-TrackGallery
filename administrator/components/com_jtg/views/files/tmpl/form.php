@@ -49,7 +49,7 @@ if($this->id >= 1) {
 	$document->addScript("../components/com_jtg/assets/js/jd.gallery.js");
 	// 	$document->addScript('');
 	// 	$document->addScript('http://ajax.googleapis.com/ajax/libs/dojo/1.3/dojo/dojo.xd.js');
-	$map .= $gps->writeSingleTrackOSM($this->track->file);
+	$map .= $gps->writeSingleTrackOL($this->track->file);
 	$map .= ("<div id=\"map\" align=\"center\" ");
 	$map .= ("style=\"width: 400px; height: 500px; background-color:#EEE; vertical-align:middle;\" >");
 	$map .= ("<script>slippymap_init(\"map\");</script>");

@@ -903,7 +903,7 @@ class gpsClass
 		{
 			//			die();
 			$map .= $this->parseOLTracks($rows); // Schlecht bei vielen verfügbaren Tracks
-			//			$map .= $this->parseXMLlinesOSM($rows,"/" . $file);
+			//			$map .= $this->parseXMLlinesOL($rows,"/" . $file);
 		}
 		$file = JPATH_SITE . DS . "components" . DS . "com_jtg" . DS . "models" . DS . "jtg.php";
 		require_once $file;
@@ -935,7 +935,7 @@ class gpsClass
 		$map .= $this->parseOLLayer();
 		//	$map .= $this->parseOLPOIs();
 		// 	$map .= $this->parseOLTracks($rows); // Schlecht bei vielen verfügbaren Tracks
-		// 	$map .= $this->parseXMLlinesOSM($rows,"/" . $file);
+		// 	$map .= $this->parseXMLlinesOL($rows,"/" . $file);
 		//	$map .= $this->parseOLMarker($rows);
 		//	$map .= $this->parseOLMapCenter($rows);
 		$map .= "// <!-- parseOLMapCenter BEGIN -->
@@ -1736,7 +1736,7 @@ map.events.register('click', map, handleMapClick);
 		return $map;
 	}
 
-	public function writeTrackOSM($track,$params) {
+	public function writeTrackOL($track,$params) {
 		$mainframe =& JFactory::getApplication();
 		$params = &JComponentHelper::getParams( 'com_jtg' );
 		$osmmicrotime = microtime(true);
@@ -1762,8 +1762,8 @@ map.events.register('click', map, handleMapClick);
 		$zeiten .= (int) round( ( microtime(true) - $osmmicrotime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " parseOLMapControl<br />\n";
 		$map .= $this->parseOLLayer();
 		$zeiten .= (int) round( ( microtime(true) - $osmmicrotime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " parseOLLayer<br />\n";
-		$coords = $this->parseXMLlinesOSM($file,$xml);
-		$zeiten .= (int) round( ( microtime(true) - $osmmicrotime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " parseXMLlinesOSM<br />\n";
+		$coords = $this->parseXMLlinesOL($file,$xml);
+		$zeiten .= (int) round( ( microtime(true) - $osmmicrotime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " parseXMLlinesOL<br />\n";
 		if ( $coords !== null )
 		$map .= $coords['coords'];
 		//	if ( isset($rows) )
@@ -1771,7 +1771,7 @@ map.events.register('click', map, handleMapClick);
 		$zeiten .= (int) round( ( microtime(true) - $osmmicrotime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " parseOLMarker<br />\n";
 		$map .= $this->parseOLGeotaggedImgs($track->id,$maxsize,$iconpath,$httpiconpath);
 		$zeiten .= (int) round( ( microtime(true) - $osmmicrotime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " parseOLGeotaggedImgs<br />\n";
-		// 	$map .= $this->parseStartPointOSM($coords); // ist jetzt für jede einzelne Spur definiert
+		// 	$map .= $this->parseStartPointOL($coords); // ist jetzt für jede einzelne Spur definiert
 		$file_tmp = $file;
 		$wp = $this->extractWPs($xml);
 		$zeiten .= (int) round( ( microtime(true) - $osmmicrotime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " extractWPs<br />\n";
@@ -1794,7 +1794,7 @@ map.events.register('click', map, handleMapClick);
 		return $map;
 	}
 
-	public function writeSingleTrackOSM($file,$params=false) {
+	public function writeSingleTrackOL($file,$params=false) {
 		// for little Map in Administration
 		$cfg =& JtgHelper::getConfig();
 		$mainframe =& JFactory::getApplication();
@@ -1807,10 +1807,10 @@ map.events.register('click', map, handleMapClick);
 		$map .= $this->parseOLMap();
 		$map .= $this->parseOLMapControl(true,$params);
 		$map .= $this->parseOLLayer();
-		$coords = $this->parseXMLlinesOSM($file,$xml);
+		$coords = $this->parseXMLlinesOL($file,$xml);
 		$map .= $coords['coords'];
 		// 	$map .= $this->parseOLMarker($rows,false); // Andere Tracks standardmäßig ausblenden
-		// 	$map .= $this->parseStartPointOSM($coords); // ist jetzt für jede einzelne Spur definiert
+		// 	$map .= $this->parseStartPointOL($coords); // ist jetzt für jede einzelne Spur definiert
 		// 	$file_tmp = $file;
 		$wp = $this->extractWPs($xml);
 		if ($wp !== false);
@@ -1932,7 +1932,7 @@ map.events.register('click', map, handleMapClick);
 	 *
 	 * @return string
 	 */
-	private function markerFunctionOSM() {
+	private function markerFunctionOL() {
 		$map = "// <!-- markerFunctionCOM_JTG BEGIN -->\n";
 		// $map .= "function createMarker(point,html) {\n";
 		// $map .= "var marker = new GMarker(point);\n";
@@ -1989,7 +1989,7 @@ map.events.register('click', map, handleMapClick);
 	 * @param object $track
 	 * @return string
 	 */
-	private function parseStartPointOSM($coords) {
+	private function parseStartPointOL($coords) {
 		//		deprecated
 		$map = "// <!-- parseStartPointCOM_JTG BEGIN -->\n";
 		$rows = explode("\n",$coords);
@@ -2030,7 +2030,7 @@ map.events.register('click', map, handleMapClick);
 	 * @param string $file
 	 * @return array
 	 */
-	private function parseXMLlinesOSM($file,$xml) {
+	private function parseXMLlinesOL($file,$xml) {
 		//		global $osmmicrotime;
 		$bbox_lat_max = -90;
 		$bbox_lat_min = 90;

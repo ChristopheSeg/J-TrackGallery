@@ -348,7 +348,7 @@ class JtgViewFiles extends JView
 		if ($cfg->map == "google")
 		$map = $cache->get(array ( $gps, 'writeTrackGoogle'), array ($track));
 		if ($cfg->map == "osm")
-		$map = $cache->get(array ( $gps, 'writeTrackOSM' ), array ( $track, $params ));
+		$map = $cache->get(array ( $gps, 'writeTrackOL' ), array ( $track, $params ));
 		// Kartenauswahl END
 		$unit = $cfg->unit;
 		$distance_float = (float) $track->distance;
