@@ -42,7 +42,7 @@ class JtgModelConfig extends JModel
 		if ($createColumns !== true)
 		return $createColumns;
 		//	Bereinige $row um OSM-Available Map
-		//	$row = $this->cleanOSMconfig($row);
+		//	$row = $this->cleanJTGconfig($row);
 		$table = $this->getTable( 'jtg_config' );
 		// for gid multiple select Normally done in bind  (/models/config.php but does not work!)
 		$row['gid'] = serialize($row['gid']) ;		

@@ -88,7 +88,7 @@ class JtgViewConfig extends JView
 		array('id' => 'osm', 'text' => JText::_('COM_JTG_OSM')),
 		);
 		$routingiconset = array();
-		$imgdir = " . . " . DS . "components" . DS . "com_jtg" . DS . "assets" . DS . "images" . DS . "approach".DS;
+		$imgdir = ".." . DS . "components" . DS . "com_jtg" . DS . "assets" . DS . "images" . DS . "approach".DS;
 		$importdir = JPATH_SITE . DS . "components" . DS . "com_jtg" . DS . "assets" . DS . "images" . DS . "approach".DS;
 		$files = JFolder::folders($importdir);
 		for($i=0;$i<count($files);$i++) {

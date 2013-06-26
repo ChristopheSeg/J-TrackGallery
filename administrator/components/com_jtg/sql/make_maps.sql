@@ -6,7 +6,7 @@ INSERT IGNORE INTO `#__jtg_maps` (
 	`script`,
 	`code`
 ) VALUES (
-	'OSMMAP_MAPNIK',
+	'COM_JTG_MAP_MAPNIK',
 	1,
 	1,
 	'OpenLayers.Layer.OSM.Mapnik(&quot;{name}&quot;)',
@@ -22,10 +22,10 @@ INSERT IGNORE INTO `#__jtg_maps` (
 	`script`,
 	`code`
 ) VALUES (
-	'OSMMAP_OSMARENDER',
+	'COM_JTG_MAP_OSM_HIKE_AND_BIKE',
 	2,
 	0,
-	'OpenLayers.Layer.OSM.Osmarender(&quot;{name}&quot;)',
+	'OpenLayers.Layer.OSM.OSM_HIKE_AND_BIKE(&quot;{name}&quot;)',
 	'',
 	''
 );
@@ -38,7 +38,7 @@ INSERT IGNORE INTO `#__jtg_maps` (
 	`script`,
 	`code`
 ) VALUES (
-	'OSMMAP_CYCLEMAP',
+	'COM_JTG_MAP_CYCLEMAP',
 	3,
 	0,
 	'OpenLayers.Layer.OSM.CycleMap(&quot;{name}&quot;)',
@@ -54,7 +54,7 @@ INSERT IGNORE INTO `#__jtg_maps` (
 	`script`,
 	`code`
 ) VALUES (
-	'OSMMAP_NONAME',
+	'COM_JTG_MAP_NONAME',
 	4,
 	0,
 	'OpenLayers.Layer.OSM(&quot;{name}&quot;, [ &quot;http://a.tile.cloudmade.com/&quot;+nonamekey+&quot;/3/256/\${z}/\${x}/\${y}.png&quot;, &quot;http://b.tile.cloudmade.com/&quot;+nonamekey+&quot;/3/256/\${z}/\${x}/\${y}.png&quot;, &quot;http://c.tile.cloudmade.com/&quot;+nonamekey+&quot;/3/256/\${z}/\${x}/\${y}.png&quot;], {displayOutsideMaxExtent: true, wrapDateLine: true, numZoomLevels: 19, layerCode: &quot;N&quot;})',
@@ -70,7 +70,7 @@ INSERT IGNORE INTO `#__jtg_maps` (
 	`script`,
 	`code`
 ) VALUES (
-	'OSMMAP_GOOGLESAT',
+	'COM_JTG_MAP_GOOGLESAT',
 	5,
 	0,
 	'OpenLayers.Layer.Google(&quot;{name}&quot;,{type: G_SATELLITE_MAP, sphericalMercator: true})',
@@ -86,7 +86,7 @@ INSERT IGNORE INTO `#__jtg_maps` (
 	`script`,
 	`code`
 ) VALUES (
-	'OSMMAP_GOOGLESREET',
+	'COM_JTG_MAP_GOOGLESTREET',
 	6,
 	0,
 	'OpenLayers.Layer.Google(&quot;{name}&quot;,{type: G_NORMAL_MAP, sphericalMercator: true})',
@@ -102,7 +102,7 @@ INSERT IGNORE INTO `#__jtg_maps` (
 	`script`,
 	`code`
 ) VALUES (
-	'OSMMAP_GOOGLEHYBRID',
+	'COM_JTG_MAP_GOOGLEHYBRID',
 	7,
 	0,
 	'OpenLayers.Layer.Google(&quot;{name}&quot;,{type: G_HYBRID_MAP, sphericalMercator: true})',
@@ -118,7 +118,7 @@ INSERT IGNORE INTO `#__jtg_maps` (
 	`script`,
 	`code`
 ) VALUES (
-	'OSMMAP_YAHOOSTREET',
+	'COM_JTG_MAP_YAHOOSTREET',
 	8,
 	0,
 	'OpenLayers.Layer.Yahoo(&quot;{name}&quot;,{&quot;sphericalMercator&quot;: true})',
@@ -134,7 +134,7 @@ INSERT IGNORE INTO `#__jtg_maps` (
 	`script`,
 	`code`
 ) VALUES (
-	'OSMMAP_VE_AERIAL',
+	'COM_JTG_MAP_VE_AERIAL',
 	9,
 	1,
 	'OpenLayers.Layer.VirtualEarth(&quot;{name}&quot;,{type: VEMapStyle.Aerial,&quot;sphericalMercator&quot; : true,animationEnabled: false})',
@@ -150,7 +150,7 @@ INSERT IGNORE INTO `#__jtg_maps` (
 	`script`,
 	`code`
 ) VALUES (
-	'OSMMAP_VE_ROAD',
+	'COM_JTG_MAP_VE_ROAD',
 	10,
 	0,
 	'OpenLayers.Layer.VirtualEarth(&quot;{name}&quot;,{type: VEMapStyle.Road,&quot;sphericalMercator&quot; : true,animationEnabled: false})',
@@ -166,7 +166,7 @@ INSERT IGNORE INTO `#__jtg_maps` (
 	`script`,
 	`code`
 ) VALUES (
-	'OSMMAP_VE_HYBRID',
+	'COM_JTG_MAP_VE_HYBRID',
 	11,
 	0,
 	'OpenLayers.Layer.VirtualEarth(&quot;{name}&quot;,{type: VEMapStyle.Hybrid,&quot;sphericalMercator&quot; : true,animationEnabled: false})',

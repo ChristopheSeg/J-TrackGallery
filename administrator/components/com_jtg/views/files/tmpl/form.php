@@ -39,7 +39,7 @@ if($this->id >= 1) {
 	$model = $this->getModel();
 	$track = $cache->get(array($model, 'getFile'), array($this->id));
 	$document =& JFactory::getDocument();
-	require_once(" . . " . DS . "components" . DS . "com_jtg" . DS . "helpers" . DS . "gpsClass.php");
+	require_once(".." . DS . "components" . DS . "com_jtg" . DS . "helpers" . DS . "gpsClass.php");
 	$gps = new gpsClass();
 	$document->addScript('http://www.openlayers.org/api/OpenLayers.js');
 	$document->addScript('http://www.openstreetmap.org/openlayers/OpenStreetMap.js');

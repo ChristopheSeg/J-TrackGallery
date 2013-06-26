@@ -51,7 +51,7 @@ class JtgModelFiles extends JModel
 		$file =& JRequest::getVar('file');
 		$cfg = JtgHelper::getConfig();
 		jimport('joomla.filesystem.file');
-		require_once(" . . " . DS . "components" . DS . "com_jtg" . DS . "helpers" . DS . "gpsClass.php");
+		require_once(".." . DS . "components" . DS . "com_jtg" . DS . "helpers" . DS . "gpsClass.php");
 		$gps = new gpsClass();
 		$file = JPATH_SITE . DS . "components" . DS . "com_jtg" . DS . "uploads" . DS . $file;
 		$gps->gpsFile = $file;
@@ -665,7 +665,7 @@ class JtgModelFiles extends JModel
 	function saveFiles() {
 		$mainframe =& JFactory::getApplication();
 		jimport('joomla.filesystem.file');
-		require_once(" . . " . DS . "components" . DS . "com_jtg" . DS . "helpers" . DS . "gpsClass.php");
+		require_once(".." . DS . "components" . DS . "com_jtg" . DS . "helpers" . DS . "gpsClass.php");
 		$fileokay = true;
 		$db =& JFactory::getDBO();
 		$user =& JFactory::getUser();
@@ -807,7 +807,7 @@ class JtgModelFiles extends JModel
 	function importFromJPT($track) {
 		$mainframe =& JFactory::getApplication();
 		jimport('joomla.filesystem.file');
-		require_once(" . . " . DS . "components" . DS . "com_jtg" . DS . "helpers" . DS . "gpsClass.php");
+		require_once(".." . DS . "components" . DS . "com_jtg" . DS . "helpers" . DS . "gpsClass.php");
 		$db =& JFactory::getDBO();
 		$fileokay = false;
 		$targetdir = JPATH_SITE . DS . "components" . DS . "com_jtg" . DS . "uploads".DS;
@@ -928,7 +928,7 @@ class JtgModelFiles extends JModel
 	function saveFile() {
 		$mainframe =& JFactory::getApplication();
 		jimport('joomla.filesystem.file');
-		require_once(" . . " . DS . "components" . DS . "com_jtg" . DS . "helpers" . DS . "gpsClass.php");
+		require_once(".." . DS . "components" . DS . "com_jtg" . DS . "helpers" . DS . "gpsClass.php");
 
 		$db =& JFactory::getDBO();
 		$user =& JFactory::getUser();
@@ -988,7 +988,7 @@ class JtgModelFiles extends JModel
 		$isCache = 0;
 		//		$isCache = $gps->isCache();
 		//		if ($isCache !== false) $isCache = "1"; else $isCache = "0";
-		$gps->gpsFile = " . . " . DS . "components" . DS . "com_jtg" . DS . "uploads" . DS . strtolower($filename);
+		$gps->gpsFile = ".." . DS . "components" . DS . "com_jtg" . DS . "uploads" . DS . strtolower($filename);
 		if($gps->getStartCoordinates())  {
 			$start = $gps->getStartCoordinates();
 		} else {
@@ -996,7 +996,7 @@ class JtgModelFiles extends JModel
 			//                 exit;
 		}
 
-		$file = " . . " . DS . "components" . DS . "com_jtg" . DS . "uploads" . DS . strtolower($filename);
+		$file = ".." . DS . "components" . DS . "com_jtg" . DS . "uploads" . DS . strtolower($filename);
 		$start_n = $start[1];
 		$start_e = $start[0];
 		$coords = $gps->getCoords($file);
@@ -1081,7 +1081,7 @@ class JtgModelFiles extends JModel
 		$importfiles = $this->_fetchJPTfiles;
 		$mainframe =& JFactory::getApplication();
 		jimport('joomla.filesystem.file');
-		require_once(" . . " . DS . "components" . DS . "com_jtg" . DS . "helpers" . DS . "gpsClass.php");
+		require_once(".." . DS . "components" . DS . "com_jtg" . DS . "helpers" . DS . "gpsClass.php");
 		$fileokay = true;
 		$db =& JFactory::getDBO();
 		$user =& JFactory::getUser();

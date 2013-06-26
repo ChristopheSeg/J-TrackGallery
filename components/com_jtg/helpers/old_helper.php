@@ -14,7 +14,7 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
-function osmdebug2($val, $die=false) {
+function jtgdebug2($val, $die=false) {
 	$r = "<pre>";
 	if ( is_array($val) )
 	{

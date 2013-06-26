@@ -89,7 +89,7 @@
 0.4.8	Approach deactivatable and choosable
 	New: Elevation- and Speed Graphs are now disengageable
 	New: Help-system in backend established. It links online to InJooOSM-wiki
-	New: Maps (Mapnik, Osmarender, ...) manageable in backend
+	New: Maps (Mapnik, OSMArender, ...) manageable in backend
 	New: Easy approach with external links only (google, osm, ...) (in progress)
 	New: Templatesystem enhanced
 	New: Global css deleted and content moved to template-css

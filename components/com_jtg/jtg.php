@@ -14,8 +14,8 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
-global $osmmicrotime;
-$osmmicrotime = microtime(true);
+global $jtg_microtime;
+$jtg_microtime = microtime(true);
 // Require the base controller
 require_once JPATH_COMPONENT . DS . 'controller.php';
 
@@ -58,8 +58,8 @@ $controller->execute( JRequest::getCmd( 'task' ) );
 
 $controller->redirect();
 // en-/disable execution time
-if ( ( JDEBUG ) AND (isset($osmmicrotime) ) ) {
-	$seconds = ( microtime(true) - $osmmicrotime );
+if ( ( JDEBUG ) AND (isset($jtg_microtime) ) ) {
+	$seconds = ( microtime(true) - $jtg_microtime );
 	$milliseconds = ( $seconds * 1000 );
 	$microseconds = ( $seconds * 1000000 );
 	echo

@@ -1071,8 +1071,8 @@ map.events.register('click', map, handleMapClick);
 	 */
 	private function parseOLMapCenterSingleTrack($file) {
 		//		echo "deprecated function parseOLMapCenterSingleTrack";
-		//		global $osmmicrotime;
-		//		if ( ( microtime(true) - $osmmicrotime ) > 29 )
+		//		global $jtg_microtime;
+		//		if ( ( microtime(true) - $jtg_microtime ) > 29 )
 		//		return "map.zoomToMaxExtent();\n"; // emergency brake
 		if (!is_file($file)) return false;
 		$xml = simplexml_load_file($file);
@@ -1436,12 +1436,12 @@ map.events.register('click', map, handleMapClick);
 		$return .= "hs2_1 =  new OpenLayers.Layer.WMS( hs_name , hs_url , hs2_1_options,{'buffer':1, transitionEffect:'resize', removeBackBufferDelay:0, className:'olLayerGridCustom'});\n";
 		$return .= "map.addLayer( hs2,hs2_1 );";
 
-// TODO jtg_getTileURL see http://wiki.openstreetmap.org/wiki/Talk:Openlayers_POI_layer_example
+		// TODO osm_getTileURL see http://wiki.openstreetmap.org/wiki/Talk:Openlayers_POI_layer_example
 		$document->addScript('/components/com_jtg/assets/js/jtg_getTileURL.js');
 		$return .= "hill = new OpenLayers.Layer.TMS(\"".JText::_('COM_JTG_HILL_SHADE_NASA') . "\"\n,
 			\"http://toolserver.org/~cmarqu/hill/\",
 			{
-					type: 'png', getURL: jtg_getTileURL,
+					type: 'png', getURL: osm_getTileURL,
 					displayOutsideMaxExtent: true, isBaseLayer: false,
 				transparent: true, \"visibility\": false
 				}
@@ -1467,7 +1467,7 @@ map.events.register('click', map, handleMapClick);
 		$layertoshow = array();
 
 		/*	$layertoshow[0] = "		layerMapnik = new OpenLayers.Layer.OSM.Mapnik(\"Mapnik\");\n			map.addLayer(layerMapnik);\n";
-		 $layertoshow[1] = "		layerTilesAtHome = new OpenLayers.Layer.OSM.Osmarender(\"Osmarender\");\n			map.addLayer(layerTilesAtHome);\n";
+		 $layertoshow[1] = "		layerTilesAtHome = new OpenLayers.Layer.OSM.OSM_HIKE_AND_BIKE(\"OSM_HIKE_AND_BIKE\");\n			map.addLayer(layerTilesAtHome);\n";
 		 $layertoshow[2] = "		layerCycleMap = new OpenLayers.Layer.OSM.CycleMap(\"CycleMap\");\n			map.addLayer(layerCycleMap);\n";
 		 /*	$layertoshow[3] = "
 		 layerol_wms = new OpenLayers.Layer.WMS( \"OpenLayers WMS (metacarta)\",
@@ -1548,10 +1548,10 @@ map.events.register('click', map, handleMapClick);
 		 ";
 		 */
 		/* 	$layertoshow[3] .= "
-		 var osmarender = new OpenLayers.Layer.OSM(
+		 var OSM_HIKE_AND_BIKE = new OpenLayers.Layer.OSM(
 		 \"OpenStreetMap (Tiles@Home)\",
 		 \"http://tah.openstreetmap.org/Tiles/tile/${z}/${x}/${y}.png\");
-		 map.addLayer(osmarender);\n
+		 map.addLayer(OSM_HIKE_AND_BIKE);\n
 		 ";
 		 */
 		/*	tot?
@@ -1739,7 +1739,7 @@ map.events.register('click', map, handleMapClick);
 	public function writeTrackOL($track,$params) {
 		$mainframe =& JFactory::getApplication();
 		$params = &JComponentHelper::getParams( 'com_jtg' );
-		$osmmicrotime = microtime(true);
+		$jtg_microtime = microtime(true);
 		$zeiten = "<br />\n";
 		$cfg =& JtgHelper::getConfig();
 		$maxsize = $cfg->max_size;
@@ -1747,7 +1747,7 @@ map.events.register('click', map, handleMapClick);
 		$httpiconpath = JPATH_SITE . DS . "components" . DS . "com_jtg" . DS . "assets" . DS . "template" . DS . $cfg->template . DS . "images".DS;
 		jimport('joomla.filesystem.file');
 		// $rows = $this->getTracks(" WHERE a.id != " . $track->id);
-		$zeiten .= (int) round( ( microtime(true) - $osmmicrotime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " getTracks<br />\n";
+		$zeiten .= (int) round( ( microtime(true) - $jtg_microtime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " getTracks<br />\n";
 		$file = JPATH_SITE . DS . "components" . DS . "com_jtg" . DS . "uploads" . DS . $track->file;
 		$this->gpsFile = $file;
 		$xml = $this->loadFile();
@@ -1755,26 +1755,26 @@ map.events.register('click', map, handleMapClick);
 		//		$rows = $this->maySee($rows);		// Berechtigung Okay?
 		// ToDo: Berechtigungen vorher schon checken?
 		$map .= $this->parseScriptOLHead();
-		$zeiten .= (int) round( ( microtime(true) - $osmmicrotime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " parseScriptOLHead<br />\n";
+		$zeiten .= (int) round( ( microtime(true) - $jtg_microtime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " parseScriptOLHead<br />\n";
 		$map .= $this->parseOLMap();
-		$zeiten .= (int) round( ( microtime(true) - $osmmicrotime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " parseOLMap<br />\n";
+		$zeiten .= (int) round( ( microtime(true) - $jtg_microtime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " parseOLMap<br />\n";
 		$map .= $this->parseOLMapControl(false,$params);
-		$zeiten .= (int) round( ( microtime(true) - $osmmicrotime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " parseOLMapControl<br />\n";
+		$zeiten .= (int) round( ( microtime(true) - $jtg_microtime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " parseOLMapControl<br />\n";
 		$map .= $this->parseOLLayer();
-		$zeiten .= (int) round( ( microtime(true) - $osmmicrotime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " parseOLLayer<br />\n";
+		$zeiten .= (int) round( ( microtime(true) - $jtg_microtime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " parseOLLayer<br />\n";
 		$coords = $this->parseXMLlinesOL($file,$xml);
-		$zeiten .= (int) round( ( microtime(true) - $osmmicrotime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " parseXMLlinesOL<br />\n";
+		$zeiten .= (int) round( ( microtime(true) - $jtg_microtime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " parseXMLlinesOL<br />\n";
 		if ( $coords !== null )
 		$map .= $coords['coords'];
 		//	if ( isset($rows) )
 		//	$map .= $this->parseOLMarker($rows,false); // Andere Tracks standardmäßig ausblenden
-		$zeiten .= (int) round( ( microtime(true) - $osmmicrotime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " parseOLMarker<br />\n";
+		$zeiten .= (int) round( ( microtime(true) - $jtg_microtime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " parseOLMarker<br />\n";
 		$map .= $this->parseOLGeotaggedImgs($track->id,$maxsize,$iconpath,$httpiconpath);
-		$zeiten .= (int) round( ( microtime(true) - $osmmicrotime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " parseOLGeotaggedImgs<br />\n";
+		$zeiten .= (int) round( ( microtime(true) - $jtg_microtime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " parseOLGeotaggedImgs<br />\n";
 		// 	$map .= $this->parseStartPointOL($coords); // ist jetzt für jede einzelne Spur definiert
 		$file_tmp = $file;
 		$wp = $this->extractWPs($xml);
-		$zeiten .= (int) round( ( microtime(true) - $osmmicrotime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " extractWPs<br />\n";
+		$zeiten .= (int) round( ( microtime(true) - $jtg_microtime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " extractWPs<br />\n";
 		if ($wp !== false);
 		$map .= $this->parseWPs($wp['wps'] );
 		// 	$map .= $this->parseOLStartZiel();
@@ -1784,12 +1784,12 @@ map.events.register('click', map, handleMapClick);
 		else
 		$map .= $wp['center'];
 		//	$map .= $this->parseOLMapCenterSingleTrack($file);
-		$zeiten .= (int) round( ( microtime(true) - $osmmicrotime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " parseOLMapCenterSingleTrack<br />\n";
+		$zeiten .= (int) round( ( microtime(true) - $jtg_microtime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " parseOLMapCenterSingleTrack<br />\n";
 		$map .= $this->parseOLMapFunctions();
-		$zeiten .= (int) round( ( microtime(true) - $osmmicrotime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " parseOLMapFunctions<br />\n";
+		$zeiten .= (int) round( ( microtime(true) - $jtg_microtime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " parseOLMapFunctions<br />\n";
 
 		$map .= $this->parseScriptOLFooter();
-		$zeiten .= (int) round( ( microtime(true) - $osmmicrotime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " parseScriptOLFooter<br />\n";
+		$zeiten .= (int) round( ( microtime(true) - $jtg_microtime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " parseScriptOLFooter<br />\n";
 		$map .= "\n<!-- writeTrackCOM_JTG END -->\n";
 		return $map;
 	}
@@ -2031,7 +2031,7 @@ map.events.register('click', map, handleMapClick);
 	 * @return array
 	 */
 	private function parseXMLlinesOL($file,$xml) {
-		//		global $osmmicrotime;
+		//		global $jtg_microtime;
 		$bbox_lat_max = -90;
 		$bbox_lat_min = 90;
 		$bbox_lon_max = -180;
@@ -2105,7 +2105,7 @@ map.events.register('click', map, handleMapClick);
 						$j++;
 						$n++;
 						//						if ( $i > 1000 ) break 2; // emergency brake
-						//						if ( ( microtime(true) - $osmmicrotime ) > 30 )
+						//						if ( ( microtime(true) - $jtg_microtime ) > 30 )
 						//						break;
 
 					}
