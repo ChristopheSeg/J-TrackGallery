@@ -312,6 +312,14 @@ class JtgViewFiles extends JView
 		//		));
 		$user = & JFactory :: getUser();
 		$document = & JFactory :: getDocument();
+		// load map stylesheet
+		$tmpl = ($cfg->template = "") ? $cfg->template : 'default';
+		$document->addStyleSheet(JURI::base().'components/com_jtg/assets/template/'.$tmpl.'/jtg_map_style.css');
+		// override style with user templates
+
+		$template = $mainframe->getTemplate();
+		$document->addStyleSheet( 'templates/' . $template . '/css/jtg_map_style.css' );
+		
 		// Kartenauswahl BEGIN
 		JHTML :: script('jtg.js', 'components/com_jtg/assets/js/', false);
 		if ($cfg->map == "google") {
@@ -324,6 +332,7 @@ class JtgViewFiles extends JView
 			//			$document->addScript('http://maps.google.com/maps?file=api&amp;v=2&amp;key='.$cfg->apikey);
 			//			$document->addScript('http://api.maps.yahoo.com/ajaxymap?v=3.0&appid=');
 			$document->addScript('http://www.openlayers.org/api/OpenLayers.js');
+			$document->addScript('components' . DS . 'com_jtg' . DS . 'assets' . DS . 'js' . DS . 'fullscreen.js');
 			//		JHTML::script('OpenLayers.js', 'components' . DS . 'com_jtg' . DS . 'assets' . DS . 'js' . DS . 'OpenLayers'., false); // IE-Fehler
 			$document->addScript('http://www.openstreetmap.org/openlayers/OpenStreetMap.js');
 			$document->addScript('http://www.openlayers.org/api/Ajax.js');
@@ -809,7 +818,8 @@ class JtgViewFiles extends JView
 	}
 
 	function parseTemplate($template, $content = null, $linkname = null, $only = null) {
-		$templatepath = JPATH_BASE . DS . "components" . DS . "com_jtg" . DS . "assets" . DS . "template" . DS . $this->cfg->template . DS;
+		$tmpl = ($this->cfg->template = "") ? $this->cfg->template : 'default';;
+		$templatepath = JPATH_BASE . DS . "components" . DS . "com_jtg" . DS . "assets" . DS . "template" . DS . $tmpl . DS;
 		if ((!$content)AND($content != "")) {
 			include_once ($templatepath . $template . "_" . $only . ".php");
 			return;

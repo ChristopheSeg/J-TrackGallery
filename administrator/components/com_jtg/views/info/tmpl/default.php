@@ -21,11 +21,6 @@ JToolBarHelper::back($alt= 'COM_JTG_BACK', $href= 'javascript:history.back();');
 // jimport('joomla.html.pane');
 // JHTML::_('behavior.tooltip');
 
-/*
-J!Track Gallery integrates OpenStreetMap in Joomla. It shows Tracks and Waypoints in a SlippyMap. Registred Users can uploads own Files.
-
-J!Track Gallery integriert eine OpenStreetMap in Joomla. Es zeigt Spuren und Wegpunkte in einer SlippyMap an. Registrierte können eigene Dateien hochladen.
-*/
 $link = ".." . DS . "components" . DS . "com_jtg" . DS . "assets" . DS . "images" . DS . "logo_JTG.png";
 $version = $this->getVersion();
 ?>

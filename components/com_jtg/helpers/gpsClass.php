@@ -145,7 +145,7 @@ class gpsClass
 		if( $wps == false) return false;
 		$wp = "// <!-- parseWPs BEGIN -->\n";
 		$wp .= "wps = new OpenLayers.Layer.Markers(\"".JText::_('COM_JTG_WAYPOINTS') . "\");";
-		$wp .= "map.addLayer(wps);";
+		$wp .= "olmap.addLayer(wps);";
 		$wp .= "addWPs();";
 		$wp .= "function addWPs() {\n";
 		foreach($wps as $key => $value){
@@ -171,7 +171,7 @@ class gpsClass
 			else
 			$sym = $value->sym;
 			$wp .= "llwp = new OpenLayers.LonLat(" . $lon . "," . $lat . ").transform(new OpenLayers . ";
-			$wp .= "Projection(\"EPSG:4326\"), map.getProjectionObject());\n";
+			$wp .= "Projection(\"EPSG:4326\"), olmap.getProjectionObject());\n";
 			$wp .= "popupClasswp = AutoSizeAnchored;\n";
 			$wp .= "popupContentHTMLwp = '<b>".JText::_('COM_JTG_NAME') . ":</b> " . $name.$URL . "<br /><small>";
 			if ($desc) $wp .= "<b>".JText::_('COM_JTG_DESCRIPTION') . ":</b> " . $desc;
@@ -208,7 +208,7 @@ class gpsClass
 		var markerClick = function (evt) {
 			if (this.popup == null) {
 				this.popup = this.createPopup(this.closeBox);
-				map.addPopup(this.popup);
+				olmap.addPopup(this.popup);
 				this.popup.show();
 			} else {
 				this.popup.toggle();
@@ -257,7 +257,7 @@ class gpsClass
 		$center .= "(" . $bbox_lon_min . "," . $bbox_lat_min . "));\n";
 		$center .= "var max = lonLatToMercator(new OpenLayers.LonLat";
 		$center .= "(" . $bbox_lon_max . "," . $bbox_lat_max . "));\n";
-		$center .= "map.zoomToExtent(new OpenLayers.Bounds(min.lon, min.lat, max.lon, max.lat));\n";
+		$center .= "olmap.zoomToExtent(new OpenLayers.Bounds(min.lon, min.lat, max.lon, max.lat));\n";
 		$center .= "// <!-- parseOLMapCenterSingleTrack END -->\n";
 		return array( "wps" => $wp, "center" => $center );
 	}
@@ -647,7 +647,7 @@ class gpsClass
 		if ($url)
 		{
 			$string = "var geoXml = new GGeoXml(\"$url\");\n
-		map.addOverlay(geoXml);\n";
+		olmap.addOverlay(geoXml);\n";
 			return $string;
 		}
 		else
@@ -958,31 +958,31 @@ class gpsClass
 	isBaseLayer:false,
 //	isBaseLayer:true,
 	rendererOptions: {yOrdering: true},
-	eventListeners:{'featureadded': function(){map.getControlsByClass('OpenLayers.Control.Permalink')[0].updateLink()},
-		'featuresremoved': function(){map.getControlsByClass('OpenLayers.Control.Permalink')[0].updateLink()}
+	eventListeners:{'featureadded': function(){olmap.getControlsByClass('OpenLayers.Control.Permalink')[0].updateLink()},
+		'featuresremoved': function(){olmap.getControlsByClass('OpenLayers.Control.Permalink')[0].updateLink()}
 		}
 	};
 	//Layer to draw a personalized marker within
 	layerMarker = new OpenLayers.Layer.Vector(\"Marker\", layerMarker_options);
 	// Add a drag feature control to move features around.
 	var dragFeature = new OpenLayers.Control.DragFeature(layerMarker,
-	{onComplete:function(){map.getControlsByClass('OpenLayers.Control.Permalink')[0].updateLink()}});
-	map.addControl(dragFeature);
+	{onComplete:function(){olmap.getControlsByClass('OpenLayers.Control.Permalink')[0].updateLink()}});
+	olmap.addControl(dragFeature);
 	dragFeature.activate();
-	map.addLayers([layerMarker]);
+	olmap.addLayers([layerMarker]);
 
 
 function handleMapClick(evt) {
 //set Marker on click
 	layerMarker.removeFeatures(layerMarker.features);
 	var pixel = new OpenLayers.Pixel( evt.xy.x, evt.xy.y);
-	var lonLat = map.getLonLatFromViewPortPx(pixel);
+	var lonLat = olmap.getLonLatFromViewPortPx(pixel);
 	var marker = [];
 	marker.push(new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(lonLat.lon, lonLat.lat)));
 	layerMarker.addFeatures(marker);
 	OpenLayers.Event.stop(evt);
 };
-map.events.register('click', map, handleMapClick);
+olmap.events.register('click', map, handleMapClick);
 
 \n";
 
@@ -993,7 +993,7 @@ map.events.register('click', map, handleMapClick);
 		$bbox_lat_max = -55;
 		$map .= "(" . $bbox_lon_min . "," . $bbox_lat_min . "));\nvar max = lonLatToMercator";
 		$map .= "(new OpenLayers.LonLat(" . $bbox_lon_max . "," . $bbox_lat_max . "));\n";
-		$map .= "map.zoomToExtent(new OpenLayers.Bounds(min.lon, min.lat, max.lon, max.lat));\n";
+		$map .= "olmap.zoomToExtent(new OpenLayers.Bounds(min.lon, min.lat, max.lon, max.lat));\n";
 		$map .= "// <!-- parseOLMapCenter END -->\n";
 
 		$map .= $this->parseOLMapFunctions();
@@ -1060,7 +1060,7 @@ map.events.register('click', map, handleMapClick);
 		$center .= "var min = lonLatToMercator(new OpenLayers.LonLat";
 		$center .= "(" . $bbox_lon_min . "," . $bbox_lat_min . "));\nvar max = lonLatToMercator";
 		$center .= "(new OpenLayers.LonLat(" . $bbox_lon_max . "," . $bbox_lat_max . "));\n";
-		$center .= "map.zoomToExtent(new OpenLayers.Bounds(min.lon, min.lat, max.lon, max.lat));\n";
+		$center .= "olmap.zoomToExtent(new OpenLayers.Bounds(min.lon, min.lat, max.lon, max.lat));\n";
 		$center .= "// <!-- parseOLMapCenter END -->\n";
 		return $center;
 	}
@@ -1073,7 +1073,7 @@ map.events.register('click', map, handleMapClick);
 		//		echo "deprecated function parseOLMapCenterSingleTrack";
 		//		global $jtg_microtime;
 		//		if ( ( microtime(true) - $jtg_microtime ) > 29 )
-		//		return "map.zoomToMaxExtent();\n"; // emergency brake
+		//		return "olmap.zoomToMaxExtent();\n"; // emergency brake
 		if (!is_file($file)) return false;
 		$xml = simplexml_load_file($file);
 		$bbox_lat_max = -90;
@@ -1141,7 +1141,7 @@ map.events.register('click', map, handleMapClick);
 		$center .= "(" . $bbox_lon_min . "," . $bbox_lat_min . "));\n";
 		$center .= "var max = lonLatToMercator(new OpenLayers.LonLat";
 		$center .= "(" . $bbox_lon_max . "," . $bbox_lat_max . "));\n";
-		$center .= "map.zoomToExtent(new OpenLayers.Bounds(min.lon, min.lat, max.lon, max.lat));\n";
+		$center .= "olmap.zoomToExtent(new OpenLayers.Bounds(min.lon, min.lat, max.lon, max.lat));\n";
 		$center .= "// <!-- parseOLMapCenterSingleTrack END -->\n";
 		return $center;
 	}
@@ -1196,7 +1196,7 @@ map.events.register('click', map, handleMapClick);
 		$marker .= "	markers = new OpenLayers.Layer.Markers(\"".JText::_('COM_JTG_OTHER_STARTPOINTS') . "\");\n";
 		else
 		$marker .= "	markers = new OpenLayers.Layer.Markers(\"".JText::_('COM_JTG_STARTPOINTS') . "\");\n";
-		$marker .= "	map.addLayer(markers);\n";
+		$marker .= "	olmap.addLayer(markers);\n";
 		$marker .= "	addMarkers();\n";
 		if ( $visibility != true )
 		$marker .= "	markers.setVisibility(false);\n";
@@ -1211,7 +1211,7 @@ map.events.register('click', map, handleMapClick);
 			$lat = $row->start_n;
 			if ( ( $row->published == 1 ) AND ( ( $lon ) OR ( $lon ) ) ){
 				$marker .= "ll = new OpenLayers.LonLat(" . $lon . "," . $lat . ") . ";
-				$marker .= "transform(new OpenLayers.Projection(\"EPSG:4326\"), map.getProjectionObject()); ";
+				$marker .= "transform(new OpenLayers.Projection(\"EPSG:4326\"), olmap.getProjectionObject()); ";
 				$marker .= "popupClass = AutoSizeFramedCloud; ";
 				$marker .= "popupContentHTML = '<b>".JText::_('COM_JTG_TITLE') . ": <a href=\"" . $link . "\"";
 				switch ($row->access) {
@@ -1299,7 +1299,7 @@ map.events.register('click', map, handleMapClick);
 		var markerClick = function (evt) {
 			if (this.popup == null) {
 				this.popup = this.createPopup(this.closeBox);
-				map.addPopup(this.popup);
+				olmap.addPopup(this.popup);
 				this.popup.show();
 			} else {
 				this.popup.toggle();
@@ -1312,7 +1312,7 @@ map.events.register('click', map, handleMapClick);
 		 $marker .= "		var markerHover = function (evt) {
 		 if (this.popup == null) {
 		 this.popup = this.createPopup(this.closeBox);
-		 map.addPopup(this.popup);
+		 olmap.addPopup(this.popup);
 		 this.popup.show();
 		 } else {
 		 this.popup.toggle();
@@ -1351,7 +1351,7 @@ map.events.register('click', map, handleMapClick);
 		$color = $this->calculateAllColors(count($rows));
 		$string = "// <!-- parseOLTracks BEGIN -->\n";
 		$string .= "layer_vectors = new OpenLayers.Layer.Vector(\"".JText::_('COM_JTG_TRACKS') . "\", { displayInLayerSwitcher: true } );\n";
-		$string .= "map.addLayer(layer_vectors);\n";
+		$string .= "olmap.addLayer(layer_vectors);\n";
 		$i=0;
 		foreach($rows AS $row) {
 			$file = "components" . DS . "com_jtg" . DS . "uploads" . DS . $row->file;
@@ -1418,9 +1418,9 @@ map.events.register('click', map, handleMapClick);
 				$code = html_entity_decode($map->code);
 				if ($code != "") $return .= $code . "\n";
 				if(!isset($baselayer))
-				$baselayer = "		map.setBaseLayer(layer" . $name . ");\n";
+				$baselayer = "		olmap.setBaseLayer(layer" . $name . ");\n";
 				$return .= "layer" . $name . " = new " . $param . ";\n".
-			"map.addLayer(layer" . $name . ");\n";
+			"olmap.addLayer(layer" . $name . ");\n";
 			}
 		}
 		
@@ -1434,7 +1434,7 @@ map.events.register('click', map, handleMapClick);
 		$return .= "hs2 =  new OpenLayers.Layer.WMS( hs_name , hs_url , hs_options, {'buffer':1, removeBackBufferDelay:0, className:'olLayerGridCustom'});\n";
 		$return .= "hs2.setOpacity(0.3);\n";
 		$return .= "hs2_1 =  new OpenLayers.Layer.WMS( hs_name , hs_url , hs2_1_options,{'buffer':1, transitionEffect:'resize', removeBackBufferDelay:0, className:'olLayerGridCustom'});\n";
-		$return .= "map.addLayer( hs2,hs2_1 );";
+		$return .= "olmap.addLayer( hs2,hs2_1 );";
 
 		// TODO osm_getTileURL see http://wiki.openstreetmap.org/wiki/Talk:Openlayers_POI_layer_example
 		$document->addScript('/components/com_jtg/assets/js/jtg_getTileURL.js');
@@ -1446,7 +1446,7 @@ map.events.register('click', map, handleMapClick);
 				transparent: true, \"visibility\": false
 				}
 			);
-		map.addLayer( hill );\n";
+		olmap.addLayer( hill );\n";
 
 			
 					
@@ -1466,19 +1466,19 @@ map.events.register('click', map, handleMapClick);
 
 		$layertoshow = array();
 
-		/*	$layertoshow[0] = "		layerMapnik = new OpenLayers.Layer.OSM.Mapnik(\"Mapnik\");\n			map.addLayer(layerMapnik);\n";
-		 $layertoshow[1] = "		layerTilesAtHome = new OpenLayers.Layer.OSM.OSM_HIKE_AND_BIKE(\"OSM_HIKE_AND_BIKE\");\n			map.addLayer(layerTilesAtHome);\n";
-		 $layertoshow[2] = "		layerCycleMap = new OpenLayers.Layer.OSM.CycleMap(\"CycleMap\");\n			map.addLayer(layerCycleMap);\n";
+		/*	$layertoshow[0] = "		layerMapnik = new OpenLayers.Layer.OSM.Mapnik(\"Mapnik\");\n			olmap.addLayer(layerMapnik);\n";
+		 $layertoshow[1] = "		layerTilesAtHome = new OpenLayers.Layer.OSM.OSM_HIKE_AND_BIKE(\"OSM_HIKE_AND_BIKE\");\n			olmap.addLayer(layerTilesAtHome);\n";
+		 $layertoshow[2] = "		layerCycleMap = new OpenLayers.Layer.OSM.CycleMap(\"CycleMap\");\n			olmap.addLayer(layerCycleMap);\n";
 		 /*	$layertoshow[3] = "
 		 layerol_wms = new OpenLayers.Layer.WMS( \"OpenLayers WMS (metacarta)\",
 		 \"http://labs.metacarta.com/wms/vmap0?\", {layers: \"basic\"} );
-		 map.addLayer(layerol_wms);\n
+		 olmap.addLayer(layerol_wms);\n
 		 ";
 		 $layertoshow[3] .= "		layerOpenLayers = new OpenLayers.Layer.WMS( \"OpenLayers WMS (cubewerx)\",
 		 \"http://demo.cubewerx.com/demo/cubeserv/cubeserv.cgi?\",
 		 {layers: 'Foundation.GTOPO30', version: '1.3.0'},
 		 {singleTile: true});
-		 map.addLayer(layerOpenLayers);\n
+		 olmap.addLayer(layerOpenLayers);\n
 		 ";*/
 		/*
 		 for google you need:
@@ -1490,15 +1490,15 @@ map.events.register('click', map, handleMapClick);
 		 var gmap = new OpenLayers.Layer.Google(
 		 \"Google Streets\",
 		 {'sphericalMercator': true});
-		 map.addLayer(gmap);\n
+		 olmap.addLayer(gmap);\n
 		 ";
 		 $layertoshow[3] .= "		var gsat = new OpenLayers.Layer.Google(\"Google Satellite\",
 		 {type: G_SATELLITE_MAP, 'sphericalMercator': true, numZoomLevels: 22});
-		 map.addLayer(gsat);\n
+		 olmap.addLayer(gsat);\n
 		 ";
 		 $layertoshow[3] .= "		var ghyb = new OpenLayers.Layer.Google(\"Google Hybrid\",
 		 {type: G_HYBRID_MAP, 'sphericalMercator': true});
-		 map.addLayer(ghyb);\n
+		 olmap.addLayer(ghyb);\n
 		 ";
 
 
@@ -1508,50 +1508,50 @@ map.events.register('click', map, handleMapClick);
 		 $layertoshow[3] .= "// create Virtual Earth layers
 		 var veroad = new OpenLayers.Layer.VirtualEarth(\"Virtual Earth Roads\",
 		 {'type': VEMapStyle.Road, 'sphericalMercator': true});
-		 map.addLayer(veroad);\n
+		 olmap.addLayer(veroad);\n
 		 ";
 		 $layertoshow[3] .= "		var veaer = new OpenLayers.Layer.VirtualEarth(\"Virtual Earth Aerial\",
 		 {'type': VEMapStyle.Aerial, 'sphericalMercator': true});
-		 map.addLayer(veaer);\n
+		 olmap.addLayer(veaer);\n
 		 ";
 		 $layertoshow[3] .= "		var vehyb = new OpenLayers.Layer.VirtualEarth(\"Virtual Earth Hybrid\",
 		 {'type': VEMapStyle.Hybrid, 'sphericalMercator': true});
-		 map.addLayer(vehyb);\n
+		 olmap.addLayer(vehyb);\n
 		 ";
 		 $layertoshow[3] .= "// create Yahoo layer
 		 var yahoo = new OpenLayers.Layer.Yahoo(\"Yahoo Street\",
 		 {'sphericalMercator': true});
-		 map.addLayer(yahoo);\n
+		 olmap.addLayer(yahoo);\n
 		 ";
 		 $layertoshow[3] .= "		var yahoosat = new OpenLayers.Layer.Yahoo(
 		 \"Yahoo Satellite\",
 		 {'type': YAHOO_MAP_SAT, 'sphericalMercator': true});
-		 map.addLayer(yahoosat);\n
+		 olmap.addLayer(yahoosat);\n
 		 ";
 		 $layertoshow[3] .= "			var yahoohyb = new OpenLayers.Layer.Yahoo(
 		 \"Yahoo Hybrid\",
 		 {'type': YAHOO_MAP_HYB, 'sphericalMercator': true});
-		 map.addLayer(yahoohyb);\n
+		 olmap.addLayer(yahoohyb);\n
 		 ";
 		 $layertoshow[3] .= "var layerWoE = new OpenLayers.Layer.WMS(
 		 \"WMS of Europe\",
 		 \"http://openls.giub.uni-bonn.de/ors-tilecache/tilecache.py?\",
 		 {layers: 'ors-osm',srs: 'EPSG:900913', format: 'image/png',numZoomLevels: 19},
 		 {'buffer':2});
-		 map.addLayer(layerWoE);\n";*/
+		 olmap.addLayer(layerWoE);\n";*/
 		/*	tot?
 		 $layertoshow[3] .= "			var oam = new OpenLayers.Layer.XYZ(
 		 \"OpenAerialMap\",
 		 \"http://tile.openaerialmap.org/tiles/1.0.0/openaerialmap-900913/${z}/${x}/${y}.png\",
 		 {sphericalMercator: true});
-		 map.addLayer(oam);\n
+		 olmap.addLayer(oam);\n
 		 ";
 		 */
 		/* 	$layertoshow[3] .= "
 		 var OSM_HIKE_AND_BIKE = new OpenLayers.Layer.OSM(
 		 \"OpenStreetMap (Tiles@Home)\",
 		 \"http://tah.openstreetmap.org/Tiles/tile/${z}/${x}/${y}.png\");
-		 map.addLayer(OSM_HIKE_AND_BIKE);\n
+		 olmap.addLayer(OSM_HIKE_AND_BIKE);\n
 		 ";
 		 */
 		/*	tot?
@@ -1565,7 +1565,7 @@ map.events.register('click', map, handleMapClick);
 		 'isBaseLayer': false,'wrapDateLine': true
 		 }
 		 );
-		 map.addLayer(wms);\n
+		 olmap.addLayer(wms);\n
 		 ";
 		 */
 
@@ -1576,7 +1576,7 @@ map.events.register('click', map, handleMapClick);
 		 var hs_url = \"http://services.giub.uni-bonn.de/hillshade?\";
 		 var hs_options = {layers: 'europe_wms:hs_srtm_europa',srs: 'EPSG:900913', format: 'image/JPEG'};
 		 var hs = new OpenLayers.Layer.WMS(hs_name , hs_url , hs_options, {'buffer':2});
-		 map.addLayer(hs);\n";*/
+		 olmap.addLayer(hs);\n";*/
 		/*
 		 $layertoshow[3] .= "// Hillshading layer provided by University of Bonn
 		 // based on CIAT-CSI SRTM data, available for
@@ -1587,7 +1587,7 @@ map.events.register('click', map, handleMapClick);
 		 var hs = new OpenLayers.Layer.WMS(hs_name , hs_url , hs_options, {'buffer':2});
 		 hs.setOpacity(0.15);
 		 hs.visibility = false;
-		 map.addLayer(hs);\n";
+		 olmap.addLayer(hs);\n";
 
 		 // 	$layertoshow[3] = "		layerOffline = new OpenLayers.Layer.OSM(\"-keine-\",\"\");\n			map.addLayer(layerOffline);\n";
 		 $layertoshow[3] = "		NASAGlobalMosaic = new OpenLayers.Layer.WMS(\n			\"NASA Global Mosaic\",\n			\"http://t1.hypercube.telascience.org/cgi-bin/landsat7/\",\n			{layers: \"landsat7\"});\n			map.addLayer(NASAGlobalMosaic);\n";
@@ -1613,7 +1613,7 @@ map.events.register('click', map, handleMapClick);
 		return $layer;
 
 		if ( $baselayer != false ) {
-			$layer .= "		map.setBaseLayer(" . $baselayer . ");\n";
+			$layer .= "		olmap.setBaseLayer(" . $baselayer . ");\n";
 			return $layer;
 		} else return $layertoshow[0];	// Gib nur Mapnik aus, für den Fall der Fehlkonfiguration
 	}
@@ -1651,7 +1651,7 @@ map.events.register('click', map, handleMapClick);
 		$folder = JPATH_SITE . DS . "images" . DS . "jtg" . DS . $id.DS;
 		$map .= "layer_geotaggedImgs = new OpenLayers.Layer.Markers(\"".JText::_('COM_JTG_GEOTAGGED_IMAGES') . "\",".
 	" { displayInLayerSwitcher: true });".
-	"\n	map.addLayer(layer_geotaggedImgs);".
+	"\n	olmap.addLayer(layer_geotaggedImgs);".
 	"\n	layer_geotaggedImgs.setVisibility(true);\n";
 		if(JFolder::exists($folder)) {
 			$imgs = JFolder::files($folder);
@@ -1703,7 +1703,7 @@ map.events.register('click', map, handleMapClick);
 						$offsetx = $xml->offsetx;
 						$offsety = $xml->offsety;
 
-						$map .= "var lonLatlayer_geotaggedImgs = new OpenLayers.LonLat(" . $lon . "," . $lat . ").transform(new OpenLayers.Projection(\"EPSG:4326\"),map.getProjectionObject());".
+						$map .= "var lonLatlayer_geotaggedImgs = new OpenLayers.LonLat(" . $lon . "," . $lat . ").transform(new OpenLayers.Projection(\"EPSG:4326\"),olmap.getProjectionObject());".
 					"\n	var sizelayer_geotaggedImgs = new OpenLayers.Size(" . $sizex . "," . $sizey . ");".
 					"\n	var offsetlayer_geotaggedImgs = new OpenLayers.Pixel(" . $offsetx . "," . $offsety . ");".
 					"\n	var iconlayer_geotaggedImgs = new OpenLayers.Icon(\"" . $iconfolder . "foto.png\",sizelayer_geotaggedImgs,offsetlayer_geotaggedImgs);".
@@ -1840,7 +1840,7 @@ map.events.register('click', map, handleMapClick);
 		$map .= "	var AutoSizeFramedCloud = OpenLayers.Class(OpenLayers.Popup.FramedCloud, {\n	'autoSize': true\n	});\n";
 		$map .= "	var AutoSizeAnchored = OpenLayers.Class(OpenLayers.Popup.Anchored, {\n	'autoSize': true\n		});\n";
 		$map .= "	function slippymap_init(divName) {\n";
-		$map .= "		var map = new OpenLayers.Map (divName, {\n";
+		$map .= "		var olmap = new OpenLayers.Map (divName, {\n";
 		$map .= "// <!-- parseScriptOLHead END -->\n";
 
 		return $map;
@@ -1856,7 +1856,7 @@ map.events.register('click', map, handleMapClick);
 		$map .= "}\n";
 		$map .= "</script>\n";
 		$map .= "<!-- parseScriptOLFooter END -->\n";
-		// $map .= "<center><div id=\"map\" style=\"width: 600px; height: 400px;\" ><script type=\"text/javascript\">slippymap_init();</script></div></center>\"";
+		// $map .= "<center><div id=\"jtg_map\" style=\"width: 600px; height: 400px;\" ><script type=\"text/javascript\">slippymap_init();</script></div></center>\"";
 
 		return $map;
 	}
@@ -1917,11 +1917,22 @@ map.events.register('click', map, handleMapClick);
 		$control .= "				units: \"m\",\n";
 		$control .= "				projection: new OpenLayers.Projection(\"EPSG:900913\"),\n";
 		$control .= "				displayProjection: new OpenLayers.Projection(\"EPSG:4326\")\n";
-		$control .= "			} );\n";
-
+		$control .= "			} );\n\n";
+		// add FullScreen Toggle control
+		// Source from http://www.utagawavtt.com
+		$control .= "		// <!-- parseOLMapFullscreen button BEGIN -->\n";
+		$control .= "		var fullscreenToolbar = new OpenLayers.Control.NavToolbar();\n";
+		$control .= "		var button_fullscreen = new OpenLayers.Control.Button({\n";
+		$control .= "			displayClass: \"buttonFullScreen\",\n";
+		$control .= "			trigger: switch_fullscreen2 // switch_fullscreen\n";
+		$control .= "		});\n";	
+		$control .= "		button_fullscreen.title = \"Plein écran\";\n";
+		$control .= "		fullscreenToolbar.addControls([button_fullscreen]);\n";
+		$control .= "		olmap.addControl(fullscreenToolbar);\n";
+		$control .= "		// <!-- parseOLMapFullscreen button END -->\n";		
 		if ( $adminonly === false) {
 			//	$control .= "				var layer_overviewmap = new OpenLayers.Layer.OSM.Mapnik(\"Mapnik\");\n";
-			//	$control .= "				map.addControl(new OpenLayers.Control.OverviewMap({layers: [layer_overviewmap]}));\n";
+			//	$control .= "				olmap.addControl(new OpenLayers.Control.OverviewMap({layers: [layer_overviewmap]}));\n";
 			//	$control .= "			// Uebersicht\n";
 		}
 		$control .= "// <!-- parseOLMapControl END -->\n";
@@ -1976,9 +1987,9 @@ map.events.register('click', map, handleMapClick);
 		 break;
 		 }
 		 */
-		// $string .= "map = new GMap2(document.getElementById('map'));\n";
-		// $string .= "map.addMapType(G_PHYSICAL_MAP);\n";
-		// $string .= "map.setMapType(" . $type . ");\n";
+		// $string .= "olmap = new GMap2(document.getElementById('map'));\n";
+		// $string .= "olmap.addMapType(G_PHYSICAL_MAP);\n";
+		// $string .= "olmap.setMapType(" . $type . ");\n";
 
 		$string .= "// <!-- parseOLMap END -->\n";
 		return $string;
@@ -2008,11 +2019,11 @@ map.events.register('click', map, handleMapClick);
 			if ( trim($row) == "// fetchCoordsBegin" ) $fetch = true;
 		}
 		$map .= "		layerStartZiel = new OpenLayers.Layer.Markers(\"Start/Ziel\");
-			map.addLayer(layerStartZiel);
+			olmap.addLayer(layerStartZiel);
 			layerStartZiel.setVisibility(true);
 
-		var lonLatStart = new OpenLayers.LonLat(" . $start . ").transform(new OpenLayers.Projection(\"EPSG:4326\"), map.getProjectionObject());
-		var lonLatZiel = new OpenLayers.LonLat(" . $stop . ").transform(new OpenLayers.Projection(\"EPSG:4326\"), map.getProjectionObject());
+		var lonLatStart = new OpenLayers.LonLat(" . $start . ").transform(new OpenLayers.Projection(\"EPSG:4326\"), olmap.getProjectionObject());
+		var lonLatZiel = new OpenLayers.LonLat(" . $stop . ").transform(new OpenLayers.Projection(\"EPSG:4326\"), olmap.getProjectionObject());
 		var sizeStart = new OpenLayers.Size(24,24);
 		var sizeZiel = new OpenLayers.Size(24,24);
 		var offsetStart = new OpenLayers.Pixel(-3,-22);
@@ -2076,8 +2087,8 @@ map.events.register('click', map, handleMapClick);
 				$string .= "\"".JText::_('COM_JTG_TRACK').$i . ": " . $track->name . "\"";
 				$string .= ", { displayInLayerSwitcher: true }";
 				$string .= ")";
-				$string .= ";map.addLayer(layer_vectors)";
-				// 			$string .= ";map.addLayer(layerMapnik)";
+				$string .= ";olmap.addLayer(layer_vectors)";
+				// 			$string .= ";olmap.addLayer(layerMapnik)";
 				$string .= ";\n";
 				// 		if ( $i != 0 ) // nur erste Spur standardmäßig anzeigen
 				// 			$string .= "layer_vectors.setVisibility(false);\n";
@@ -2121,9 +2132,9 @@ map.events.register('click', map, handleMapClick);
 				$string .= "}));\n";
 
 				$string_se .= "var lonLatStart" . $i . " = new OpenLayers.LonLat(" . $start . ") . ";
-				$string_se .= "transform(new OpenLayers.Projection(\"EPSG:4326\"), map.getProjectionObject());\n";
+				$string_se .= "transform(new OpenLayers.Projection(\"EPSG:4326\"), olmap.getProjectionObject());\n";
 				$string_se .= "var lonLatZiel" . $i . " = new OpenLayers.LonLat(" . $stop . ") . ";
-				$string_se .= "transform(new OpenLayers.Projection(\"EPSG:4326\"), map.getProjectionObject());\n";
+				$string_se .= "transform(new OpenLayers.Projection(\"EPSG:4326\"), olmap.getProjectionObject());\n";
 				$string_se .= "var sizeStart" . $i . " = new OpenLayers.Size(24,24);\n";
 				$string_se .= "var sizeZiel" . $i . " = new OpenLayers.Size(24,24);\n";
 				$string_se .= "var offsetStart" . $i . " = new OpenLayers.Pixel(-3,-22);\n";
@@ -2146,7 +2157,7 @@ map.events.register('click', map, handleMapClick);
 				$string_se .= "</font>";
 				//				$string_se .= "</b>";
 				$string_se .= "';\n";
-				$string_se .= "addlayer_startziel(lonLatStart" . $i . ", popupClassStart, popupContentHTMLStart, true, false, iconStart" . $i . ", map);\n";
+				$string_se .= "addlayer_startziel(lonLatStart" . $i . ", popupClassStart, popupContentHTMLStart, true, false, iconStart" . $i . ", olmap);\n";
 
 				$foundtracks = 0;
 			} elseif ( $foundtracks > 10 ) break;
@@ -2162,7 +2173,7 @@ map.events.register('click', map, handleMapClick);
 		$string .= "\"" . $i . ": " . $trackname . "\"";
 		$string .= ", { displayInLayerSwitcher: false }";
 		$string .= ");";
-		$string .= "map.addLayer(layer_startziel);";
+		$string .= "olmap.addLayer(layer_startziel);";
 		$string .= "layer_startziel.setVisibility(true);";
 		$string .= $string_se;
 		$string .= "// <!-- parseXMLlinesCOM_JTG END -->\n";
@@ -2172,7 +2183,7 @@ map.events.register('click', map, handleMapClick);
 		$center .= "(" . $bbox_lon_min . "," . $bbox_lat_min . "));\n";
 		$center .= "var max = lonLatToMercator(new OpenLayers.LonLat";
 		$center .= "(" . $bbox_lon_max . "," . $bbox_lat_max . "));\n";
-		$center .= "map.zoomToExtent(new OpenLayers.Bounds(min.lon, min.lat, max.lon, max.lat));\n";
+		$center .= "olmap.zoomToExtent(new OpenLayers.Bounds(min.lon, min.lat, max.lon, max.lat));\n";
 		$center .= "// <!-- parseOLMapCenterSingleTrack END -->\n";
 
 		return array( "coords" => $string, "center" => $center );
@@ -2433,10 +2444,10 @@ map.events.register('click', map, handleMapClick);
 		$map .= "		var bounds = new GLatLngBounds();\n";
 
 		$map .= $this->parseGoogleMapControl();
-		$map .= "		map.addControl(new google.maps.LocalSearch(),\n";
+		$map .= "		olmap.addControl(new google.maps.LocalSearch(),\n";
 		$map .= "			new GControlPosition(G_ANCHOR_BOTTOM_LEFT, new GSize(10,20)));\n";
 		$map .= $this->parseMarkersGoogle();
-		$map .= "		map.setCenter(bounds.getCenter(), map.getBoundsZoomLevel(bounds));\n";
+		$map .= "		olmap.setCenter(bounds.getCenter(), olmap.getBoundsZoomLevel(bounds));\n";
 		$map .= $this->parseScriptGoogleFooter();
 
 		return $map;
@@ -2469,7 +2480,7 @@ map.events.register('click', map, handleMapClick);
 		$map .= $this->parseGoogleMapControl();
 		$map .= $this->parseStartPointGoogle($track);
 		$map .= $this->parseXMLlinesGoogle("./" . $file);
-		$map .= "map.setCenter(bounds.getCenter(), map.getBoundsZoomLevel(bounds));\n";
+		$map .= "olmap.setCenter(bounds.getCenter(), olmap.getBoundsZoomLevel(bounds));\n";
 		$map .= $this->parseScriptGoogleFooter();
 
 		return $map;
@@ -2484,7 +2495,7 @@ map.events.register('click', map, handleMapClick);
 		$map = "";
 		$map .= "\n<script type='text/javascript'>//<![CDATA[\n";
 		$map .= "google.load('maps', '2');\n";
-		$map .= "var map\n";
+		$map .= "var ol map\n";
 		$map .= "function initialize() {\n";
 
 		return $map;
@@ -2513,9 +2524,9 @@ map.events.register('click', map, handleMapClick);
 
 		$control = "";
 		$control .= "		var mapControl = new GMapTypeControl();\n";
-		$control .= "		map.addControl(mapControl);\n";
-		$control .= "		map.addControl(new GLargeMapControl());\n";
-		$control .= "		map.addControl(new GOverviewMapControl());\n";
+		$control .= "		olmap.addControl(mapControl);\n";
+		$control .= "		olmap.addControl(new GLargeMapControl());\n";
+		$control .= "		olmap.addControl(new GOverviewMapControl());\n";
 
 		return $control;
 	}
@@ -2554,7 +2565,7 @@ map.events.register('click', map, handleMapClick);
 			$map .= "</a>";
 			if ( $row->access == 1 )
 			$map .= "&nbsp;<img src=\\\"components/com_jtg/assets/images/registred_only.png\\\" />";
-			$map .= "<br />".JText::_('COM_JTG_CAT') . ": " . $row->cat . "\"); map.addOverlay(marker);\n";
+			$map .= "<br />".JText::_('COM_JTG_CAT') . ": " . $row->cat . "\"); olmap.addOverlay(marker);\n";
 		}
 
 		return $map;
@@ -2589,9 +2600,9 @@ map.events.register('click', map, handleMapClick);
 		}
 
 		$string = "";
-		$string .= "		map = new GMap2(document.getElementById('map'));\n";
-		$string .= "		map.addMapType(G_PHYSICAL_MAP);\n";
-		$string .= "		map.setMapType(" . $type . ");\n";
+		$string .= "		olmap = new GMap2(document.getElementById('olmap'));\n";
+		$string .= "		olmap.addMapType(G_PHYSICAL_MAP);\n";
+		$string .= "		olmap.setMapType(" . $type . ");\n";
 
 		return $string;
 	}
@@ -2607,7 +2618,7 @@ map.events.register('click', map, handleMapClick);
 		$map .= "blueIcon.image = '".JURI::base() . "components" . DS . "com_jtg" . DS . "assets" . DS . "images" . DS . "gruen.png';\n";
 		$map .= "markerOptions = { icon:blueIcon };\n";
 		$map .= "var point = new GLatLng(" . $track->start_n . "," . $track->start_e . ")\n";
-		$map .= "map.addOverlay(new GMarker(point, markerOptions));\n";
+		$map .= "olmap.addOverlay(new GMarker(point, markerOptions));\n";
 
 		return $map;
 	}
@@ -2627,7 +2638,7 @@ map.events.register('click', map, handleMapClick);
 			$string .= "new GLatLng(" . $coords[$key][1] . "," . $coords[$key][0] . "),\n";
 		}
 		$string .= "], '#ff0000', 4);\n";
-		$string .= "map.addOverlay(polyline);\n";
+		$string .= "olmap.addOverlay(polyline);\n";
 		foreach($coords as $key => $fetch) {
 			$string .= "bounds.extend(new GLatLng(" . $coords[$key][1] . "," . $coords[$key][0] . "));";
 		}

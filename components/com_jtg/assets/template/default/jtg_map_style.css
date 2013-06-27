@@ -1,0 +1,122 @@
+/* 
+    Document   : jtg_map_style
+    Created on : 27 juin 2013, 23:30:28
+    Author     : seguinot
+    Description: style for openlayers
+*/
+
+.olControlLayerSwitcher {
+	opacity : 0.9!important;
+	position: absolute;
+	top: 0px;
+	right:5px;
+	width: 20em;
+	font-family: sans-serif;
+	font-weight: bold;
+	margin-top: 3px;
+	margin-right: 3px;
+	margin-left: 0px;
+	margin-bottom: 3px;
+	font-size: smaller;
+	/* color: #4D553D;
+	background-color: #D1D6BE;*/
+	border-radius: 4px;
+	box-shadow: 0 3px 3px #888;
+}
+.olControlLayerSwitcher .layersDiv {
+	background-color: transparent!important;
+	opacity : 1!important;
+	padding : 5px 0px 5px 20px;
+}
+.olControlLayerSwitcher div{
+	background-color: transparent!important;
+}
+.olControlLayerSwitcher .minimizeDiv {
+	right: 0px;
+	left : auto;
+}
+.olControlLayerSwitcher .maximizeDiv {
+	right: 0px;
+	left : auto;
+}
+.olControlLayerSwitcher .baseLbl {
+	font-size: small;
+}
+
+.olControlZoom {
+	top : auto;
+	bottom: 45px!important;
+	height: 60px;
+	left: 10px;
+	box-shadow: 0 3px 3px #888;
+}
+/* Style for FullScreen*/
+.olControlNavToolbar {
+	text-align: center;
+	top : 5px!important;
+	left : auto!important;
+	right: 5px;	
+	margin : 0;
+	background-color: #D1D6BE;
+	border-radius: 4px;
+	box-shadow: 0 3px 3px #888;
+}
+.olControlNavigationItemActive, .olControlNavigationItemInactive,
+.olControlZoomBoxItemActive, .olControlZoomBoxItemInactive {
+	/* display: none;   desactivated*/
+}
+.olControlNavToolbar div, .olControlEditingToolbar div {
+    margin: 2px;
+    width: 24px;
+    height: 22px;
+    cursor: pointer;
+}
+.olControlNavToolbar 
+.olControlNavigationItemActive, 
+.olControlEditingToolbar 
+.olControlNavigationItemActive {
+    background-position: -103px -24px;
+}
+.olControlNavToolbar 
+.olControlZoomBoxItemInactive {
+    background-position: -128px -1px;
+}
+
+.buttonFullScreenItemInactive
+{
+	float : left!important;
+	margin : 2px!important;
+	cursor: pointer;
+	background-image:url("images/view_fullscreen.png")!important;	
+}
+.buttonFullScreenItemActive
+{
+	float : left!important;
+	margin : 2px!important;
+	cursor: pointer;
+	background-image:url("images/leave_fullscreen.png")!important;	
+}
+#jtg_map.olMap {
+
+	/* height: 400px;
+	width: 500px; */
+	z-index: 0;
+}
+#jtg_map.fullscreen {
+	position: fixed;
+	padding: 0 !important;
+	margin: 0 !important;
+	cursor: default;
+	height: 800px;
+	width: 100%;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	left: 0;
+	margin: 0;
+	z-index: 20;
+}
+#charts_container {
+	height: 250px;
+	width: 500px;
+}

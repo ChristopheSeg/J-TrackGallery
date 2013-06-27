@@ -145,7 +145,7 @@ TODO END TEST highcharts
 echo $this->parseTemplate("headline",$this->track->title,"jtg_param_header_map");
 ?>
 <center>
-<div id="map" style="width: <?php echo $this->cfg->map_width; ?>px; height: <?php echo $this->cfg->map_height; ?>px; margin-bottom:20px;" ></div>
+<div id="jtg_map" class="olMap" style="width: <?php echo $this->cfg->map_width; ?>px; height: <?php echo $this->cfg->map_height; ?>px; margin-bottom:20px;" ></div>
 <?php
 
 ?><br />
@@ -478,4 +478,4 @@ echo JHTML::_( 'form.token' ) . "\n"; ?> <input type="hidden"
 	} else echo '<p class="error">'.$maySeeSingleFile.'</p>';
 	echo $this->footer;
 	if ( isset($this->cfg) AND ( $this->cfg->map == "osm" ) )
-	echo ("<script language=\"javascript\" type=\"text/javascript\">slippymap_init(\"map\");</script>");
+	echo ("<script language=\"javascript\" type=\"text/javascript\">slippymap_init(\"jtg_map\");</script>");

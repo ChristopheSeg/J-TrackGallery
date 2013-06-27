@@ -35,7 +35,11 @@ $cfg = JtgHelper::getConfig();
 $tmpl = ($cfg->template = "") ? $cfg->template : 'default';
 
 $document =& JFactory::getDocument();
-$document->addStyleSheet(JURI::base().'components/com_jtg/assets/template/'.$tmpl.'/style.css');
+$document->addStyleSheet(JURI::base().'components/com_jtg/assets/template/'.$tmpl.'/jtg_style.css');
+// override style with user templates
+$mainframe =& JFactory::getApplication();
+$template = $mainframe->getTemplate();
+$document->addStyleSheet( 'templates/' . $template . '/css/jtg_style.css' );
 
 // Initialize the controller
 if($controller = JRequest::getWord('controller')) {
