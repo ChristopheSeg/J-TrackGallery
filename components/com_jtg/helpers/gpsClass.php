@@ -1839,8 +1839,8 @@ olmap.events.register('click', map, handleMapClick);
 		$map .= "	OpenLayers.Popup.FramedCloud.prototype.autoSize = false;\n";
 		$map .= "	var AutoSizeFramedCloud = OpenLayers.Class(OpenLayers.Popup.FramedCloud, {\n	'autoSize': true\n	});\n";
 		$map .= "	var AutoSizeAnchored = OpenLayers.Class(OpenLayers.Popup.Anchored, {\n	'autoSize': true\n		});\n";
-		$map .= "	function slippymap_init(divName) {\n";
-		$map .= "		var olmap = new OpenLayers.Map (divName, {\n";
+		$map .= "	function slippymap_init() {\n";
+		$map .= "		olmap = new OpenLayers.Map ( {theme: null, div: \"jtg_map\",\n";	
 		$map .= "// <!-- parseScriptOLHead END -->\n";
 
 		return $map;
@@ -1853,10 +1853,10 @@ olmap.events.register('click', map, handleMapClick);
 	private function parseScriptOLFooter() {
 
 		$map = "// <!-- parseScriptOLFooter BEGIN -->\n";
-		$map .= "}\n";
+		$map .= "}\n"; //  close slippymap_s_init cript
 		$map .= "</script>\n";
 		$map .= "<!-- parseScriptOLFooter END -->\n";
-		// $map .= "<center><div id=\"jtg_map\" style=\"width: 600px; height: 400px;\" ><script type=\"text/javascript\">slippymap_init();</script></div></center>\"";
+		// $map .= "<center><div id=\"jtg_map\" style=\"width: 600px; height: 400px;\" ></div></center>";
 
 		return $map;
 	}

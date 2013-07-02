@@ -7,16 +7,12 @@
 
 .olControlLayerSwitcher {
 	opacity : 0.9!important;
-	position: absolute;
-	top: 0px;
-	right:5px;
+	margin: 5px;
+	top: 25px;
+	padding: 5px;
 	width: 20em;
 	font-family: sans-serif;
 	font-weight: bold;
-	margin-top: 3px;
-	margin-right: 3px;
-	margin-left: 0px;
-	margin-bottom: 3px;
 	font-size: smaller;
 	/* color: #4D553D;
 	background-color: #D1D6BE;*/
@@ -26,7 +22,6 @@
 .olControlLayerSwitcher .layersDiv {
 	background-color: transparent!important;
 	opacity : 1!important;
-	padding : 5px 0px 5px 20px;
 }
 .olControlLayerSwitcher div{
 	background-color: transparent!important;
@@ -37,6 +32,7 @@
 }
 .olControlLayerSwitcher .maximizeDiv {
 	right: 0px;
+	top: 5px;
 	left : auto;
 }
 .olControlLayerSwitcher .baseLbl {
@@ -46,7 +42,7 @@
 .olControlZoom {
 	top : auto;
 	bottom: 45px!important;
-	height: 60px;
+	height: 25px;
 	left: 10px;
 	box-shadow: 0 3px 3px #888;
 }
@@ -63,8 +59,11 @@
 }
 .olControlNavigationItemActive, .olControlNavigationItemInactive,
 .olControlZoomBoxItemActive, .olControlZoomBoxItemInactive {
-	/* display: none;   desactivated*/
+    float: left !important;
+    margin: 2px !important;
+    /* display: none;   desactivated*/
 }
+
 .olControlNavToolbar div, .olControlEditingToolbar div {
     margin: 2px;
     width: 24px;
@@ -82,6 +81,7 @@
     background-position: -128px -1px;
 }
 
+
 .buttonFullScreenItemInactive
 {
 	float : left!important;
@@ -96,19 +96,14 @@
 	cursor: pointer;
 	background-image:url("images/leave_fullscreen.png")!important;	
 }
-#jtg_map.olMap {
-
-	/* height: 400px;
-	width: 500px; */
+#jtg_map.olMap { /* this is for normal size map */
 	z-index: 0;
 }
-#jtg_map.fullscreen {
+#jtg_map.fullscreen {/* this is for fullscreen map */
 	position: fixed;
 	padding: 0 !important;
 	margin: 0 !important;
 	cursor: default;
-	height: 800px;
-	width: 100%;
 	top: 0;
 	bottom: 0;
 	right: 0;

@@ -144,11 +144,23 @@ TODO END TEST highcharts
 <?php
 echo $this->parseTemplate("headline",$this->track->title,"jtg_param_header_map");
 ?>
-<center>
-<div id="jtg_map" class="olMap" style="width: <?php echo $this->cfg->map_width; ?>px; height: <?php echo $this->cfg->map_height; ?>px; margin-bottom:20px;" ></div>
-<?php
 
-?><br />
+    <style type="text/css">
+        #jtg_map.olMap {
+		height: <?php echo $this->cfg->map_height; ?>px;
+		width: <?php echo $this->cfg->map_width; ?>px;
+		z-index: 0;
+}
+        #jtg_map.fullscreen {
+          	height: 800px;
+		width: 100%;
+		z-index: 20;
+}
+
+    </style>    
+<center>
+<div id="jtg_map" class="olMap"></div>
+<br />
 </center>
 <!--    <div>
 <?php
@@ -478,4 +490,8 @@ echo JHTML::_( 'form.token' ) . "\n"; ?> <input type="hidden"
 	} else echo '<p class="error">'.$maySeeSingleFile.'</p>';
 	echo $this->footer;
 	if ( isset($this->cfg) AND ( $this->cfg->map == "osm" ) )
-	echo ("<script language=\"javascript\" type=\"text/javascript\">slippymap_init(\"jtg_map\");</script>");
+	{
+	    echo ("<script language=\"javascript\" type=\"text/javascript\">\n
+		var olmap={ title: 'com_jtg_map_object' } \n 
+		slippymap_init();</script>");
+	}

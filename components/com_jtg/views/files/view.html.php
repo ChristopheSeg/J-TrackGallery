@@ -312,10 +312,12 @@ class JtgViewFiles extends JView
 		//		));
 		$user = & JFactory :: getUser();
 		$document = & JFactory :: getDocument();
-		// load map stylesheet
+		// load Openlayers stylesheet first (for overridding)
+		$document->addStyleSheet('http://openlayers.org/dev/theme/default/style.css');
+		// then load jtg_map stylesheet
 		$tmpl = ($cfg->template = "") ? $cfg->template : 'default';
 		$document->addStyleSheet(JURI::base().'components/com_jtg/assets/template/'.$tmpl.'/jtg_map_style.css');
-		// override style with user templates
+		// then override style with user templates
 
 		$template = $mainframe->getTemplate();
 		$document->addStyleSheet( 'templates/' . $template . '/css/jtg_map_style.css' );
