@@ -42,14 +42,7 @@ class JtgViewFiles extends JView
 		 9 = private
 		 */
 		$uid = JFactory::getUser()->id;
-		// TODO gid is deprecated in joomla 2.5
-		// See if it is used in params ??? 
-		// $gid = (int) $param->user->gid;
-		/*
-		 $gid:
-		 24 admin
-		 25 SuperAdmin
-		 */
+
 
 		if(JFactory::getUser()->get('isRoot'))
 		    {
@@ -327,7 +320,6 @@ class JtgViewFiles extends JView
 		if ($cfg->map == "google") {
 			$document->addScript('http://www.google.com/jsapi?key=' . $cfg->apikey);
 			$document->addScript('http://www.google.com/uds/api?file=uds.js&v=1.0&key=' . $cfg->apikey);
-			$document->addScript('http://ajax.googleapis.com/ajax/libs/dojo/1.3.2/dojo/dojo.xd.js.uncompressed.js');
 			$document->addStylesheet('http://www.google.com/uds/css/gsearch.css');
 		}
 		if ($cfg->map == "osm") {
@@ -341,16 +333,13 @@ class JtgViewFiles extends JView
 			// 		$document->addScript('components/com_jtg/assets/js/GPX.js');
 			//		$document->addScript('components' . DS . 'com_jtg' . DS . 'assets' . DS . 'js' . DS . 'jtg.js');
 			// 		$document->addScript('');
-			$document->addScript('http://ajax.googleapis.com/ajax/libs/dojo/1.3.2/dojo/dojo.xd.js.uncompressed.js');
-			//			$document->addScript('http://ajax.googleapis.com/ajax/libs/dojo/1.3/dojo/dojo.xd.js');
-			// 		$document->addScript('components/com_jtg/assets/js/dojo-release-1.3.2/dojo/dojo.js');
 
 			}
-		//TODO TEST highchart
-//		$document->addScript('https://maps.googleapis.com/maps/api/js?sensor=false&v=3.9');
-//		$document->addScript('http://code.highcharts.com/highcharts.js');
-//		$document->addScript('/components/com_jtg/assets/js/WP-GPX-Maps.js');
-		//TODO TEST highchart		
+//	TODO remove script from file.php and addscript
+//			if ( ($this->params->get("jtg_param_show_heightchart"))  AND $track ) {
+//		    $document->addScript('http://code.highcharts.com/highcharts.js');
+//		    $document->addScript('http://code.highcharts.com/modules/exporting.js');
+//		}	
 		
 		$action = "index.php?option=com_jtg&amp;controller=download&amp;task=download";
 
@@ -382,25 +371,24 @@ class JtgViewFiles extends JView
 		 */
 
 		$coords = $cache->get(array ( $gps, 'getCoords' ), array ( $file ));
+		$distances = $cache->get(array ( $gps, 'getDistances' ), array ( $coords ));
 
 		if (isset ($coords[0][3])) {
 			// 		Speedprofile
-			$speeddata = $cache->get(array ( $gps, 'createSpeedData' ), array ( $coords, $unit ));
+			$speeddata = $cache->get(array ( $gps, 'createSpeedData' ), array ( $coords, $distances, $unit ));
 		} else $speeddata = false;
-		if ((!$speeddata) OR (preg_match('/0,0,0,0,0,0,0,0,0,0/',$speeddata)))
+		if ((!$speeddata) OR (preg_match('/0,0,0,0,0,0,0,0,0,0/',$speeddata))) // change this test according to new createSpeeddata method
 		//	give scatter-plot a chance
 		$speeddata = false;
 		if ($coords[0][2] != 0) {
 			// Heightprofile ($chartdata)
-			$chartdata = $cache->get(array ( $gps, 'createChartsData' ), array ( $coords ));
-			// For what is that ($cdis)?
-			// $cdis = $cache->get(array($gps, 'distance2chart'), array($distance));
+			$chartdata = $cache->get(array ( $gps, 'createElevationData' ), array ( $coords, $distances ));
 		}
 
 		// heartbeat
 		if (isset ($coords[0][4]) && $coords[0][4] > 0) {
 			// $beat = $gps->createBeatsData($coords);
-			$beat = $cache->get(array ( $gps, 'createBeatsData' ), array ( $coords ));
+			$beat = $cache->get(array ( $gps, 'createBeatsData' ), array ( $coords, $distances ));
 			$this->beat = $beat;
 		}
 

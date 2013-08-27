@@ -657,7 +657,53 @@ class gpsClass
 	}
 
 	/**
-	 * counts the distance of a track
+	 * calculate the distances at each track point from coords data
+	 * $coords look like this: $array($point1(array(lat,lon)),$point2(array(lat,lon)))...
+	 *
+	 * @param array $coords
+	 * @return int kilometers
+	 */
+	public function getDistances($coords) {
+		if (!is_array($coords))
+		return false;
+		else {
+
+			$distances = array();
+			$distances[0] = 0;
+			$welt = 6378.137; // Erdradius, ca. Angabe
+			for($i=0, $n=(count($coords)-1); $i<$n; $i++)
+			{
+				if (isset($coords[$i + 1]))
+				{
+					$current_lat = $coords[$i][1]; // lat
+					$current_lon = $coords[$i][0]; // lon
+					$current_lat_rad = deg2rad($current_lat);
+					$current_lon_rad = deg2rad($current_lon);
+
+					$next_lat = $coords[$i + 1][1]; // lat
+					$next_lon = $coords[$i + 1][0]; // lon
+					$next_lat_rad = deg2rad($next_lat);
+					$next_lon_rad = deg2rad($next_lon);
+
+					$dis = acos(
+					(sin($current_lat_rad) * sin($next_lat_rad)) +
+					(cos($current_lat_rad) * cos($next_lat_rad) *
+					cos($next_lon_rad - $current_lon_rad))) * $welt;
+
+					if(is_nan($dis))
+					{ 
+					    $dis=0;
+					}
+		
+					$distances[$i + 1] = $distances[$i] + $dis;
+				}
+			}
+			return $distances;
+		}
+	}
+
+	/**
+	 * counts the total distance of a track
 	 * $koords look like this: $array($point1(array(lat,lon)),$point2(array(lat,lon)))...
 	 *
 	 * @param array $koord
@@ -666,12 +712,16 @@ class gpsClass
 	public function getDistance($koord) {
 		if (!is_array($koord))
 		return false;
+		if (is_array($distances)) {
+		    // calculate from distances array when it exists
+		    $entfernung = $distances[ count($distances)-1 ];
+		    $entfernung = round($entfernung, 2);
+		    return $entfernung;	
+		}
 		else {
 
 			$ent = 0;
 			$welt = 6378.137; // Erdradius, ca. Angabe
-			//		$last = array_pop($koord);
-			//		What is this for?? It doesn't work if only 2 coordinates given (homeposition)
 			foreach($koord as $key => $fetch)
 			{
 				if (isset($koord[$key + 1]))
@@ -738,7 +788,7 @@ class gpsClass
 	 * @param array $coords
 	 * @return string
 	 */
-	public function createChartsData($coords) {
+	public function createElevationData($coords ,$distances) {
 		$cht = "";
 
 		$n = count($coords);
@@ -748,14 +798,13 @@ class gpsClass
 		} else {
 			$c = 1;
 		}
-		$ele = array();
 		for($i=0; $i<$n; $i = $i+$c) {
 			$coord = $coords[$i];
-			$cht .= round($coord[2],0) . ",";
+			$distance=(string) round($distances[$i],2);
+			$cht .= '[' . $distance  . ',' . round($coord[2],0) . '],' ;
 
-			array_push($ele,round($coord[2],0));
 		}
-		$chtn = substr($cht, 0, -1);
+		$chtn = '[' . substr($cht, 0, -1) . ']';
 
 		return $chtn;
 	}
@@ -821,7 +870,7 @@ class gpsClass
 	 * @param array $coords
 	 * @return string
 	 */
-	public function createSpeedData($coords,$unit) {
+	public function createSpeedData($coords, $distances, $unit) {
 		$cht = "";
 		$n = count($coords);
 		if($n > 600) {
@@ -835,22 +884,24 @@ class gpsClass
 		$lat = array();
 		$j = 0;
 		for($i=0; $i<$n; $i = $i+$count) {
-			$lon[$j] = ($coords[$j][0]);
-			$lat[$j] = ($coords[$j][1]);
-			$time[$j] = $this->giveTimestamp($coords[$j][3]);
+			$lon[$j] = ($coords[$i][0]);
+			$lat[$j] = ($coords[$i][1]);
+			$time[$j] = $this->giveTimestamp($coords[$i][3]);
 			if ($time[$j] === false) return false;
 			if ( $j > 0 ) {
 				$speed = $this->giveSpeed($lon[$j],$lat[$j],$time[$j],$lon[($j-1)],$lat[($j-1)],$time[($j-1)],$unit);
-				if($speed!==false)
-				$cht .= $speed . ",";
+				if($speed!==false){
+				    $distance=(string) round($distances[$i],2);;
+				    $cht .= '[' . $distance  . ',' . $speed . '],' ;
+				}
 			}
 			$j++;
 		}
-		$chtn = substr($cht, 0, -1);
+		$chtn = '[' . substr($cht, 0, -1) . ']';
 		return $chtn;
 	}
 
-	public function createBeatsData($coords) {
+	public function createBeatsData($coords, $distances) {
 		$cht = "";
 
 		$n = count($coords);
@@ -860,31 +911,16 @@ class gpsClass
 		} else {
 			$c = 1;
 		}
-		$beats = array();
 		for($i=0; $i<$n; $i = $i+$c) {
 			$coord = $coords[$i];
-			$cht .= $coord[4] . ",";
-			array_push($beats,$coord[4]);
+			$distance=(string) round($distances[$i],2);
+			$cht .= '[' . $distance  . ',' . $coord[4] . '],' ;
 		}
-		$chtn = substr($cht, 0, -1);
+		$chtn = '[' . substr($cht, 0, -1) . ']';
 
 		return $chtn;
 	}
 
-	/**
-	 *
-	 * @param string $distance
-	 * @return string
-	 */
-	public function distance2chart($distance) {
-		$end = round($distance,1);
-		$first = round($distance/4,1);
-		$mid = round($distance/2,1);
-		$third = round($first * 3,1);
-		$dis = "0|" . $first . "|" . $mid . "|" . $third . "|" . $end;
-
-		return $dis;
-	}
 	// Openlayers write maps BEGIN
 	public function writeOLMap($where,$tracks,$params) {
 		$cfg =& JtgHelper::getConfig();

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <config><fields name="params">
+    <config>
 	<fieldset  
 	    name="BASIC"
 	    label="COM_JTG_BASIC_CONFIGURATION" >
@@ -85,7 +85,7 @@
 	    </field>-->
 
         </fieldset> 
-	    <fieldset name="LIMIT"
+	<fieldset name="LIMIT"
 	    label="COM_JTG_TT_MENU_LIMIT">
 	    <field type="spacer" addfieldpath="/administrator/components/com_jtg/elements" />	
 	    <field type="spacer" name="myspacer4" class="text" label="&lt;hr/&gt; &lt;b&gt;COM_JTG_MENUSPACER_LIMITS&lt;/b&gt;"/>
@@ -103,6 +103,6 @@
 	    <field type="spacer" name="myspacer7" class="text" label="HR"/>
 	    <field name="jtg_param_helpbutton" type="ownlist" addfieldpath="/administrator/components/com_jtg/elements" label="Help" />
 	</fieldset>
-    </fields></config>
+    </config>
 
 
