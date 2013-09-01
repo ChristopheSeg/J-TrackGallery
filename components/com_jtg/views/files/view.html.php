@@ -317,24 +317,18 @@ class JtgViewFiles extends JView
 		
 		// Kartenauswahl BEGIN
 		JHTML :: script('jtg.js', 'components/com_jtg/assets/js/', false);
-		if ($cfg->map == "google") {
-			$document->addScript('http://www.google.com/jsapi?key=' . $cfg->apikey);
-			$document->addScript('http://www.google.com/uds/api?file=uds.js&v=1.0&key=' . $cfg->apikey);
-			$document->addStylesheet('http://www.google.com/uds/css/gsearch.css');
-		}
-		if ($cfg->map == "osm") {
-			//			$document->addScript('http://maps.google.com/maps?file=api&amp;v=2&amp;key='.$cfg->apikey);
-			//			$document->addScript('http://api.maps.yahoo.com/ajaxymap?v=3.0&appid=');
-			$document->addScript('http://www.openlayers.org/api/OpenLayers.js');
-			$document->addScript('components' . DS . 'com_jtg' . DS . 'assets' . DS . 'js' . DS . 'fullscreen.js');
-			//		JHTML::script('OpenLayers.js', 'components' . DS . 'com_jtg' . DS . 'assets' . DS . 'js' . DS . 'OpenLayers'., false); // IE-Fehler
-			$document->addScript('http://www.openstreetmap.org/openlayers/OpenStreetMap.js');
-			$document->addScript('http://www.openlayers.org/api/Ajax.js');
-			// 		$document->addScript('components/com_jtg/assets/js/GPX.js');
-			//		$document->addScript('components' . DS . 'com_jtg' . DS . 'assets' . DS . 'js' . DS . 'jtg.js');
-			// 		$document->addScript('');
 
-			}
+		//			$document->addScript('http://maps.google.com/maps?file=api&amp;v=2&amp;key='.$cfg->apikey);
+		//			$document->addScript('http://api.maps.yahoo.com/ajaxymap?v=3.0&appid=');
+		$document->addScript('http://www.openlayers.org/api/OpenLayers.js');
+		$document->addScript('components' . DS . 'com_jtg' . DS . 'assets' . DS . 'js' . DS . 'fullscreen.js');
+		//		JHTML::script('OpenLayers.js', 'components' . DS . 'com_jtg' . DS . 'assets' . DS . 'js' . DS . 'OpenLayers'., false); // IE-Fehler
+		$document->addScript('http://www.openstreetmap.org/openlayers/OpenStreetMap.js');
+		$document->addScript('http://www.openlayers.org/api/Ajax.js');
+		// 		$document->addScript('components/com_jtg/assets/js/GPX.js');
+		//		$document->addScript('components' . DS . 'com_jtg' . DS . 'assets' . DS . 'js' . DS . 'jtg.js');
+		// 		$document->addScript('');
+
 //	TODO remove script from file.php and addscript
 //			if ( ($this->params->get("jtg_param_show_heightchart"))  AND $track ) {
 //		    $document->addScript('http://code.highcharts.com/highcharts.js');
@@ -345,9 +339,6 @@ class JtgViewFiles extends JView
 
 		$gps = new gpsClass();
 		// Kartenauswahl BEGIN
-		if ($cfg->map == "google")
-		$map = $cache->get(array ( $gps, 'writeTrackGoogle'), array ($track));
-		if ($cfg->map == "osm")
 		$map = $cache->get(array ( $gps, 'writeTrackOL' ), array ( $track, $params ));
 		// Kartenauswahl END
 		$unit = $cfg->unit;

@@ -486,12 +486,11 @@ class JtgHelper
 	function getLatLon($uid=false,$exclude=false) {
 		$mainframe =& JFactory::getApplication();
 		$db =& JFactory::getDBO();
-		$query = "SELECT id,name,username,jtglat,jtglon,jtgvisible FROM #__users";
-		// SELECT u.id,u.name,u.username,u2.jtglat,u2.jtglon,u2.jtgvisible FROM crl05_users as u left join crl05_jtg_param_users as u2 ON u.id=u2.user_id
+		$query = "SELECT u.id,u.name,u.username,u2.jtglat,u2.jtglon,u2.jtgvisible FROM #__users as u left join #__jtg_users as u2 ON u.id=u2.user_id";
 		if ($uid !== false)
-		$query .= " WHERE id='" . $uid . "'";
+		$query .= " WHERE u.id='" . $uid . "'";
 		elseif ($exclude !== false)
-		$query .= " WHERE id<>'" . $exclude . "'";
+		$query .= " WHERE u.id<>'" . $exclude . "'";
 		$db->setQuery($query);
 		$object = $db->loadObjectList();
 		return $object;

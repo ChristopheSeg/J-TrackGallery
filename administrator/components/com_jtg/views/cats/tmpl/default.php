@@ -66,7 +66,7 @@ $ordering = ($this->lists['order'] == 'ordering');
 			?></td>
 			<td align="left"><a href="javascript:void(0);"
 				onclick="javascript:return listItemTask('cb<?php echo $i; ?>','editcat')">
-				<?php echo $row->treename; ?> </a></td>
+				<?php echo JText::_($row->treename); ?> </a></td>
 			<td><?php echo $row->description; ?></td>
 			<?php if ( $ordering !== false ) { ?>
 			<td class="order"><span><?php echo $this->pagination->orderUpIcon( $i, true,'orderup', 'Move Up', $ordering );

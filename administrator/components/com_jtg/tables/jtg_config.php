@@ -50,7 +50,6 @@ class TableJTG_config extends JTable
 	var $download		= NULL;
 	var $gpsstore		= NULL;
 	var $gallery		= NULL;
-	var $serviceprovider= NULL;
 	var $level			= NULL;
 	
 	/**

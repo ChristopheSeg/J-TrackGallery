@@ -33,12 +33,6 @@ class JtgViewDefault extends JView
         $gps = new gpsClass();
 
         $document =& JFactory::getDocument();
-	if ( $map == "google" ) {
-		$document->addScript('http://www.google.com/jsapi?key='.$cfg->apikey);
-		$document->addScript('http://www.google.com/uds/api?file=uds.js&v=1.0&key='.$cfg->apikey);
-		$document->addStylesheet('http://www.google.com/uds/css/gsearch.css');
-		$document->addStylesheet('http://www.google.com/uds/solutions/localsearch/gmlocalsearch.css');
-	}
         $this->cfg = $cfg;
         $this->gps = $gps;
         

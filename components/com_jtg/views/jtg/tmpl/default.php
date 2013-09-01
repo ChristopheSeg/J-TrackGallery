@@ -17,34 +17,31 @@ echo $this->lh;
 //if($this->map == "disabled") {
 //	echo JText::_('COM_JTG_NOSERVICE');
 //}
-if($this->map == "osm") {
-	echo $this->gps->writeOLMap($this->where,$this->tracks,$this->params);
-	?>
-<center>
-<div id="map" style="width: <?php echo $this->cfg->map_width; ?>px; height: <?php echo $this->cfg->map_height; ?>px;" ><script
-	type="text/javascript">slippymap_init("map");</script></div>
-</center>
-	<?php
-}
-if($this->map == "google") {
-	echo $this->gps->writeGoogleMap();
-	?>
-<script
-	src="http://www.google.com/uds/solutions/localsearch/gmlocalsearch.js"
-	type="text/javascript"></script>
+echo $this->gps->writeOLMap($this->where,$this->tracks,$this->params);
+?>
 
 <style type="text/css">
-@import url("http://www.google.com/uds/css/gsearch.css");
-
-@import
-	url("http://www.google.com/uds/solutions/localsearch/gmlocalsearch.css")
-	;
-</style>
+        #jtg_map.olMap {
+		height: <?php echo $this->cfg->map_height; ?>px;
+		width: <?php echo $this->cfg->map_width; ?>px;
+		z-index: 0;
+}
+        #jtg_map.fullscreen {
+          	height: 800px;
+		width: 100%;
+		z-index: 20;
+}
+</style> 
 <center>
-<div id="map" style="width: <?php echo $this->cfg->map_width; ?>px; height: <?php echo $this->cfg->map_height; ?>px;" ></div>
+<div id="jtg_map" class="olMap"></div>
+    <script src="/components/com_jtg/assets/js/fullscreen.js" type="text/javascript"></script>
+    <script
+	    type="text/javascript">slippymap_init("map");
+    </script>
+
 </center>
 	<?php
-}
+
 // Karten-Auswahl END
 if ($this->newest != 0) {
 	?>
@@ -254,16 +251,14 @@ else {
 //width="0" height="0"
 ?>
 <div class="no-float"><?php
-if($this->map == "osm") {
-	// Needed Pics preload
-	?>
+
+// Needed Pics preload
+?>
 <div style="display: none">
 	<img alt="cloud-popup-relative.png" src="http://www.openlayers.org/api/img/cloud-popup-relative.png" />
 	<img alt="marker.png" src="http://www.openlayers.org/api/img/marker.png" />
 	<img alt="close.png" src="http://www.openlayers.org/api/theme/default/img/close.gif" />
 </div>
-	<?php
-}
-?> <?php
+<?php
 echo $this->footer;
 ?></div>

@@ -82,11 +82,6 @@ class JtgViewConfig extends JView
 		array('id' => 'jd2', 'text' => JText::_('COM_JTG_GAL_JDGALLERY2')),
 		//		array('id' => 'jd21', 'text' => JText::_('COM_JTG_GAL_JDGALLERY21'))
 		);
-		$serviceprovider = array(
-		array('id' => 'not available', 'text' => JText::_('COM_JTG_NOT_AVAILABLE')),
-		array('id' => 'google', 'text' => JText::_('COM_JTG_GOOGLE')),
-		array('id' => 'osm', 'text' => JText::_('COM_JTG_OSM')),
-		);
 		$routingiconset = array();
 		$imgdir = ".." . DS . "components" . DS . "com_jtg" . DS . "assets" . DS . "images" . DS . "approach".DS;
 		$importdir = JPATH_SITE . DS . "components" . DS . "com_jtg" . DS . "assets" . DS . "images" . DS . "approach".DS;
@@ -140,8 +135,6 @@ class JtgViewConfig extends JView
 		$lists['approach']			= JHTML::_('select.genericlist', $approach, 'approach', 'size="1"', 'id', 'text', $config->approach );
 		$lists['routingiconset']	= JHTML::_('select.radiolist', $routingiconset, 'routingiconset', null, 'value', 'text', $config->routingiconset );
 		$lists['gallery']			= JHTML::_('select.genericlist', $gallery, 'gallery', 'size="1"', 'id', 'text', $config->gallery );
-		$lists['serviceprovider']	= $this->createCheckbox("serviceprovider_google","google","Google") . "<br />\n".
-		$this->createCheckbox("serviceprovider_osm","osm","OpenStreetMap",true);
 		if ( $config->level == "" )
 		{
 			$rows = 6;

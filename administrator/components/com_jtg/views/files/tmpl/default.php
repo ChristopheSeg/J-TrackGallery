@@ -137,7 +137,7 @@ $document->addStyleSheet(JURI::base().'components/com_jtg/template.css');
 			<td align="center"><?php echo $checked; ?></td>
 			<td align="center"><span class="hasTip" title="<?php echo $row->file ?>"><?php echo $title; ?></span></td>
 			<td align="center" nowrap><?php echo $imagelink; ?></td>
-			<td align="left"><?php echo $cats; ?></td>
+			<td align="left"><?php echo JText::_($cats); ?></td>
 			<td align="center"><?php echo $terrain; ?></td>
 			<td align="center"><?php echo $row->level; ?></td>
 			<td align="center"><?php echo $row->date; ?></td>

@@ -716,20 +716,27 @@ span label {
 	{
 	list-style-image: url(images/list.png);
 }
+.toptracks_1_entry, .toptracks_2_entry , .toptracks_3_entry , .toptracks_4_entry ,
+.toptracks_1_title ul, .toptracks_2_title ul , .toptracks_3_title ul , .toptracks_4_title ul
+	{
+	padding-left:30px;
+}
 
-.toptracks_1_title ul.entry,.toptracks_1_entry ul.entry {
+
+
+.toptracks_1_title ul.entry, .toptracks_1_entry ul.entry {
 	margin-left: 0px;
 }
 
-.toptracks_2_title ul.entry,.toptracks_2_entry ul.entry {
+.toptracks_2_title ul.entry, .toptracks_2_entry ul.entry {
 	margin-left: -2px;
 }
 
-.toptracks_3_title ul.entry,.toptracks_3_entry ul.entry {
+.toptracks_3_title ul.entry, .toptracks_3_entry ul.entry {
 	margin-left: -5px;
 }
 
-.toptracks_4_title ul.entry,.toptracks_4_entry ul.entry {
+.toptracks_4_title ul.entry, .toptracks_4_entry ul.entry {
 	margin-left: -10px;
 }
 

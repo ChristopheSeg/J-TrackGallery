@@ -103,21 +103,12 @@ class layoutHelper
 
 	function parseMap($document,$map)
 	{
-		switch ($map) {
-			case "google":
-				$document->addScript('http://www.google.com/jsapi?key='.$cfg->apikey);
-				$document->addScript('http://www.google.com/uds/api?file=uds.js&v=1.0&key='.$cfg->apikey);
-				//  $document->addScript('http://www.google.com/uds/solutions/localsearch/gmlocalsearch.css');
-				break;
-			case "osm":
-				// $document->addScript('components' . DS . 'com_jtg' . DS . 'assets' . DS . 'js' . DS . 'OpenLayers' . DS . 'OpenLayers.js'); // Benötigt für Spuransich in Übersicht
-				$document->addScript('http://www.openlayers.org/api/OpenLayers.js');
-				// $document->addScript('http://www.openstreetmap.org/openlayers/OpenLayers.js'); // tuts nicht
-				$document->addScript('http://www.openstreetmap.org/openlayers/OpenStreetMap.js');
-				// $document->addScript('http://www.openlayers.org/api/Ajax.js');
-				$document->addScript('components/com_jtg/assets/js/jtg.js'); // Benötigt für Spuransich in Übersicht
-				break;
-		}
+		// $document->addScript('components' . DS . 'com_jtg' . DS . 'assets' . DS . 'js' . DS . 'OpenLayers' . DS . 'OpenLayers.js'); // Benötigt für Spuransich in Übersicht
+		$document->addScript('http://www.openlayers.org/api/OpenLayers.js');
+		// $document->addScript('http://www.openstreetmap.org/openlayers/OpenLayers.js'); // tuts nicht
+		$document->addScript('http://www.openstreetmap.org/openlayers/OpenStreetMap.js');
+		// $document->addScript('http://www.openlayers.org/api/Ajax.js');
+		$document->addScript('components/com_jtg/assets/js/jtg.js'); // Benötigt für Spuransich in Übersicht
 	}
 
 	/*

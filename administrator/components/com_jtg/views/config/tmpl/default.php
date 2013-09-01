@@ -31,39 +31,6 @@ JHTML::_('behavior.tooltip');
 	?>
 	<table class="admintable">
 	<tbody>
-		<tr>
-		<td><?php echo (JText::_( 'COM_JTG_MAPSERVICE' ));?>
-		</td>
-		<td>
-<?php
-
-if ((!$this->config->apikey) AND ($this->config->map == "google"))
-{
-	echo ("	<div style=\"color: #c00; background: #E6C0C0 url(templates/khepri/images/notice-alert.png) 4px top no-repeat; border-top: 3px solid #DE7A7B; border-bottom: 3px solid #DE7A7B; padding:10px; font-size:1.2em; font-weight:bold;\">\n");
-	echo ("					<div style=\"padding-left:50px\">\n");
-}
-echo ("<select name=\"map\" size=\"1\">
-							<option value=\"disabled\" ");
-if($this->config->map == "disabled")
-	echo ("selected=selected");
-echo (">".JText::_('COM_JTG_NOSERVICE') . "</option>
-							<option value=\"google\" ");
-if($this->config->map == "google")
-	echo ("selected=selected");
-echo (">".JText::_('COM_JTG_MAPGOOGLE') . " (".JText::_('COM_JTG_NOTSUPPORTED') . ")</option>
-							<option value=\"osm\" ");
-if($this->config->map == "osm")
-	echo ("selected=selected");
-echo (">".JText::_('COM_JTG_MAPOSM') . "</option>
-					</select>\n");
-if((!$this->config->apikey) AND ($this->config->map == "google")) {
-	echo ("</div><br /><div align=\"center\">".JText::_('COM_JTG_NO_APIKEY') . "</div>\n");
-
-	echo ("</div>");}
-
-?>
-		</td>
-			</tr>
 			<tr>
 				<td><span class="hasTip" title="<?php echo JText::_('COM_JTG_TT_TITLE'); ?> :: <?php echo JText::_('COM_JTG_TT_GID_DESC'); ?>"><?php echo JText::_('COM_JTG_USERS'); ?></span></td>
 				<td><?php echo $this->lists['gid']; ?></td>
@@ -139,38 +106,6 @@ echo $tabs->startPanel(JText::_('COM_JTG_LEVEL'), 'levelconfig');
 <?php
 echo $tabs->endPanel();
 // Level END
-
-// Googlekonfiguration BEGIN
-	if($this->config->map == "google") {
-		echo $tabs->startPanel(JText::_('COM_JTG_GOOGLECONF'), 'mainconfig');
-	?>
-	<table class="admintable">
-		<tbody>
-			<tr<?php
-if(!$this->config->apikey)
-	echo (" bgcolor=\"#FFD0D0\"");
-?>>
-				<td><?php echo JText::_( 'COM_JTG_GOOGLE_API_CODE' ); ?></td>
-				<td><input type="text" name="apikey" value="<?php echo $this->config->apikey; ?>" size="60" /></td>
-			</tr>
-			<tr>
-				<td><?php echo JText::_('COM_JTG_MAP_TYPE'); ?></td>
-				<td><select name="map_type">
-						<option value=""><?php echo JText::_('COM_JTG_SELECT'); ?></option>
-						<option value="0" <?php if($this->config->map_type == 0): echo "selected='selected'"; endif; ?> ><?php echo JText::_('COM_JTG_STANDARDMAP'); ?></option>
-						<option value="1" <?php if($this->config->map_type == 1): echo "selected='selected'"; endif; ?> ><?php echo JText::_('COM_JTG_SATELITEMAP'); ?></option>
-						<option value="2" <?php if($this->config->map_type == 2): echo "selected='selected'"; endif; ?> ><?php echo JText::_('COM_JTG_HYBRIDMAP'); ?></option>
-						<option value="3" <?php if($this->config->map_type == 3): echo "selected='selected'"; endif; ?> ><?php echo JText::_('COM_JTG_PHYSICALMAP'); ?></option>
-					</select></td>
-			</tr>
-		</tbody>
-	</table>
-    
-	<?php
-
-}
-	echo $tabs->endPanel();
-// Googlekonfiguration END
 
 // Viewingoptions BEGIN
 echo $tabs->startPanel(JText::_('COM_JTG_DISPLAY'), 'display');
@@ -275,8 +210,9 @@ if ($this->config->approach == "easy") {
 ?>
 			<tr>
 				<td><span class="hasTip" title="<?php echo JText::_('COM_JTG_TT_TITLE'); ?> :: <?php echo JText::_('COM_JTG_TT_SERVICE_PROVIDER'); ?>"><?php echo JText::_('COM_JTG_SERVICE_PROVIDER'); ?></span></td>
-				<td><?php echo $this->lists['serviceprovider']; ?></td>
+				<td><?php echo "TODO"; // echo $this->lists['serviceprovider']; ?></td>
 			</tr>
+			
 <?php
 }
 if ($this->config->approach == "ors") {

@@ -44,11 +44,8 @@ if($this->id >= 1) {
 	$document->addScript('http://www.openlayers.org/api/OpenLayers.js');
 	$document->addScript('http://www.openstreetmap.org/openlayers/OpenStreetMap.js');
 	$document->addScript('http://www.openlayers.org/api/Ajax.js');
-	// 	JHTML::script('jtg.js', 'components/com_jtg/assets/js/', false); // Für Durchschnittsberechnung
 	$document->addScript("../components/com_jtg/assets/js/jtg.js");
 	$document->addScript("../components/com_jtg/assets/js/jd.gallery.js");
-	// 	$document->addScript('');
-	// 	$document->addScript('http://ajax.googleapis.com/ajax/libs/dojo/1.3/dojo/dojo.xd.js');
 	$map .= $gps->writeSingleTrackOL($this->track->file);
 	$map .= ("<div id=\"map\" align=\"center\" ");
 	$map .= ("style=\"width: 400px; height: 500px; background-color:#EEE; vertical-align:middle;\" >");

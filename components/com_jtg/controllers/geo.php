@@ -26,11 +26,12 @@ class JtgControllerGeo extends JtgController
 		$lon =& JRequest::getVar('lon');
 		$visible =& JRequest::getVar('visible');
 		$mainframe =& JFactory::getApplication();
-		$query = "UPDATE #__users SET ".
-			"jtglat='" . $lat . "',".
-			"jtglon='" . $lon . "',".
-			"jtgvisible='" . $visible . "' ".
-			"WHERE id='" . $userid . "'";
+		$query = "INSERT INTO #__jtg_users (jtglat,jtglon,jtgvisible,user_id) VALUES ".
+			"('" . $lat . "','" . $lon . "','" . $visible . "','" . $userid . "') ". 
+			"ON DUPLICATE KEY UPDATE ".
+			"jtglat='" . $lat . "', ".
+			"jtglon='" . $lon . "', ".
+			"jtgvisible='" . $visible . "' ";
 		$db = JFactory::getDBO();
 		$db->setQuery($query);
 		$db->query();

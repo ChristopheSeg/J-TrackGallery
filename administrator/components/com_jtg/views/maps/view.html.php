@@ -52,8 +52,6 @@ class JtgViewMaps extends JView
 		$maps = $model->getMaps();
 		//	$tmpl = $model->getTemplates();
 
-		//	$lists['serviceprovider']	=	$this->createCheckbox("serviceprovider","google","Google") . "<br />\n".
-		//									$this->createCheckbox("serviceprovider","osm","OpenStreetMap",true);
 		$lists['block']	= JHTML::_('select.booleanlist', 'publish', 'class="inputbox" size="1"', 1 );
 //		$order = JRequest::getVar( 'order', 'order', 'post', 'string' );
 

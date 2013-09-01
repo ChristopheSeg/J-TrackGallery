@@ -955,7 +955,7 @@ class gpsClass
 	}
 
 	public function writePersonelMap() {
-		//		deprecadet
+		//		deprecaded
 		$map = "
 <script type=\"text/javascript\" src=\"components/com_jtg/assets/js/homeposition.js\"></script>
 ";
