@@ -124,11 +124,11 @@ INSERT IGNORE INTO `#__jtg_config` (
 	'JPATH_SITE . DS . "components" . DS . "com_jtg" . DS . "uploads".DS',
 	'straight',
 	'2',
-	'OSM_LEVEL_1
-OSM_LEVEL_2
-OSM_LEVEL_3
-OSM_LEVEL_4
-OSM_LEVEL_5'
+	'COM_JTG_LEVEL_1
+COM_JTG_LEVEL_2
+COM_JTG_LEVEL_3
+COM_JTG_LEVEL_4
+COM_JTG_LEVEL_5'
 );
 
 CREATE TABLE IF NOT EXISTS `#__jtg_files` (
