@@ -33,7 +33,7 @@ $version = $this->getVersion();
             </tr>
             <tr>
                 <td><?php echo(JText::_('COM_JTG_DESCRIPTION'));?>:</td>
-                <td><?php echo(JText::_('COM_JTG_INFOTXT'));?></td>
+                <td><?php echo(JText::_('COM_JTG_INFO_TXT'));?></td>
             </tr>
             <tr>
                 <td><?php echo(JText::_('COM_JTG_INSTALLED_VERSION'));?>:</td>
