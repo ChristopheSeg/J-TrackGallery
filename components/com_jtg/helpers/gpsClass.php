@@ -1261,7 +1261,7 @@ olmap.events.register('click', map, handleMapClick);
 						$marker .= " title=\\\"".JText::_('COM_JTG_REGISTERED_ONLY') . "\">";
 						break;
 					case 2: // Admin
-						$marker .= " title=\\\"".JText::_('COM_JTG_SPECIAL_ONLY') . "\">";
+						$marker .= " title=\\\"".JText::_('COM_JTG_ADMINISTRATORS_ONLY') . "\">";
 						break;
 				}
 				if ($row->title)
@@ -1277,7 +1277,7 @@ olmap.events.register('click', map, handleMapClick);
 						$marker .= "&nbsp;<img alt=\\\"".JText::_('COM_JTG_REGISTERED_ONLY') . "\" src=\\\"" . $iconpath . "registered_only.png\\\" />";
 						break;
 					case 2:
-						$marker .= "&nbsp;<img alt=\\\"".JText::_('COM_JTG_SPECIAL_ONLY') . "\" src=\\\"" . $iconpath . "special_only.png\\\" />";
+						$marker .= "&nbsp;<img alt=\\\"".JText::_('COM_JTG_ADMINISTRATORS_ONLY') . "\" src=\\\"" . $iconpath . "special_only.png\\\" />";
 						break;
 					case 9:
 						$marker .= "&nbsp;<img alt=\\\"".JText::_('COM_JTG_PRIVATE_ONLY') . "\" src=\\\"" . $iconpath . "private_only.png\\\" />";

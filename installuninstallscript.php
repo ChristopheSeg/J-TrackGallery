@@ -30,7 +30,11 @@ class com_jtgInstallerScript
 		// Try to increment some limits
 		@set_time_limit( 240 );    // execution time 5 minutes
 		ignore_user_abort( true ); // continue execution if client disconnects
-		
+		//
+		// language is not loaded at preflight time!!
+		// load english language file for 'com_jtg' component then override with current language file
+		JFactory::getLanguage()->load('com_jtg',   JPATH_ADMINISTRATOR, 'en-GB', true);
+		JFactory::getLanguage()->load('com_jtg',   JPATH_ADMINISTRATOR,    null, true);		
 		$jversion = new JVersion();
 
 		// Installing component manifest file version
@@ -41,14 +45,12 @@ class com_jtgInstallerScript
 		
 		// Manifest file minimum Joomla version
 		$this->minimum_joomla_release = $parent->get( "manifest" )->attributes()->version;   
-
-		// Show the essential information at the install/update back-end
-		echo '<p> -- ' . JText::sprintf('COM_JTG_PREFLIGHT',$this->release_existing) .'</p>';
-
+		echo '<p> -- ' . JText::sprintf('COM_JTG_PREFLIGHT',$this->release) .'</p>';
 		if ($this->release_existing) {
-			echo '<br /> &nbsp; ' . JText::sprintf('COM_JTG_PREFLIGHT_UPDATING',$this->release_existing,$this->release);
+		    
+		    echo '<br /> &nbsp; ' . JText::sprintf('COM_JTG_PREFLIGHT_UPDATING',$this->release_existing,$this->release);
 		} else {
-			echo '<br /> &nbsp; ' . JText::sprintf('COM_JTG_PREFLIGHT_INSTALLING',$this->release);
+		    echo '<br /> &nbsp; ' . JText::sprintf('COM_JTG_PREFLIGHT_INSTALLING',$this->release);
 		}
 		echo '<br /> &nbsp; ' . JText::sprintf('COM_JTG_PREFLIGHT_MIN_JOOMLA', $this->minimum_joomla_release ,$jversion->getShortVersion());
 
@@ -85,19 +87,15 @@ class com_jtgInstallerScript
 	    jimport('joomla.filesystem.file');
 	    $doc =& JFactory::getDocument();
 
-	    // load english language file for 'com_jtg' component then override with current language file
-	    JFactory::getLanguage()->load('com_jtg', JPATH_ADMINISTRATOR, 'en-GB', true);
-	    JFactory::getLanguage()->load('com_jtg', JPATH_ADMINISTRATOR, null, true);
-
 	    ?>
-
-	    <img src="<?php echo $imgdir . "logo_JTG.png"; ?>"  alt="J!Track Gallery" />
+	    <img src="<?php echo  DS . 'components' . DS . 'com_jtg' . DS . 'assets' . DS . 'images' . DS . 'logo_JTG.png'; ?>"  alt="J!Track Gallery" />
 	    <br />
 	    <table class="adminlist" border="1" width="100%">
 		    <tbody>
 			    <tr><td><?php JText::_('COM_JTG_INSTALL_LICENCE') ?></td></tr>
 			    <tr><td><?php JText::_('COM_JTG_CREATE_FOLDERS') ?></td></tr>
-
+		    </tbody>
+	    </table>
 	    <?php
 	    $folders_to_create = array (
 	    "images" . DS . "jtg",
@@ -109,38 +107,51 @@ class com_jtgInstallerScript
 	    "components" . DS . "com_jtg" . DS . "uploads" . DS . "import",
 	    "components" . DS . "com_jtg" . DS . "assets" . DS . "images" . DS . "symbols",
 	    );
-	    $filetodelete = JPATH_SITE . DS . "components" . DS . "com_jtg" . DS . "uploads" . DS . "import" . DS . "Miele.gpx~";
-	    if (JFile::exists($filetodelete))
-		    JFile::delete($filetodelete);
+
+	    echo '<table><tr><td colspan="3"><b>'.JText::_('COM_JTG_FILES_FOLDERS_TO_CREATE').'</td></tr>';
+	    echo '<tr><td>'.JText::_('COM_JTG_FILE').'/'.JText::_('COM_JTG_FOLDER').'</td><td>'.JText::_('COM_JTG_NAME').'</td><td>'.JText::_('COM_JTG_STATE').'</td></tr>';
+
 	    foreach ( $folders_to_create AS $folder ) {
 		    if(JFolder::exists(JPATH_SITE . DS . $folder))
-		    echo "<tr><td>
-			    <font color='green'>" . JText::_('COM_JTG_SKIPPING') . "</font>" . 
-			    JText::_('COM_JTG_FOLDER'). $folder. JText::_('COM_JTG_ALREADY_EXISTS') . ".</td></tr>";
+			    echo '<tr><td>' . JText::_('COM_JTG_FOLDER') . '</td><td>' .
+			    $folder . '</td><td><font color="green">' . 
+			    JText::_('COM_JTG_ALREADY_EXISTS')  . '</font></td></tr>';
 		    elseif(JFolder::create(JPATH_SITE . DS . $folder)) {
-			    echo "<tr><td>
-			    <font color='green'>" . JText::_('COM_JTG_DELETING') . "</font>" . 
-			    JText::_('COM_JTG_FOLDER'). $folder. JText::_('COM_JTG_NOT_CREATED'). ".</td></tr>";
+			    echo '<tr><td>' . JText::_('COM_JTG_FOLDER') . '</td><td>' .
+			    $folder . '</td><td><font color="green">' . 
+			    JText::_('COM_JTG_CREATED')  . '</font></td></tr>';
 		    } else {
-			    echo "<tr><td>
-			    <font color='red'>" . JText::_('COM_JTG_ERROR') . "</font>" . 
-			    JText::_('COM_JTG_FOLDER'). $folder. JText::_('COM_JTG_NOT_CREATED'). ".</td></tr>";
+			    echo '<tr><td>' . JText::_('COM_JTG_FOLDER') . '</td><td>' .
+			    $folder . '</td><td><font color="red">' . 
+			    JText::_('COM_JTG_NOT_CREATED')  . '</font></td></tr>';
 		    }
 	    }
-
+	
 	    foreach ( $folders_to_chmod AS $folder ) {
 		    ;
 		    if ( JPath::canChmod(JPATH_SITE . DS . $folder) AND (chmod(JPATH_SITE . DS . $folder, 0777))) {
-			    echo "</tr><td><font color='green'>Finished:</font>" . JText::_('COM_JTG_FOLDER'). 
-				    $folder. JText::_('COM_JTG_CHMODDED'). ".</td></tr>";
+			    echo '<tr><td>' . JText::_('COM_JTG_FOLDER') . '</td><td>' .
+			    $folder . '</td><td><font color="green">' . 
+			    JText::_('COM_JTG_CHMODDED')  . '</font></td></tr>';
 		    } else {
-			    echo "</tr><td><font color='red'>Error:</font>" . JText::_('COM_JTG_FOLDER'). 
-				    $folder. JText::_('COM_JTG_NOT_CHMODDED'). ".</td></tr>";
+			    echo '<tr><td>' . JText::_('COM_JTG_FOLDER') . '</td><td>' .
+			    $folder . '</td><td><font color="red">' . 
+			    JText::_('COM_JTG_NOT_CHMODDED')  . '</font></td></tr>';
 		    }
 	    }
+
+	    // copy Cats image
+	    $src_folder_to_copy =  JPATH_SITE . DS . 'components' . DS . 'com_jtg' . DS . 'assets' . DS . 'images' . DS . 'cats';
+	    $dest_folder_to_copy = JPATH_SITE . DS . 'images' . DS . 'jtg' . DS . 'cats';
+	    $files = JFolder::files($src_folder_to_copy);
+
+	    // copy file by file without erasing existing files
+	    foreach ($files as $file) {
+	       if (!JFile::exists($dest_folder_to_copy . DS.  $file) ) {
+		   JFile::copy($src_folder_to_copy. DS . $file, $dest_folder_to_copy . DS.  $file);
+	       }
+	    }
 	    ?>
-		    </tbody>
-	    </table>
 	    <table class="adminlist" border="1" width="100%">
 		    <tbody>
 			    <tr><td>
@@ -156,7 +167,7 @@ class com_jtgInstallerScript
 	    </table>
 	    <?php    
                		
-	    echo '<p>' . JText::sprintf('COM_JTG_INSTALLED',$this->release) . '</p>';
+	    echo '<p>' . JText::_('COM_JTG_INSTALLED',$this->release) . '</p>';
 	    // You can have the backend jump directly to the newly installed component configuration page
 	    // $parent->getParent()->setRedirectURL('index.php?option=com_jtg');
 	    return true;
@@ -171,7 +182,7 @@ class com_jtgInstallerScript
 	function update( $parent ) {
 		
 	    // nothing more to do here !!
-	    echo '<p>' . JText::sprintf('COM_JTG_UPDATED', $this->release) . '</p>';
+	    echo '<p>' . JText::_('COM_JTG_UPDATED', $this->release) . '</p>';
 		
 	    // You can have the backend jump directly to the newly updated component configuration page
 	    // $parent->getParent()->setRedirectURL('index.php?option=com_jtg');
@@ -185,7 +196,7 @@ class com_jtgInstallerScript
 	 */
 	function postflight( $type, $parent ) {
  
-		// echo '<p>' . JText::sprintf('COM_JTG_POSTFLIGHT ' . $type . ' to ' . $this->release) . '</p>';
+		// echo '<p>' . JText::_('COM_JTG_POSTFLIGHT ' . $type . ' to ' . $this->release) . '</p>';
 		return true;
 	}
 
@@ -198,18 +209,15 @@ class com_jtgInstallerScript
 
 	    $application = JFactory::getApplication();
 	    $application->enqueueMessage( JText::_('COM_JTG_THANK_YOU_FOR_USING') ) ;
-	    echo '<p>' . JText::sprintf('COM_JTG_UNINSTALLING') . '</p>';
+	    echo '<p>' . JText::_('COM_JTG_UNINSTALLING') . '</p>';
 	    $folders_to_delete = array (
 	    "images" . DS . "jtg"
 	    );
 
 	    // JPATH_SITE . DS . "components" . DS . "com_jtg" . DS . "uploads" . DS . "import" . DS . "noexistantfile"
-	    $files_to_delete = array (
-		 JPATH_SITE . DS . "components" . DS . "com_jtg" . DS . "uploads" . DS . "import" . DS . "noexistantfile"
-		);
-	    echo '<b>'.JText::_('COM_JTG_UNINSTALLING_RESUME').'</b><br/>';
+	    $files_to_delete = array ();
 	    echo '<table><tr><td colspan="3"><b>'.JText::_('COM_JTG_FILES_FOLDERS_TO_DELETE').'</td></tr>';
-	    echo '<table><tr><td>'.JText::_('COM_JTG_FILE').'/'.JText::_('COM_JTG_FOLDER').'</td><td>'.JText::_('COM_JTG_NAME').'</td><td>'.JText::_('COM_JTG_STATUS').'</td></tr>';
+	    echo '<tr><td>'.JText::_('COM_JTG_FILE').'/'.JText::_('COM_JTG_FOLDER').'</td><td>'.JText::_('COM_JTG_NAME').'</td><td>'.JText::_('COM_JTG_STATE').'</td></tr>';
 	    foreach ( $files_to_delete AS $file ) {	    
 		    if(!JFile::exists($file)) {
 		    echo '<tr><td>'.JText::_('COM_JTG_FILE').'</td><td>' . $file . '</td><td><font color="green">' . JText::_('COM_JTG_NOT_EXISTS') .' "</font>"  </td></tr>';}
@@ -223,7 +231,7 @@ class com_jtgInstallerScript
 		    if(!JFolder::exists(JPATH_SITE . DS . $folder)){
 			    echo '<tr><td>'.JText::_('COM_JTG_FOLDER').'</td><td>' . $folder . '</td><td><font color="green">' . JText::_('COM_JTG_NOT_EXISTS') . '"</font>" </td></tr>';}
 		    elseif(JFolder::delete(JPATH_SITE . DS . $folder)) {
-			    echo '<tr><td>'.JText::_('COM_JTG_FOLDER').'</td><td>' . $folder . '</td><font color="green">' .JText::_('COM_JTG_DELETED') . '"</font>" </td></tr>';
+			    echo '<tr><td>'.JText::_('COM_JTG_FOLDER').'</td><td>' . $folder . '</td><td><font color="green">' .JText::_('COM_JTG_DELETED') . '"</font>" </td></tr>';
 		    } else {
 			    echo '<tr><td>'.JText::_('COM_JTG_FOLDER').'</td><td>' . $folder . '</td><font color="red">' . JText::_('COM_JTG_ERROR') . JText::_('COM_JTG_NOT_DELETED') . '"</font>" </td></tr>';
 		    }

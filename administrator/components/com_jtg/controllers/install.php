@@ -38,7 +38,6 @@ class JtgControllerInstall extends JtgController
 	{
 		//$mainframe =& JFactory::getApplication();
 		$model = $this->getModel('install');
-		echo "<br><br>admin/com_JTG// controllers/install.php:";print_r($model);die();
 		if(!$model->installCleanDB("install")) return false;
 		return true;
 	}
@@ -51,7 +50,11 @@ class JtgControllerInstall extends JtgController
 	}
 
 */
-	function install_maps() {
+	/*  TODO  check... this seems obsolete
+	  */
+
+	 function install_maps() {
+	 
 		$model = $this->getModel('install');
 		if(!$model->installCleanDB("maps")) return false;
 		return true;

@@ -371,7 +371,7 @@ class JtgHelper22
 		),
 		array (
 				'id' => 2,
-				'text' => JText::_( 'COM_JTG_SPECIAL')
+				'text' => JText::_( 'COM_JTG_ADMINISTRATORS')
 		)
 		);
 		return JHTML :: _('select.genericlist', $access, 'access', 'size="4"', 'id', 'text', $accesslevel);

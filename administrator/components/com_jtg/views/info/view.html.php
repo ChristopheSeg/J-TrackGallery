@@ -33,11 +33,11 @@ class JtgViewInfo extends JView
 
 	function getVersion() {
 		$return = array();
-		$latest = file ("https://github.com/ChristopheSeg/J-TrackGallery/raw/master/version.php");
-		$latest = $latest[0];
+//		$latest = file ("https://github.com/ChristopheSeg/J-TrackGallery/raw/master/version.php");
+//		$latest = $latest[0];
 		$xml = simplexml_load_file(JPATH_SITE . DS . "administrator" . DS . "components" . DS . "com_jtg" . DS . "jtg.xml");
 		$thisversion = (string)$xml->version;
-		
+		$latest='Unknown!'; //TODO Retrieve latest version from update server
 
 		if (! version_compare( strtolower($latest),strtolower($thisversion) ) ) {
 		        // $latest  > $thisversion (current).. must upgrade

@@ -1,3 +1,7 @@
+--
+-- TODO Obsolete: this file might be deleted (now included in install.sql)
+--
+
 INSERT IGNORE INTO `#__jtg_maps` (`name`, `ordering`, `published`, `param`, `script`, `code`) VALUES
 ('COM_JTG_MAP_MAPNIK', 1, 1, 'OpenLayers.Layer.OSM.Mapnik("{name}")', '', ''),
 ('COM_JTG_MAP_OSM_HIKE_AND_BIKE', 2, 1, 'OpenLayers.Layer.TMS("{name}", "http://toolserver.org/tiles/hikebike/", { type: "png", getURL: osm_getTileURL, displayOutsideMaxExtent: true, isBaseLayer: true, attribution: "Map Data © OpenStreetMap contributors", transitionEffect: "resize" })', '', ''),

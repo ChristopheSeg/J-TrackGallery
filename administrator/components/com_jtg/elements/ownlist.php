@@ -167,7 +167,7 @@ class JFormFieldOwnList extends JFormField
 				return JText::_('COM_JTG_REGISTERED');
 				break;
 			case 2:
-				return JText::_('COM_JTG_SPECIAL');
+				return JText::_('COM_JTG_ADMINISTRATORS');
 				break;
 		}
 	}

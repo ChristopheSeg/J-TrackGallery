@@ -71,7 +71,7 @@ class JtgViewFiles extends JView
 				$color = "red";
 				break;
 			case 2:
-				$access = JText::_( 'COM_JTG_SPECIAL' );
+				$access = JText::_( 'COM_JTG_ADMINISTRATORS' );
 				$color = "black";
 				break;
 			case 9:
