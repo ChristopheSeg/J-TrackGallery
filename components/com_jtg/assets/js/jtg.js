@@ -51,12 +51,12 @@ function getAvgTime(speed, length)  {
 //         var time = parseInt(length) / speed;
         var time = length / speed;
         var timestring = time.toString();
-        var parts = timestring.split(" . ");
+        var parts = timestring.split(".");
         if(!parts[1]) parts[1] = 0;
-        var m1 = 0+" . "+parts[1].toString();
+        var m1 = 0+"."+parts[1].toString();
         var m2 = m1 / 10 * 6;
         m2 = runde(m2,2);
-        var m = m2.split(" . ");
+        var m = m2.split(".");
         var time2 = parts[0] + "h " + m[1] + "m";
         document.getElementById('time').value = time2;
 
@@ -221,7 +221,7 @@ function getCycleTileURL(bounds) {
    {
      x = ((x % limit) + limit) % limit;
  
-     return this.url + z + "/" + x + "/" + y + " . " + this.type;
+     return this.url + z + "/" + x + "/" + y + "." + this.type;
    }
 }
 

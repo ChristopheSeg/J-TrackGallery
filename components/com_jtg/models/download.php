@@ -28,7 +28,7 @@ class JtgModelDownload extends JModel
 		$mainframe =& JFactory::getApplication();
 
 		jimport('joomla.filesystem.file');
-		$file = " . " . DS . "components" . DS . "com_jtg" . DS . "uploads" . DS . $track->file;
+		$file = "." . DS . "images" . DS . "jtrackgallery" . DS . "uploads" . DS . $track->file;
 		$ext = JFile::getExt($file['name']);
 		$gps = new gpsClass();
 		$coords = $gps->getCoords($file);

@@ -293,7 +293,7 @@ class JtgModelFiles extends JModel
 		$published =& JRequest::getInt('published', 0);
 
 		// upload the file
-		$upload_dir = JPATH_SITE . DS . "components" . DS . "com_jtg" . DS . "uploads".DS;
+		$upload_dir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploads' . DS;
 		$filename = JFile::makeSafe($file['name']);
 		//JFile::delete($upload_dir.strtolower($filename));
 		if ( JFile::exists($upload_dir.strtolower($filename)))
@@ -306,13 +306,13 @@ class JtgModelFiles extends JModel
 
 		// get the start coordinates
 		$gps = new gpsClass();
-		$gps->gpsFile = "./components/com_jtg/uploads/".strtolower($filename);
+		$gps->gpsFile = DS . 'images' . DS . 'jtrackgallery' . DS . 'uploads' . DS . strtolower($filename);
 		if(!$start = $gps->getStartCoordinates()) {
 			echo "<script type='text/javascript'>alert('".JText::_('COM_JTG_NO_SUPPORT') . "');window.history.back(-1);</script>";
 			exit;
 		}
 
-		$file = './components/com_jtg/uploads/'.strtolower($filename);
+		$file = DS . 'images' . DS . 'jtrackgallery' . DS . 'uploads' . DS . strtolower($filename);
 		$start_n = $start[1];
 		$start_e = $start[0];
 		$coords = $gps->getCoords($file);
@@ -373,7 +373,7 @@ class JtgModelFiles extends JModel
 			$cfg = JtgHelper::getConfig();
 			$types = explode(',',$cfg->type);
 			if(count($images) > 0 ) {
-				$img_dir = JPATH_SITE . DS . 'images' . DS . 'jtg' . DS . $rows->id;
+				$img_dir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . $rows->id;
 				JFolder::create($img_dir,0777);
 				foreach($images['name'] as $key => $value) {
 					$ext = explode('.',$images['name'][$key]);
@@ -556,11 +556,11 @@ class JtgModelFiles extends JModel
 		$this->_db->setQuery($query);
 		$file = $this->_db->loadObject();
 		// folder and Pictures within delete
-		$folder = JPATH_SITE . DS . "images" . DS . "jtg" . DS . $id;
+		$folder = JPATH_SITE . DS . "images" . DS . "jtrackgallery" . DS . $id;
 		if (JFolder::exists($folder))
 		JFolder::delete($folder);
 		// File (gpx?) delete
-		$filename = JPATH_SITE . DS . "components" . DS . "com_jtg" . DS . "uploads" . DS . $file->file;
+		$filename = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploads' . DS . $file->file;
 		if (JFile::exists($filename))
 		JFile::delete($filename);
 		// delete from DB
@@ -575,7 +575,7 @@ class JtgModelFiles extends JModel
 	}
 
 	function getImages($id) {
-		$img_dir = JPATH_SITE . DS . 'images' . DS . 'jtg' . DS . $id;
+		$img_dir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . $id;
 		if (!JFolder::exists($img_dir))
 		return null;
 		$images = JFolder::files($img_dir);
@@ -597,7 +597,7 @@ class JtgModelFiles extends JModel
 		$level =& JRequest::getInt('level');
 		$title =& JRequest::getVar('title');
 		$allimages = $this->getImages($id);
-		$imgpath = JPATH_SITE . DS . 'images' . DS . 'jtg' . DS . $id.DS;
+		$imgpath = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . $id.DS;
 		foreach ($allimages AS $key => $image) {
 			$image =& JRequest::getVar('deleteimage_'.str_replace('.',null,$image));
 			if($image !== NULL)
@@ -619,7 +619,7 @@ class JtgModelFiles extends JModel
 		$cfg = JtgHelper::getConfig();
 		$types = explode(',',$cfg->type);
 		if($images) {
-			$img_dir = JPATH_SITE . DS . 'images' . DS . 'jtg' . DS . $id;
+			$img_dir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . $id;
 			if(!JFolder::exists($img_dir)) {
 				JFolder::create($img_dir,0777);
 			}
@@ -774,7 +774,7 @@ class JtgModelFiles extends JModel
 		</tr>
 		<?php endif; ?>
 		<tr>
-			<td colspan='2' align='right'><input type='submit' value='senden'
+			<td colspan='2' align='right'><input type='submit' value='<?php echo JText::_('COM_JTG_SEND')?>'
 				name='submit' class='button' /></td>
 		</tr>
 	</tbody>

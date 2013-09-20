@@ -95,7 +95,7 @@ class JtgModelCats extends JModel
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_pics))
 		{
-			$folder = JPATH_SITE . DS . 'images' . DS . 'jtg' . DS . 'cats'.DS;
+			$folder = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'cats' . DS;
 			jimport('joomla.filesystem.folder');
 			$files = JFolder::files($folder);
 			$this->_pics = $files;

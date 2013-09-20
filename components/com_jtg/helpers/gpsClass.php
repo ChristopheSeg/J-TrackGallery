@@ -40,7 +40,7 @@ class gpsClass
 		$marker = "";
 
 		if ( $catimage !== false ) {
-			$catimage = "images" . DS . "jtg" . DS . "cats" . DS . $catimage;
+			$catimage = "images" . DS . "jtrackgallery" . DS . "cats" . DS . $catimage;
 			if ( is_file($catimage) ) {
 				$simagesize = getimagesize($catimage);
 				$sizex = $simagesize[0];
@@ -1390,7 +1390,7 @@ olmap.events.register('click', map, handleMapClick);
 		$string .= "olmap.addLayer(layer_vectors);\n";
 		$i=0;
 		foreach($rows AS $row) {
-			$file = "components" . DS . "com_jtg" . DS . "uploads" . DS . $row->file;
+			$file = "images" . DS . "jtrackgallery" . DS . "uploads" . DS . $row->file;
 			$coords = $this->getCoords($file);
 			$string .= "geometries = new Array();geometries.push(drawLine([\n";
 			if ($coords){
@@ -1683,8 +1683,8 @@ olmap.events.register('click', map, handleMapClick);
 		$maxsize = (int)$maxsize;
 		$foundpics = false;
 		$map = "// <!-- parseOLGeotaggedImgs BEGIN -->\n";
-		$httppath = JURI::base() . "images/jtg/" . $id . "/";
-		$folder = JPATH_SITE . DS . "images" . DS . "jtg" . DS . $id.DS;
+		$httppath = JURI::base() . "images/jtrackgallery" . $id . "/";
+		$folder = JPATH_SITE . DS . "images" . DS . "jtrackgallery" . DS . $id.DS;
 		$map .= "layer_geotaggedImgs = new OpenLayers.Layer.Markers(\"".JText::_('COM_JTG_GEOTAGGED_IMAGES') . "\",".
 	" { displayInLayerSwitcher: true });".
 	"\n	olmap.addLayer(layer_geotaggedImgs);".
@@ -1784,7 +1784,7 @@ olmap.events.register('click', map, handleMapClick);
 		jimport('joomla.filesystem.file');
 		// $rows = $this->getTracks(" WHERE a.id != " . $track->id);
 		$zeiten .= (int) round( ( microtime(true) - $jtg_microtime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " getTracks<br />\n";
-		$file = JPATH_SITE . DS . "components" . DS . "com_jtg" . DS . "uploads" . DS . $track->file;
+		$file = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploads' . DS . $track->file;
 		$this->gpsFile = $file;
 		$xml = $this->loadFile();
 		$map = "\n<!-- writeTrackCOM_JTG BEGIN -->\n";
@@ -1835,7 +1835,7 @@ olmap.events.register('click', map, handleMapClick);
 		$cfg =& JtgHelper::getConfig();
 		$mainframe =& JFactory::getApplication();
 		jimport('joomla.filesystem.file');
-		$file = JPATH_SITE . DS . "components" . DS . "com_jtg" . DS . "uploads" . DS . $file;
+		$file = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploads' . DS . $file;
 		$this->gpsFile = $file;
 		$xml = $this->loadFile();
 		$map = "\n<!-- writeSingleTrackCOM_JTG BEGIN -->\n";
@@ -2507,7 +2507,7 @@ olmap.events.register('click', map, handleMapClick);
 		$mainframe =& JFactory::getApplication();
 		jimport('joomla.filesystem.file');
 
-		$file = "components" . DS . "com_jtg" . DS . "uploads" . DS . $track->file;
+		$file = "images" . DS . "jtrackgallery" . DS . "uploads" . DS . $track->file;
 		$map = "";
 
 		$map .= $this->parseScriptGoogleHead();

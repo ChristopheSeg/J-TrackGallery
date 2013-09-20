@@ -26,7 +26,7 @@ echo $this->lh;
     <tbody>
     <?php
         $k = 0;
-		$imgdir = JURI :: base() . "images/jtg/cats/";
+		$imgdir = JURI :: base() . "images/jtrackgallery/cats/";
         for($i=0, $n=count($this->cats); $i<$n; $i++) {
             $cat = $this->cats[$i];
             $cat->img = null;

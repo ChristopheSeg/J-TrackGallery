@@ -15,7 +15,6 @@
 defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.controller');
-JTable::addIncludePath(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_petcare' . DS . 'tables');
 /**
  * Controller Class Configuration
  */
@@ -34,6 +33,7 @@ class JtgControllerInstall extends JtgController
 	 * @global object $mainframe
 	 * @return boolean
 	 */
+/*
 	function install_install()
 	{
 		//$mainframe =& JFactory::getApplication();
@@ -49,9 +49,9 @@ class JtgControllerInstall extends JtgController
 		return true;
 	}
 
-*/
-	/*  TODO  check... this seems obsolete
-	  */
+
+	//  TODO  check... this seems obsolete
+
 
 	 function install_maps() {
 	 
@@ -71,4 +71,6 @@ class JtgControllerInstall extends JtgController
 		if(!$model->installCleanDB("terrains")) return false;
 		return true;
 	}
+
+ */
 }

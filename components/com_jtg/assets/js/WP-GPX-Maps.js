@@ -627,7 +627,7 @@ function _wpgpxmaps(params)
 		var thousandsSep = _nn.substring(1, 2);
 		
 		if (decPoint == "1")
-			decPoint = " . ";
+			decPoint = ".";
 			
 		if (thousandsSep == "1")
 			thousandsSep = "";		

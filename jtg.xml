@@ -7,25 +7,25 @@
 	<authorEmail>christophe@jtrackgallery.net</authorEmail>
 	<authorUrl>http://jtrackgallery.net/</authorUrl>
 	<version>0.6.6</version>
+	<!-- 
 	<description>COM_JTG_MANIFEST_DESCRIPTION</description>
+	-->
+	<description>J!Track Gallery integrates your GPS tracks (GPX, KML) in Joomla. It shows Tracks and Waypoints on various Maps. Registered Users can upload their own tracks.</description>
 
 	<install folder="administrator/components/com_jtg">
 		<sql>
 			<file driver="mysql" charset="utf8">sql/install.sql</file>
-			<file driver="mysqli" charset="utf8">sql/install.sql</file>
 		</sql>
 	</install>
 	<update folder="administrator/components/com_jtg">
 		<schemas>
 			<schemapath type="mysql">sql/upgrade</schemapath>
-			<schemapath type="mysqli">sql/upgrade</schemapath>
 		</schemas>
 	</update>
 
 	<uninstall folder="administrator/components/com_jtg">
 		<sql>
 			<file driver="mysql" charset="utf8">sql/uninstall.sql</file>
-			<file driver="mysqli" charset="utf8">sql/uninstall.sql</file>
 		</sql>
 	</uninstall>
 
@@ -49,6 +49,8 @@
 		<language tag="de-DE">de-DE/de-DE.com_jtg_additional.ini</language>
 		<language tag="en-GB">en-GB/en-GB.com_jtg.ini</language>
 		<language tag="en-GB">en-GB/en-GB.com_jtg_additional.ini</language>
+		<language tag="en-GB">fr-FR/fr-FR.com_jtg.ini</language>
+		<language tag="en-GB">fr-FR/fr-FR.com_jtg_additional.ini</language>
 	</languages>
 	<media />
 	<administration>
@@ -83,6 +85,8 @@
 			<language tag="en-GB">en-GB/en-GB.com_jtg.ini</language>
 			<language tag="de-DE">de-DE/de-DE.com_jtg.sys.ini</language>
 			<language tag="en-GB">en-GB/en-GB.com_jtg.sys.ini</language>
+			<language tag="de-DE">fr-FR/fr-FR.com_jtg.sys.ini</language>
+			<language tag="en-GB">fr-FR/fr-FR.com_jtg.sys.ini</language>
 		</languages>
 	</administration>
         <!-- UPDATESERVERS DEFINITION -->

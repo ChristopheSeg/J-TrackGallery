@@ -59,8 +59,8 @@ class JtgViewCats extends JView
 		$model =& $this->getModel();
 		$rows =& $this->get('Pics');
 		$children = array();
-		$imagedir = JPATH_SITE . DS . 'images' . DS . 'jtg' . DS . 'cats'.DS;
-		$imageurl = JURI::root().'images/jtg/cats/';
+		$imagedir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'cats' . DS;
+		$imageurl = JURI::root().'images' . DS . 'jtrackgallery' . DS . 'cats' . DS;
 		jimport('joomla.filesystem.files');
 		$images = array();
 		foreach ($rows as $k => $v ) {
@@ -109,7 +109,7 @@ class JtgViewCats extends JView
 		$rows =& $this->get( 'Data');
 		$children = array();
 		$image = array();
-		$imagedir = JURI::base().'../images/jtg/cats/';
+		$imagedir = JURI::base().'../images/jtrackgallery/cats/';
 		foreach ($rows as $v ) {
 			$v->name = JText::_($v->title);
 			$pt	= $v->parent_id;

@@ -18,7 +18,7 @@ defined('_JEXEC') or die('Restricted access');
  * Define constants for all pages
  */
 // @ToDo check and work with it
-define( 'COM_JTG_DIR', 'images' . DS . 'jtg'.DS );
+define( 'COM_JTG_DIR', 'images' . DS . 'jtrackgallery'.DS );
 define( 'COM_JTG_BASE', JPATH_ROOT . DS . COM_JTG_DIR );
 define( 'COM_JTG_BASEURL', JURI::root().str_replace( DS, '/', COM_JTG_DIR ));
 

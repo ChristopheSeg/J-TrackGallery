@@ -137,7 +137,7 @@ class JtgModelCat extends JModel
 
 	function deleteCatImage($files) {
 		jimport('joomla.filesystem.file');
-		$path = JPATH_SITE . DS . "images" . DS . "jtg" . DS . "cats".DS;
+		$path = JPATH_SITE . DS . "images" . DS . "jtrackgallery" . DS . "cats".DS;
 		foreach($files as $file) {
 			if (!JFile::delete($path.$file)) return false;
 		}
@@ -172,7 +172,7 @@ class JtgModelCat extends JModel
 			}
 
 			foreach($rows as $row) {
-				JFile::delete(JPATH_SITE . DS . "images" . DS . "jtg" . DS . "cats" . DS . $row->image);
+				JFile::delete(JPATH_SITE . DS . "images" . DS . "jtrackgallery" . DS . "cats" . DS . $row->image);
 			}
 
 			//delete from DB
@@ -242,7 +242,7 @@ class JtgModelCat extends JModel
 				JError::raiseWarning( 1, JText::sprintf('COM_JTG_NOTALLOWED_FILETYPE',$file['ext']));
 				return false;
 			}
-			$upload_dir = JPATH_SITE . DS . "images" . DS . "jtg" . DS . "cats".DS;
+			$upload_dir = JPATH_SITE . DS . "images" . DS . "jtrackgallery" . DS . "cats".DS;
 			$filename = JFile::makeSafe(strtolower($file['name']));
 				
 			if (JFile::exists($upload_dir.$filename)) {

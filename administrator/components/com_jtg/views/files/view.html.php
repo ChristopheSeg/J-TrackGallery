@@ -463,8 +463,8 @@ class JtgViewFiles extends JView
 			//			$lists['access']	= JHTML::_('list.accesslevel', $row );
 			$lists['hidden'] = JHTML::_('select.genericlist', $yesnolist, 'hidden', 'class="inputbox" size="2"', 'id', 'title',$track->hidden);
 			$lists['uid']		= JHTML::_('list.users', 'uid', $track->uid, 1, NULL, 'name', 0 );
-			$img_dir = JPATH_SITE . DS . 'images' . DS . 'jtg' . DS . $id.DS;
-			$imgpath = JURI::root().'images/jtg/'.$id.'/';
+			$img_dir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . $id . DS;
+			$imgpath = JURI::root().'images/jtrackgallery/'.$id.'/';
 			$images = null;
 			if(JFolder::exists($img_dir)) {
 				$imgs = JFolder::files($img_dir);

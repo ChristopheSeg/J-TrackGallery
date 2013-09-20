@@ -34,7 +34,7 @@ class JtgModelInstall extends JModel
 	 */
 	function upackCatIcons() {
 		$source = JPATH_SITE . DS . "components" . DS . "com_jtg" . DS . "assets" . DS . "images" . DS . "source" . DS . "samplecaticons.zip";
-		$destpath = JPATH_SITE . DS . "images" . DS . "jtg" . DS . "cats";
+		$destpath = JPATH_SITE . DS . "images" . DS . "jtrackgallery" . DS . "cats";
 		jimport('joomla.filesystem.archive');
 		if (JArchive::extract($source,$destpath)) return true;
 		return false;

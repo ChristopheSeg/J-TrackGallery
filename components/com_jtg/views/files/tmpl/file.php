@@ -23,9 +23,9 @@ if ($maySeeSingleFile === true) {
 	if ( ( $this->cfg->gallery == "jd2" ) OR ( $this->cfg->gallery == "jd21" ) ) {
 		echo $this->galscript;
 	} 
-
+					
 	if ( ($this->params->get("jtg_param_show_heightchart"))  AND 
-	     ($this->track->ele_asc != 0) AND ($this->track->ele_desc != 0) AND (isset($this->chart) ) AND  ( $this->chart ) )
+	     ($this->track->ele_asc != 0) AND ($this->track->ele_desc != 0) AND (isset($this->heighdata) ) AND  ( $this->heighdata ) )
 		
 	{
 	    $heightchart=true;		    
@@ -36,7 +36,7 @@ if ($maySeeSingleFile === true) {
 	}
 
 	if ( ($this->params->get("jtg_param_show_speedchart")) AND
-		 ( isset($this->track->istrack) ) AND ( $this->track->istrack == "1" ) AND (isset($this->speed) ) AND  ( $this->speed ) ) 
+		 ( isset($this->track->istrack) ) AND ( $this->track->istrack == "1" ) AND (isset($this->speeddata) ) AND  ( $this->speeddata ) ) 
 	{
 	    $speedchart=true;		    
 	} 
@@ -46,7 +46,7 @@ if ($maySeeSingleFile === true) {
 	}
 
 	if ( ($this->params->get("jtg_param_show_speedchart")) AND
-		 ( isset($this->track->istrack) ) AND ( $this->track->istrack == "1" ) AND (isset($this->beat) ) AND ( $this->beat ) ) 
+		 ( isset($this->track->istrack) ) AND ( $this->track->istrack == "1" ) AND (isset($this->beatdata) ) AND ( $this->beatdata ) ) 
 	{
 	    $beatchart=true;		    
 	} 
@@ -54,9 +54,7 @@ if ($maySeeSingleFile === true) {
 	{
 	    $beatchart=false;
 	}
-	
-	$havechart = $heightchart OR $speedchart OR $beatchart; 
-
+	$havechart = ($heightchart or $speedchart) or $beatchart; 
 	if ($havechart) 
 	{
 	    $axisnumber = 0; 
@@ -247,7 +245,7 @@ if ($maySeeSingleFile === true) {
 			    unit: 'm',
 			    color: '#4572A7',
 			    yAxis: <?php echo $heightchartaxis-1; ?>,
-			    data: <?php echo $this->chart; ?>,
+			    data: <?php echo $this->heighdata; ?>,
 			    marker: {
 				enabled: false
 			    },
@@ -263,7 +261,7 @@ if ($maySeeSingleFile === true) {
 			    unit:'<?php echo (JText::_('COM_JTG_SPEED_UNIT_'.strtoupper($this->cfg->unit))); ?>',
 			    color: '#AA4643',
 			    yAxis: <?php echo $speedchartaxis-1; ?>,
-			    data: <?php echo $this->speed; ?>,
+			    data: <?php echo $this->speeddata; ?>,
 			    marker: {
 				enabled: false
 			    },
@@ -279,7 +277,7 @@ if ($maySeeSingleFile === true) {
 			    name: '<?php echo JText::_('COM_JTG_HEARTFREQU'); ?>',
 			    unit: '<?php echo JText::_('COM_JTG_HEARTFREQU_UNIT'); ?>',
 			    color: '#89A54E',
-			    data: <?php echo $this->beat; ?>,
+			    data: <?php echo $this->beatdata; ?>,
 			    tooltip: {
 				valueSuffix: ' <?php echo JText::_('COM_JTG_HEARTFREQU_UNIT'); ?>'
 			    }

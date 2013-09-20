@@ -199,8 +199,8 @@ class JtgViewFiles extends JView
 			$sellevel = 0;
 		}
 		$level = $model->getLevelSelect($sellevel);
-		$img_dir = JPATH_SITE . DS . 'images' . DS . 'jtg' . DS . $id.DS;
-		$imgpath = JURI::root().'images/jtg/'.$id . "/";
+		$img_dir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . $id.DS;
+		$imgpath = JURI::root().'images/jtrackgallery'.$id . "/";
 		$images = null;
 		$imgcount = 0;
 		if(JFolder::exists($img_dir)) {
@@ -346,7 +346,7 @@ class JtgViewFiles extends JView
 		//		$distance_float = (int)
 		$distance = JtgHelper::getLocatedFloat($distance_float,0,$unit);
 		// charts
-		$file = '.' . DS . 'components' . DS . 'com_jtg' . DS . 'uploads' . DS . strtolower($track->file);
+		$file = '.' . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploads' . DS . strtolower($track->file);
 		/*
 		 // ToDo: mehrere Profile in einem
 		 $coords = array();
@@ -372,15 +372,15 @@ class JtgViewFiles extends JView
 		//	give scatter-plot a chance
 		$speeddata = false;
 		if ($coords[0][2] != 0) {
-			// Heightprofile ($chartdata)
-			$chartdata = $cache->get(array ( $gps, 'createElevationData' ), array ( $coords, $distances ));
+			// Heightprofile ($heighdata)
+			$heighdata = $cache->get(array ( $gps, 'createElevationData' ), array ( $coords, $distances ));
 		}
 
 		// heartbeat
 		if (isset ($coords[0][4]) && $coords[0][4] > 0) {
-			// $beat = $gps->createBeatsData($coords);
-			$beat = $cache->get(array ( $gps, 'createBeatsData' ), array ( $coords, $distances ));
-			$this->beat = $beat;
+			// $beatdata = $gps->createBeatsData($coords);
+			$beatdata = $cache->get(array ( $gps, 'createBeatsData' ), array ( $coords, $distances ));
+			$this->beatdata = $beatdata;
 		}
 
 		// Klicklinks for every track in one file (at the moment not active)
@@ -397,7 +397,7 @@ class JtgViewFiles extends JView
 
 		// load images if exists
 		jimport('joomla.filesystem.file');
-		$img_dir = JPATH_SITE . DS . 'images' . DS . 'jtg' . DS . $id;
+		$img_dir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . $id;
 		if (JFolder :: exists($img_dir)) {
 			$exclude = array ( '.db', '.txt' );
 			$images = JFolder :: files($img_dir, '', true, false, $exclude);
@@ -444,7 +444,7 @@ class JtgViewFiles extends JView
 							$imageBlock .= "	<div class=\"imageElement\">
 			<h3>" . $track->title . " <small>(" . $image . ")</small></h3>
 			<p></p>
-			<img src=\"".JURI::base() . "images/jtg/" . $id . "/" . $image . "\" class=\"full\" height=\"0px\" />
+			<img src=\"".JURI::base() . "images/jtrackgallery" . $id . "/" . $image . "\" class=\"full\" height=\"0px\" />
 		</div>\n";
 						}
 					}
@@ -464,7 +464,7 @@ class JtgViewFiles extends JView
 						if ( in_array(strtolower($ext),$imgtypes) ) {
 							if ($i != 0)
 							$imageBlock .= "<br /><br />";
-							$imageBlock .= "<img src=\"".JURI::base() . "images/jtg/" . $id . "/" . $image . "\" alt=\"" . $track->title . " (" . $image . ")" . "\" title=\"" . $track->title . " (" . $image . ")" . "\" />\n";
+							$imageBlock .= "<img src=\"".JURI::base() . "images/jtrackgallery" . $id . "/" . $image . "\" alt=\"" . $track->title . " (" . $image . ")" . "\" title=\"" . $track->title . " (" . $image . ")" . "\" />\n";
 						}
 					}
 					break;
@@ -504,8 +504,8 @@ class JtgViewFiles extends JView
 		 // $this->images = $images;
 		$this->date = $date;
 		$this->profile = $profile;
-		$this->chart = $chartdata;
-		$this->speed = $speeddata;
+		$this->heighdata = $heighdata;
+		$this->speeddata = $speeddata;
 		$this->comments = $comments;
 		$this->user = $user;
 		$this->model = $model;

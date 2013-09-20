@@ -241,7 +241,7 @@ class JtgHelper
 
 	function parseMoreCats($allcats,$catid,$format="array",$link=false) {
 		$baseurl = "index.php?option=com_jtg&view=files&layout=list&cat=";
-		$image = JURI::base() . "/images/jtg/cats/";
+		$image = JURI::base() . 'images/jtrackgallery/cats/';
 		$catids = explode(",",$catid);
 		$return = array();
 		switch ($format) {
@@ -359,7 +359,7 @@ class JtgHelper
 
 	function parseMoreTerrains($allterrains,$terrainid,$format="array",$link=false) {
 		$baseurl = "index.php?option=com_jtg&view=files&layout=list&terrain=";
-		$image = JURI::base() . "/images/jtg/terrain/";
+		$image = JURI::base() . 'images' . DS . 'jtrackgallery' . DS . 'terrain' . DS;
 		$terrainids = explode(",",$terrainid);
 		$return = array();
 		switch ($format) {

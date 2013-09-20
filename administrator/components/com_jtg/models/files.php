@@ -53,7 +53,7 @@ class JtgModelFiles extends JModel
 		jimport('joomla.filesystem.file');
 		require_once(".." . DS . "components" . DS . "com_jtg" . DS . "helpers" . DS . "gpsClass.php");
 		$gps = new gpsClass();
-		$file = JPATH_SITE . DS . "components" . DS . "com_jtg" . DS . "uploads" . DS . $file;
+		$file = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploads' . DS . $file;
 		$gps->gpsFile = $file;
 
 		$isTrack = $gps->isTrack();
@@ -164,12 +164,12 @@ class JtgModelFiles extends JModel
 		$cfg = JtgHelper::getConfig();
 		$types = explode(',',$cfg->type); // jpg,png,gif f.e.
 		if(count($images) > 0 )  {
-			$img_dir = JPATH_SITE . DS . 'images' . DS . 'jtg' . DS . $id;
+			$img_dir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . $id;
 			JFolder::create($img_dir,0777);
 			foreach($images['name'] as $key => $value)  {
 				$ext = explode('.',$images['name'][$key]);
 				$ext = count($ext)-1;
-				$filename = str_replace(" . " . $ext,"",$images['name'][$key]);
+				$filename = str_replace("." . $ext,"",$images['name'][$key]);
 				if(in_array(strtolower($ext), $types)) {
 					$path = $img_dir.$images['name'][$key];
 					$this->createImage($images['tmp_name'][$key], $ext, $path);
@@ -481,11 +481,11 @@ class JtgModelFiles extends JModel
 			}
 			foreach($rows as $row)  {
 				// folder and Pictures within delete
-				$folder = JPATH_SITE . DS . "images" . DS . "jtg" . DS . $row->id;
+				$folder = JPATH_SITE . DS . "images" . DS . "jtrackgallery" . DS . $row->id;
 				if (JFolder::exists($folder))
 				JFolder::delete($folder);
 				// File (gpx?) delete
-				$filename = JPATH_SITE . DS . "components" . DS . "com_jtg" . DS . "uploads" . DS . $row->file;
+				$filename = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploads' . DS . $row->file;
 				if (JFile::exists($filename))
 				JFile::delete($filename);
 			}
@@ -669,7 +669,7 @@ class JtgModelFiles extends JModel
 		$fileokay = true;
 		$db =& JFactory::getDBO();
 		$user =& JFactory::getUser();
-		$targetdir = JPATH_SITE . DS . "components" . DS . "com_jtg" . DS . "uploads".DS;
+		$targetdir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploads'.DS;
 		$found =& JRequest::getInt('found');
 		for($i=0;$i<$found;$i++) {
 			$existingfiles = JFolder::files($targetdir);
@@ -699,20 +699,20 @@ class JtgModelFiles extends JModel
 				$file_tmp = str_replace('#','',$file_tmp);
 				$file_tmp = str_replace('\&amp;','',$file_tmp);
 				$file_tmp = str_replace('\&','',$file_tmp);
-				$target = $file_tmp . " . " . $extension;
+				$target = $file_tmp . "." . $extension;
 				$target = JFile::makeSafe($target);
 				if ( in_array($target,$existingfiles) ) {
 					$randnumber = (50-strlen($target));
 					$fncount = 0;
 					while (true) {
 						$randname = JtgHelper::alphanumericPass($randnumber);
-						$target = $file_tmp.$randname . " . " . $extension;
+						$target = $file_tmp.$randname . "." . $extension;
 						if (!in_array($target,$existingfiles) )
 						break;
 						// Man weiß ja nie ;)
 						if ( $fncount > 100 ) {
 							$randname = JtgHelper::alphanumericPass(45);
-							$target = $randname . " . " . $extension;
+							$target = $randname . "." . $extension;
 						}
 						if ( $fncount > 10000 )
 						die("<html>Booah! No free Filename available!<br>\"<i>" . $file . "</i>\"</html>");
@@ -720,10 +720,10 @@ class JtgModelFiles extends JModel
 					}
 				} elseif (strlen($target) > 50) { // Wenn Dateiname über 50 Zeichen hat...
 					for($j=0;$j<100;$j++) { // ... unternehme 100 Versuche...
-						$file_tmp = $this->alphanumericPass(45);
-						if ( !in_array($file_tmp . " . " . $extension,$existingfiles) ) {
+						$file_tmp = JtgHelper::alphanumericPass(45); // $this->alphanumericPass(45);
+						if ( !in_array($file_tmp . "." . $extension,$existingfiles) ) {
 							// ... einen neuen Namen zu finden, ...
-							$target = $file_tmp . " . " . $extension;
+							$target = $file_tmp . "." . $extension;
 							$j=105; // ... und beende, andernfalls ...
 						}
 						if ( $j == 99 ) // ... breche ab.
@@ -752,7 +752,7 @@ class JtgModelFiles extends JModel
 				if ($fileokay == true) {
 
 					// upload the file
-					// 				$upload_dir = JPATH_SITE . DS . "components" . DS . "com_jtg" . DS . "uploads".DS;
+					// 				$upload_dir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploads'.DS;
 					// 				$filename = explode(DS,$file);
 					// 				$filename = $filename[(count($filename)-1)];
 					// 				$filename = JFile::makeSafe($filename);
@@ -810,7 +810,8 @@ class JtgModelFiles extends JModel
 		require_once(".." . DS . "components" . DS . "com_jtg" . DS . "helpers" . DS . "gpsClass.php");
 		$db =& JFactory::getDBO();
 		$fileokay = false;
-		$targetdir = JPATH_SITE . DS . "components" . DS . "com_jtg" . DS . "uploads".DS;
+		$targetdir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploads'.DS;
+		// TODO error which path? 
 		$sourcedir = JPATH_SITE . DS . "components" . DS . "com_joomgpstracks" . DS . "uploads".DS;
 		$existingfiles = JFolder::files($targetdir);
 		$file = $sourcedir.$track['file'];
@@ -823,20 +824,20 @@ class JtgModelFiles extends JModel
 		$file_tmp = str_replace('#','',$file_tmp);
 		$file_tmp = str_replace('\&amp;','',$file_tmp);
 		$file_tmp = str_replace('\&','',$file_tmp);
-		$target = $file_tmp . " . " . $extension;
+		$target = $file_tmp . "." . $extension;
 		$target = JFile::makeSafe($target);
 		if ( in_array($target,$existingfiles) ) {
 			$randnumber = (50-strlen($target));
 			$fncount = 0;
 			while (true) {
 				$randname = $this->alphanumericPass($randnumber);
-				$target = $file_tmp.$randname . " . " . $extension;
+				$target = $file_tmp.$randname . "." . $extension;
 				if (!in_array($target,$existingfiles) )
 				break;
 				// Man weiß ja nie ;)
 				if ( $fncount > 100 ) {
 					$randname = $this->alphanumericPass(45);
-					$target = $randname . " . " . $extension;
+					$target = $randname . "." . $extension;
 				}
 				if ( $fncount > 10000 )
 				die("<html>Booah! No free Filename available!<br>\"<i>" . $file . "</i>\"</html>");
@@ -845,9 +846,9 @@ class JtgModelFiles extends JModel
 		} elseif (strlen($target) > 50) { // Wenn Dateiname über 50 Zeichen hat...
 			for($j=0;$j<100;$j++) { // ... unternehme 100 Versuche...
 				$file_tmp = $this->alphanumericPass(45);
-				if ( !in_array($file_tmp . " . " . $extension,$existingfiles) ) {
+				if ( !in_array($file_tmp . "." . $extension,$existingfiles) ) {
 					// ... einen neuen Namen zu finden, ...
-					$target = $file_tmp . " . " . $extension;
+					$target = $file_tmp . "." . $extension;
 					$j=105; // ... und beende, andernfalls ...
 				}
 				if ( $j == 99 ) // ... breche ab.
@@ -910,7 +911,7 @@ class JtgModelFiles extends JModel
 				}
 				$imagedirsource = JPATH_SITE . DS . "images" . DS . "joomgpstracks" . DS . md5($track['title']).DS;
 				$imagedirsourcedir = JFolder::files($imagedirsource);
-				$imagedirdestination = JPATH_SITE . DS . "images" . DS . "jtg" . DS . $result->id.DS;
+				$imagedirdestination = JPATH_SITE . DS . "images" . DS . "jtrackgallery" . DS . $result->id.DS;
 				if((!JFolder::exists($imagedirdestination)) AND (count($imagedirsourcedir) > 0) )
 				JFolder::create($imagedirdestination,0777);
 				foreach ( $imagedirsourcedir AS $imagetocopy ) {
@@ -953,7 +954,7 @@ class JtgModelFiles extends JModel
 
 		// @ToDo: => JtgHelper::uploadfile
 		// upload the file
-		$upload_dir = JPATH_SITE . DS . "components" . DS . "com_jtg" . DS . "uploads".DS;
+		$upload_dir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploads'.DS;
 		$filename = JFile::makeSafe($file['name']);
 		$randnumber = (50-strlen($filename));
 		$fncount = 0;
@@ -988,7 +989,7 @@ class JtgModelFiles extends JModel
 		$isCache = 0;
 		//		$isCache = $gps->isCache();
 		//		if ($isCache !== false) $isCache = "1"; else $isCache = "0";
-		$gps->gpsFile = ".." . DS . "components" . DS . "com_jtg" . DS . "uploads" . DS . strtolower($filename);
+		$gps->gpsFile = ".." . DS . "images" . DS . "jtrackgallery" . DS . "uploads" . DS . strtolower($filename);
 		if($gps->getStartCoordinates())  {
 			$start = $gps->getStartCoordinates();
 		} else {
@@ -996,7 +997,7 @@ class JtgModelFiles extends JModel
 			//                 exit;
 		}
 
-		$file = ".." . DS . "components" . DS . "com_jtg" . DS . "uploads" . DS . strtolower($filename);
+		$file = ".." . DS . "images" . DS . "jtrackgallery" . DS . "uploads" . DS . strtolower($filename);
 		$start_n = $start[1];
 		$start_e = $start[0];
 		$coords = $gps->getCoords($file);
@@ -1047,7 +1048,7 @@ class JtgModelFiles extends JModel
 		}
 		$id = $result->id;
 		//		images upload part
-		$imgpath = JPATH_SITE . DS . 'images' . DS . 'jtg' . DS . $id.DS;
+		$imgpath = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . $id.DS;
 		$images =& JRequest::getVar('images', null, 'files', 'array');
 		if(count($images['name']) > 1)
 		{
@@ -1085,7 +1086,7 @@ class JtgModelFiles extends JModel
 		$fileokay = true;
 		$db =& JFactory::getDBO();
 		$user =& JFactory::getUser();
-		$targetdir = JPATH_SITE . DS . "components" . DS . "com_jtg" . DS . "uploads".DS;
+		$targetdir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploads'.DS;
 		//	$found =& JRequest::getInt('found');
 		for($i=0;$i<count($importfiles);$i++) {
 			$importfile = $importfiles[$i];
@@ -1108,20 +1109,20 @@ class JtgModelFiles extends JModel
 			$file_tmp = str_replace('#','',$file_tmp);
 			$file_tmp = str_replace('\&amp;','',$file_tmp);
 			$file_tmp = str_replace('\&','',$file_tmp);
-			$target = $file_tmp . " . " . $extension;
+			$target = $file_tmp . "." . $extension;
 			$target = JFile::makeSafe($target);
 			if ( in_array($target,$existingfiles) ) {
 				$randnumber = (50-strlen($target));
 				$fncount = 0;
 				while (true) {
 					$randname = $this->alphanumericPass($randnumber);
-					$target = $file_tmp.$randname . " . " . $extension;
+					$target = $file_tmp.$randname . "." . $extension;
 					if (!in_array($target,$existingfiles) )
 					break;
 					// Man weiß ja nie ;)
 					if ( $fncount > 100 ) {
 						$randname = $this->alphanumericPass(45);
-						$target = $randname . " . " . $extension;
+						$target = $randname . "." . $extension;
 					}
 					if ( $fncount > 10000 )
 					die("<html>Booah! No free Filename available!<br>\"<i>" . $file . "</i>\"</html>");
@@ -1130,9 +1131,9 @@ class JtgModelFiles extends JModel
 			} elseif (strlen($target) > 50) { // Wenn Dateiname über 50 Zeichen hat...
 				for($j=0;$j<100;$j++) { // ... unternehme 100 Versuche...
 					$file_tmp = $this->alphanumericPass(45);
-					if ( !in_array($file_tmp . " . " . $extension,$existingfiles) ) {
+					if ( !in_array($file_tmp . "." . $extension,$existingfiles) ) {
 						// ... einen neuen Namen zu finden, ...
-						$target = $file_tmp . " . " . $extension;
+						$target = $file_tmp . "." . $extension;
 						$j=105; // ... und beende, andernfalls ...
 					}
 					if ( $j == 99 ) // ... breche ab.
@@ -1163,7 +1164,7 @@ class JtgModelFiles extends JModel
 			//			if ($fileokay == true) {
 
 			// upload the file
-			// 				$upload_dir = JPATH_SITE . DS . "components" . DS . "com_jtg" . DS . "uploads".DS;
+			// 				$upload_dir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploads'.DS;
 			// 				$filename = explode(DS,$file);
 			// 				$filename = $filename[(count($filename)-1)];
 			// 				$filename = JFile::makeSafe($filename);
@@ -1222,10 +1223,10 @@ class JtgModelFiles extends JModel
 				// Fehlt noch ...
 
 				$sourcePath = JPATH_SITE . DS . 'images' . DS . 'joomgpstracks' . DS . md5($title);
-				$destPath = JPATH_SITE . DS . 'images' . DS . 'jtg' . DS . $id;
+				$destPath = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . $id;
 				if(count($images) > 0 )  {
 					JFolder::create($destPath,0777);
-					//						$img_dir = JPATH_SITE . DS . 'images' . DS . 'jtg' . DS . md5($title);
+					//						$img_dir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . md5($title);
 					foreach($images['name'] as $key => $value)  {
 						$ext = explode('.',$images['name'][$key]);
 						if(in_array($ext[1], $types)) {
@@ -1294,7 +1295,7 @@ class JtgModelFiles extends JModel
 	}
 
 	function getImages($id) {
-		$img_dir = JPATH_SITE . DS . 'images' . DS . 'jtg' . DS . $id;
+		$img_dir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . $id;
 		if (!JFolder::exists($img_dir))
 		return null;
 		$images = JFolder::files($img_dir);
@@ -1319,7 +1320,7 @@ class JtgModelFiles extends JModel
 		$published =& JRequest::getVar('published');
 
 		$allimages = $this->getImages($id);
-		$imgpath = JPATH_SITE . DS . 'images' . DS . 'jtg' . DS . $id.DS;
+		$imgpath = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . $id.DS;
 		if($allimages){
 			foreach ($allimages AS $key => $image) {
 				$image =& JRequest::getVar('deleteimage_'.str_replace('.',null,$image));

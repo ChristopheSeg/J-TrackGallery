@@ -51,8 +51,8 @@ $level = JArrayHelper::toObject($level);
 $row=0;
 $count = 0;
 $errorposted = false;
-$importdir = JPATH_SITE . DS . "components" . DS . "com_jtg" . DS . "uploads" . DS . "import";
-$filesdir = JPATH_SITE . DS . "components" . DS . "com_jtg" . DS . "uploads".DS;
+$importdir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploads' . DS . "import";
+$filesdir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploads'.DS;
 $filesdir = JFolder::files($filesdir);
 //	*.gpx, *.trk, *.kml (not case sensitive)
 $regex="(.[gG][pP][xX]$|.[tT][rR][kK]$|.[kK][mM][lL]$)";
@@ -126,7 +126,7 @@ foreach($files AS $file) {
 	$file_tmp = explode('.',$file);
 	unset($file_tmp[(count($file_tmp)-1)]);
 	$filename = implode('.',$file_tmp);
-	$filename = $filename . " . " . $extension;
+	$filename = $filename . "." . $extension;
 	$filename = str_replace($importdir.DS,'',$filename);
 	$filename_wof = explode(DS,$filename);
 	$filename_wof = $filename_wof[(count($filename_wof)-1)];

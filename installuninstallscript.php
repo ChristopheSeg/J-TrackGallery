@@ -98,13 +98,16 @@ class com_jtgInstallerScript
 	    </table>
 	    <?php
 	    $folders_to_create = array (
-	    "images" . DS . "jtg",
-	    "images" . DS . "jtg" . DS . "cats",
-	    );
+	    "images" . DS . "jtrackgallery",
+	    "images" . DS . "jtrackgallery" . DS . "cats",
+	    "images" . DS . "jtrackgallery" . DS . "terrain",
+	    "images" . DS . "jtrackgallery" . DS . "uploads",
+	    "images" . DS . "jtrackgallery" . DS . "uploads" . DS . "import"
+		);
 
 	    $folders_to_chmod = array (
-	    "components" . DS . "com_jtg" . DS . "uploads",
-	    "components" . DS . "com_jtg" . DS . "uploads" . DS . "import",
+	    "images" . DS . "jtrackgallery" . DS . "uploads",
+	    "images" . DS . "jtrackgallery" . DS . "uploads" . DS . "import",
 	    "components" . DS . "com_jtg" . DS . "assets" . DS . "images" . DS . "symbols",
 	    );
 
@@ -142,7 +145,7 @@ class com_jtgInstallerScript
 
 	    // copy Cats image
 	    $src_folder_to_copy =  JPATH_SITE . DS . 'components' . DS . 'com_jtg' . DS . 'assets' . DS . 'images' . DS . 'cats';
-	    $dest_folder_to_copy = JPATH_SITE . DS . 'images' . DS . 'jtg' . DS . 'cats';
+	    $dest_folder_to_copy = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'cats';
 	    $files = JFolder::files($src_folder_to_copy);
 
 	    // copy file by file without erasing existing files
@@ -211,10 +214,10 @@ class com_jtgInstallerScript
 	    $application->enqueueMessage( JText::_('COM_JTG_THANK_YOU_FOR_USING') ) ;
 	    echo '<p>' . JText::_('COM_JTG_UNINSTALLING') . '</p>';
 	    $folders_to_delete = array (
-	    "images" . DS . "jtg"
+	    "images" . DS . "jtrackgallery"
 	    );
 
-	    // JPATH_SITE . DS . "components" . DS . "com_jtg" . DS . "uploads" . DS . "import" . DS . "noexistantfile"
+	    // JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploads' . DS . "import" . DS . "noexistantfile"
 	    $files_to_delete = array ();
 	    echo '<table><tr><td colspan="3"><b>'.JText::_('COM_JTG_FILES_FOLDERS_TO_DELETE').'</td></tr>';
 	    echo '<tr><td>'.JText::_('COM_JTG_FILE').'/'.JText::_('COM_JTG_FOLDER').'</td><td>'.JText::_('COM_JTG_NAME').'</td><td>'.JText::_('COM_JTG_STATE').'</td></tr>';

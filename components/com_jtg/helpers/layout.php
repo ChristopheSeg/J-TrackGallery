@@ -197,9 +197,9 @@ class layoutHelper
 				$obj['voting'] = $file['voting'];
 				$obj['stars'] = $file['rate'];
 				if($showstars)
-				$obj['html'] = "<div title='".str_replace(" . ",",",$obj['voting']) . " ".JText::_('COM_JTG_STARS')  . "'>" . $stars . "</div>";
+				$obj['html'] = "<div title='".str_replace(".",",",$obj['voting']) . " ".JText::_('COM_JTG_STARS')  . "'>" . $stars . "</div>";
 				else
-				$obj['html'] = "<a title='".str_replace(" . ",",",$obj['voting']) . " ".JText::_('COM_JTG_STARS')  . "'>" . $obj['stars'] . "</a>";
+				$obj['html'] = "<a title='".str_replace(".",",",$obj['voting']) . " ".JText::_('COM_JTG_STARS')  . "'>" . $obj['stars'] . "</a>";
 				$return[] = JArrayHelper::toObject($obj);
 			}
 		}
