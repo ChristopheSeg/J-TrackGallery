@@ -3,7 +3,7 @@
  * @component  J!Track Gallery (jtg) for Joomla! 2.5
  *
  * 
- * @author     J!Track Gallery, InJO3SM and joomGPStracks teams
+ * @author     J!Track Gallery, InJooosm and joomGPStracks teams
  * @package    com_jtg
  * @subpackage backend
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL2
@@ -16,13 +16,9 @@ defined('_JEXEC') or die('Restricted access');
 // toolbar
 JToolBarHelper::title(JText::_('COM_JTG_INFO'), 'generic.png');
 JToolBarHelper::back($alt= 'COM_JTG_BACK', $href= 'javascript:history.back();');
-// JToolBarHelper::save('saveconfig', $alt='COM_JTG_SAVE', 'save.png' );
-
-// jimport('joomla.html.pane');
-// JHTML::_('behavior.tooltip');
 
 $link = ".." . DS . "components" . DS . "com_jtg" . DS . "assets" . DS . "images" . DS . "logo_JTG.png";
-$version = $this->getVersion();
+
 ?>
     <div style="margin: auto">
 <div style="float:left; margin-left:30px">
@@ -36,12 +32,12 @@ $version = $this->getVersion();
                 <td><?php echo(JText::_('COM_JTG_INFO_TXT'));?></td>
             </tr>
             <tr>
-                <td><?php echo(JText::_('COM_JTG_INSTALLED_VERSION'));?>:</td>
-                <td><?php echo ($version["this"]);?></td>
+                <td><?php echo(JText::_('COM_JTG_CURRENT_INSTALLED_VERSION'));?>:</td>
+                <td><?php echo ('TODO (display current version)');?></td>
             </tr>
             <tr>
                 <td><?php echo(JText::_('COM_JTG_LATEST_VERSION'));?>:</td>
-                <td><?php echo($version["latest"]);?></td>
+                <td><?php echo(JText::_('COM_JTG_LATEST_VERSION_AT'));?></td>
             </tr>
             <tr>
                 <td><?php echo(JText::_('COM_JTG_DEVELOPPERS'));?>:</td>

@@ -3,7 +3,7 @@
  * @component  J!Track Gallery (jtg) for Joomla! 2.5
  *
  * 
- * @author     J!Track Gallery, InJO3SM and joomGPStracks teams
+ * @author     J!Track Gallery, InJooosm and joomGPStracks teams
  * @package    com_jtg
  * @subpackage backend
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL2
@@ -17,7 +17,7 @@ defined('_JEXEC') or die('Restricted access');
 /*
  * Define constants for all pages
  */
-// @ToDo check and work with it
+
 define( 'COM_JTG_DIR', 'images' . DS . 'jtrackgallery'.DS );
 define( 'COM_JTG_BASE', JPATH_ROOT . DS . COM_JTG_DIR );
 define( 'COM_JTG_BASEURL', JURI::root().str_replace( DS, '/', COM_JTG_DIR ));

@@ -3,7 +3,7 @@
  * @component  J!Track Gallery (jtg) for Joomla! 2.5
  *
  * 
- * @author     J!Track Gallery, InJO3SM and joomGPStracks teams
+ * @author     J!Track Gallery, InJooosm and joomGPStracks teams
  * @package    com_jtg
  * @subpackage backend
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL2
@@ -52,13 +52,11 @@ class JtgModelTranslations extends JModel
 			$newlanguages[$lang['tag']] = array();
 			$newlanguages[$lang['tag']]['name'] = $lang['name'];
 			$newlanguages[$lang['tag']]['tag'] = $lang['tag'];
-			// TODO  deprecated 
-			// $newlanguages[$lang['tag']]['backwardlang'] = $lang['backwardlang'];
 			$path = JPATH_SITE . DS . 'language' . DS . $lang['tag'] . DS;
 			$file = $path . $lang['tag'] . DS ."com_jtg_additional.ini";
 			$newlanguages[$lang['tag']]['file'] = $file;
 			if (!JFile::exists($file))
-// TODO This string might appears in language file, not additional.....!!!
+// TODO These strings might appears in language file, not additional.....!!!
 			{
 				if ( $lang['tag'] == "de-DE" ) // Fillin Standard-Values for German or other Langauge in English
 				$buffer = "COM_JTG_CAT_BIKE=Fahrrad

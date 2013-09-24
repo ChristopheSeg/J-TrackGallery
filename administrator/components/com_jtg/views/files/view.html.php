@@ -3,7 +3,7 @@
  * @component  J!Track Gallery (jtg) for Joomla! 2.5
  *
  * 
- * @author     J!Track Gallery, InJO3SM and joomGPStracks teams
+ * @author     J!Track Gallery, InJooosm and joomGPStracks teams
  * @package    com_jtg
  * @subpackage backend
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL2
@@ -387,7 +387,6 @@ class JtgViewFiles extends JView
 		JHTML::script('multifile.js', 'components/com_jtg/assets/js/', false);
 		
 		// Quick'n'Dirty - Sonst funktioniert das Joomla-Menü nicht mehr: (!?)
-		//TODO erreur de folder / en trop ci-dessous ?mootools utile? 
 		JHTML::script('mootools.js', '/media/system/js/', false);
 		JHTML::script('core-uncompressed.js', 'media/system/js/', false);
 

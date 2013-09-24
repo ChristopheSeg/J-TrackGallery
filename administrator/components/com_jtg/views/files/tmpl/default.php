@@ -3,7 +3,7 @@
  * @component  J!Track Gallery (jtg) for Joomla! 2.5
  *
  * 
- * @author     J!Track Gallery, InJO3SM and joomGPStracks teams
+ * @author     J!Track Gallery, InJooosm and joomGPStracks teams
  * @package    com_jtg
  * @subpackage backend
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL2
@@ -30,7 +30,7 @@ JToolBarHelper::publish();
 JToolBarHelper::unpublish();
 JToolBarHelper::custom('toshow','toshow',null,$alt='COM_JTG_TOSHOW_SMALL');
 JToolBarHelper::custom('tohide','tohide',null,$alt='COM_JTG_TOHIDE_SMALL');
-JToolBarHelper::deleteList('VALIDDELETEITEMS');
+JToolBarHelper::deleteList('VALIDATE_DELETE_ITEMS');
 JToolBarHelper::help( 'files/default',true );
 
 $ordering = ($this->lists['order'] == 'ordering');

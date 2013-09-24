@@ -1,7 +1,9 @@
 0.6.0   ( tested under Joomla 2.5.9 )
 	New: English language loaded as default if no language file is present
-	Upgrade to joomla 2.5.9: some deprecated method have been replaced, numerous corrections....
+	Component upgraded to joomla 2.5.9: some deprecated method have been replaced, numerous corrections....
 	ACL management in Joomla 2.5: 'group ID' gid is an array, and gid no longer correspond to a level
+	Maps are now based on Openlayers, Google maps API are no longer used
+	Charts now use Highchart instead of Dojox
 	Deprecated: VirtualEarth maps no longer exists: have been suppressed
 
 	*********************************************************************************

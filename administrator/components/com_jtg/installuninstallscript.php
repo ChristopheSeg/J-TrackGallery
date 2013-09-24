@@ -86,7 +86,6 @@ class com_jtgInstallerScript
 	    $doc =& JFactory::getDocument();
 
 	    ?>
-	    <br />
 	    <img src="<?php echo  DS . 'components' . DS . 'com_jtg' . DS . 'assets' . DS . 'images' . DS . 'logo_JTG.png'; ?>"  alt="J!Track Gallery" />
 	    <br />
 	    <table class="adminlist" border="1" width="100%">
@@ -154,16 +153,12 @@ class com_jtgInstallerScript
 	       }
 	    }
 	    
-	    echo '<tr><td colspan="3">' . JText::sprintf('COM_JTG_INSTALLED_VERSION',$this->release) . '</td></tr>';
+	    echo '<p>' . JText::_('COM_JTG_INSTALLED',$this->release) . '</p>';
 	    // You can have the backend jump directly to the newly installed component configuration page
 	    // $parent->getParent()->setRedirectURL('index.php?option=com_jtg');
-	    
-	    //TODO check if is this remains usefull ??
-	    echo '<tr><td colspan="3">';
+
 	    echo('<font color="red" size="+1">' . JText::_('COM_JTG_HINTS') . '</font>');
-	    echo(JText::_('COM_JTG_HINTS_DETAILS')); 
-	    echo '</td></tr>';
-	    echo '</table>';
+	    echo(JText::_('COM_JTG_HINTS_DETAILS'));  
 	    return true;
 	}
  
@@ -181,7 +176,7 @@ class com_jtgInstallerScript
 		// installed version is lower then 0.7.0
 		// do some stuff
 	    }    
-	    echo '<p>' . JText::sprintf('COM_JTG_UPDATED', $this->release) . '</p>';
+	    echo '<p>' . JText::_('COM_JTG_UPDATED', $this->release) . '</p>';
 		
 	    // You can have the backend jump directly to the newly updated component configuration page
 	    // $parent->getParent()->setRedirectURL('index.php?option=com_jtg');

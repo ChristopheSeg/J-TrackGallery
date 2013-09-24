@@ -3,7 +3,7 @@
  * @component  J!Track Gallery (jtg) for Joomla! 2.5
  *
  * 
- * @author     J!Track Gallery, InJO3SM and joomGPStracks teams
+ * @author     J!Track Gallery, InJooosm and joomGPStracks teams
  * @package    com_jtg
  * @subpackage backend
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL2
@@ -811,7 +811,7 @@ class JtgModelFiles extends JModel
 		$db =& JFactory::getDBO();
 		$fileokay = false;
 		$targetdir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploads'.DS;
-		// TODO error which path? 
+		// TODO What was this import for? Joogpstracks to Injooosm??
 		$sourcedir = JPATH_SITE . DS . "components" . DS . "com_joomgpstracks" . DS . "uploads".DS;
 		$existingfiles = JFolder::files($targetdir);
 		$file = $sourcedir.$track['file'];

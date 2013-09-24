@@ -3,7 +3,7 @@
  * @component  J!Track Gallery (jtg) for Joomla! 2.5
  *
  * 
- * @author     J!Track Gallery, InJO3SM and joomGPStracks teams
+ * @author     J!Track Gallery, InJooosm and joomGPStracks teams
  * @package    com_jtg
  * @subpackage backend
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL2
@@ -14,7 +14,7 @@
 defined('_JEXEC') or die('Restricted access');
 $id = $this->_models['maps']->_id;
 // toolbar
-if($id < 1) //TODO id is >0 !!!
+if($id < 1) 
 	$title = JText::_('COM_JTG_ADD_MAP');
 else
 	$title = JText::_('COM_JTG_EDIT_MAP');

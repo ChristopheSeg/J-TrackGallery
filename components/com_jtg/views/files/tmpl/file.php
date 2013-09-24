@@ -3,7 +3,7 @@
  * @component  J!Track Gallery (jtg) for Joomla! 2.5
  *
  * 
- * @author     J!Track Gallery, InJO3SM and joomGPStracks teams
+ * @author     J!Track Gallery, InJooosm and joomGPStracks teams
  * @package    com_jtg
  * @subpackage frontend
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL2
@@ -291,10 +291,7 @@ if ($maySeeSingleFile === true) {
 	    <!-- end Charts -->
 	    
 	    <?php
-/* TODO that was used in speedchart/dojox
-     <?php echo $this->cfg->charts_bg; ?>
-     <?php echo $this->cfg->charts_linec; ?>
-*/ 
+
 	    }
 echo $this->parseTemplate("headline",$this->track->title,"jtg_param_header_map");
 ?>

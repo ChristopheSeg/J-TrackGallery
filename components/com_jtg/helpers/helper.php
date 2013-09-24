@@ -3,7 +3,7 @@
  * @component  J!Track Gallery (jtg) for Joomla! 2.5
  *
  * 
- * @author     J!Track Gallery, InJO3SM and joomGPStracks teams
+ * @author     J!Track Gallery, InJooosm and joomGPStracks teams
  * @package    com_jtg
  * @subpackage frontend
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL2
@@ -45,11 +45,6 @@ class JtgHelper
 	public static function addSubmenu($vName)
 	{
 		// TODO move addSubmenu and GetConfig function to backend code
-		JSubMenuHelper::addEntry(   
-			JText::_('COM_JTG_POST_INSTALL'),
-			'index.php?option=com_jtg&task=postinstall&controller=postinstall',
-			$vName == 'config'
-		);
 		JSubMenuHelper::addEntry(   
 			JText::_('COM_JTG_CONFIGURATION'),
 			'index.php?option=com_jtg&task=config&controller=config',

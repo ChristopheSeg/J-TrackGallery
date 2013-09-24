@@ -3,7 +3,7 @@
 	<fieldset  
 	    name="BASIC"
 	    label="COM_JTG_BASIC_CONFIGURATION" >
-	    <field type="spacer" name="myspacer1" class="text" label="&lt;hr/&gt; &lt;b&gt;COM_JTG_MENUSPACER_APPEARANCE&lt;/b&gt;"/>
+	    <field type="spacer" name="myspacer1" class="text" label="&lt;b&gt;COM_JTG_MENUSPACER_APPEARANCE&lt;/b&gt;"/>
 	    <field name="jtg_param_newest" type="text" addfieldpath="/administrator/components/com_jtg/elements" default="10" size="3" label="COM_JTG_MENU_NEWEST" description="COM_JTG_TT_MENU_NEWEST" />
 	    <field name="jtg_param_mostklicks" type="text" addfieldpath="/administrator/components/com_jtg/elements" default="10" size="3" label="COM_JTG_MENU_HITS" description="COM_JTG_TT_MENU_HITS" />
 	    <field name="jtg_param_best" type="text" addfieldpath="/administrator/components/com_jtg/elements" default="0" size="3" label="COM_JTG_MENU_BEST" description="COM_JTG_TT_MENU_BEST" />
@@ -61,7 +61,7 @@
 		    <option value="0">JNO</option>
 		    <option value="1">JYES</option>
 	    </field>
-	    <field type="spacer" name="myspacer2" class="text" label="&lt;hr/&gt; &lt;b&gt;COM_JTG_MENUSPACER_DOWNLOAD&lt;/b&gt;"/>
+	    <field type="spacer" name="myspacer2" class="text" label="&lt;b&gt;COM_JTG_MENUSPACER_DOWNLOAD&lt;/b&gt;"/>
 	    <field name="jtg_param_offer_download_gpx" type="radio" addfieldpath="/administrator/components/com_jtg/elements" default="1" label="COM_JTG_MENU_OFFER_DL_GPX"  description="COM_JTG_TT_MENU_OFFER_DL_GPX">
 		    <option value="0">JNO</option>
 		    <option value="1">JYES</option>
@@ -74,7 +74,7 @@
 		    <option value="0">JNO</option>
 		    <option value="1">JYES</option>
 	    </field>
-	    <field type="spacer" name="myspacer3" class="text" label="&lt;hr/&gt; &lt;b&gt;COM_JTG_MENUSPACER_PERFORMANCE&lt;/b&gt;"/>
+	    <field type="spacer" name="myspacer3" class="text" label="&lt;b&gt;COM_JTG_MENUSPACER_PERFORMANCE&lt;/b&gt;"/>
 	    <field name="jtg_param_tracks" type="radio" addfieldpath="/administrator/components/com_jtg/elements" default="0" label="COM_JTG_MENU_TRACKS" description="COM_JTG_TT_MENU_TRACKS">
 		    <option value="1">JYES</option>
 		    <option value="0">JNO</option>
@@ -88,7 +88,7 @@
 	<fieldset name="LIMIT"
 	    label="COM_JTG_TT_MENU_LIMIT">
 	    <field type="spacer" addfieldpath="/administrator/components/com_jtg/elements" />	
-	    <field type="spacer" name="myspacer4" class="text" label="&lt;hr/&gt; &lt;b&gt;COM_JTG_MENUSPACER_LIMITS&lt;/b&gt;"/>
+	    <field type="spacer" name="myspacer4" class="text" label="&lt;b&gt;COM_JTG_MENUSPACER_LIMITS&lt;/b&gt;"/>
 	    <field name="jtg_param_cats" type="ownlist" addfieldpath="/administrator/components/com_jtg/elements" label="COM_JTG_CATS" description="COM_JTG_TT_MENU_LIMIT_CATS" />
 <!--	    <field name="jtg_param_subcats" type="ownlist" label="COM_JTG_CATS_WITH_SUBCATS" description="COM_JTG_TT_MENU_LIMIT_SUBCATS" />
 -->	    <field name="jtg_param_user" type="ownlist" addfieldpath="/administrator/components/com_jtg/elements" label="USER" description="COM_JTG_TT_MENU_LIMIT_USER" />
@@ -98,9 +98,9 @@
 	    <field name="jtg_param_level_to" type="ownlist" addfieldpath="/administrator/components/com_jtg/elements" label="COM_JTG_MENU_LEVEL_TO" description="COM_JTG_TT_MENU_LIMIT_LEVEL" />
 	    <field name="jtg_param_vote_from" type="ownlist" addfieldpath="/administrator/components/com_jtg/elements" label="COM_JTG_MENU_VOTE_FROM" description="COM_JTG_TT_MENU_LIMIT_VOTE" />
 	    <field name="jtg_param_vote_to" type="ownlist" addfieldpath="/administrator/components/com_jtg/elements" label="COM_JTG_MENU_VOTE_TO" description="COM_JTG_TT_MENU_LIMIT_VOTE" />
-	    <field type="spacer" name="myspacer5" class="text" label="HR"/>
+	    <field type="spacer" name="myspacer5" class="text" label=" "/>
 	    <field name="jtg_param_limittext" type="ownlist" addfieldpath="/administrator/components/com_jtg/elements" label="" />
-	    <field type="spacer" name="myspacer7" class="text" label="HR"/>
+	    <field type="spacer" name="myspacer7" class="text" label=" "/>
 	    <field name="jtg_param_helpbutton" type="ownlist" addfieldpath="/administrator/components/com_jtg/elements" label="Help" />
 	</fieldset>
     </config>

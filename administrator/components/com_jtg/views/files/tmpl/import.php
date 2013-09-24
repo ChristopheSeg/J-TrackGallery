@@ -3,7 +3,7 @@
  * @component  J!Track Gallery (jtg) for Joomla! 2.5
  *
  * 
- * @author     J!Track Gallery, InJO3SM and joomGPStracks teams
+ * @author     J!Track Gallery, InJooosm and joomGPStracks teams
  * @package    com_jtg
  * @subpackage backend
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL2
@@ -31,7 +31,7 @@ JToolBarHelper::addNew('newfiles', JText::_('COM_JTG_RELOAD'));
 
 // JToolBarHelper::cancel('jtg');
 JToolBarHelper::save('savefiles', JText::_('COM_JTG_NEW_FILES'), 'save.png' );
-JToolBarHelper::deleteList('VALIDDELETEITEMS', 'removeFromImport');
+JToolBarHelper::deleteList('VALIDATE_DELETE_ITEMS', 'removeFromImport');
 JToolBarHelper::help( 'files/import',true );
 ?>
 <form action="" method="post" name="adminForm" id="adminForm" class="adminForm" enctype="multipart/form-data">
@@ -347,6 +347,7 @@ if ( $count == 0 ){
 		JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_FOUND_H'));
 		echo (JText::_('COM_JTG_FOUND_T') . "<br /><br />");
 		echo (JText::_('COM_JTG_FOUND_L'));
+		//TODO folder/images don't exist !!!
 		echo (" <a href=\"index.php?option=com_jtg&task=importjgt&controller=files\"><img src=\"templates" . DS . "khepri" . DS . "images" . DS . "notice-download.png\" /></a>");
 		// Datenimport von joomgpstracks END
 	} else

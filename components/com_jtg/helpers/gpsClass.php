@@ -3,7 +3,7 @@
  * @component  J!Track Gallery (jtg) for Joomla! 2.5
  *
  * 
- * @author     J!Track Gallery, InJO3SM and joomGPStracks teams
+ * @author     J!Track Gallery, InJooosm and joomGPStracks teams
  * @package    com_jtg
  * @subpackage frontend
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL2
@@ -2063,7 +2063,7 @@ olmap.events.register('click', map, handleMapClick);
 		var sizeStart = new OpenLayers.Size(24,24);
 		var sizeZiel = new OpenLayers.Size(24,24);
 		var offsetStart = new OpenLayers.Pixel(-3,-22);
-		var offsetZiel = new OpenLayers.Pixel(-11,-21);
+		var offsetZiel = new OpenLayers.Pixel(-21,-21);
 		var iconStart = new OpenLayers.Icon(\"".JURI::root() . "components" . DS . "com_jtg" . DS . "assets" . DS . "images" . DS . "start.png\",sizeStart,offsetStart);
 		var iconZiel = new OpenLayers.Icon(\"".JURI::root() . "components" . DS . "com_jtg" . DS . "assets" . DS . "images" . DS . "ziel.png\",sizeZiel,offsetZiel);
 		layerStartZiel.addMarker(new OpenLayers.Marker(lonLatStart,iconStart));

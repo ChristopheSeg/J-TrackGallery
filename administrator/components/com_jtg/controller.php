@@ -5,7 +5,7 @@
  * 
  *    @package     Com_Jtg
  *    @subpackage  Backend
- *    @author      J!Track Gallery, InJO3SM and joomGPStracks teams <christophe@jtrackgallery.net>
+ *    @author      J!Track Gallery, InJooosm and joomGPStracks teams <christophe@jtrackgallery.net>
  *    @copyright   test 
  *    @license     http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL2 *
  *    @link        http://jtrackgallery.net/
@@ -66,11 +66,6 @@ class JtgController extends JController
 
 			case 'info':
 				JRequest::setVar('view',	'info');
-				JRequest::setVar('layout',	'default');
-				break;
-
-			case 'postinstall':
-				JRequest::setVar('view',	'postinstall');
 				JRequest::setVar('layout',	'default');
 				break;
 

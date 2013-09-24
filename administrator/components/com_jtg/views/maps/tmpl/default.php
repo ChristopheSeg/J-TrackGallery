@@ -3,7 +3,7 @@
  * @component  J!Track Gallery (jtg) for Joomla! 2.5
  *
  * 
- * @author     J!Track Gallery, InJO3SM and joomGPStracks teams
+ * @author     J!Track Gallery, InJooosm and joomGPStracks teams
  * @package    com_jtg
  * @subpackage backend
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL2
@@ -29,8 +29,7 @@ JToolBarHelper::help("maps", true);
 jimport('joomla.html.pane');
 JHTML::_('behavior.tooltip');
 $ordering = ($this->lists['order'] == 'm.ordering' || $this->lists['order'] == 'm.position');
-//TODO why was orderinfg desactivated? 
-$ordering=true; //TODO Save ORDER does not work 
+$ordering = true; //TODO why was orderinfg desactivated? Save ORDER does not work 
 
 $link = JRoute::_('index.php?option=com_jtg&task=maps&controller=maps&layout=default');
 ?>
