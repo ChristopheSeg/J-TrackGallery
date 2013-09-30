@@ -37,7 +37,7 @@ echo $this->lh;
     <tr class="sectiontableentry<?php echo $k; ?>">
         <td width="10%" align="center"><a href="<?php echo $link; ?>" ><?php echo $cat->img; ?></a></td>
         <td><b><a href="<?php echo $link; ?>" ><?php echo JText::_($cat->name); ?></a></b></td>
-        <td><?php echo $cat->description; ?></td>
+        <td><?php echo JText::_($cat->description); ?></td>
     </tr>
             <?php
         $k = 1 -$k;

@@ -26,6 +26,8 @@ jimport('joomla.filesystem.file');
 // load english language file for 'com_jtg' component then override with current language file
 JFactory::getLanguage()->load('com_jtg',   JPATH_ADMINISTRATOR, 'en-GB', true);
 JFactory::getLanguage()->load('com_jtg',   JPATH_ADMINISTRATOR,    null, true);
+JFactory::getLanguage()->load('com_jtg_common', JPATH_SITE, 'en-GB', true);
+JFactory::getLanguage()->load('com_jtg_common', JPATH_SITE,    null, true);
 JFactory::getLanguage()->load('com_jtg_additional', JPATH_SITE, 'en-GB', true);
 JFactory::getLanguage()->load('com_jtg_additional', JPATH_SITE,    null, true);
 

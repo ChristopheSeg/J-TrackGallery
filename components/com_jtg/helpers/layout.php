@@ -290,7 +290,7 @@ class layoutHelper
 		{
 			$subwhere = array();
 			foreach ($val as $cat) {
-				if($cat == -1) break 2;
+				if($cat == -1) return null; //break 2;
 				$subwhere[] = "a.catid LIKE '%" . $cat . "%'";
 			}
 			$catswhere .= "( ".implode(' OR ',$subwhere) . " )";
@@ -305,7 +305,7 @@ class layoutHelper
 		{
 			$subwhere = array();
 			foreach ($val as $cat) {
-				if($cat == -1) break 2;
+				if($cat == -1) return null; //break 2;
 				$subwhere[] = "( ".layoutHelper::getParentcats($cat,$cats,true) . " )";
 			}
 			$catswhere .= "( ".implode(' OR ',$subwhere) . " )";
@@ -320,7 +320,7 @@ class layoutHelper
 		{
 			$subwhere = array();
 			foreach ($val as $grp) {
-				if($grp == -1) break 2;
+				if($grp == -1) return null; //break 2;
 				$subwhere[] = "a.access = " . $grp;
 			}
 			$where .= "( ".implode(' OR ',$subwhere) . " )";
@@ -335,7 +335,7 @@ class layoutHelper
 		{
 			$subwhere = array();
 			foreach ($val as $terrain) {
-				if($terrain == -1) break 2;
+				if($terrain == -1) return null; //break 2;
 				$subwhere[] = "a.terrain LIKE '%" . $terrain . "%'";
 			}
 			$where .= "( ".implode(' ) OR ( ',$subwhere) . " )";

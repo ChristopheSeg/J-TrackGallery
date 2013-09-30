@@ -210,6 +210,11 @@ class JtgModelCat extends JModel
 		}
 		$published =& JRequest::getInt( 'publish' );
 		$desc =& JRequest::getVar( 'desc', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		// allow for JTEXT in category description
+		if ( (substr($desc,0,3)=='<p>') AND (substr($desc,-4,4)=='</p>') ) {
+		    //remove enclosing <p> tags,try translating text, add <p> tags
+		    $desc = substr($desc,3,-4);
+		}
 		$parent =& JRequest::getInt('parent');
 		$image =& JRequest::getVar( 'catpic' );
 		
@@ -285,6 +290,11 @@ class JtgModelCat extends JModel
 		}
 		$published =& JRequest::getInt( 'publish' );
 		$desc =& JRequest::getVar( 'desc', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		// allow for JTEXT in category description
+		if ( (substr($desc,0,3)=='<p>') AND (substr($desc,-4,4)=='</p>') ) {
+		    //remove enclosing <p> tags,try translating text, add <p> tags
+		    $desc = substr($desc,3,-4);
+		}
 		$parent =& JRequest::getInt('parent');
 
 		$query = "UPDATE #__jtg_cats SET"

@@ -60,7 +60,7 @@ foreach ($this->images as $img) {
 </td>
             </tr>
             <tr>
-                <td><?php echo JText::_('COM_JTG_DESC'); ?></td>
+                <td><?php echo JText::_('COM_JTG_DESC_JTEXT_ALLOWED'); ?></td>
                 <td><?php echo $this->editor->display( 'desc', '' , '500', '200', '75', '20', false ) ; ?></td>
             </tr>
         </tbody>

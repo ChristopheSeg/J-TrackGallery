@@ -25,11 +25,13 @@ require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
 JLoader::register('gpsCLass', '.' . DS . 'components' . DS . 'com_jtg' . DS . 'helpers'.DS);
 JLoader::import('components.com_jtg.helpers.gpsClass', JPATH_SITE, 'gpsClass');
 
-// Load additional Language-Files
-$language = &JFactory::getLanguage();
-$language->load('com_jtg');
-$language->load('com_jtg_additional');
-
+// load english language file for 'com_jtg' component then override with current language file
+JFactory::getLanguage()->load('com_jtg', JPATH_SITE, 'en-GB', true);
+JFactory::getLanguage()->load('com_jtg', JPATH_SITE,    null, true);
+JFactory::getLanguage()->load('com_jtg_common', JPATH_SITE, 'en-GB', true);
+JFactory::getLanguage()->load('com_jtg_common', JPATH_SITE,    null, true);
+JFactory::getLanguage()->load('com_jtg_additional', JPATH_SITE, 'en-GB', true);
+JFactory::getLanguage()->load('com_jtg_additional', JPATH_SITE,    null, true);
 $cfg = JtgHelper::getConfig();
 // set the template
 $tmpl = ($cfg->template = "") ? $cfg->template : 'default';

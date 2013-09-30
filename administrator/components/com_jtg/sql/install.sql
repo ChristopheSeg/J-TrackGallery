@@ -211,6 +211,9 @@ INSERT IGNORE INTO `#__jtg_maps` (`name`, `ordering`, `published`, `param`, `scr
 ('COM_JTG_MAP_VE_HYBRID', 11, 1, 'OpenLayers.Layer.Bing({ name: "{name}", key: BingApiKey, type: "AerialWithLabels", wrapDateLine: true })', '', 'var BingApiKey = &quot;AqTGBsziZHIJYYxgivLBf0hVdrAk9mWO5cQcb8Yux8sW5M8c8opEC2lZqKR1ZZXf&quot;;'),
 ('Own Server', 99, 0, 'OpenLayers.Layer.OSM(&quot;{name}&quot;, &quot;http://server/${z}/${x}/${y}.png&quot; ,{ &quot;type&quot;:&quot;png&quot;})', '', '');
 
+<!-- Dummy record where used in injooosm have been maintained for compatibility in #__jtg_cats -->  
+<!-- however the usefulness of these dummy records is not clear --> 
+
 INSERT IGNORE INTO `#__jtg_cats` 
     (`id`,`parent_id`,`title`,`description`,`image`,`ordering`,`published`,`checked_out`) 
 VALUES 
