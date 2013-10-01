@@ -41,9 +41,9 @@ class layoutHelper
 		$uri =& JRequest::getVar('layout');
 		$navi = '';
 		$navi .= '<div class="gps-navi">';
-		//		$navi .= '<div class="navi-part"><a href="'.
-		//		JRoute::_("index.php?option=com_jtg").
-		//			'">'.JText::_('COM_JTG_OVERVIEW').'</a></div>';
+		$navi .= '<div class="navi-part"><a href="'.
+		JRoute::_("index.php?option=com_jtg").
+			'">'.JText::_('COM_JTG_OVERVIEW').'</a></div>';
 		$navi .= '<div class="navi-part"><a href="'.
 		JRoute::_("index.php?option=com_jtg&view=cats&layout=default").'">'.JText::_('COM_JTG_CATS').'</a></div>';
 		$navi .= '<div class="navi-part"><a href="'.
@@ -105,6 +105,7 @@ class layoutHelper
 	{
 		// $document->addScript('components' . DS . 'com_jtg' . DS . 'assets' . DS . 'js' . DS . 'OpenLayers' . DS . 'OpenLayers.js'); // Benötigt für Spuransich in Übersicht
 		$document->addScript('http://www.openlayers.org/api/OpenLayers.js');
+		$document->addScript('components' . DS . 'com_jtg' . DS . 'assets' . DS . 'js' . DS . 'fullscreen.js');
 		// $document->addScript('http://www.openstreetmap.org/openlayers/OpenLayers.js'); // tuts nicht
 		$document->addScript('http://www.openstreetmap.org/openlayers/OpenStreetMap.js');
 		// $document->addScript('http://www.openlayers.org/api/Ajax.js');
@@ -272,15 +273,20 @@ class layoutHelper
 
 	private function parseParam_User($val) {
 		$where = null;
+		echo'<pre>,';print_r($val);echo'</pre>TODOPRINT';
 		if(is_array($val))
 		{
-			$subwhere = array();
-			foreach ($val as $user) {
-				$subwhere[] = "a.uid = " . $user;
-			}
-			$where .= "( ".implode(' OR ',$subwhere) . " )";
+		    if ($val[0] != 0)
+		    {
+			    $subwhere = array();
+			    foreach ($val as $user) {
+				    $subwhere[] = "a.uid = " . $user;
+			    }
+			    $where .= "( ".implode(' OR ',$subwhere) . " )";
+		    }
 		}
 		elseif($val != 0)	$where .= "a.uid = " . $val;
+		echo'<pre>,';print_r($where);echo'</pre>TODOPRINT';
 		return $where;
 	}
 
@@ -316,7 +322,7 @@ class layoutHelper
 
 	private function parseParam_Usergroup($val) {
 		$where = null;
-		if(is_array($val))
+		    if(is_array($val))
 		{
 			$subwhere = array();
 			foreach ($val as $grp) {

@@ -298,8 +298,8 @@ echo $this->parseTemplate("headline",$this->track->title,"jtg_param_header_map")
 
     <style type="text/css">
         #jtg_map.olMap {
-		height: <?php echo $this->cfg->map_height; ?>px;
-		width: <?php echo $this->cfg->map_width; ?>px;
+		height: <?php echo $this->cfg->map_height; ?>;
+		width: <?php echo $this->cfg->map_width; ?>;
 		z-index: 0;
 }
         #jtg_map.fullscreen {
@@ -329,12 +329,12 @@ if ( $this->clicklist !== false ) {
 ?>
     </div>
 -->
-<div id="profile" style="width:<?php echo ((int)$this->cfg->charts_width+10); ?>px" >
+<div id="profile" style="width:<?php echo ((int)$this->cfg->charts_width); ?>" >
 <?php
 
 if ($havechart) {
 		?>
-<div class="profile-img" id="elevation" style="width:<?php echo $this->cfg->charts_width; ?>px; height: <?php echo $this->cfg->charts_height; ?>px;"></div>
+<div class="profile-img" id="elevation" style="width:<?php echo $this->cfg->charts_width; ?>; height: <?php echo $this->cfg->charts_height; ?>;"></div>
 <?php
 }
 ?>

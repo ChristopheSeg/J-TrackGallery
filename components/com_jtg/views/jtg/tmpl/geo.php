@@ -113,8 +113,8 @@ $scriptbody = "	var otherusers = '" . $otherusers . "';\n" . $scriptbody;
 $script = $scriptheader.$defaultvars.$vars.$scriptbody.$scriptfooter;
 
 echo $script;
-echo ("<div id=\"map\" style=\"width: " . $this->cfg->map_width . "px; height: " . $this->cfg->map_height . "px;\" ></div>
-<div id=\"otheruser\" style=\"width: " . $this->cfg->map_width . "px;\" >".JText::_('COM_JTG_HERE_LIVE_DESC') . "</div>\n");
+echo ("<div id=\"map\" style=\"width: " . $this->cfg->map_width . "px; height: " . $this->cfg->map_height . ";\" ></div>
+<div id=\"otheruser\" style=\"width: " . $this->cfg->map_width . ";\" >".JText::_('COM_JTG_HERE_LIVE_DESC') . "</div>\n");
 if ( $userid ) {
 	?>
 <form action="<?php echo ($this->geo); ?>" method="post"

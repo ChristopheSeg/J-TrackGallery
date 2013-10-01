@@ -42,6 +42,7 @@ if($this->id >= 1) {
 	require_once(".." . DS . "components" . DS . "com_jtg" . DS . "helpers" . DS . "gpsClass.php");
 	$gps = new gpsClass();
 	$document->addScript('http://www.openlayers.org/api/OpenLayers.js');
+	$document->addScript('components' . DS . 'com_jtg' . DS . 'assets' . DS . 'js' . DS . 'fullscreen.js');
 	$document->addScript('http://www.openstreetmap.org/openlayers/OpenStreetMap.js');
 	$document->addScript('http://www.openlayers.org/api/Ajax.js');
 	$document->addScript("../components/com_jtg/assets/js/jtg.js");
@@ -49,7 +50,7 @@ if($this->id >= 1) {
 	$map .= $gps->writeSingleTrackOL($this->track->file);
 	$map .= ("<div id=\"map\" align=\"center\" ");
 	$map .= ("style=\"width: 400px; height: 500px; background-color:#EEE; vertical-align:middle;\" >");
-	$map .= ("<script>slippymap_init(\"map\");</script>");
+	$map .= ("<script>slippymap_init();</script>");
 	$map .= ("</div>");
 }
 

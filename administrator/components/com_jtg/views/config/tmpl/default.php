@@ -138,22 +138,22 @@ echo $tabs->startPanel(JText::_('COM_JTG_DISPLAY'), 'display');
 			</tr>
 			<tr>
 				<td><?php echo JText::_('COM_JTG_MAPWIDTH'); ?></td>
-				<td><input type="text" name="map_width" value="<?php echo $this->config->map_width; ?>" size="20" /> px</td>
+				<td><input type="text" name="map_width" value="<?php echo $this->config->map_width; ?>" size="20" /> <?php echo JText::_('COM_JTG_PX_OR_PERCENT'); ?></td>
 			</tr>
 			<tr>
 				<td><?php echo JText::_('COM_JTG_MAPHEIGHT'); ?></td>
-				<td><input type="text" name="map_height" value="<?php echo $this->config->map_height; ?>" size="20" /> px</td>
+				<td><input type="text" name="map_height" value="<?php echo $this->config->map_height; ?>" size="20" /><?php echo JText::_('COM_JTG_PX_OR_PERCENT'); ?></td>
 			</tr>
 			<tr>
 				<td colspan="2"><b><?php echo JText::_('COM_JTG_CHARTS_PROFILE'); ?></b></td>
 			</tr>
 			<tr>
 				<td><?php echo JText::_('COM_JTG_CHARTWIDTH'); ?></td>
-				<td><input type="text" name="charts_width" value="<?php echo $this->config->charts_width; ?>" size="20" /> px</td>
+				<td><input type="text" name="charts_width" value="<?php echo $this->config->charts_width; ?>" size="20" /><?php echo JText::_('COM_JTG_PX_OR_PERCENT'); ?></td>
 			</tr>
 			<tr>
 				<td><?php echo JText::_('COM_JTG_CHARTHEIGTH'); ?></td>
-				<td><input type="text" name="charts_height" value="<?php echo $this->config->charts_height; ?>" size="20" /> px</td>
+				<td><input type="text" name="charts_height" value="<?php echo $this->config->charts_height; ?>" size="20" /><?php echo JText::_('COM_JTG_PX_OR_PERCENT'); ?></td>
 			</tr>
 			<tr>
 				<td><?php echo JText::_('COM_JTG_CHARTLINEC'); ?></td>

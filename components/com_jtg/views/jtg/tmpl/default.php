@@ -22,8 +22,8 @@ echo $this->gps->writeOLMap($this->where,$this->tracks,$this->params);
 
 <style type="text/css">
         #jtg_map.olMap {
-		height: <?php echo $this->cfg->map_height; ?>px;
-		width: <?php echo $this->cfg->map_width; ?>px;
+		height: <?php echo $this->cfg->map_height; ?>;
+		width: <?php echo $this->cfg->map_width; ?>;
 		z-index: 0;
 }
         #jtg_map.fullscreen {

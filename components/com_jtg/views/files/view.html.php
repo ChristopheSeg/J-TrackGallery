@@ -247,6 +247,7 @@ class JtgViewFiles extends JView
 
 	function _displayFile($tpl) {
 		$mainframe =& JFactory::getApplication();
+		jimport('joomla.filesystem.file');
 		$mapsxml = JPATH_COMPONENT_ADMINISTRATOR . DS . 'views' . DS . 'maps' . DS . 'maps.xml';
 		$params_maps = new JRegistry( 'com_jtg', $mapsxml );
 		$this->params = $params_maps;
@@ -313,8 +314,12 @@ class JtgViewFiles extends JView
 		// then override style with user templates
 
 		$template = $mainframe->getTemplate();
-		$document->addStyleSheet( 'templates/' . $template . '/css/jtg_map_style.css' );
-		
+		$template_jtg_map_style='templates/' . $template . '/css/jtg_map_style.css';
+		if ( JFile::exists($template_jtg_map_style) )
+		{
+		    $document->addStyleSheet( 'templates/' . $template . '/css/jtg_map_style.css' );
+		} 
+		    
 		// Kartenauswahl BEGIN
 		JHTML :: script('jtg.js', 'components/com_jtg/assets/js/', false);
 
@@ -329,7 +334,7 @@ class JtgViewFiles extends JView
 		//		$document->addScript('components' . DS . 'com_jtg' . DS . 'assets' . DS . 'js' . DS . 'jtg.js');
 		// 		$document->addScript('');
 
-//	TODO remove script from file.php and addscript
+//	TODO remove script from file.php and use method addscript
 //			if ( ($this->params->get("jtg_param_show_heightchart"))  AND $track ) {
 //		    $document->addScript('http://code.highcharts.com/highcharts.js');
 //		    $document->addScript('http://code.highcharts.com/modules/exporting.js');
@@ -396,7 +401,6 @@ class JtgViewFiles extends JView
 		//			}
 
 		// load images if exists
-		jimport('joomla.filesystem.file');
 		$img_dir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . $id;
 		if (JFolder :: exists($img_dir)) {
 			$exclude = array ( '.db', '.txt' );

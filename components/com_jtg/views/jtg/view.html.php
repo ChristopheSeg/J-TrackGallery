@@ -63,13 +63,13 @@ class JtgViewjtg extends JView
 		$this->newest =	layoutHelper::parseTopNewest($where,$mayisee,$model,$params->get('jtg_param_newest'));
 		$this->hits = null;
 		if($params->get('jtg_param_mostklicks') != 0)
-		$this->hits =		layoutHelper::parseTopHits($where,$mayisee,$model,$params->get('jtg_param_mostklicks'));
+		$this->hits = layoutHelper::parseTopHits($where,$mayisee,$model,$params->get('jtg_param_mostklicks'));
 		$this->best = null;
 		if($params->get('jtg_param_best') != 0)
-		$this->best =		layoutHelper::parseTopBest($where,$mayisee,$model,$params->get('jtg_param_best'),$params->get('jtg_param_vote_show_stars'));
+		$this->best = layoutHelper::parseTopBest($where,$mayisee,$model,$params->get('jtg_param_best'),$params->get('jtg_param_vote_show_stars'));
 		$this->rand = null;
 		if($params->get('jtg_param_rand') != 0)
-		$this->rand =		layoutHelper::parseTopRand($where,$mayisee,$model,$params->get('jtg_param_rand'));
+		$this->rand = layoutHelper::parseTopRand($where,$mayisee,$model,$params->get('jtg_param_rand'));
 		$toptracks = layoutHelper::parseToptracks($params);
 
 		$published = "\na.published = 1 AND a.hidden = 0";
