@@ -43,7 +43,7 @@ class JtgControllerFiles extends JtgController
 		}
 
 		$model = $this->getModel('files');
-		$dest = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploads' . DS . 'import'.DS;
+		$dest = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploaded_tracks' . DS . 'import'.DS;
 		if(!$model->uploadfiles( $files, $dest )) {
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}

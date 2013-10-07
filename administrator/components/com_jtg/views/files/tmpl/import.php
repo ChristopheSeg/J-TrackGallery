@@ -51,8 +51,8 @@ $level = JArrayHelper::toObject($level);
 $row=0;
 $count = 0;
 $errorposted = false;
-$importdir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploads' . DS . "import";
-$filesdir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploads'.DS;
+$importdir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploaded_tracks' . DS . "import";
+$filesdir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploaded_tracks'.DS;
 $filesdir = JFolder::files($filesdir);
 //	*.gpx, *.trk, *.kml (not case sensitive)
 $regex="(.[gG][pP][xX]$|.[tT][rR][kK]$|.[kK][mM][lL]$)";

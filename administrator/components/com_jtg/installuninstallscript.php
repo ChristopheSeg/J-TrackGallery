@@ -99,13 +99,13 @@ class com_jtgInstallerScript
 	    "images" . DS . "jtrackgallery",
 	    "images" . DS . "jtrackgallery" . DS . "cats",
 	    "images" . DS . "jtrackgallery" . DS . "terrain",
-	    "images" . DS . "jtrackgallery" . DS . "uploads",
-	    "images" . DS . "jtrackgallery" . DS . "uploads" . DS . "import"
+	    "images" . DS . "jtrackgallery" . DS . "uploaded_tracks",
+	    "images" . DS . "jtrackgallery" . DS . "uploaded_tracks" . DS . "import"
 		);
 
 	    $folders_to_chmod = array (
-	    "images" . DS . "jtrackgallery" . DS . "uploads",
-	    "images" . DS . "jtrackgallery" . DS . "uploads" . DS . "import",
+	    "images" . DS . "jtrackgallery" . DS . "uploaded_tracks",
+	    "images" . DS . "jtrackgallery" . DS . "uploaded_tracks" . DS . "import",
 	    "components" . DS . "com_jtg" . DS . "assets" . DS . "images" . DS . "symbols",
 	    );
 

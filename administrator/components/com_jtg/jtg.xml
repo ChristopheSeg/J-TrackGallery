@@ -41,7 +41,6 @@
 		<folder>docs</folder>
 		<folder>helpers</folder>
 		<folder>models</folder>
-		<folder>uploads</folder>
 		<folder>views</folder>
 	</files>
 	<languages folder="language">

@@ -210,6 +210,7 @@ class JtgHelper
 		$filename = JFile::makeSafe($file['name']);
 		$randnumber = (50-strlen($filename));
 		$fncount = 0;
+
 		while (true) {
 			if (!JFile::exists($dest.$filename))
 			{

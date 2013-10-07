@@ -229,7 +229,7 @@ class JtgViewFiles extends JView
 		// $gps = new gpsClass();
 		$this->imgcount = $imgcount;
 		$this->images = $images;
-		$this->kml = $start;
+		$this->kml = NULL; // TODO $this->kml = $start;
 		$this->lh = $lh;
 		$this->footer = $footer;
 		$this->track = $track;
@@ -351,7 +351,7 @@ class JtgViewFiles extends JView
 		//		$distance_float = (int)
 		$distance = JtgHelper::getLocatedFloat($distance_float,0,$unit);
 		// charts
-		$file = '.' . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploads' . DS . strtolower($track->file);
+		$file = '.' . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploaded_tracks' . DS . strtolower($track->file);
 		/*
 		 // ToDo: mehrere Profile in einem
 		 $coords = array();

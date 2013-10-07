@@ -273,7 +273,6 @@ class layoutHelper
 
 	private function parseParam_User($val) {
 		$where = null;
-		echo'<pre>,';print_r($val);echo'</pre>TODOPRINT';
 		if(is_array($val))
 		{
 		    if ($val[0] != 0)
@@ -286,7 +285,6 @@ class layoutHelper
 		    }
 		}
 		elseif($val != 0)	$where .= "a.uid = " . $val;
-		echo'<pre>,';print_r($where);echo'</pre>TODOPRINT';
 		return $where;
 	}
 

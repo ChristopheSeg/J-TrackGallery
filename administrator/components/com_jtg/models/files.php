@@ -53,7 +53,7 @@ class JtgModelFiles extends JModel
 		jimport('joomla.filesystem.file');
 		require_once(".." . DS . "components" . DS . "com_jtg" . DS . "helpers" . DS . "gpsClass.php");
 		$gps = new gpsClass();
-		$file = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploads' . DS . $file;
+		$file = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploaded_tracks' . DS . $file;
 		$gps->gpsFile = $file;
 
 		$isTrack = $gps->isTrack();
@@ -485,7 +485,7 @@ class JtgModelFiles extends JModel
 				if (JFolder::exists($folder))
 				JFolder::delete($folder);
 				// File (gpx?) delete
-				$filename = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploads' . DS . $row->file;
+				$filename = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploaded_tracks' . DS . $row->file;
 				if (JFile::exists($filename))
 				JFile::delete($filename);
 			}
@@ -669,7 +669,7 @@ class JtgModelFiles extends JModel
 		$fileokay = true;
 		$db =& JFactory::getDBO();
 		$user =& JFactory::getUser();
-		$targetdir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploads'.DS;
+		$targetdir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploaded_tracks'.DS;
 		$found =& JRequest::getInt('found');
 		for($i=0;$i<$found;$i++) {
 			$existingfiles = JFolder::files($targetdir);
@@ -752,7 +752,7 @@ class JtgModelFiles extends JModel
 				if ($fileokay == true) {
 
 					// upload the file
-					// 				$upload_dir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploads'.DS;
+					// 				$upload_dir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploaded_tracks'.DS;
 					// 				$filename = explode(DS,$file);
 					// 				$filename = $filename[(count($filename)-1)];
 					// 				$filename = JFile::makeSafe($filename);
@@ -810,9 +810,9 @@ class JtgModelFiles extends JModel
 		require_once(".." . DS . "components" . DS . "com_jtg" . DS . "helpers" . DS . "gpsClass.php");
 		$db =& JFactory::getDBO();
 		$fileokay = false;
-		$targetdir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploads'.DS;
+		$targetdir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploaded_tracks'.DS;
 		// TODO What was this import for? Joogpstracks to Injooosm??
-		$sourcedir = JPATH_SITE . DS . "components" . DS . "com_joomgpstracks" . DS . "uploads".DS;
+		$sourcedir = JPATH_SITE . DS . "components" . DS . "com_joomgpstracks" . DS . "uploaded_tracks".DS;
 		$existingfiles = JFolder::files($targetdir);
 		$file = $sourcedir.$track['file'];
 		$file_tmp = explode(DS,$file);
@@ -954,7 +954,7 @@ class JtgModelFiles extends JModel
 
 		// @ToDo: => JtgHelper::uploadfile
 		// upload the file
-		$upload_dir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploads'.DS;
+		$upload_dir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploaded_tracks' . DS;
 		$filename = JFile::makeSafe($file['name']);
 		$randnumber = (50-strlen($filename));
 		$fncount = 0;
@@ -989,7 +989,7 @@ class JtgModelFiles extends JModel
 		$isCache = 0;
 		//		$isCache = $gps->isCache();
 		//		if ($isCache !== false) $isCache = "1"; else $isCache = "0";
-		$gps->gpsFile = ".." . DS . "images" . DS . "jtrackgallery" . DS . "uploads" . DS . strtolower($filename);
+		$gps->gpsFile = ".." . DS . "images" . DS . "jtrackgallery" . DS . "uploaded_tracks" . DS . strtolower($filename);
 		if($gps->getStartCoordinates())  {
 			$start = $gps->getStartCoordinates();
 		} else {
@@ -997,7 +997,7 @@ class JtgModelFiles extends JModel
 			//                 exit;
 		}
 
-		$file = ".." . DS . "images" . DS . "jtrackgallery" . DS . "uploads" . DS . strtolower($filename);
+		$file = ".." . DS . "images" . DS . "jtrackgallery" . DS . "uploaded_tracks" . DS . strtolower($filename);
 		$start_n = $start[1];
 		$start_e = $start[0];
 		$coords = $gps->getCoords($file);
@@ -1086,7 +1086,7 @@ class JtgModelFiles extends JModel
 		$fileokay = true;
 		$db =& JFactory::getDBO();
 		$user =& JFactory::getUser();
-		$targetdir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploads'.DS;
+		$targetdir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploaded_tracks'.DS;
 		//	$found =& JRequest::getInt('found');
 		for($i=0;$i<count($importfiles);$i++) {
 			$importfile = $importfiles[$i];
@@ -1164,7 +1164,7 @@ class JtgModelFiles extends JModel
 			//			if ($fileokay == true) {
 
 			// upload the file
-			// 				$upload_dir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploads'.DS;
+			// 				$upload_dir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploaded_tracks'.DS;
 			// 				$filename = explode(DS,$file);
 			// 				$filename = $filename[(count($filename)-1)];
 			// 				$filename = JFile::makeSafe($filename);

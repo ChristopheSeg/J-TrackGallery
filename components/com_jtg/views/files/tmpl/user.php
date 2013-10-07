@@ -76,10 +76,10 @@ if ($user->id != 0) {
 			<td align="center">
 				<?php echo $this->pagination->getRowOffset( $i ); ?>
 				<a href="index.php?option=com_jtg&view=files&layout=form&id=<?php echo $row->id; ?>">
-					<img <?php echo $edit ?> src="./images/edit_f2.png" width="16px" />
+					<img <?php echo $edit ?> src="/components/com_jtg/assets/images/edit_f2.png" width="16px" />
 				</a>
 				<a href="index.php?option=com_jtg&controller=files&task=delete&id=<?php echo $row->id; ?>">
-					<img <?php echo $delete ?> src="./images/cancel_f2.png" width="16px" />
+					<img <?php echo $delete ?> src="/components/com_jtg/assets/images/cancel_f2.png" width="16px" />
 				</a>
 			</td>
 			<td><a href="<?php echo $link; ?>"><?php echo $row->title; ?></a></td>

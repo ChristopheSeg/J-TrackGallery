@@ -30,7 +30,9 @@ endif;
 JToolBarHelper::help( 'files/form',true );
 $document =& JFactory::getDocument();
 $document->addStyleSheet(JURI::base().'components/com_jtg/template.css');
-
+// add jtg_map stylesheet
+$tmpl = ($cfg->template = "") ? $cfg->template : 'default';
+$document->addStyleSheet(JURI::base().'components/com_jtg/assets/template/'.$tmpl.'/jtg_map_style.css');
 $map = "";
 if($this->id >= 1) {
 	//	edit file
@@ -42,13 +44,13 @@ if($this->id >= 1) {
 	require_once(".." . DS . "components" . DS . "com_jtg" . DS . "helpers" . DS . "gpsClass.php");
 	$gps = new gpsClass();
 	$document->addScript('http://www.openlayers.org/api/OpenLayers.js');
-	$document->addScript('components' . DS . 'com_jtg' . DS . 'assets' . DS . 'js' . DS . 'fullscreen.js');
+	$document->addScript('../components' . DS . 'com_jtg' . DS . 'assets' . DS . 'js' . DS . 'fullscreen.js');
 	$document->addScript('http://www.openstreetmap.org/openlayers/OpenStreetMap.js');
 	$document->addScript('http://www.openlayers.org/api/Ajax.js');
 	$document->addScript("../components/com_jtg/assets/js/jtg.js");
 	$document->addScript("../components/com_jtg/assets/js/jd.gallery.js");
 	$map .= $gps->writeSingleTrackOL($this->track->file);
-	$map .= ("<div id=\"map\" align=\"center\" ");
+	$map .= ("<div id=\"jtg_map\"  align=\"center\" class=\"olMap\" ");
 	$map .= ("style=\"width: 400px; height: 500px; background-color:#EEE; vertical-align:middle;\" >");
 	$map .= ("<script>slippymap_init();</script>");
 	$map .= ("</div>");

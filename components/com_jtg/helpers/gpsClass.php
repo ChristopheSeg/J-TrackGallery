@@ -954,89 +954,6 @@ class gpsClass
 		return $map;
 	}
 
-	public function writePersonelMap() {
-		//		deprecaded
-		$map = "
-<script type=\"text/javascript\" src=\"components/com_jtg/assets/js/homeposition.js\"></script>
-";
-		$cfg =& JtgHelper::getConfig();
-		$cnates = $this->getMapNates();
-		$rows = $this->getTracks();
-		// 	$user = JFactory::getUser();
-		// 	$userid = $user->id;
-		$rows = $this->maySee($rows);
-
-		$map .= $this->parseScriptOLHead();
-		$map .= $this->parseOLMapControl();
-		$map .= $this->parseOLLayer();
-		//	$map .= $this->parseOLPOIs();
-		// 	$map .= $this->parseOLTracks($rows); // Schlecht bei vielen verfügbaren Tracks
-		// 	$map .= $this->parseXMLlinesOL($rows,"/" . $file);
-		//	$map .= $this->parseOLMarker($rows);
-		//	$map .= $this->parseOLMapCenter($rows);
-		$map .= "// <!-- parseOLMapCenter BEGIN -->
-	\n";
-		$map .= "	layerMarker_options= {styleMap: new OpenLayers.StyleMap({
-		externalGraphic: \"components/com_jtg/assets/images/home.png\",
-		backgroundGraphic: \"components/com_jtg/assets/images/home_shdw.png\",
-		graphicXOffset:-15,
-		graphicYOffset:-20,
-		backgroundXOffset:-15,
-		backgroundYOffset:-20,
-		// Set the z-indexes of both graphics to make sure the background
-		// graphics stay in the background (shadows on top of markers looks
-		// odd; let's not do that).
-		graphicZIndex: 11,
-		backgroundGraphicZIndex: 10,
-		pointRadius: 20
-	}),
-	displayInLayerSwitcher: false,
-	isBaseLayer:false,
-//	isBaseLayer:true,
-	rendererOptions: {yOrdering: true},
-	eventListeners:{'featureadded': function(){olmap.getControlsByClass('OpenLayers.Control.Permalink')[0].updateLink()},
-		'featuresremoved': function(){olmap.getControlsByClass('OpenLayers.Control.Permalink')[0].updateLink()}
-		}
-	};
-	//Layer to draw a personalized marker within
-	layerMarker = new OpenLayers.Layer.Vector(\"Marker\", layerMarker_options);
-	// Add a drag feature control to move features around.
-	var dragFeature = new OpenLayers.Control.DragFeature(layerMarker,
-	{onComplete:function(){olmap.getControlsByClass('OpenLayers.Control.Permalink')[0].updateLink()}});
-	olmap.addControl(dragFeature);
-	dragFeature.activate();
-	olmap.addLayers([layerMarker]);
-
-
-function handleMapClick(evt) {
-//set Marker on click
-	layerMarker.removeFeatures(layerMarker.features);
-	var pixel = new OpenLayers.Pixel( evt.xy.x, evt.xy.y);
-	var lonLat = olmap.getLonLatFromViewPortPx(pixel);
-	var marker = [];
-	marker.push(new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(lonLat.lon, lonLat.lat)));
-	layerMarker.addFeatures(marker);
-	OpenLayers.Event.stop(evt);
-};
-olmap.events.register('click', map, handleMapClick);
-
-\n";
-
-		$map .= "var min = lonLatToMercator(new OpenLayers.LonLat";
-		$bbox_lon_min = -180;
-		$bbox_lat_min = 83;
-		$bbox_lon_max = 180;
-		$bbox_lat_max = -55;
-		$map .= "(" . $bbox_lon_min . "," . $bbox_lat_min . "));\nvar max = lonLatToMercator";
-		$map .= "(new OpenLayers.LonLat(" . $bbox_lon_max . "," . $bbox_lat_max . "));\n";
-		$map .= "olmap.zoomToExtent(new OpenLayers.Bounds(min.lon, min.lat, max.lon, max.lat));\n";
-		$map .= "// <!-- parseOLMapCenter END -->\n";
-
-		$map .= $this->parseOLMapFunctions();
-		$map .= $this->parseScriptOLFooter();
-		return $map;
-	}
-
 	/**
 	 * counts the MapCenter and ZoomLevel of Boundingbox
 	 *
@@ -1390,7 +1307,7 @@ olmap.events.register('click', map, handleMapClick);
 		$string .= "olmap.addLayer(layer_vectors);\n";
 		$i=0;
 		foreach($rows AS $row) {
-			$file = "images" . DS . "jtrackgallery" . DS . "uploads" . DS . $row->file;
+			$file = "images" . DS . "jtrackgallery" . DS . "uploaded_tracks" . DS . $row->file;
 			$coords = $this->getCoords($file);
 			$string .= "geometries = new Array();geometries.push(drawLine([\n";
 			if ($coords){
@@ -1784,7 +1701,7 @@ olmap.events.register('click', map, handleMapClick);
 		jimport('joomla.filesystem.file');
 		// $rows = $this->getTracks(" WHERE a.id != " . $track->id);
 		$zeiten .= (int) round( ( microtime(true) - $jtg_microtime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " getTracks<br />\n";
-		$file = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploads' . DS . $track->file;
+		$file = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploaded_tracks' . DS . $track->file;
 		$this->gpsFile = $file;
 		$xml = $this->loadFile();
 		$map = "\n<!-- writeTrackCOM_JTG BEGIN -->\n";
@@ -1835,7 +1752,7 @@ olmap.events.register('click', map, handleMapClick);
 		$cfg =& JtgHelper::getConfig();
 		$mainframe =& JFactory::getApplication();
 		jimport('joomla.filesystem.file');
-		$file = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploads' . DS . $file;
+		$file = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploaded_tracks' . DS . $file;
 		$this->gpsFile = $file;
 		$xml = $this->loadFile();
 		$map = "\n<!-- writeSingleTrackCOM_JTG BEGIN -->\n";
@@ -2174,7 +2091,7 @@ olmap.events.register('click', map, handleMapClick);
 				$string_se .= "var sizeStart" . $i . " = new OpenLayers.Size(24,24);\n";
 				$string_se .= "var sizeZiel" . $i . " = new OpenLayers.Size(24,24);\n";
 				$string_se .= "var offsetStart" . $i . " = new OpenLayers.Pixel(-3,-22);\n";
-				$string_se .= "var offsetZiel" . $i . " = new OpenLayers.Pixel(-11,-21);\n";
+				$string_se .= "var offsetZiel" . $i . " = new OpenLayers.Pixel(-19,-22);\n";
 				$string_se .= "var iconStart" . $i . " = ";
 				$string_se .= "new OpenLayers.Icon(\"" . $iconpath . "trackStart.png\",";
 				$string_se .= "sizeStart" . $i . ",offsetStart" . $i . ");\n";
@@ -2449,240 +2366,5 @@ olmap.events.register('click', map, handleMapClick);
 	}
 
 	// Osm END
-
-	// Google BEGIN
-
-	/**
-	 *
-	 * this writes the Javascript code for the overview map
-	 * the map is shown in a div container with <strong>id="map"</strong>
-	 * <code>
-	 * $gps = new gpsClass();
-	 * $track = loadObject($query);
-	 * $gps->writeMap($track);
-	 * </code>
-	 *
-	 * @return string Javascriptcode
-	 */
-	public function writeGoogleMap() {
-
-		$cnates = $this->getMapNates();
-		$rows = $this->getTracks();
-
-		$map = "\n";
-		$map .= "<script type=\"text/javascript\">//<![CDATA[\n";
-		$map .= "	google.load(\"maps\", \"2\");\n";
-		$map .= "	google.load(\"search\", \"1\");\n";
-		$map .= "	var map;\n";
-		$map .= $this->markerFunctionGoogle();
-		$map .= "	function initialize() {\n";
-		$map .= $this->parseGoogleMap();
-		$map .= "		var bounds = new GLatLngBounds();\n";
-
-		$map .= $this->parseGoogleMapControl();
-		$map .= "		olmap.addControl(new google.maps.LocalSearch(),\n";
-		$map .= "			new GControlPosition(G_ANCHOR_BOTTOM_LEFT, new GSize(10,20)));\n";
-		$map .= $this->parseMarkersGoogle();
-		$map .= "		olmap.setCenter(bounds.getCenter(), olmap.getBoundsZoomLevel(bounds));\n";
-		$map .= $this->parseScriptGoogleFooter();
-
-		return $map;
-	}
-
-	/**
-	 * this function shows the map for a single track
-	 * the map is shown in a div container with id="map"
-	 * $track is the database object of the track
-	 * <code>
-	 * $gps = new gpsClass();
-	 * $track = loadObject($query);
-	 * $gps->writeTrack($track);
-	 * </code>
-	 *
-	 * @global object $mainframe
-	 * @param object $track
-	 * @return string Javascriptcode
-	 */
-	public function writeTrackGoogle($track) {
-		$mainframe =& JFactory::getApplication();
-		jimport('joomla.filesystem.file');
-
-		$file = "images" . DS . "jtrackgallery" . DS . "uploads" . DS . $track->file;
-		$map = "";
-
-		$map .= $this->parseScriptGoogleHead();
-		$map .= $this->parseGoogleMap();
-		$map .= 'var bounds = new GLatLngBounds();';
-		$map .= $this->parseGoogleMapControl();
-		$map .= $this->parseStartPointGoogle($track);
-		$map .= $this->parseXMLlinesGoogle("./" . $file);
-		$map .= "olmap.setCenter(bounds.getCenter(), olmap.getBoundsZoomLevel(bounds));\n";
-		$map .= $this->parseScriptGoogleFooter();
-
-		return $map;
-	}
-
-	/**
-	 *
-	 * @return string
-	 */
-	private function parseScriptGoogleHead() {
-
-		$map = "";
-		$map .= "\n<script type='text/javascript'>//<![CDATA[\n";
-		$map .= "google.load('maps', '2');\n";
-		$map .= "var ol map\n";
-		$map .= "function initialize() {\n";
-
-		return $map;
-	}
-
-	/**
-	 *
-	 * @return string
-	 */
-	private function parseScriptGoogleFooter() {
-
-		$map = "";
-		$map .= "	}\n";
-		$map .= "	google.setOnLoadCallback(initialize);\n";
-		$map .= "//]]>\n";
-		$map .= "</script>\n";
-
-		return $map;
-	}
-
-	/**
-	 *
-	 * @return string
-	 */
-	private function parseGoogleMapControl() {
-
-		$control = "";
-		$control .= "		var mapControl = new GMapTypeControl();\n";
-		$control .= "		olmap.addControl(mapControl);\n";
-		$control .= "		olmap.addControl(new GLargeMapControl());\n";
-		$control .= "		olmap.addControl(new GOverviewMapControl());\n";
-
-		return $control;
-	}
-
-	/**
-	 *
-	 * @return string
-	 */
-	private function markerFunctionGoogle() {
-		$map = "";
-		$map .= "	function createMarker(point,html) {\n";
-		$map .= "		var marker = new GMarker(point);\n";
-		$map .= "		GEvent.addListener(marker, 'click', function() {\n";
-		$map .= "			marker.openInfoWindowHtml(html);\n";
-		$map .= "		});\n";
-		$map .= "		return marker;\n";
-		$map .= "	}\n";
-
-		return $map;
-	}
-
-	/**
-	 *
-	 * @return string
-	 */
-	private function parseMarkersGoogle() {
-		$rows = $this->getTracks();
-		$map = "";
-		foreach($rows as $row) {
-			$link = JROUTE::_("index.php?option=com_jtg&view=files&layout=file&id=" . $row->id);
-			$map .= "		var point = new GLatLng(" . $row->start_n . ", " . $row->start_e . ");";
-			$map .= "bounds.extend(point);";
-			$map .= "var marker = createMarker( point,\"";
-			$map .= "<a href=\\\"" . $link . "\\\">";
-			$map .= "<b>" . $row->title . "</b>";		// ToDo: Link für Nicht-Registrierte nur als Text anzeigen
-			$map .= "</a>";
-			if ( $row->access == 1 )
-			$map .= "&nbsp;<img src=\\\"components/com_jtg/assets/images/registred_only.png\\\" />";
-			$map .= "<br />".JText::_('COM_JTG_CAT') . ": " . $row->cat . "\"); olmap.addOverlay(marker);\n";
-		}
-
-		return $map;
-	}
-
-	/**
-	 *
-	 * @return string
-	 */
-	private function parseGoogleMap() {
-		$cfg =& JtgHelper::getConfig();
-		switch($cfg->map_type) {
-			case "0":
-				$type = "G_NORMAL_MAP";
-				break;
-
-			case "1":
-				$type = "G_SATELLITE_MAP";
-				break;
-
-			case "2":
-				$type = "G_HYBRID_MAP";
-				break;
-
-			case "3":
-				$type = "G_PHYSICAL_MAP";
-				break;
-
-			default:
-				$type = "G_NORMAL_MAP";
-				break;
-		}
-
-		$string = "";
-		$string .= "		olmap = new GMap2(document.getElementById('olmap'));\n";
-		$string .= "		olmap.addMapType(G_PHYSICAL_MAP);\n";
-		$string .= "		olmap.setMapType(" . $type . ");\n";
-
-		return $string;
-	}
-
-	/**
-	 *
-	 * @param object $track
-	 * @return string
-	 */
-	private function parseStartPointGoogle($track) {
-		$map = "";
-		$map .= "var blueIcon = new GIcon(G_DEFAULT_ICON);\n";
-		$map .= "blueIcon.image = '".JURI::base() . "components" . DS . "com_jtg" . DS . "assets" . DS . "images" . DS . "gruen.png';\n";
-		$map .= "markerOptions = { icon:blueIcon };\n";
-		$map .= "var point = new GLatLng(" . $track->start_n . "," . $track->start_e . ")\n";
-		$map .= "olmap.addOverlay(new GMarker(point, markerOptions));\n";
-
-		return $map;
-	}
-
-	/**
-	 *
-	 * @param string $file
-	 * @return array
-	 */
-	private function parseXMLlinesGoogle($file) {
-
-		$coords = $this->getCoords($file);
-
-		$string = "";
-		$string .= "var polyline = new GPolyline([\n";
-		foreach($coords as $key => $fetch) {
-			$string .= "new GLatLng(" . $coords[$key][1] . "," . $coords[$key][0] . "),\n";
-		}
-		$string .= "], '#ff0000', 4);\n";
-		$string .= "olmap.addOverlay(polyline);\n";
-		foreach($coords as $key => $fetch) {
-			$string .= "bounds.extend(new GLatLng(" . $coords[$key][1] . "," . $coords[$key][0] . "));";
-		}
-
-		return $string;
-		// print_r($coords);
-	}
-
-	// Google END
 
 }

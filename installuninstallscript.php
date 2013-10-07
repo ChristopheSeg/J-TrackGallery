@@ -100,13 +100,13 @@ class com_jtgInstallerScript
 	    "images" . DS . "jtrackgallery",
 	    "images" . DS . "jtrackgallery" . DS . "cats",
 	    "images" . DS . "jtrackgallery" . DS . "terrain",
-	    "images" . DS . "jtrackgallery" . DS . "uploads",
-	    "images" . DS . "jtrackgallery" . DS . "uploads" . DS . "import"
+	    "images" . DS . "jtrackgallery" . DS . "uploaded_tracks",
+	    "images" . DS . "jtrackgallery" . DS . "uploaded_tracks" . DS . "import"
 		);
 
 	    $folders_to_chmod = array (
-	    "images" . DS . "jtrackgallery" . DS . "uploads",
-	    "images" . DS . "jtrackgallery" . DS . "uploads" . DS . "import",
+	    "images" . DS . "jtrackgallery" . DS . "uploaded_tracks",
+	    "images" . DS . "jtrackgallery" . DS . "uploaded_tracks" . DS . "import",
 	    "components" . DS . "com_jtg" . DS . "assets" . DS . "images" . DS . "symbols",
 	    );
 
@@ -145,6 +145,18 @@ class com_jtgInstallerScript
 	    // copy Cats image
 	    $src_folder_to_copy =  JPATH_SITE . DS . 'components' . DS . 'com_jtg' . DS . 'assets' . DS . 'images' . DS . 'cats';
 	    $dest_folder_to_copy = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'cats';
+	    $files = JFolder::files($src_folder_to_copy);
+
+	    // copy file by file without erasing existing files
+	    foreach ($files as $file) {
+	       if (!JFile::exists($dest_folder_to_copy . DS.  $file) ) {
+		   JFile::copy($src_folder_to_copy. DS . $file, $dest_folder_to_copy . DS.  $file);
+	       }
+	    }
+	    
+	    // copy example tracks
+	    $src_folder_to_copy =  JPATH_SITE . DS . 'components' . DS . 'com_jtg' . DS . 'assets' . DS . 'sample_tracks';
+	    $dest_folder_to_copy = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploaded_tracks';
 	    $files = JFolder::files($src_folder_to_copy);
 
 	    // copy file by file without erasing existing files

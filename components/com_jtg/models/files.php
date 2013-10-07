@@ -293,12 +293,17 @@ class JtgModelFiles extends JModel
 		$published =& JRequest::getInt('published', 0);
 
 		// upload the file
-		$upload_dir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploads' . DS;
+		$upload_dir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploaded_tracks' . DS;
 		$filename = JFile::makeSafe($file['name']);
-		//JFile::delete($upload_dir.strtolower($filename));
+		echo '<pre>';print_r($file);echo'</pre>';
+		echo '<br>$upload_dir.strtolower($filename = '.$upload_dir.strtolower($filename);
+		echo '<br>$file[\'tmp_name\'] = '.$file['tmp_name'];
+		echo "TODOPRINT";
 		if ( JFile::exists($upload_dir.strtolower($filename)))
-		die("<script type='text/javascript'>alert('".JText::sprintf("COM_JTG_FILE_ALREADY_EXISTS",$filename) . "');window.history.back(-1);</script>");
-		if (!JFile::upload($file['tmp_name'], $upload_dir.strtolower($filename))) {
+		{
+		    die("<script type='text/javascript'>alert('".JText::sprintf("COM_JTG_FILE_ALREADY_EXISTS",$filename) . "');window.history.back(-1);</script>"); 
+		}
+		if (!JFile::upload($file['tmp_name'], $upload_dir.$filename)) {
 			die("<script type='text/javascript'>alert('".JText::_('COM_JTG_UPLOAD_FAILS') . "');window.history.back(-1);</script>");
 		} else {
 			chmod($upload_dir.strtolower($filename), 0777);
@@ -306,13 +311,13 @@ class JtgModelFiles extends JModel
 
 		// get the start coordinates
 		$gps = new gpsClass();
-		$gps->gpsFile = DS . 'images' . DS . 'jtrackgallery' . DS . 'uploads' . DS . strtolower($filename);
+		$gps->gpsFile = DS . 'images' . DS . 'jtrackgallery' . DS . 'uploaded_tracks' . DS . strtolower($filename);
 		if(!$start = $gps->getStartCoordinates()) {
 			echo "<script type='text/javascript'>alert('".JText::_('COM_JTG_NO_SUPPORT') . "');window.history.back(-1);</script>";
 			exit;
 		}
 
-		$file = DS . 'images' . DS . 'jtrackgallery' . DS . 'uploads' . DS . strtolower($filename);
+		$file = DS . 'images' . DS . 'jtrackgallery' . DS . 'uploaded_tracks' . DS . strtolower($filename);
 		$start_n = $start[1];
 		$start_e = $start[0];
 		$coords = $gps->getCoords($file);
@@ -560,7 +565,7 @@ class JtgModelFiles extends JModel
 		if (JFolder::exists($folder))
 		JFolder::delete($folder);
 		// File (gpx?) delete
-		$filename = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploads' . DS . $file->file;
+		$filename = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploaded_tracks' . DS . $file->file;
 		if (JFile::exists($filename))
 		JFile::delete($filename);
 		// delete from DB
