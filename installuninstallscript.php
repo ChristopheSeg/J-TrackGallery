@@ -186,12 +186,11 @@ class com_jtgInstallerScript
 	 * If this returns false, Joomla will abort the update and undo everything already done.
 	 */
 	function update( $parent ) {
-		
+			    
 	    // this is executed after upgrade.sql
 	    // upgrading from $oldRelease to $this->release
 	    if ( version_compare( $oldRelease, '0.7.0', '<' ) ) {
-		// installed version is lower then 0.7.0
-		// do some stuff
+		// installed version is lower then 0.7.0 ==> do some stuff
 	    }    
 	    echo '<p>' . JText::sprintf('COM_JTG_UPDATED', $this->release) . '</p>';
 		
@@ -207,8 +206,57 @@ class com_jtgInstallerScript
 	 */
 	function postflight( $type, $parent ) {
  
+		// TODOTEMP TEST add a record in  #__jtg_users
+		$db =& JFactory::getDBO();
+		$query = 'INSERT INTO #__jtg_temp (method, version) VALUES ("UPDATE function","'.
+			$oldRelease.'==>'.$this->release.'") ';
+		$db->setQuery($query);
+		
 		// echo '<p>' . JText::_('COM_JTG_POSTFLIGHT ' . $type . ' to ' . $this->release) . '</p>';
-		return true;
+		if ( $type == 'update' ) 
+		{
+		    // check if com_jtg is installed, and this is an install (not an upgrade)
+		    $db =& JFactory::getDBO();
+		    $query = 'SELECT COUNT(*) FROM #__extensions WHERE name = "com_jtg"';
+		    $db->setQuery($query);
+		    $componentJtgIsInstalled = $db->loadResult();
+		    if ($componentJtgIsInstalled !== null)
+		    {
+			// com_jtg is installed: save default params
+			$query = 'UPDATE #__extensions SET params = '. 
+			$query.= ' {"jtg_param_newest":"10","jtg_param_mostklicks":"10",
+			    "jtg_param_best":"0","jtg_param_rand":"0",
+			    "jtg_param_otherfiles":"0",
+			    "jtg_param_lh":"1",
+			    "jtg_param_vote_show_stars":"0",
+			    "jtg_param_show_speedchart":"1",
+			    "jtg_param_show_heightchart":"1",
+			    "jtg_param_show_durationcalc":"1",
+			    "jtg_param_show_layerswitcher":"1",
+			    "jtg_param_show_panzoombar":"1",
+			    "jtg_param_show_attribution":"1",
+			    "jtg_param_show_mouselocation":"1",
+			    "jtg_param_show_scale":"1",
+			    "jtg_param_allow_mousemove":"1",
+			    "jtg_param_allow_keymove":"0",
+			    "jtg_param_offer_download_gpx":"1",
+			    "jtg_param_offer_download_kml":"0",
+			    "jtg_param_offer_download_tcx":"0",
+			    "jtg_param_tracks":"0",
+			    "jtg_param_cats":["-1"],
+			    "jtg_param_user":["0"],
+			    "jtg_param_usergroup":["-1"],
+			    "jtg_param_terrain":["-1"],
+			    "jtg_param_level_from":"0",
+			    "jtg_param_level_to":"5",
+			    "jtg_param_vote_from":"0",
+			    "jtg_param_vote_to":"10"}';
+			$query.= ' WHERE name = "com_jtg"'; 
+			$db->setQuery($query);
+			$db->query();
+		    }
+		 }
+		    return true;
 	}
 
 	/*

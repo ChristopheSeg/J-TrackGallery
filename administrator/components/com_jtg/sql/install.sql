@@ -1,3 +1,10 @@
+CREATE TABLE IF NOT EXISTS `#__jtg_temp` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `method` varchar(100) NOT NULL,
+  `version` varchar(100) NOT NULL,
+  KEY `id` (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+
 CREATE TABLE IF NOT EXISTS `#__jtg_maps` (
 	`id` int(2) NOT NULL AUTO_INCREMENT,
 	`name` varchar(30) NOT NULL,
@@ -59,77 +66,20 @@ CREATE TABLE IF NOT EXISTS `#__jtg_config` (
 	PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-INSERT IGNORE INTO `#__jtg_config` (
-	`id`,
-	`gid`,
-	`unit`,
-	`type`,
-	`max_size`,
-	`terms`,
-	`terms_id`,
-	`sort`,
-	`map_height`,
-	`map_width`,
-	`map_type`,
-	`charts_width`,
-	`charts_height`,
-	`charts_linec`,
-	`charts_bg`,
-	`profile`,
-	`template`,
-	`comment_who`,
-	`inform_autor`,
-	`captcha`,
-	`ordering`,
-	`comments`,
-	`access`,
-	`map`,
-	`approach`,
-	`routingiconset`,
-	`usevote`,
-	`download`,
-	`gpsstore`,
-	`gallery`,
-	`showcharts`,
-	`level`
-) VALUES (
-	'1',
-	NULL,
-	'Kilometer',
-	'jpg,jpeg,png,gif',
-	200,
-	0,
-	0,
-	5,
-	'500px',
-	'100%',
-	0,
-	'100%',
-	'180px',
-	'FF0000',
-	'0000CC',
-	0,
-	'default',
-	'default',
-	1,
-	0,
-	'DESC',
-	0,
-	0,
-	'osm',
-	'no',
-	'real',
-	0,
-	2,
-	'JPATH_SITE . DS . "images" . DS . "jtrackgallery" . DS . "uploaded_tracks".DS',
-	'straight',
-	'2',
-	'COM_JTG_LEVEL_1
-COM_JTG_LEVEL_2
-COM_JTG_LEVEL_3
-COM_JTG_LEVEL_4
-COM_JTG_LEVEL_5'
-);
+TRUNCATE `#__jtg_config`;
+
+INSERT INTO `#__jtg_config` (`id`, `gid`, `apikey`, `unit`, `type`, `max_size`, 
+`terms`, `terms_id`, `sort`, `map_height`, `map_width`, `map_type`, `charts_width`, 
+`charts_height`, `charts_linec`, `charts_bg`, `profile`, `template`, `comment_who`, 
+`inform_autor`, `captcha`, `ordering`, `comments`, `access`, `map`, `approach`, 
+`routingiconset`, `usevote`, `download`, `gpsstore`, `gallery`, `showcharts`, 
+`level`) VALUES
+(1, NULL, NULL, 'Kilometer', 'jpg,jpeg,png,gif', 200, 
+0, 0, 5, '500px', '100%', 0, '100%', 
+'180px', 'FF0000', '0000CC', '0', 'default', 0, 
+1, 0, 'DESC', 0, 0, 'osm', 'no', 
+'real', 0, 2, 'JPATH_SITE . DS . "images" . DS . "jtrackgallery" . DS . "uploads".DS', 'straight', 2, 
+'COM_JTG_LEVEL_1\nCOM_JTG_LEVEL_2\nCOM_JTG_LEVEL_3\nCOM_JTG_LEVEL_4\nCOM_JTG_LEVEL_5');
 
 CREATE TABLE IF NOT EXISTS `#__jtg_files` (
 	`id` int(10) NOT NULL AUTO_INCREMENT,
@@ -206,33 +156,32 @@ INSERT IGNORE INTO `#__jtg_maps` (`name`, `ordering`, `published`, `param`, `scr
 ('COM_JTG_MAP_GOOGLESTREET', 6, 1, 'OpenLayers.Layer.Google( "{name}",  {numZoomLevels: 20})', 'http://maps.google.com/maps/api/js?v=3&amp;sensor=false', ''),
 ('COM_JTG_MAP_GOOGLEHYBRID', 7, 1, 'OpenLayers.Layer.Google( "{name}",  {type: google.maps.MapTypeId.HYBRID, numZoomLevels: 20})', 'http://maps.google.com/maps/api/js?v=3&amp;sensor=false', ''),
 ('COM_JTG_MAP_GOOGLEPHYSICAL', 8, 1, 'OpenLayers.Layer.Google("{name}", {type: google.maps.MapTypeId.TERRAIN} )', 'http://maps.google.com/maps/api/js?v=3&amp;sensor=false', ''),
-('COM_JTG_MAP_VE_AERIAL', 9, 1, 'OpenLayers.Layer.Bing({ name: "{name}", key: BingApiKey, type: "Aerial", wrapDateLine: true })', '', 'var BingApiKey =  &quot;AqTGBsziZHIJYYxgivLBf0hVdrAk9mWO5cQcb8Yux8sW5M8c8opEC2lZqKR1ZZXf&quot;;'),
-('COM_JTG_MAP_VE_ROAD', 10, 1, 'OpenLayers.Layer.Bing({ name: "{name}", key: BingApiKey, type: "Road", wrapDateLine: true })', '', 'var BingApiKey = &quot;AqTGBsziZHIJYYxgivLBf0hVdrAk9mWO5cQcb8Yux8sW5M8c8opEC2lZqKR1ZZXf&quot;;'),
-('COM_JTG_MAP_VE_HYBRID', 11, 1, 'OpenLayers.Layer.Bing({ name: "{name}", key: BingApiKey, type: "AerialWithLabels", wrapDateLine: true })', '', 'var BingApiKey = &quot;AqTGBsziZHIJYYxgivLBf0hVdrAk9mWO5cQcb8Yux8sW5M8c8opEC2lZqKR1ZZXf&quot;;'),
+('COM_JTG_MAP_BING_AERIAL', 9, 1, 'OpenLayers.Layer.Bing({ name: "{name}", key: BingApiKey, type: "Aerial", wrapDateLine: true })', '', 'var BingApiKey =  &quot;AqTGBsziZHIJYYxgivLBf0hVdrAk9mWO5cQcb8Yux8sW5M8c8opEC2lZqKR1ZZXf&quot;;'),
+('COM_JTG_MAP_BING_ROAD', 10, 1, 'OpenLayers.Layer.Bing({ name: "{name}", key: BingApiKey, type: "Road", wrapDateLine: true })', '', 'var BingApiKey = &quot;AqTGBsziZHIJYYxgivLBf0hVdrAk9mWO5cQcb8Yux8sW5M8c8opEC2lZqKR1ZZXf&quot;;'),
+('COM_JTG_MAP_BING_HYBRID', 11, 1, 'OpenLayers.Layer.Bing({ name: "{name}", key: BingApiKey, type: "AerialWithLabels", wrapDateLine: true })', '', 'var BingApiKey = &quot;AqTGBsziZHIJYYxgivLBf0hVdrAk9mWO5cQcb8Yux8sW5M8c8opEC2lZqKR1ZZXf&quot;;'),
 ('Own Server', 99, 0, 'OpenLayers.Layer.OSM(&quot;{name}&quot;, &quot;http://server/${z}/${x}/${y}.png&quot; ,{ &quot;type&quot;:&quot;png&quot;})', '', '');
 
-<!-- Dummy record where used in injooosm have been maintained for compatibility in #__jtg_cats -->  
-<!-- however the usefulness of these dummy records is not clear --> 
-
-INSERT IGNORE INTO `#__jtg_cats` 
-    (`id`,`parent_id`,`title`,`description`,`image`,`ordering`,`published`,`checked_out`) 
-VALUES 
-    ('1','0','dummy','','','0','1','0'),
-    ('2','0','dummy','','','0','1','0'),
-    ('3','0','dummy','','','0','1','0'),
-    ('4','0','dummy','','','0','1','0'),
-    ('5','0','dummy','','','0','1','0'),
-    ('6','0','dummy','','','0','1','0'),
-    ('7','0','dummy','','','0','1','0'),
-    ('8','0','dummy','','','0','1','0'),
-    ('9','0','dummy','','','0','1','0'),
-    ('10','0','COM_JTG_CAT_CAR','','car.jpg','7','1','0'),
-    ('11','10','COM_JTG_CAT_CAR_FOCUS','','focus.jpg','1','1','0'),
-    ('12','10','COM_JTG_CAT_CAR_VECTRA','','vectra.jpg','2','1','0'),
-    ('13','0','COM_JTG_CAT_BIKE','','vectra.jpg','5','1','0'),
-    ('14','0','COM_JTG_CAT_MOTORBIKE','','bike.jpg','6','1','0'),
-    ('15','0','COM_JTG_CAT_PEDESTRIAN','','pedestrian.jpg','3','1','0'),
-    ('16','0','COM_JTG_CAT_GEOCACHE','','geocaching.jpg','4','1','0')
+INSERT INTO `#__jtg_cats` (`id`, `parent_id`, `title`, `description`, `image`, `ordering`, `published`, `checked_out`) VALUES
+    (1,'dummy','','',0,1,0),
+    (2'dummy','','',0,1,0),
+    (3,'dummy','','',0,1,0),
+    (4,'dummy','','',0,1,0),
+    (5,'dummy','','',0,1,0),
+    (6,'dummy','','',0,1,0),
+    (7,'dummy','','',0,1,0),
+    (8,'dummy','','',0,1,0),
+    (9,'dummy','','',0,1,0),
+    (8, 0, 'Trekking', '', 'hiking.png', 0, 1, 0),
+    (19, 0, 'Mountain Bike', '', 'mountainbiking-3.png', 0, 1, 0),
+    (17, 0, 'Horse Riding', '', 'horseriding.png', 0, 1, 0),
+    (10, 0, 'COM_JTG_CAT_CAR', 'COM_JTG_CAT_CAR', 'sportscar.png', 7, 1, 0),
+    (11, 0, 'COM_JTG_CAT_CAR_4x4', '', 'fourbyfour.png', 1, 1, 0),
+    (13, 0, 'COM_JTG_CAT_BIKE', '', 'cycling.png', 5, 1, 0),
+    (14, 0, 'COM_JTG_CAT_MOTORBIKE', '', 'motorbike.png', 6, 1, 0),
+    (15, 0, 'COM_JTG_CAT_PEDESTRIAN', 'COM_JTG_CAT_PEDESTRIAN', 'hiking.png', 3, 1, 0),
+    (16, 0, 'COM_JTG_CAT_GEOCACHE', '', 'geocachinginternational.png', 4, 1, 0),
+    (20, 0, 'snowshoeing', '', 'snowshoeing.png', 0, 1, 0),
+    (21, 0, 'Trial', '', 'hiking.png', 0, 1, 0)
 ;
 
 DELETE FROM `#__jtg_cats` WHERE title = 'dummy';
@@ -246,4 +195,16 @@ VALUES
     ('4','COM_JTG_PRIVATE','1','0','0'),
     ('5','COM_JTG_ADMINISTRATORS','1','0','0');
 
-
+INSERT INTO `#__jtg_files` (`id`, `uid`, `catid`, `title`, `file`, `terrain`, `description`, `published`, `date`, `hits`, `checked_out`, `start_n`, `start_e`, `distance`, `ele_asc`, `ele_desc`, `level`, `access`, `istrack`, `iswp`, `isroute`, `iscache`, `vote`, `hidden`) VALUES
+(1, 430, '19', '-sample- Woodhead Reconnaissance', 'sample_woodhead_reconnaissance.gpx', '2', '<p>This tracks by has been provided by Richard from RSInfotech <a href=&#34;http://www.rsinfotech.co.uk/&#34;>http://www.rsinfotech.co.uk/</a></p>\r\n<p><em>It its only intended to be used as a sample file for testing and demonstrating J!Track Gallery component.</em></p>', 1, '2013-09-22', 26, 0, '53.4947858175', '-1.8294689814', 5.94, 357, 284, 1, 0, 1, 0, 0, NULL, 0.000, 0),
+(2, 430, '15', '-sample- Circuit de Bavay', 'sample_bavay.gpx', '2', '<p>This tracks by has been provided by Arnaud  from the French Alpin Club:  Club Alpin de Lille <a href=&#34;http://clubalpinlille.fr/&#34;>http://clubalpinlille.fr/</a></p>\r\n<p><em>It its only intended to be used as a sample file for testing and demonstrating J!Track Gallery component.</em></p>', 1, '2013-09-23', 18, 0, '50.297820', '3.792730', 21.92, 254, 254, 1, 0, 1, 0, 0, 0, 0.000, 0),
+(3, 430, '15', '-sample- Circuit Honnelles-Belgique', 'sample_honnelles_belgique.gpx', '2', '<p>This tracks by has been provided by Arnaud  from the French Alpin Club:  Club Alpin de Lille <a href=&#34;http://clubalpinlille.fr/&#34;>http://clubalpinlille.fr/</a></p>\r\n<p><em>It its only intended to be used as a sample file for testing and demonstrating J!Track Gallery component.</em></p>', 1, '2013-09-23', 8, 0, '50.364941', '3.775907', 21.29, 256, 256, 1, 0, 1, 0, 0, 0, 0.000, 0),
+(4, 430, '15', '-sample- Circuit Vandegie sur Ecaillon', 'sample_vandegie_sur_ecaillon.gpx', '2', '<p>This tracks by has been provided by Arnaud  from the French Alpin Club:  Club Alpin de Lille <a href=&#34;http://clubalpinlille.fr/&#34;>http://clubalpinlille.fr/</a></p>\r\n<p><em>It its only intended to be used as a sample file for testing and demonstrating J!Track Gallery component.</em></p>', 1, '2013-09-23', 16, 0, '50.262709', '3.511753', 26.79, 829, 799, 2, 0, 1, 0, 0, 0, 0.000, 0),
+(5, 430, '15', '-sample- Via Alpina: Alzarej', 'sample_via_alpina_alzarej.gpx', '2', '', 1, '2013-10-02', 8, 0, '44.205368', '-1.269891', 1720.70, 2408, 1382, 1, 0, 1, 0, 0, NULL, 0.000, 0),
+(13, 430, '18', '-sample- Trek Valroc Secteur 3', 'sample_trek_valroc__3.gpx', '', '<p>This tracks by has been provided by Pascal from the French Alpin Club:  club alpin français de l\'ouest dijonnais <a href=&#34;http://valroc.net&#34;>http://valroc.net</a></p>\r\n<p><em>It its only intended to be used as a sample file for testing and demonstrating J!Track Gallery component.</em></p>', 1, '2013-10-03', 1, 0, '47.510856846', '4.529040931', 34.99, 915, 844, 0, 0, 1, 0, 0, NULL, 0.000, 0),
+(12, 430, '18', '-sample- Trek Valroc Secteur 2', 'sample_trek_valroc__2.gpx', '', '<p>This tracks by has been provided by Pascal from the French Alpin Club:  club alpin français de l\'ouest dijonnais <a href=&#34;http://valroc.net&#34;>http://valroc.net</a></p>\r\n<p><em>It its only intended to be used as a sample file for testing and demonstrating J!Track Gallery component.</em></p>', 1, '2013-10-03', 2, 0, '47.318670190', '4.598339923', 49.88, 1256, 1235, 0, 0, 1, 0, 0, NULL, 0.000, 0),
+(19, 430, '18', '-sample- Trek Valroc Secteur 1', 'sample_trek_valroc_1.gpx', '', '<p>This tracks by has been provided by Pascal from the French Alpin Club:  club alpin français de l\'ouest dijonnais <a href=&#34;http://valroc.net&#34;>http://valroc.net</a></p>\r\n<p><em>It its only intended to be used as a sample file for testing and demonstrating J!Track Gallery component.</em></p>', 1, '2013-10-08', 0, 0, '47.323145801', '5.028378814', 53.79, 2017, 1890, 0, 0, 1, 0, 0, NULL, 0.000, 0),
+(14, 430, '18', '-sample- Trek ValrocSecteur 4', 'sample_trek_valroc__4.gpx', '', '<p>This tracks by has been provided by Pascal from the French Alpin Club:  club alpin français de l\'ouest dijonnais <a href=&#34;http://valroc.net&#34;>http://valroc.net</a></p>\r\n<p><em>It its only intended to be used as a sample file for testing and demonstrating J!Track Gallery component.</em></p>', 1, '2013-10-04', 1, 0, '47.489614505', '4.685898861', 50.14, 1232, 1442, 0, 0, 1, 0, 0, NULL, 0.000, 0),
+(15, 430, '18', '-sample- Via Alpina Dobrci', 'sample_via_alpina_dobrci.gpx', '2', '<p>This tracks by has been provided by Henri from the French Alpin Club:  Club Alpin de Lille <a href=&#34;http://clubalpinlille.fr/&#34;>http://clubalpinlille.fr/</a></p>\r\n<p><em>It its only intended to be used as a sample file for testing and demonstrating J!Track Gallery component.</em></p>', 1, '2013-10-04', 0, 0, '46.417789', '14.212165', 8.07, 589, 779, 0, 0, 1, 0, 0, NULL, 0.000, 0),
+(16, 430, '18', '-sample- Via Alpina Presernova', 'sample_via_alpina_presernova.gpx', '2', '<p>This tracks by has been provided by Henri from the French Alpin Club:  Club Alpin de Lille <a href=&#34;http://clubalpinlille.fr/&#34;>http://clubalpinlille.fr/</a></p>\r\n<p><em>It its only intended to be used as a sample file for testing and demonstrating J!Track Gallery component.</em></p>', 1, '2013-10-04', 0, 0, '46.486000', '14.061904', 13.62, 1079, 475, 0, 0, 1, 0, 0, NULL, 0.000, 0),
+(17, 430, '18', '-sample- Via Alpina Roblekov', 'sample_via_alpina_roblekov.gpx', '2', '<p>This tracks by has been provided by Henri from the French Alpin Club:  Club Alpin de Lille <a href=&#34;http://clubalpinlille.fr/&#34;>http://clubalpinlille.fr/</a></p>\r\n<p><em>It its only intended to be used as a sample file for testing and demonstrating J!Track Gallery component.</em></p>', 1, '2013-10-04', 3, 0, '46.431385', '14.174806', 7.26, 1561, 2068, 0, 0, 1, 0, 0, NULL, 0.000, 0);
