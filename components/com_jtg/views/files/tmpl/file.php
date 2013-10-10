@@ -522,7 +522,7 @@ echo JHTML::_( 'form.token' ) . "\n"; ?> <input type="hidden"
 			} else echo "<a name=\"jtg_param_header_gallery\"></a>";
 
 			if ( $this->cfg->approach != 'no' ) {
-				echo $this->parseTemplate("headline",JText::_('COM_JTG_APPROACH'),"jtg_param_header_approach");
+				echo $this->parseTemplate("headline",JText::_('COM_JTG_APPROACH_SERVICE'),"jtg_param_header_approach");
 				$description = "	<table id=\"approach\">
 		<tr valign=\"top\">";
 

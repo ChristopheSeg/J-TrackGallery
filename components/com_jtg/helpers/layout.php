@@ -75,7 +75,7 @@ class layoutHelper
 				) {
 					$navi .= '<div class="navi-part"><a href="'.
 					JRoute::_("index.php?option=com_jtg&view=files&layout=form&id=".
-					JRequest::getVar('id')).'">'.JText::_('COM_JTG_UPDATE').'</a></div>';
+					JRequest::getVar('id')).'">'.JText::_('COM_JTG_UPDATE_GPS_FILE').'</a></div>';
 					$navi .= '<div class="navi-part"><a href="'.
 					JRoute::_("index.php?option=com_jtg&controller=files&task=delete&id=".
 					JRequest::getVar('id')).'">'.JText::_('COM_JTG_DELETE_FILE').'</a></div>';

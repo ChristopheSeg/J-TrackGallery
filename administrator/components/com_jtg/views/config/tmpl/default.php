@@ -36,7 +36,7 @@ JHTML::_('behavior.tooltip');
 				<td><?php echo $this->lists['gid']; ?></td>
 			</tr>
 			<tr>
-				<td><span class="hasTip" title="<?php echo JText::_('COM_JTG_TT_TITLE'); ?> :: <?php echo JText::_('COM_JTG_TT_ACCESS'); ?>"><?php echo JText::_('COM_JTG_ACCESS'); ?></span></td>
+				<td><span class="hasTip" title="<?php echo JText::_('COM_JTG_TT_TITLE'); ?> :: <?php echo JText::_('COM_JTG_TT_SHOW_ACCESS_LEVEL'); ?>"><?php echo JText::_('COM_JTG_ACCESS_LEVEL'); ?></span></td>
 				<td><?php echo $this->lists['access']; ?></td>
 			</tr>
 		<tr>

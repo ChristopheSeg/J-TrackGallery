@@ -67,7 +67,7 @@ if($this->id >= 1) {
 	</thead>
 	<tbody>
 		<tr>
-			<td><?php echo JText::_('COM_JTG_FILE') . ":"; if($this->id < 1) echo "*";?></td>
+			<td><?php echo JText::_('COM_JTG_GPS_FILE') . ":"; if($this->id < 1) echo "*";?></td>
 			<td><?php if($this->id < 1) { ?><input type="file" name="file"
 				value="" size="30" /><?php } else echo $this->track->file; ?></td>
 			<td rowspan="12" width="1" valign="top"><?php echo $map; ?></td>

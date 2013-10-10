@@ -19,7 +19,7 @@ if(isset($this->id))
 	$description = $this->track->description;
 	$button = "submitbutton('update')";
 	$buttontext = JText::_('COM_JTG_SAVE_TO_FILEVIEW');
-	$title = JText::_('COM_JTG_UPDATE');
+	$title = JText::_('COM_JTG_UPDATE_GPS_FILE');
 } else {
 	$description = "";
 	$button = "submitbutton('save')";
@@ -78,7 +78,7 @@ Joomla.submitbutton = function(pressbutton)
 		if(!isset($this->id)) {
 			?>
 		<tr>
-			<td><?php echo JText::_('COM_JTG_FILE'); ?>* <?php echo JHTML::tooltip(JText::_('COM_JTG_TT_FILES'), JText::_('COM_JTG_TT_HEADER'),'tooltip.png'); ?></td>
+			<td><?php echo JText::_('COM_JTG_GPS_FILE'); ?>* <?php echo JHTML::tooltip(JText::_('COM_JTG_TT_FILES'), JText::_('COM_JTG_TT_HEADER'),'tooltip.png'); ?></td>
 			<td><input type="file" name="file" value="" size="30" /></td>
 		</tr>
 		<?php }

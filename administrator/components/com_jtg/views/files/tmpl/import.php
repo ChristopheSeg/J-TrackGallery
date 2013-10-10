@@ -31,7 +31,7 @@ JToolBarHelper::addNew('newfiles', JText::_('COM_JTG_RELOAD'));
 
 // JToolBarHelper::cancel('jtg');
 JToolBarHelper::save('savefiles', JText::_('COM_JTG_NEW_FILES'), 'save.png' );
-JToolBarHelper::deleteList('VALIDATE_DELETE_ITEMS', 'removeFromImport');
+JToolBarHelper::deleteList('COM_JTG_VALIDATE_DELETE_ITEMS', 'removeFromImport');
 JToolBarHelper::help( 'files/import',true );
 ?>
 <form action="" method="post" name="adminForm" id="adminForm" class="adminForm" enctype="multipart/form-data">
@@ -306,7 +306,7 @@ foreach($files AS $file) {
  echo JText::_('COM_JTG_SELECT');
  echo JText::_('COM_JTG_CAT');
  echo JText::_('COM_JTG_ACCESS_LEVEL');
- echo JText::_('COM_JTG_FILE');
+ echo JText::_('COM_JTG_GPS_FILE');
  echo JText::_('COM_JTG_TERRAIN');
  echo JText::_('COM_JTG_DESCRIPTION');
  echo JText::_('COM_JTG_IMAGES');
@@ -324,7 +324,7 @@ $table_header = ("	<table class=\"adminlist\" cellpadding=\"1\">
 		<thead>
 			<tr>
 				<th class=\"title\" width=\"1\"><input type=\"checkbox\" name=\"toggle\" value=\"\" onclick=\"checkAll(" . $count . ");\" /></th>
-				<th class=\"title\" width=\"1\">".JText::_('COM_JTG_FILE') . "</th>
+				<th class=\"title\" width=\"1\">".JText::_('COM_JTG_GPS_FILE') . "</th>
 				<th class=\"title\" width=\"1\">".JText::_('COM_JTG_DATE') . "</th>
 				<th class=\"title\" width=\"1\">".JText::_('COM_JTG_TITLE') . "</th>
 				<th class=\"title\" width=\"1\">".JText::_('COM_JTG_LEVEL') . "</th>

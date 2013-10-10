@@ -14,7 +14,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 // toolbar
-JToolBarHelper::title(JText::_('COM_JTG_FILES'), 'categories.png');
+JToolBarHelper::title(JText::_('COM_JTG_GPS_FILES'), 'categories.png');
 JToolBarHelper::back($alt= 'COM_JTG_BACK', $href= 'javascript:history.back();');
 // JToolBarHelper::back();
 JToolBarHelper::spacer();
@@ -30,7 +30,7 @@ JToolBarHelper::publish();
 JToolBarHelper::unpublish();
 JToolBarHelper::custom('toshow','toshow',null,$alt='COM_JTG_TOSHOW_SMALL');
 JToolBarHelper::custom('tohide','tohide',null,$alt='COM_JTG_TOHIDE_SMALL');
-JToolBarHelper::deleteList('VALIDATE_DELETE_ITEMS');
+JToolBarHelper::deleteList('COM_JTG_VALIDATE_DELETE_ITEMS');
 JToolBarHelper::help( 'files/default',true );
 
 $ordering = ($this->lists['order'] == 'ordering');
@@ -179,14 +179,14 @@ else
 				onclick="checkAll(<?php
 			echo count($this->rows); ?>);" /></th>
 			<!--			<th class="title"><?php
-			// echo JHTML::_('grid.sort', JText::_('COM_JTG_FILE'),
+			// echo JHTML::_('grid.sort', JText::_('COM_JTG_GPS_FILE'),
 	// 'file', @$this->lists['order_Dir'], @$this->lists['order'], 'files' ); ?>:</th>
 -->
 			<th class="title"><?php
-			echo JHTML::_('grid.sort', JText::_('COM_JTG_TITLE')  . "<small> (" . JText::_('COM_JTG_FILE')  . ")</small> ",
+			echo JHTML::_('grid.sort', JText::_('COM_JTG_TITLE')  . "<small> (" . JText::_('COM_JTG_GPS_FILE')  . ")</small> ",
 	'title', @$this->lists['order_Dir'], @$this->lists['order'], 'files' ); ?>:</th>
 			<th class="title"><?php
-			echo JText::_('COM_JTG_FILETYPE');
+			echo JText::_('COM_JTG_GPS_FILETYPE');
 			?>:</th>
 			<th class="title"><?php
 			echo JHTML::_('grid.sort', JText::_('COM_JTG_CAT'),

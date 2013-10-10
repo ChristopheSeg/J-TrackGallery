@@ -178,9 +178,9 @@ class JtgViewFiles extends JView
 			$this->id = $id;
 			$catid = $track->catid;
 			$catid = explode(",",$catid);
-			$pathway->addItem(JText::_( 'COM_JTG_UPDATE'), '');
+			$pathway->addItem(JText::_( 'COM_JTG_UPDATE_GPS_FILE'), '');
 			$document = JFactory::getDocument();
-			$document->setTitle(JText::_( 'COM_JTG_UPDATE') . " (" . $track->title . ") - " . $sitename);
+			$document->setTitle(JText::_( 'COM_JTG_UPDATE_GPS_FILE') . " (" . $track->title . ") - " . $sitename);
 			$selterrain = explode(',', $track->terrain);
 			$value_published = $track->published;
 			$value_hidden = $track->hidden;
@@ -534,10 +534,10 @@ class JtgViewFiles extends JView
 		$footer = layoutHelper :: footer();
 		$cfg = JtgHelper :: getConfig();
 		$pathway = & $mainframe->getPathway();
-		$pathway->addItem(JText::_( 'COM_JTG_FILES'), '');
+		$pathway->addItem(JText::_( 'COM_JTG_GPS_FILES'), '');
 		$sitename = $mainframe->getCfg('sitename');
 		$document = JFactory::getDocument();
-		$document->setTitle(JText::_( 'COM_JTG_FILES') . " - " . $sitename);
+		$document->setTitle(JText::_( 'COM_JTG_GPS_FILES') . " - " . $sitename);
 		$params = & $mainframe->getParams();
 
 		$order = JRequest :: getVar('order', 'order', 'post', 'string');
@@ -692,7 +692,7 @@ class JtgViewFiles extends JView
 				),
 				array (
 						"img" => $imgdir . "foot.png",
-						"name" => JText::_( 'COM_JTG_PEDESTRIAN'),
+						"name" => JText::_( 'COM_JTG_BY_FOOT'),
 				array (
 				array (
 								"Pedestrian",
@@ -732,7 +732,7 @@ class JtgViewFiles extends JView
 				),
 				array (
 						"img" => $imgdir . "foot.png",
-						"name" => JText::_( 'COM_JTG_PEDESTRIAN'),
+						"name" => JText::_( 'COM_JTG_BY_FOOT'),
 				array (
 				array (
 								"foot",
@@ -772,7 +772,7 @@ class JtgViewFiles extends JView
 				),
 				array (
 						"img" => $imgdir . "foot.png",
-						"name" => JText::_( 'COM_JTG_PEDESTRIAN'),
+						"name" => JText::_( 'COM_JTG_BY_FOOT'),
 				array (
 				array (
 								"foot",

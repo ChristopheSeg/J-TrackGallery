@@ -51,7 +51,7 @@ class JtgHelper
 			$vName == 'config'
 		);
 		JSubMenuHelper::addEntry(
-			JText::_('COM_JTG_FILES'),
+			JText::_('COM_JTG_GPS_FILES'),
 			'index.php?option=com_jtg&task=files&controller=files',
 			$vName == 'config'
 		);		

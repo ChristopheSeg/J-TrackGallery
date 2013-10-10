@@ -176,7 +176,7 @@ class gpsClass
 			$wp .= "popupContentHTMLwp = '<b>".JText::_('COM_JTG_NAME') . ":</b> " . $name.$URL . "<br /><small>";
 			if ($desc) $wp .= "<b>".JText::_('COM_JTG_DESCRIPTION') . ":</b> " . $desc;
 			if ( ($cmt) AND ($desc != $cmt) ) $wp .= "<br /><b>".JText::_('COM_JTG_COMMENT') . ":</b> " . $cmt;
-			if ($ele) $wp .= "<br /><b>".JText::_('COM_JTG_ELE') . " :</b> ca. ".round($ele,1) . "m<small>";
+			if ($ele) $wp .= "<br /><b>".JText::_('COM_JTG_ELEVATION') . " :</b> ca. ".round($ele,1) . "m<small>";
 			$wp .= "';\n";
 			$wp .= $this->parseOwnIcon($sym);
 			$wp .= "addWP(llwp, popupClasswp, popupContentHTMLwp, true, true, icon);\n";
@@ -1172,13 +1172,13 @@ class gpsClass
 						$marker .= ">";
 						break;
 					case 9: // Private
-						$marker .= " title=\\\"".JText::_('COM_JTG_PRIVATE_ONLY') . "\">";
+						$marker .= " title=\\\"".JText::_('COM_JTG_PRIVATE') . "\">";
 						break;
 					case 1: // Registered
-						$marker .= " title=\\\"".JText::_('COM_JTG_REGISTERED_ONLY') . "\">";
+						$marker .= " title=\\\"".JText::_('COM_JTG_REGISTERED') . "\">";
 						break;
 					case 2: // Admin
-						$marker .= " title=\\\"".JText::_('COM_JTG_ADMINISTRATORS_ONLY') . "\">";
+						$marker .= " title=\\\"".JText::_('COM_JTG_ADMINISTRATORS') . "\">";
 						break;
 				}
 				if ($row->title)
@@ -1191,13 +1191,13 @@ class gpsClass
 				}
 				switch ($row->access) {
 					case 1:
-						$marker .= "&nbsp;<img alt=\\\"".JText::_('COM_JTG_REGISTERED_ONLY') . "\" src=\\\"" . $iconpath . "registered_only.png\\\" />";
+						$marker .= "&nbsp;<img alt=\\\"".JText::_('COM_JTG_REGISTERED') . "\" src=\\\"" . $iconpath . "registered_only.png\\\" />";
 						break;
 					case 2:
-						$marker .= "&nbsp;<img alt=\\\"".JText::_('COM_JTG_ADMINISTRATORS_ONLY') . "\" src=\\\"" . $iconpath . "special_only.png\\\" />";
+						$marker .= "&nbsp;<img alt=\\\"".JText::_('COM_JTG_ADMINISTRATORS') . "\" src=\\\"" . $iconpath . "special_only.png\\\" />";
 						break;
 					case 9:
-						$marker .= "&nbsp;<img alt=\\\"".JText::_('COM_JTG_PRIVATE_ONLY') . "\" src=\\\"" . $iconpath . "private_only.png\\\" />";
+						$marker .= "&nbsp;<img alt=\\\"".JText::_('COM_JTG_PRIVATE') . "\" src=\\\"" . $iconpath . "private_only.png\\\" />";
 						break;
 				}
 				$marker .= "</a></b>";
@@ -2189,7 +2189,7 @@ class gpsClass
 			$coords = $this->getCoordsTCX($file,$trackid);
 			return $coords;
 		} else {
-			return JText::_('COM_JTG_FILE_ERROR');
+			return JText::_('COM_JTG_GPS_FILE_ERROR');
 		}
 
 	}
@@ -2210,7 +2210,7 @@ class gpsClass
 			$coords = $this->findTracksTCX($xml);
 			return $coords;
 		} else {
-			return JText::_('COM_JTG_FILE_ERROR');
+			return JText::_('COM_JTG_GPS_FILE_ERROR');
 		}
 
 	}

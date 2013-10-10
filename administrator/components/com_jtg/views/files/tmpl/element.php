@@ -40,10 +40,10 @@ $document->addStyleSheet(JURI::base().'components/com_jtg/template.css');
 			echo JHTML::_('grid.sort',
 			JText::_('COM_JTG_ID'), 'id', @$this->lists['order_Dir'], @$this->lists['order'], 'element' ); ?>:</th>
 		<th class="title"><?php
-	echo JHTML::_('grid.sort', JText::_('COM_JTG_FILE'),
+	echo JHTML::_('grid.sort', JText::_('COM_JTG_GPS_FILE'),
 	'file', @$this->lists['order_Dir'], @$this->lists['order'], 'element' ); ?>:</th>
 		<th class="title"><?php
-	echo JText::_('COM_JTG_FILETYPE');
+	echo JText::_('COM_JTG_GPS_FILETYPE');
 	?>:</th>
 		<th class="title"><?php
 	echo JHTML::_('grid.sort', JText::_('COM_JTG_TITLE'),

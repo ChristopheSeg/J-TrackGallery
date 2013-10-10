@@ -2,12 +2,12 @@
 <metadata>
 	<layout title="COM_JTG_MENU_FILE_LIST">
 		<message>
-			<![CDATA[COM_JTG_FILE_LIST_LAYOUT_DESCRIPTION]]>
+			<![CDATA[COM_JTG_GPS_FILE_LIST_LAYOUT_DESCRIPTION]]>
 		</message>
 	</layout>
 	<state>
 		<name>COM_JTG_MENU_FILE_LIST</name>
-		<description>COM_JTG_FILE_LIST_LAYOUT_DESCRIPTION</description>
+		<description>COM_JTG_GPS_FILE_LIST_LAYOUT_DESCRIPTION</description>
         <url>
 
         </url>

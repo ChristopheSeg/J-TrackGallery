@@ -40,7 +40,7 @@ class JtgControllerFiles extends JtgController
 			$this->setRedirect( JRoute::_('index.php', false), false );
 
 		} else {
-			echo "<script> alert('".JText::_('COM_JTG_FILE_ERROR') . "'); window.history.go(-1); </script>\n";
+			echo "<script> alert('".JText::_('COM_JTG_GPS_FILE_ERROR') . "'); window.history.go(-1); </script>\n";
 			exit;
 		}
 	}
