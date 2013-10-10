@@ -44,7 +44,7 @@ JHTML::_('behavior.tooltip');
 			<td><?php echo $this->lists['comments']; ?></td>
 		</tr>
 			<tr>
-				<td><span class="hasTip" title="<?php echo JText::_('COM_JTG_TT_TITLE'); ?> :: <?php echo JText::_('COM_JTG_TT_TERMS_USE'); ?>"><?php echo JText::_('COM_JTG_TERMS_USE'); ?></span></td>
+				<td><span class="hasTip" title="<?php echo JText::_('COM_JTG_TT_TITLE'); ?> :: <?php echo JText::_('COM_JTG_TT_TERMS_IN_USE'); ?>"><?php echo JText::_('COM_JTG_TERMS_IN_USE'); ?></span></td>
 				<td>
 					<select name="terms" size="1">
 							<option value="1" <?php if($this->config->terms == "1") echo "selected=selected"; ?> ><?php echo JText::_('JYES'); ?></option>

@@ -552,7 +552,7 @@ echo JHTML::_( 'form.token' ) . "\n"; ?> <input type="hidden"
 			if($this->cfg->comments == 1) {
 				echo $this->parseTemplate("headline",JText::_('COM_JTG_COMMENTS'),"jtg_param_header_comment");
 				if(!$this->comments)  {
-					echo "<div>".JText::_('COM_JTG_NO_COMMENTS') . "</div>";
+					echo "<div>".JText::_('COM_JTG_NO_COMMENTS_DESC') . "</div>";
 				} else {
 					for($i=0, $n=count($this->comments); $i<$n; $i++) {
 						$comment = $this->comments[$i];

@@ -674,7 +674,7 @@ class JtgViewFiles extends JView
 				array (
 				array (
 								"BicycleSafety",
-				JText::_( 'COM_JTG_SAVETEST')
+				JText::_( 'COM_JTG_SAFEST')
 				),
 				array (
 								"Bicycle",

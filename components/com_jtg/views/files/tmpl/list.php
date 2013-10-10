@@ -35,7 +35,7 @@ echo $this->lh;
 			name="search" id="searchfield"
 			value="<?php echo html_entity_decode($this->lists['search']);?>"
 			class="text_area" onchange="document.adminForm.submit();" />
-		<button class="button" onclick="this.form.submit();"><?php echo JText::_( 'COM_JTG_GO' ); ?></button>
+		<button class="button" onclick="this.form.submit();"><?php echo JText::_( 'COM_JTG_APPLY' ); ?></button>
 		<button class="button"
 			onclick="document.getElementById('searchfield').value='';this.form.getElementById('filter_state').value='';this.form.submit();"><?php echo JText::_( 'COM_JTG_RESET' ); ?></button>
 			<?php echo JText::_('Display Num') .'&nbsp;' . $this->pagination->getLimitBox(); ?>

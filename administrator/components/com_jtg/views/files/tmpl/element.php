@@ -25,7 +25,7 @@ $document->addStyleSheet(JURI::base().'components/com_jtg/template.css');
 		<td align="left" width="100%">
 			<?php echo JText::_( 'COM_JTG_FILTER' ); ?>:
 			<input type="text" name="search" id="search" value="<?php echo $this->lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
-			<button onclick="this.form.submit();"><?php echo JText::_( 'COM_JTG_GO' ); ?></button>
+			<button onclick="this.form.submit();"><?php echo JText::_( 'COM_JTG_APPLY' ); ?></button>
 			<button onclick="document.getElementById('search').value='';this.form.getElementById('filter_state').value='';this.form.submit();"><?php echo JText::_( 'COM_JTG_RESET' ); ?></button>
 		</td>
 		<td nowrap="nowrap">

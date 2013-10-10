@@ -58,8 +58,8 @@ class JtgViewConfig extends JView
 		);
 		// comments order aray for lists
 		$order =array(
-		array('order' => 'DESC', 'text' => JText::_('COM_JTG_NEWEST')),
-		array('order' => 'ASC', 'text' => JText::_('COM_JTG_OLDEST'))
+		array('order' => 'DESC', 'text' => JText::_('COM_JTG_FIRST_NEWEST')),
+		array('order' => 'ASC', 'text' => JText::_('COM_JTG_FIRST_OLDEST'))
 		);
 		$comments = array(
 		array('id' => 0, 'text' => JText::_('COM_JTG_NO_COMMENTS')),
