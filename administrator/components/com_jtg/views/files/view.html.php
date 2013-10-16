@@ -252,7 +252,6 @@ class JtgViewFiles extends JView
 	}
 
 	function giveParentCat($catid) {
-		// echo "modifie C SEGUINOT";
 		$catid = (int)$catid;
 		if ($catid == 0)
 		return null;
@@ -290,7 +289,9 @@ class JtgViewFiles extends JView
 			$newcat[$cat->id] = $cat;
 //			if(isset($cat->id))
 //			$id = (int)$cat->id;
-//			if(isset($cat->title))
+			if(isset($cat->title)) {
+			    $newcat[$cat->id]->title = "TODO".JText::_($cat->title);
+			}
 //			$title[$id] = $cat->title;
 //			if ((isset($cat->id))AND( $catid == $id )){
 //				$parentid = (int)$cat->parent_id;
@@ -298,7 +299,6 @@ class JtgViewFiles extends JView
 //			}
 //			$i++;
 		}
-
 		if ( !isset($newcat[$catid]) )
 		{ // missing Category
 			$missingcat[$catid] = $catid;
@@ -315,7 +315,7 @@ class JtgViewFiles extends JView
 		while (true) {
 			$cat = $newcat[$catid];
 			$catid = $cat->parent_id;
-			array_unshift($return,$cat->treename);
+			array_unshift($return,JText::_($cat->treename) );
 			if ( ( $cat->parent_id == 0 ) OR ( $j <= 0 ) )
 			break;
 			$j--;
@@ -323,7 +323,7 @@ class JtgViewFiles extends JView
 		$return = implode($separator,$return);
 		return array("tree" => $return,"missing" => $missingcat);
 		if((isset($parentid) AND ($parentid != 0) AND isset($title[$parentid])))
-		return ($title[$parentid]);
+		return (JText::_($title[$parentid]));
 		return null;
 	}
 

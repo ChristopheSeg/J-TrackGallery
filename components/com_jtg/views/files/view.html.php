@@ -145,7 +145,7 @@ class JtgViewFiles extends JView
 		// TODO check this if ($user->get('gid') < $cfg->gid) {
 		if (! JtgHelper :: userHasFrontendRights() ) {
 		    JResponse :: setHeader('HTTP/1.0 403', true);
-			JError :: raiseWarning(403, JText :: _('ALERTNOTAUTH'));
+			JError :: raiseWarning(403, JText :: _('COM_JTG_ALERT_NOT_AUTHORISED'));
 			return;
 		}
 
