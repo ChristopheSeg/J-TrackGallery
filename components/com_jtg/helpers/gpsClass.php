@@ -29,6 +29,7 @@ class gpsClass
 		$iconpath = JURI::root() . "components/com_jtg/assets/template/" . $cfg->template . "/images/";
 		$catimage = false;
 		$cats = $this->getCats();
+		// TODO find a most efficient way to do this!!
 		foreach ( $cats AS $cat ) {
 			if ( $cat->id == $catid ) {
 				if ( $cat->image ) {
@@ -232,7 +233,6 @@ class gpsClass
 		$bbox_lat_min = 90;
 		$bbox_lon_max = -180;
 		$bbox_lon_min = 180;
-
 		if($xml->wpt) {
 			$i = 0;
 			$wp = array();
@@ -1787,13 +1787,25 @@ class gpsClass
 	 */
 	private function parseScriptOLHead() {
 
+		$mainframe =& JFactory::getApplication();
+		$template = $mainframe->getTemplate();
+		$imgpath = '/templates/' . $template . '/css/ol_images';
+
+		if ( ! JFolder::exists(JPATH_SITE . $imgpath))
+		{
+		    $imgpath = '/components/com_jtg/assets/template/default/ol_images/';
+		}
+
 		$map = "\n<!-- parseScriptOLHead BEGIN -->\n";
 		$map .= "<script type=\"text/javascript\">\n";
 		$map .= "	OpenLayers.Popup.FramedCloud.prototype.autoSize = false;\n";
 		$map .= "	var AutoSizeFramedCloud = OpenLayers.Class(OpenLayers.Popup.FramedCloud, {\n	'autoSize': true\n	});\n";
 		$map .= "	var AutoSizeAnchored = OpenLayers.Class(OpenLayers.Popup.Anchored, {\n	'autoSize': true\n		});\n";
 		$map .= "	function slippymap_init() {\n";
-		$map .= "		olmap = new OpenLayers.Map ( {theme: null, div: \"jtg_map\",\n";	
+		$map .= "		   // control images folder : remember the trailing slash\n"; 
+		//TODO ACCOUNT FOR TEMPLATES
+		$map .= "		   OpenLayers.ImgPath = \"/components/com_jtg/assets/template/default/ol_images/\" \n";
+		$map .= "		   olmap = new OpenLayers.Map ( {theme: null, div: \"jtg_map\",\n";	
 		$map .= "// <!-- parseScriptOLHead END -->\n";
 
 		return $map;

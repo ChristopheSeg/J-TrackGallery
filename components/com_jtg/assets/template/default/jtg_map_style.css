@@ -6,7 +6,7 @@
 */
 
 .olControlLayerSwitcher {
-	opacity : 0.9!important;
+	opacity : 0.8!important;
 	margin: 5px;
 	top: 25px;
 	padding: 5px;
@@ -14,10 +14,10 @@
 	font-family: sans-serif;
 	font-weight: bold;
 	font-size: smaller;
-	/* color: #4D553D;
+	color: #4D553D;
 	background-color: #D1D6BE;*/
 	border-radius: 4px;
-	box-shadow: 0 3px 3px #888;
+	box-shadow: 0 3px 3px #111;
 }
 .olControlLayerSwitcher .layersDiv {
 	background-color: transparent!important;
@@ -87,14 +87,14 @@
 	float : left!important;
 	margin : 2px!important;
 	cursor: pointer;
-	background-image:url("images/view_fullscreen.png")!important;	
+	background-image:url("ol_images/view_fullscreen.png")!important;	
 }
 .buttonFullScreenItemActive
 {
 	float : left!important;
 	margin : 2px!important;
 	cursor: pointer;
-	background-image:url("images/leave_fullscreen.png")!important;	
+	background-image:url("ol_images/leave_fullscreen.png")!important;	
 }
 #jtg_map.olMap { /* this is for normal size map */
 	z-index: 0;

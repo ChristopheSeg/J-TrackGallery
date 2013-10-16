@@ -1048,7 +1048,7 @@ class JtgModelFiles extends JModel
 		}
 		$id = $result->id;
 		//		images upload part
-		$imgpath = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . $id.DS;
+		$imgpath = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . $id . DS;
 		$images =& JRequest::getVar('images', null, 'files', 'array');
 		if(count($images['name']) > 1)
 		{

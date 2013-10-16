@@ -114,7 +114,7 @@ if ($maySeeSingleFile === true) {
 	     $(function () {
 		    $('#elevation').highcharts({
 			chart: {
-			    type: 'area',
+			    type: 'line',
 			    zoomType: 'xy'
 			},
 		     credits: {

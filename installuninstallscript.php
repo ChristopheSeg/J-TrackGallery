@@ -219,15 +219,22 @@ class com_jtgInstallerScript
 		$db->setQuery($query);
 		$componentJtgIsInstalled = $db->loadResult();		
 		
-		if (( $type == 'install' ) and ($componentJtgIsInstalled !== null) ) 
+		if (( $type == 'install' ) and (! $componentJtgIsInstalled) ) 
 		{
-		    // this a NON successfull install: truncate all com_jtg tables
+		    // this a NON successfull install: 
+		    // TODO truncate all com_jtg tables
 		    $application->enqueueMessage( 'SHOULD TRUNCATE ALL TABLES' ) ;
 		}
 
 		if (( $type == 'install' ) and ($componentJtgIsInstalled !== null) )  
 		{
-		    // this is a successful install (not an upgrade): save default params
+		    // this is a successful install (not an upgrade): 
+		    // affect sample tracks to this admin user
+		    $user =& JFactory::getUser();
+		    $query = 'UPDATE #__jtg_files` SET uid ='. $user->get('id') . ' WHERE uid =430';
+		    $db->setQuery($query);
+		    $db->query();
+		    // save default params
 		    $query = 'UPDATE #__extensions SET params = '. 
 		    $query.= ' {"jtg_param_newest":"10","jtg_param_mostklicks":"10",
 			"jtg_param_best":"0","jtg_param_rand":"0",
