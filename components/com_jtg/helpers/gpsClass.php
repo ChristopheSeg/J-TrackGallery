@@ -34,12 +34,15 @@ class gpsClass
 			if ( $cat->id == $catid ) {
 				if ( $cat->image ) {
 					$catimage = $cat->image;
-					break;
+					break;					
 				}
 			}
 		}
 		$marker = "";
-
+		if (! $catimage ) 
+		    {
+			$catimage = 'symbol_inter.png';
+		}
 		if ( $catimage !== false ) {
 			$catimage = "images" . DS . "jtrackgallery" . DS . "cats" . DS . $catimage;
 			if ( is_file($catimage) ) {
@@ -1928,33 +1931,6 @@ class gpsClass
 	 */
 	private function parseOLMap() {
 		$string = "// <!-- parseOLMap BEGIN -->\n";
-		/*
-		 $cfg =& JtgHelper::getConfig();
-		 switch($cfg->map_type) {
-		 case "0":
-		 $type = "G_NORMAL_MAP";
-		 break;
-
-		 case "1":
-		 $type = "G_SATELLITE_MAP";
-		 break;
-
-		 case "2":
-		 $type = "G_HYBRID_MAP";
-		 break;
-
-		 case "3":
-		 $type = "G_PHYSICAL_MAP";
-		 break;
-
-		 default:
-		 $type = "G_NORMAL_MAP";
-		 break;
-		 }
-		 */
-		// $string .= "olmap = new GMap2(document.getElementById('map'));\n";
-		// $string .= "olmap.addMapType(G_PHYSICAL_MAP);\n";
-		// $string .= "olmap.setMapType(" . $type . ");\n";
 
 		$string .= "// <!-- parseOLMap END -->\n";
 		return $string;

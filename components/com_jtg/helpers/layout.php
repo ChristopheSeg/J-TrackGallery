@@ -101,7 +101,7 @@ class layoutHelper
 		return $disclaimericons;
 	}
 
-	function parseMap($document,$map)
+	function parseMap($document)
 	{
 		// $document->addScript('components' . DS . 'com_jtg' . DS . 'assets' . DS . 'js' . DS . 'OpenLayers' . DS . 'OpenLayers.js'); // Benötigt für Spuransich in Übersicht
 		$document->addScript('http://www.openlayers.org/api/OpenLayers.js');

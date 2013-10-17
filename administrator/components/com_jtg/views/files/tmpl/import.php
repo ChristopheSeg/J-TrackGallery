@@ -30,7 +30,7 @@ JToolBarHelper::addNew('newfiles', JText::_('COM_JTG_RELOAD'));
 // 		$bar->appendButton( 'Popup', 'upload', $alt, "index.php?option=com_media&tmpl=component&task=popupUpload&folder=" . $directory, 800, 520 );
 
 // JToolBarHelper::cancel('jtg');
-JToolBarHelper::save('savefiles', JText::_('COM_JTG_NEW_FILES'), 'save.png' );
+JToolBarHelper::save('savefiles', JText::_('COM_JTG_SAVE_NEW_FILE'), 'save.png' );
 JToolBarHelper::deleteList('COM_JTG_VALIDATE_DELETE_ITEMS', 'removeFromImport');
 JToolBarHelper::help( 'files/import',true );
 ?>

@@ -13,10 +13,6 @@
 
 defined('_JEXEC') or die('Restricted access');
 echo $this->lh;
-// Karten-Auswahl BEGIN
-//if($this->map == "disabled") {
-//	echo JText::_('COM_JTG_NOSERVICE');
-//}
 echo $this->gps->writeOLMap($this->where,$this->tracks,$this->params);
 ?>
 

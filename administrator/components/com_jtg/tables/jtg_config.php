@@ -30,7 +30,6 @@ class TableJTG_config extends JTable
 	var $sort			= NULL;
 	var $map_height		= NULL;
 	var $map_width		= NULL;
-	var $map_type		= NULL;
 	var $charts_width	= NULL;
 	var $charts_height	= NULL;
 	var $charts_linec	= NULL;
@@ -43,7 +42,6 @@ class TableJTG_config extends JTable
 	var $ordering		= NULL;
 	var $comments		= NULL;
 	var $access			= NULL;
-	var $map			= NULL;
 	var $approach		= NULL;
 	var $routingiconset	= NULL;
 	var $usevote		= NULL;

@@ -329,7 +329,7 @@ class JtgViewFiles extends JView
 		$document->addScript('components' . DS . 'com_jtg' . DS . 'assets' . DS . 'js' . DS . 'fullscreen.js');
 		//		JHTML::script('OpenLayers.js', 'components' . DS . 'com_jtg' . DS . 'assets' . DS . 'js' . DS . 'OpenLayers'., false); // IE-Fehler
 		$document->addScript('http://www.openstreetmap.org/openlayers/OpenStreetMap.js');
-		$document->addScript('http://www.openlayers.org/api/Ajax.js');
+		// $document->addScript('http://www.openlayers.org/api/Ajax.js');
 		// 		$document->addScript('components/com_jtg/assets/js/GPX.js');
 		//		$document->addScript('components' . DS . 'com_jtg' . DS . 'assets' . DS . 'js' . DS . 'jtg.js');
 		// 		$document->addScript('');
@@ -803,7 +803,7 @@ class JtgViewFiles extends JView
 	}
 
 	function parseTemplate($template, $content = null, $linkname = null, $only = null) {
-		$tmpl = ($this->cfg->template = "") ? $this->cfg->template : 'default';;
+		$tmpl = ($this->cfg->template = "") ? $this->cfg->template : 'default';
 		$templatepath = JPATH_BASE . DS . "components" . DS . "com_jtg" . DS . "assets" . DS . "template" . DS . $tmpl . DS;
 		if ((!$content)AND($content != "")) {
 			include_once ($templatepath . $template . "_" . $only . ".php");

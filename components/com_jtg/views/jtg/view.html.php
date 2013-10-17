@@ -27,12 +27,26 @@ class JtgViewjtg extends JView
 		$cfg = JtgHelper::getConfig();
 		$gps = new gpsClass();
 		$document =& JFactory::getDocument();
+		
+		// load Openlayers stylesheet first (for overridding)
+		$document->addStyleSheet('http://openlayers.org/dev/theme/default/style.css');
+		// then load jtg_map stylesheet
+		$tmpl = ($cfg->template = "") ? $cfg->template : 'default';
+		$document->addStyleSheet(JURI::base().'components/com_jtg/assets/template/'.$tmpl.'/jtg_map_style.css');
+		// then override style with user templates
+		$template = $mainframe->getTemplate();
+		$template_jtg_map_style='templates/' . $template . '/css/jtg_map_style.css';
+		if ( JFile::exists($template_jtg_map_style) )
+		{
+		    $document->addStyleSheet( 'templates/' . $template . '/css/jtg_map_style.css' );
+		}
+
 		$sitename = $document->getTitle() . " - " . $mainframe->getCfg('sitename');
 		// $mainframe->setPagetitle($sitename);
 		$mapsxml = JPATH_COMPONENT_ADMINISTRATOR . DS . 'views' . DS . 'maps' . DS . 'maps.xml';
 		$this->params_maps = new JRegistry( 'com_jtg', $mapsxml );
 		$params = &JComponentHelper::getParams( 'com_jtg' );
-		layoutHelper::parseMap($document,$cfg->map);
+		layoutHelper::parseMap($document);
 		$tracks = (bool)$params->get('jtg_param_tracks');	// show Tracks in Overview-Map?
 
 		$model = $this->getModel();
@@ -89,7 +103,6 @@ class JtgViewjtg extends JView
 				$where = " WHERE " . $mayisee . " AND " . $published;
 				break;
 		}
-		$this->map = $cfg->map;	// Zusatz für Kartenauswahl
 		$this->lh = $lh;
 		$this->boxlinktext = $boxlinktext;
 		$this->footer = $footer;

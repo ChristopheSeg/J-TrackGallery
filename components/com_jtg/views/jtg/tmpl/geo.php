@@ -15,7 +15,8 @@ defined('_JEXEC') or die('Restricted access');
 $document =& JFactory::getDocument();
 $user = JFactory::getUser();
 $userid = (int)$user->id;
-$iconpath = JURI::root() . "components/com_jtg/assets/template/" . $this->cfg->template . "/images/";
+$tmpl = ($this->cfg->template = "") ? $this->cfg->template : 'default';
+$iconpath = JURI::root() . "components/com_jtg/assets/template/" . $tmpl . "/images/";
 if ( $userid ) {
 	$document->addScriptDeclaration ("var alerttext = '".JText::_('COM_JTG_SET_HOMEPOSITION') . "';");
 } else {

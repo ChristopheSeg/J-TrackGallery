@@ -606,7 +606,7 @@ echo JHTML::_( 'form.token' ) . "\n"; ?> <input type="hidden"
 		echo '<p class="error">'.JText::_('COM_JTG_NOT_AUTH').'</p>';
 	} else echo '<p class="error">'.$maySeeSingleFile.'</p>';
 	echo $this->footer;
-	if ( isset($this->cfg) AND ( $this->cfg->map == "osm" ) )
+	if ( isset($this->cfg) )
 	{
 	    echo ("<script language=\"javascript\" type=\"text/javascript\">\n
 		var olmap={ title: 'com_jtg_map_object' } \n 

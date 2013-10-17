@@ -46,7 +46,7 @@ if($this->id >= 1) {
 	$document->addScript('http://www.openlayers.org/api/OpenLayers.js');
 	$document->addScript('../components' . DS . 'com_jtg' . DS . 'assets' . DS . 'js' . DS . 'fullscreen.js');
 	$document->addScript('http://www.openstreetmap.org/openlayers/OpenStreetMap.js');
-	$document->addScript('http://www.openlayers.org/api/Ajax.js');
+	// $document->addScript('http://www.openlayers.org/api/Ajax.js');
 	$document->addScript("../components/com_jtg/assets/js/jtg.js");
 	$document->addScript("../components/com_jtg/assets/js/jd.gallery.js");
 	$map .= $gps->writeSingleTrackOL($this->track->file);
