@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<gpx xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd'>
+  <metadata>
+      <name>North York Moors - Hutton-le-Hole</name>
+      <copyright author='RSInfotech' />
+      <link href='http://www.rsinfotech.co.uk/index.php?option=com_injooosm&amp;view=track&amp;layout=track&amp;id=112'>
+          <text>North York Moors - Hutton-le-Hole on RSInfotech</text>
+      </link>
+  </metadata>
+  <trk>
+      <name>North York Moors - Hutton-le-Hole</name>
+      <link href='http://www.rsinfotech.co.uk/index.php?option=com_injooosm&amp;view=track&amp;layout=track&amp;id=112' />
+          <trkseg>
+              <trkpt lat='54.30400945' lon='-0.917664888'>
+                  <ele>125.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='54.29859609' lon='-0.916347044'>
+                  <ele>97.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='54.29671966' lon='-0.915566577'>
+                  <ele>100.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='54.29413491' lon='-0.906016358'>
+                  <ele>148.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='54.28842676' lon='-0.900959786'>
+                  <ele>125.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='54.28599107' lon='-0.89603216'>
+                  <ele>127.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='54.28797623' lon='-0.890033931'>
+                  <ele>138.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='54.28809855' lon='-0.875098576'>
+                  <ele>142.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='54.28413368' lon='-0.873993084'>
+                  <ele>133.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='54.28555857' lon='-0.865874196'>
+                  <ele>116.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='54.28192596' lon='-0.855237354'>
+                  <ele>56.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='54.28698279' lon='-0.854897459'>
+                  <ele>74.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='54.29016633' lon='-0.857943221'>
+                  <ele>97.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='54.29750865' lon='-0.858831038'>
+                  <ele>75.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='54.29636777' lon='-0.86556186'>
+                  <ele>102.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='54.30149397' lon='-0.871660044'>
+                  <ele>106.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='54.30332653' lon='-0.879278513'>
+                  <ele>103.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='54.30423961' lon='-0.880821273'>
+                  <ele>109.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='54.30861904' lon='-0.881086725'>
+                  <ele>140.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='54.31076889' lon='-0.872589927'>
+                  <ele>148.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='54.31596531' lon='-0.864131318'>
+                  <ele>159.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='54.32496856' lon='-0.861023427'>
+                  <ele>195.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='54.33025694' lon='-0.864275938'>
+                  <ele>224.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='54.33249226' lon='-0.867828425'>
+                  <ele>237.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='54.33301611' lon='-0.870982132'>
+                  <ele>250.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='54.33172915' lon='-0.8746467'>
+                  <ele>266.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='54.33105081' lon='-0.879017268'>
+                  <ele>268.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='54.33545181' lon='-0.887448902'>
+                  <ele>290.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='54.34170552' lon='-0.893140824'>
+                  <ele>312.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='54.33348995' lon='-0.902881012'>
+                  <ele>257.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='54.3291037' lon='-0.914776851'>
+                  <ele>250.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='54.32851172' lon='-0.917914015'>
+                  <ele>253.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='54.3153567' lon='-0.916214382'>
+                  <ele>187.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='54.30538474' lon='-0.918689261'>
+                  <ele>133.0</ele>
+                  <time>0</time>
+              </trkpt>
+              <trkpt lat='54.30404291' lon='-0.917387384'>
+                  <ele>125.0</ele>
+                  <time>0</time>
+              </trkpt>
+          </trkseg>
+      </trk>
+</gpx>

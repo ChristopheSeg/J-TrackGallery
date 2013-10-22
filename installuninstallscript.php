@@ -211,19 +211,22 @@ class com_jtgInstallerScript
 		$application = JFactory::getApplication();
 		$query = 'INSERT INTO #__jtg_temp (method, version) VALUES ("UPDATE function","'.
 			$oldRelease.'==>'.$this->release.'") ';
+		$application->enqueueMessage( $query) ; //TODOTEMP
 		$db->setQuery($query);
 		// TODOTEMP TEST add a record in  #__jtg_users
 
 		// check if com_jtg is installed, 
 		$query = 'SELECT COUNT(*) FROM #__extensions WHERE name = "com_jtg"';
+		$application->enqueueMessage( $query) ; //TODOTEMP
 		$db->setQuery($query);
 		$componentJtgIsInstalled = $db->loadResult();		
-		
+		$application->enqueueMessage('$componentJtgIsInstalled='. ($componentJtgIsInstalled? 'YES':'NO')) ; //TODOTEMP
 		if (( $type == 'install' ) and (! $componentJtgIsInstalled) ) 
 		{
 		    // this a NON successfull install: 
 		    // TODO truncate all com_jtg tables
 		    $application->enqueueMessage( 'SHOULD TRUNCATE ALL TABLES' ) ;
+		    // DROP TABLE `dhwlt_jtg_cats`, `dhwlt_jtg_comments`, `dhwlt_jtg_config`, `dhwlt_jtg_files`, `dhwlt_jtg_maps`, `dhwlt_jtg_temp`, `dhwlt_jtg_terrains`, `dhwlt_jtg_users`, `dhwlt_jtg_votes`;
 		}
 
 		if (( $type == 'install' ) and ($componentJtgIsInstalled !== null) )  
@@ -232,6 +235,7 @@ class com_jtgInstallerScript
 		    // affect sample tracks to this admin user
 		    $user =& JFactory::getUser();
 		    $query = 'UPDATE #__jtg_files` SET uid ='. $user->get('id') . ' WHERE uid =430';
+		    $application->enqueueMessage( $query) ; //TODOTEMP
 		    $db->setQuery($query);
 		    $db->query();
 		    // save default params
@@ -263,7 +267,7 @@ class com_jtgInstallerScript
 			"jtg_param_level_to":"5",
 			"jtg_param_vote_from":"0",
 			"jtg_param_vote_to":"10"}';
-		    $query.= ' WHERE name = "com_jtg"'; 
+		    $query.= ' WHERE name = "com_jtg" AND type = "Component"'; 
 		    $db->setQuery($query);
 		    $db->query();
 		 }
