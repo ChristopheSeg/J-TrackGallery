@@ -19,7 +19,7 @@ $title = JText::_('COM_JTG_ADD_FILE');
 else
 $title = JText::_('COM_JTG_EDIT_FILE');
 JToolBarHelper::title($title, 'categories.png');
-JToolBarHelper::back($alt= 'COM_JTG_BACK', $href= 'javascript:history.back();');
+JToolBarHelper::back();
 JToolBarHelper::spacer();
 if($this->id < 1):
 JToolBarHelper::save('savefile',$alt= 'COM_JTG_SAVE', 'save.png' );

@@ -15,9 +15,9 @@ defined('_JEXEC') or die('Restricted access');
 
 // toolbar
 JToolBarHelper::title(JText::_('COM_JTG_TERRAIN'), 'categories.png');
-JToolBarHelper::back($alt= 'COM_JTG_BACK', $href= 'javascript:history.back();');
+JToolBarHelper::back();
 JToolBarHelper::spacer();
-JToolBarHelper::addNew('newterrain', $alt='COM_JTG_NEW_TERRAIN', 'new.png' );
+JToolBarHelper::addNew('newterrain', 'COM_JTG_NEW_TERRAIN');
 JToolBarHelper::editList('editterrain');
 JToolBarHelper::publish();
 JToolBarHelper::unpublish();

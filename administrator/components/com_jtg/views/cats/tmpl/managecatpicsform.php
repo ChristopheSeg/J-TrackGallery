@@ -15,7 +15,7 @@ defined('_JEXEC') or die('Restricted access');
 
 // toolbar
 JToolBarHelper::title(JText::_('COM_JTG_UPLOAD_CATIMAGE'), 'categories.png');
-JToolBarHelper::back($alt= 'COM_JTG_BACK', $href= 'javascript:history.back();');
+JToolBarHelper::back();
 JToolBarHelper::spacer();
 JToolBarHelper::help( 'cats/managecatpicsform',true );
 JHTML::script('jquery.js', 'components/com_jtg/assets/js/', false);

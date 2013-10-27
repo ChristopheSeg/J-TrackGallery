@@ -13,7 +13,7 @@
  
 defined('_JEXEC') or die('Restricted access');
 JToolBarHelper::title(JText::_('COM_JTG_ADD_FILES'), 'categories.png');
-JToolBarHelper::back($alt= 'COM_JTG_BACK', $href= 'javascript:history.back();');
+JToolBarHelper::back();
 $model = $this->getModel();
 $rows = $model->_fetchJPTfiles();
 if($rows == false) {

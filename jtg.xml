@@ -47,9 +47,11 @@
 		<language tag="de-DE">de-DE/de-DE.com_jtg.ini</language>
 		<language tag="de-DE">de-DE/de-DE.com_jtg_additional.ini</language>
 		<language tag="de-DE">de-DE/de-DE.com_jtg_common.ini</language>
+		
 		<language tag="en-GB">en-GB/en-GB.com_jtg.ini</language>
 		<language tag="en-GB">en-GB/en-GB.com_jtg_additional.ini</language>
 		<language tag="en-GB">en-GB/en-GB.com_jtg_common.ini</language>
+		
 		<language tag="fr-FR">fr-FR/fr-FR.com_jtg.ini</language>
 		<language tag="fr-FR">fr-FR/fr-FR.com_jtg_additional.ini</language>
 		<language tag="fr-FR">fr-FR/fr-FR.com_jtg_common.ini</language>
@@ -85,9 +87,11 @@
 		<languages folder="administrator/language">
 			<language tag="de-DE">de-DE/de-DE.com_jtg.ini</language>
 			<language tag="de-DE">de-DE/de-DE.com_jtg.sys.ini</language>
+			
 			<language tag="en-GB">en-GB/en-GB.com_jtg.ini</language>
 			<language tag="en-GB">en-GB/en-GB.com_jtg.sys.ini</language>
-			<language tag="fr-FR">fr-FR/fr-FR.com_jtg.sys.ini</language>
+			
+			<language tag="fr-FR">fr-FR/fr-FR.com_jtg.ini</language>
 			<language tag="fr-FR">fr-FR/fr-FR.com_jtg.sys.ini</language>
 		</languages>
 	</administration>

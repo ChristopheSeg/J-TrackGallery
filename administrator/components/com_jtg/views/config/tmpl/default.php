@@ -14,7 +14,7 @@ defined('_JEXEC') or die('Restricted access');
 
 // toolbar
 JToolBarHelper::title(JText::_('COM_JTG_CONFIG'), 'generic.png');
-JToolBarHelper::back($alt= 'COM_JTG_BACK', $href= 'javascript:history.back();');
+JToolBarHelper::back();
 JToolBarHelper::save('saveconfig',$alt= 'COM_JTG_SAVE', 'save.png' );
 JToolBarHelper::preferences( 'com_jtg', 600, 800, $alt='COM_JTG_MENU_DEFAULT_SETTINGS');
 JToolBarHelper::help( 'config/default',true );

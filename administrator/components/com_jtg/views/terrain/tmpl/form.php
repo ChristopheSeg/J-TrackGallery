@@ -33,7 +33,7 @@ else
 	$terrain = $this->terrain;
 }
 JToolBarHelper::title($title, 'categories.png');
-JToolBarHelper::back($alt= 'COM_JTG_BACK', $href= 'javascript:history.back();');
+JToolBarHelper::back();
 JToolBarHelper::spacer();
 JToolBarHelper::save($save["func"], $save["name"], 'save.png' );
 JToolBarHelper::help( 'terrain/form',true );

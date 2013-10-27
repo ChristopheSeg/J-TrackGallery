@@ -15,7 +15,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 JToolBarHelper::title(JText::_('COM_JTG_ADD_CAT'), 'categories.png');
-JToolBarHelper::back($alt= 'COM_JTG_BACK', $href= 'javascript:history.back();');
+JToolBarHelper::back();
 JToolBarHelper::spacer();
 JToolBarHelper::save('savecat', $alt='COM_JTG_SAVE', 'save.png' );
 JToolBarHelper::help( 'cats/form',true );

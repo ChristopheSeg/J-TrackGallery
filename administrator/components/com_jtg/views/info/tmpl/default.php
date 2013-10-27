@@ -15,7 +15,7 @@ defined('_JEXEC') or die('Restricted access');
 
 // toolbar
 JToolBarHelper::title(JText::_('COM_JTG_INFO'), 'generic.png');
-JToolBarHelper::back($alt= 'COM_JTG_BACK', $href= 'javascript:history.back();');
+JToolBarHelper::back();
 
 $link = ".." . DS . "components" . DS . "com_jtg" . DS . "assets" . DS . "images" . DS . "logo_JTG.png";
 

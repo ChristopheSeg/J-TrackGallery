@@ -14,8 +14,8 @@ defined('_JEXEC') or die('Restricted access');
 
 // toolbar
 JToolBarHelper::title(JText::_('COM_JTG_MAPS'), 'generic.png');
-JToolBarHelper::back($alt= 'COM_JTG_BACK', $href= 'javascript:history.back();');
-JToolBarHelper::addNew('newmap', $alt= 'COM_JTG_NEW_MAP', 'new.png' );
+JToolBarHelper::back();
+JToolBarHelper::addNew('newmap', 'COM_JTG_NEW_MAP');
 JToolBarHelper::editList('editmap');
 //$mapsxml = 'administrator' . DS . 'components' . DS . 'com_jtg' . DS . 'views' . DS . 'maps' . DS . 'maps.xml';
 //JToolBarHelper::preferences( 'com_jtg', 400, 500, 'Preferences', $mapsxml );

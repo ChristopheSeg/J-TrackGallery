@@ -15,7 +15,7 @@ defined('_JEXEC') or die('Restricted access');
 
 // toolbar
 JToolBarHelper::title(JText::_('COM_JTG_GPS_FILES'), 'categories.png');
-JToolBarHelper::back($alt= 'COM_JTG_BACK', $href= 'javascript:history.back();');
+JToolBarHelper::back();
 // JToolBarHelper::back();
 JToolBarHelper::spacer();
 $bar=& JToolBar::getInstance( 'toolbar' );

@@ -20,7 +20,7 @@ else
 	$title = JText::_('COM_JTG_EDIT_MAP');
 
 JToolBarHelper::title($title, 'categories.png');
-JToolBarHelper::back($alt= 'COM_JTG_BACK', $href= 'javascript:history.back();');
+JToolBarHelper::back();
 JToolBarHelper::spacer();
 if($id < 1):
 	JToolBarHelper::save('savemap', $alt='COM_JTG_SAVE', 'save.png' );
@@ -55,7 +55,7 @@ if($id) {
             </tr><?php } ?>
             <tr>
                 <td><?php echo JText::_('COM_JTG_NAME'); ?>:*</td>
-                <td><input id="name" type="text" name="name" value="<?php if (($id) AND (isset($map->name))) echo $map->name; ?>" size="30" maxsize="30" /> (<?php echo JText::_($map->name); ?>)</td>
+                <td><input id="name" type="text" name="name" value="<?php if (($id) AND (isset($map->name))) echo $map->name; ?>" size="30" maxsize="30" /> (<?php  if (($id) AND (isset($map->name))) echo JText::_($map->name); ?>)</td>
             </tr>
             <tr>
                 <td><?php echo JText::_('COM_JTG_PUBLISHED'); ?>:*</td>
@@ -63,7 +63,7 @@ if($id) {
             </tr>
             <tr>
                 <td><?php echo JText::_('COM_JTG_PARAMETERS'); ?>:*</td>
-                <td><input id="param" type="text" name="param" value="<?php
+                <td><textarea id="param" type="text" name="param" value="" cols="100" maxsize="300" rows="8"><?php
 	$replace = array("'",'"');
 	$with = array("'","&quot;");
 if (($id) AND (isset($map->param)))
@@ -71,7 +71,10 @@ if (($id) AND (isset($map->param)))
 	$param = str_replace($replace,$with,$map->param);
 	echo $param;
 }
-?>" size="100" maxsize="300" /></td>
+?></textarea>
+		
+		    
+</td>
             </tr>
             <tr>
                 <td><?php echo JText::_('COM_JTG_NEEDSCRIPT'); ?>:</td>

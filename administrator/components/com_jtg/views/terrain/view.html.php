@@ -62,6 +62,7 @@ class JtgViewTerrain extends JView
 		}
 		else
 		{
+			$id=0;
 			$terrain = $model->getData();
 			$published = 1;
 		}

@@ -16,7 +16,7 @@ defined('_JEXEC') or die('Restricted access');
 
 // toolbar
 JToolBarHelper::title(JText::_('COM_JTG_EDIT_COMMENT'), 'addedit.png');
-JToolBarHelper::back($alt= 'COM_JTG_BACK', $href= 'javascript:history.back();');
+JToolBarHelper::back();
 JToolBarHelper::spacer();
 JToolBarHelper::save('saveComment', $alt='COM_JTG_SAVE', 'save.png' );
 JToolBarHelper::help( 'comments/form',true );

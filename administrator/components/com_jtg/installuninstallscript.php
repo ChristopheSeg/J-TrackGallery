@@ -86,6 +86,7 @@ class com_jtgInstallerScript
 	    $doc =& JFactory::getDocument();
 
 	    ?>
+	    <br />
 	    <img src="<?php echo  DS . 'components' . DS . 'com_jtg' . DS . 'assets' . DS . 'images' . DS . 'logo_JTG.png'; ?>"  alt="J!Track Gallery" />
 	    <br />
 	    <table class="adminlist" border="1" width="100%">
@@ -153,12 +154,28 @@ class com_jtgInstallerScript
 	       }
 	    }
 	    
-	    echo '<p>' . JText::_('COM_JTG_INSTALLED',$this->release) . '</p>';
+	    // copy example tracks
+	    $src_folder_to_copy =  JPATH_SITE . DS . 'components' . DS . 'com_jtg' . DS . 'assets' . DS . 'sample_tracks';
+	    $dest_folder_to_copy = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploaded_tracks';
+	    $files = JFolder::files($src_folder_to_copy);
+
+	    // copy file by file without erasing existing files
+	    foreach ($files as $file) {
+	       if (!JFile::exists($dest_folder_to_copy . DS.  $file) ) {
+		   JFile::copy($src_folder_to_copy. DS . $file, $dest_folder_to_copy . DS.  $file);
+	       }
+	    }
+	    
+	    echo '<tr><td colspan="3">' . JText::sprintf('COM_JTG_INSTALLED_VERSION',$this->release) . '</td></tr>';
 	    // You can have the backend jump directly to the newly installed component configuration page
 	    // $parent->getParent()->setRedirectURL('index.php?option=com_jtg');
-
+	    
+	    //TODO check if is this remains usefull ??
+	    echo '<tr><td colspan="3">';
 	    echo('<font color="red" size="+1">' . JText::_('COM_JTG_HINTS') . '</font>');
-	    echo(JText::_('COM_JTG_HINTS_DETAILS'));  
+	    echo(JText::_('COM_JTG_HINTS_DETAILS')); 
+	    echo '</td></tr>';
+	    echo '</table>';
 	    return true;
 	}
  
@@ -169,14 +186,13 @@ class com_jtgInstallerScript
 	 * If this returns false, Joomla will abort the update and undo everything already done.
 	 */
 	function update( $parent ) {
-		
+			    
 	    // this is executed after upgrade.sql
 	    // upgrading from $oldRelease to $this->release
 	    if ( version_compare( $oldRelease, '0.7.0', '<' ) ) {
-		// installed version is lower then 0.7.0
-		// do some stuff
+		// installed version is lower then 0.7.0 ==> do some stuff
 	    }    
-	    echo '<p>' . JText::_('COM_JTG_UPDATED', $this->release) . '</p>';
+	    echo '<p>' . JText::sprintf('COM_JTG_UPDATED', $this->release) . '</p>';
 		
 	    // You can have the backend jump directly to the newly updated component configuration page
 	    // $parent->getParent()->setRedirectURL('index.php?option=com_jtg');
@@ -190,8 +206,76 @@ class com_jtgInstallerScript
 	 */
 	function postflight( $type, $parent ) {
  
-		// echo '<p>' . JText::_('COM_JTG_POSTFLIGHT ' . $type . ' to ' . $this->release) . '</p>';
-		return true;
+		// uninstall postflight JTEXT string must be saved in en-GB.com_jtg.sys.ini
+		// TODOTEMP TEST add a record in  #__jtg_users
+		$db =& JFactory::getDBO();
+		$application = JFactory::getApplication();
+		$query = 'INSERT INTO #__jtg_temp (method, version) VALUES ("UPDATE function","'.
+			$oldRelease.'==>'.$this->release.'") ';
+		$application->enqueueMessage( $query) ; //TODOTEMP
+		$db->setQuery($query);
+		$db->query();
+		// TODOTEMP TEST add a record in  #__jtg_users
+
+		// check if com_jtg is installed, 
+		$query = 'SELECT COUNT(*) FROM #__extensions WHERE name = "com_jtg"';
+		$application->enqueueMessage( $query) ; //TODOTEMP
+		$db->setQuery($query);
+		$db->query();
+		$componentJtgIsInstalled = $db->loadResult();		
+		$application->enqueueMessage('$componentJtgIsInstalled='. ($componentJtgIsInstalled? 'YES':'NO')) ; //TODOTEMP
+		if (( $type == 'install' ) and (! $componentJtgIsInstalled) ) 
+		{
+		    // this a NON successfull install: 
+		    // TODO truncate all com_jtg tables
+		    // DROP TABLE `crl05_jtg_cats`, `crl05_jtg_cats2`, `crl05_jtg_comments`, `crl05_jtg_config`, `crl05_jtg_files`, `crl05_jtg_files2`, `crl05_jtg_maps`, `crl05_jtg_terrains`, `crl05_jtg_users`, `crl05_jtg_votes`;
+		    $application->enqueueMessage( 'SHOULD TRUNCATE ALL TABLES' ) ;
+		    // DROP TABLE `dhwlt_jtg_cats`, `dhwlt_jtg_comments`, `dhwlt_jtg_config`, `dhwlt_jtg_files`, `dhwlt_jtg_maps`, `dhwlt_jtg_temp`, `dhwlt_jtg_terrains`, `dhwlt_jtg_users`, `dhwlt_jtg_votes`;
+		}
+
+		if (( $type == 'install' ) and ($componentJtgIsInstalled !== null) )  
+		{
+		    // this is a successful install (not an upgrade): 
+		    // affect sample tracks to this admin user
+		    $user =& JFactory::getUser();
+		    $query = 'UPDATE #__jtg_files SET uid ='. $user->get('id') . ' WHERE uid =430';
+		    $application->enqueueMessage( $query) ; //TODOTEMP
+		    $db->setQuery($query);
+		    $db->query();
+		    // save default params
+		    $query = 'UPDATE #__extensions SET params = '. 
+		    $query.= ' {"jtg_param_newest":"10","jtg_param_mostklicks":"10",
+			"jtg_param_best":"0","jtg_param_rand":"0",
+			"jtg_param_otherfiles":"0",
+			"jtg_param_lh":"1",
+			"jtg_param_vote_show_stars":"0",
+			"jtg_param_show_speedchart":"1",
+			"jtg_param_show_heightchart":"1",
+			"jtg_param_show_durationcalc":"1",
+			"jtg_param_show_layerswitcher":"1",
+			"jtg_param_show_panzoombar":"1",
+			"jtg_param_show_attribution":"1",
+			"jtg_param_show_mouselocation":"1",
+			"jtg_param_show_scale":"1",
+			"jtg_param_allow_mousemove":"1",
+			"jtg_param_allow_keymove":"0",
+			"jtg_param_offer_download_gpx":"1",
+			"jtg_param_offer_download_kml":"0",
+			"jtg_param_offer_download_tcx":"0",
+			"jtg_param_tracks":"0",
+			"jtg_param_cats":["-1"],
+			"jtg_param_user":["0"],
+			"jtg_param_usergroup":["-1"],
+			"jtg_param_terrain":["-1"],
+			"jtg_param_level_from":"0",
+			"jtg_param_level_to":"5",
+			"jtg_param_vote_from":"0",
+			"jtg_param_vote_to":"10"}';
+		    $query.= ' WHERE name = "com_jtg" AND type = "Component"'; 
+		    $db->setQuery($query);
+		    $db->query();
+		 }
+		    return true;
 	}
 
 	/*
@@ -201,6 +285,7 @@ class com_jtgInstallerScript
 	function uninstall( $parent ) {
 	    // Set a simple message
 
+	    // uninstall JTEXT strings must be saved in en-GB.com_jtg.sys.ini
 	    $application = JFactory::getApplication();
 	    $application->enqueueMessage( JText::_('COM_JTG_THANK_YOU_FOR_USING') ) ;
 	    echo '<p>' . JText::_('COM_JTG_UNINSTALLING') . '</p>';
@@ -214,20 +299,20 @@ class com_jtgInstallerScript
 	    echo '<tr><td>'.JText::_('COM_JTG_FILE').'/'.JText::_('COM_JTG_FOLDER').'</td><td>'.JText::_('COM_JTG_NAME').'</td><td>'.JText::_('COM_JTG_STATE').'</td></tr>';
 	    foreach ( $files_to_delete AS $file ) {	    
 		    if(!JFile::exists($file)) {
-		    echo '<tr><td>'.JText::_('COM_JTG_FILE').'</td><td>' . $file . '</td><td><font color="green">' . JText::_('COM_JTG_NOT_EXISTS') .' </font>  </td></tr>';}
+		    echo '<tr><td>'.JText::_('COM_JTG_FILE').'</td><td>' . $file . '</td><td><font color="green">' . JText::_('COM_JTG_NOT_EXISTS') .' "</font>"  </td></tr>';}
 		    elseif(JFile::delete($file)) {
-			    echo '<tr><td>'.JText::_('COM_JTG_FILE').'</td><td>' . $file . '</td><td><font color="green">' . JText::_('COM_JTG_DELETED') .' </font> </td></tr>';
+			    echo '<tr><td>'.JText::_('COM_JTG_FILE').'</td><td>' . $file . '</td><td><font color="green">' . JText::_('COM_JTG_DELETED') .' "</font>" </td></tr>';
 		    } else {
-			    echo '<tr><td>'.JText::_('COM_JTG_FILE').'</td><td>' . $file . '</td><td><font color="red">' . JText::_('COM_JTG_ERROR') .'/'. JText::_('COM_JTG_NOT_DELETED'). '</font> </td></tr>';
+			    echo '<tr><td>'.JText::_('COM_JTG_FILE').'</td><td>' . $file . '</td><td><font color="red">' . JText::_('COM_JTG_ERROR') .'/'. JText::_('COM_JTG_NOT_DELETED'). '"</font>" </td></tr>';
 		    }
 	    }
 	    foreach ( $folders_to_delete AS $folder ) {
 		    if(!JFolder::exists(JPATH_SITE . DS . $folder)){
-			    echo '<tr><td>'.JText::_('COM_JTG_FOLDER').'</td><td>' . $folder . '</td><td><font color="green">' . JText::_('COM_JTG_NOT_EXISTS') . '</font> </td></tr>';}
+			    echo '<tr><td>'.JText::_('COM_JTG_FOLDER').'</td><td>' . $folder . '</td><td><font color="green">' . JText::_('COM_JTG_NOT_EXISTS') . '"</font>" </td></tr>';}
 		    elseif(JFolder::delete(JPATH_SITE . DS . $folder)) {
-			    echo '<tr><td>'.JText::_('COM_JTG_FOLDER').'</td><td>' . $folder . '</td><td><font color="green">' .JText::_('COM_JTG_DELETED') . '</font> </td></tr>';
+			    echo '<tr><td>'.JText::_('COM_JTG_FOLDER').'</td><td>' . $folder . '</td><td><font color="green">' .JText::_('COM_JTG_DELETED') . '"</font>" </td></tr>';
 		    } else {
-			    echo '<tr><td>'.JText::_('COM_JTG_FOLDER').'</td><td>' . $folder . '</td><font color="red">' . JText::_('COM_JTG_ERROR') . JText::_('COM_JTG_NOT_DELETED') . '</font> </td></tr>';
+			    echo '<tr><td>'.JText::_('COM_JTG_FOLDER').'</td><td>' . $folder . '</td><font color="red">' . JText::_('COM_JTG_ERROR') . JText::_('COM_JTG_NOT_DELETED') . '"</font>" </td></tr>';
 		    }
 	    }
 	    echo '</table>';

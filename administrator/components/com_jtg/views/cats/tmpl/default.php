@@ -15,9 +15,9 @@ defined('_JEXEC') or die('Restricted access');
 
 // toolbar
 JToolBarHelper::title(JText::_('COM_JTG_CATS'), 'categories.png');
-JToolBarHelper::back($alt= 'COM_JTG_BACK', $href= 'javascript:history.back();');
+JToolBarHelper::back();
 JToolBarHelper::spacer();
-JToolBarHelper::addNew('newcat', $alt='COM_JTG_NEW_CATEGORY', 'new.png' );
+JToolBarHelper::addNew('newcat', $alt='COM_JTG_NEW_CATEGORY');
 JToolBarHelper::custom( 'managecatpics', 'new-style.png', 'new-style.png', 'COM_JTG_MANAGE_PICS', false);
 JToolBarHelper::editList('editcat');
 JToolBarHelper::publish();
