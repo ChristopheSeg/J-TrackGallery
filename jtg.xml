@@ -6,8 +6,9 @@
 	<license>GNU/GPL2</license>
 	<authorEmail>christophe@jtrackgallery.net</authorEmail>
 	<authorUrl>http://jtrackgallery.net/</authorUrl>
-	<version>0.7.1</version>
+	<version>0.7.2</version>
 	<!-- 
+	<version>0.7.1-r1</version> sample version
 	<description>COM_JTG_MANIFEST_DESCRIPTION</description>
 	-->
 	<description>J!Track Gallery integrates your GPS tracks (GPX, KML) in Joomla. It shows Tracks and Waypoints on various Maps. Registered Users can upload their own tracks.</description>
@@ -40,22 +41,10 @@
 		<folder>controllers</folder>
 		<folder>docs</folder>
 		<folder>helpers</folder>
+		<folder>language</folder>
 		<folder>models</folder>
 		<folder>views</folder>
 	</files>
-	<languages folder="language">
-		<language tag="de-DE">de-DE/de-DE.com_jtg.ini</language>
-		<language tag="de-DE">de-DE/de-DE.com_jtg_additional.ini</language>
-		<language tag="de-DE">de-DE/de-DE.com_jtg_common.ini</language>
-		
-		<language tag="en-GB">en-GB/en-GB.com_jtg.ini</language>
-		<language tag="en-GB">en-GB/en-GB.com_jtg_additional.ini</language>
-		<language tag="en-GB">en-GB/en-GB.com_jtg_common.ini</language>
-		
-		<language tag="fr-FR">fr-FR/fr-FR.com_jtg.ini</language>
-		<language tag="fr-FR">fr-FR/fr-FR.com_jtg_additional.ini</language>
-		<language tag="fr-FR">fr-FR/fr-FR.com_jtg_common.ini</language>
-	</languages>
 	<media />
 	<administration>
 		<menu img="../components/com_jtg/assets/images/icon-16-jtg.png">J!Track Gallery</menu>
@@ -79,21 +68,12 @@
 			<folder>elements</folder>
 			<folder>help</folder>
 			<folder>helpers</folder>
+			<folder>language</folder>
 			<folder>models</folder>
 			<folder>sql</folder>
 			<folder>tables</folder>
 			<folder>views</folder>
 		</files>
-		<languages folder="administrator/language">
-			<language tag="de-DE">de-DE/de-DE.com_jtg.ini</language>
-			<language tag="de-DE">de-DE/de-DE.com_jtg.sys.ini</language>
-			
-			<language tag="en-GB">en-GB/en-GB.com_jtg.ini</language>
-			<language tag="en-GB">en-GB/en-GB.com_jtg.sys.ini</language>
-			
-			<language tag="fr-FR">fr-FR/fr-FR.com_jtg.ini</language>
-			<language tag="fr-FR">fr-FR/fr-FR.com_jtg.sys.ini</language>
-		</languages>
 	</administration>
         <!-- UPDATESERVERS DEFINITION -->
 	<!-- Note: No spaces or linebreaks allowed between the server tags -->

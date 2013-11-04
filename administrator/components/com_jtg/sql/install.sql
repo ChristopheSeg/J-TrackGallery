@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS `#__jtg_temp` (
 
 CREATE TABLE IF NOT EXISTS `#__jtg_maps` (
 	`id` int(2) NOT NULL AUTO_INCREMENT,
-	`name` varchar(30) NOT NULL,
+	`name` varchar(50) NOT NULL,
 	`ordering` int(2) NOT NULL,
 	`published` int(1) NOT NULL,
 	`param` varchar(500),
@@ -149,7 +149,6 @@ INSERT IGNORE INTO `#__jtg_maps` (`name`, `ordering`, `published`, `param`, `scr
 ('COM_JTG_MAP_MAPNIK', 1, 1, 'OpenLayers.Layer.OSM.Mapnik("{name}")', '', ''),
 ('COM_JTG_MAP_OSM_HIKE_AND_BIKE', 2, 1, 'OpenLayers.Layer.TMS("{name}", "http://toolserver.org/tiles/hikebike/", { type: "png", getURL: osm_getTileURL, displayOutsideMaxExtent: true, isBaseLayer: true, attribution: "Map Data © OpenStreetMap contributors", transitionEffect: "resize" })', '', ''),
 ('COM_JTG_MAP_CYCLEMAP', 3, 1, 'OpenLayers.Layer.OSM.CycleMap("{name}")', '', ''),
-('COM_JTG_MAP_NONAME', 4, 0, 'OpenLayers.Layer.OSM("{name}", [ "http://a.tile.cloudmade.com/"+nonamekey+"/3/256/${z}/${x}/${y}.png", "http://b.tile.cloudmade.com/"+nonamekey+"/3/256/${z}/${x}/${y}.png", "http://c.tile.cloudmade.com/"+nonamekey+"/3/256/${z}/${x}/${y}.png"], {displayOutsideMaxExtent: true, wrapDateLine: true, numZoomLevels: 19, layerCode: "N"})', '', 'var nonamekey = &quot;PASTE_YOUR_KEY_HERE&quot;;'),
 ('COM_JTG_MAP_GOOGLE_SAT', 5, 1, 'OpenLayers.Layer.Google( "{name}", {type: google.maps.MapTypeId.SATELLITE, numZoomLevels: 22})', 'http://maps.google.com/maps/api/js?v=3&amp;sensor=false', ''),
 ('COM_JTG_MAP_GOOGLE_STREET', 6, 1, 'OpenLayers.Layer.Google( "{name}",  {numZoomLevels: 20})', 'http://maps.google.com/maps/api/js?v=3&amp;sensor=false', ''),
 ('COM_JTG_MAP_GOOGLE_HYBRID', 7, 1, 'OpenLayers.Layer.Google( "{name}",  {type: google.maps.MapTypeId.HYBRID, numZoomLevels: 20})', 'http://maps.google.com/maps/api/js?v=3&amp;sensor=false', ''),
@@ -157,7 +156,7 @@ INSERT IGNORE INTO `#__jtg_maps` (`name`, `ordering`, `published`, `param`, `scr
 ('COM_JTG_MAP_BING_AERIAL', 9, 1, 'OpenLayers.Layer.Bing({ name: "{name}", key: BingApiKey, type: "Aerial", wrapDateLine: true })', '', 'var BingApiKey =  &quot;AqTGBsziZHIJYYxgivLBf0hVdrAk9mWO5cQcb8Yux8sW5M8c8opEC2lZqKR1ZZXf&quot;;'),
 ('COM_JTG_MAP_BING_ROAD', 10, 1, 'OpenLayers.Layer.Bing({ name: "{name}", key: BingApiKey, type: "Road", wrapDateLine: true })', '', 'var BingApiKey = &quot;AqTGBsziZHIJYYxgivLBf0hVdrAk9mWO5cQcb8Yux8sW5M8c8opEC2lZqKR1ZZXf&quot;;'),
 ('COM_JTG_MAP_BING_HYBRID', 11, 1, 'OpenLayers.Layer.Bing({ name: "{name}", key: BingApiKey, type: "AerialWithLabels", wrapDateLine: true })', '', 'var BingApiKey = &quot;AqTGBsziZHIJYYxgivLBf0hVdrAk9mWO5cQcb8Yux8sW5M8c8opEC2lZqKR1ZZXf&quot;;'),
-('Own Server', 99, 0, 'OpenLayers.Layer.OSM(&quot;{name}&quot;, &quot;http://server/${z}/${x}/${y}.png&quot; ,{ &quot;type&quot;:&quot;png&quot;})', '', '');
+('COM_JTG_MAP_FRENCH_IGN_GEOPORTAL', 12, 1, 'OpenLayers.Layer.WMTS({ 		name: "{name}", 		url: "http://gpp3-wxs.ign.fr/"+ ign_api_key + "/wmts", 		layer: "GEOGRAPHICALGRIDSYSTEMS.MAPS", 		matrixSet: "PM",         projection: new OpenLayers.Projection("EPSG:900913"),         units: "m", 		theme: null, 		style: "normal", 		numZoomLevels: 19, 		attribution: "Map base: ©IGN  Terms of Service" 	})', '', 'var ign_api_key = &quot;10gwaoqj0yqvlfi94vw12rns&quot;;');
 
 INSERT INTO `#__jtg_cats` (`id`, `parent_id`, `title`, `description`, `image`, `ordering`, `published`, `checked_out`) VALUES
     (1, 0, 'dummy','','',0,1,0),

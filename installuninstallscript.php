@@ -31,10 +31,9 @@ class com_jtgInstallerScript
 		@set_time_limit( 240 );    // execution time 5 minutes
 		ignore_user_abort( true ); // continue execution if client disconnects
 		//
-		// language is not loaded at preflight time!!
 		// load english language file for 'com_jtg' component then override with current language file
-		JFactory::getLanguage()->load('com_jtg',   JPATH_ADMINISTRATOR, 'en-GB', true);
-		JFactory::getLanguage()->load('com_jtg',   JPATH_ADMINISTRATOR,    null, true);		
+		JFactory::getLanguage()->load('com_jtg',   JPATH_ADMINISTRATOR . '/components/com_jtg/language', 'en-GB', true);
+		JFactory::getLanguage()->load('com_jtg',   JPATH_ADMINISTRATOR . '/components/com_jtg/language',    null, true);		
 		$jversion = new JVersion();
 
 		// Installing component manifest file version
@@ -220,7 +219,7 @@ class com_jtgInstallerScript
 		$componentJtgIsInstalled = $db->loadResult();		
 		$application->enqueueMessage('$componentJtgIsInstalled='. ($componentJtgIsInstalled? 'YES':'NO')) ; //TODOTEMP
 		// TODOTEMP TEST add a record in  #__jtg_users
-		$query = 'INSERT INTO #__jtg_temp (method, version) VALUES ("UPDATE function","'.
+		$query = 'INSERT INTO #__jtg_temp (method, version) VALUES ("postflight function","'.
 			$this->getParam('version').'==>'.$this->release.
 				' type='.$type.' installed='.($componentJtgIsInstalled? 'YES':'NO').'") ';
 		$application->enqueueMessage( $query) ; //TODOTEMP

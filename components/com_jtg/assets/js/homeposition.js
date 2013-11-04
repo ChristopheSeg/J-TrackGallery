@@ -130,7 +130,7 @@ function parseOtherUsers() {
 }
 
 function init() {
-	map = new OpenLayers.Map('map',{
+	map = new OpenLayers.Map('jtg_map',{
 		controls:[
 				new OpenLayers.Control.MousePosition(),		// Koordinate des Mauszeigers (lat, lon)
 				new OpenLayers.Control.PanZoomBar(),		// Zoombalken
