@@ -28,8 +28,9 @@ JFactory::getLanguage()->load('com_jtg',   JPATH_ADMINISTRATOR . '/components/co
 JFactory::getLanguage()->load('com_jtg',   JPATH_ADMINISTRATOR . '/components/com_jtg',    null, true);
 JFactory::getLanguage()->load('com_jtg_common', JPATH_SITE . '/components/com_jtg', 'en-GB', true);
 JFactory::getLanguage()->load('com_jtg_common', JPATH_SITE . '/components/com_jtg',    null, true);
-JFactory::getLanguage()->load('com_jtg_additional', JPATH_SITE . '/components/com_jtg', 'en-GB', true);
-JFactory::getLanguage()->load('com_jtg_additional', JPATH_SITE . '/components/com_jtg',    null, true);
+// com_jtg_additional language files are in /images/jtrackgallery/language folder
+JFactory::getLanguage()->load('com_jtg_additional', JPATH_SITE . '/images/jtrackgallery', 'en-GB', true);
+JFactory::getLanguage()->load('com_jtg_additional', JPATH_SITE . '/images/jtrackgallery',    null, true);
 
 $contr = JPATH_COMPONENT . DS . 'controllers' . DS . 'install.php';
 $model = JPATH_COMPONENT . DS . 'models' . DS . 'install.php';

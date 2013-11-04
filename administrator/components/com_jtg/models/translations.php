@@ -29,7 +29,7 @@ class JtgModelTranslations extends JModel
 		JRequest::checkToken() or die( 'Invalid Token' );
 		$languages = $this->getRawLanguages();
 		foreach ($languages as $lang) {
-			$file = JPATH_SITE . DS . 'language' . DS . $lang['tag'] . DS . $lang['tag'] . DS ."com_jtg_additional.ini";
+			$file = JPATH_SITE . '/images/jtrackgallery/language/' . $lang['tag'] . DS . $lang['tag'] . DS ."com_jtg_additional.ini";
 			$inhalt =& JRequest::getVar( $lang['tag'] );
 			if(!JFile::write( $file, $inhalt ))
 			return false;
@@ -52,7 +52,7 @@ class JtgModelTranslations extends JModel
 			$newlanguages[$lang['tag']] = array();
 			$newlanguages[$lang['tag']]['name'] = $lang['name'];
 			$newlanguages[$lang['tag']]['tag'] = $lang['tag'];
-			$path = JPATH_SITE . DS . 'language' . DS . $lang['tag'] . DS;
+			$path = JPATH_SITE . '/images/jtrackgallery/language/' . $lang['tag'] . DS;
 			$file = $path . $lang['tag'] . DS ."com_jtg_additional.ini";
 			$newlanguages[$lang['tag']]['file'] = $file;
 			if (!JFile::exists($file))

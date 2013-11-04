@@ -102,7 +102,7 @@ class com_jtgInstallerScript
 	    "images" . DS . "jtrackgallery" . DS . "uploaded_tracks",
 	    "images" . DS . "jtrackgallery" . DS . "uploaded_tracks" . DS . "import"
 		);
-
+	    
 	    $folders_to_chmod = array (
 	    "images" . DS . "jtrackgallery" . DS . "uploaded_tracks",
 	    "images" . DS . "jtrackgallery" . DS . "uploaded_tracks" . DS . "import",
@@ -152,6 +152,11 @@ class com_jtgInstallerScript
 		   JFile::copy($src_folder_to_copy. DS . $file, $dest_folder_to_copy . DS.  $file);
 	       }
 	    }
+	    
+	    // copy additional.ini language files without erasing existing files
+	    $src_folder_to_copy =  JPATH_SITE . DS . 'components' . DS . 'com_jtg' . DS . 'assets' . DS . 'language';
+	    $dest_folder_to_copy = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'language';
+	    JFolder::copy($src_folder_to_copy, $dest_folder_to_copy, $force = false);
 	    
 	    // copy example tracks
 	    $src_folder_to_copy =  JPATH_SITE . DS . 'components' . DS . 'com_jtg' . DS . 'assets' . DS . 'sample_tracks';
@@ -213,7 +218,6 @@ class com_jtgInstallerScript
 
 		// check if com_jtg is installed, 
 		$query = 'SELECT COUNT(*) FROM #__extensions WHERE name = "com_jtg"';
-		$application->enqueueMessage( $query) ; //TODOTEMP
 		$db->setQuery($query);
 		$db->query();
 		$componentJtgIsInstalled = $db->loadResult();		
@@ -222,7 +226,6 @@ class com_jtgInstallerScript
 		$query = 'INSERT INTO #__jtg_temp (method, version) VALUES ("postflight function","'.
 			$this->getParam('version').'==>'.$this->release.
 				' type='.$type.' installed='.($componentJtgIsInstalled? 'YES':'NO').'") ';
-		$application->enqueueMessage( $query) ; //TODOTEMP
 		$db->setQuery($query);
 		$db->query();
 		// TODOTEMP TEST add a record in  #__jtg_users

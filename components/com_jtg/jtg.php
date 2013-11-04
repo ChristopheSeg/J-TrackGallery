@@ -29,8 +29,9 @@ JFactory::getLanguage()->load('com_jtg', JPATH_SITE . '/components/com_jtg', 'en
 JFactory::getLanguage()->load('com_jtg', JPATH_SITE . '/components/com_jtg',    null, true);
 JFactory::getLanguage()->load('com_jtg_common', JPATH_SITE . '/components/com_jtg', 'en-GB', true);
 JFactory::getLanguage()->load('com_jtg_common', JPATH_SITE . '/components/com_jtg',    null, true);
-JFactory::getLanguage()->load('com_jtg_additional', JPATH_SITE . '/components/com_jtg', 'en-GB', true);
-JFactory::getLanguage()->load('com_jtg_additional', JPATH_SITE . '/components/com_jtg',    null, true);
+// com_jtg_additional language files are in /images/jtrackgallery/language folder
+JFactory::getLanguage()->load('com_jtg_additional', JPATH_SITE . '/images/jtrackgallery', 'en-GB', true);
+JFactory::getLanguage()->load('com_jtg_additional', JPATH_SITE . '/images/jtrackgallery',    null, true);
 $cfg = JtgHelper::getConfig();
 // set the template
 $tmpl = ($cfg->template = "") ? $cfg->template : 'default';

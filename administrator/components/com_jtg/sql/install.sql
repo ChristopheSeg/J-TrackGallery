@@ -168,17 +168,17 @@ INSERT INTO `#__jtg_cats` (`id`, `parent_id`, `title`, `description`, `image`, `
     (7, 0, 'dummy','','',0,1,0),
     (8, 0, 'dummy','','',0,1,0),
     (9, 0, 'dummy','','',0,1,0),
-    (12, 0, 'Trekking', '', 'hiking.png', 0, 1, 0),
-    (19, 0, 'Mountain Bike', '', 'mountainbiking-3.png', 0, 1, 0),
-    (17, 0, 'Horse Riding', '', 'horseriding.png', 0, 1, 0),
-    (10, 0, 'COM_JTG_CAT_CAR', 'COM_JTG_CAT_CAR', 'sportscar.png', 7, 1, 0),
-    (11, 0, 'COM_JTG_CAT_CAR_4x4', '', 'fourbyfour.png', 1, 1, 0),
-    (13, 0, 'COM_JTG_CAT_BIKE', '', 'cycling.png', 5, 1, 0),
-    (14, 0, 'COM_JTG_CAT_MOTORBIKE', '', 'motorbike.png', 6, 1, 0),
-    (15, 0, 'COM_JTG_CAT_PEDESTRIAN', 'COM_JTG_CAT_PEDESTRIAN', 'hiking.png', 3, 1, 0),
-    (16, 0, 'COM_JTG_CAT_GEOCACHE', '', 'geocachinginternational.png', 4, 1, 0),
-    (20, 0, 'snowshoeing', '', 'snowshoeing.png', 0, 1, 0),
-    (21, 0, 'Trial', '', 'hiking.png', 0, 1, 0)
+    (12, 0, 'COM_JTG_CAT_TREKKING', 'COM_JTG_CAT_TREKKING_DESCRIPTION', 'hiking.png', 0, 1, 0),
+    (19, 0, 'COM_JTG_CAT_MOUNTAIN_BIKE', 'COM_JTG_CAT_MOUNTAIN_BIKE_DESCRIPTION', 'mountainbiking-3.png', 0, 1, 0),
+    (17, 0, 'COM_JTG_CAT_HORSE_RIDING', 'COM_JTG_CAT_HORSE_RIDING_DESCRIPTION', 'horseriding.png', 0, 1, 0),
+    (10, 0, 'COM_JTG_CAT_CAR', 'COM_JTG_CAT_CAR_DESCRIPTION', 'sportscar.png', 7, 1, 0),
+    (11, 0, 'COM_JTG_CAT_CAR_44', 'COM_JTG_CAT_CAR_44_DESCRIPTION', 'fourbyfour.png', 1, 1, 0),
+    (13, 0, 'COM_JTG_CAT_BIKE', 'COM_JTG_CAT_BIKE_DESCRIPTION', 'cycling.png', 5, 1, 0),
+    (14, 0, 'COM_JTG_CAT_MOTORBIKE', 'COM_JTG_CAT_MOTORBIKE_DESCRIPTION', 'motorbike.png', 6, 1, 0),
+    (15, 0, 'COM_JTG_CAT_PEDESTRIAN', 'COM_JTG_CAT_PEDESTRIAN_DESCRIPTION', 'hiking.png', 3, 1, 0),
+    (16, 0, 'COM_JTG_CAT_GEOCACHE', 'COM_JTG_CAT_GEOCACHE_DESCRIPTION', 'geocachinginternational.png', 4, 1, 0),
+    (20, 0, 'COM_JTG_CAT_SNOWSHOEING', 'COM_JTG_CAT_SNOWSHOEING_DESCRIPTION', 'snowshoeing.png', 0, 1, 0),
+    (21, 0, 'COM_JTG_CAT_TRIAL', 'COM_JTG_CAT_TRIAL_DESCRIPTION', 'hiking.png', 0, 1, 0)
 ;
 
 DELETE FROM `#__jtg_cats` WHERE title = 'dummy';
