@@ -78,6 +78,27 @@ class JtgControllerMaps extends JtgController
 
         $this->setRedirect( JRoute::_('index.php?option=com_jtg&task=maps&controller=maps', false));
 		    }
+		
+        /**
+         * @uses JtgModelMap::saveorder
+         * @return redirect
+         */
+	function saveorder()
+	{
+		// Check for request forgeries
+		JRequest::checkToken() or jexit( 'Invalid Token' );
+
+		$cid 	= JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$order 	= JRequest::getVar( 'order', array(), 'post', 'array' );
+		JArrayHelper::toInteger($cid);
+		JArrayHelper::toInteger($order);
+
+		$model = $this->getModel('map');
+		$model->saveorder($cid, $order);
+
+		$this->setRedirect( JRoute::_('index.php?option=com_jtg&task=maps&controller=maps', false ));
+	}
+		    
 	/**
          * @uses JtgModelMaps::publish
          * @return redirect

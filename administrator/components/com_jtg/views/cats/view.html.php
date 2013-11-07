@@ -92,7 +92,7 @@ class JtgViewCats extends JView
 		$mainframe =& JFactory::getApplication(); $option = JRequest::getCmd('option');
 		$model =& $this->getModel();
 
-		$order = JRequest::getVar( 'order', 'order', 'post', 'string' );
+		// $order = JRequest::getVar( 'order', 'order', 'post', 'string' );
 
 		$filter_order		= $mainframe->getUserStateFromRequest( $option . "filter_order",
 		'filter_order',

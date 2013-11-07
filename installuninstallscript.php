@@ -221,7 +221,6 @@ class com_jtgInstallerScript
 		$db->setQuery($query);
 		$db->query();
 		$componentJtgIsInstalled = $db->loadResult();		
-		$application->enqueueMessage('$componentJtgIsInstalled='. ($componentJtgIsInstalled? 'YES':'NO')) ; //TODOTEMP
 		// TODOTEMP TEST add a record in  #__jtg_users
 		$query = 'INSERT INTO #__jtg_temp (method, version) VALUES ("postflight function","'.
 			$this->getParam('version').'==>'.$this->release.
@@ -247,7 +246,6 @@ class com_jtgInstallerScript
 		    if ( $uid!==430) 
 		    {
 			$query = 'UPDATE #__jtg_files SET uid ='. $uid . ' WHERE uid =430';
-			$application->enqueueMessage( $query) ; //TODOTEMP
 			$db->setQuery($query);
 			$db->query();
 		    }

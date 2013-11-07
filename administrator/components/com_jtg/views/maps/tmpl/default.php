@@ -28,8 +28,7 @@ JToolBarHelper::help("maps", true);
 
 jimport('joomla.html.pane');
 JHTML::_('behavior.tooltip');
-$ordering = ($this->lists['order'] == 'm.ordering' || $this->lists['order'] == 'm.position');
-$ordering = true; //TODO why was orderinfg desactivated? Save ORDER does not work 
+$ordering = ($this->lists['order'] == 'ordering' );
 
 $link = JRoute::_('index.php?option=com_jtg&task=maps&controller=maps&layout=default');
 ?>
@@ -64,13 +63,8 @@ $link = JRoute::_('index.php?option=com_jtg&task=maps&controller=maps&layout=def
 					echo JText::_('COM_JTG_NAME');
 					?>:</th>
 <?php if ($ordering) { ?>
-				<th class="order">
-				
-					
-                    <?php echo JText::_('COM_JTG_ORDER'); ?>:
-                    
-					
-					
+				<th class="order"> <?php echo JText::_('COM_JTG_ORDER'); ?>:
+
 					<?php
 //					echo JHTML::_('grid.sort', JText::_('COM_JTG_ORDER'), 'order', @$this->lists['order_Dir'], @$this->lists['order'], 'maps' ); ? >:</th>
 					?></th>
@@ -100,7 +94,7 @@ for ($i=0, $n=count( $this->maps ); $i < $n; $i++) {
 	$published 	= JHTML::_('grid.published', $map, $i );
 	$checked 	= JHTML::_('grid.checkedout', $map, $i );
 	$name		= $this->buildEditKlicks(JText::_($map->name),$i);
-	$replace	= "PASTE_YOUR_KEY_HERE";
+	$replace	= "PASTE_YOUR_KEY_HERE"; // TODO JTEXT here
 	$with		= "<font color=red>PASTE_YOUR_KEY_HERE</font>";
 ?>			<tr class="<?php echo "row" . $k; $k=1-$k; ?>">
 				<td align="center"><?php echo $i;										?></td>
@@ -137,7 +131,7 @@ else
         </tfoot>
 -->
 	</table>
-	<?php echo JHTML::_( 'form.token' ); ?>
+	
 
 	<input type="hidden" name="option" value="com_jtg" />
 	<input type="hidden" name="task" value="" />
@@ -145,4 +139,6 @@ else
 	<input type="hidden" name="controller" value="maps" />
 	<input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>" />
 	<input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>" />
+	    <?php echo JHTML::_( 'form.token' ); ?>
+	
 </form>
