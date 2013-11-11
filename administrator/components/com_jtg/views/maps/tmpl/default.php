@@ -47,8 +47,7 @@ $link = JRoute::_('index.php?option=com_jtg&task=maps&controller=maps&layout=def
 			?>
 		</td>
 	</tr>
-</table>-->
-<?php echo $this->lists['order'];?>// TODO 			
+</table>-->			
 	<table class="adminlist" cellpadding="1">
 		<thead>
 			<tr>

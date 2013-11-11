@@ -528,7 +528,6 @@ class JtgViewFiles extends JView
 		$sortedter = JtgModeljtg::getTerrainData(true);
 		$user = & JFactory :: getUser();
 		$uid = $user->get('id');
-		// TODO upgrade ACL
 		$gid = $user->get('gid');
 		$lh = layoutHelper :: navigation();
 		$footer = layoutHelper :: footer();
@@ -565,7 +564,7 @@ class JtgViewFiles extends JView
 		$this->lists = $lists;
 		$this->rows = $rows;
 		$this->uid = $uid;
-		$this->gid = $gid; //TODO check this ??
+		$this->gid = $gid; 
 		$this->pagination = $pagination;
 		$this->lh = $lh;
 		$this->footer = $footer;

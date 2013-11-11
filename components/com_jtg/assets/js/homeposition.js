@@ -105,7 +105,7 @@ function showOtherUserInfo(ll, userhtml) {
 	marker.feature = feature;
 	var markerClick = function (evt) {
 		// mootols required
-		document.getElementById("otheruser").setHTML(userhtml);
+		document.getElementById("otheruser").innerHTML=userhtml;
 	}
 	currentPopup = this.popup;
 	layerOUsers.events.register("mouseover", feature, markerClick);

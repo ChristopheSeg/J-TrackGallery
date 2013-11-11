@@ -70,7 +70,7 @@ class layoutHelper
 				// Erscheint nur bei einzelnen Dateien
 				// TODO upgrade ACL
 				if ( ($track !== null) AND (
-				( $user->get('id') == $track->uid ) OR ((int)$juser->gid) >= 20 )
+				( $user->get('id') == $track->uid ) OR (JtgHelper :: userHasFrontendRights() )
 				// Wenn Trackbesitzer oder in Gruppe "Editor" oder höher
 				) {
 					$navi .= '<div class="navi-part"><a href="'.

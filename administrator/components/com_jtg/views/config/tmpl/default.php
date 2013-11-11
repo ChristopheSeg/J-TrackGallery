@@ -32,7 +32,7 @@ JHTML::_('behavior.tooltip');
 	<table class="admintable">
 	<tbody>
 			<tr>
-				<td><span class="hasTip" title="<?php echo JText::_('COM_JTG_TT_TITLE'); ?> :: <?php echo JText::_('COM_JTG_TT_GID_DESC'); ?>"><?php echo JText::_('COM_JTG_USERS'); ?></span></td>
+				<td><span class="hasTip" title="<?php echo JText::_('COM_JTG_TT_TITLE'); ?> :: <?php echo JText::_('COM_JTG_TT_GID_DESC'); ?>"><?php echo JText::_('COM_JTG_AUTHORISED_GROUPS'); ?></span></td>
 				<td><?php echo $this->lists['gid']; ?></td>
 			</tr>
 			<tr>

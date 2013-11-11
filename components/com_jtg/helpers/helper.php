@@ -396,7 +396,7 @@ class JtgHelper
 	function userHasFrontendRights() {
 	    $user_groups = JFactory :: getUser()->get('groups');
 	    if ( JFactory :: getUser()->get('isRoot') ) { return true;};
-	    if (!$user_groups) {return false;} // seems this is never empty !!
+	    if (!$user_groups) {return false;} // seems $user_groups is never empty !!
 	    $cfg_id = unserialize(JtgHelper :: getConfig()->gid);
 	    foreach ($cfg_id as $group) {
 		if (array_key_exists ($group , $user_groups ) ) {

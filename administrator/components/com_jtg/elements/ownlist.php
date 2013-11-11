@@ -320,9 +320,9 @@ class JFormFieldOwnList extends JFormField
 
 		$and = '';
 		if ( $reg ) {
-			// does not include registered users in the list
+		    // does not include registered users in the list
 		    // TODO IMPORTANT ACL modified in Joomla 2.5
-			$and = ' AND gid > 18';
+		    // $and = ' AND gid > 18'; This line is desactivated
 		}
 
 		$query = 'SELECT id AS value, name AS text'
