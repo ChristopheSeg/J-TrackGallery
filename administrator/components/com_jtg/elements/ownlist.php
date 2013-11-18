@@ -35,6 +35,20 @@ class JFormFieldOwnList extends JFormField
 		$name = $this->element['name'];
 		$value = $this->value;
 
+		// first load languages that are not loaded by J! when Ownlist is called 
+		// (ownlist.php is the first component code called when menu default settings is clicked)
+		// Where to put this code, so that it is executed once when multiple call to getInput?
+		// load english language file for 'com_jtg' component then override with current language file
+		JFactory::getLanguage()->load('com_jtg.sys',   JPATH_ADMINISTRATOR . '/components/com_jtg', 'en-GB', false);
+		JFactory::getLanguage()->load('com_jtg.sys',   JPATH_ADMINISTRATOR . '/components/com_jtg',    null, false);
+		JFactory::getLanguage()->load('com_jtg',   JPATH_ADMINISTRATOR . '/components/com_jtg', 'en-GB', false);
+		JFactory::getLanguage()->load('com_jtg',   JPATH_ADMINISTRATOR . '/components/com_jtg',    null, false);
+		JFactory::getLanguage()->load('com_jtg_common', JPATH_SITE . '/components/com_jtg', 'en-GB', false);
+		JFactory::getLanguage()->load('com_jtg_common', JPATH_SITE . '/components/com_jtg',    null, false);
+		// com_jtg_additional language files are in /images/jtrackgallery/language folder
+		JFactory::getLanguage()->load('com_jtg_additional', JPATH_SITE . '/images/jtrackgallery', 'en-GB', false);
+		JFactory::getLanguage()->load('com_jtg_additional', JPATH_SITE . '/images/jtrackgallery',    null, false);		
+
 		global $parseLimitText;
 		if (!is_array($parseLimitText)) $parseLimitText = array();
 		switch ($name)
@@ -281,7 +295,7 @@ class JFormFieldOwnList extends JFormField
 		$cats = new JtgModelFiles;
 		$cats = $cats->getCats($nosubcats,'COM_JTG_ALL',-1);
 		$size = $this->getSelectSize($cats);
-		$list = JHTML::_('select.genericlist', $cats, $this->name.'[]', 'class="inputbox" multiple="multiple" size="'.$size.'"', 'id', 'treename', $this->value);
+		$list = JHTML::_('select.genericlist', $cats, $this->name.'[]', 'class="inputbox" multiple="multiple" size="'.$size.'"', 'id', 'treename', $this->value,'',1);
 		return $list;
 	}
 

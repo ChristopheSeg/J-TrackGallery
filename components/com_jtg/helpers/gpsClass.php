@@ -1613,6 +1613,7 @@ class gpsClass
 			$imgs = JFolder::files($folder);
 			if($imgs)
 			{
+				// echo '<script src="scripts/mootools.v1.11.js" type="text/javascript"></script>';
 				foreach($imgs AS $image)
 				{
 					$exif = exif_read_data($folder.$image);
@@ -1665,7 +1666,7 @@ class gpsClass
 					"\n	var iconlayer_geotaggedImgs = new OpenLayers.Icon(\"" . $iconfolder . "foto.png\",sizelayer_geotaggedImgs,offsetlayer_geotaggedImgs);".
 					"\n	popupContentHTML_geotaggedImgs = '" . $image . "';".
 					"\n	popupClass_geotaggedImgs = AutoSizeAnchored;".
-					"\n	addlayer_geotaggedImgs(lonLatlayer_geotaggedImgs, popupClass_geotaggedImgs, popupContentHTML_geotaggedImgs, true, false, iconlayer_geotaggedImgs, map);\n";
+					"\n	addlayer_geotaggedImgs(lonLatlayer_geotaggedImgs, popupClass_geotaggedImgs, popupContentHTML_geotaggedImgs, true, false, iconlayer_geotaggedImgs, olmap);\n";
 					}
 					/*				elseif ( isset($DateTime))
 					 {

@@ -31,7 +31,7 @@ class JtgModelCats extends JModel
 		$children = array();
 		foreach ($rows as $v )
 		{
-			$v->name = $v->title;
+			$v->name = JText::_($v->title);
 			$pt 	= $v->parent_id;
 			$list 	= @$children[$pt] ? $children[$pt] : array();
 			array_push( $list, $v );

@@ -96,10 +96,10 @@ if ($maySeeSingleFile === true) {
 	    {
 		$beatchartaxis = 0;
 	    }
-	    
+	    JHTML :: script('jquery.js', 'components/com_jtg/assets/js/', false);
 	    ?>
 	    <!-- begin Charts -->
-	    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	    
 	    <script type="text/javascript">
 		jQuery.noConflict();
 	    </script>

@@ -402,7 +402,7 @@ class JtgViewFiles extends JView
 		// $id = implode(',', $cid);
 		$editor =& JFactory::getEditor();
 		$model = $this->getModel();
-		$cats = $model->getCats();
+		$cats = $model->getCats(true,'COM_JTG_SELECT',-1);
 		$terrain = $model->getTerrain("*",true," WHERE published=1 ");
 		$user 	=& JFactory::getUser();
 		$uid = $user->get('id');
@@ -444,18 +444,16 @@ class JtgViewFiles extends JView
 			$access = $model->getAccess($id);
 			// $terrain[0]->checked_out=1;
 			$error = false;
-			$terrainlist = explode(',',$track->terrain);
-			foreach ($terrainlist as $t) {
-				if ( !is_numeric($t) ) $error = true;
-			}
-			if ( $error === true ) $error = "<font color=\"red\">" . JText::_('Error') . ": " . $track->terrain . "</font><br />";
-			$size = count($cats);
-			if ( $size > 6) $size = 6;
-			$trackids = $track->catid;
-			$trackids = explode(",",$trackids);
-			$lists['cats']		= JHTML::_('select.genericlist', $cats, 'catid[]', 'size="'.$size.'" multiple="multiple"', 'id', 'treename', $trackids );
-			$size = count($terrain);
-			if ( $size > 6) $size = 6;
+			$terrainlist = ($track->terrain? explode(',',$track->terrain): 0);
+//			What was this for ??
+//			foreach ($terrainlist as $t) {
+//				if ( !is_numeric($t) ) $error = true;
+//			}
+//			if ( $error === true ) $error = "<font color=\"red\">" . JText::_('Error') . ": " . $track->terrain . "</font><br />";
+			$size = min( count($cats), 6);
+			$trackids = explode(",",$track->catid);
+			$lists['cats']		= JHTML::_('select.genericlist', $cats, 'catid[]', 'size="'.$size.'" multiple="multiple"', 'id', 'title', $trackids, '', true);
+			$size = min( count($terrain), 6) ;
 			$lists['terrain']	= $error.JHTML::_('select.genericlist', $terrain, 'terrain[]', 'multiple="multiple" size="'.$size.'"', 'id', 'title', $terrainlist );
 			//			$row->access = $access;
 			$lists['access']	= JtgHelper::getAccessList($access);

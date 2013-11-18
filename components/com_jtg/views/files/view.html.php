@@ -200,7 +200,7 @@ class JtgViewFiles extends JView
 		}
 		$level = $model->getLevelSelect($sellevel);
 		$img_dir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . $id.DS;
-		$imgpath = JURI::root().'images/jtrackgallery'.$id . "/";
+		$imgpath = JURI::root().'images/jtrackgallery/'.$id . "/";
 		$images = null;
 		$imgcount = 0;
 		if(JFolder::exists($img_dir)) {
@@ -329,7 +329,6 @@ class JtgViewFiles extends JView
 		$document->addScript('components' . DS . 'com_jtg' . DS . 'assets' . DS . 'js' . DS . 'fullscreen.js');
 		//		JHTML::script('OpenLayers.js', 'components' . DS . 'com_jtg' . DS . 'assets' . DS . 'js' . DS . 'OpenLayers'., false); // IE-Fehler
 		$document->addScript('http://www.openstreetmap.org/openlayers/OpenStreetMap.js');
-		// $document->addScript('http://www.openlayers.org/api/Ajax.js');
 		// 		$document->addScript('components/com_jtg/assets/js/GPX.js');
 		//		$document->addScript('components' . DS . 'com_jtg' . DS . 'assets' . DS . 'js' . DS . 'jtg.js');
 		// 		$document->addScript('');
@@ -448,7 +447,7 @@ class JtgViewFiles extends JView
 							$imageBlock .= "	<div class=\"imageElement\">
 			<h3>" . $track->title . " <small>(" . $image . ")</small></h3>
 			<p></p>
-			<img src=\"".JURI::base() . "images/jtrackgallery" . $id . "/" . $image . "\" class=\"full\" height=\"0px\" />
+			<img src=\"".JURI::base() . "images/jtrackgallery/" . $id . "/" . $image . "\" class=\"full\" height=\"0px\" />
 		</div>\n";
 						}
 					}
@@ -468,7 +467,7 @@ class JtgViewFiles extends JView
 						if ( in_array(strtolower($ext),$imgtypes) ) {
 							if ($i != 0)
 							$imageBlock .= "<br /><br />";
-							$imageBlock .= "<img src=\"".JURI::base() . "images/jtrackgallery" . $id . "/" . $image . "\" alt=\"" . $track->title . " (" . $image . ")" . "\" title=\"" . $track->title . " (" . $image . ")" . "\" />\n";
+							$imageBlock .= "<img src=\"".JURI::base() . "images/jtrackgallery/" . $id . "/" . $image . "\" alt=\"" . $track->title . " (" . $image . ")" . "\" title=\"" . $track->title . " (" . $image . ")" . "\" />\n";
 						}
 					}
 					break;

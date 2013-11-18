@@ -47,7 +47,7 @@ class layoutHelper
 		$navi .= '<div class="navi-part"><a href="'.
 		JRoute::_("index.php?option=com_jtg&view=cats&layout=default").'">'.JText::_('COM_JTG_CATS').'</a></div>';
 		$navi .= '<div class="navi-part"><a href="'.
-		JRoute::_("index.php?option=com_jtg&view=files&layout=list").'">'.JText::_('COM_JTG_FILES').'</a></div>';
+		JRoute::_("index.php?option=com_jtg&view=files&layout=list").'">'.JText::_('COM_JTG_TRACKS').'</a></div>';
 		$cfg = JtgHelper::getConfig();
 		// $navi .= "ich bin " . $juser->get('gid') . " und muss mindestens " . $cfg->gid . " sein";
 		if ($user->get('id')) {
@@ -70,9 +70,9 @@ class layoutHelper
 				// Erscheint nur bei einzelnen Dateien
 				// TODO upgrade ACL
 				if ( ($track !== null) AND (
-				( $user->get('id') == $track->uid ) OR (JtgHelper :: userHasFrontendRights() )
+				( $user->get('id') == $track->uid ) OR (JtgHelper :: userHasFrontendRights() ) ) )
 				// Wenn Trackbesitzer oder in Gruppe "Editor" oder höher
-				) {
+				{
 					$navi .= '<div class="navi-part"><a href="'.
 					JRoute::_("index.php?option=com_jtg&view=files&layout=form&id=".
 					JRequest::getVar('id')).'">'.JText::_('COM_JTG_UPDATE_GPS_FILE').'</a></div>';
@@ -108,7 +108,6 @@ class layoutHelper
 		$document->addScript('components' . DS . 'com_jtg' . DS . 'assets' . DS . 'js' . DS . 'fullscreen.js');
 		// $document->addScript('http://www.openstreetmap.org/openlayers/OpenLayers.js'); // tuts nicht
 		$document->addScript('http://www.openstreetmap.org/openlayers/OpenStreetMap.js');
-		// $document->addScript('http://www.openlayers.org/api/Ajax.js');
 		$document->addScript('components/com_jtg/assets/js/jtg.js'); // Benötigt für Spuransich in Übersicht
 	}
 
