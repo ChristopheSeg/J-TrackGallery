@@ -1603,7 +1603,7 @@ class gpsClass
 		$maxsize = (int)$maxsize;
 		$foundpics = false;
 		$map = "// <!-- parseOLGeotaggedImgs BEGIN -->\n";
-		$httppath = JURI::base() . "images/jtrackgallery" . $id . "/";
+		$httppath = JURI::base() . "images/jtrackgallery/" . $id . "/";
 		$folder = JPATH_SITE . DS . "images" . DS . "jtrackgallery" . DS . $id.DS;
 		$map .= "layer_geotaggedImgs = new OpenLayers.Layer.Markers(\"".JText::_('COM_JTG_GEOTAGGED_IMAGES') . "\",".
 	" { displayInLayerSwitcher: true });".

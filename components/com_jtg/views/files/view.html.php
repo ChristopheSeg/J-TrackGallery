@@ -458,15 +458,18 @@ class JtgViewFiles extends JView
 				case 'highslide' :
 
 				    $galscript = "<script type=\"text/javascript\">
-					    hs.graphicsDir = '../highslide/graphics/';
+					    hs.graphicsDir = '".JURI::base() . "components/com_jtg/assets/highslide/graphics/';
 					    hs.align = 'center';
 					    hs.transitions = ['expand', 'crossfade'];
 					    hs.fadeInOut = true;
-					    hs.dimmingOpacity = 0.8;
 					    hs.outlineType = 'rounded-white';
-					    hs.captionEval = 'this.thumb.alt';
-					    hs.marginBottom = 105; // make room for the thumbstrip and the controls
-					    hs.numberPosition = 'caption';
+					    hs.headingEval = 'this.a.title';
+					    hs.numberPosition = 'heading';
+					    hs.useBox = true;
+					    hs.width = 600;
+					    hs.height = 400;
+					    hs.showCredits = false;
+					    hs.dimmingOpacity = 0.8;
 
 					    // Add the slideshow providing the controlbar and the thumbstrip
 					    hs.addSlideshow({
@@ -474,21 +477,27 @@ class JtgViewFiles extends JView
 						    interval: 5000,
 						    repeat: false,
 						    useControls: true,
+						    fixedControls: 'fit',
 						    overlayOptions: {
-							    className: 'text-controls',
-							    position: 'bottom center',
-							    relativeTo: 'viewport',
-							    offsetY: -60
+							    position: 'top right',
+							    offsetX: 200,
+							    offsetY: -65
 						    },
 						    thumbstrip: {
-							    position: 'bottom center',
-							    mode: 'horizontal',
-							    relativeTo: 'viewport'
+							    position: 'rightpanel',
+							    mode: 'float',
+							    relativeTo: 'expander',
+							    width: '210px'
 						    }
 					    });
-					    </script>\n";	
- 				        $document->addScript('components/com_jtg/assets/js/highslide-with-gallery.packed.js');
-					$document->addStyleSheet("templates/$template/css/highslide.css");
+					    // Make all images animate to the one visible thumbnail
+					    var miniGalleryOptions1 = {
+						    thumbnailId: 'thumb1'
+					    }
+				    </script>\n";	
+ 				        $document->addScript('components/com_jtg/assets/highslide/highslide-with-gallery.packed.js');
+					$document->addStyleSheet(JURI::base().'components/com_jtg/assets/highslide/highslide.css');
+					// TODO This style sheet is not overrided. 
 					$imageBlock .= "\n<div class=\"highslide-gallery\" style=\"width: 600px; margin: auto\">\n";
 					foreach($images as $image)
 					{
@@ -496,8 +505,7 @@ class JtgViewFiles extends JView
 						$imgtypes = explode(',',$cfg->type);
 						if ( in_array(strtolower($ext),$imgtypes) )
 						{
-							$imageBlock .= "	<a class=\"highslide\"
-			href='/images/jtrackgallery/" . $id . "/" . $image ."' onclick=\"return hs.expand(this)\">
+							$imageBlock .= "	<a class=\"highslide\" href='/images/jtrackgallery/" . $id . "/" . $image ."' title=\"" . $image ."\" onclick=\"return hs.expand(this)\">
 			<img src=\"" . JURI::base() . "images/jtrackgallery/" . $id . "/thumbs/171_r_thumb.jpg\" alt=\"$image\"  /></a>\n\n";
 						}
 					} 
@@ -526,6 +534,7 @@ class JtgViewFiles extends JView
 		}
 		else {
 		    $this->images = false;
+		    $galscript = "";
 		}
 		$stars = array(
 		1 => "one",
