@@ -80,7 +80,7 @@ class JtgViewConfig extends JView
 		array('id' => 'none', 'text' => JText::_('JNONE')),
 		array('id' => 'straight', 'text' => JText::_('COM_JTG_GAL_STRAIGHT')),
 		array('id' => 'jd2', 'text' => JText::_('COM_JTG_GAL_JDGALLERY2')),
-		//		array('id' => 'jd21', 'text' => JText::_('COM_JTG_GAL_JDGALLERY21'))
+		array('id' => 'highslide', 'text' => JText::_('COM_JTG_GAL_HIGHSLIDE'))
 		);
 		$routingiconset = array();
 		$imgdir = ".." . DS . "components" . DS . "com_jtg" . DS . "assets" . DS . "images" . DS . "approach".DS;

@@ -1610,11 +1610,10 @@ class gpsClass
 	"\n	olmap.addLayer(layer_geotaggedImgs);".
 	"\n	layer_geotaggedImgs.setVisibility(true);\n";
 		if(JFolder::exists($folder)) {
-			$imgs = JFolder::files($folder);
+			$imgs = JFolder::files($folder, false);
 			if($imgs)
 			{
-				// echo '<script src="scripts/mootools.v1.11.js" type="text/javascript"></script>';
-				foreach($imgs AS $image)
+					foreach($imgs AS $image)
 				{
 					$exif = exif_read_data($folder.$image);
 					if ( isset($exif['GPSLatitude']))
@@ -1822,7 +1821,7 @@ class gpsClass
 	private function parseScriptOLFooter() {
 
 		$map = "// <!-- parseScriptOLFooter BEGIN -->\n";
-		$map .= "}\n"; //  close slippymap_s_init cript
+		$map .= "}\n"; //  close slippymap_s_init script
 		$map .= "</script>\n";
 		$map .= "<!-- parseScriptOLFooter END -->\n";
 		// $map .= "<center><div id=\"jtg_map\" style=\"width: 600px; height: 400px;\" ></div></center>";
@@ -2005,7 +2004,7 @@ class gpsClass
 		$counttracks=0;
 		//		while (true) {
 		//			$m = microtime(true);
-		$counttracks = $this->findTracks($file,$xml);
+		$counttracks = $this->countTracks($file,$xml);
 		//			if ( $coords != false ) {
 		//				$foundtracks = 0;
 		//				$counttracks++;
@@ -2182,26 +2181,30 @@ class gpsClass
 		}
 
 	}
-
-	public function findTracks($file,$xml) {
+	/**
+	 * checks if the given GPS file has track(s) and return number of track(s) 
+	 *
+	 * @param string $file
+	 * @return integer
+	 */
+	public function countTracks($file,$xml) {
 		jimport('joomla.filesystem.file');
 
 		$ext = JFile::getExt($file);
 
 		if($ext == 'kml') {
-			$coords =$this->findTracksKML($xml);
-			return $coords;
+			$trackCount =$this->countTracksKML($xml);
+			return $trackCount;
 		} else if($ext == 'gpx') {
-			$coords = $this->findTracksGPX($xml);
-			if ( $coords == false ) return false;
-			return $coords;
+			$trackCount = $this->countTracksGPX($xml);
+			if ( $trackCount == false ) return false;
+			return $trackCount;
 		} else if ($ext == 'tcx') {
-			$coords = $this->findTracksTCX($xml);
-			return $coords;
+			$trackCount = $this->countTracksTCX($xml);
+			return $trackCount;
 		} else {
 			return JText::_('COM_JTG_GPS_FILE_ERROR');
 		}
-
 	}
 
 	/**
@@ -2286,12 +2289,13 @@ class gpsClass
 	}
 
 	/**
+	 * checks if the given GPX file as track(s) and return number of track 
 	 *
-	 * @param string $file
-	 * @return array
+	 * @param string $xml
+	 * @return integer
 	 */
-	private function findTracksGPX($xml) {
-		$start = 0;
+	private function countTracksGPX($xml) {
+		$trackCount = 0;
 		$trackid = 0;
 		$foundtracks = 0;
 		$notfoundtracks = 0;
@@ -2306,14 +2310,26 @@ class gpsClass
 				AND @isset($trkpt->attributes()->lon))
 				)
 				{
-					$start++;
+					$trackCount++;
 					$foundtracks++;
 				}
 			}
 			if ( $j == 0 ) $notfoundtracks++;
 			$trackid++;
 		}
-		return $start;
+		return $trackCount;
+	}
+
+		/**
+	 * checks if the given GPX file as track(s) and return number of track 
+	 *
+	 * @param string $xml
+	 * @return integer
+	 */
+	private function countTracksKML($xml) {
+		$trackCount = 1;
+
+		return $trackCount;
 	}
 
 	/**

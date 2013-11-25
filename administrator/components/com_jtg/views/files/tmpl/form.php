@@ -47,12 +47,12 @@ if($this->id >= 1) {
 	$document->addScript('../components' . DS . 'com_jtg' . DS . 'assets' . DS . 'js' . DS . 'fullscreen.js');
 	$document->addScript('http://www.openstreetmap.org/openlayers/OpenStreetMap.js');
 	$document->addScript("../components/com_jtg/assets/js/jtg.js");
-	$document->addScript("../components/com_jtg/assets/js/jd.gallery.js");
+	// TODO WHAT IS THIS FOR ??$document->addScript("../components/com_jtg/assets/js/jd.gallery.js");
 	$map .= $gps->writeSingleTrackOL($this->track->file);
-	$map .= ("<div id=\"jtg_map\"  align=\"center\" class=\"olMap\" ");
+	$map .= ("\n<div id=\"jtg_map\"  align=\"center\" class=\"olMap\" ");
 	$map .= ("style=\"width: 400px; height: 500px; background-color:#EEE; vertical-align:middle;\" >");
-	$map .= ("<script>slippymap_init();</script>");
-	$map .= ("</div>");
+	$map .= ("\n<script>slippymap_init();</script>");
+	$map .= ("\n</div>");
 }
 
 ?>

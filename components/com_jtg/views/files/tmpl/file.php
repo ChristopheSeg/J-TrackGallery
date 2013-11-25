@@ -20,7 +20,7 @@ if ($maySeeSingleFile === true) {
 
 	$durationbox = (bool)$this->params->get("jtg_param_show_durationcalc");
 	echo $this->map;
-	if ( ( $this->cfg->gallery == "jd2" ) OR ( $this->cfg->gallery == "jd21" ) ) {
+	if ( ( $this->cfg->gallery == "jd2" ) OR ( $this->cfg->gallery == "jd21" )  OR ( $this->cfg->gallery == "highslide" ) ) {
 		echo $this->galscript;
 	} 
 					
@@ -473,14 +473,14 @@ if ($havechart) {
 					echo $this->jscript;
 					?>
 <form name="adminForm" id="adminForm" method="post" action="<?php echo $this->action; ?>">
-<div><b><?php echo JText::_('COM_JTG_DOWNLOAD_FILE'); ?></b></div>
+
 <span><label for="format"><?php echo JText::_('COM_JTG_FORMAT'); ?>&nbsp;</label>
 <select name="format" id="format">
 	<option value=""><?php echo JText::_('COM_JTG_SELECT'); ?></option>
 <?php echo $download_option; ?>
 </select>
 <button class="button" type="button" onclick="submitbutton('download')">
-					<?php echo JText::_('COM_JTG_DOWNLOAD') ?></button>
+<?php echo JText::_('COM_JTG_DOWNLOAD_THIS_TRACK') ?></button>
 </span> <?php
 echo JHTML::_( 'form.token' ) . "\n"; ?> <input type="hidden"
 	name="option" value="com_jtg" /> <input type="hidden" name="id"
@@ -608,7 +608,7 @@ echo JHTML::_( 'form.token' ) . "\n"; ?> <input type="hidden"
 	echo $this->footer;
 	if ( isset($this->cfg) )
 	{
-	    echo ("<script language=\"javascript\" type=\"text/javascript\">\n
+	    echo ("\n<script language=\"javascript\" type=\"text/javascript\">\n
 		var olmap={ title: 'com_jtg_map_object' } \n 
-		slippymap_init();</script>");
+		slippymap_init();</script>\n");
 	}

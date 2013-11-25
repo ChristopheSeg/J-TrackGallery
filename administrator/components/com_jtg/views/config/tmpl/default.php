@@ -78,7 +78,7 @@ if($this->config->terms == "1") {
 				<td><?php echo $this->lists['usevote']; ?></td>
 			</tr>
 			<tr>
-				<td><span class="hasTip" title="<?php echo JText::_('COM_JTG_TT_TITLE'); ?> :: <?php echo JText::_('COM_JTG_TT_DOWNLOAD'); ?>"><?php echo JText::_('COM_JTG_DOWNLOAD'); ?></span></td>
+				<td><span class="hasTip" title="<?php echo JText::_('COM_JTG_TT_TITLE'); ?> :: <?php echo JText::_('COM_JTG_TT_DOWNLOAD'); ?>"><?php echo JText::_('COM_JTG_ENABLE_DOWNLOAD_FILE_FOR'); ?></span></td>
 				<td><?php echo $this->lists['download']; ?></td>
 			</tr>
 			<tr>

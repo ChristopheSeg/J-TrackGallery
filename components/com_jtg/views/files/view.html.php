@@ -403,7 +403,7 @@ class JtgViewFiles extends JView
 		$img_dir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . $id;
 		if (JFolder :: exists($img_dir)) {
 			$exclude = array ( '.db', '.txt' );
-			$images = JFolder :: files($img_dir, '', true, false, $exclude);
+			$images = JFolder :: files($img_dir, '', false, false, $exclude);
 		}
 
 		$jscript = "<script language=\"javascript\" type=\"text/javascript\">
@@ -418,25 +418,27 @@ class JtgViewFiles extends JView
 					}
 				</script>\n";
 
-		$galscript = "<script language=\"javascript\" type=\"text/javascript\">
-	Joomla.startGallery = function()  {
-		var myGallery = new gallery($('myGallery'), {
-			timed: true,
-			showArrows: true,
-			embedLinks: false,
-			showCarousel: false
-		});
-	}
-	window.addEvent('domready',startGallery);
-</script>\n";
 
+
+
+	
 		$imageBlock = null;
 		if((isset($images) AND (count($images) > 0))) {
 			$this->images = $images;
 			switch ($cfg->gallery) {
 				case 'jd2' :
+					$galscript = "<script language=\"javascript\" type=\"text/javascript\">
+				startGallery = function()  {
+					var myGallery = new gallery($('myGallery'), {
+						timed: true,
+						showArrows: true,
+						embedLinks: false,
+						showCarousel: false
+					});
+				}
+				window.addEvent('domready',startGallery);
+				</script>\n";					
 					$document->addScript('components/com_jtg/assets/js/jd.gallery.js');
-					//	case 'jd21' :
 					$imageBlock .= "<div id=\"myGallery\">";
 					foreach($images as $image)
 					{
@@ -453,11 +455,57 @@ class JtgViewFiles extends JView
 					}
 					$imageBlock .= "</div>\n";
 					break;
-				case 'jd21' :
-					$document->addScript('components/com_jtg/assets/js/jd.gallery.js');
-					$imageBlock = "<p></p>"; // dummy
+				case 'highslide' :
+
+				    $galscript = "<script type=\"text/javascript\">
+					    hs.graphicsDir = '../highslide/graphics/';
+					    hs.align = 'center';
+					    hs.transitions = ['expand', 'crossfade'];
+					    hs.fadeInOut = true;
+					    hs.dimmingOpacity = 0.8;
+					    hs.outlineType = 'rounded-white';
+					    hs.captionEval = 'this.thumb.alt';
+					    hs.marginBottom = 105; // make room for the thumbstrip and the controls
+					    hs.numberPosition = 'caption';
+
+					    // Add the slideshow providing the controlbar and the thumbstrip
+					    hs.addSlideshow({
+						    //slideshowGroup: 'group1',
+						    interval: 5000,
+						    repeat: false,
+						    useControls: true,
+						    overlayOptions: {
+							    className: 'text-controls',
+							    position: 'bottom center',
+							    relativeTo: 'viewport',
+							    offsetY: -60
+						    },
+						    thumbstrip: {
+							    position: 'bottom center',
+							    mode: 'horizontal',
+							    relativeTo: 'viewport'
+						    }
+					    });
+					    </script>\n";	
+ 				        $document->addScript('components/com_jtg/assets/js/highslide-with-gallery.packed.js');
+					$document->addStyleSheet("templates/$template/css/highslide.css");
+					$imageBlock .= "\n<div class=\"highslide-gallery\" style=\"width: 600px; margin: auto\">\n";
+					foreach($images as $image)
+					{
+						$ext = JFile::getExt($image);
+						$imgtypes = explode(',',$cfg->type);
+						if ( in_array(strtolower($ext),$imgtypes) )
+						{
+							$imageBlock .= "	<a class=\"highslide\"
+			href='/images/jtrackgallery/" . $id . "/" . $image ."' onclick=\"return hs.expand(this)\">
+			<img src=\"" . JURI::base() . "images/jtrackgallery/" . $id . "/thumbs/171_r_thumb.jpg\" alt=\"$image\"  /></a>\n\n";
+						}
+					} 
+					$imageBlock .= "</div>\n";
 					break;
-				case 'straight' :
+					
+				    case 'straight' :
+					$galscript = "";
 					$i=0;
 					foreach($images as $image)
 					{
@@ -471,7 +519,10 @@ class JtgViewFiles extends JView
 						}
 					}
 					break;
-			}
+					
+				    default:
+					$galscript = "";					
+					}
 		}
 		else {
 		    $this->images = false;
