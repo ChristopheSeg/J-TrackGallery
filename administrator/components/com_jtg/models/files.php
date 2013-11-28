@@ -164,7 +164,7 @@ class JtgModelFiles extends JModel
 		$cfg = JtgHelper::getConfig();
 		$types = explode(',',$cfg->type); // jpg,png,gif f.e.
 		if(count($images) > 0 )  {
-			$img_dir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . $id;
+			$img_dir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'track_' . $id;
 			JFolder::create($img_dir,0777);
 			foreach($images['name'] as $key => $value)  {
 				$ext = explode('.',$images['name'][$key]);
@@ -1048,7 +1048,7 @@ class JtgModelFiles extends JModel
 		}
 		$id = $result->id;
 		//		images upload part
-		$imgpath = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . $id . DS;
+		$imgpath = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'track_' . $id . DS;
 		$images =& JRequest::getVar('images', null, 'files', 'array');
 		if(count($images['name']) > 1)
 		{
@@ -1223,7 +1223,7 @@ class JtgModelFiles extends JModel
 				// Fehlt noch ...
 
 				$sourcePath = JPATH_SITE . DS . 'images' . DS . 'joomgpstracks' . DS . md5($title);
-				$destPath = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . $id;
+				$destPath = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'track_' . $id;
 				if(count($images) > 0 )  {
 					JFolder::create($destPath,0777);
 					//						$img_dir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . md5($title);
@@ -1295,7 +1295,7 @@ class JtgModelFiles extends JModel
 	}
 
 	function getImages($id) {
-		$img_dir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . $id;
+		$img_dir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'track_' . $id;
 		if (!JFolder::exists($img_dir))
 		return null;
 		$images = JFolder::files($img_dir);
@@ -1320,7 +1320,7 @@ class JtgModelFiles extends JModel
 		$published =& JRequest::getVar('published');
 
 		$allimages = $this->getImages($id);
-		$imgpath = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . $id.DS;
+		$imgpath = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'track_' . $id.DS;
 		if($allimages){
 			foreach ($allimages AS $key => $image) {
 				$image =& JRequest::getVar('deleteimage_'.str_replace('.',null,$image));

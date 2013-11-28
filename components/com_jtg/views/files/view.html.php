@@ -199,19 +199,40 @@ class JtgViewFiles extends JView
 			$sellevel = 0;
 		}
 		$level = $model->getLevelSelect($sellevel);
-		$img_dir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . $id.DS;
-		$imgpath = JURI::root().'images/jtrackgallery/'.$id . "/";
+		$img_dir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'track_' . $id . DS;
+		$thumb_dir = $img_dir . 'thumbs' . DS;
+		$img_path = JURI::root().'images/jtrackgallery/'.$id . "/";
+		$thumb_dir = $img_dir . 'thumbs/';
 		$images = null;
-		$imgcount = 0;
+		
 		if(JFolder::exists($img_dir)) {
 			$imgs = JFolder::files($img_dir);
 			if($imgs)
 			{
+				$imgcount = count($imgs);
+				if(!JFolder::exists($thumb_dir)) 
+				{
+				    JFolder::create($thumb_dir);
+				}
+				$thumb_height = 200;//TODO ADjust!
+				require_once(JPATH_SITE . DS . "administrator" . DS . "components" . DS . "com_jtg" . DS . "models" . DS . "thumb_creation.php");
+				
 				foreach($imgs AS $image)
 				{
-					$imgcount++;
-					$images .= "<input type=\"checkbox\" name=\"deleteimage_".str_replace('.',null,$image) . "\" value=\"" . $image . "\">".JText::_( 'COM_JTG_DELETE_IMAGE' ) . " (" . $image . ")<br />".
-					"<img src=\"" . $imgpath.$image . "\" alt=\"" . $image . "\" title=\"" . $image . "\" /><br /><br />\n";
+					// TODO {Update or New File} update or calculate Thumbnails
+					$ext = JFile::getExt($image);
+					$thumb_name =  'thumb1_' . $image;   
+					$thumb = com_jtg_create_Thumbnails ($img_dir, $image, 210); 
+					// 
+					if (! $thumb) {	
+					    $images .= "<input type=\"checkbox\" name=\"deleteimage_".str_replace('.',null,$image) . "\" value=\"" . $image . "\">".JText::_( 'COM_JTG_DELETE_IMAGE' ) . " (" . $image . ")<br />".
+					    "<img src=\"" . $img_path.$image . "\" alt=\"" . $image . "\" title=\"" . $image . "\" /><br /><br />\n";					    
+		
+					} else {
+					    $images .= "<input type=\"checkbox\" name=\"deleteimage_".str_replace('.',null,$image) . "\" value=\"" . $image . "\">".JText::_( 'COM_JTG_DELETE_IMAGE' ) . " (" . $image . " {only thumbnail displayed})<br />".
+					    "<img src=\"" . $img_path. 'thumbs/'. $thumb_name . "\" alt=\"" . $image . "\" title=\"" . $image . " (thumbnail)\" /><br /><br />\n";					    
+					}
+
 				}
 			}
 		}
@@ -400,7 +421,7 @@ class JtgViewFiles extends JView
 		//			}
 
 		// load images if exists
-		$img_dir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . $id;
+		$img_dir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'track_' . $id;
 		if (JFolder :: exists($img_dir)) {
 			$exclude = array ( '.db', '.txt' );
 			$images = JFolder :: files($img_dir, '', false, false, $exclude);
@@ -449,7 +470,7 @@ class JtgViewFiles extends JView
 							$imageBlock .= "	<div class=\"imageElement\">
 			<h3>" . $track->title . " <small>(" . $image . ")</small></h3>
 			<p></p>
-			<img src=\"".JURI::base() . "images/jtrackgallery/" . $id . "/" . $image . "\" class=\"full\" height=\"0px\" />
+			<img src=\"".JURI::base() . "images/jtrackgallery/track_" . $id . "/" . $image . "\" class=\"full\" height=\"0px\" />
 		</div>\n";
 						}
 					}
@@ -498,15 +519,28 @@ class JtgViewFiles extends JView
  				        $document->addScript('components/com_jtg/assets/highslide/highslide-with-gallery.packed.js');
 					$document->addStyleSheet(JURI::base().'components/com_jtg/assets/highslide/highslide.css');
 					// TODO This style sheet is not overrided. 
-					$imageBlock .= "\n<div class=\"highslide-gallery\" style=\"width: 600px; margin: auto\">\n";
+					$imageBlock .= "\n<div class=\"highslide-gallery\" style=\"width: auto; margin: auto\">\n";
+					$imgcount = count ($images);
 					foreach($images as $image)
 					{
 						$ext = JFile::getExt($image);
 						$imgtypes = explode(',',$cfg->type);
 						if ( in_array(strtolower($ext),$imgtypes) )
 						{
-							$imageBlock .= "	<a class=\"highslide\" href='/images/jtrackgallery/" . $id . "/" . $image ."' title=\"" . $image ."\" onclick=\"return hs.expand(this)\">
-			<img src=\"" . JURI::base() . "images/jtrackgallery/" . $id . "/thumbs/171_r_thumb.jpg\" alt=\"$image\"  /></a>\n\n";
+							if ($imgcount < 5) 
+							{
+							    $thumb =  'thumbs/thumb1_' . $image;
+							}
+							else 
+							{
+							    $thumb =  'thumbs/thumb2_' . $image;					    
+							}					
+							if ( ! JFile::exists (JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'track_' . $id . DS  . $thumb ) )
+							{	
+							    $thumb = $image;
+							}		
+							$imageBlock .= "	<a class=\"highslide\" href='/images/jtrackgallery/track_" . $id . "/" . $image ."' title=\"" . $image ."\" onclick=\"return hs.expand(this)\">
+			<img src=\"" . JURI::base() . "images/jtrackgallery/track_" . $id . '/' . $thumb . "\" alt=\"$image\"  /></a>\n\n";
 						}
 					} 
 					$imageBlock .= "</div>\n";
@@ -523,7 +557,7 @@ class JtgViewFiles extends JView
 						if ( in_array(strtolower($ext),$imgtypes) ) {
 							if ($i != 0)
 							$imageBlock .= "<br /><br />";
-							$imageBlock .= "<img src=\"".JURI::base() . "images/jtrackgallery/" . $id . "/" . $image . "\" alt=\"" . $track->title . " (" . $image . ")" . "\" title=\"" . $track->title . " (" . $image . ")" . "\" />\n";
+							$imageBlock .= "<img src=\"".JURI::base() . "images/jtrackgallery/track_" . $id . "/" . $image . "\" alt=\"" . $track->title . " (" . $image . ")" . "\" title=\"" . $track->title . " (" . $image . ")" . "\" />\n";
 						}
 					}
 					break;

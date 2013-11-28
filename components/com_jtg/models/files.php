@@ -561,7 +561,7 @@ class JtgModelFiles extends JModel
 		$this->_db->setQuery($query);
 		$file = $this->_db->loadObject();
 		// folder and Pictures within delete
-		$folder = JPATH_SITE . DS . "images" . DS . "jtrackgallery" . DS . $id;
+		$folder = JPATH_SITE . DS . "images" . DS . "jtrackgallery" . DS . 'track_' . $id;
 		if (JFolder::exists($folder))
 		JFolder::delete($folder);
 		// File (gpx?) delete
@@ -580,7 +580,7 @@ class JtgModelFiles extends JModel
 	}
 
 	function getImages($id) {
-		$img_dir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . $id;
+		$img_dir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'track_' . $id;
 		if (!JFolder::exists($img_dir))
 		return null;
 		$images = JFolder::files($img_dir);
@@ -602,7 +602,7 @@ class JtgModelFiles extends JModel
 		$level =& JRequest::getInt('level');
 		$title =& JRequest::getVar('title');
 		$allimages = $this->getImages($id);
-		$imgpath = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . $id.DS;
+		$imgpath = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'track_' . $id.DS;
 		foreach ($allimages AS $key => $image) {
 			$image =& JRequest::getVar('deleteimage_'.str_replace('.',null,$image));
 			if($image !== NULL)
@@ -624,7 +624,7 @@ class JtgModelFiles extends JModel
 		$cfg = JtgHelper::getConfig();
 		$types = explode(',',$cfg->type);
 		if($images) {
-			$img_dir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . $id;
+			$img_dir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'track_' . $id;
 			if(!JFolder::exists($img_dir)) {
 				JFolder::create($img_dir,0777);
 			}
