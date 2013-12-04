@@ -201,8 +201,7 @@ class JtgViewFiles extends JView
 		$level = $model->getLevelSelect($sellevel);
 		$img_dir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'track_' . $id . DS;
 		$thumb_dir = $img_dir . 'thumbs' . DS;
-		$img_path = JURI::root().'images/jtrackgallery/'.$id . "/";
-		$thumb_dir = $img_dir . 'thumbs/';
+		$img_path = JURI::root().'images/jtrackgallery/track_'.$id . "/";
 		$images = null;
 		
 		if(JFolder::exists($img_dir)) {
@@ -214,7 +213,6 @@ class JtgViewFiles extends JView
 				{
 				    JFolder::create($thumb_dir);
 				}
-				$thumb_height = 200;//TODO ADjust!
 				require_once(JPATH_SITE . DS . "administrator" . DS . "components" . DS . "com_jtg" . DS . "models" . DS . "thumb_creation.php");
 				
 				foreach($imgs AS $image)
@@ -222,7 +220,7 @@ class JtgViewFiles extends JView
 					// TODO {Update or New File} update or calculate Thumbnails
 					$ext = JFile::getExt($image);
 					$thumb_name =  'thumb1_' . $image;   
-					$thumb = com_jtg_create_Thumbnails ($img_dir, $image, 210); 
+					$thumb = com_jtg_create_Thumbnails ($img_dir, $image, $cfg->max_thumb_height, $cfg->max_geoim_height); 
 					// 
 					if (! $thumb) {	
 					    $images .= "<input type=\"checkbox\" name=\"deleteimage_".str_replace('.',null,$image) . "\" value=\"" . $image . "\">".JText::_( 'COM_JTG_DELETE_IMAGE' ) . " (" . $image . ")<br />".

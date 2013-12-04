@@ -25,6 +25,8 @@ class TableJTG_config extends JTable
 	var $unit			= NULL;
 	var $type			= NULL;
 	var $max_size		= NULL;
+	var $max_thumb_height		= NULL;
+	var $max_geoim_height		= NULL; 
 	var $terms			= NULL;
 	var $terms_id		= NULL;
 	var $sort			= NULL;

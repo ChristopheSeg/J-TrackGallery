@@ -36,6 +36,8 @@ CREATE TABLE IF NOT EXISTS `#__jtg_config` (
 	`unit` varchar(20) NOT NULL,
 	`type` varchar(30) NOT NULL,
 	`max_size` int(10) NOT NULL,
+	`max_geoim_height` int(10) NOT NULL,
+	`max_thumb_height` int(10) NOT NULL, 
 	`terms` int(10) NOT NULL,
 	`terms_id` int(10) NOT NULL,
 	`sort` int(10) NOT NULL,
@@ -66,14 +68,14 @@ CREATE TABLE IF NOT EXISTS `#__jtg_config` (
 
 TRUNCATE `#__jtg_config`;
 
-INSERT INTO `#__jtg_config` (`id`, `gid`, `apikey`, `unit`, `type`, `max_size`, 
-`terms`, `terms_id`, `sort`, `map_height`, `map_width`, `charts_width`, 
+INSERT INTO `#__jtg_config` (`id`, `gid`, `apikey`, `unit`, `type`, `max_size`, `max_thumb_height`
+`max_geoim_height`, `terms`, `terms_id`, `sort`, `map_height`, `map_width`, `charts_width`, 
 `charts_height`, `charts_linec`, `charts_bg`, `profile`, `template`, `comment_who`, 
 `inform_autor`, `captcha`, `ordering`, `comments`, `access`, `approach`, 
 `routingiconset`, `usevote`, `download`, `gpsstore`, `gallery`, `showcharts`, 
 `level`) VALUES
-(1, NULL, NULL, 'Kilometer', 'jpg,jpeg,png,gif', 200, 
-0, 0, 5, '500px', '100%', '100%', 
+(1, NULL, NULL, 'Kilometer', 'jpg,jpeg,png,gif', 200, 220, 
+400, 0, 0, 5, '500px', '100%', '100%', 
 '180px', 'FF0000', '0000CC', '0', 'default', 0, 
 1, 0, 'DESC', 0, 0, 'no', 
 'real', 0, 2, 'JPATH_SITE . DS . "images" . DS . "jtrackgallery" . DS . "uploads".DS', 'straight', 2, 

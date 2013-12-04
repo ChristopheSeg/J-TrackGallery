@@ -160,7 +160,7 @@ class JtgModelFiles extends JModel
 		}
 		return true;
 	}
-	function imageupload($images,$id,$path) {
+	function TODOREMOVEDEPRECATEDimageupload($images,$id,$path) {
 		$cfg = JtgHelper::getConfig();
 		$types = explode(',',$cfg->type); // jpg,png,gif f.e.
 		if(count($images) > 0 )  {
@@ -172,7 +172,7 @@ class JtgModelFiles extends JModel
 				$filename = str_replace("." . $ext,"",$images['name'][$key]);
 				if(in_array(strtolower($ext), $types)) {
 					$path = $img_dir.$images['name'][$key];
-					$this->createImage($images['tmp_name'][$key], $ext, $path);
+					JtgHelper::createImage($images['tmp_name'][$key], $ext, $path);
 				}
 			}
 		}
@@ -1064,7 +1064,7 @@ class JtgModelFiles extends JModel
 					if(in_array(strtolower($ext[1]),$types))
 					{
 						$path = $imgpath.$imgfilename;
-						$this->createImage($images['tmp_name'][$key], $ext[1], $path);
+						JtgHelper::createImage($images['tmp_name'][$key], $ext[1], $path);
 					}
 				}
 			}
@@ -1231,7 +1231,7 @@ class JtgModelFiles extends JModel
 						$ext = explode('.',$images['name'][$key]);
 						if(in_array($ext[1], $types)) {
 							$path = $destPath . DS . strtolower($images['name'][$key]);
-							$this->createImage($images['tmp_name'][$key], $ext[1], $path);
+							JtgHelper::createImage($images['tmp_name'][$key], $ext[1], $path);
 						}
 					}
 				}
@@ -1250,7 +1250,7 @@ class JtgModelFiles extends JModel
 	 * @param string $ext
 	 * @param string $filepath
 	 */
-	function createImage($file_tmp_name, $ext, $filepath)  {
+	function TODOREMOVEDEPRECATEDcreateImage($file_tmp_name, $ext, $filepath)  {
 
 		switch (strtolower($ext))
 		{
@@ -1356,7 +1356,7 @@ class JtgModelFiles extends JModel
 				if(in_array(strtolower($ext[1]), $types))
 				{
 					$path = $imgpath.$filename;
-					$this->createImage($images['tmp_name'][$key], $ext[1], $path);
+					JtgHelper::createImage($images['tmp_name'][$key], $ext[1], $path);
 				}
 			}
 		}

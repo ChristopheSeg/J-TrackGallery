@@ -1615,6 +1615,16 @@ class gpsClass
 			{
 					foreach($imgs AS $image)
 				{
+					// retrieve thumbnail path
+					if ( JFile::exists($folder . 'thumbs'. DS . '/thumb1_' . $image) )	
+					{
+					    $imagepath=$httppath.  'thumbs/thumb1_' . $image;  
+					}
+					else 
+					{
+					    $imagepath=$httppath.$image;
+					}
+					//TODO does thumbnail have original image exif data??
 					$exif = exif_read_data($folder.$image);
 					if ( isset($exif['GPSLatitude']))
 					{
@@ -1651,7 +1661,7 @@ class gpsClass
 						//	$lon = 6.18+(float)(rand(1000,2000)-1000)/100000;
 						//	$lat = 50.99+(float)(rand(1000,2000)-1000)/100000;
 						$size = "width=\"".(int)$width . "\" height=\"".(int)$height . "\"";
-						$image = "<img " . $size . " src=\"" . $httppath.$image . "\" alt=\"" . $image . "\" title=\"" . $image . "\">";
+						$image = "<img " . $size . " src=\"" . $imagepath . "\" alt=\"" . $image . "\" title=\"" . $image . "\">";
 						$this->gpsFile = $httpiconpath . "foto.xml";
 						$xml = $this->loadFile();
 						$sizex = $xml->sizex;
@@ -1725,7 +1735,7 @@ class gpsClass
 		//	if ( isset($rows) )
 		//	$map .= $this->parseOLMarker($rows,false); // Andere Tracks standardmäßig ausblenden
 		$zeiten .= (int) round( ( microtime(true) - $jtg_microtime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " parseOLMarker<br />\n";
-		$map .= $this->parseOLGeotaggedImgs($track->id,$maxsize,$iconpath,$httpiconpath);
+		$map .= $this->parseOLGeotaggedImgs($track->id,$cfg->max_geoim_height,$iconpath,$httpiconpath);
 		$zeiten .= (int) round( ( microtime(true) - $jtg_microtime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " parseOLGeotaggedImgs<br />\n";
 		// 	$map .= $this->parseStartPointOL($coords); // ist jetzt für jede einzelne Spur definiert
 		$file_tmp = $file;

@@ -37,18 +37,30 @@ class JtgModelConfig extends JModel
 	{
 		//	get post data
 		$row =& JRequest::get( 'post' );
-		//	Store tables if they not exists
+		//	Store tables if they not exists		
+		$cfg = JtgHelper::getConfig();
 		$createColumns = $this->createColumns($row, "config");
 		if ($createColumns !== true)
 		return $createColumns;
 		//	Bereinige $row um OSM-Available Map
 		//	$row = $this->cleanJTGconfig($row);
 		$table = $this->getTable( 'jtg_config' );
+
 		// for gid multiple select Normally done in bind  (/models/config.php but does not work!)
 		$row['gid'] = serialize($row['gid']) ;		
 		$table->bind( $row );
-		if (!$table->store())
-		return $table->getError();
+		if (!$table->store()) 
+		{
+		    return $table->getError();
+		}
+		// Config saved, 
+		if ( ($row['max_geoim_height']<>$cfg->max_geoim_height) 
+			OR ($row['max_thumb_height']<>$cfg->max_thumb_height) )
+		{
+		    // recreate thumbnails if max_height changed
+		    require_once(JPATH_SITE . DS . "administrator" . DS . "components" . DS . "com_jtg" . DS . "models" . DS . "thumb_creation.php");
+		    com_jtg_refresh_Thumbnails();
+		}
 		return true;
 	}
 

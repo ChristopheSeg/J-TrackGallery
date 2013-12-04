@@ -400,6 +400,7 @@ class JtgViewFiles extends JView
 		JHTML::script('mootools.js', '/media/system/js/', false);
 		$cid =& JRequest::getVar( 'cid', array(), 'post', 'array' );
 		// $id = implode(',', $cid);
+		$cfg = JtgHelper::getConfig();
 		$editor =& JFactory::getEditor();
 		$model = $this->getModel();
 		$cats = $model->getCats(true,'COM_JTG_SELECT',-1);
@@ -460,17 +461,32 @@ class JtgViewFiles extends JView
 			//			$lists['access']	= JHTML::_('list.accesslevel', $row );
 			$lists['hidden'] = JHTML::_('select.genericlist', $yesnolist, 'hidden', 'class="inputbox" size="2"', 'id', 'title',$track->hidden);
 			$lists['uid']		= JHTML::_('list.users', 'uid', $track->uid, 1, NULL, 'name', 0 );
-			$img_dir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'track_' . $id . DS;
-			$imgpath = JURI::root().'images/jtrackgallery/'.$id.'/';
+			$$img_path = JURI::root().'images/jtrackgallery/track_'.$id.'/';
+			$thumb_dir = $img_dir . 'thumbs' . DS;
+			$thumb_dir = $img_dir . 'thumbs/';
 			$images = null;
 			if(JFolder::exists($img_dir)) {
 				$imgs = JFolder::files($img_dir);
 				if($imgs)
 				{
+					if(!JFolder::exists($thumb_dir)) 
+					{
+					    JFolder::create($thumb_dir);
+					}
+					require_once(JPATH_SITE . DS . "administrator" . DS . "components" . DS . "com_jtg" . DS . "models" . DS . "thumb_creation.php");
+
 					foreach($imgs AS $image)
 					{
-						$images .= "<input type=\"checkbox\" name=\"deleteimage_".str_replace('.',null,$image) . "\" value=\"" . $image . "\">".JText::_( 'COM_JTG_DELETE_IMAGE' ) . " (" . $image . ")<br />".
-					"<img src=\"" . $imgpath.$image . "\" alt=\"" . $image . "\" title=\"" . $image . "\" /><br /><br />\n";
+						$thumb_name =  'thumb1_' . $image;   
+						$thumb = com_jtg_create_Thumbnails ($img_dir, $image, $cfg->max_thumb_height, $cfg->max_geoim_height); 
+						// 
+						if (! $thumb) {	
+						    $images .= "<input type=\"checkbox\" name=\"deleteimage_".str_replace('.',null,$image) . "\" value=\"" . $image . "\">".JText::_( 'COM_JTG_DELETE_IMAGE' ) . " (" . $image . ")<br />".
+						    "<img src=\"" . $img_path.$image . "\" alt=\"" . $image . "\" title=\"" . $image . "\" /><br /><br />\n";					    
+						    } else {
+						    $images .= "<input type=\"checkbox\" name=\"deleteimage_".str_replace('.',null,$image) . "\" value=\"" . $image . "\">".JText::_( 'COM_JTG_DELETE_IMAGE' ) . " (" . $image . " {only thumbnail displayed})<br />".
+						    "<img src=\"" . $img_path. 'thumbs/'. $thumb_name . "\" alt=\"" . $image . "\" title=\"" . $image . " (thumbnail)\" /><br /><br />\n";					    
+						}					    
 					}
 				}
 			}

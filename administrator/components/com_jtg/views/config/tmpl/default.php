@@ -129,6 +129,13 @@ echo $tabs->startPanel(JText::_('COM_JTG_DISPLAY'), 'display');
 				<td><input type="text" name="max_size" value="<?php echo $this->config->max_size; ?>" size="20" /></td>
 			</tr>
 			<tr>
+				<td><span class="hasTip" title="<?php echo JText::_('COM_JTG_TT_TITLE'); ?> :: <?php echo JText::_('COM_JTG_TT_GEOIM_HEIGHT_DESC'); ?>"><?php echo JText::_( 'COM_JTG_GEOIM_HEIGHT' ); ?></span></td>
+				<td><input type="text" name="max_geoim_height" value="<?php echo $this->config->max_geoim_height; ?>" size="20" /></td>
+			</tr>
+			<tr>
+				<td><span class="hasTip" title="<?php echo JText::_('COM_JTG_TT_TITLE'); ?> :: <?php echo JText::_('COM_JTG_TT_THUMB_HEIGHT_DESC'); ?>"><?php echo JText::_( 'COM_JTG_THUMB_HEIGHT' ); ?></span></td>
+				<td><input type="text" name="max_thumb_height" value="<?php echo $this->config->max_thumb_height; ?>" size="20" /></td>
+			</tr>			<tr>
 				<td><?php echo JText::_('COM_JTG_UNIT'); ?></td>
 				<td><?php echo $this->lists['unit']; ?></td>
 			</tr>
