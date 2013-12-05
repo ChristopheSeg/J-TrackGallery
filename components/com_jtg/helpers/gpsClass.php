@@ -1598,9 +1598,9 @@ class gpsClass
 		return floatval($parts[0]) / floatval($parts[1]);
 	}
 
-	private function parseOLGeotaggedImgs($id,$maxsize,$iconfolder,$httpiconpath)
+	private function parseOLGeotaggedImgs($id,$max_geoim_height,$iconfolder,$httpiconpath)
 	{
-		$maxsize = (int)$maxsize;
+		$max_geoim_height = (int)$max_geoim_height;
 		$foundpics = false;
 		$map = "// <!-- parseOLGeotaggedImgs BEGIN -->\n";
 		$httppath = JURI::base() . "images/jtrackgallery/track_" . $id . "/";
@@ -1638,22 +1638,22 @@ class gpsClass
 						$foundpics = true;
 						$height = (int)$exif["COMPUTED"]["Height"];
 						$width = (int)$exif["COMPUTED"]["Width"];
-						if ( ( $height > $maxsize ) OR ( $width > $maxsize ) )
+						if ( ( $height > $max_geoim_height ) OR ( $width > $max_geoim_height ) )
 						{
 							if ( $height == $width ) // square
 							{
-								$height = $maxsize;
-								$width = $maxsize;
+								$height = $max_geoim_height;
+								$width = $max_geoim_height;
 							}
 							elseif ( $height < $width ) // landscape
 							{
-								$height = $maxsize / $width * $height;
-								$width = $maxsize;
+								$height = $max_geoim_height / $width * $height;
+								$width = $max_geoim_height;
 							}
 							else // portrait
 							{
-								$height = $maxsize;
-								$width = $height * $maxsize / $width;
+								$height = $max_geoim_height;
+								$width = $height * $max_geoim_height / $width;
 							}
 						}
 						$lon = $this->getGps($exif['GPSLongitude'], $exif['GPSLongitudeRef']);
@@ -1708,7 +1708,6 @@ class gpsClass
 		$jtg_microtime = microtime(true);
 		$zeiten = "<br />\n";
 		$cfg =& JtgHelper::getConfig();
-		$maxsize = $cfg->max_size;
 		$iconpath = JURI::root() . "components/com_jtg/assets/template/" . $cfg->template . "/images/";
 		$httpiconpath = JPATH_SITE . DS . "components" . DS . "com_jtg" . DS . "assets" . DS . "template" . DS . $cfg->template . DS . "images".DS;
 		jimport('joomla.filesystem.file');

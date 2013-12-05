@@ -171,8 +171,7 @@ class JtgModelFiles extends JModel
 				$ext = count($ext)-1;
 				$filename = str_replace("." . $ext,"",$images['name'][$key]);
 				if(in_array(strtolower($ext), $types)) {
-					$path = $img_dir.$images['name'][$key];
-					JtgHelper::createImage($images['tmp_name'][$key], $ext, $path);
+					JtgHelper::createimageandthumbs($images['tmp_name'][$key], $ext, $img_dir,$images['name'][$key]);
 				}
 			}
 		}
@@ -349,12 +348,15 @@ class JtgModelFiles extends JModel
 		$db->setQuery($query);
 		$result = $db->loadObject();
 		//	if(!$result) return false;
-		if ($db->getErrorNum()) {
+		if ($db->getErrorNum()) 
+		{
 			echo $db->stderr();
 			return false;
 		}
 		if (!$result)
-		return JTable::getInstance('jtg_files', 'table');
+		{
+		    return JTable::getInstance('jtg_files', 'table');
+		}
 		return $result;
 	}
 
@@ -1063,8 +1065,7 @@ class JtgModelFiles extends JModel
 					$ext = explode('.',$images['name'][$key]);
 					if(in_array(strtolower($ext[1]),$types))
 					{
-						$path = $imgpath.$imgfilename;
-						JtgHelper::createImage($images['tmp_name'][$key], $ext[1], $path);
+						JtgHelper::createimageandthumbs($images['tmp_name'][$key], $ext[1],$imgpath, $imgfilename);
 					}
 				}
 			}
@@ -1230,68 +1231,15 @@ class JtgModelFiles extends JModel
 					foreach($images['name'] as $key => $value)  {
 						$ext = explode('.',$images['name'][$key]);
 						if(in_array($ext[1], $types)) {
-							$path = $destPath . DS . strtolower($images['name'][$key]);
-							JtgHelper::createImage($images['tmp_name'][$key], $ext[1], $path);
+
+							JtgHelper::createimageandthumbs($images['tmp_name'][$key], $ext[1], $destPath,  strtolower($images['name'][$key]));
 						}
 					}
 				}
 			}
 		}
-		//		}
-		//	}
-		// */
+
 		return false;
-	}
-
-	/**
-	 * creates the images
-	 *
-	 * @param string $file_tmp_name
-	 * @param string $ext
-	 * @param string $filepath
-	 */
-	function TODOREMOVEDEPRECATEDcreateImage($file_tmp_name, $ext, $filepath)  {
-
-		switch (strtolower($ext))
-		{
-			case 'jpeg':
-			case 'pjpeg':
-			case 'jpg':
-				$src = ImageCreateFromJpeg($file_tmp_name);
-				break;
-
-			case 'png':
-				$src = ImageCreateFromPng($file_tmp_name);
-				break;
-
-			case 'gif':
-				$src = ImageCreateFromGif($file_tmp_name);
-				break;
-
-		}
-		list($width,$height)=getimagesize($file_tmp_name);
-		$newwidth=460;//set file width to 460
-		$newheight=($height/$width)*460;//the height are set according to ratio
-		$tmp=imagecreatetruecolor($newwidth,$newheight);
-		imagecopyresampled($tmp,$src,0,0,0,0,$newwidth,$newheight,$width,$height);//resample the image
-
-		switch (strtolower($ext))
-		{
-			case 'jpeg':
-			case 'pjpeg':
-			case 'jpg':
-				$statusupload = imagejpeg($tmp,$filepath,100);//upload the image
-				break;
-
-			case 'png':
-				$statusupload =  imagepng($tmp,$filepath,100);//upload the image
-				break;
-
-			case 'gif':
-				$statusupload = imagegif($tmp,$filepath,100);//upload the image
-				break;
-
-		}
 	}
 
 	function getImages($id) {
@@ -1320,12 +1268,18 @@ class JtgModelFiles extends JModel
 		$published =& JRequest::getVar('published');
 
 		$allimages = $this->getImages($id);
-		$imgpath = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'track_' . $id.DS;
+		$imgpath = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'track_' . $id. DS;
 		if($allimages){
 			foreach ($allimages AS $key => $image) {
 				$image =& JRequest::getVar('deleteimage_'.str_replace('.',null,$image));
-				if($image !== NULL)
-				JFile::delete($imgpath.$image);
+				if($image !== NULL) 
+				{
+				    JFile::delete($imgpath.$image);
+				    // delete thumbnails too
+				    JFile::delete($imgpath. 'thumbs' . DS. 'thumb0_' . $image);
+				    JFile::delete($imgpath. 'thumbs' . DS. 'thumb1_' . $image);
+				    JFile::delete($imgpath. 'thumbs' . DS. 'thumb2_' . $image);
+				}
 			}
 		}
 		$date =& JRequest::getVar('date');
@@ -1355,8 +1309,7 @@ class JtgModelFiles extends JModel
 				$ext = explode('.',$images['name'][$key]);
 				if(in_array(strtolower($ext[1]), $types))
 				{
-					$path = $imgpath.$filename;
-					JtgHelper::createImage($images['tmp_name'][$key], $ext[1], $path);
+					JtgHelper::createimageandthumbs($images['tmp_name'][$key], $ext[1], $imgpath, $filename);
 				}
 			}
 		}

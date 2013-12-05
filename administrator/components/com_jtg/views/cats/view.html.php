@@ -151,12 +151,11 @@ class JtgViewCats extends JView
 		$lists['block'] 	= JHTML::_('select.booleanlist', 'publish', 'class="inputbox" size="1"', 1 );
 		$lists['parent'] 	= JHTML::_('select.genericlist', $parent, 'parent', 'size="1"', 'id', 'name', '');
 		$config =& JtgHelper::getConfig();
-		$max_file_size = $config->max_size * 1000;
 		$images = $model->getPics();
 		$this->images = $images;
 		$this->lists = $lists;
 		$this->editor = $editor;
-		$this->maxsize = $max_file_size;
+		$this->maxsize = $config->max_size;  //improper max_size use !! 
 
 		parent::display($tpl);
 	}
@@ -181,13 +180,11 @@ class JtgViewCats extends JView
 		$lists['parent'] 	= JHTML::_('select.genericlist', $parent, 'parent', 'size="1"', 'id', 'name', $data->parent_id);
 
 		$config =& JtgHelper::getConfig();
-		$max_file_size = $config->max_size * 1000;
-
 		$images = $model->getPics();
 		$this->images = $images;
 		$this->lists = $lists;
 		$this->editor = $editor;
-		$this->maxsize = $max_file_size;
+		$this->maxsize = $config->max_size;
 		$this->data = $data;
 
 		parent::display($tpl);

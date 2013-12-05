@@ -70,5 +70,4 @@ foreach ($this->images as $img) {
     <input type="hidden" name="option" value="com_jtg" />
     <input type="hidden" name="controller" value="cats" />
     <input type="hidden" name="task" value="" />
-    <input type="hidden" name="MAX_FILES_SIZE" value="<?php echo $this->maxsize; ?>">
 </form>

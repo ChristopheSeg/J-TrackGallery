@@ -383,8 +383,7 @@ class JtgModelFiles extends JModel
 				foreach($images['name'] as $key => $value) {
 					$ext = explode('.',$images['name'][$key]);
 					if(in_array($ext[1], $types)) {
-						$path = $img_dir . DS . strtolower($images['name'][$key]);
-						(JtgHelper::createImage($images['tmp_name'][$key], $ext[1], $path));
+						JtgHelper::createimageandthumbs($images['tmp_name'][$key], $ext[1], $img_dir . DS, strtolower($images['name'][$key]));
 					}
 				}
 			}
@@ -603,10 +602,17 @@ class JtgModelFiles extends JModel
 		$title =& JRequest::getVar('title');
 		$allimages = $this->getImages($id);
 		$imgpath = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'track_' . $id.DS;
-		foreach ($allimages AS $key => $image) {
+		foreach ($allimages AS $key => $image) 
+		{
 			$image =& JRequest::getVar('deleteimage_'.str_replace('.',null,$image));
-			if($image !== NULL)
-			JFile::delete($imgpath.$image);
+			if($image !== NULL) 
+			{
+			    JFile::delete($imgpath.$image);
+			    // delete thumbnails too
+			    JFile::delete($imgpath. 'thumbs' . DS. 'thumb0_' . $image);
+			    JFile::delete($imgpath. 'thumbs' . DS. 'thumb1_' . $image);
+			    JFile::delete($imgpath. 'thumbs' . DS. 'thumb2_' . $image);
+			}
 		}
 		$terrain =& JRequest::getVar('terrain');
 		if ($terrain)
@@ -632,8 +638,7 @@ class JtgModelFiles extends JModel
 				if ($value) {
 					$ext = explode('.',$images['name'][$key]);
 					if(in_array(strtolower($ext[1]), $types)) {
-						$path = $img_dir . DS . strtolower($images['name'][$key]);
-						(JtgHelper::createImage($images['tmp_name'][$key], $ext[1], $path));
+						JtgHelper::createimageandthumbs($images['tmp_name'][$key], $ext[1], $img_dir . DS, strtolower($images['name'][$key]));
 					}
 				}
 			}

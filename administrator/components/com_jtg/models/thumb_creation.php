@@ -104,7 +104,7 @@ function com_jtg_create_Thumbnails ($image_dir, $image_name, $max_thumb_height=2
 	if ($height > $max_geoim_height) 
 	{
 	    $thumb_height = (int) $max_geoim_height;
-	    $thumb_width = (int) ($width/2/$height*$max_geoim_height;
+	    $thumb_width = (int) $width/2/$height*$max_geoim_height;
 	}
 	else 
 	{

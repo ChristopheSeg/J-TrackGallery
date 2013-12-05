@@ -60,18 +60,7 @@ foreach ($this->images as $img) {
 	" \n";
 	echo $pic;
 }
-
-
-if ( 0==1 ) {
-	if ($image != "") {
-		?><input type="hidden" name="catpic" value="<?php echo $image; ?>"><?php
-		$image = "../images/jtrackgallery/cats/" . $image;
-		?><image src="<?php echo $image ?>" />
-		<?php echo $this->deleteBox;
-	} else {
-		?> <input type="file" name="image" value="" width="30" maxlength="<?php echo $this->maxsize; ?>" /><?php
-	}
-} ?></td>
+ ?></td>
 			</tr>
 			<tr>
 				<td><?php echo JText::_('COM_JTG_DESC_JTEXT_ALLOWED'); ?></td>
@@ -84,5 +73,4 @@ if ( 0==1 ) {
 	<input type="hidden" name="option" value="com_jtg" />
     <input type="hidden" name="controller" value="cats" />
 	<input type="hidden" name="task" value="" />
-	<input type="hidden" name="MAX_FILES_SIZE" value="<?php echo $this->maxsize; ?>">
 </form>

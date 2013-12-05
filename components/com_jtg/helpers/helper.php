@@ -510,7 +510,9 @@ class JtgHelper
 	 * @param string $ext
 	 * @param string $filepath
 	 */
-	function createImage($file_tmp_name, $ext, $filepath) {
+	function createimageandthumbs($file_tmp_name, $ext, $image_dir, $image) {
+		require_once(JPATH_SITE . DS . "administrator" . DS . "components" . DS . "com_jtg" . DS . "models" . DS . "thumb_creation.php");
+		$filepath = $image_dir . $image ;
 		switch (strtolower($ext)) {
 			case 'jpeg':
 			case 'pjpeg':
@@ -528,19 +530,10 @@ class JtgHelper
 
 		}
 		list($width,$height)=getimagesize($file_tmp_name);
-		//		$newwidth=460;//set file width to 460
-		//		$newheight=($height/$width)*460;//the height are set according to ratio
 		$cfg =& JtgHelper::getConfig();
-		$maxfilesize = $cfg->max_size; // filesize in kb
-		$maxfilesize = (int)$maxfilesize;
-		$filesize = filesize($file_tmp_name)/1024; // Byte -> kb
-		$maxsize = 500; // pixsize in pixel
+		$maxsize = (int)$cfg->max_size;  // pixsize in pixel
 		$resized = false;
-		if (
-		( $height > $maxsize ) OR
-		( $width > $maxsize ) OR
-		( $filesize > $maxfilesize )
-		)
+		if ( ( $height > $maxsize ) OR ( $width > $maxsize ) ) 
 		// @ToDo http://www.php.net/manual/de/function.getimagesize.php#97564
 		{
 			if ( $height == $width ) // square
@@ -606,7 +599,16 @@ class JtgHelper
 
 		}
 		imagedestroy($tmp);
-		if($statusupload) return true;
+		if($statusupload) 
+		{
+		    $statusthumbs = com_jtg_create_Thumbnails ($image_dir, $image, $cfg->max_thumb_height, $cfg->max_geoim_height);
+			    
+		}
+		if ($statusupload and $statusthumbs) 
+		{
+		    return true;
+			    
+		}
 		return false;
 	}
 
