@@ -2029,9 +2029,12 @@ class gpsClass
 		$i = 0;
 		while (true) {
 			$m = microtime(true);
-			$coords = $this->getCoords($file,$i);
+			$coords = $this->getCoords($file,$i);					
 			if ( $coords != false ) {
-				$track = $xml->trk[$i];
+				$track = $xml->trk[$i];// !!!!
+//TODO echo '<pre>newco==>';
+//var_dump($track);
+//echo '</pre>';die('<br>stop');					
 				$subid = $link . "&amp;subid=" . $i;
 				$string .= "layer_vectors = new OpenLayers.Layer.Vector(";
 				$string .= "\"".JText::_('COM_JTG_TRACK').$i . ": " . $track->name . "\"";
@@ -2065,9 +2068,6 @@ class gpsClass
 						$string .= "\n";
 						$j++;
 						$n++;
-						//						if ( $i > 1000 ) break 2; // emergency brake
-						//						if ( ( microtime(true) - $jtg_microtime ) > 30 )
-						//						break;
 
 					}
 				}
@@ -2254,8 +2254,7 @@ class gpsClass
 					array_push($newco, $a);
 				}
 			}
-			$start = array_pop($newco);
-
+			$start = array_pop($newco);		
 			return $newco;
 
 		} else {
@@ -2330,15 +2329,26 @@ class gpsClass
 	}
 
 		/**
-	 * checks if the given GPX file as track(s) and return number of track 
+	 * checks if the given KMl file as track(s) and return number of track 
 	 *
 	 * @param string $xml
 	 * @return integer
 	 */
 	private function countTracksKML($xml) {
-		$trackCount = 1;
-
-		return $trackCount;
+	$trackCount = 0;
+	for($j=0; $j < count($xml->Document->Folder->Placemark); $j++)
+	{
+		$tracks = @$xml->Document->Folder->Placemark[$j]->MultiGeometry->LineString->coordinates;
+		if ( $tracks !== null )
+		{
+		    foreach ($tracks as $track) 
+		    {
+			// should we test the number of points? 
+			$trackCount++;
+		    }
+		}
+	}   	
+	return $trackCount;
 	}
 
 	/**

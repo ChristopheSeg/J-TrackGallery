@@ -203,7 +203,7 @@ class JtgViewFiles extends JView
 		$thumb_dir = $img_dir . 'thumbs' . DS;
 		$img_path = JURI::root().'images/jtrackgallery/track_'.$id . "/";
 		$images = null;
-		
+		$imgcount = 0;
 		if(JFolder::exists($img_dir)) {
 			$imgs = JFolder::files($img_dir);
 			if($imgs)
