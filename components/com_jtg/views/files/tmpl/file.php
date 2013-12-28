@@ -24,8 +24,9 @@ if ($maySeeSingleFile === true) {
 		echo $this->galscript;
 	} 
 					
-	if ( ($this->params->get("jtg_param_show_heightchart"))  AND 
-	     ($this->track->ele_asc != 0) AND ($this->track->ele_desc != 0) AND (isset($this->heighdata) ) AND  ( $this->heighdata ) )
+	if ( ($this->params->get("jtg_param_show_heightchart"))  
+	     // AND ($this->track->ele_asc != 0) AND ($this->track->ele_desc != 0) 
+		AND (isset($this->heighdata) ) AND  ( $this->heighdata ) )
 		
 	{
 	    $heightchart=true;		    
@@ -78,6 +79,7 @@ if ($maySeeSingleFile === true) {
 	    {
 		$speedchartaxis = 0;
 	    }
+
 	    if ($beatchart) 
 	    {
 		// beatchart is on left (first) axis or on right axis when there is a heighchart or a speed chart

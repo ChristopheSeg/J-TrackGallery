@@ -154,7 +154,7 @@ if($this->id >= 1) {
 			echo $this->images; ?></td>
 		</tr>
 		<?php
-		/*            if($cfg->terms == 1):
+		/*   TODO ????         if($cfg->terms == 1):
 		 ?>
 		 <tr>
 		 <td><?php echo JText::_('COM_JTG_TERMS'); ?></td>

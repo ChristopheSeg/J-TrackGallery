@@ -74,7 +74,7 @@ class JtgModelFiles extends JModel
 
 		if ( $isTrack == 1 )
 		{
-			$coords = $gps->getCoords($file);
+			$coords = $gps->getAllTracksCoords($file);
 			$distance = $gps->getDistance($coords);
 			$ele = $gps->getElevation($coords);
 		}

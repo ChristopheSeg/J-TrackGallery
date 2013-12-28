@@ -180,7 +180,7 @@ INSERT INTO `#__jtg_cats` (`id`, `parent_id`, `title`, `description`, `image`, `
     (15, 0, 'COM_JTG_CAT_PEDESTRIAN', 'COM_JTG_CAT_PEDESTRIAN_DESCRIPTION', 'hiking.png', 3, 1, 0),
     (16, 0, 'COM_JTG_CAT_GEOCACHE', 'COM_JTG_CAT_GEOCACHE_DESCRIPTION', 'geocachinginternational.png', 4, 1, 0),
     (20, 0, 'COM_JTG_CAT_SNOWSHOEING', 'COM_JTG_CAT_SNOWSHOEING_DESCRIPTION', 'snowshoeing.png', 0, 1, 0),
-    (21, 0, 'COM_JTG_CAT_TRIAL', 'COM_JTG_CAT_TRIAL_DESCRIPTION', 'hiking.png', 0, 1, 0)
+    (21, 0, 'COM_JTG_CAT_TRAIL', 'COM_JTG_CAT_TRAIL_DESCRIPTION', 'hiking.png', 0, 1, 0)
 ;
 
 DELETE FROM `#__jtg_cats` WHERE title = 'dummy';

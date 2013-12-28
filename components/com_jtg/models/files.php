@@ -320,7 +320,7 @@ class JtgModelFiles extends JModel
 		$file = DS . 'images' . DS . 'jtrackgallery' . DS . 'uploaded_tracks' . DS . strtolower($filename);
 		$start_n = $start[1];
 		$start_e = $start[0];
-		$coords = $gps->getCoords($file);
+		$coords = $gps->getAllTracksCoords($file);
 		$isTrack = $gps->isTrack();
 		if ($isTrack !== false) $isTrack = "1"; else $isTrack = "0";
 		$isWaypoint = $gps->isWaypoint();

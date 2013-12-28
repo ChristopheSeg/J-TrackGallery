@@ -473,6 +473,7 @@ class gpsClass
 	 */
 	private function getStartKML($file) {
 
+		// TODO Rewrite whitout reloading $file!!!
 		$coords = $this->getCoords($file);
 
 		$start = $coords[0];
@@ -2116,9 +2117,13 @@ class gpsClass
 			$i++;
 		}
 		if (isset($track))
-		$trackname = $track->name;
+		{
+		    $trackname = $track->name;
+		}
 		else
-		$trackname = $file;
+		{
+		    $trackname = $file;
+		}
 		$string .= "layer_startziel = new OpenLayers.Layer.Markers(";
 		$string .= "\"" . $i . ": " . $trackname . "\"";
 		$string .= ", { displayInLayerSwitcher: false }";
@@ -2170,6 +2175,32 @@ class gpsClass
 	 * @param string $file
 	 * @return array
 	 */
+	public function getAllTracksCoords($file) {
+		$cache = & JFactory :: getCache('com_jtg');
+		$coords = array();
+		$i = 0;
+		while (true) 
+		{
+		    $coords_tmp = $cache->get(array($this, 'getCoords'), array($file,$i));
+		    if ($coords_tmp)
+		    {
+			$coords = array_merge($coords, $coords_tmp);
+		    }
+		    else
+		    {
+			break;// break while
+		    }
+		    $i++;
+		}
+		return $coords;
+	}
+	
+	/**
+	 * checks if the given file is a GPX or KML file and call the function for it
+	 *
+	 * @param string $file
+	 * @return array
+	 */
 	public function getCoords($file,$trackid=0) {
 		jimport('joomla.filesystem.file');
 
@@ -2180,7 +2211,6 @@ class gpsClass
 			return $coords;
 		} else if($ext == 'gpx') {
 			$coords = $this->getCoordsGPX($file,$trackid);
-			if ( $coords == false ) return false;
 			return $coords;
 		} else if ($ext == 'tcx') {
 			$coords = $this->getCoordsTCX($file,$trackid);

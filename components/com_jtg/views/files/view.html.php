@@ -370,42 +370,47 @@ class JtgViewFiles extends JView
 		$distance = JtgHelper::getLocatedFloat($distance_float,0,$unit);
 		// charts
 		$file = '.' . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploaded_tracks' . DS . strtolower($track->file);
-		/*
-		 // ToDo: mehrere Profile in einem
-		 $coords = array();
-		 $i = 0;
-		 while (true) {
-		 $coords_tmp = $cache->get(array($gps, 'getCoords'), array($file,$i));
-		 if ($coords_tmp)
-		 $coords = array_merge($coords, $coords_tmp);
-		 else
-		 break;
-		 $i++;
-		 }
-		 */
+		$coords = $gps->getAllTracksCoords($file);
 
-		$coords = $cache->get(array ( $gps, 'getCoords' ), array ( $file ));
+//		$coords = array();
+//		$i = 0;
+//		while (true) 
+//		{
+//		    $coords_tmp = $cache->get(array($gps, 'getCoords'), array($file,$i));
+//		    if ($coords_tmp)
+//		    {
+//			$coords = array_merge($coords, $coords_tmp);
+//		    }
+//		    else
+//		    {
+//			break;// break while
+//		    }
+//		    $i++;
+//		}
 		$distances = $cache->get(array ( $gps, 'getDistances' ), array ( $coords ));
 
-		if (isset ($coords[0][3])) {
+		if (isset ($coords[0][3]))
+		{
 			// 		Speedprofile
 			$speeddata = $cache->get(array ( $gps, 'createSpeedData' ), array ( $coords, $distances, $unit ));
 		} else $speeddata = false;
 		if ((!$speeddata) OR (preg_match('/0,0,0,0,0,0,0,0,0,0/',$speeddata))) // change this test according to new createSpeeddata method
 		//	give scatter-plot a chance
 		$speeddata = false;
-		if ($coords[0][2] != 0) {
+		
+		$heighdata = false;
+		    if (isset ($coords[0][2])) {
 			// Heightprofile ($heighdata)
 			$heighdata = $cache->get(array ( $gps, 'createElevationData' ), array ( $coords, $distances ));
 		}
 
 		// heartbeat
+		$beatdata = false;
 		if (isset ($coords[0][4]) && $coords[0][4] > 0) {
 			// $beatdata = $gps->createBeatsData($coords);
 			$beatdata = $cache->get(array ( $gps, 'createBeatsData' ), array ( $coords, $distances ));
 			$this->beatdata = $beatdata;
 		}
-
 		// Klicklinks for every track in one file (at the moment not active)
 		// function giveClickLinks is not performant!
 		//			$clicklist = $cache->get(array (
@@ -437,10 +442,6 @@ class JtgViewFiles extends JView
 					}
 				</script>\n";
 
-
-
-
-	
 		$imageBlock = null;
 		if((isset($images) AND (count($images) > 0))) {
 			$this->images = $images;
