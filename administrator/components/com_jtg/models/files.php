@@ -768,7 +768,7 @@ class JtgModelFiles extends JModel
 
 					$start_n = $start[1];
 					$start_e = $start[0];
-					$coords = $gps->getCoords($targetdir.$target);
+					$coords = $gps->getAllTracksCoords($targetdir.$target);
 					$distance = $gps->getDistance($coords);
 					// call the elevation function
 					$ele = $gps->getElevation($coords);
@@ -1002,7 +1002,7 @@ class JtgModelFiles extends JModel
 		$file = ".." . DS . "images" . DS . "jtrackgallery" . DS . "uploaded_tracks" . DS . strtolower($filename);
 		$start_n = $start[1];
 		$start_e = $start[0];
-		$coords = $gps->getCoords($file);
+		$coords = $gps->getAllTracksCoords($file);
 		$distance = $gps->getDistance($coords);
 		//             if($distance == NULL)  {
 		//                 echo "<script type='text/javascript'>alert('".JText::_('COM_JTG_DISTANCE') . " = 0');window.history.back(-1);</script>";
