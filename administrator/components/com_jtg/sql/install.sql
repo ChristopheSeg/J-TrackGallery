@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS `#__jtg_config` (
 
 TRUNCATE `#__jtg_config`;
 
-INSERT INTO `#__jtg_config` (`id`, `gid`, `apikey`, `unit`, `type`, `max_size`, `max_thumb_height`
+INSERT INTO `#__jtg_config` (`id`, `gid`, `apikey`, `unit`, `type`, `max_size`, `max_thumb_height`,
 `max_geoim_height`, `terms`, `terms_id`, `sort`, `map_height`, `map_width`, `charts_width`, 
 `charts_height`, `charts_linec`, `charts_bg`, `profile`, `template`, `comment_who`, 
 `inform_autor`, `captcha`, `ordering`, `comments`, `access`, `approach`, 

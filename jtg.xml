@@ -6,11 +6,7 @@
 	<license>GNU/GPL2</license>
 	<authorEmail>christophe@jtrackgallery.net</authorEmail>
 	<authorUrl>http://jtrackgallery.net/</authorUrl>
-	<version>0.7.3</version>
-	<!-- 
-	<version>0.7.1-r1</version> sample version
-	<description>COM_JTG_MANIFEST_DESCRIPTION</description>
-	-->
+	<version>0.7.4</version>
 	<description>COM_JTG_DESCRIPTION</description>
 	
 	<install folder="administrator/components/com_jtg">
