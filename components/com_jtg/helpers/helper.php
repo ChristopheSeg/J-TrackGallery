@@ -399,6 +399,10 @@ class JtgHelper
 	    // if ( JFactory :: getUser()->get('isRoot') ) { return true;};
 	    if (!$user_groups) {return false;} // seems $user_groups is never empty !!
 	    $cfg_id = unserialize(JtgHelper :: getConfig()->gid);
+	    if (!$cfg_id ) 
+	    {
+		return false;
+	    }
 	    foreach ($cfg_id as $key => $group) {
 		if (array_search ($group , $user_groups ) ) {
 		    return true;

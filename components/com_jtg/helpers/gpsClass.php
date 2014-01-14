@@ -475,7 +475,6 @@ class gpsClass
 
 		// TODO Rewrite whitout reloading $file!!!
 		$coords = $this->getCoords($file);
-
 		$start = $coords[0];
 
 		return $start;
@@ -646,6 +645,7 @@ class gpsClass
 	 * @param string $url
 	 * @return string
 	 */
+	// TODO REMOVE UNUSED !!!!
 	private function parseKml($url)
 	{
 		if ($url)
@@ -2032,7 +2032,8 @@ class gpsClass
 			$m = microtime(true);
 			$coords = $this->getCoords($file,$i);					
 			if ( $coords != false ) {
-				$track = $xml->trk[$i];// !!!!
+				//TODO KML!!!
+				$track = $xml->trk[$i];// KML !!!!
 //TODO echo '<pre>newco==>';
 //var_dump($track);
 //echo '</pre>';die('<br>stop');					
@@ -2251,42 +2252,44 @@ class gpsClass
 	 * @param string $file
 	 * @return array
 	 */
+
 	private function getCoordsKML($file,$trackid=0) {
 
-		if (file_exists($file)) {
+		if ($trackid>0)
+		{
+		    return false; 
+		}
+			if (file_exists($file)) {
 			$xml = simplexml_load_file($file);
-			$namespaces = $xml->getNamespaces();
+			$trackCount = 0;
+			$coords = array();
+			$tracks = @$xml->Document->Folder->Placemark[$trackid]->MultiGeometry->LineString->coordinates;
+			if ( $tracks == null )
+			{
+			    $tracks = @$xml->Document->Folder->Placemark[$trackid]->Polygon->outerBoundaryIs->LinearRing->coordinates;
+			}  
+			if ( $tracks !== null )
+			{
+			    foreach ($tracks as $track) 
+			    {
+				    // catch different types coordinates are written in kml files
+				    $lines = str_replace("\n", '/',$track );
+				    $lines = str_replace(" ", '/',$lines );
+				    $lines = explode('/', $lines );
+				    foreach ($lines as $line)
+				    {
+					// split each line by /
+					$coord = explode(',', $line);
+					if (count($coord) ==3) 
+					{
+					    array_push($coords, array($coord[0],$coord[1],$coord[2],0,0) );
+					}
+				    }					
+				    $trackCount++;
+			    }
+			}	
 
-			$newns = array();
-			foreach($namespaces as $key => $ns) {
-				array_push($newns, $ns);
-			}
-
-			$doc = new DOMDocument;
-			$doc->load($file);
-
-			$xpath = new DOMXPath($doc);
-			$xpath->registerNamespace('kml', $newns[0]);
-
-			$query = $xpath->query('//kml:LineString/kml:coordinates/text()');
-
-			$coords = $query->item(0)->nodeValue;
-			// catch different types coordinates are written in kml files
-			$coords = str_replace("\n", '/',$coords);
-			$coords = str_replace(" ", '/',$coords);
-
-			$coords = explode('/', $coords);
-			$newco = array();
-			for($i=0, $n=count($coords); $i<$n; $i++) {
-				if($coords[$i] != NULL) {
-					$file = explode(',', $coords[$i]);
-					$a = array($file[0],$file[1],$file[2],0,0);
-					array_push($newco, $a);
-				}
-			}
-			$start = array_pop($newco);		
-			return $newco;
-
+			return $coords;
 		} else {
 			return false;
 		}
@@ -2365,20 +2368,24 @@ class gpsClass
 	 * @return integer
 	 */
 	private function countTracksKML($xml) {
-	$trackCount = 0;
-	for($j=0; $j < count($xml->Document->Folder->Placemark); $j++)
-	{
-		$tracks = @$xml->Document->Folder->Placemark[$j]->MultiGeometry->LineString->coordinates;
-		if ( $tracks !== null )
+		$trackCount = 0;
+		for($j=0; $j < count($xml->Document->Folder->Placemark); $j++)
 		{
-		    foreach ($tracks as $track) 
-		    {
-			// should we test the number of points? 
-			$trackCount++;
-		    }
-		}
-	}   	
-	return $trackCount;
+			$tracks = @$xml->Document->Folder->Placemark[$j]->MultiGeometry->LineString->coordinates;
+			if ( $tracks == null )
+			{
+			    $tracks = @$xml->Document->Folder->Placemark[$j]->Polygon->outerBoundaryIs->LinearRing->coordinates;
+			}   
+			if ( $tracks !== null )
+			{
+			    foreach ($tracks as $track) 
+			    {
+
+				$trackCount++;
+			    }
+			}
+		}     	
+		return $trackCount;
 	}
 
 	/**

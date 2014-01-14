@@ -195,6 +195,7 @@ class JtgViewFiles extends JView
 		return 4;
 		if ( preg_match('/\#/',$filename) )	// Wenn "#" im Dateinamen
 		return 5;
+		// TODO adapt for kml files???? 
 		$xml = simplexml_load_file($file);
 		if (empty($xml->trk))		// Keine Spur vorhanden
 		return 6;
