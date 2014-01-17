@@ -32,7 +32,7 @@ $document =& JFactory::getDocument();
 $document->addStyleSheet(JURI::base().'components/com_jtg/template.css');
 // add jtg_map stylesheet
 $tmpl = ($cfg->template = "") ? $cfg->template : 'default';
-$document->addStyleSheet(JURI::base().'components/com_jtg/assets/template/'.$tmpl.'/jtg_map_style.css');
+$document->addStyleSheet(JURI::root().'components/com_jtg/assets/template/'.$tmpl.'/jtg_map_style.css');
 $map = "";
 if($this->id >= 1) {
 	//	edit file

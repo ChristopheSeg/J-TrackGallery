@@ -371,7 +371,6 @@ class JtgViewFiles extends JView
 		// charts
 		$file = '.' . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploaded_tracks' . DS . strtolower($track->file);
 		$coords = $gps->getAllTracksCoords($file);
-
 //		$coords = array();
 //		$i = 0;
 //		while (true) 

@@ -78,7 +78,8 @@ $document->addStyleSheet(JURI::base().'components/com_jtg/template.css');
 		$published 	= JHTML::_('grid.published', $row, $i );
 		$user		= JFactory::getUser($row->uid);
 		$imagelink	= $this->buildImageFiletypes($row->istrack,$row->iswp,$row->isroute,$row->iscache);
-		$title		= $this->buildEditKlicks($row->title,$i);
+		
+		$title		= $this->buildEditKlicks(($row->title? $row->title:JText::_(COM_JTG_NO_TITLE)),$i);
 		$hidden		= $row->hidden;
 		$hiddenlink	= $this->buildHiddenImage($iconpath,$hidden,$i);
 		$catids		= explode(",",$row->catid);

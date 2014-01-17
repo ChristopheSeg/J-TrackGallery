@@ -19,8 +19,12 @@ defined('_JEXEC') or die('Restricted access');
  */
 class gpsClass
 {
-	var $gpsFile = NULL;
-	var $sortedcats = NULL;
+	public function __construct() {
+	    $this->gpsFile = NULL;
+	    $this->sortedcats = NULL;
+	    $this->test = 'test';
+	}	
+
 
 	public function parseCatIcon($catid,$istrack=0,$iswp=0,$isroute=0) {
 		$catid = explode(",",$catid);
@@ -1768,6 +1772,7 @@ class gpsClass
 		$file = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploaded_tracks' . DS . $file;
 		$this->gpsFile = $file;
 		$xml = $this->loadFile();
+		die('STOPSTOP');
 		$map = "\n<!-- writeSingleTrackCOM_JTG BEGIN -->\n";
 		$map .= $this->parseScriptOLHead();
 		$map .= $this->parseOLMap();
@@ -1873,7 +1878,11 @@ class gpsClass
 		if ( ( $params === false ) OR ( $params->get('jtg_param_allow_mousemove') != "0" ) )
 		$control .= "				new OpenLayers.Control.Navigation(),		// mit Maus verschieb- und zoombar\n";
 		if ( ( $params === false ) OR ( $params->get('jtg_param_show_layerswitcher') != "0" ) )
-		$control .= "				new OpenLayers.Control.LayerSwitcher(),		// Menue zum ein/aus-Schalten der Layer\n";
+		{
+		    $control .= "				new OpenLayers.Control.LayerSwitcher(),		// Menue zum ein/aus-Schalten der Layer\n";   
+//		    $control .= "				OpenLayers.Control.layerSwitcher.baseLbl.innerText = 'YOUR NEW TEXT',";
+//		    $control .= "				OpenLayers.Control.layerSwitcher.dataLbl.innerText = 'YOUR NEW OVERLAY TEXT',";
+		}
 		if ( $adminonly === false){
 			if ( ( $params === false ) OR ( $params->get('jtg_param_show_panzoombar') != "0" ) )
 			$control .= "				new OpenLayers.Control.PanZoomBar(),		// Zoombalken\n";
@@ -2031,15 +2040,12 @@ class gpsClass
 		while (true) {
 			$m = microtime(true);
 			$coords = $this->getCoords($file,$i);					
-			if ( $coords != false ) {
-				//TODO KML!!!
-				$track = $xml->trk[$i];// KML !!!!
-//TODO echo '<pre>newco==>';
-//var_dump($track);
-//echo '</pre>';die('<br>stop');					
+			$trackname = $this->getTrackName($file,$xml,$i);	
+			if ( $coords != false ) 
+			{
 				$subid = $link . "&amp;subid=" . $i;
 				$string .= "layer_vectors = new OpenLayers.Layer.Vector(";
-				$string .= "\"".JText::_('COM_JTG_TRACK').$i . ": " . $track->name . "\"";
+				$string .= "\"". ($trackname? $trackname : JText::_('COM_JTG_TRACK').$i) . "\"";
 				$string .= ", { displayInLayerSwitcher: true }";
 				$string .= ")";
 				$string .= ";olmap.addLayer(layer_vectors)";
@@ -2099,15 +2105,13 @@ class gpsClass
 				// 			$string_se .= "layer_startziel.addMarker(new OpenLayers.Marker(lonLatStart" . $i . ",iconStart" . $i . "));\n";
 				$string_se .= "layer_startziel.addMarker(new OpenLayers.Marker(lonLatZiel" . $i . ",iconZiel" . $i . "));\n";
 				$string_se .= "popupClassStart = AutoSizeAnchored;\n";
-				// 			$name[$i] = $track->name;
+				// 			$name[$i] = $trackname;
 				// 			$string_se .= "popupContentHTMLStart = '<span style=\"background-color:#000\"<a href=\"" . $subid . "\"><b>";
 				$string_se .= "popupContentHTMLStart = '";
 				//				$string_se .= "<b>";
-				$string_se .= JText::_('COM_JTG_TRACK').$i . ": ".
-					"<font style=\"font-weight: bold;\" color=\"" . $color . "\">" . $track->name;
-				// 			$string_se .= "</font></b></a></span>';\n";
+				$string_se .= "<font style=\"font-weight: bold;\" color=\"" . $color . "\">";
+				$string_se .= ($trackname? $trackname : JText::_('COM_JTG_TRACK').$i);
 				$string_se .= "</font>";
-				//				$string_se .= "</b>";
 				$string_se .= "';\n";
 				$string_se .= "addlayer_startziel(lonLatStart" . $i . ", popupClassStart, popupContentHTMLStart, true, false, iconStart" . $i . ", olmap);\n";
 
@@ -2117,14 +2121,7 @@ class gpsClass
 			$foundtracks++;
 			$i++;
 		}
-		if (isset($track))
-		{
-		    $trackname = $track->name;
-		}
-		else
-		{
-		    $trackname = $file;
-		}
+
 		$string .= "layer_startziel = new OpenLayers.Layer.Markers(";
 		$string .= "\"" . $i . ": " . $trackname . "\"";
 		$string .= ", { displayInLayerSwitcher: false }";
@@ -2221,6 +2218,73 @@ class gpsClass
 		}
 
 	}
+	
+	/**
+	 * Return Filename (trackid=-1) or track name
+	 *
+	 * @param string $file GPS file name
+	 * @param object $xml parsed xml file
+	 * @return string 
+	 */
+	public function getTrackName($file,$xml,$trackid=-1) {
+		jimport('joomla.filesystem.file');
+		$ext = JFile::getExt($file);
+
+		if($ext == 'kml') 
+		{
+		    if ($trackid <0) // search for file name
+		    {
+			$trackname = @$xml->Document->name;
+			if ( strlen($trackname)==0) 
+			{
+			    $trackname = @$xml->Document->Folder->Placemark[0]->name;
+			}
+		    }
+		    else // search for track name
+		    {
+			$trackname = @$xml->Document->Folder->Placemark[$trackid]->name;
+		    }
+		    return $trackname;
+		} 
+		else if($ext == 'gpx') 
+		{
+		    if ($trackid <0) // search for file name
+		    {
+			$trackname = @$xml->name;
+			if  ( strlen($trackname)==0)
+			{
+			    $trackname = @$xml->trk[0]->name;
+			}
+		    }
+		    else // search for track name
+		    {
+			$trackname = @$xml->trk[$trackid]->name;
+		    }
+		    return $trackname;
+		} 
+		else if ($ext == 'tcx') 
+		{
+		    if ($trackid <0) // search for file name
+		    {
+			$trackname = 'filename';
+			if  ( strlen($trackname)==0)
+			{
+			    $trackname = @$xml->trk[0]->name;
+			}
+		    }
+		    else // search for track name
+		    {
+			$trackname = "track_$trackid";
+		    }
+		    return $trackname;
+		} 
+		else 
+		{
+			return NULL;
+		}
+
+	}	
+	
 	/**
 	 * checks if the given GPS file has track(s) and return number of track(s) 
 	 *
@@ -2255,10 +2319,6 @@ class gpsClass
 
 	private function getCoordsKML($file,$trackid=0) {
 
-		if ($trackid>0)
-		{
-		    return false; 
-		}
 			if (file_exists($file)) {
 			$xml = simplexml_load_file($file);
 			$trackCount = 0;
