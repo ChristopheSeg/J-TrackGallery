@@ -22,7 +22,6 @@ class gpsClass
 	public function __construct() {
 	    $this->gpsFile = NULL;
 	    $this->sortedcats = NULL;
-	    $this->test = 'test';
 	}	
 
 
@@ -1772,7 +1771,6 @@ class gpsClass
 		$file = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploaded_tracks' . DS . $file;
 		$this->gpsFile = $file;
 		$xml = $this->loadFile();
-		die('STOPSTOP');
 		$map = "\n<!-- writeSingleTrackCOM_JTG BEGIN -->\n";
 		$map .= $this->parseScriptOLHead();
 		$map .= $this->parseOLMap();

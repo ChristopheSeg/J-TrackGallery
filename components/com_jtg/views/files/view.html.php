@@ -371,23 +371,8 @@ class JtgViewFiles extends JView
 		// charts
 		$file = '.' . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploaded_tracks' . DS . strtolower($track->file);
 		$coords = $gps->getAllTracksCoords($file);
-//		$coords = array();
-//		$i = 0;
-//		while (true) 
-//		{
-//		    $coords_tmp = $cache->get(array($gps, 'getCoords'), array($file,$i));
-//		    if ($coords_tmp)
-//		    {
-//			$coords = array_merge($coords, $coords_tmp);
-//		    }
-//		    else
-//		    {
-//			break;// break while
-//		    }
-//		    $i++;
-//		}
+		//TODO TEST
 		$distances = $cache->get(array ( $gps, 'getDistances' ), array ( $coords ));
-
 		if (isset ($coords[0][3]))
 		{
 			// 		Speedprofile
