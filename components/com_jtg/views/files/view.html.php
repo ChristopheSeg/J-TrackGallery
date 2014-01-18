@@ -361,6 +361,8 @@ class JtgViewFiles extends JView
 		$action = "index.php?option=com_jtg&amp;controller=download&amp;task=download";
 
 		$gps = new gpsClass();
+		$g2ps = new g2psClass();
+		// TODOGPS  Use cache 
 		// Kartenauswahl BEGIN
 		$map = $cache->get(array ( $gps, 'writeTrackOL' ), array ( $track, $params ));
 		// Kartenauswahl END
@@ -371,21 +373,6 @@ class JtgViewFiles extends JView
 		// charts
 		$file = '.' . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploaded_tracks' . DS . strtolower($track->file);
 		$coords = $gps->getAllTracksCoords($file);
-//		$coords = array();
-//		$i = 0;
-//		while (true) 
-//		{
-//		    $coords_tmp = $cache->get(array($gps, 'getCoords'), array($file,$i));
-//		    if ($coords_tmp)
-//		    {
-//			$coords = array_merge($coords, $coords_tmp);
-//		    }
-//		    else
-//		    {
-//			break;// break while
-//		    }
-//		    $i++;
-//		}
 		$distances = $cache->get(array ( $gps, 'getDistances' ), array ( $coords ));
 
 		if (isset ($coords[0][3]))

@@ -311,6 +311,7 @@ class JtgModelFiles extends JModel
 
 		// get the start coordinates
 		$gps = new gpsClass();
+		$g2ps = new g2psClass();
 		$file = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploaded_tracks' . DS . strtolower($filename);
 		$gps->gpsFile = $file;
 		if(!$start = $gps->getStartCoordinates()) {
