@@ -314,6 +314,7 @@ class JtgModelFiles extends JModel
 		$g2ps = new g2psClass();
 		$file = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploaded_tracks' . DS . strtolower($filename);
 		$gps->gpsFile = $file;
+		// $g2ps->loadFileAndData($file);
 		if(!$start = $gps->getStartCoordinates()) {
 			echo "<script type='text/javascript'>alert('".JText::_('COM_JTG_NO_SUPPORT') . "');window.history.back(-1);</script>";
 			//TODO before exit, remove downloaded file!!

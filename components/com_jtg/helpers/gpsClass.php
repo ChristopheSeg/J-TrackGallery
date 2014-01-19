@@ -21,12 +21,16 @@ class g2psClass
 {
 	var $gpsFile = NULL;
 	var $sortedcats = NULL;
-	var $test = 'test';
-
-	public function __construct() 
+	var $tracks; // array 
+		// tracks[j]->coords; // array containing longitude latitude elevation time and heartbeat data
+	var $beatData = NULL;
+	var $elevationData = NULL;
+	var $speedData = NULL;
+	
+	public function __construct($unit) 
 	    {
 	    // 
-
+		$this->unit=$unit;
 	    }	
 	
 	/**
@@ -42,14 +46,17 @@ class g2psClass
 	    {
 		    $this->gpsFile = $gpsFile;
 		    $this->ext = JFile::getExt($gpsFile);
-		    $xml = simplexml_load_file($this->gpsFile);
+		    echo"<br>TODOPRINT-G2PS";$xml = simplexml_load_file($this->gpsFile);
+		    return $xml;
 	    }
 	    if (file_exists($this->gpsFile)) 
 	    {
 		    $this->ext = JFile::getExt($this->gpsFile);
-		    $xml = simplexml_load_file($this->gpsFile);
-	    }	    
-	    return $xml;
+		    echo"<br>TODOPRINT-G2PS";$xml = simplexml_load_file($this->gpsFile);
+		    return $xml;
+	    }	  
+	    return false;
+	    
 	}	
 
 	/**
@@ -59,43 +66,48 @@ class g2psClass
 	 */
 	public function loadFileAndData($gpsFile=false) {
 
-		$xml = loadXmlFile($gpsFile); 
+		$xml = $this->loadXmlFile($gpsFile); 
 		if (!$xml) 
 		{
 		    // write error
 		    return false;
 		}
 		// extract datas from xml
-		$this->extractAllTracksCoords($xml);
-		if($this->$ext == 'kml') {
-			$extract_result = $this->extractCoordsKML($xml);
-			return $coords;
-		} else if($ext == 'gpx') {
+		switch ($this->ext) 
+		{
+		    case "gpx":
 			$extract_result = $this->extractCoordsGPX($xml);
-			return $coords;
-		} else if ($ext == 'tcx') {
+			break;
+		    case "kml":
+			$extract_result = $this->extractCoordsKML($xml);
+			break;
+		    case "tcx":
 			$extract_result = $this->extractCoordsTCX($xml);
-			return $coords;
-		} else {
+			break;
+		    default:
 			// TODO Error 
 			$extract_result = JText::_('COM_JTG_GPS_FILE_ERROR');
 		}
+
 		if ($extract_result)
 		{
 		    // write error
 		    return false; 
 		}
-		// calculate all coords
+		// calculate start, 
+		$this->start = $this->track[1]->coords[0];	
+		$this->speedDataExists = ( ( isset ($this->start[3])  && $this->start[4] > 0) ? true: false); 
+		$this->elevationDataExists = ( isset ($this->start[2])? true: false); 
+		$this->beatDataExists = ( (isset ($this->start[4]) && $this->start[4] > 0)? true: false); 
+
+		// calculate allCoords, distance, elevation max lon...
+		$this->extractAllTracksCoords();
 		
-		// calculate start, distance, elevation max lon...
-		$this->start = $this->coords[0][0];
-		
-	    
+		// calculate chartData
+		$this->createChartData();
+		echo"<br><pre>"; print_r($this);
+		echo"</pre><br>";
 	}
-	
-	
-///////////////////////////////////////////////////////////////////////////////
-// function TODO
 	
 	/**
 	 *
@@ -106,77 +118,329 @@ class g2psClass
 	private function extractCoordsKML($xml) 
 	{
 
-		$this->$trackname = @$xml->Document->name;
-		if ( strlen($trackname)==0) 
+		$this->trackname =  (string) @$xml->Document->name;
+		if ( strlen($this->trackname)==0) 
 		{
-		    $this->$trackname = @$xml->Document->Folder->Placemark[0]->name;
+		    $this->trackname =  (string) @$xml->Document->Folder->Placemark[0]->name;
 		}
 
 		$this->trackCount = 0;
-		$coords = array();
-		$tracks = @$xml->Document->Folder->Placemark[$trackid]->MultiGeometry->LineString->coordinates;
-		if ( $tracks == null )
-		{
-		    $tracks = @$xml->Document->Folder->Placemark[$trackid]->Polygon->outerBoundaryIs->LinearRing->coordinates;
-		}  
-		if ( $tracks !== null )
-		{
-		    foreach ($tracks as $track) // TODO check if there can be more than one track!!! 
-		    {
-			    // catch different types coordinates are written in kml files
-			    $lines = str_replace("\n", '/',$track );
-			    $lines = str_replace(" ", '/',$lines );
-			    $lines = explode('/', $lines );
-			    foreach ($lines as $line)
+		for($trackid=0; $trackid < @count(@$xml->Document->Folder->Placemark); $trackid++) 
+		{		
+			$tracks = @$xml->Document->Folder->Placemark[$trackid]->MultiGeometry->LineString->coordinates;
+			if ( $tracks == null )
+			{
+			    $tracks = @$xml->Document->Folder->Placemark[$trackid]->Polygon->outerBoundaryIs->LinearRing->coordinates;
+			}  
+			if ( $tracks !== null )
+			{
+			    foreach ($tracks as $track) // TODO check if there can be more than one track!!! 
 			    {
-				// split each line by /
-				$coord = explode(',', $line);
-				if (count($coord) ==3) 
-				{
-				    array_push($coords, array($coord[0],$coord[1],$coord[2],0,0) );
-				}
-			    }					
-			    // this is a track if more than 2 coordinates found
-			    if (count($coord) >1) 
-			    {
-				$this->$trackCount++;
-				$this->$trackname[$this->$trackCount] = @$xml->Document->Folder->Placemark[$trackid]->name;
-				$this->coords[$this->$trackCount]= $coords;
+				    $coords = array();
+				    // catch different types coordinates are written in kml files
+				    $lines = str_replace("\n", '/',$track );
+				    $lines = str_replace(" ", '/',$lines );
+				    $lines = explode('/', $lines );
+				    foreach ($lines as $line)
+				    {
+					// split each line by /
+					$coord = explode(',', $line);
+					if (count($coord) ==3) 
+					{
+					    array_push($coords, array($coord[0],$coord[1],$coord[2],0,0) );
+					}
+				    }					
+				    // this is a track if more than 2 coordinates found
+				    if (count($coords) >1) 
+				    {
+					$this->trackCount++;
+					$this->track[$this->trackCount]->trackname =  (string) @$xml->Document->Folder->Placemark[$trackid]->name;
+					$this->track[$this->trackCount]->coords= $coords;
+				    }
 			    }
-		    }
-		}	
+			}
+		}
+		return false ; // nothing to return
+	}
+	private function extractCoordsGPX($xml) {
+
+		$this->trackname =  (string) @$xml->name;
+		if  ( strlen($this->trackname)==0)
+		{
+		    $this->trackname = (string) @$xml->trk[0]->name;
+		}
+		$this->trackCount = 0;
+		for($t=0; $t < @count($xml->trk); $t++) 
+		{
+		    for($j=0; $j < @count($xml->trk[$t]->trkseg); $j++) 
+		    {
+			$coords= array();
+			for($i=0; $i < count($xml->trk[$t]->trkseg[$j]->trkpt); $i++) 
+			{
+				$trkpt = $xml->trk[$t]->trkseg[$j]->trkpt[$i];
+				if(isset($trkpt->attributes()->lat) && isset($trkpt->attributes()->lon)) 
+				{
+					$lat = $trkpt->attributes()->lat;
+					$lon = $trkpt->attributes()->lon;
+					if(isset($trkpt->ele)) {
+						$ele = $trkpt->ele;
+					} else {
+						$ele = "0";
+					}
+					if(isset($trkpt->time)) {
+						$time = $trkpt->time;
+					} else {
+						$time = "0";
+					}
+					
+					$coords[] = array((string)$lon, (string)$lat,(string)$ele,(string)$time,0);
+					// var_dump($coords);die();
+				}
+
+			}
+			// this is a track if more than 2 coordinates found
+			if (count($coords) >1) 
+			{
+			    $this->trackCount++;
+			    $this->track[$this->trackCount]->trackname = (string) $trackname = @$xml->trk[$t]->name;;
+			    $this->track[$this->trackCount]->coords= $coords;
+			}
+			  
+		}
+		}
+		return false; // nothing to return
+	}
+	
+	
+	private function extractAllTracksCoords() {
+		$this->allCoords = array();
+		$this->allDistances = array();
+		$this->totalAscent = 0;
+		$this->totalDescent = 0;
+		$d=0;
+		$this->allDistances[0] = 0;
+		$this->allElevation[$d+1] = (int)$next_elv;
+		if ( $this->unit == "Kilometer" ) 
+		{
+		    $earthRadius = 6378.137; 
+		}
+		else
+		{ 
+		    $earthRadius = 6378.137/1.609344;
+		}
+		$earthRadius = 6378.137;
+		for($t=1; $t <= $this->trackCount; $t++)
+		{
+			$this->allCoords = array_merge($this->allCoords, $this->track[$t]->coords);
+		    
+			// calculate distances 
+		    	
+			$next_coord = $this->track[$t]->coords[0];
+			$next_lat_rad = deg2rad($next_coord[1]); // lat
+			$next_lon_rad = deg2rad($next_coord[0]); // lon
+			if ($this->elevationDataExists)
+			{
+			    $next_elv = $next_coord[2]; //elevation 
+			    $this->allElevation[$d] = (int)$next_elv;
+			}
+			if ($this->speedDataExists)
+			{
+			    $next_time = $this->giveTimestamp($next_coord[3]);
+			}
+	
+			for ($i=0; $i <(count($this->track[$t]->coords)-2); $i++)
+			{
+				$next_coord = $this->track[$t]->coords[$i + 1];
+				if (isset($next_coord))
+				{
+					$current_lat_rad = $next_lat_rad;
+					$current_lon_rad = $next_lon_rad;
+
+					$next_lat_rad = deg2rad($next_coord[1]); // lat
+					$next_lon_rad = deg2rad($next_coord[0]); // lon
+							
+					$dis = acos(
+					(sin($current_lat_rad) * sin($next_lat_rad)) +
+					(cos($current_lat_rad) * cos($next_lat_rad) *
+					cos($next_lon_rad - $current_lon_rad))) * $earthRadius;
+
+					if(is_nan($dis))
+					{ 
+					    $dis=0;
+					}
+					$this->allDistances[$d+1] = $this->allDistances[$d] + $dis;
+					if ($this->elevationDataExists)
+					{
+					    $current_elv = $next_elv; // current_elevation
+					    $next_elv = $next_coord[2]; //elevation 
+					    $this->allElevation[$d+1] = (int)$next_elv; // current_elevation
+					    $ascent = $next_elv - $current_elv;
+					    if($ascent>=0) 
+					    {
+						$this->totalAscent = $this->totalAscent + $ascent;
+					    }
+					    else
+					    {
+						$this->totalDescent = $this->totalDescent - $ascent;
+					    }						    
+					}
+				
+					// speed
+					if ($this->speedDataExists)
+					{
+					    $current_time  = $next_time ;
+					    $next_time = $this->giveTimestamp($next_coord[3]);
+					    if ($current_time and $next_time) 
+					    {
+						$elapsedTime = $next_time - $current_time; 
+						if ($elapsedTime>0)
+						{
+						    $this->allSpeed[$d+1] = $dis/$elapsedTime;
+						}
+						else 
+						{
+						    $this->allSpeed[$d+1] = 0;
+						}
+					    }
+					    else 
+					    {
+						$this->allSpeed[$d+1] = 0;
+					    }				    
+					}
+
+					//heart Beat
+					if ($this->beatDataExists)
+					{
+					    $this->allBeat[$d+1] = $next_coord[4];
+					}
+					$d++;
+				}
+			}
+		}
+		return;
+		if ($this->elevationDataExists) 
+		{
+		    $this->totalAscent = (int) $this->totalAscent;
+		    $this->totalDescent = (int) $this->totalDescent;
+		}
+	}	
+
+
+	/**
+	 *
+	 * @param string $date
+	 * @return (int) timestamp
+	 */
+	public function giveTimestamp($date) {
+		// ToDo: unterschiedliche Zeittypen können hier eingefügt werden
+		if ( $date == 0 ) return false;
+		$date = explode('T',$date);
+		$time_tmp_date = explode('-',$date[0]);
+		$time_tmp_date_year = $time_tmp_date[0];
+		$time_tmp_date_month = $time_tmp_date[1];
+		$time_tmp_date_day = $time_tmp_date[2];
+		$time_tmp_time = explode(':',str_replace("Z","",$date[1]));
+		$time_tmp_time_hour = $time_tmp_time[0];
+		$time_tmp_time_minute = $time_tmp_time[1];
+		$time_tmp_time_sec = (int)round($time_tmp_time[2],0);
+		return mktime(	$time_tmp_time_hour,$time_tmp_time_minute,$time_tmp_time_sec,
+		$time_tmp_date_month,$time_tmp_date_day,$time_tmp_date_year);
+	}
+
+		public function transformTtRGB($t) {
+		if ($t <= 60) {
+			$r = dechex(255);
+			$g = dechex(round($t*4.25));
+			$b = dechex(0);
+		}elseif ($t <= 120) {
+			$r = dechex(round(255-(($t-60)*4.25)));
+			$g = dechex(255);
+			$b = dechex(0);
+		}elseif ($t <= 180) {
+			$r = dechex(0);
+			$g = dechex(255);
+			$b = dechex(round((($t-120)*4.25)));
+		}elseif ($t <= 240) {
+			$r = dechex(0);
+			$g = dechex(round(255-(($t-180)*4.25)));
+			$b = dechex(255);
+		}elseif ($t <= 300) {
+			$r = dechex(round((($t-240)*4.25)));
+			$g = dechex(0);
+			$b = dechex(255);
+		}elseif ($t < 360) {
+			$r = dechex(255);
+			$g = dechex(0);
+			$b = dechex(round(255-(($t-300)*4.25)));
+		}elseif ($t >= 360)
+		return false;
+		if (strlen($r)==1) $r = (string)"0" . $r;
+		if (strlen($g)==1) $g = (string)"0" . $g;
+		if (strlen($b)==1) $b = (string)"0" . $b;
+		return $r.$g.$b;
+	}
+
+	/**
+	 *
+	 */
+	public function calculateAllColors($count) {
+		$color = array();
+		for($i=1;$i<=$count;$i++){
+			$color[($i-1)] = $this->transformTtRGB(round(300/$count*$i));
+		}
+		return $color;
+	}
+
+///////////////////////////////////////////////////////////////////////////////
+// function TODO
+
+	public function createChartData() {
+		$elevationChartData = "";
+		$beatChartData = "";
+		$speedChartData = "";
+				    
+		$n = count($this->allDistances);
+		if($n > 600) {
+			$c = $n / 600;
+			$c = round($c,0);
+		} else {
+			$c = 1;
+		}
+		for($i=0; $i<=$n; $i = $i+$c) {
+			$distance = (string) round($this->allDistances[$i],2);
+			if ($this->speedDataExists) 
+			{
+			    $speedChartData .= '[' . $distance  . ',' . round($this->allBeat[$i],0) . '],' ;
+			}
+			if ($this->elevationDataExists) 
+			{
+			    $elevationChartData .= '[' . $distance  . ',' . round($this->allElevation[$i],0) . '],' ;
+			}			
+			if ($this->beatDataExists) 
+			{
+			    $beatChartData .= '[' . $distance  . ',' . round($this->allBeat[$i],0) . '],' ;
+			}			
+		}
+		if ($this->speedDataExists) 
+		{
+		    $this->speedData = '[' . substr($speedChartData, 0, -1) . ']';
+		}
+		if ($this->elevationDataExists) 
+		{
+		    $this->elevationData = '[' . substr($elevationChartData, 0, -1) . ']';
+		}			
+		if ($this->beatDataExists) 
+		{
+		    $this->beatData = '[' . substr($beatChartData, 0, -1) . ']';
+		}
+		return;
 	}
 
 
 ///////////////////////////////////////////////////////////////////////////////
 // function not rewrittten below 
 		    
-	/**
-	 * try to extract all datas from the xml element
-	 *
-	 * @param <simplexmlelement> if file exists and is loaded , false otherwise
-	 * @return array
-	 */
-	public function extractAllTracksCoords($xml) {
-		$cache = & JFactory :: getCache('com_jtg');
-		$coords = array();
-		$i = 0;
-		while (true) 
-		{
-		    $coords_tmp = $cache->get(array($this, 'getCoords'), array($file,$i));
-		    if ($coords_tmp)
-		    {
-			$coords = array_merge($coords, $coords_tmp);
-		    }
-		    else
-		    {
-			break;// break while
-		    }
-		    $i++;
-		}
-		return $coords;
-	}
-
+	
 	
 	public function parseCatIcon($catid,$istrack=0,$iswp=0,$isroute=0) {
 		$catid = explode(",",$catid);
@@ -528,49 +792,6 @@ class g2psClass
 	/**
 	 *
 	 */
-	public function transformTtRGB($t) {
-		if ($t <= 60) {
-			$r = dechex(255);
-			$g = dechex(round($t*4.25));
-			$b = dechex(0);
-		}elseif ($t <= 120) {
-			$r = dechex(round(255-(($t-60)*4.25)));
-			$g = dechex(255);
-			$b = dechex(0);
-		}elseif ($t <= 180) {
-			$r = dechex(0);
-			$g = dechex(255);
-			$b = dechex(round((($t-120)*4.25)));
-		}elseif ($t <= 240) {
-			$r = dechex(0);
-			$g = dechex(round(255-(($t-180)*4.25)));
-			$b = dechex(255);
-		}elseif ($t <= 300) {
-			$r = dechex(round((($t-240)*4.25)));
-			$g = dechex(0);
-			$b = dechex(255);
-		}elseif ($t < 360) {
-			$r = dechex(255);
-			$g = dechex(0);
-			$b = dechex(round(255-(($t-300)*4.25)));
-		}elseif ($t >= 360)
-		return false;
-		if (strlen($r)==1) $r = (string)"0" . $r;
-		if (strlen($g)==1) $g = (string)"0" . $g;
-		if (strlen($b)==1) $b = (string)"0" . $b;
-		return $r.$g.$b;
-	}
-
-	/**
-	 *
-	 */
-	public function calculateAllColors($count) {
-		$color = array();
-		for($i=1;$i<=$count;$i++){
-			$color[($i-1)] = $this->transformTtRGB(round(300/$count*$i));
-		}
-		return $color;
-	}
 
 	/**
 	 *
@@ -586,44 +807,6 @@ class g2psClass
 		return ("#" . $color);
 	}
 
-
-
-	/**
-	 *
-	 * @return array
-	 */
-	public function getStartCoordinates() {
-		jimport('joomla.filesystem.file');
-
-		if(JFile::getExt($this->gpsFile) == 'kml'):
-		$start = $this->getStartKML($this->gpsFile);
-		endif;
-
-		if(JFile::getExt($this->gpsFile) == 'gpx'):
-		$start = $this->getStartGPX();
-		endif;
-
-		if(JFile::getExt($this->gpsFile) == 'tcx'):
-		$start = $this->getStartTCX();
-		endif;
-
-		return $start;
-
-	}
-
-	/**
-	 *
-	 * @return array
-	 */
-	private function getStartKML($file) {
-
-		// TODO Rewrite whitout reloading $file!!!
-		$coords = $this->getCoords($file);
-		$start = $coords[0];
-
-		return $start;
-
-	}
 
 	/**
 	 *
@@ -674,28 +857,6 @@ class g2psClass
 		return false;
 	}
 
-	/**
-	 *
-	 * @return array
-	 */
-	private function getStartGPX() {
-		$isTrack = $this->isTrack();
-		$xml = $this->loadFile();
-		if ($isTrack !== false) {
-			$trackpoint = $xml->trk[$isTrack]->trkseg->trkpt;
-			$startpoint = $trackpoint->attributes();
-			$start = array((string)$startpoint['lon'],(string)$startpoint['lat']);
-			return $start;
-		}
-		$isWaypoint = $this->isWaypoint();
-		if ($isWaypoint !== false) {
-			$trackpoint = $xml->wpt;
-			$startpoint = $trackpoint->attributes();
-			$start = array((string)$startpoint['lon'],(string)$startpoint['lat']);
-			return $start;
-		}
-		return false;
-	}
 
 	private function getStartTCX() {
 		$xml = $this->loadFile();
@@ -784,51 +945,7 @@ class g2psClass
 		return $rows;
 	}
 
-	/**
-	 * calculate the distances at each track point from coords data
-	 * $coords look like this: $array($point1(array(lat,lon)),$point2(array(lat,lon)))...
-	 *
-	 * @param array $coords
-	 * @return int kilometers
-	 */
-	public function getDistances($coords) {
-		if (!is_array($coords))
-		return false;
-		else {
 
-			$distances = array();
-			$distances[0] = 0;
-			$welt = 6378.137; // Erdradius, ca. Angabe
-			for($i=0, $n=(count($coords)-1); $i<$n; $i++)
-			{
-				if (isset($coords[$i + 1]))
-				{
-					$current_lat = $coords[$i][1]; // lat
-					$current_lon = $coords[$i][0]; // lon
-					$current_lat_rad = deg2rad($current_lat);
-					$current_lon_rad = deg2rad($current_lon);
-
-					$next_lat = $coords[$i + 1][1]; // lat
-					$next_lon = $coords[$i + 1][0]; // lon
-					$next_lat_rad = deg2rad($next_lat);
-					$next_lon_rad = deg2rad($next_lon);
-
-					$dis = acos(
-					(sin($current_lat_rad) * sin($next_lat_rad)) +
-					(cos($current_lat_rad) * cos($next_lat_rad) *
-					cos($next_lon_rad - $current_lon_rad))) * $welt;
-
-					if(is_nan($dis))
-					{ 
-					    $dis=0;
-					}
-		
-					$distances[$i + 1] = $distances[$i] + $dis;
-				}
-			}
-			return $distances;
-		}
-	}
 
 	/**
 	 * counts the total distance of a track
@@ -849,7 +966,7 @@ class g2psClass
 		else {
 
 			$ent = 0;
-			$welt = 6378.137; // Erdradius, ca. Angabe
+			$earthRadius = 6378.137; // Erdradius, ca. Angabe
 			foreach($koord as $key => $fetch)
 			{
 				if (isset($koord[$key + 1]))
@@ -867,7 +984,7 @@ class g2psClass
 					$dis = acos(
 					(sin($erste_breite_rad) * sin($zweite_breite_rad)) +
 					(cos($erste_breite_rad) * cos($zweite_breite_rad) *
-					cos($zweite_laenge_rad - $erste_laenge_rad))) * $welt;
+					cos($zweite_laenge_rad - $erste_laenge_rad))) * $earthRadius;
 
 					if(is_nan($dis))
 					$ent = $ent;
@@ -886,168 +1003,8 @@ class g2psClass
 	 * @param array $coords
 	 * @return array
 	 */
-	public function getElevation($coords) {
-		$asc = 0;
-		$desc = 0;
-		//		for($i=0, $n=(count($coords)-1); $i<$n; $i++) {
-		//			if($coords[$i][2] < $coords[$i+1][2])
-		//			$asc = $asc + ($coords[$i+1][2] - $coords[$i][2]);
-		//		}
-		//
-		//		for($i=0, $n=(count($coords)-1); $i<$n-1; $i++) {
-		//			if($coords[$i][2] > $coords[$i+1][2])
-		//			$desc = $desc + ($coords[$i][2] - $coords[$i+1][2]);
-		//		}
 
-		for($i=0, $n=(count($coords)-1); $i<$n; $i++) {
-			if($coords[$i][2] < $coords[$i+1][2])
-			$asc = $asc + ($coords[$i+1][2] - $coords[$i][2]);
-			if($coords[$i][2] > $coords[$i+1][2])
-			$desc = $desc + ($coords[$i][2] - $coords[$i+1][2]);
-		}
 
-		$ele = array(round($asc,0),round($desc,0));
-
-		return $ele;
-	}
-
-	/**
-	 *
-	 * @param array $coords
-	 * @return string
-	 */
-	public function createElevationData($coords ,$distances) {
-		$cht = "";
-
-		$n = count($coords);
-		if($n > 600) {
-			$c = $n / 600;
-			$c = round($c,0);
-		} else {
-			$c = 1;
-		}
-		for($i=0; $i<$n; $i = $i+$c) {
-			$coord = $coords[$i];
-			$distance=(string) round($distances[$i],2);
-			$cht .= '[' . $distance  . ',' . round($coord[2],0) . '],' ;
-
-		}
-		$chtn = '[' . substr($cht, 0, -1) . ']';
-
-		return $chtn;
-	}
-
-	/**
-	 *
-	 * @param string $date
-	 * @return (int) timestamp
-	 */
-	public function giveTimestamp($date) {
-		// ToDo: unterschiedliche Zeittypen können hier eingefügt werden
-		if ( $date == 0 ) return false;
-		$date = explode('T',$date);
-		$time_tmp_date = explode('-',$date[0]);
-		$time_tmp_date_year = $time_tmp_date[0];
-		$time_tmp_date_month = $time_tmp_date[1];
-		$time_tmp_date_day = $time_tmp_date[2];
-		$time_tmp_time = explode(':',str_replace("Z","",$date[1]));
-		$time_tmp_time_hour = $time_tmp_time[0];
-		$time_tmp_time_minute = $time_tmp_time[1];
-		$time_tmp_time_sec = (int)round($time_tmp_time[2],0);
-		return mktime(	$time_tmp_time_hour,$time_tmp_time_minute,$time_tmp_time_sec,
-		$time_tmp_date_month,$time_tmp_date_day,$time_tmp_date_year);
-	}
-
-	/**
-	 *
-	 * @return (int) speed
-	 */
-	public function giveSpeed($lonA,$latA,$timeA,$lonB,$latB,$timeB,$unit,$digits=1) {
-
-		$Erdradius=6378.137;
-
-		if ((($latB-$latA)==0) AND (($lonB-$lonA)==0))
-		$e = 0;
-		else {
-			// Haversine
-			$lonA = $lonA / 180 * pi() ;
-			$latA = $latA / 180 * pi() ;
-			$lonB = $lonB / 180 * pi() ;
-			$latB = $latB / 180 * pi() ;
-			$e = acos( sin($latA)*sin($latB) + cos($latA)*cos($latB)*cos($lonB-$lonA) );
-		}
-
-		$entfernung = (($e * $Erdradius)*1000);		// Meter
-		$time_distance = ( $timeA - $timeB );		// Sekunden
-		if ($time_distance == 0) return 0;
-		$speed = ($entfernung/$time_distance);		// Meter pro Sekunde
-		if($speed<0) return false;
-		if ( $speed > (1000*1000/3600) ) $speed = 0;	// wenn mehr als 1000 km/h
-		if ( $unit == "Kilometer" )
-		return round(($speed/1000*3600),$digits);
-		if ( $unit == "Miles" )
-		return round(($speed/1609.344*3600),$digits);
-		/* Formel für Umrechnung Meter -> Meilen:
-		 http://www.din-formate.de/kalkulator-berechnung-laenge-masse-groesse-umrechnung-meter.html
-		 */
-		return false; // wenn Einheit unbekannt
-	}
-
-	/**
-	 *
-	 * @param array $coords
-	 * @return string
-	 */
-	public function createSpeedData($coords, $distances, $unit) {
-		$cht = "";
-		$n = count($coords);
-		if($n > 600) {
-			$count = $n / 600;
-			$count = round($count,0);
-		} else {
-			$count = 1;
-		}
-		$time = array();
-		$lon = array();
-		$lat = array();
-		$j = 0;
-		for($i=0; $i<$n; $i = $i+$count) {
-			$lon[$j] = ($coords[$i][0]);
-			$lat[$j] = ($coords[$i][1]);
-			$time[$j] = $this->giveTimestamp($coords[$i][3]);
-			if ($time[$j] === false) return false;
-			if ( $j > 0 ) {
-				$speed = $this->giveSpeed($lon[$j],$lat[$j],$time[$j],$lon[($j-1)],$lat[($j-1)],$time[($j-1)],$unit);
-				if($speed!==false){
-				    $distance=(string) round($distances[$i],2);;
-				    $cht .= '[' . $distance  . ',' . $speed . '],' ;
-				}
-			}
-			$j++;
-		}
-		$chtn = '[' . substr($cht, 0, -1) . ']';
-		return $chtn;
-	}
-
-	public function createBeatsData($coords, $distances) {
-		$cht = "";
-
-		$n = count($coords);
-		if($n > 600) {
-			$c = $n / 600;
-			$c = round($c,0);
-		} else {
-			$c = 1;
-		}
-		for($i=0; $i<$n; $i = $i+$c) {
-			$coord = $coords[$i];
-			$distance=(string) round($distances[$i],2);
-			$cht .= '[' . $distance  . ',' . $coord[4] . '],' ;
-		}
-		$chtn = '[' . substr($cht, 0, -1) . ']';
-
-		return $chtn;
-	}
 
 	// Openlayers write maps BEGIN
 	public function writeOLMap($where,$tracks,$params) {
@@ -1156,7 +1113,7 @@ class g2psClass
 		//		if ( ( microtime(true) - $jtg_microtime ) > 29 )
 		//		return "olmap.zoomToMaxExtent();\n"; // emergency brake
 		if (!is_file($file)) return false;
-		$xml = simplexml_load_file($file);
+		echo"<br>TODOPRINT";$xml = simplexml_load_file($file);
 		$bbox_lat_max = -90;
 		$bbox_lat_min = 90;
 		$bbox_lon_max = -180;
@@ -2300,23 +2257,7 @@ class g2psClass
 		jimport('joomla.filesystem.file');
 		$ext = JFile::getExt($file);
 
-		else if($ext == 'gpx') 
-		{
-		    if ($trackid <0) // search for file name
-		    {
-			$trackname = @$xml->name;
-			if  ( strlen($trackname)==0)
-			{
-			    $trackname = @$xml->trk[0]->name;
-			}
-		    }
-		    else // search for track name
-		    {
-			$trackname = @$xml->trk[$trackid]->name;
-		    }
-		    return $trackname;
-		} 
-		else if ($ext == 'tcx') 
+if ($ext == 'tcx') 
 		{
 		    if ($trackid <0) // search for file name
 		    {
@@ -2341,72 +2282,6 @@ class g2psClass
 	
 
 
-	/**
-	 *
-	 * @param string $file
-	 * @return array
-	 */
-	private function getCoordsGPX($file,$trackid=0) {
-		if (!file_exists($file)) return false;
-		$xml = simplexml_load_file($file);
-		$start = array();
-		for($j=0; $j < @count($xml->trk[$trackid]->trkseg); $j++) {
-			for($i=0; $i < count($xml->trk[$trackid]->trkseg[$j]->trkpt); $i++) {
-				//				if ( $i > 100 ) return $start; // emergency brake
-				$trkpt = $xml->trk[$trackid]->trkseg[$j]->trkpt[$i];
-				if(isset($trkpt->attributes()->lat) && isset($trkpt->attributes()->lon)) {
-					$lat = $trkpt->attributes()->lat;
-					$lon = $trkpt->attributes()->lon;
-					if(isset($trkpt->ele)) {
-						$ele = $trkpt->ele;
-					} else {
-						$ele = "0";
-					}
-					if(isset($trkpt->time)) {
-						$time = $trkpt->time;
-					} else {
-						$time = "0";
-					}
-					$start[] = array((string)$lon, (string)$lat,(string)$ele,(string)$time,0);
-				}
-			}
-		}
-		return $start;
-	}
-
-	/**
-	 * checks if the given GPX file as track(s) and return number of track 
-	 *
-	 * @param string $xml
-	 * @return integer
-	 */
-	private function countTracksGPX($xml) {
-		$trackCount = 0;
-		$trackid = 0;
-		$foundtracks = 0;
-		$notfoundtracks = 0;
-		while ($notfoundtracks <= 10)
-		{
-			for($j=0; $j < @count($xml->trk[$trackid]); $j++)
-			{
-				$trkpt = @$xml->trk[$trackid]->trkseg[$j]->trkpt;
-				if (
-				( $trkpt !== null )
-				AND (@isset($trkpt->attributes()->lat)
-				AND @isset($trkpt->attributes()->lon))
-				)
-				{
-					$trackCount++;
-					$foundtracks++;
-				}
-			}
-			if ( $j == 0 ) $notfoundtracks++;
-			$trackid++;
-		}
-		return $trackCount;
-	}
-
-
 
 	/**
 	 *
@@ -2415,7 +2290,7 @@ class g2psClass
 	 */
 	private function getCoordsTCX($file,$trackid=0) {
 		if (file_exists($file)) {
-			$xml = simplexml_load_file($file);
+			echo"<br>TODOPRINT";$xml = simplexml_load_file($file);
 			if(isset($xml->Activities->Activity->Lap->Track)) {
 				$startpoint = $xml->Activities->Activity->Lap->Track[$trackid];
 			} elseif (isset($xml->Courses->Course->Track)) {
@@ -2875,7 +2750,7 @@ class gpsClass
 	public function loadFile() {
 
 		if (file_exists($this->gpsFile)) {
-			$xml = simplexml_load_file($this->gpsFile);
+			echo"<br>TODOPRINT";$xml = simplexml_load_file($this->gpsFile);
 			return $xml;
 		} else {
 			return false;
@@ -3469,7 +3344,7 @@ class gpsClass
 		//		if ( ( microtime(true) - $jtg_microtime ) > 29 )
 		//		return "olmap.zoomToMaxExtent();\n"; // emergency brake
 		if (!is_file($file)) return false;
-		$xml = simplexml_load_file($file);
+		echo"<br>TODOPRINT";$xml = simplexml_load_file($file);
 		$bbox_lat_max = -90;
 		$bbox_lat_min = 90;
 		$bbox_lon_max = -180;
@@ -4606,6 +4481,13 @@ class gpsClass
 	 * @param string $file
 	 * @return array
 	 */
+
+	/**
+	 * checks if the given file is a GPX or KML file and call the function for it
+	 *
+	 * @param string $file
+	 * @return array
+	 */
 	public function getAllTracksCoords($file) {
 		$cache = & JFactory :: getCache('com_jtg');
 		$coords = array();
@@ -4624,8 +4506,7 @@ class gpsClass
 		    $i++;
 		}
 		return $coords;
-	}
-	
+	}	
 	/**
 	 * checks if the given file is a GPX or KML file and call the function for it
 	 *
@@ -4753,7 +4634,7 @@ class gpsClass
 	private function getCoordsKML($file,$trackid=0) {
 
 			if (file_exists($file)) {
-			$xml = simplexml_load_file($file);
+			echo"<br>TODOPRINT";$xml = simplexml_load_file($file);
 			$trackCount = 0;
 			$coords = array();
 			$tracks = @$xml->Document->Folder->Placemark[$trackid]->MultiGeometry->LineString->coordinates;
@@ -4796,7 +4677,7 @@ class gpsClass
 	 */
 	private function getCoordsGPX($file,$trackid=0) {
 		if (!file_exists($file)) return false;
-		$xml = simplexml_load_file($file);
+		echo"<br>TODOPRINT";$xml = simplexml_load_file($file);
 		$start = array();
 		for($j=0; $j < @count($xml->trk[$trackid]->trkseg); $j++) {
 			for($i=0; $i < count($xml->trk[$trackid]->trkseg[$j]->trkpt); $i++) {
@@ -4888,7 +4769,7 @@ class gpsClass
 	 */
 	private function getCoordsTCX($file,$trackid=0) {
 		if (file_exists($file)) {
-			$xml = simplexml_load_file($file);
+			echo"<br>TODOPRINT";$xml = simplexml_load_file($file);
 			if(isset($xml->Activities->Activity->Lap->Track)) {
 				$startpoint = $xml->Activities->Activity->Lap->Track[$trackid];
 			} elseif (isset($xml->Courses->Course->Track)) {
