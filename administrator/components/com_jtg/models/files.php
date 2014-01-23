@@ -52,19 +52,12 @@ class JtgModelFiles extends JModel
 		$cfg = JtgHelper::getConfig();
 		jimport('joomla.filesystem.file');
 		require_once(".." . DS . "components" . DS . "com_jtg" . DS . "helpers" . DS . "gpsClass.php");
-		$gps = new gpsClass();
 		$file = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploaded_tracks' . DS . $file;
+		$g2ps = new g2psClass();
 		$gps->gpsFile = $file;
 
 		$isTrack = $gps->isTrack();
-		if ( $isTrack === false )
-		$isTrack = 0;
-		else
-		$isTrack = 1;
-
-		$isWaypoint = (int)$gps->isWaypoint();
-
-		//$isRoute = $gps->isRoute();
+		$isWaypoint = $gps->isWaypoint();
 		$isRoute = (int)0;
 
 		if ( $isWaypoint == 1 )
@@ -741,9 +734,7 @@ class JtgModelFiles extends JModel
 				$gps = new gpsClass();
 				$gps->gpsFile = $file;
 				$isTrack = $gps->isTrack();
-				if ($isTrack !== false) $isTrack = "1"; else $isTrack = "0";
 				$isWaypoint = $gps->isWaypoint();
-				if ($isWaypoint !== false) $isWaypoint = "1"; else $isWaypoint = "0";
 				$isRoute = "0";
 				if($start = $gps->getStartCoordinates())  {
 					$fileokay = true;
@@ -861,13 +852,14 @@ class JtgModelFiles extends JModel
 		$gps = new gpsClass();
 		$gps->gpsFile = $file;
 		$isTrack = $gps->isTrack();
-		if ($isTrack !== false) $isTrack = "1"; else $isTrack = "0";
 		$isWaypoint = $gps->isWaypoint();
-		if ($isWaypoint !== false) $isWaypoint = "1"; else $isWaypoint = "0";
 		$isRoute = "0";
+		
 		if($start = $gps->getStartCoordinates())  {
 			$fileokay = true;
-		} else {
+		} else 
+		{
+			// TODO print an error message
 			echo "<script type='text/javascript'>alert('".JText::_('COM_JTG_NO_SUPPORT') . ": " . $target . "');window.history.back(-1);</script>";
 			// 				exit;
 		}
@@ -1149,9 +1141,7 @@ class JtgModelFiles extends JModel
 			$gps = new gpsClass();
 			$gps->gpsFile = $file;
 			$isTrack = $gps->isTrack();
-			if ($isTrack !== false) $isTrack = "1"; else $isTrack = "0";
 			$isWaypoint = $gps->isWaypoint();
-			if ($isWaypoint !== false) $isWaypoint = "1"; else $isWaypoint = "0";
 			$isRoute = "0";
 			$start_n = $importfile['start_n'];
 			$start_e = $importfile['start_e'];

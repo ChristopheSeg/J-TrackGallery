@@ -13,7 +13,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 echo $this->lh;
-echo $this->gps->writeOLMap($this->where,$this->tracks,$this->params);
+echo $this->g2ps->writeOLMap($this->where,$this->tracks,$this->params);
 ?>
 
 <style type="text/css">

@@ -46,13 +46,13 @@ class g2psClass
 	    {
 		    $this->gpsFile = $gpsFile;
 		    $this->ext = JFile::getExt($gpsFile);
-		    echo"<br>TODOPRINT-G2PS";$xml = simplexml_load_file($this->gpsFile);
+		    $xml = simplexml_load_file($this->gpsFile);
 		    return $xml;
 	    }
 	    if (file_exists($this->gpsFile)) 
 	    {
 		    $this->ext = JFile::getExt($this->gpsFile);
-		    echo"<br>TODOPRINT-G2PS";$xml = simplexml_load_file($this->gpsFile);
+		    $xml = simplexml_load_file($this->gpsFile);
 		    return $xml;
 	    }	  
 	    return false;
@@ -66,6 +66,7 @@ class g2psClass
 	 */
 	public function loadFileAndData($gpsFile=false) {
 
+		// $xml should not belong to $this (SimpleXMLElement can not be serialzed => not cached)
 		$xml = $this->loadXmlFile($gpsFile); 
 		if (!$xml) 
 		{
@@ -105,8 +106,11 @@ class g2psClass
 		
 		// calculate chartData
 		$this->createChartData();
-		echo"<br><pre>"; print_r($this);
-		echo"</pre><br>";
+		
+		// extract WP
+		$this->extractWPs($xml);
+//		echo"<br><pre>"; print_r($this);
+//		echo"</pre><br>";
 	}
 	
 	/**
@@ -151,15 +155,19 @@ class g2psClass
 					}
 				    }					
 				    // this is a track if more than 2 coordinates found
-				    if (count($coords) >1) 
+				    $coordinatesCount = count($coords);
+				    if ($coordinatesCount >1) 
 				    {
 					$this->trackCount++;
 					$this->track[$this->trackCount]->trackname =  (string) @$xml->Document->Folder->Placemark[$trackid]->name;
 					$this->track[$this->trackCount]->coords= $coords;
+					$this->track[$this->trackCount]->start = ($coords[0][0] . "," . $coords[0][1]);
+					$this->track[$this->trackCount]->stop = ($coords[$coordinatesCount-1][0] . "," . $coords[$coordinatesCount-1][1]);
 				    }
 			    }
 			}
 		}
+		$this->isTrack = ($this->trackCount>0);
 		return false ; // nothing to return
 	}
 	private function extractCoordsGPX($xml) {
@@ -199,11 +207,14 @@ class g2psClass
 
 			}
 			// this is a track if more than 2 coordinates found
-			if (count($coords) >1) 
+			$coordinatesCount = count($coords);
+			if ($coordinatesCount >1) 
 			{
 			    $this->trackCount++;
 			    $this->track[$this->trackCount]->trackname = (string) $trackname = @$xml->trk[$t]->name;;
-			    $this->track[$this->trackCount]->coords= $coords;
+			    $this->track[$this->trackCount]->coords = $coords;
+			    $this->track[$this->trackCount]->start = ($coords[0][0] . "," . $coords[0][1]);
+			    $this->track[$this->trackCount]->stop = ($coords[$coordinatesCount-1][0] . "," . $coords[$coordinatesCount-1][1]);
 			}
 			  
 		}
@@ -211,6 +222,45 @@ class g2psClass
 		return false; // nothing to return
 	}
 	
+		/**
+	 *
+	 * @param string $file
+	 * @return array
+	 */
+	private function getCoordsTCX($file,$trackid=0) {
+	    // TODO REWRITE
+	    if (file_exists($file)) {
+			echo"<br>TODOPRINT";$xml = simplexml_load_file($file);
+			if(isset($xml->Activities->Activity->Lap->Track)) {
+				$startpoint = $xml->Activities->Activity->Lap->Track[$trackid];
+			} elseif (isset($xml->Courses->Course->Track)) {
+				$startpoint = $xml->Courses->Course->Track[$trackid];
+			}
+
+			$coords = array();
+			if (!$startpoint[0]) return false;
+			foreach($startpoint[0] as $start) {
+				if(isset($start->Position->LatitudeDegrees) && isset($start->Position->LongitudeDegrees)) {
+					$lat = $start->Position->LatitudeDegrees;
+					$lon = $start->Position->LongitudeDegrees;
+					$ele = $start->AltitudeMeters;
+					$time = $start->Time;
+					if(isset($start->HeartRateBpm->Value)) {
+						$heart = $start->HeartRateBpm->Value;
+					} else {
+						$heart = "0";
+					}
+
+					$bak = array((string)$lon,(string)$lat,(string)$ele,(string)$time,(string)$heart);
+					array_push($coords,$bak);
+				}
+			}
+			return $coords;
+		} else {
+			return false;
+		}
+	}
+
 	
 	private function extractAllTracksCoords() {
 		$this->allCoords = array();
@@ -219,7 +269,10 @@ class g2psClass
 		$this->totalDescent = 0;
 		$d=0;
 		$this->allDistances[0] = 0;
-		$this->allElevation[$d+1] = (int)$next_elv;
+		$this->bbox_lat_max = -90;
+		$this->bbox_lat_min = 90;
+		$this->bbox_lon_max = -180;
+		$this->bbox_lon_min = 180;
 		if ( $this->unit == "Kilometer" ) 
 		{
 		    $earthRadius = 6378.137; 
@@ -238,6 +291,10 @@ class g2psClass
 			$next_coord = $this->track[$t]->coords[0];
 			$next_lat_rad = deg2rad($next_coord[1]); // lat
 			$next_lon_rad = deg2rad($next_coord[0]); // lon
+			if ( $next_coord[1] > $this->bbox_lat_max ) { $this->bbox_lat_max = $next_coord[1];}
+			if ( $next_coord[1] < $this->bbox_lat_min ) { $this->bbox_lat_min = $next_coord[1];}
+			if ( $next_coord[0] > $this->bbox_lon_max ) { $this->bbox_lon_max = $next_coord[0];}
+			if ( $next_coord[0] < $this->bbox_lon_min ) { $this->bbox_lon_min = $next_coord[0];}
 			if ($this->elevationDataExists)
 			{
 			    $next_elv = $next_coord[2]; //elevation 
@@ -258,6 +315,11 @@ class g2psClass
 
 					$next_lat_rad = deg2rad($next_coord[1]); // lat
 					$next_lon_rad = deg2rad($next_coord[0]); // lon
+
+					if ( $next_coord[1] > $this->bbox_lat_max ) { $this->bbox_lat_max = $next_coord[1];}
+					if ( $next_coord[1] < $this->bbox_lat_min ) { $this->bbox_lat_min = $next_coord[1];}
+					if ( $next_coord[0] > $this->bbox_lon_max ) { $this->bbox_lon_max = $next_coord[0];}
+					if ( $next_coord[0] < $this->bbox_lon_min ) { $this->bbox_lon_min = $next_coord[0];}
 							
 					$dis = acos(
 					(sin($current_lat_rad) * sin($next_lat_rad)) +
@@ -391,6 +453,52 @@ class g2psClass
 		return $color;
 	}
 
+	/**
+	 * Checkt auf WPs
+	 * @return (int) Anzahl
+	 */
+	public function extractWPs($xml) {
+
+		// TODO see for TCX and KML files
+		if($xml->wpt) 
+		{
+			$i = 0;
+			$wp = array();
+			while (true) {
+				if($xml->wpt[$i])
+				{
+					$lat = (float)($xml->wpt[$i]->attributes()->lat);
+					$lon = (float)($xml->wpt[$i]->attributes()->lon);
+					if ( $lat > $this->bbox_lat_max ) { $this->bbox_lat_max = $lat;}
+					if ( $lat < $this->bbox_lat_min ) { $this->bbox_lat_min = $lat;}
+					if ( $lon > $this->bbox_lon_max ) { $this->bbox_lon_max = $lon;}
+					if ( $lon < $this->bbox_lon_min ) { $this->bbox_lon_min = $lon;}
+					$this->wp[] = $xml->wpt[$i];
+				}
+				else
+				break;
+				$i++;
+			}
+			$this->isWaypoint = true;
+		} 
+		else 
+		{
+		    $this->wp = NULL;
+		    $this->isWaypoint = false;
+		    return false;
+		}
+		
+		$center = "// <!-- parseOLMapCenterSingleTrack BEGIN -->\n";
+		$center .= "var min = lonLatToMercator(new OpenLayers.LonLat";
+		$center .= "(" . $this->bbox_lon_min . "," . $this->bbox_lat_min . "));\n";
+		$center .= "var max = lonLatToMercator(new OpenLayers.LonLat";
+		$center .= "(" . $this->bbox_lon_max . "," . $this->bbox_lat_max . "));\n";
+		$center .= "olmap.zoomToExtent(new OpenLayers.Bounds(min.lon, min.lat, max.lon, max.lat));\n";
+		$center .= "// <!-- parseOLMapCenterSingleTrack END -->\n";
+		$this->wp = array( "wps" => $wp, "center" => $center );
+		
+	}
+	
 ///////////////////////////////////////////////////////////////////////////////
 // function TODO
 
@@ -406,7 +514,7 @@ class g2psClass
 		} else {
 			$c = 1;
 		}
-		for($i=0; $i<=$n; $i = $i+$c) {
+		for($i=0; $i<$n; $i = $i+$c) {
 			$distance = (string) round($this->allDistances[$i],2);
 			if ($this->speedDataExists) 
 			{
@@ -440,6 +548,58 @@ class g2psClass
 ///////////////////////////////////////////////////////////////////////////////
 // function not rewrittten below 
 		    
+
+
+	/**
+	 *
+	 * @return number or false
+	 */
+	public function isTrack($file = false) {
+		if ($file == false)
+		$file = $this->loadFile();
+		$xml = $file;
+		if(!$xml->trk) return false;
+		for($i=0;$i<10;$i++) { // Unternehme 10 Versuche LonLat zu finden
+			$trackpoint = @$xml->trk[$i]->trkseg->trkpt;
+			if (!empty($trackpoint))
+			return (int)$i;
+		}
+		return false;
+	}
+
+	/**
+	 *
+	 * @return number or false
+	 */
+	public function isCache($file = false) {
+		if ($file == false)
+		$file = $this->loadFile();
+		$xml = $file;
+		$pattern = "/groundspeak/";
+		if ( preg_match($pattern,$xml->attributes()->creator))
+		return true;
+		else
+		return false;
+	}
+
+	/**
+	 *
+	 * @return array
+	 */
+	public function isWaypoint($file = false) {
+		if ($file == false)
+		$file = $this->loadFile();
+		$xml = $file;
+		for($i=0;$i<10;$i++) { // Unternehme 10 Versuche LonLat zu finden
+			$trackpoint = $xml->wpt[$i];
+			if (!empty($trackpoint))
+			return true;
+			//			return (int)$i;
+		}
+		return false;
+	}
+
+
 	
 	
 	public function parseCatIcon($catid,$istrack=0,$iswp=0,$isroute=0) {
@@ -648,43 +808,6 @@ class g2psClass
 	}
 
 	/**
-	 * Checkt auf WPs
-	 * @return (int) Anzahl
-	 */
-	public function extractWPs($xml) {
-		$bbox_lat_max = -90;
-		$bbox_lat_min = 90;
-		$bbox_lon_max = -180;
-		$bbox_lon_min = 180;
-		if($xml->wpt) {
-			$i = 0;
-			$wp = array();
-			while (true) {
-				if($xml->wpt[$i])
-				{
-					$lat = (float)($xml->wpt[$i]->attributes()->lat);
-					$lon = (float)($xml->wpt[$i]->attributes()->lon);
-					if ( $lat > $bbox_lat_max ) $bbox_lat_max = $lat;
-					if ( $lat < $bbox_lat_min ) $bbox_lat_min = $lat;
-					if ( $lon > $bbox_lon_max ) $bbox_lon_max = $lon;
-					if ( $lon < $bbox_lon_min ) $bbox_lon_min = $lon;
-					$wp[] = $xml->wpt[$i];
-				}
-				else
-				break;
-				$i++;
-			}
-		} else return false;
-		$center = "// <!-- parseOLMapCenterSingleTrack BEGIN -->\n";
-		$center .= "var min = lonLatToMercator(new OpenLayers.LonLat";
-		$center .= "(" . $bbox_lon_min . "," . $bbox_lat_min . "));\n";
-		$center .= "var max = lonLatToMercator(new OpenLayers.LonLat";
-		$center .= "(" . $bbox_lon_max . "," . $bbox_lat_max . "));\n";
-		$center .= "olmap.zoomToExtent(new OpenLayers.Bounds(min.lon, min.lat, max.lon, max.lat));\n";
-		$center .= "// <!-- parseOLMapCenterSingleTrack END -->\n";
-		return array( "wps" => $wp, "center" => $center );
-	}
-	/**
 	 * Formatiert die Beschreibung und kürzt bei Bedarf
 	 * @return string
 	 */
@@ -807,57 +930,6 @@ class g2psClass
 		return ("#" . $color);
 	}
 
-
-	/**
-	 *
-	 * @return number or false
-	 */
-	public function isTrack($file = false) {
-		if ($file == false)
-		$file = $this->loadFile();
-		$xml = $file;
-		if(!$xml->trk) return false;
-		for($i=0;$i<10;$i++) { // Unternehme 10 Versuche LonLat zu finden
-			$trackpoint = @$xml->trk[$i]->trkseg->trkpt;
-			if (!empty($trackpoint))
-			return (int)$i;
-		}
-		return false;
-	}
-
-	/**
-	 *
-	 * @return number or false
-	 */
-	public function isCache($file = false) {
-		if ($file == false)
-		$file = $this->loadFile();
-		$xml = $file;
-		$pattern = "/groundspeak/";
-		if ( preg_match($pattern,$xml->attributes()->creator))
-		return true;
-		else
-		return false;
-	}
-
-	/**
-	 *
-	 * @return array
-	 */
-	public function isWaypoint($file = false) {
-		if ($file == false)
-		$file = $this->loadFile();
-		$xml = $file;
-		for($i=0;$i<10;$i++) { // Unternehme 10 Versuche LonLat zu finden
-			$trackpoint = $xml->wpt[$i];
-			if (!empty($trackpoint))
-			return true;
-			//			return (int)$i;
-		}
-		return false;
-	}
-
-
 	private function getStartTCX() {
 		$xml = $this->loadFile();
 
@@ -945,58 +1017,6 @@ class g2psClass
 		return $rows;
 	}
 
-
-
-	/**
-	 * counts the total distance of a track
-	 * $koords look like this: $array($point1(array(lat,lon)),$point2(array(lat,lon)))...
-	 *
-	 * @param array $koord
-	 * @return int kilometers
-	 */
-	public function getDistance($koord) {
-		if (!is_array($koord))
-		return false;
-		if (is_array($distances)) {
-		    // calculate from distances array when it exists
-		    $entfernung = $distances[ count($distances)-1 ];
-		    $entfernung = round($entfernung, 2);
-		    return $entfernung;	
-		}
-		else {
-
-			$ent = 0;
-			$earthRadius = 6378.137; // Erdradius, ca. Angabe
-			foreach($koord as $key => $fetch)
-			{
-				if (isset($koord[$key + 1]))
-				{
-					$erste_breite = $koord[$key][1]; // lat
-					$erste_laenge = $koord[$key][0]; // lon
-					$erste_breite_rad = deg2rad($erste_breite);
-					$erste_laenge_rad = deg2rad($erste_laenge);
-
-					$zweite_breite = $koord[$key + 1][1]; // lat
-					$zweite_laenge = $koord[$key + 1][0]; // lon
-					$zweite_breite_rad = deg2rad($zweite_breite);
-					$zweite_laenge_rad = deg2rad($zweite_laenge);
-
-					$dis = acos(
-					(sin($erste_breite_rad) * sin($zweite_breite_rad)) +
-					(cos($erste_breite_rad) * cos($zweite_breite_rad) *
-					cos($zweite_laenge_rad - $erste_laenge_rad))) * $earthRadius;
-
-					if(is_nan($dis))
-					$ent = $ent;
-					else
-					$ent = $ent + $dis;
-				}
-			}
-			$entfernung = $ent;
-			$entfernung = round($entfernung, 2);
-			return $entfernung;
-		}
-	}
 
 	/**
 	 *
@@ -1100,87 +1120,6 @@ class g2psClass
 		$center .= "(new OpenLayers.LonLat(" . $bbox_lon_max . "," . $bbox_lat_max . "));\n";
 		$center .= "olmap.zoomToExtent(new OpenLayers.Bounds(min.lon, min.lat, max.lon, max.lat));\n";
 		$center .= "// <!-- parseOLMapCenter END -->\n";
-		return $center;
-	}
-
-	/**
-	 *
-	 * @return string
-	 */
-	private function parseOLMapCenterSingleTrack($file) {
-		//		echo "deprecated function parseOLMapCenterSingleTrack";
-		//		global $jtg_microtime;
-		//		if ( ( microtime(true) - $jtg_microtime ) > 29 )
-		//		return "olmap.zoomToMaxExtent();\n"; // emergency brake
-		if (!is_file($file)) return false;
-		echo"<br>TODOPRINT";$xml = simplexml_load_file($file);
-		$bbox_lat_max = -90;
-		$bbox_lat_min = 90;
-		$bbox_lon_max = -180;
-		$bbox_lon_min = 180;
-		$this->gpsFile = $file;
-		$isWaypoint = $this->isWaypoint();
-		if ( $isWaypoint !== false ) {
-			$i = $isWaypoint;
-			$found = 0;
-			while(true) {
-				if (isset($xml->wpt[$i])) {
-					$wp = $xml->wpt[$i];
-					if ( $wp != null ) {
-						$wp = $wp->attributes();
-						$lon = (float)$wp->lon;
-						$lat = (float)$wp->lat;
-						if ( $lat > $bbox_lat_max ) $bbox_lat_max = $lat;
-						if ( $lat < $bbox_lat_min ) $bbox_lat_min = $lat;
-						if ( $lon > $bbox_lon_max ) $bbox_lon_max = $lon;
-						if ( $lon < $bbox_lon_min ) $bbox_lon_min = $lon;
-						$found = 0;
-					}
-					$i++;
-				}
-				$found++;
-				if ( $found > 10 ) break;
-			}
-		}
-		$isTrack = $this->isTrack();
-		if ( $isTrack !== false ) {
-			$i = $isTrack;
-			$found = 0;
-			$foundj = 0;
-			while(true) {
-				if (isset($xml->trk[$i]->trkseg->trkpt)) {
-					$found = 0;
-					$j = 0;
-					while(true) {
-						if (isset($xml->trk[$i]->trkseg->trkpt[$j])) {
-							$trk = $xml->trk[$i]->trkseg->trkpt[$j]->attributes();
-							if ( $trk != null ) {
-								$lon = (float)$trk->lon;
-								$lat = (float)$trk->lat;
-								if ( $lat > $bbox_lat_max ) $bbox_lat_max = $lat;
-								if ( $lat < $bbox_lat_min ) $bbox_lat_min = $lat;
-								if ( $lon > $bbox_lon_max ) $bbox_lon_max = $lon;
-								if ( $lon < $bbox_lon_min ) $bbox_lon_min = $lon;
-								$foundj = 0;
-							}
-							$j++;
-						}
-						$foundj++;
-						if ( $foundj > 10 ) break;
-					}
-				}
-				$found++;
-				if ( $found > 10 ) break;
-				$i++;
-			}
-		}
-		$center = "// <!-- parseOLMapCenterSingleTrack BEGIN -->\n";
-		$center .= "var min = lonLatToMercator(new OpenLayers.LonLat";
-		$center .= "(" . $bbox_lon_min . "," . $bbox_lat_min . "));\n";
-		$center .= "var max = lonLatToMercator(new OpenLayers.LonLat";
-		$center .= "(" . $bbox_lon_max . "," . $bbox_lat_max . "));\n";
-		$center .= "olmap.zoomToExtent(new OpenLayers.Bounds(min.lon, min.lat, max.lon, max.lat));\n";
-		$center .= "// <!-- parseOLMapCenterSingleTrack END -->\n";
 		return $center;
 	}
 
@@ -1504,152 +1443,11 @@ class g2psClass
 
 		$layertoshow = array();
 
-		/*	$layertoshow[0] = "		layerMapnik = new OpenLayers.Layer.OSM.Mapnik(\"Mapnik\");\n			olmap.addLayer(layerMapnik);\n";
-		 $layertoshow[1] = "		layerTilesAtHome = new OpenLayers.Layer.OSM.OSM_HIKE_AND_BIKE(\"OSM_HIKE_AND_BIKE\");\n			olmap.addLayer(layerTilesAtHome);\n";
-		 $layertoshow[2] = "		layerCycleMap = new OpenLayers.Layer.OSM.CycleMap(\"CycleMap\");\n			olmap.addLayer(layerCycleMap);\n";
-		 /*	$layertoshow[3] = "
-		 layerol_wms = new OpenLayers.Layer.WMS( \"OpenLayers WMS (metacarta)\",
-		 \"http://labs.metacarta.com/wms/vmap0?\", {layers: \"basic\"} );
-		 olmap.addLayer(layerol_wms);\n
-		 ";
-		 $layertoshow[3] .= "		layerOpenLayers = new OpenLayers.Layer.WMS( \"OpenLayers WMS (cubewerx)\",
-		 \"http://demo.cubewerx.com/demo/cubeserv/cubeserv.cgi?\",
-		 {layers: 'Foundation.GTOPO30', version: '1.3.0'},
-		 {singleTile: true});
-		 olmap.addLayer(layerOpenLayers);\n
-		 ";*/
-		/*
-		 for google you need:
-		 <script src='http://maps.google.com/maps?file=api&amp;v=2&amp;key='></script>
-		 */
-
-		/* 	$layertoshow[3] .= "
-		 // create Google Mercator layers
-		 var gmap = new OpenLayers.Layer.Google(
-		 \"Google Streets\",
-		 {'sphericalMercator': true});
-		 olmap.addLayer(gmap);\n
-		 ";
-		 $layertoshow[3] .= "		var gsat = new OpenLayers.Layer.Google(\"Google Satellite\",
-		 {type: G_SATELLITE_MAP, 'sphericalMercator': true, numZoomLevels: 22});
-		 olmap.addLayer(gsat);\n
-		 ";
-		 $layertoshow[3] .= "		var ghyb = new OpenLayers.Layer.Google(\"Google Hybrid\",
-		 {type: G_HYBRID_MAP, 'sphericalMercator': true});
-		 olmap.addLayer(ghyb);\n
-		 ";
-
-
-		 // for VE you need:
-		 // <script src='http://dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=6.1'></script>
-
-		 $layertoshow[3] .= "// create Virtual Earth layers
-		 var veroad = new OpenLayers.Layer.VirtualEarth(\"Virtual Earth Roads\",
-		 {'type': VEMapStyle.Road, 'sphericalMercator': true});
-		 olmap.addLayer(veroad);\n
-		 ";
-		 $layertoshow[3] .= "		var veaer = new OpenLayers.Layer.VirtualEarth(\"Virtual Earth Aerial\",
-		 {'type': VEMapStyle.Aerial, 'sphericalMercator': true});
-		 olmap.addLayer(veaer);\n
-		 ";
-		 $layertoshow[3] .= "		var vehyb = new OpenLayers.Layer.VirtualEarth(\"Virtual Earth Hybrid\",
-		 {'type': VEMapStyle.Hybrid, 'sphericalMercator': true});
-		 olmap.addLayer(vehyb);\n
-		 ";
-		 $layertoshow[3] .= "// create Yahoo layer
-		 var yahoo = new OpenLayers.Layer.Yahoo(\"Yahoo Street\",
-		 {'sphericalMercator': true});
-		 olmap.addLayer(yahoo);\n
-		 ";
-		 $layertoshow[3] .= "		var yahoosat = new OpenLayers.Layer.Yahoo(
-		 \"Yahoo Satellite\",
-		 {'type': YAHOO_MAP_SAT, 'sphericalMercator': true});
-		 olmap.addLayer(yahoosat);\n
-		 ";
-		 $layertoshow[3] .= "			var yahoohyb = new OpenLayers.Layer.Yahoo(
-		 \"Yahoo Hybrid\",
-		 {'type': YAHOO_MAP_HYB, 'sphericalMercator': true});
-		 olmap.addLayer(yahoohyb);\n
-		 ";
-		 $layertoshow[3] .= "var layerWoE = new OpenLayers.Layer.WMS(
-		 \"WMS of Europe\",
-		 \"http://openls.giub.uni-bonn.de/ors-tilecache/tilecache.py?\",
-		 {layers: 'ors-osm',srs: 'EPSG:900913', format: 'image/png',numZoomLevels: 19},
-		 {'buffer':2});
-		 olmap.addLayer(layerWoE);\n";*/
-		/*	tot?
-		 $layertoshow[3] .= "			var oam = new OpenLayers.Layer.XYZ(
-		 \"OpenAerialMap\",
-		 \"http://tile.openaerialmap.org/tiles/1.0.0/openaerialmap-900913/${z}/${x}/${y}.png\",
-		 {sphericalMercator: true});
-		 olmap.addLayer(oam);\n
-		 ";
-		 */
-		/* 	$layertoshow[3] .= "
-		 var OSM_HIKE_AND_BIKE = new OpenLayers.Layer.OSM(
-		 \"OpenStreetMap (Tiles@Home)\",
-		 \"http://tah.openstreetmap.org/Tiles/tile/${z}/${x}/${y}.png\");
-		 olmap.addLayer(OSM_HIKE_AND_BIKE);\n
-		 ";
-		 */
-		/*	tot?
-		 $layertoshow[3] .= "			// create WMS layer
-		 var wms = new OpenLayers.Layer.WMS(
-		 \"World Map\",
-		 \"http://world.freemap.in/tiles/\",
-		 {'layers': 'factbook-overlay', 'format':'png'},
-		 {
-		 'opacity': 0.4, visibility: false,
-		 'isBaseLayer': false,'wrapDateLine': true
-		 }
-		 );
-		 olmap.addLayer(wms);\n
-		 ";
-		 */
-
-		/*	$layertoshow[3] .= "// Hillshading layer provided by University of Bonn
-		 // based on CIAT-CSI SRTM data, available for
-		 // non-commercial use only
-		 var hs_name = \"Hillshade (Uni Bonn)\";
-		 var hs_url = \"http://services.giub.uni-bonn.de/hillshade?\";
-		 var hs_options = {layers: 'europe_wms:hs_srtm_europa',srs: 'EPSG:900913', format: 'image/JPEG'};
-		 var hs = new OpenLayers.Layer.WMS(hs_name , hs_url , hs_options, {'buffer':2});
-		 olmap.addLayer(hs);\n";*/
-		/*
-		 $layertoshow[3] .= "// Hillshading layer provided by University of Bonn
-		 // based on CIAT-CSI SRTM data, available for
-		 // non-commercial use only
-		 var hs_name = \"Hillshade (Uni Bonn)\";
-		 var hs_url = \"http://services.giub.uni-bonn.de/hillshade?\";
-		 var hs_options = {layers: 'europe_wms:hs_srtm_europa',srs: 'EPSG:900913', format: 'image/JPEG', transparent: 'true', isBaseLayer: true};
-		 var hs = new OpenLayers.Layer.WMS(hs_name , hs_url , hs_options, {'buffer':2});
-		 hs.setOpacity(0.15);
-		 hs.visibility = false;
-		 olmap.addLayer(hs);\n";
-
-		 // 	$layertoshow[3] = "		layerOffline = new OpenLayers.Layer.OSM(\"-keine-\",\"\");\n			map.addLayer(layerOffline);\n";
-		 $layertoshow[3] = "		NASAGlobalMosaic = new OpenLayers.Layer.WMS(\n			\"NASA Global Mosaic\",\n			\"http://t1.hypercube.telascience.org/cgi-bin/landsat7/\",\n			{layers: \"landsat7\"});\n			map.addLayer(NASAGlobalMosaic);\n";
-		 // 	$layertoshow[5] = "		layerKosmos = new OpenLayers.Layer.OSM.Kosmos(\"Kosmos\");\n		layerKosmos = new OpenLayers.Layer.OSM(\"Kosmos\",\"http://home.vrweb.de/~thomas.buedel/Tiles/\", \"basic\", { 'format':'image/png',maxResolution: 180/256 } );\n			map.addLayer(layerKosmos);\n";
-
-		 $defaultmapisset = false;							// Gültiger Default-Layer nicht gefunden
-		 $baselayer = false;
-		 for($i=-1;$i<9;$i++) {
-		 if ( ( $i == -1 ) AND							// erster Durchlauf nur für Def.-Layer
-		 ( isset($jtg_param_allow_map[$jtg_param_allow_map_default])) AND			// existiert der Eintrag auf den der Def.-Layer verweist?
-		 ( $jtg_param_allow_map[$jtg_param_allow_map_default] != 0) ) {			// ... und ist dieser zugelassen?
-		 $layer .= $layertoshow[$jtg_param_allow_map_default];			// Def.-Layer an erste Stelle
-		 $defaultmapisset = $jtg_param_allow_map_default;			// Das wird der Def.-Layer (für die Schleife)
-		 $baselayer = explode('=',$layertoshow[$jtg_param_allow_map_default]);	// Baselayer ebenfalls benannt
-		 $baselayer = trim($baselayer[0]);
-		 } elseif ( ( $jtg_param_allow_map[$i] == 1 ) AND ( $defaultmapisset != $i ) )	// Füge Layer nur hinzu, wenn zugelassen ...
-		 $layer .= $layertoshow[$i];					// ... und es kein Def.-Layer ist
-		 }
-
-		 echo("<br>\nHallo Welt \"" . $layer . "\"");
-		 */
 		$layer .= $maps . "// <!-- parseOLLayer END -->\n";
 		return $layer;
-
+		
+		// TODO Set base Layer (actually return before !!
+		// What is layertoshow ??, 
 		if ( $baselayer != false ) {
 			$layer .= "		olmap.setBaseLayer(" . $baselayer . ");\n";
 			return $layer;
@@ -1707,6 +1505,7 @@ class g2psClass
 					    $imagepath=$httppath.$image;
 					}
 					//TODO does thumbnail have original image exif data??
+					// TODO CACHE THIS 
 					$exif = exif_read_data($folder.$image);
 					if ( isset($exif['GPSLatitude']))
 					{
@@ -1744,8 +1543,7 @@ class g2psClass
 						//	$lat = 50.99+(float)(rand(1000,2000)-1000)/100000;
 						$size = "width=\"".(int)$width . "\" height=\"".(int)$height . "\"";
 						$image = "<img " . $size . " src=\"" . $imagepath . "\" alt=\"" . $image . "\" title=\"" . $image . "\">";
-						$this->gpsFile = $httpiconpath . "foto.xml";
-						$xml = $this->loadFile();
+						$xml = $this->loadXmlFile($httpiconpath . "foto.xml");
 						$sizex = $xml->sizex;
 						$sizey = $xml->sizey;
 						$offsetx = $xml->offsetx;
@@ -1784,9 +1582,9 @@ class g2psClass
 		return $map;
 	}
 
-	public function writeTrackOL($track,$params) {
+	public function writeTrackOL($track, $params) {
+		
 		$mainframe =& JFactory::getApplication();
-		$params = &JComponentHelper::getParams( 'com_jtg' );
 		$jtg_microtime = microtime(true);
 		$zeiten = "<br />\n";
 		$cfg =& JtgHelper::getConfig();
@@ -1795,9 +1593,9 @@ class g2psClass
 		jimport('joomla.filesystem.file');
 		// $rows = $this->getTracks(" WHERE a.id != " . $track->id);
 		$zeiten .= (int) round( ( microtime(true) - $jtg_microtime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " getTracks<br />\n";
-		$file = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploaded_tracks' . DS . $track->file;
-		$this->gpsFile = $file;
-		$xml = $this->loadFile();
+//		$file = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploaded_tracks' . DS . $track->file;
+//		$this->gpsFile = $file;
+//		$xml = $this->loadFile();
 		$map = "\n<!-- writeTrackCOM_JTG BEGIN -->\n";
 		//		$rows = $this->maySee($rows);		// Berechtigung Okay?
 		// ToDo: Berechtigungen vorher schon checken?
@@ -1805,11 +1603,13 @@ class g2psClass
 		$zeiten .= (int) round( ( microtime(true) - $jtg_microtime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " parseScriptOLHead<br />\n";
 		$map .= $this->parseOLMap();
 		$zeiten .= (int) round( ( microtime(true) - $jtg_microtime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " parseOLMap<br />\n";
-		$map .= $this->parseOLMapControl(false,$params);
+
+	    $map .= $this->parseOLMapControl(false,$params);
 		$zeiten .= (int) round( ( microtime(true) - $jtg_microtime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " parseOLMapControl<br />\n";
 		$map .= $this->parseOLLayer();
+		  
 		$zeiten .= (int) round( ( microtime(true) - $jtg_microtime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " parseOLLayer<br />\n";
-		$coords = $this->parseXMLlinesOL($file,$xml);
+		$coords = $this->parseXMLlinesOL();
 		$zeiten .= (int) round( ( microtime(true) - $jtg_microtime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " parseXMLlinesOL<br />\n";
 		if ( $coords !== null )
 		$map .= $coords['coords'];
@@ -1819,17 +1619,20 @@ class g2psClass
 		$map .= $this->parseOLGeotaggedImgs($track->id,$cfg->max_geoim_height,$iconpath,$httpiconpath);
 		$zeiten .= (int) round( ( microtime(true) - $jtg_microtime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " parseOLGeotaggedImgs<br />\n";
 		// 	$map .= $this->parseStartPointOL($coords); // ist jetzt für jede einzelne Spur definiert
-		$file_tmp = $file;
-		$wp = $this->extractWPs($xml);
+//		$file_tmp = $file;
 		$zeiten .= (int) round( ( microtime(true) - $jtg_microtime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " extractWPs<br />\n";
-		if ($wp !== false);
-		$map .= $this->parseWPs($wp['wps'] );
+		if ($this->wp !== false);
+		$map .= $this->parseWPs($this->wp['wps'] );
 		// 	$map .= $this->parseOLStartZiel();
-		$file = $file_tmp;
-		if ( $coords !== null )
-		$map .= $coords['center'];
+//		$file = $file_tmp;
+		if ( $this->allCoords !== null )
+		{
+		    $map .= $coords['center'];
+		}
 		else
-		$map .= $wp['center'];
+		{
+		    $map .= $this->wp['center'];
+		}		
 		//	$map .= $this->parseOLMapCenterSingleTrack($file);
 		$zeiten .= (int) round( ( microtime(true) - $jtg_microtime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " parseOLMapCenterSingleTrack<br />\n";
 		$map .= $this->parseOLMapFunctions();
@@ -1843,32 +1646,32 @@ class g2psClass
 
 	public function writeSingleTrackOL($file,$params=false) {
 		// for little Map in Administration
-		$cfg =& JtgHelper::getConfig();
 		$mainframe =& JFactory::getApplication();
 		jimport('joomla.filesystem.file');
-		$file = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploaded_tracks' . DS . $file;
-		$this->gpsFile = $file;
-		$xml = $this->loadFile();
-		die('STOPSTOP');
+
 		$map = "\n<!-- writeSingleTrackCOM_JTG BEGIN -->\n";
 		$map .= $this->parseScriptOLHead();
 		$map .= $this->parseOLMap();
 		$map .= $this->parseOLMapControl(true,$params);
 		$map .= $this->parseOLLayer();
-		$coords = $this->parseXMLlinesOL($file,$xml);
+		$coords = $this->parseXMLlinesOL();
 		$map .= $coords['coords'];
 		// 	$map .= $this->parseOLMarker($rows,false); // Andere Tracks standardmäßig ausblenden
 		// 	$map .= $this->parseStartPointOL($coords); // ist jetzt für jede einzelne Spur definiert
 		// 	$file_tmp = $file;
-		$wp = $this->extractWPs($xml);
-		if ($wp !== false);
-		$map .= $this->parseWPs($wp['wps'] );
+		if ($this->wp);
+		$map .= $this->parseWPs($this->wp['wps'] );
 		// 	$map .= $this->parseOLStartZiel();
 		// 	$file = $file_tmp;
 		if ( $coords !== null )
-		$map .= $coords['center'];
+		{
+		    $map .= $coords['center'];
+		}
 		else
-		$map .= $wp['center'];
+		{
+		    $map .= $wp['center'];
+		}
+		
 		$map .= $this->parseOLMapFunctions();
 
 		$map .= $this->parseScriptOLFooter();
@@ -1929,8 +1732,8 @@ class g2psClass
 		/*
 
 		*/
-		$cfg =& JtgHelper::getConfig();
-		if ( $cfg->unit == "Kilometer" )
+		
+		if ( $this->unit == "Kilometer" )
 		{
 			$topOutUnits = "km";
 			$topInUnits = "m";
@@ -2078,29 +1881,18 @@ class g2psClass
 	 * @param string $file
 	 * @return array
 	 */
-	private function parseXMLlinesOL($file,$xml) {
+	private function parseXMLlinesOL() {
 		//		global $jtg_microtime;
-		$bbox_lat_max = -90;
-		$bbox_lat_min = 90;
-		$bbox_lon_max = -180;
-		$bbox_lon_min = 180;
 
 		$cfg =& JtgHelper::getConfig();
 		$iconpath = JURI::root() . "components/com_jtg/assets/template/" . $cfg->template . "/images/";
-		//		$i = 0;
-		//		$foundtracks = 0;
-//TODO REMOVE THIS deprecated
-//		$link = JFactory::getURI();	
-//		$link = $link->_uri;
+
 		$link = JURI::current();
-		//		$this->gpsFile = $file;
-		//		$xml = ($this->loadFile());
+
 		$string_se = "";
 		$string = "// <!-- parseXMLlinesCOM_JTG BEGIN -->\n";
-		$counttracks=0;
 		//		while (true) {
 		//			$m = microtime(true);
-		$counttracks = $this->countTracks($file,$xml);
 		//			if ( $coords != false ) {
 		//				$foundtracks = 0;
 		//				$counttracks++;
@@ -2110,97 +1902,76 @@ class g2psClass
 		//			$foundtracks++;
 		//			$i++;
 		//		}
-		if($counttracks == 0) return;
-		$counttracks = $this->calculateAllColors($counttracks);
+		if($this->trackCount == 0) {return;}
+		$tracksColors = $this->calculateAllColors($this->trackCount);
 		//		$foundtracks = 0;
-		$i = 0;
-		while (true) {
+		for($i=1; $i <= $this->trackCount; $i++)
+		{
 			$m = microtime(true);
-			$coords = $this->getCoords($file,$i);					
-			$trackname = $this->getTrackName($file,$xml,$i);	
-			if ( $coords != false ) 
-			{
-				$subid = $link . "&amp;subid=" . $i;
-				$string .= "layer_vectors = new OpenLayers.Layer.Vector(";
-				$string .= "\"". ($trackname? $trackname : JText::_('COM_JTG_TRACK').$i) . "\"";
-				$string .= ", { displayInLayerSwitcher: true }";
-				$string .= ")";
-				$string .= ";olmap.addLayer(layer_vectors)";
-				// 			$string .= ";olmap.addLayer(layerMapnik)";
-				$string .= ";\n";
-				// 		if ( $i != 0 ) // nur erste Spur standardmäßig anzeigen
-				// 			$string .= "layer_vectors.setVisibility(false);\n";
-				$string .= "var geometries = new Array();geometries.push(drawLine([\n";
-				//$string .= "// fetchCoordsBegin\n";
-				if ($coords) {
-					$j = 0;
-					$coordscount = (count($coords)-1);
-					$n=0;
-					foreach($coords as $key => $fetch) {
+			$coords = $this->track[$i]->coords;						
 
-						if ( $coords[$key][1] > $bbox_lat_max ) $bbox_lat_max = $coords[$key][1];
-						if ( $coords[$key][1] < $bbox_lat_min ) $bbox_lat_min = $coords[$key][1];
-						if ( $coords[$key][0] > $bbox_lon_max ) $bbox_lon_max = $coords[$key][0];
-						if ( $coords[$key][0] < $bbox_lon_min ) $bbox_lon_min = $coords[$key][0];
-						if ($j == 0)
-						$start = ($coords[$key][0] . "," . $coords[$key][1]);
-						elseif ($j == $coordscount)
-						$stop = ($coords[$key][0] . "," . $coords[$key][1]);
-						$string .= "[" . $coords[$key][0] . "," . $coords[$key][1] . "]";
-						if($n != $coordscount)
-						$string .= ",\n";
-						else
-						$string .= "\n";
-						$j++;
-						$n++;
+			$subid = $link . "&amp;subid=" . $i;
+			$string .= "layer_vectors = new OpenLayers.Layer.Vector(";
+			$string .= "\"". ($this->track[$i]->trackname? $this->track[$i]->trackname : JText::_('COM_JTG_TRACK').$i) . "\"";
+			$string .= ", { displayInLayerSwitcher: true }";
+			$string .= ")";
+			$string .= ";olmap.addLayer(layer_vectors)";
+			// 			$string .= ";olmap.addLayer(layerMapnik)";
+			$string .= ";\n";
+			// 		if ( $i != 0 ) // nur erste Spur standardmäßig anzeigen
+			// 			$string .= "layer_vectors.setVisibility(false);\n";
+			$string .= "var geometries = new Array();geometries.push(drawLine([\n";
+			//$string .= "// fetchCoordsBegin\n";
+			$n = 0;
+			$coordscount = (count($coords)-1);
+			foreach($coords as $key => $fetch) {
+				$string .= "[" . $coords[$key][0] . "," . $coords[$key][1] . "]";
+				if($n != $coordscount)
+				$string .= ",\n";
+				else
+				$string .= "\n";
+				$n++;
+			}
+			//			$string .= "// fetchCoordsEnd\n";
+			$string .= "],\n{";
+			$color = "#" . $tracksColors[$i-1];
+			$string .= "strokeColor:\"" . $color . "\",\n";
+			$string .= "strokeWidth: 3,\n";
+			// 			$string .= "fillColor: \"" . $this->getHexColor() . "\",\n";
+			// 			$string .= "fillOpacity: 0.4";
+			$string .= "strokeOpacity: 0.7";
+			$string .= "}));\n";
 
-					}
-				}
-				//			$string .= "// fetchCoordsEnd\n";
-				$string .= "],\n{";
-				$color = "#" . $counttracks[$i];
-				$string .= "strokeColor:\"" . $color . "\",\n";
-				$string .= "strokeWidth: 3,\n";
-				// 			$string .= "fillColor: \"" . $this->getHexColor() . "\",\n";
-				// 			$string .= "fillOpacity: 0.4";
-				$string .= "strokeOpacity: 0.7";
-				$string .= "}));\n";
-
-				$string_se .= "var lonLatStart" . $i . " = new OpenLayers.LonLat(" . $start . ") . ";
-				$string_se .= "transform(new OpenLayers.Projection(\"EPSG:4326\"), olmap.getProjectionObject());\n";
-				$string_se .= "var lonLatZiel" . $i . " = new OpenLayers.LonLat(" . $stop . ") . ";
-				$string_se .= "transform(new OpenLayers.Projection(\"EPSG:4326\"), olmap.getProjectionObject());\n";
-				$string_se .= "var sizeStart" . $i . " = new OpenLayers.Size(24,24);\n";
-				$string_se .= "var sizeZiel" . $i . " = new OpenLayers.Size(24,24);\n";
-				$string_se .= "var offsetStart" . $i . " = new OpenLayers.Pixel(-3,-22);\n";
-				$string_se .= "var offsetZiel" . $i . " = new OpenLayers.Pixel(-19,-22);\n";
-				$string_se .= "var iconStart" . $i . " = ";
-				$string_se .= "new OpenLayers.Icon(\"" . $iconpath . "trackStart.png\",";
-				$string_se .= "sizeStart" . $i . ",offsetStart" . $i . ");\n";
-				$string_se .= "var iconZiel" . $i . " = new OpenLayers.Icon(\"" . $iconpath . "trackDest.png\",";
-				$string_se .= "sizeZiel" . $i . ",offsetZiel" . $i . ");\n";
-				// 			$string_se .= "layer_startziel.addMarker(new OpenLayers.Marker(lonLatStart" . $i . ",iconStart" . $i . "));\n";
-				$string_se .= "layer_startziel.addMarker(new OpenLayers.Marker(lonLatZiel" . $i . ",iconZiel" . $i . "));\n";
-				$string_se .= "popupClassStart = AutoSizeAnchored;\n";
-				// 			$name[$i] = $trackname;
-				// 			$string_se .= "popupContentHTMLStart = '<span style=\"background-color:#000\"<a href=\"" . $subid . "\"><b>";
-				$string_se .= "popupContentHTMLStart = '";
-				//				$string_se .= "<b>";
-				$string_se .= "<font style=\"font-weight: bold;\" color=\"" . $color . "\">";
-				$string_se .= ($trackname? $trackname : JText::_('COM_JTG_TRACK').$i);
-				$string_se .= "</font>";
-				$string_se .= "';\n";
-				$string_se .= "addlayer_startziel(lonLatStart" . $i . ", popupClassStart, popupContentHTMLStart, true, false, iconStart" . $i . ", olmap);\n";
-
-				$foundtracks = 0;
-			} elseif ( $foundtracks > 10 ) break;
-			// 			Überspringe 10 Spuren ohne Punkte
-			$foundtracks++;
-			$i++;
+			$string_se .= "var lonLatStart" . $i . " = new OpenLayers.LonLat(" . $this->track[$i]->start . ") . ";
+			$string_se .= "transform(new OpenLayers.Projection(\"EPSG:4326\"), olmap.getProjectionObject());\n";
+			$string_se .= "var lonLatZiel" . $i . " = new OpenLayers.LonLat(" . $this->track[$i]->stop . ") . ";
+			$string_se .= "transform(new OpenLayers.Projection(\"EPSG:4326\"), olmap.getProjectionObject());\n";
+			$string_se .= "var sizeStart" . $i . " = new OpenLayers.Size(24,24);\n";
+			$string_se .= "var sizeZiel" . $i . " = new OpenLayers.Size(24,24);\n";
+			$string_se .= "var offsetStart" . $i . " = new OpenLayers.Pixel(-3,-22);\n";
+			$string_se .= "var offsetZiel" . $i . " = new OpenLayers.Pixel(-19,-22);\n";
+			$string_se .= "var iconStart" . $i . " = ";
+			$string_se .= "new OpenLayers.Icon(\"" . $iconpath . "trackStart.png\",";
+			$string_se .= "sizeStart" . $i . ",offsetStart" . $i . ");\n";
+			$string_se .= "var iconZiel" . $i . " = new OpenLayers.Icon(\"" . $iconpath . "trackDest.png\",";
+			$string_se .= "sizeZiel" . $i . ",offsetZiel" . $i . ");\n";
+			// 			$string_se .= "layer_startziel.addMarker(new OpenLayers.Marker(lonLatStart" . $i . ",iconStart" . $i . "));\n";
+			$string_se .= "layer_startziel.addMarker(new OpenLayers.Marker(lonLatZiel" . $i . ",iconZiel" . $i . "));\n";
+			$string_se .= "popupClassStart = AutoSizeAnchored;\n";
+			// 			$name[$i] = $trackname;
+			// 			$string_se .= "popupContentHTMLStart = '<span style=\"background-color:#000\"<a href=\"" . $subid . "\"><b>";
+			$string_se .= "popupContentHTMLStart = '";
+			//				$string_se .= "<b>";
+			$string_se .= "<font style=\"font-weight: bold;\" color=\"" . $color . "\">";
+			$string_se .= ($this->track[$i]->trackname? $this->track[$i]->trackname : JText::_('COM_JTG_TRACK').$i);
+			$string_se .= "</font>";
+			$string_se .= "';\n";
+			$string_se .= "addlayer_startziel(lonLatStart" . $i . ", popupClassStart, popupContentHTMLStart, true, false, iconStart" . $i . ", olmap);\n";
 		}
 
 		$string .= "layer_startziel = new OpenLayers.Layer.Markers(";
-		$string .= "\"" . $i . ": " . $trackname . "\"";
+		// TODO $i there ????
+		$string .= "\"" . $i . ": " . $this->trackname . "\"";
 		$string .= ", { displayInLayerSwitcher: false }";
 		$string .= ");";
 		$string .= "olmap.addLayer(layer_startziel);";
@@ -2210,9 +1981,9 @@ class g2psClass
 
 		$center = "// <!-- parseOLMapCenterSingleTrack BEGIN -->\n";
 		$center .= "var min = lonLatToMercator(new OpenLayers.LonLat";
-		$center .= "(" . $bbox_lon_min . "," . $bbox_lat_min . "));\n";
+		$center .= "(" . $this->bbox_lon_min . "," . $this->bbox_lat_min . "));\n";
 		$center .= "var max = lonLatToMercator(new OpenLayers.LonLat";
-		$center .= "(" . $bbox_lon_max . "," . $bbox_lat_max . "));\n";
+		$center .= "(" . $this->bbox_lon_max . "," . $this->bbox_lat_max . "));\n";
 		$center .= "olmap.zoomToExtent(new OpenLayers.Bounds(min.lon, min.lat, max.lon, max.lat));\n";
 		$center .= "// <!-- parseOLMapCenterSingleTrack END -->\n";
 
@@ -2283,49 +2054,66 @@ if ($ext == 'tcx')
 
 
 
-	/**
-	 *
-	 * @param string $file
-	 * @return array
-	 */
-	private function getCoordsTCX($file,$trackid=0) {
-		if (file_exists($file)) {
-			echo"<br>TODOPRINT";$xml = simplexml_load_file($file);
-			if(isset($xml->Activities->Activity->Lap->Track)) {
-				$startpoint = $xml->Activities->Activity->Lap->Track[$trackid];
-			} elseif (isset($xml->Courses->Course->Track)) {
-				$startpoint = $xml->Courses->Course->Track[$trackid];
-			}
-
-			$coords = array();
-			if (!$startpoint[0]) return false;
-			foreach($startpoint[0] as $start) {
-				if(isset($start->Position->LatitudeDegrees) && isset($start->Position->LongitudeDegrees)) {
-					$lat = $start->Position->LatitudeDegrees;
-					$lon = $start->Position->LongitudeDegrees;
-					$ele = $start->AltitudeMeters;
-					$time = $start->Time;
-					if(isset($start->HeartRateBpm->Value)) {
-						$heart = $start->HeartRateBpm->Value;
-					} else {
-						$heart = "0";
-					}
-
-					$bak = array((string)$lon,(string)$lat,(string)$ele,(string)$time,(string)$heart);
-					array_push($coords,$bak);
-				}
-			}
-			return $coords;
-		} else {
-			return false;
-		}
-	}
 
 	// Osm END
 
 }
 
+class g3psClass
+{
+	/**
+	 * counts the total distance of a track
+	 * $koords look like this: $array($point1(array(lat,lon)),$point2(array(lat,lon)))...
+	 *
+	 * @param array $koord
+	 * @return int kilometers
+	 */
+	public function getDistance($koord) {
+		if (!is_array($koord))
+		return false;
+		if (is_array($distances)) {
+		    // calculate from distances array when it exists
+		    $entfernung = $distances[ count($distances)-1 ];
+		    $entfernung = round($entfernung, 2);
+		    return $entfernung;	
+		}
+		else {
 
+			$ent = 0;
+			$earthRadius = 6378.137; // Erdradius, ca. Angabe
+			foreach($koord as $key => $fetch)
+			{
+				if (isset($koord[$key + 1]))
+				{
+					$erste_breite = $koord[$key][1]; // lat
+					$erste_laenge = $koord[$key][0]; // lon
+					$erste_breite_rad = deg2rad($erste_breite);
+					$erste_laenge_rad = deg2rad($erste_laenge);
+
+					$zweite_breite = $koord[$key + 1][1]; // lat
+					$zweite_laenge = $koord[$key + 1][0]; // lon
+					$zweite_breite_rad = deg2rad($zweite_breite);
+					$zweite_laenge_rad = deg2rad($zweite_laenge);
+
+					$dis = acos(
+					(sin($erste_breite_rad) * sin($zweite_breite_rad)) +
+					(cos($erste_breite_rad) * cos($zweite_breite_rad) *
+					cos($zweite_laenge_rad - $erste_laenge_rad))) * $earthRadius;
+
+					if(is_nan($dis))
+					$ent = $ent;
+					else
+					$ent = $ent + $dis;
+				}
+			}
+			$entfernung = $ent;
+			$entfernung = round($entfernung, 2);
+			return $entfernung;
+		}
+	}
+
+
+}
 class gpsClass
 {
 	public function __construct() {
@@ -3975,8 +3763,7 @@ class gpsClass
 						//	$lat = 50.99+(float)(rand(1000,2000)-1000)/100000;
 						$size = "width=\"".(int)$width . "\" height=\"".(int)$height . "\"";
 						$image = "<img " . $size . " src=\"" . $imagepath . "\" alt=\"" . $image . "\" title=\"" . $image . "\">";
-						$this->gpsFile = $httpiconpath . "foto.xml";
-						$xml = $this->loadFile();
+						$xml = $this->loadFile($httpiconpath . "foto.xml");
 						$sizex = $xml->sizex;
 						$sizey = $xml->sizey;
 						$offsetx = $xml->offsetx;
@@ -4080,7 +3867,6 @@ class gpsClass
 		$file = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploaded_tracks' . DS . $file;
 		$this->gpsFile = $file;
 		$xml = $this->loadFile();
-		die('STOPSTOP');
 		$map = "\n<!-- writeSingleTrackCOM_JTG BEGIN -->\n";
 		$map .= $this->parseScriptOLHead();
 		$map .= $this->parseOLMap();

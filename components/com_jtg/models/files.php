@@ -298,7 +298,7 @@ class JtgModelFiles extends JModel
 //		echo '<pre>';print_r($file);echo'</pre>';
 //		echo '<br>$upload_dir.strtolower($filename = '.$upload_dir.strtolower($filename);
 //		echo '<br>$file[\'tmp_name\'] = '.$file['tmp_name'];
-//		echo "TODOPRINT";
+
 		if ( JFile::exists($upload_dir.strtolower($filename)))
 		{
 		    die("<script type='text/javascript'>alert('".JText::sprintf("COM_JTG_FILE_ALREADY_EXISTS",$filename) . "');window.history.back(-1);</script>"); 
@@ -326,9 +326,7 @@ class JtgModelFiles extends JModel
 		$start_e = $start[0];
 		$coords = $gps->getAllTracksCoords($file);
 		$isTrack = $gps->isTrack();
-		if ($isTrack !== false) $isTrack = "1"; else $isTrack = "0";
 		$isWaypoint = $gps->isWaypoint();
-		if ($isWaypoint !== false) $isWaypoint = "1"; else $isWaypoint = "0";
 		$isRoute = 0;
 		$isCache = 0;
 //		$isCache = $gps->isCache();

@@ -360,12 +360,12 @@ class JtgViewFiles extends JView
 		$action = "index.php?option=com_jtg&amp;controller=download&amp;task=download";
 		$file = '.' . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploaded_tracks' . DS . strtolower($track->file);
 		$unit = $cfg->unit;
-		$gps = new gpsClass();
+		// $gps = new gpsClass();
 		$g2ps = new g2psClass($cfg->unit);
 		$g2ps->loadFileAndData($file);
-		//// TODOGPS  Use cache 
+		// TODOGPS  Use cache 
 		// Kartenauswahl BEGIN
-		$map = $cache->get(array ( $gps, 'writeTrackOL' ), array ( $track, $params ));
+		$map = $cache->get(array ( $g2ps, 'writeTrackOL' ), array ( $track, $params ));
 		// Kartenauswahl END
 
 		$distance_float = (float) $track->distance;

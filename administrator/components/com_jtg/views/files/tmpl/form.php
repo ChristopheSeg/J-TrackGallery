@@ -42,13 +42,16 @@ if($this->id >= 1) {
 	$track = $cache->get(array($model, 'getFile'), array($this->id));
 	$document =& JFactory::getDocument();
 	require_once(".." . DS . "components" . DS . "com_jtg" . DS . "helpers" . DS . "gpsClass.php");
-	$gps = new gpsClass();
+//	$gps = new gpsClass();
 	$document->addScript('http://www.openlayers.org/api/OpenLayers.js');
 	$document->addScript('../components' . DS . 'com_jtg' . DS . 'assets' . DS . 'js' . DS . 'fullscreen.js');
 	$document->addScript('http://www.openstreetmap.org/openlayers/OpenStreetMap.js');
 	$document->addScript("../components/com_jtg/assets/js/jtg.js");
-	// TODO WHAT IS THIS FOR ??$document->addScript("../components/com_jtg/assets/js/jd.gallery.js");
-	$map .= $gps->writeSingleTrackOL($this->track->file);
+	$file = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploaded_tracks' . DS . $this->track->file;
+	$g2ps = new g2psClass($cfg->unit);
+	$g2ps->loadFileAndData($file);
+	
+	$map .= $g2ps->writeSingleTrackOL($this->track->file);
 	$map .= ("\n<div id=\"jtg_map\"  align=\"center\" class=\"olMap\" ");
 	$map .= ("style=\"width: 400px; height: 500px; background-color:#EEE; vertical-align:middle;\" >");
 	$map .= ("\n<script>slippymap_init();</script>");
