@@ -274,6 +274,8 @@ class JtgViewFiles extends JView
 		// JHTML::_('behavior.modal');	// with this option IE doesn't work
 		JHTML :: _('behavior.combobox');
 		$cache = & JFactory :: getCache('com_jtg');
+		// TODO when cache is used, Update a track, then browse it: jtg_osmGettile.js is not loaded!!
+		// $cache->setCaching( 1 ); // activate caching
 
 		if ( $params->get("jtg_param_lh") == 1 )
 		$lh = layoutHelper :: navigation();
@@ -359,21 +361,24 @@ class JtgViewFiles extends JView
 		
 		$action = "index.php?option=com_jtg&amp;controller=download&amp;task=download";
 		$file = '.' . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploaded_tracks' . DS . strtolower($track->file);
-		$unit = $cfg->unit;
-		// $gps = new gpsClass();
 		$g2ps = new g2psClass($cfg->unit);
-		$g2ps->loadFileAndData($file);
-		// TODOGPS  Use cache 
+		// $g2ps->loadFileAndData($file, $track->file);
+		// $g2ps structure is cached, after LaodFileAndData
+		$g2ps = $cache->get(array ( $g2ps, 'loadFileAndData' ), array ($file, $track->file ), $cfg->unit);
+		if ($g2ps->displayErrors())
+		{
+		    return false;
+		}
 		// Kartenauswahl BEGIN
 		$map = $cache->get(array ( $g2ps, 'writeTrackOL' ), array ( $track, $params ));
 		// Kartenauswahl END
 
 		$distance_float = (float) $track->distance;
-		$distance = JtgHelper::getLocatedFloat($distance_float,0,$unit);
+		$distance = JtgHelper::getLocatedFloat($distance_float,0,$cfg->unit);
 		// charts
 
-		$coords = $g2ps->allCoords;  // $gps->getAllTracksCoords($file);
-		// UNUSED!! $distances = $cache->get(array ( $gps, 'getDistances' ), array ( $coords ));
+		$coords = $g2ps->allCoords;  
+
 
 	
 		// Klicklinks for every track in one file (at the moment not active)

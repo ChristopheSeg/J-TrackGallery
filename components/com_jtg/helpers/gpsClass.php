@@ -23,54 +23,33 @@ class g2psClass
 	var $sortedcats = NULL;
 	var $tracks; // array 
 		// tracks[j]->coords; // array containing longitude latitude elevation time and heartbeat data
-	var $beatData = NULL;
-	var $elevationData = NULL;
-	var $speedData = NULL;
+	var $speedChartData = '';
+	var $elevationData = '';
+	var $beatData = '';
+	var $error = false;
+	var $errorMessages=array();
 	
 	public function __construct($unit) 
-	    {
-	    // 
-		$this->unit=$unit;
-	    }	
-	
-	/**
-	 * Load an xml gps file 
-	 * @param <string> $gpsFile the gps file to load
-	 * @return <simplexmlelement> if file exists and is loaded , NULL otherwise
-	 */
-	public function loadXmlFile($gpsFile=false) {
-
-	    jimport('joomla.filesystem.file');
-	    $xml = NULL; 
-	    if ( ($gpsFile) and (file_exists($gpsFile)) )
-	    {
-		    $this->gpsFile = $gpsFile;
-		    $this->ext = JFile::getExt($gpsFile);
-		    $xml = simplexml_load_file($this->gpsFile);
-		    return $xml;
-	    }
-	    if (file_exists($this->gpsFile)) 
-	    {
-		    $this->ext = JFile::getExt($this->gpsFile);
-		    $xml = simplexml_load_file($this->gpsFile);
-		    return $xml;
-	    }	  
-	    return false;
-	    
-	}	
-
+	{
+	    $this->unit=$unit;
+	}
 	/**
 	 * Load an xml gps file and extract datas
 	 * @param <string> $gpsFile the gps file to load
 	 * @return <boolean> true on success
 	 */
-	public function loadFileAndData($gpsFile=false) {
+	public function loadFileAndData($gpsFile, $trackfilename) 
+		{
 
 		// $xml should not belong to $this (SimpleXMLElement can not be serialzed => not cached)
+		
+		$this->gpsFile = $gpsFile;
+		$this->trackfilename = $trackfilename;
 		$xml = $this->loadXmlFile($gpsFile); 
-		if (!$xml) 
+		if ($xml === false) 
 		{
-		    // write error
+		    $this->error = true; 
+		    $this->errorMessages[] = JText::sprintf('COM_JTG_GPS_FILE_ERROR_0', $this->trackfilename);
 		    return false;
 		}
 		// extract datas from xml
@@ -87,32 +66,86 @@ class g2psClass
 			break;
 		    default:
 			// TODO Error 
-			$extract_result = JText::_('COM_JTG_GPS_FILE_ERROR');
+			$extract_result = NULL;
+			$this->error = true; 
+			$this->errorMessages[] = JText::_('COM_JTG_GPS_FILE_ERROR');
+			return false;
 		}
 
-		if ($extract_result)
+		if ($this->trackCount == 0)
 		{
-		    // write error
-		    return false; 
+			$this->error = true; 
+			$this->errorMessages[] = JText::sprintf('COM_JTG_GPS_FILE_ERROR_2',$this->trackfilename);
+			return false;
 		}
 		// calculate start, 
 		$this->start = $this->track[1]->coords[0];	
-		$this->speedDataExists = ( ( isset ($this->start[3])  && $this->start[4] > 0) ? true: false); 
+		$this->speedDataExists = ( ( isset ($this->start[3])  && $this->start[3] > 0) ? true: false); 
 		$this->elevationDataExists = ( isset ($this->start[2])? true: false); 
 		$this->beatDataExists = ( (isset ($this->start[4]) && $this->start[4] > 0)? true: false); 
-
 		// calculate allCoords, distance, elevation max lon...
 		$this->extractAllTracksCoords();
 		
 		// calculate chartData
 		$this->createChartData();
+
 		
 		// extract WP
 		$this->extractWPs($xml);
-//		echo"<br><pre>"; print_r($this);
-//		echo"</pre><br>";
+		return $this; // used for caching
+
 	}
 	
+	
+	/**
+	 * Load an xml gps file 
+	 * @param <string> $gpsFile the gps file to load
+	 * @return <simplexmlelement> if file exists and is loaded , NULL otherwise
+	 */
+	public function loadXmlFile($gpsFile=false) {
+	    jimport('joomla.filesystem.file');
+	    $xml = false; 
+	    if ( ($gpsFile) and (file_exists($gpsFile)) )
+	    { 
+		    $this->ext = JFile::getExt($gpsFile);
+		    $xml = simplexml_load_file($this->gpsFile);
+	    }
+	    elseif  (file_exists($this->gpsFile)) 
+	    {
+		    $this->gpsFile = $gpsFile;
+		    $this->ext = JFile::getExt($this->gpsFile);
+		    $xml = simplexml_load_file($this->gpsFile);
+	    }
+	    else 
+	    {
+		    $this->error = true; 
+		    $this->errorMessages[] = JText::sprintf('COM_JTG_GPS_FILE_ERROR_1', ($this->trackfilename?  $this->trackfilename: $gpsFile) );
+		    return false;
+	    }
+	    $this->errorXml = false; 
+	    if ($xml === false) 
+	    {
+		    // "Failed loading XML\n";
+		    
+		    foreach(libxml_get_errors() as $error) 
+		    {
+			    $this->errorMessages[] = "<br>".$error->message;
+		    }
+	    }
+	    return $xml;
+	}	
+
+	public function displayErrors() 
+	{
+		$error = false; 
+		foreach ($this->errorMessages as $errorMessage)
+		{
+		    echo "<br>$errorMessage";
+		    echo "<pre>"; print_r($this);echo "</pre>";
+		    $error = true; 
+		}
+		return $error;
+	}
 	/**
 	 *
 	 * @param string $file
@@ -168,7 +201,15 @@ class g2psClass
 			}
 		}
 		$this->isTrack = ($this->trackCount>0);
-		return false ; // nothing to return
+		return true ; // nothing to return
+	}
+	
+		public function isCache($xml) {
+		$pattern = "/groundspeak/";
+		if ( preg_match($pattern,$xml->attributes()->creator))
+		return true;
+		else
+		return false;
 	}
 	private function extractCoordsGPX($xml) {
 
@@ -217,9 +258,10 @@ class g2psClass
 			    $this->track[$this->trackCount]->stop = ($coords[$coordinatesCount-1][0] . "," . $coords[$coordinatesCount-1][1]);
 			}
 			  
+		    }   
 		}
-		}
-		return false; // nothing to return
+		$this->isTrack = ($this->trackCount>0);
+		return true; // nothing to return
 	}
 	
 		/**
@@ -357,7 +399,7 @@ class g2psClass
 						$elapsedTime = $next_time - $current_time; 
 						if ($elapsedTime>0)
 						{
-						    $this->allSpeed[$d+1] = $dis/$elapsedTime;
+						    $this->allSpeed[$d+1] = $dis/$elapsedTime*3600;
 						}
 						else 
 						{
@@ -379,12 +421,14 @@ class g2psClass
 				}
 			}
 		}
-		return;
+		$this->distance = $this->allDistances[$d];
+
 		if ($this->elevationDataExists) 
 		{
 		    $this->totalAscent = (int) $this->totalAscent;
 		    $this->totalDescent = (int) $this->totalDescent;
 		}
+		return;
 	}	
 
 
@@ -514,11 +558,13 @@ class g2psClass
 		} else {
 			$c = 1;
 		}
+
 		for($i=0; $i<$n; $i = $i+$c) {
 			$distance = (string) round($this->allDistances[$i],2);
+			$i2 = max($i,1); 
 			if ($this->speedDataExists) 
 			{
-			    $speedChartData .= '[' . $distance  . ',' . round($this->allBeat[$i],0) . '],' ;
+			    $speedChartData .= '[' . $distance  . ',' . round($this->allSpeed[$i2],1) . '],' ;
 			}
 			if ($this->elevationDataExists) 
 			{
@@ -526,7 +572,7 @@ class g2psClass
 			}			
 			if ($this->beatDataExists) 
 			{
-			    $beatChartData .= '[' . $distance  . ',' . round($this->allBeat[$i],0) . '],' ;
+			    $beatChartData .= '[' . $distance  . ',' . round($this->allBeat[$i2],0) . '],' ;
 			}			
 		}
 		if ($this->speedDataExists) 
@@ -549,59 +595,6 @@ class g2psClass
 // function not rewrittten below 
 		    
 
-
-	/**
-	 *
-	 * @return number or false
-	 */
-	public function isTrack($file = false) {
-		if ($file == false)
-		$file = $this->loadFile();
-		$xml = $file;
-		if(!$xml->trk) return false;
-		for($i=0;$i<10;$i++) { // Unternehme 10 Versuche LonLat zu finden
-			$trackpoint = @$xml->trk[$i]->trkseg->trkpt;
-			if (!empty($trackpoint))
-			return (int)$i;
-		}
-		return false;
-	}
-
-	/**
-	 *
-	 * @return number or false
-	 */
-	public function isCache($file = false) {
-		if ($file == false)
-		$file = $this->loadFile();
-		$xml = $file;
-		$pattern = "/groundspeak/";
-		if ( preg_match($pattern,$xml->attributes()->creator))
-		return true;
-		else
-		return false;
-	}
-
-	/**
-	 *
-	 * @return array
-	 */
-	public function isWaypoint($file = false) {
-		if ($file == false)
-		$file = $this->loadFile();
-		$xml = $file;
-		for($i=0;$i<10;$i++) { // Unternehme 10 Versuche LonLat zu finden
-			$trackpoint = $xml->wpt[$i];
-			if (!empty($trackpoint))
-			return true;
-			//			return (int)$i;
-		}
-		return false;
-	}
-
-
-	
-	
 	public function parseCatIcon($catid,$istrack=0,$iswp=0,$isroute=0) {
 		$catid = explode(",",$catid);
 		$catid = $catid[0];
@@ -1411,7 +1404,7 @@ class g2psClass
 		$return .= "hs2 =  new OpenLayers.Layer.WMS( hs_name , hs_url , hs_options, {'buffer':1, removeBackBufferDelay:0, className:'olLayerGridCustom'});\n";
 		$return .= "hs2.setOpacity(0.3);\n";
 		$return .= "hs2_1 =  new OpenLayers.Layer.WMS( hs_name , hs_url , hs2_1_options,{'buffer':1, transitionEffect:'resize', removeBackBufferDelay:0, className:'olLayerGridCustom'});\n";
-		$return .= "olmap.addLayer( hs2,hs2_1 );";
+		$return .= "olmap.addLayer( hs2,hs2_1 );\n";
 
 		// TODO osm_getTileURL see http://wiki.openstreetmap.org/wiki/Talk:Openlayers_POI_layer_example
 		$document->addScript('/components/com_jtg/assets/js/jtg_getTileURL.js');
@@ -1891,17 +1884,6 @@ class g2psClass
 
 		$string_se = "";
 		$string = "// <!-- parseXMLlinesCOM_JTG BEGIN -->\n";
-		//		while (true) {
-		//			$m = microtime(true);
-		//			if ( $coords != false ) {
-		//				$foundtracks = 0;
-		//				$counttracks++;
-		//			} elseif ( $foundtracks > 10 ) {
-		//				break;
-		//			}
-		//			$foundtracks++;
-		//			$i++;
-		//		}
 		if($this->trackCount == 0) {return;}
 		$tracksColors = $this->calculateAllColors($this->trackCount);
 		//		$foundtracks = 0;
@@ -2231,7 +2213,7 @@ class gpsClass
 
 	}
 
-	public function isGeocache($wp) {
+	public function isGeoCache($wp) {
 		if ( ( isset($wp->sym) ) AND ( preg_match('/Geocache/', $wp->sym) ) AND ( isset($wp->type) ) )
 		return true;
 		return false;
@@ -2261,7 +2243,7 @@ class gpsClass
 ","'");
 			$with = array("<br />","\'");
 			$hasURL = $this->hasURL($value);
-			$isGeocache = $this->isGeocache($value);
+			$isGeoCache = $this->isGeoCache($value);
 			if($hasURL)
 			$URL = " <a href=\"" . $value->url . "\" target=\"_blank\">".
 			trim(str_replace($replace,$with,$value->urlname)) . "</a>";		// URL
@@ -2271,7 +2253,7 @@ class gpsClass
 			$cmt = trim(str_replace($replace,$with,$value->cmt));		// ?
 			$desc = trim(str_replace($replace,$with,$value->desc));		// Beschreibung
 			$ele = (float)$value->ele;	// Höhe
-			if ($isGeocache)			// Symbol
+			if ($isGeoCache)			// Symbol
 			$sym = (string) $value->type;
 			else
 			$sym = $value->sym;

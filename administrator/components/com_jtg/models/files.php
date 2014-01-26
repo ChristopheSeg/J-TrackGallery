@@ -53,23 +53,29 @@ class JtgModelFiles extends JModel
 		jimport('joomla.filesystem.file');
 		require_once(".." . DS . "components" . DS . "com_jtg" . DS . "helpers" . DS . "gpsClass.php");
 		$file = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploaded_tracks' . DS . $file;
-		$g2ps = new g2psClass();
-		$gps->gpsFile = $file;
+		$g2ps = new g2psClass($cfg->unit);
+		$g2ps ->loadFileAndData($file, $track->file ); // Do not use cache here
+		if ($g2ps->displayErrors())
+		{
+		    return false;
+		}
 
-		$isTrack = $gps->isTrack();
-		$isWaypoint = $gps->isWaypoint();
+		$isTrack = $g2ps->isTrack();
+		$isWaypoint = $g2ps->isWaypoint();
 		$isRoute = (int)0;
 
 		if ( $isWaypoint == 1 )
-		$isCache = (int)$gps->isCache();
+		{
+		    $isCache = $g2ps->isCache();
+		}
 		else
-		$isCache = 0;
-
+		{
+		    $isCache = 0;
+		}
 		if ( $isTrack == 1 )
 		{
-			$coords = $gps->getAllTracksCoords($file);
-			$distance = $gps->getDistance($coords);
-			$ele = $gps->getElevation($coords);
+			$distance = $g2ps->distance;
+			$ele = $g2ps->getElevation($coords);
 		}
 		else
 		{
@@ -77,8 +83,7 @@ class JtgModelFiles extends JModel
 			$ele = array(null,null);
 		}
 
-		$start = $gps->getStartCoordinates();
-		if ( $start === false )
+		if ( $this->start === false )
 		{
 			return false;
 		}
@@ -103,15 +108,15 @@ class JtgModelFiles extends JModel
 		$vote = (float) ( round( ( $givenvotes / $count ), 3 ) );
 
 		$query = "UPDATE #__jtg_files SET"
-		. "\n istrack='" . $isTrack . "',"
-		. "\n iswp='" . $isWaypoint . "',"
-		. "\n isroute='" . $isRoute . "',"
-		. "\n iscache='" . $isCache . "',"
-		. "\n start_n='" . $start[1] . "',"
-		. "\n start_e='" . $start[0] . "',"
-		. "\n distance='" . $distance . "',"
-		. "\n ele_asc='" . $ele[0] . "',"
-		. "\n ele_desc='" . $ele[1] . "',"
+		. "\n istrack='" . $g2ps->isTrack . "',"
+		. "\n iswp='" . $g2ps->isWaypoint . "',"
+		. "\n isroute='" . $g2ps->isRoute . "',"
+		. "\n iscache='" . $g2ps->isCache . "',"
+		. "\n start_n='" . $g2ps->start[1] . "',"
+		. "\n start_e='" . $g2ps->start[0] . "',"
+		. "\n distance='" . $g2ps->distance . "',"
+		. "\n ele_asc='" . $g2ps->totalAscent . "',"
+		. "\n ele_desc='" . $g2ps->totalDescent . "',"
 		. "\n vote='" . $vote . "'"
 		. "\n WHERE id='" . $id . "'"
 		;

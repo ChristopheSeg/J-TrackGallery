@@ -37,7 +37,7 @@ if ($maySeeSingleFile === true) {
 	}
 
 	if ( ($this->params->get("jtg_param_show_speedchart")) AND
-		 ( isset($this->track->istrack) ) AND ( $this->track->istrack == "1" ) AND (isset($this->speeddata) ) AND  ( $this->speeddata ) ) 
+		   (isset($this->speeddata) ) AND  ( $this->speeddata ) ) 
 	{
 	    $speedchart=true;		    
 	} 
@@ -47,7 +47,7 @@ if ($maySeeSingleFile === true) {
 	}
 
 	if ( ($this->params->get("jtg_param_show_speedchart")) AND
-		 ( isset($this->track->istrack) ) AND ( $this->track->istrack == "1" ) AND (isset($this->beatdata) ) AND ( $this->beatdata ) ) 
+		  (isset($this->beatdata) ) AND ( $this->beatdata ) ) 
 	{
 	    $beatchart=true;		    
 	} 
