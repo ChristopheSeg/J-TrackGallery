@@ -24,10 +24,7 @@ if ($maySeeSingleFile === true) {
 		echo $this->galscript;
 	} 
 					
-	if ( ($this->params->get("jtg_param_show_heightchart"))  
-	     // AND ($this->track->ele_asc != 0) AND ($this->track->ele_desc != 0) 
-		AND (isset($this->heighdata) ) AND  ( $this->heighdata ) )
-		
+	if ( $this->params->get("jtg_param_show_heightchart") AND $this->elevationDataExists)
 	{
 	    $heightchart=true;		    
 	} 
@@ -36,8 +33,7 @@ if ($maySeeSingleFile === true) {
 	    $heightchart=false;
 	}
 
-	if ( ($this->params->get("jtg_param_show_speedchart")) AND
-		   (isset($this->speeddata) ) AND  ( $this->speeddata ) ) 
+	if ( $this->params->get("jtg_param_show_speedchart") AND $this->speedDataExists ) 
 	{
 	    $speedchart=true;		    
 	} 
@@ -46,8 +42,7 @@ if ($maySeeSingleFile === true) {
 	    $speedchart=false;
 	}
 
-	if ( ($this->params->get("jtg_param_show_speedchart")) AND
-		  (isset($this->beatdata) ) AND ( $this->beatdata ) ) 
+	if ($this->params->get("jtg_param_show_speedchart") AND $this->beatDataExists ) 
 	{
 	    $beatchart=true;		    
 	} 
@@ -55,6 +50,7 @@ if ($maySeeSingleFile === true) {
 	{
 	    $beatchart=false;
 	}
+	
 	$havechart = ($heightchart or $speedchart) or $beatchart; 
 	if ($havechart) 
 	{
@@ -311,10 +307,12 @@ echo $this->parseTemplate("headline",$this->track->title,"jtg_param_header_map")
 }
 
     </style>    
-<center>
-<div id="jtg_map" class="olMap"></div>
-<br />
-</center>
+<?php 
+if ($this->map) 
+{
+    echo "<center><div id=\"jtg_map\" class=\"olMap\"></div><br /></center>\n";  
+}
+?>
 <!--    <div>
 <?php
 /*

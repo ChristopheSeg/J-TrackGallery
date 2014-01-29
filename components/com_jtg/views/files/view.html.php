@@ -367,17 +367,23 @@ class JtgViewFiles extends JView
 		$g2ps = $cache->get(array ( $g2ps, 'loadFileAndData' ), array ($file, $track->file ), $cfg->unit);
 		if ($g2ps->displayErrors())
 		{
-		    return false;
+		   $map = ""; 
+		   $coords = "";
+		   $distance_float = 0;
+		   $distance = 0;
 		}
-		// Kartenauswahl BEGIN
-		$map = $cache->get(array ( $g2ps, 'writeTrackOL' ), array ( $track, $params ));
-		// Kartenauswahl END
+		else 
+		{
+		    // Kartenauswahl BEGIN
+		    $map = $cache->get(array ( $g2ps, 'writeTrackOL' ), array ( $track, $params ));
+		    // Kartenauswahl END
 
-		$distance_float = (float) $track->distance;
-		$distance = JtgHelper::getLocatedFloat($distance_float,0,$cfg->unit);
-		// charts
+		    $distance_float = (float) $track->distance;
+		    $distance = JtgHelper::getLocatedFloat($distance_float,0,$cfg->unit);
+		    // charts
 
-		$coords = $g2ps->allCoords;  
+		    $coords = $g2ps->allCoords;  
+		}
 
 
 	
@@ -573,6 +579,9 @@ class JtgViewFiles extends JView
 		$this->beatdata = $g2ps->beatData;
 		$this->heighdata = $g2ps->elevationData;
 		$this->speeddata = $g2ps->speedData;
+		$this->speedDataExists = $g2ps->speedDataExists;
+		$this->elevationDataExists = $g2ps->elevationDataExists; 
+		$this->beatDataExists = $g2ps->beatDataExists;
 		$this->comments = $comments;
 		$this->user = $user;
 		$this->model = $model;

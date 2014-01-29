@@ -54,25 +54,25 @@ class JtgModelFiles extends JModel
 		require_once(".." . DS . "components" . DS . "com_jtg" . DS . "helpers" . DS . "gpsClass.php");
 		$file = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploaded_tracks' . DS . $file;
 		$g2ps = new g2psClass($cfg->unit);
-		$g2ps ->loadFileAndData($file, $track->file ); // Do not use cache here
+		$g2ps ->loadFileAndData($file, $file ); // Do not use cache here
 		if ($g2ps->displayErrors())
 		{
 		    return false;
 		}
 
-		$isTrack = $g2ps->isTrack();
-		$isWaypoint = $g2ps->isWaypoint();
+		$isTrack = $g2ps->isTrack;
+		$isWaypoint = $g2ps->isWaypoint;
 		$isRoute = (int)0;
 
 		if ( $isWaypoint == 1 )
 		{
-		    $isCache = $g2ps->isCache();
+		    $isCache = $g2ps->isCache;
 		}
 		else
 		{
 		    $isCache = 0;
 		}
-		if ( $isTrack == 1 )
+		if ( $this->isTrack == 1 )
 		{
 			$distance = $g2ps->distance;
 			$ele = $g2ps->getElevation($coords);

@@ -23,11 +23,19 @@ class g2psClass
 	var $sortedcats = NULL;
 	var $tracks; // array 
 		// tracks[j]->coords; // array containing longitude latitude elevation time and heartbeat data
-	var $speedChartData = '';
+	var $speedDataExists = false;
+	var $elevationDataExists  = false; 
+	var $beatDataExists = false;
+	var $speedData = '';
 	var $elevationData = '';
 	var $beatData = '';
 	var $error = false;
 	var $errorMessages=array();
+	var $trackCount = 0;
+	var $wp = false; 
+	var $isTrack = false; 
+	var $isCache = false; 
+	var $isWaypoint = false;
 	
 	public function __construct($unit) 
 	{
@@ -36,7 +44,7 @@ class g2psClass
 	/**
 	 * Load an xml gps file and extract datas
 	 * @param <string> $gpsFile the gps file to load
-	 * @return <boolean> true on success
+	 * @return <boolean> gpsclass object
 	 */
 	public function loadFileAndData($gpsFile, $trackfilename) 
 		{
@@ -46,11 +54,15 @@ class g2psClass
 		$this->gpsFile = $gpsFile;
 		$this->trackfilename = $trackfilename;
 		$xml = $this->loadXmlFile($gpsFile); 
+		if ($this->error) 
+		{
+		    return $this;
+		}
 		if ($xml === false) 
 		{
 		    $this->error = true; 
 		    $this->errorMessages[] = JText::sprintf('COM_JTG_GPS_FILE_ERROR_0', $this->trackfilename);
-		    return false;
+		    return $this;
 		}
 		// extract datas from xml
 		switch ($this->ext) 
@@ -69,14 +81,14 @@ class g2psClass
 			$extract_result = NULL;
 			$this->error = true; 
 			$this->errorMessages[] = JText::_('COM_JTG_GPS_FILE_ERROR');
-			return false;
+			return $this;
 		}
 
 		if ($this->trackCount == 0)
 		{
 			$this->error = true; 
 			$this->errorMessages[] = JText::sprintf('COM_JTG_GPS_FILE_ERROR_2',$this->trackfilename);
-			return false;
+			return $this;
 		}
 		// calculate start, 
 		$this->start = $this->track[1]->coords[0];	
@@ -140,8 +152,7 @@ class g2psClass
 		$error = false; 
 		foreach ($this->errorMessages as $errorMessage)
 		{
-		    echo "<br>$errorMessage";
-		    echo "<pre>"; print_r($this);echo "</pre>";
+		    Jerror::raiseWarning(null, $errorMessage);
 		    $error = true; 
 		}
 		return $error;
@@ -201,10 +212,11 @@ class g2psClass
 			}
 		}
 		$this->isTrack = ($this->trackCount>0);
+		$this->isCache = $this->isThisCache($xml);
 		return true ; // nothing to return
 	}
 	
-		public function isCache($xml) {
+		public function isThisCache($xml) {
 		$pattern = "/groundspeak/";
 		if ( preg_match($pattern,$xml->attributes()->creator))
 		return true;
@@ -271,36 +283,43 @@ class g2psClass
 	 */
 	private function getCoordsTCX($file,$trackid=0) {
 	    // TODO REWRITE
-	    if (file_exists($file)) {
-			echo"<br>TODOPRINT";$xml = simplexml_load_file($file);
-			if(isset($xml->Activities->Activity->Lap->Track)) {
-				$startpoint = $xml->Activities->Activity->Lap->Track[$trackid];
-			} elseif (isset($xml->Courses->Course->Track)) {
-				$startpoint = $xml->Courses->Course->Track[$trackid];
-			}
+	    $this->error = true; 
+	    $this->errorMessages[] = " ERROR TCX file not yer supported";
+	    return false;
 
-			$coords = array();
-			if (!$startpoint[0]) return false;
-			foreach($startpoint[0] as $start) {
-				if(isset($start->Position->LatitudeDegrees) && isset($start->Position->LongitudeDegrees)) {
-					$lat = $start->Position->LatitudeDegrees;
-					$lon = $start->Position->LongitudeDegrees;
-					$ele = $start->AltitudeMeters;
-					$time = $start->Time;
-					if(isset($start->HeartRateBpm->Value)) {
-						$heart = $start->HeartRateBpm->Value;
-					} else {
-						$heart = "0";
-					}
-
-					$bak = array((string)$lon,(string)$lat,(string)$ele,(string)$time,(string)$heart);
-					array_push($coords,$bak);
-				}
-			}
-			return $coords;
-		} else {
-			return false;
+	    if (file_exists($file)) 
+		{
+		echo"<br>TODOPRINT";$xml = simplexml_load_file($file);
+		if(isset($xml->Activities->Activity->Lap->Track)) {
+			$startpoint = $xml->Activities->Activity->Lap->Track[$trackid];
+		} elseif (isset($xml->Courses->Course->Track)) {
+			$startpoint = $xml->Courses->Course->Track[$trackid];
 		}
+
+		$coords = array();
+		if (!$startpoint[0]) return false;
+		foreach($startpoint[0] as $start) {
+			if(isset($start->Position->LatitudeDegrees) && isset($start->Position->LongitudeDegrees)) {
+				$lat = $start->Position->LatitudeDegrees;
+				$lon = $start->Position->LongitudeDegrees;
+				$ele = $start->AltitudeMeters;
+				$time = $start->Time;
+				if(isset($start->HeartRateBpm->Value)) {
+					$heart = $start->HeartRateBpm->Value;
+				} else {
+					$heart = "0";
+				}
+
+				$bak = array((string)$lon,(string)$lat,(string)$ele,(string)$time,(string)$heart);
+				array_push($coords,$bak);
+			}
+		}
+		return $coords;
+	    } 
+	    else 
+	    {
+		return false;
+	    }
 	}
 
 	
@@ -551,20 +570,35 @@ class g2psClass
 		$beatChartData = "";
 		$speedChartData = "";
 				    
+		// $c is the step for scanning allDistances/speed and others datas
 		$n = count($this->allDistances);
 		if($n > 600) {
 			$c = $n / 600;
+			$width = round($c/2,0); 
 			$c = round($c,0);
+			
 		} else {
 			$c = 1;
+			$width=2; // smoothing over 5 samples
 		}
+		// $width is the half the width over which speed data are smoothed
+		// smoothed speed is average from $i-$witdh<=index<=$i+$width
 
 		for($i=0; $i<$n; $i = $i+$c) {
 			$distance = (string) round($this->allDistances[$i],2);
-			$i2 = max($i,1); 
+			$i2 = max($i-$width,1);
+			$i3 = min($i+$width, $n-1);
 			if ($this->speedDataExists) 
 			{
-			    $speedChartData .= '[' . $distance  . ',' . round($this->allSpeed[$i2],1) . '],' ;
+			    // $speedChartData .= '[' . $distance  . ',' . round($this->allSpeed[$i2],1) . '],' ;
+			    // calculate average speed (smoothing)
+			    $speed = 0;
+			    for($j=$i2; $j<=$i3; $j = $j+1) 
+			    {
+				$speed = $speed + $this->allSpeed[$j];
+			    }
+			    $speed = $speed / ($i3-$i2+1);
+			    $speedChartData .= '[' . $distance  . ',' . round($speed,1) . '],' ;
 			}
 			if ($this->elevationDataExists) 
 			{
@@ -1644,6 +1678,7 @@ class g2psClass
 
 		$map = "\n<!-- writeSingleTrackCOM_JTG BEGIN -->\n";
 		$map .= $this->parseScriptOLHead();
+		
 		$map .= $this->parseOLMap();
 		$map .= $this->parseOLMapControl(true,$params);
 		$map .= $this->parseOLLayer();

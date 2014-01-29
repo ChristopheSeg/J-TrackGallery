@@ -34,10 +34,12 @@ $document->addStyleSheet(JURI::base().'components/com_jtg/template.css');
 $tmpl = ($cfg->template = "") ? $cfg->template : 'default';
 $document->addStyleSheet(JURI::root().'components/com_jtg/assets/template/'.$tmpl.'/jtg_map_style.css');
 $map = "";
-if($this->id >= 1) {
+if($this->id >= 1) 
+{
 	//	edit file
 	$cache =& JFactory::getCache('com_jtg');
 	$cfg = JtgHelper::getConfig();
+	$params = &JComponentHelper::getParams( 'com_jtg' );
 	$model = $this->getModel();
 	$track = $cache->get(array($model, 'getFile'), array($this->id));
 	$document =& JFactory::getDocument();
@@ -49,13 +51,20 @@ if($this->id >= 1) {
 	$document->addScript("../components/com_jtg/assets/js/jtg.js");
 	$file = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploaded_tracks' . DS . $this->track->file;
 	$g2ps = new g2psClass($cfg->unit);
-	$g2ps->loadFileAndData($file);
-	
-	$map .= $g2ps->writeSingleTrackOL($this->track->file);
-	$map .= ("\n<div id=\"jtg_map\"  align=\"center\" class=\"olMap\" ");
-	$map .= ("style=\"width: 400px; height: 500px; background-color:#EEE; vertical-align:middle;\" >");
-	$map .= ("\n<script>slippymap_init();</script>");
-	$map .= ("\n</div>");
+	$g2ps = $cache->get(array ( $g2ps, 'loadFileAndData' ), array ($file, $track->file ), $cfg->unit);
+	if ($g2ps->displayErrors())
+	{
+	    	$map = ""; 
+	}
+	else
+	{
+		$map = $cache->get(array ( $g2ps, 'writeTrackOL' ), array ( $track, $params ));
+		$map .= ("\n<div id=\"jtg_map\"  align=\"center\" class=\"olMap\" ");
+		$map .= ("style=\"width: 400px; height: 500px; background-color:#EEE; vertical-align:middle;\" >");
+		$map .= ("\n<script>slippymap_init();</script>");
+		$map .= ("\n</div>");	    
+	}
+
 }
 
 ?>
