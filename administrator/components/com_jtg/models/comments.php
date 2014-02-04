@@ -17,7 +17,7 @@ defined('_JEXEC') or die('Restricted access');
 // Import Joomla! libraries
 jimport('joomla.application.component.model');
 
-class JtgModelComments extends JModel
+class JtgModelComments extends JModelLegacy
 {
     function __construct() {
         parent::__construct();

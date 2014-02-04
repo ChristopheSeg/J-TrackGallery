@@ -20,7 +20,7 @@ jimport('joomla.application.component.model');
 /**
  * Model Class Files
  */
-class JtgModelFiles extends JModel
+class JtgModelFiles extends JModelLegacy
 {
 	/**
 	 * Category data array
@@ -52,31 +52,30 @@ class JtgModelFiles extends JModel
 		$cfg = JtgHelper::getConfig();
 		jimport('joomla.filesystem.file');
 		require_once(".." . DS . "components" . DS . "com_jtg" . DS . "helpers" . DS . "gpsClass.php");
-		$gps = new gpsClass();
 		$file = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploaded_tracks' . DS . $file;
-		$gps->gpsFile = $file;
+		$gpsData = new gpsDataClass($cfg->unit);
+		$gpsData ->loadFileAndData($file, $file ); // Do not use cache here
+		if ($gpsData->displayErrors())
+		{
+		    return false;
+		}
 
-		$isTrack = $gps->isTrack();
-		if ( $isTrack === false )
-		$isTrack = 0;
-		else
-		$isTrack = 1;
-
-		$isWaypoint = (int)$gps->isWaypoint();
-
-		//$isRoute = $gps->isRoute();
+		$isTrack = $gpsData->isTrack;
+		$isWaypoint = $gpsData->isWaypoint;
 		$isRoute = (int)0;
 
 		if ( $isWaypoint == 1 )
-		$isCache = (int)$gps->isCache();
-		else
-		$isCache = 0;
-
-		if ( $isTrack == 1 )
 		{
-			$coords = $gps->getAllTracksCoords($file);
-			$distance = $gps->getDistance($coords);
-			$ele = $gps->getElevation($coords);
+		    $isCache = $gpsData->isCache;
+		}
+		else
+		{
+		    $isCache = 0;
+		}
+		if ( $this->isTrack == 1 )
+		{
+			$distance = $gpsData->distance;
+			$ele = $gpsData->getElevation($coords);
 		}
 		else
 		{
@@ -84,8 +83,7 @@ class JtgModelFiles extends JModel
 			$ele = array(null,null);
 		}
 
-		$start = $gps->getStartCoordinates();
-		if ( $start === false )
+		if ( $this->start === false )
 		{
 			return false;
 		}
@@ -110,15 +108,15 @@ class JtgModelFiles extends JModel
 		$vote = (float) ( round( ( $givenvotes / $count ), 3 ) );
 
 		$query = "UPDATE #__jtg_files SET"
-		. "\n istrack='" . $isTrack . "',"
-		. "\n iswp='" . $isWaypoint . "',"
-		. "\n isroute='" . $isRoute . "',"
-		. "\n iscache='" . $isCache . "',"
-		. "\n start_n='" . $start[1] . "',"
-		. "\n start_e='" . $start[0] . "',"
-		. "\n distance='" . $distance . "',"
-		. "\n ele_asc='" . $ele[0] . "',"
-		. "\n ele_desc='" . $ele[1] . "',"
+		. "\n istrack='" . $gpsData->isTrack . "',"
+		. "\n iswp='" . $gpsData->isWaypoint . "',"
+		. "\n isroute='" . $gpsData->isRoute . "',"
+		. "\n iscache='" . $gpsData->isCache . "',"
+		. "\n start_n='" . $gpsData->start[1] . "',"
+		. "\n start_e='" . $gpsData->start[0] . "',"
+		. "\n distance='" . $gpsData->distance . "',"
+		. "\n ele_asc='" . $gpsData->totalAscent . "',"
+		. "\n ele_desc='" . $gpsData->totalDescent . "',"
 		. "\n vote='" . $vote . "'"
 		. "\n WHERE id='" . $id . "'"
 		;
@@ -693,7 +691,8 @@ class JtgModelFiles extends JModel
 				$file =& JRequest::getVar('file_'.$i);
 				$hidden =& JRequest::getVar('hidden_'.$i);
 				$file_tmp = explode(DS,$file);
-				$file_tmp = str_replace(' ','_',strtolower($file_tmp[(count($file_tmp)-1)]));
+				$filename = strtolower($file_tmp[(count($file_tmp)-1)]);
+				$file_tmp = str_replace(' ','_',$filename);
 				$file_tmp = explode('.',$file_tmp);
 				$extension = $file_tmp[(count($file_tmp)-1)];
 				unset($file_tmp[(count($file_tmp)-1)]);
@@ -738,19 +737,31 @@ class JtgModelFiles extends JModel
 				//			$images =& JRequest::getVar('images_'.$i, null, 'files', 'array');
 				$access =& JRequest::getInt('access_'.$i);
 				// 	get the start coordinates $target
-				$gps = new gpsClass();
-				$gps->gpsFile = $file;
-				$isTrack = $gps->isTrack();
-				if ($isTrack !== false) $isTrack = "1"; else $isTrack = "0";
-				$isWaypoint = $gps->isWaypoint();
-				if ($isWaypoint !== false) $isWaypoint = "1"; else $isWaypoint = "0";
-				$isRoute = "0";
-				if($start = $gps->getStartCoordinates())  {
-					$fileokay = true;
-				} else {
-					echo "<script type='text/javascript'>alert('".JText::_('COM_JTG_NO_SUPPORT') . ": " . $target . "');window.history.back(-1);</script>";
-					// 				exit;
+				$cache = & JFactory::getCache();
+				$gpsData = new gpsDataClass("Kilometer");// default unit
+				$gpsData = $cache->get(array ( $gpsData, 'loadFileAndData' ), array ($file, $filename ), "Kilometer");
+				if ($gpsData->displayErrors())
+				{
+				   $map = ""; 
+				   $coords = "";
+				   $distance_float = 0;
+				   $distance = 0;
+				   echo "<script type='text/javascript'>alert('".JText::_('COM_JTG_NO_SUPPORT') . "');window.history.back(-1);</script>";
+				   //TODO before exit, remove downloaded file!!
+				   exit; //TODO chekch if exit is correcxt here ???
 				}
+				$fileokay = true; // TODO remove $fileokay 
+
+				$start_n = $gpsData->start[1];
+				$start_e = $gpsData->start[0];
+				$coords = $gpsData->allCoords;  
+				$isTrack = $gpsData->isTrack;
+				$isWaypoint = $gpsData->isWaypoint;
+				$isRoute = 0;
+				$isCache = 0;
+
+				$distance = $gpsData->distance;
+
 				if ($fileokay == true) {
 
 					// upload the file
@@ -766,12 +777,6 @@ class JtgModelFiles extends JModel
 					if (!JFile::delete($file))
 					echo "Erasing failed (file: \"" . $file . "\") !\n";
 
-					$start_n = $start[1];
-					$start_e = $start[0];
-					$coords = $gps->getAllTracksCoords($targetdir.$target);
-					$distance = $gps->getDistance($coords);
-					// call the elevation function
-					$ele = $gps->getElevation($coords);
 					// images upload part
 
 					$query = "INSERT INTO #__jtg_files SET"
@@ -807,6 +812,7 @@ class JtgModelFiles extends JModel
 	}
 
 	function importFromJPT($track) {
+		// TODO Deprecated, can be replacd by import from injooosm
 		$mainframe =& JFactory::getApplication();
 		jimport('joomla.filesystem.file');
 		require_once(".." . DS . "components" . DS . "com_jtg" . DS . "helpers" . DS . "gpsClass.php");
@@ -858,16 +864,18 @@ class JtgModelFiles extends JModel
 			}
 		}
 		// 	get the start coordinates $target
-		$gps = new gpsClass();
-		$gps->gpsFile = $file;
-		$isTrack = $gps->isTrack();
-		if ($isTrack !== false) $isTrack = "1"; else $isTrack = "0";
-		$isWaypoint = $gps->isWaypoint();
-		if ($isWaypoint !== false) $isWaypoint = "1"; else $isWaypoint = "0";
+		// TODO GPSCLASS deprecated, 
+		$gps_old = new gpsClass();
+		$gps_old->gpsFile = $file;
+		$isTrack = $gps_old->isTrack();
+		$isWaypoint = $gps_old->isWaypoint();
 		$isRoute = "0";
-		if($start = $gps->getStartCoordinates())  {
+		
+		if($start = $gps_old->getStartCoordinates())  {
 			$fileokay = true;
-		} else {
+		} else 
+		{
+			// TODO print an error message
 			echo "<script type='text/javascript'>alert('".JText::_('COM_JTG_NO_SUPPORT') . ": " . $target . "');window.history.back(-1);</script>";
 			// 				exit;
 		}
@@ -982,36 +990,33 @@ class JtgModelFiles extends JModel
 		}
 
 		// get the start coordinates
-		$gps = new gpsClass();
-		$isTrack = $gps->isTrack(simplexml_load_file($upload_dir.strtolower($filename)));
-		if ($isTrack !== false) $isTrack = "1"; else $isTrack = "0";
-		$isWaypoint = $gps->isWaypoint(simplexml_load_file($upload_dir.strtolower($filename)));
-		if ($isWaypoint !== false) $isWaypoint = "1"; else $isWaypoint = "0";
-		$isRoute = "0";
-		$isCache = 0;
-		//		$isCache = $gps->isCache();
-		//		if ($isCache !== false) $isCache = "1"; else $isCache = "0";
-		$gps->gpsFile = ".." . DS . "images" . DS . "jtrackgallery" . DS . "uploaded_tracks" . DS . strtolower($filename);
-		if($gps->getStartCoordinates())  {
-			$start = $gps->getStartCoordinates();
-		} else {
-			echo "<script type='text/javascript'>alert('".JText::_('COM_JTG_NO_SUPPORT') . "');window.history.back(-1);</script>";
-			//                 exit;
-		}
-
+		$gpsData = new gpsDataClass("Kilometer");// default unit
+		//TODO $track is not defined  here !!!!
 		$file = ".." . DS . "images" . DS . "jtrackgallery" . DS . "uploaded_tracks" . DS . strtolower($filename);
-		$start_n = $start[1];
-		$start_e = $start[0];
-		$coords = $gps->getAllTracksCoords($file);
-		$distance = $gps->getDistance($coords);
-		//             if($distance == NULL)  {
-		//                 echo "<script type='text/javascript'>alert('".JText::_('COM_JTG_DISTANCE') . " = 0');window.history.back(-1);</script>";
-		//                 exit; // Warum stop?
-		//             }
+		$cache = & JFactory::getCache();
+		$gpsData = $cache->get(array ( $gpsData, 'loadFileAndData' ), array ($file, strtolower($filename) ), "Kilometer");
+		if ($gpsData->displayErrors())
+		{
+		   $map = ""; 
+		   $coords = "";
+		   $distance_float = 0;
+		   $distance = 0;
+		   echo "<script type='text/javascript'>alert('".JText::_('COM_JTG_NO_SUPPORT') . "');window.history.back(-1);</script>";
+		   //TODO before exit, remove downloaded file!!
+		   exit; //TODO chekch if exit is correcxt here ???
+		}
+		$fileokay = true; // TODO remove $fileokay 
 
-		// call the elevation function
-		$ele = $gps->getElevation($coords);
+		$start_n = $gpsData->start[1];
+		$start_e = $gpsData->start[0];
+		$coords = $gpsData->allCoords;  
+		$isTrack = $gpsData->isTrack;
+		$isWaypoint = $gpsData->isWaypoint;
+		$isRoute = 0;
+		$isCache = 0;
 
+		$distance = $gpsData->distance;
+		
 		$query = "INSERT INTO #__jtg_files SET"
 		. "\n uid='" . $uid . "',"
 		. "\n catid='" . $catid . "',"
@@ -1080,6 +1085,7 @@ class JtgModelFiles extends JModel
 	 */
 	function importJPTtracks()  {
 		/* under construction */
+	    // TODO DEPRECATED 
 		$importfiles = $this->_fetchJPTfiles;
 		$mainframe =& JFactory::getApplication();
 		jimport('joomla.filesystem.file');
@@ -1146,16 +1152,15 @@ class JtgModelFiles extends JModel
 			$date = $importfile['date'];
 			$access = $importfile['access'];
 			// 	get the start coordinates $target
-			$gps = new gpsClass();
-			$gps->gpsFile = $file;
-			$isTrack = $gps->isTrack();
-			if ($isTrack !== false) $isTrack = "1"; else $isTrack = "0";
-			$isWaypoint = $gps->isWaypoint();
-			if ($isWaypoint !== false) $isWaypoint = "1"; else $isWaypoint = "0";
+			//TODO gpsclass deprecated
+			$gps_old = new gpsClass();
+			$gps_old->gpsFile = $file;
+			$isTrack = $gps_old->isTrack();
+			$isWaypoint = $gps_old->isWaypoint();
 			$isRoute = "0";
 			$start_n = $importfile['start_n'];
 			$start_e = $importfile['start_e'];
-			/*			if($start = $gps->getStartCoordinates())  {
+			/*			if($start = $gps_old->getStartCoordinates())  {
 			 $fileokay = true;
 			 } else {
 			 echo "<script type='text/javascript'>alert('".JText::_('COM_JTG_NO_SUPPORT') . ": " . $target . "');window.history.back(-1);</script>";
@@ -1179,12 +1184,12 @@ class JtgModelFiles extends JModel
 
 			//				$start_n = $start[1];
 			//				$start_e = $start[0];
-			//				$coords = $gps->getCoords($targetdir.$target);
-			//				$distance = $gps->getDistance($coords);
+			//				$coords = $gps_old->getCoords($targetdir.$target);
+			//				$distance = $gps_old->getDistance($coords);
 			$distance = $importfile['distance'];
 
 			// call the elevation function
-			//				$ele = $gps->getElevation($coords);
+			//				$ele = $gps_old->getElevation($coords);
 			$ele[0] = $importfile['ele_asc'];
 			$ele[1] = $importfile['ele_desc'];
 

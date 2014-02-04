@@ -19,7 +19,7 @@ jimport('joomla.application.component.model');
 /**
  * Model Class Terrain
  */
-class JtgModelTranslations extends JModel
+class JtgModelTranslations extends JModelLegacy
 {
 	function __construct() {
 		parent::__construct();

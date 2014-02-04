@@ -30,11 +30,11 @@ class JtgViewDefault extends JView
 
         $cfg =& JtgHelper::getConfig();
 
-        $gps = new gpsClass();
+        $gpsData = new gpsDataClass();
 
         $document =& JFactory::getDocument();
         $this->cfg = $cfg;
-        $this->gps = $gps;
+        $this->gps = $gpsData;
         
         parent::display($tpl);
     }

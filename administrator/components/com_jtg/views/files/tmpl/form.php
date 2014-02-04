@@ -34,25 +34,36 @@ $document->addStyleSheet(JURI::base().'components/com_jtg/template.css');
 $tmpl = ($cfg->template = "") ? $cfg->template : 'default';
 $document->addStyleSheet(JURI::root().'components/com_jtg/assets/template/'.$tmpl.'/jtg_map_style.css');
 $map = "";
-if($this->id >= 1) {
+if($this->id >= 1) 
+{
 	//	edit file
 	$cache =& JFactory::getCache('com_jtg');
 	$cfg = JtgHelper::getConfig();
+	$params = &JComponentHelper::getParams( 'com_jtg' );
 	$model = $this->getModel();
 	$track = $cache->get(array($model, 'getFile'), array($this->id));
 	$document =& JFactory::getDocument();
 	require_once(".." . DS . "components" . DS . "com_jtg" . DS . "helpers" . DS . "gpsClass.php");
-	$gps = new gpsClass();
 	$document->addScript('http://www.openlayers.org/api/OpenLayers.js');
 	$document->addScript('../components' . DS . 'com_jtg' . DS . 'assets' . DS . 'js' . DS . 'fullscreen.js');
 	$document->addScript('http://www.openstreetmap.org/openlayers/OpenStreetMap.js');
 	$document->addScript("../components/com_jtg/assets/js/jtg.js");
-	// TODO WHAT IS THIS FOR ??$document->addScript("../components/com_jtg/assets/js/jd.gallery.js");
-	$map .= $gps->writeSingleTrackOL($this->track->file);
-	$map .= ("\n<div id=\"jtg_map\"  align=\"center\" class=\"olMap\" ");
-	$map .= ("style=\"width: 400px; height: 500px; background-color:#EEE; vertical-align:middle;\" >");
-	$map .= ("\n<script>slippymap_init();</script>");
-	$map .= ("\n</div>");
+	$file = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploaded_tracks' . DS . $this->track->file;
+	$gpsData = new gpsDataClass($cfg->unit);
+	$gpsData = $cache->get(array ( $gpsData, 'loadFileAndData' ), array ($file, $track->file ), $cfg->unit);
+	if ($gpsData->displayErrors())
+	{
+	    	$map = ""; 
+	}
+	else
+	{
+		$map = $cache->get(array ( $gpsData, 'writeTrackOL' ), array ( $track, $params ));
+		$map .= ("\n<div id=\"jtg_map\"  align=\"center\" class=\"olMap\" ");
+		$map .= ("style=\"width: 400px; height: 500px; background-color:#EEE; vertical-align:middle;\" >");
+		$map .= ("\n<script>slippymap_init();</script>");
+		$map .= ("\n</div>");	    
+	}
+
 }
 
 ?>
@@ -154,7 +165,7 @@ if($this->id >= 1) {
 			echo $this->images; ?></td>
 		</tr>
 		<?php
-		/*   TODO ????         if($cfg->terms == 1):
+		if($cfg->terms == 1):
 		 ?>
 		 <tr>
 		 <td><?php echo JText::_('COM_JTG_TERMS'); ?></td>
@@ -162,7 +173,7 @@ if($this->id >= 1) {
 		 </tr>
 		 <?php
 		 endif;
-		 */            ?>
+		 ?>
 	</tbody>
 </table>
 <?php echo JHTML::_( 'form.token' ); ?>

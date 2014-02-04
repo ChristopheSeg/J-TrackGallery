@@ -51,7 +51,7 @@ if ( $userid )
 	$latlon = JtgHelper::getLatLon();
 	$homepos = "false";
 }
-$gps = new gpsClass();
+$gpsCoords = new gpsCoordsClass();
 for($x=0;$x<=count($latlon);$x++){
 	if ((isset($latlon[$x])) AND
 	( (float)$latlon[$x]->jtglat != 0) AND
@@ -66,7 +66,7 @@ for($x=0;$x<=count($latlon);$x++){
 		if ( ( ( $userid ) && ( $latlon[$x]->jtgvisible != "non" ) ) || ( ( !$userid ) && ( $latlon[$x]->jtgvisible == "all" ) ) ) {
 			if (isset($userlon))
 			{
-				$distance = $gps->getDistance(array(
+				$distance = $gpsCoords->getDistance(array(
 				array($userlon,$userlat),
 				array($latlon[$x]->jtglon,$latlon[$x]->jtglat)));
 				$distance = JtgHelper::getLocatedFloat($distance,0,$this->cfg->unit);

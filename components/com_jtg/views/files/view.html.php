@@ -245,7 +245,7 @@ class JtgViewFiles extends JView
 		$lists['access'] = JtgHelper::getAccessList($track->access);
 		$lists['hidden']	= JHTML::_('select.genericlist', $yesnolist, 'hidden', 'class="inputbox" size="1"', 'id', 'title',$value_hidden);
 		$lists['published']	= JHTML::_('select.genericlist', $yesnolist, 'published', 'class="inputbox" size="1"', 'id', 'title',$value_published);
-		// $gps = new gpsClass();
+		
 		$this->imgcount = $imgcount;
 		$this->images = $images;
 		$this->kml = NULL; // TODO $this->kml = $start;
@@ -259,7 +259,6 @@ class JtgViewFiles extends JView
 		$this->terms = $terms;
 		$this->level = $level;
 		//		$this->comments = comments;
-		//	$this->gps = $gps;
 
 		parent :: display($tpl);
 	}
@@ -275,6 +274,8 @@ class JtgViewFiles extends JView
 		// JHTML::_('behavior.modal');	// with this option IE doesn't work
 		JHTML :: _('behavior.combobox');
 		$cache = & JFactory :: getCache('com_jtg');
+		// TODO when cache is used, Update a track, then browse it: jtg_osmGettile.js is not loaded!!
+		// $cache->setCaching( 1 ); // activate caching
 
 		if ( $params->get("jtg_param_lh") == 1 )
 		$lh = layoutHelper :: navigation();
@@ -359,42 +360,33 @@ class JtgViewFiles extends JView
 //		}	
 		
 		$action = "index.php?option=com_jtg&amp;controller=download&amp;task=download";
-
-		$gps = new gpsClass();
-		// Kartenauswahl BEGIN
-		$map = $cache->get(array ( $gps, 'writeTrackOL' ), array ( $track, $params ));
-		// Kartenauswahl END
-		$unit = $cfg->unit;
-		$distance_float = (float) $track->distance;
-		//		$distance_float = (int)
-		$distance = JtgHelper::getLocatedFloat($distance_float,0,$unit);
-		// charts
 		$file = '.' . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploaded_tracks' . DS . strtolower($track->file);
-		$coords = $gps->getAllTracksCoords($file);
-		//TODO TEST
-		$distances = $cache->get(array ( $gps, 'getDistances' ), array ( $coords ));
-		if (isset ($coords[0][3]))
+		$gpsData = new gpsDataClass($cfg->unit);
+		// $gpsData->loadFileAndData($file, $track->file);
+		// $gpsData structure is cached, after LaodFileAndData
+		$gpsData = $cache->get(array ( $gpsData, 'loadFileAndData' ), array ($file, $track->file ), $cfg->unit);
+		if ($gpsData->displayErrors())
 		{
-			// 		Speedprofile
-			$speeddata = $cache->get(array ( $gps, 'createSpeedData' ), array ( $coords, $distances, $unit ));
-		} else $speeddata = false;
-		if ((!$speeddata) OR (preg_match('/0,0,0,0,0,0,0,0,0,0/',$speeddata))) // change this test according to new createSpeeddata method
-		//	give scatter-plot a chance
-		$speeddata = false;
-		
-		$heighdata = false;
-		    if (isset ($coords[0][2])) {
-			// Heightprofile ($heighdata)
-			$heighdata = $cache->get(array ( $gps, 'createElevationData' ), array ( $coords, $distances ));
+		   $map = ""; 
+		   $coords = "";
+		   $distance_float = 0;
+		   $distance = 0;
+		}
+		else 
+		{
+		    // Kartenauswahl BEGIN
+		    $map = $cache->get(array ( $gpsData, 'writeTrackOL' ), array ( $track, $params ));
+		    // Kartenauswahl END
+
+		    $distance_float = (float) $track->distance;
+		    $distance = JtgHelper::getLocatedFloat($distance_float,0,$cfg->unit);
+		    // charts
+
+		    $coords = $gpsData->allCoords;  
 		}
 
-		// heartbeat
-		$beatdata = false;
-		if (isset ($coords[0][4]) && $coords[0][4] > 0) {
-			// $beatdata = $gps->createBeatsData($coords);
-			$beatdata = $cache->get(array ( $gps, 'createBeatsData' ), array ( $coords, $distances ));
-			$this->beatdata = $beatdata;
-		}
+
+	
 		// Klicklinks for every track in one file (at the moment not active)
 		// function giveClickLinks is not performant!
 		//			$clicklist = $cache->get(array (
@@ -584,8 +576,12 @@ class JtgViewFiles extends JView
 		 // $this->images = $images;
 		$this->date = $date;
 		$this->profile = $profile;
-		$this->heighdata = $heighdata;
-		$this->speeddata = $speeddata;
+		$this->beatdata = $gpsData->beatData;
+		$this->heighdata = $gpsData->elevationData;
+		$this->speeddata = $gpsData->speedData;
+		$this->speedDataExists = $gpsData->speedDataExists;
+		$this->elevationDataExists = $gpsData->elevationDataExists; 
+		$this->beatDataExists = $gpsData->beatDataExists;
 		$this->comments = $comments;
 		$this->user = $user;
 		$this->model = $model;

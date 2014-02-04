@@ -64,11 +64,10 @@ class layoutHelper
 			JRoute::_("index.php?option=com_jtg&view=files&layout=user").'">'.
 			JText::_('COM_JTG_MY_FILES').'</a></div>';
 			if ( ($uri != null) AND ($uri == 'file') ) {
-				$gps = new JtgModelFiles;
+				$gpsfile = new JtgModelFiles;
 				$track =& JRequest::getVar('id');
-				$track = $gps->getFile($track);
-				// Erscheint nur bei einzelnen Dateien
-				// TODO upgrade ACL
+				$track = $gpsfile->getFile($track);
+
 				if ( ($track !== null) AND (
 				( $user->get('id') == $track->uid ) OR (JtgHelper :: userHasFrontendRights() ) ) )
 				// Wenn Trackbesitzer oder in Gruppe "Editor" oder höher

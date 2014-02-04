@@ -15,7 +15,7 @@ defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.model');
 
-class JtgModelDownload extends JModel
+class JtgModelDownload extends JModelLegacy
 {
 	/**
 	 *
@@ -26,12 +26,18 @@ class JtgModelDownload extends JModel
 	 */
 	function download($id, $format, $track)  {
 		$mainframe =& JFactory::getApplication();
-
+		$cache = & JFactory :: getCache('com_jtg');
 		jimport('joomla.filesystem.file');
 		$file = "." . DS . "images" . DS . "jtrackgallery" . DS . "uploaded_tracks" . DS . $track->file;
 		$ext = JFile::getExt($file['name']);
-		$gps = new gpsClass();
-		$coords = $gps->getCoords($file);
+		$gpsData = new gpsDataClass("Kilometer");// default unit
+		$gpsData = $cache->get(array ( $gpsData, 'loadFileAndData' ), array ($file, $track->file ), "Kilometer");
+		if ($gpsData->displayErrors())
+		{
+		   return NULL;
+		}
+		$coords = $gpsData->allCoords;  ; 
+	
 
 		switch($format){
 			case "kml":

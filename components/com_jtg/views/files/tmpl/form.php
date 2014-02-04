@@ -64,9 +64,8 @@ Joomla.submitbutton = function(pressbutton)
 }
 </script>
         <?php echo $this->lh;
-	// TODO IMPORTANT!  ACL in Joomla 2.5 has been revisited. Check OR (isset($this->id)
-	// does $this->id is null when user is not author? 
-//        old line was=// if( ($user->get('id')) AND ($juser->get('gid') >= $this->cfg->gid ) OR (isset($this->id)) ){
+
+	//  if( ($user->get('id')) AND ($juser->get('gid') >= $this->cfg->gid ) OR (isset($this->id)) ){
         if( (JtgHelper :: userHasFrontendRights() ) OR (isset($this->id)) ){
         	?>
 <div class="componentheading"><?php echo $title; ?></div>

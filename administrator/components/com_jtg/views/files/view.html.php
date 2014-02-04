@@ -291,7 +291,7 @@ class JtgViewFiles extends JView
 //			if(isset($cat->id))
 //			$id = (int)$cat->id;
 			if(isset($cat->title)) {
-			    $newcat[$cat->id]->title = "TODO".JText::_($cat->title);
+			    $newcat[$cat->id]->title = JText::_($cat->title);
 			}
 //			$title[$id] = $cat->title;
 //			if ((isset($cat->id))AND( $catid == $id )){

@@ -19,7 +19,7 @@ jimport('joomla.application.component.model');
 /**
  * Model Class Configuration
  */
-class JtgModelConfig extends JModel
+class JtgModelConfig extends JModelLegacy
 {
 	/**
 	 *

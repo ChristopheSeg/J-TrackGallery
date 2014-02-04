@@ -19,10 +19,10 @@ defined('_JEXEC') or die('Restricted access');
 jimport('joomla.application.component.model');
 
 /**
- * Returns true  if thumbnail creation was successful for all thumbnails
+ * 
  * @param <integer> $max_thumb_height
  * @param <integer> $max_geoim_height
- * @return <boolean> 
+ * @return <boolean> true  if thumbnail creation was successful for all thumbnails
  */
 function com_jtg_refresh_Thumbnails()  
 {

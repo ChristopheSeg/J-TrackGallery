@@ -17,7 +17,7 @@ defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.model');
 
-class JtgModeljtg extends JModel
+class JtgModeljtg extends JModelLegacy
 {
 	/**
 	 * Constructor
