@@ -20,7 +20,7 @@ jimport('joomla.application.component.model');
 /**
  * Model Class Categories
  */
-class JtgModelCats extends JModel
+class JtgModelCats extends JModelLegacy
 {
 	/**
 	 * Category Images array

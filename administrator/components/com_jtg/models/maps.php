@@ -17,7 +17,7 @@ defined('_JEXEC') or die('Restricted access');
 // Import Joomla! libraries
 jimport('joomla.application.component.model');
 
-class JtgModelMaps extends JModel
+class JtgModelMaps extends JModelLegacy
 {
 	/**
 	 * Pagination object

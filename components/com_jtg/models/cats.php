@@ -16,7 +16,7 @@ defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.model');
 
-class JtgModelCats extends JModel
+class JtgModelCats extends JModelLegacy
 {
 	function getCats()
 	{

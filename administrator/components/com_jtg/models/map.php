@@ -17,7 +17,7 @@ defined('_JEXEC') or die('Restricted access');
 /**
  * Model Class Categorie
  */
-class JtgModelMAp extends JModel
+class JtgModelMAp extends JModelLegacy
 {
 	function __construct()
 	{

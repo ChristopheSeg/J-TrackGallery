@@ -25,7 +25,7 @@ class JtgViewjtg extends JView
 // @ToDo split in jtg and geoposition
 		$mainframe =& JFactory::getApplication();
 		$cfg = JtgHelper::getConfig();
-		$g2ps = new g2psClass($cfg->unit);
+		$gpsData = new gpsDataClass($cfg->unit);
 		$document =& JFactory::getDocument();
 		
 		// load Openlayers stylesheet first (for overridding)
@@ -107,7 +107,7 @@ class JtgViewjtg extends JView
 		$this->boxlinktext = $boxlinktext;
 		$this->footer = $footer;
 		$this->disclaimericons = $disclaimericons;
-		$this->g2ps = $g2ps;
+		$this->gpsData = $gpsData;
 		$this->rows = $rows;
 		$this->where = $where;
 		$this->cats = $cats;

@@ -15,7 +15,7 @@ defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.model');
 
-class JtgModelFiles extends JModel
+class JtgModelFiles extends JModelLegacy
 {
 	/**
 	 * files data array
@@ -309,37 +309,37 @@ class JtgModelFiles extends JModel
 			chmod($upload_dir.strtolower($filename), 0777);
 		}
 
-		// get the start coordinates
-		$gps = new gpsClass();
-		$g2ps = new g2psClass();
+		// get the start coordinates.. 
+		$gpsData = new gpsDataClass();
 		$file = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploaded_tracks' . DS . strtolower($filename);
-		$gps->gpsFile = $file;
-		// $g2ps->loadFileAndData($file);
-		if(!$start = $gps->getStartCoordinates()) {
-			echo "<script type='text/javascript'>alert('".JText::_('COM_JTG_NO_SUPPORT') . "');window.history.back(-1);</script>";
-			//TODO before exit, remove downloaded file!!
-			exit;
-		}
+
+		$gpsData = new gpsDataClass("Kilometer");// default unit
+		//TODO $track is not defined  here !!!!
+		$gpsData = $cache->get(array ( $gpsData, 'loadFileAndData' ), array ($file, strtolower($filename)), "Kilometer");
+		if ($gpsData->displayErrors())
+		{
+		   $map = ""; 
+		   $coords = "";
+		   $distance_float = 0;
+		   $distance = 0;
+		   echo "<script type='text/javascript'>alert('".JText::_('COM_JTG_NO_SUPPORT') . "');window.history.back(-1);</script>";
+		   exit;
+		}		
 		
-		// $file = DS . 'images' . DS . 'jtrackgallery' . DS . 'uploaded_tracks' . DS . strtolower($filename);
-		$start_n = $start[1];
-		$start_e = $start[0];
-		$coords = $gps->getAllTracksCoords($file);
-		$isTrack = $gps->isTrack();
-		$isWaypoint = $gps->isWaypoint();
+		$start_n = $gpsData->start[1];
+		$start_e = $gpsData->start[0];
+		$coords = $gpsData->allCoords;  
+		$isTrack = $gpsData->isTrack;
+		$isWaypoint = $gpsData->isWaypoint;
 		$isRoute = 0;
 		$isCache = 0;
-//		$isCache = $gps->isCache();
-//		if ($isCache !== false) $isCache = "1"; else $isCache = "0";
-		$distance = $gps->getDistance($coords);
+
+		$distance = $gpsData->distance;
 		// 	 Na und was ist mit Wegpunkten?
 		//		 if($distance == NULL) {
 		//			 echo "<script type='text/javascript'>alert('" . $distance . "');window.history.back(-1);</script>";
 		//			 exit;
 		//		 }
-
-		// call the elevation function
-		$ele = $gps->getElevation($coords);
 
 		$query = "INSERT INTO #__jtg_files SET"
 		. "\n uid='" . $uid . "',"
@@ -353,8 +353,8 @@ class JtgModelFiles extends JModel
 		. "\n start_n='" . $start_n . "',"
 		. "\n start_e='" . $start_e . "',"
 		. "\n distance='" . $distance . "',"
-		. "\n ele_asc='" . $ele[0] . "',"
-		. "\n ele_desc='" . $ele[1] . "',"
+		. "\n ele_asc='" . round($gpsData->totalAscent,0) . "',"
+		. "\n ele_desc='" . round($gpsData->totalDescent,0) . "',"
 		. "\n level='" . $level . "',"
 		. "\n access='" . $access . "',"
 		. "\n hidden='" . $hidden . "',"

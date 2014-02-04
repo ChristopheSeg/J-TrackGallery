@@ -19,7 +19,7 @@ jimport('joomla.application.component.model');
 /**
  * Model Class Terrain
  */
-class JtgModelTerrain extends JModel
+class JtgModelTerrain extends JModelLegacy
 {
 	var $_data = null;
 
