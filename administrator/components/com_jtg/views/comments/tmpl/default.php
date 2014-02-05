@@ -23,7 +23,7 @@ JToolBarHelper::unpublish();
 JToolBarHelper::deleteList();
 JToolBarHelper::help( 'comments',true );
 
-JHTML::_('behavior.tooltip');
+JHtml::_('behavior.tooltip');
 ?>
 <form action="index.php" method="post" name="adminForm" id="adminForm">
 <table class="adminlist" cellpadding="1">
@@ -31,7 +31,7 @@ JHTML::_('behavior.tooltip');
 		<tr>
 			<th width="5%" class="title"><?php echo JText::_( 'COM_JTG_NUM' ); ?></th>
 			<th width="5%" class="title"><input type="checkbox" name="toggle"
-				value="" onclick="checkAll(<?php echo count($this->rows); ?>);" /></th>
+				value="" onclick="Joomla.checkAll(<?php echo count($this->rows); ?>);" /></th>
 			<th width="10%" class="title"><?php echo JText::_('COM_JTG_USER'); ?></th>
 			<th width="15%" class="title"><?php echo JText::_('COM_JTG_TRACK'); ?></th>
 			<th width="29%" class="title"><?php echo JText::_('COM_JTG_TITLE'); ?></th>
@@ -55,8 +55,8 @@ JHTML::_('behavior.tooltip');
 		$link 	= JRoute::_( 'index.php?option=com_jtg&task=editComment&controller=comments&id='. $row->id, false );
 		// eh?? terrain??
 		$row->checked_out=null;
-		$checked 	= JHTML::_('grid.checkedout', $row, $i );
-		$published 	= JHTML::_('grid.published', $row, $i );
+		$checked 	= JHtml::_('grid.checkedout', $row, $i );
+		$published 	= JHtml::_('grid.published', $row, $i );
 
 		?>
 		<tr class="<?php echo "row$k"; ?>">
@@ -78,4 +78,4 @@ JHTML::_('behavior.tooltip');
 <input type="hidden" name="option" value="com_jtg" /> <input
 	type="hidden" name="task" value="" /> <input type="hidden"
 	name="boxchecked" value="0" /> <input type="hidden" name="controller"
-	value="comments" /> <?php echo JHTML::_( 'form.token' ); ?></form>
+	value="comments" /> <?php echo JHtml::_( 'form.token' ); ?></form>

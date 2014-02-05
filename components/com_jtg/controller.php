@@ -19,7 +19,7 @@ jimport('joomla.application.component.controller');
 /**
  * jtg Component Controller
  */
-class JtgController extends JController
+class JtgController extends JControllerLegacy
 {
 	function display() {
 		// Make sure we have a default view

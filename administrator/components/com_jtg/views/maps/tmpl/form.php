@@ -103,7 +103,7 @@ if (($id) AND (isset($map->code)))
         </tbody>
     </table>
     <?php
-    echo JHTML::_( 'form.token' ); ?>
+    echo JHtml::_( 'form.token' ); ?>
     <input type="hidden" name="option" value="com_jtg" />
     <input type="hidden" name="controller" value="maps" />
     <input type="hidden" name="checked_out" value="0" />

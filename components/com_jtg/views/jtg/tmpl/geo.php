@@ -16,7 +16,7 @@ $document =& JFactory::getDocument();
 $user = JFactory::getUser();
 $userid = (int)$user->id;
 $tmpl = ($this->cfg->template = "") ? $this->cfg->template : 'default';
-$iconpath = JURI::root() . "components/com_jtg/assets/template/" . $tmpl . "/images/";
+$iconpath = JUri::root() . "components/com_jtg/assets/template/" . $tmpl . "/images/";
 if ( $userid ) {
 	$document->addScriptDeclaration ("var alerttext = '".JText::_('COM_JTG_SET_HOMEPOSITION') . "';");
 } else {
@@ -27,7 +27,7 @@ $document->addScriptDeclaration('var iconpath = \''.$iconpath.'\';');
 
 
 $document->addScript('components/com_jtg/assets/js/homeposition.js');
-//JHTML::_('behavior.tooltip'); // with this option IE8 doesn't work
+//JHtml::_('behavior.tooltip'); // with this option IE8 doesn't work
 $otherusers = 0;
 $scriptbody = "";
 $scriptheader = ("<script type=\"text/javascript\">
@@ -132,7 +132,7 @@ if ( $userid ) {
 			echo $lat; ?>" onchange="handleFillLL();mapcenter();"></input><?php
 			echo JText::_('COM_JTG_LAT_U');
 			echo "</td>\n			<td>";
-			echo JHTML::tooltip(JText::_('COM_JTG_TT_LAT'));?></td>
+			echo JHtml::tooltip(JText::_('COM_JTG_TT_LAT'));?></td>
 	</tr>
 	<tr>
 		<td><?php
@@ -143,7 +143,7 @@ if ( $userid ) {
 			echo $lon; ?>" onchange="handleFillLL();mapcenter();"></input><?php
 			echo JText::_('COM_JTG_LON_U');
 			echo "</td>\n			<td>";
-			echo JHTML::tooltip(JText::_('COM_JTG_TT_LON'));?></td>
+			echo JHtml::tooltip(JText::_('COM_JTG_TT_LON'));?></td>
 	</tr>
 	<tr>
 		<td><?php echo JText::_('COM_JTG_VISIBLE'); ?></td>
@@ -169,7 +169,7 @@ if ( $userid ) {
 	</tr>
 </table>
 		<?php
-		echo JHTML::_( 'form.token' ) . "\n"; ?> <input type="hidden"
+		echo JHtml::_( 'form.token' ) . "\n"; ?> <input type="hidden"
 	name="option" value="com_jtg" /> <input type="hidden"
 	name="controller" value="geo" /> <input type="hidden" name="task"
 	value="" /> <?php

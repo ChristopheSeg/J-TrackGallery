@@ -27,7 +27,7 @@ JToolBarHelper::spacer();
 JToolBarHelper::help("maps", true);
 
 jimport('joomla.html.pane');
-JHTML::_('behavior.tooltip');
+JHtml::_('behavior.tooltip');
 $ordering = ($this->lists['order'] == 'ordering' );
 
 $link = JRoute::_('index.php?option=com_jtg&task=maps&controller=maps&layout=default');
@@ -53,24 +53,24 @@ $link = JRoute::_('index.php?option=com_jtg&task=maps&controller=maps&layout=def
 			<tr>
 				<th class="title"><?php echo JText::_( 'COM_JTG_NUM' ); ?></th>
 				<th class="title" nowrap="nowrap"><?php
-//					echo JHTML::_('grid.sort', JText::_('COM_JTG_ID'), 'id', @$this->lists['order_Dir'], @$this->lists['order'], 'maps' );
+//					echo JHtml::_('grid.sort', JText::_('COM_JTG_ID'), 'id', @$this->lists['order_Dir'], @$this->lists['order'], 'maps' );
 					echo JText::_('COM_JTG_ID');
 					?>:</th>
-				<th class="title"><input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo $this->total; ?>);" /></th>
+				<th class="title"><input type="checkbox" name="toggle" value="" onclick="Joomla.checkAll(<?php echo $this->total; ?>);" /></th>
 				<th class="title"><?php
-//					echo JHTML::_('grid.sort', JText::_('COM_JTG_NAME'), 'title', @$this->lists['order_Dir'], @$this->lists['order'], 'maps' );
+//					echo JHtml::_('grid.sort', JText::_('COM_JTG_NAME'), 'title', @$this->lists['order_Dir'], @$this->lists['order'], 'maps' );
 					echo JText::_('COM_JTG_NAME');
 					?>:</th>
 <?php if ($ordering) { ?>
 				<th class="order"> <?php echo JText::_('COM_JTG_ORDER'); ?>:
 
 					<?php
-//					echo JHTML::_('grid.sort', JText::_('COM_JTG_ORDER'), 'order', @$this->lists['order_Dir'], @$this->lists['order'], 'maps' ); ? >:</th>
+//					echo JHtml::_('grid.sort', JText::_('COM_JTG_ORDER'), 'order', @$this->lists['order_Dir'], @$this->lists['order'], 'maps' ); ? >:</th>
 					?></th>
-				<th class="order"><?php echo JHTML::_('grid.order',  $this->maps ); ?></th>
+				<th class="order"><?php echo JHtml::_('grid.order',  $this->maps ); ?></th>
 <?php } ?>
 				<th class="title"><?php
-//					echo JHTML::_('grid.sort', JText::_('COM_JTG_PUBLISHED'), 'published', @$this->lists['order_Dir'], @$this->lists['order'], 'maps' ); ? >:</th>
+//					echo JHtml::_('grid.sort', JText::_('COM_JTG_PUBLISHED'), 'published', @$this->lists['order_Dir'], @$this->lists['order'], 'maps' ); ? >:</th>
 					echo JText::_('COM_JTG_PUBLISHED'); ?>:</th>
 				<th class="title"><?php
 					echo JText::_('COM_JTG_PARAMETERS');
@@ -90,8 +90,8 @@ $user =& JFactory::getUser();
 for ($i=0, $n=count( $this->maps ); $i < $n; $i++) {
 	//	$map->published
 	$map = $this->maps[$i];
-	$published 	= JHTML::_('grid.published', $map, $i );
-	$checked 	= JHTML::_('grid.checkedout', $map, $i );
+	$published 	= JHtml::_('grid.published', $map, $i );
+	$checked 	= JHtml::_('grid.checkedout', $map, $i );
 	$name		= $this->buildEditKlicks(JText::_($map->name),$i);
 	$replace	= "PASTE_YOUR_KEY_HERE"; // TODO JTEXT here
 	$with		= "<font color=red>PASTE_YOUR_KEY_HERE</font>";
@@ -138,6 +138,6 @@ else
 	<input type="hidden" name="controller" value="maps" />
 	<input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>" />
 	<input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>" />
-	    <?php echo JHTML::_( 'form.token' ); ?>
+	    <?php echo JHtml::_( 'form.token' ); ?>
 	
 </form>

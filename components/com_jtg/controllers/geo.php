@@ -21,7 +21,7 @@ class JtgControllerGeo extends JtgController
 	function save() {
 		$user = JFactory::getUser();
 		$userid = (int)$user->id;
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		JSession::checkToken() or jexit( 'Invalid Token' );
 		$lat =& JRequest::getVar('lat');
 		$lon =& JRequest::getVar('lon');
 		$visible =& JRequest::getVar('visible');

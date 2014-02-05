@@ -232,7 +232,7 @@ class JtgModelFiles extends JModelLegacy
 			array_push( $list, $v );
 			$children[$pt] = $list;
 		}
-		$list = JHTML::_('menu.treerecurse', 0, '', array(), $children );
+		$list = JHtml::_('menu.treerecurse', 0, '', array(), $children );
 		$list = array_slice($list,0,$limit);
 		$cats = array();
 		$nullcat = array(
@@ -723,7 +723,7 @@ class JtgModelFiles extends JModelLegacy
 	 * @param object $cfg
 	 */
 	function addcomment($cfg) {
-		JHTML::_('behavior.formvalidation');
+		JHtml::_('behavior.formvalidation');
 		$editor =& JFactory::getEditor('tinymce');
 		$editor_params = array('theme' => 'simple');
 		$user =& JFactory::getUser();
@@ -732,7 +732,7 @@ class JtgModelFiles extends JModelLegacy
 <script language="javascript">
 		Joomla.myValidate = function(f) {
 				if (document.formvalidator.isValid(f)) {
-						f.check.value='<?php echo JUtility::getToken(); ?>';//send token
+						f.check.value='<?php echo JSession::getFormToken(); ?>';//send token
 						return true;
 				}
 				else {
@@ -791,7 +791,7 @@ class JtgModelFiles extends JModelLegacy
 		</tr>
 	</tbody>
 </table>
-		<?php echo JHTML::_( 'form.token' ) . "\n"; ?> <input type='hidden'
+		<?php echo JHtml::_( 'form.token' ) . "\n"; ?> <input type='hidden'
 	name='controller' value='files' /> <input type='hidden' name='task'
 	value='savecomment' /> <input type='hidden' name='id'
 	value='<?php echo $id; ?>' /></form>
@@ -837,7 +837,7 @@ class JtgModelFiles extends JModelLegacy
 			$email = $autor->email;
 			$from = $jcfg->mailfrom;
 			$sender = $jcfg->fromname;
-			$link = JURI::base() . "index.php?option=com_jtg&view=files&layout=file&id=" . $id;
+			$link = JUri::base() . "index.php?option=com_jtg&view=files&layout=file&id=" . $id;
 			$msg = JText::_('COM_JTG_CMAIL_MSG');
 			$body = sprintf($msg, $link);
 			$subject = JText::_('COM_JTG_CMAIL_SUBJECT');
@@ -847,7 +847,7 @@ class JtgModelFiles extends JModelLegacy
 			$body = JMailHelper::cleanBody($body);
 			$sender = JMailHelper::cleanAddress($sender);
 
-			JUtility::sendMail($from, $sender,$email,$subject,$body);
+			JMail::sendMail($from, $sender,$email,$subject,$body);
 		}
 
 		if ($db->getErrorNum()) {
@@ -968,7 +968,7 @@ class JtgModelFiles extends JModelLegacy
 		$www = "http://" . $www;
 		$cfg = JtgHelper::getConfig();
 		$return = "<a target=\"_blank\" href=\"" . $www . "\"><img src=\"" .
-		JURI :: base() .
+		JUri :: base() .
 		"components/com_jtg/assets/template/" .
 		$cfg->template .
 		"/images/weblink.png\" /></a>";
@@ -977,8 +977,8 @@ class JtgModelFiles extends JModelLegacy
 
 	function parseEMailIcon($mail) {
 		$cfg = JtgHelper::getConfig();
-		$return = JHTML::_('email.cloak', $mail, true, "<img src=\"" .
-		JURI :: base() .
+		$return = JHtml::_('email.cloak', $mail, true, "<img src=\"" .
+		JUri :: base() .
 		"components/com_jtg/assets/template/" .
 		$cfg->template .
 		"/images/emailButton.png\" />",0);

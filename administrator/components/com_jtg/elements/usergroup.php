@@ -41,7 +41,7 @@ class JElementUsergroupList extends JElement
                 {
                         $val   = $option->attributes('value');
                         $text  = $option->data();
-                        $options[] = JHTML::_('select.option', $val, JText::_($text));
+                        $options[] = JHtml::_('select.option', $val, JText::_($text));
                 }
  
                 // Construct the various argument calls that are supported.
@@ -61,6 +61,6 @@ class JElementUsergroupList extends JElement
                 }
  
                 // Render the HTML SELECT list.
-                return JHTML::_('select.genericlist', $options, $ctrl, $attribs, 'value', 'text', $value, $control_name.$name );
+                return JHtml::_('select.genericlist', $options, $ctrl, $attribs, 'value', 'text', $value, $control_name.$name );
         }
 }

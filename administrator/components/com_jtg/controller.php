@@ -19,7 +19,7 @@ jimport('joomla.application.component.controller');
 /**
  * maincontroller for backend
  */
-class JtgController extends JController
+class JtgController extends JControllerLegacy
 {
 	/**
 	 *

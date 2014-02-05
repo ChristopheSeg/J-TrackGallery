@@ -94,7 +94,7 @@ class JtgModelConfig extends JModelLegacy
 		foreach($row AS $key => $value)
 		{
 			//		$istoken = ((strlen($key) == 32) AND ($value == "1")); // quick'n'dirty to find token -> ugly and unsafe
-			$istoken = JRequest::checkToken();
+			$istoken = JSession::checkToken();
 			if ((!in_array($key, $ignore)) AND (!array_key_exists($key, $existarr)) AND (!$istoken))
 			{
 				$missingcolumns[] = $key;

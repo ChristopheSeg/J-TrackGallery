@@ -13,7 +13,10 @@
 
 // No direct access
 defined('_JEXEC') or die('Restricted access');
-
+if (!defined('DS')) 
+{
+    define('DS', DIRECTORY_SEPARATOR);
+}
 global $jtg_microtime;
 $jtg_microtime = microtime(true);
 // Require the base controller
@@ -37,7 +40,7 @@ $cfg = JtgHelper::getConfig();
 $tmpl = ($cfg->template = "") ? $cfg->template : 'default';
 
 $document =& JFactory::getDocument();
-$document->addStyleSheet(JURI::base().'components/com_jtg/assets/template/'.$tmpl.'/jtg_style.css');
+$document->addStyleSheet(JUri::base().'components/com_jtg/assets/template/'.$tmpl.'/jtg_style.css');
 // override style with user templates
 $mainframe =& JFactory::getApplication();
 $template = $mainframe->getTemplate();

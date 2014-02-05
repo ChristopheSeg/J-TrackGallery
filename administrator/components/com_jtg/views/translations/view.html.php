@@ -20,7 +20,7 @@ jimport( 'joomla.application.component.view');
 /**
  *
  */
-class JtgViewTranslations extends JView
+class JtgViewTranslations extends JViewLegacy
 {
 	function display($tpl = null) {
 		$mainframe =& JFactory::getApplication(); $option = JRequest::getCmd('option');

@@ -26,14 +26,17 @@ class com_jtgInstallerScript
 	 * If preflight returns false, Joomla will abort the update and undo everything already done.
 	 */
 	function preflight( $type, $parent ) {
-
+	if (!defined('DS')) 
+	{
+	    define('DS', DIRECTORY_SEPARATOR);
+	}
 		// Try to increment some limits
 		@set_time_limit( 240 );    // execution time 5 minutes
 		ignore_user_abort( true ); // continue execution if client disconnects
 		//
 		// load english language file for 'com_jtg' component then override with current language file
-		JFactory::getLanguage()->load('com_jtg',   JPATH_ADMINISTRATOR . '/components/com_jtg/language', 'en-GB', true);
-		JFactory::getLanguage()->load('com_jtg',   JPATH_ADMINISTRATOR . '/components/com_jtg/language',    null, true);		
+		JFactory::getLanguage()->load('com_jtg', JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_jtg' . DS . 'language', 'en-GB', true);
+		JFactory::getLanguage()->load('com_jtg', JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_jtg' . DS . 'language',    null, true);		
 		$jversion = new JVersion();
 
 		// Installing component manifest file version
@@ -82,6 +85,10 @@ class com_jtgInstallerScript
 
 	    jimport('joomla.filesystem.folder');
 	    jimport('joomla.filesystem.file');
+	    if (!defined('DS')) 
+	    {
+		define('DS', DIRECTORY_SEPARATOR);
+	    }
 	    $doc =& JFactory::getDocument();
 
 	    ?>

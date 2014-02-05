@@ -54,7 +54,7 @@ JToolBarHelper::help( 'comments/form',true );
 	</tbody>
 </table>
 <?php
-echo JHTML::_( 'form.token' ); ?>
+echo JHtml::_( 'form.token' ); ?>
 <input type="hidden" name="option" value="com_jtg" />
 <input type="hidden" name="controller" value="comments" />
 <input type="hidden" name="task" value="" />

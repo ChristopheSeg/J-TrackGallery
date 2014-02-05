@@ -23,7 +23,7 @@ jimport('joomla.html.pagination');
  * HTML View class for the jtg component
  */
 
-class JtgViewFiles extends JView
+class JtgViewFiles extends JViewLegacy
 {
 	/**
 	 * Returns true|false if it is allowed to see the file
@@ -128,10 +128,10 @@ class JtgViewFiles extends JView
 	function _displayForm($tpl = null) {
 		$mainframe =& JFactory::getApplication();
 
-		JHTML :: script('jquery.js', 'components/com_jtg/assets/js/', false);
-		JHTML :: script('multifile.js', 'components/com_jtg/assets/js/', false);
-		JHTML :: _('behavior.modal');
-		JHTML :: _('behavior.tooltip');
+		JHtml::script('jquery.js', 'components/com_jtg/assets/js/', false);
+		JHtml::script('multifile.js', 'components/com_jtg/assets/js/', false);
+		JHtml::_('behavior.modal');
+		JHtml::_('behavior.tooltip');
 		$cache = & JFactory :: getCache('com_jtg');
 		$yesnolist = array(
 		array('id' => 0, 'title' => JText::_('JNO')),
@@ -201,7 +201,7 @@ class JtgViewFiles extends JView
 		$level = $model->getLevelSelect($sellevel);
 		$img_dir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'track_' . $id . DS;
 		$thumb_dir = $img_dir . 'thumbs' . DS;
-		$img_path = JURI::root().'images/jtrackgallery/track_'.$id . "/";
+		$img_path = JUri::root().'images/jtrackgallery/track_'.$id . "/";
 		$images = null;
 		$imgcount = 0;
 		if(JFolder::exists($img_dir)) {
@@ -237,14 +237,14 @@ class JtgViewFiles extends JView
 
 		$size = count($row);
 		if ( $size > 6 ) $size = 6;
-		$lists['content'] = JHTML :: _('select.genericlist', $row, 'catid[]', 'multiple="multiple" size="'.$size.'"', 'id', 'title', $catid);
+		$lists['content'] = JHtml::_('select.genericlist', $row, 'catid[]', 'multiple="multiple" size="'.$size.'"', 'id', 'title', $catid);
 		$size = count($terrain);
 		if ( $size > 6 ) $size = 6;
-		$lists['terrain'] = JHTML :: _('select.genericlist', $terrain, 'terrain[]', 'multiple="multiple" size="'.$size.'"', 'id', 'title', $selterrain);
-		//			$lists['access'] = JHTML :: _('select.genericlist', $access, 'access', 'size="4"', 'id', 'text', $track->access);
+		$lists['terrain'] = JHtml::_('select.genericlist', $terrain, 'terrain[]', 'multiple="multiple" size="'.$size.'"', 'id', 'title', $selterrain);
+		//			$lists['access'] = JHtml::_('select.genericlist', $access, 'access', 'size="4"', 'id', 'text', $track->access);
 		$lists['access'] = JtgHelper::getAccessList($track->access);
-		$lists['hidden']	= JHTML::_('select.genericlist', $yesnolist, 'hidden', 'class="inputbox" size="1"', 'id', 'title',$value_hidden);
-		$lists['published']	= JHTML::_('select.genericlist', $yesnolist, 'published', 'class="inputbox" size="1"', 'id', 'title',$value_published);
+		$lists['hidden']	= JHtml::_('select.genericlist', $yesnolist, 'hidden', 'class="inputbox" size="1"', 'id', 'title',$value_hidden);
+		$lists['published']	= JHtml::_('select.genericlist', $yesnolist, 'published', 'class="inputbox" size="1"', 'id', 'title',$value_published);
 		
 		$this->imgcount = $imgcount;
 		$this->images = $images;
@@ -266,13 +266,14 @@ class JtgViewFiles extends JView
 	function _displayFile($tpl) {
 		$mainframe =& JFactory::getApplication();
 		jimport('joomla.filesystem.file');
+		jimport('joomla.filesystem.folder');
 		$mapsxml = JPATH_COMPONENT_ADMINISTRATOR . DS . 'views' . DS . 'maps' . DS . 'maps.xml';
 		$params_maps = new JRegistry( 'com_jtg', $mapsxml );
 		$this->params = $params_maps;
 		$params = &JComponentHelper::getParams( 'com_jtg' );
 		$sitename = $mainframe->getCfg('sitename');
-		// JHTML::_('behavior.modal');	// with this option IE doesn't work
-		JHTML :: _('behavior.combobox');
+		// JHtml::_('behavior.modal');	// with this option IE doesn't work
+		JHtml::_('behavior.combobox');
 		$cache = & JFactory :: getCache('com_jtg');
 		// TODO when cache is used, Update a track, then browse it: jtg_osmGettile.js is not loaded!!
 		// $cache->setCaching( 1 ); // activate caching
@@ -314,7 +315,7 @@ class JtgViewFiles extends JView
 		$pathway->addItem($track->title, '');
 		$document = JFactory::getDocument();
 		$document->setTitle($track->title . " - " . $sitename);
-		$date = JHTML :: _('date', $track->date, JText :: _('COM_JTG_DATE_FORMAT_LC4'));
+		$date = JHtml::_('date', $track->date, JText :: _('COM_JTG_DATE_FORMAT_LC4'));
 		$profile = JtgHelper::getProfileLink($track->uid, $track->user);
 		$comments = $model->getComments($id, $cfg->ordering);
 		//		$comments = $cache->get(array (
@@ -330,7 +331,7 @@ class JtgViewFiles extends JView
 		$document->addStyleSheet('http://openlayers.org/dev/theme/default/style.css');
 		// then load jtg_map stylesheet
 		$tmpl = ($cfg->template = "") ? $cfg->template : 'default';
-		$document->addStyleSheet(JURI::base().'components/com_jtg/assets/template/'.$tmpl.'/jtg_map_style.css');
+		$document->addStyleSheet(JUri::base().'components/com_jtg/assets/template/'.$tmpl.'/jtg_map_style.css');
 		// then override style with user templates
 
 		$template = $mainframe->getTemplate();
@@ -341,13 +342,13 @@ class JtgViewFiles extends JView
 		} 
 		    
 		// Kartenauswahl BEGIN
-		JHTML :: script('jtg.js', 'components/com_jtg/assets/js/', false);
+		JHtml::script('jtg.js', 'components/com_jtg/assets/js/', false);
 
 		//			$document->addScript('http://maps.google.com/maps?file=api&amp;v=2&amp;key='.$cfg->apikey);
 		//			$document->addScript('http://api.maps.yahoo.com/ajaxymap?v=3.0&appid=');
 		$document->addScript('http://www.openlayers.org/api/OpenLayers.js');
 		$document->addScript('components' . DS . 'com_jtg' . DS . 'assets' . DS . 'js' . DS . 'fullscreen.js');
-		//		JHTML::script('OpenLayers.js', 'components' . DS . 'com_jtg' . DS . 'assets' . DS . 'js' . DS . 'OpenLayers'., false); // IE-Fehler
+		//		JHtml::script('OpenLayers.js', 'components' . DS . 'com_jtg' . DS . 'assets' . DS . 'js' . DS . 'OpenLayers'., false); // IE-Fehler
 		$document->addScript('http://www.openstreetmap.org/openlayers/OpenStreetMap.js');
 		// 		$document->addScript('components/com_jtg/assets/js/GPX.js');
 		//		$document->addScript('components' . DS . 'com_jtg' . DS . 'assets' . DS . 'js' . DS . 'jtg.js');
@@ -445,7 +446,7 @@ class JtgViewFiles extends JView
 							$imageBlock .= "	<div class=\"imageElement\">
 			<h3>" . $track->title . " <small>(" . $image . ")</small></h3>
 			<p></p>
-			<img src=\"".JURI::base() . "images/jtrackgallery/track_" . $id . "/" . $image . "\" class=\"full\" height=\"0px\" />
+			<img src=\"".JUri::base() . "images/jtrackgallery/track_" . $id . "/" . $image . "\" class=\"full\" height=\"0px\" />
 		</div>\n";
 						}
 					}
@@ -454,7 +455,7 @@ class JtgViewFiles extends JView
 				case 'highslide' :
 
 				    $galscript = "<script type=\"text/javascript\">
-					    hs.graphicsDir = '".JURI::base() . "components/com_jtg/assets/highslide/graphics/';
+					    hs.graphicsDir = '".JUri::base() . "components/com_jtg/assets/highslide/graphics/';
 					    hs.align = 'center';
 					    hs.transitions = ['expand', 'crossfade'];
 					    hs.fadeInOut = true;
@@ -492,7 +493,7 @@ class JtgViewFiles extends JView
 					    }
 				    </script>\n";	
  				        $document->addScript('components/com_jtg/assets/highslide/highslide-with-gallery.packed.js');
-					$document->addStyleSheet(JURI::base().'components/com_jtg/assets/highslide/highslide.css');
+					$document->addStyleSheet(JUri::base().'components/com_jtg/assets/highslide/highslide.css');
 					// TODO This style sheet is not overrided. 
 					$imageBlock .= "\n<div class=\"highslide-gallery\" style=\"width: auto; margin: auto\">\n";
 					$imgcount = count ($images);
@@ -515,7 +516,7 @@ class JtgViewFiles extends JView
 							    $thumb = $image;
 							}		
 							$imageBlock .= "	<a class=\"highslide\" href='/images/jtrackgallery/track_" . $id . "/" . $image ."' title=\"" . $image ."\" onclick=\"return hs.expand(this)\">
-			<img src=\"" . JURI::base() . "images/jtrackgallery/track_" . $id . '/' . $thumb . "\" alt=\"$image\"  /></a>\n\n";
+			<img src=\"" . JUri::base() . "images/jtrackgallery/track_" . $id . '/' . $thumb . "\" alt=\"$image\"  /></a>\n\n";
 						}
 					} 
 					$imageBlock .= "</div>\n";
@@ -532,7 +533,7 @@ class JtgViewFiles extends JView
 						if ( in_array(strtolower($ext),$imgtypes) ) {
 							if ($i != 0)
 							$imageBlock .= "<br /><br />";
-							$imageBlock .= "<img src=\"".JURI::base() . "images/jtrackgallery/track_" . $id . "/" . $image . "\" alt=\"" . $track->title . " (" . $image . ")" . "\" title=\"" . $track->title . " (" . $image . ")" . "\" />\n";
+							$imageBlock .= "<img src=\"".JUri::base() . "images/jtrackgallery/track_" . $id . "/" . $image . "\" alt=\"" . $track->title . " (" . $image . ")" . "\" title=\"" . $track->title . " (" . $image . ")" . "\" />\n";
 						}
 					}
 					break;
@@ -717,7 +718,7 @@ class JtgViewFiles extends JView
 		$lang = $userlang;
 		else
 		$lang = "en";
-		$imgdir = JURI :: base() . "components/com_jtg/assets/images/approach/" . $this->cfg->routingiconset . "/";
+		$imgdir = JUri :: base() . "components/com_jtg/assets/images/approach/" . $this->cfg->routingiconset . "/";
 		$routservices = array();
 		$return = "";
 		switch ($service) {

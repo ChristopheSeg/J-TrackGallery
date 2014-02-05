@@ -19,7 +19,7 @@ JToolBarHelper::save('saveconfig',$alt= 'COM_JTG_SAVE', 'save.png' );
 JToolBarHelper::preferences( 'com_jtg', 600, 800, $alt='COM_JTG_MENU_DEFAULT_SETTINGS');
 JToolBarHelper::help( 'config/default',true );
 jimport('joomla.html.pane');
-JHTML::_('behavior.tooltip');
+JHtml::_('behavior.tooltip');
 ?>
 <form action="" method="post" name="adminForm" id="adminForm" class="adminForm">
 	<?php
@@ -252,7 +252,7 @@ echo $tabs->endPanel();
 // Approach END
 
 	echo $tabs->endPane();
-	echo JHTML::_( 'form.token' );
+	echo JHtml::_( 'form.token' );
 	?>
 	<input type="hidden" name="option" value="com_jtg" />
 	<input type="hidden" name="id" value="1" />

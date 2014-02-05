@@ -20,7 +20,7 @@ require_once JPATH_ROOT . DS . 'components' . DS . 'com_jtg' . DS . 'helpers' . 
 /**
  *
  */
-class JtgViewDefault extends JView
+class JtgViewDefault extends JViewLegacy
 {
     /**
      *

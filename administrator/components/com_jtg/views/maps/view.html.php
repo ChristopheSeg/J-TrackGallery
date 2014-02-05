@@ -30,7 +30,7 @@ jimport( 'joomla.application.component.view');
 /**
  *
  */
-class JtgViewMaps extends JView
+class JtgViewMaps extends JViewLegacy
 {
 	//$id = false;
 	/**
@@ -52,7 +52,7 @@ class JtgViewMaps extends JView
 		$maps = $model->getMaps();
 		//	$tmpl = $model->getTemplates();
 
-		$lists['block']	= JHTML::_('select.booleanlist', 'publish', 'class="inputbox" size="1"', 1 );
+		$lists['block']	= JHtml::_('select.booleanlist', 'publish', 'class="inputbox" size="1"', 1 );
 //		$order = JRequest::getVar( 'order', 'order', 'post', 'string' );
 
 		$filter_order		= $mainframe->getUserStateFromRequest( $option . "filter_order",
@@ -104,7 +104,7 @@ class JtgViewMaps extends JView
 		}else{
 			$published = 0;
 		}
-		$list['published']	= JHTML::_('select.booleanlist', 'publish', 'class="inputbox" size="1"', $published );
+		$list['published']	= JHtml::_('select.booleanlist', 'publish', 'class="inputbox" size="1"', $published );
 		$this->list = $list;
 		// parent::display($tpl);
 	}

@@ -19,7 +19,7 @@ jimport( 'joomla.application.component.view');
 /**
  * HTML View class for the jtg component
  */
-class JtgViewjtg extends JView
+class JtgViewjtg extends JViewLegacy
 {
 	function display($tpl = null) {
 // @ToDo split in jtg and geoposition
@@ -27,12 +27,12 @@ class JtgViewjtg extends JView
 		$cfg = JtgHelper::getConfig();
 		$gpsData = new gpsDataClass($cfg->unit);
 		$document =& JFactory::getDocument();
-		
+		jimport('joomla.filesystem.file');
 		// load Openlayers stylesheet first (for overridding)
 		$document->addStyleSheet('http://openlayers.org/dev/theme/default/style.css');
 		// then load jtg_map stylesheet
 		$tmpl = ($cfg->template = "") ? $cfg->template : 'default';
-		$document->addStyleSheet(JURI::base().'components/com_jtg/assets/template/'.$tmpl.'/jtg_map_style.css');
+		$document->addStyleSheet(JUri::base().'components/com_jtg/assets/template/'.$tmpl.'/jtg_map_style.css');
 		// then override style with user templates
 		$template = $mainframe->getTemplate();
 		$template_jtg_map_style='templates/' . $template . '/css/jtg_map_style.css';

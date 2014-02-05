@@ -13,14 +13,17 @@
 
 // No direct access
 defined('_JEXEC') or die('Restricted access');
-
+if (!defined('DS')) 
+{
+    define('DS', DIRECTORY_SEPARATOR);
+}
 /*
  * Define constants for all pages
  */
 
 define( 'COM_JTG_DIR', 'images' . DS . 'jtrackgallery'.DS );
 define( 'COM_JTG_BASE', JPATH_ROOT . DS . COM_JTG_DIR );
-define( 'COM_JTG_BASEURL', JURI::root().str_replace( DS, '/', COM_JTG_DIR ));
+define( 'COM_JTG_BASEURL', JUri::root().str_replace( DS, '/', COM_JTG_DIR ));
 
 jimport('joomla.filesystem.file');
 // load english language file for 'com_jtg' component then override with current language file

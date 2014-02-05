@@ -16,7 +16,7 @@ defined('_JEXEC') or die('Restricted access');
 // toolbar
 $ordering = ($this->lists['order'] == 'ordering');
 $document =& JFactory::getDocument();
-$document->addStyleSheet(JURI::base().'components/com_jtg/template.css');
+$document->addStyleSheet(JUri::base().'components/com_jtg/template.css');
 
 ?>
     <form action="" method="post" name="adminForm" id="adminForm">
@@ -37,37 +37,37 @@ $document->addStyleSheet(JURI::base().'components/com_jtg/template.css');
             <tr>
 		<th class="title"><?php echo JText::_( 'COM_JTG_NUM' ); ?></th>
 		<th class="title" nowrap="nowrap"><?php
-			echo JHTML::_('grid.sort',
+			echo JHtml::_('grid.sort',
 			JText::_('COM_JTG_ID'), 'id', @$this->lists['order_Dir'], @$this->lists['order'], 'element' ); ?>:</th>
 		<th class="title"><?php
-	echo JHTML::_('grid.sort', JText::_('COM_JTG_GPS_FILE'),
+	echo JHtml::_('grid.sort', JText::_('COM_JTG_GPS_FILE'),
 	'file', @$this->lists['order_Dir'], @$this->lists['order'], 'element' ); ?>:</th>
 		<th class="title"><?php
 	echo JText::_('COM_JTG_GPS_FILETYPE');
 	?>:</th>
 		<th class="title"><?php
-	echo JHTML::_('grid.sort', JText::_('COM_JTG_TITLE'),
+	echo JHtml::_('grid.sort', JText::_('COM_JTG_TITLE'),
 	'title', @$this->lists['order_Dir'], @$this->lists['order'], 'element' ); ?>:</th>
 		<th class="title"><?php
-	echo JHTML::_('grid.sort', JText::_('COM_JTG_CAT'),
+	echo JHtml::_('grid.sort', JText::_('COM_JTG_CAT'),
 	'cat', @$this->lists['order_Dir'], @$this->lists['order'], 'element' ); ?>:</th>
 		<th class="title"><?php
-	echo JHTML::_('grid.sort', JText::_('COM_JTG_TERRAIN'),
+	echo JHtml::_('grid.sort', JText::_('COM_JTG_TERRAIN'),
 	'terrain', @$this->lists['order_Dir'], @$this->lists['order'], 'element' ); ?>:</th>
 		<th class="title"><?php
-	echo JHTML::_('grid.sort', JText::_('COM_JTG_LEVEL'),
+	echo JHtml::_('grid.sort', JText::_('COM_JTG_LEVEL'),
 	'level', @$this->lists['order_Dir'], @$this->lists['order'], 'element' ); ?>:</th>
 		<th class="title"><?php
-	echo JHTML::_('grid.sort', JText::_('COM_JTG_DATE'),
+	echo JHtml::_('grid.sort', JText::_('COM_JTG_DATE'),
 	'date', @$this->lists['order_Dir'], @$this->lists['order'], 'element' ); ?>:</th>
 		<th class="title"><?php
-	echo JHTML::_('grid.sort', JText::_('COM_JTG_PUBLISHED'),
+	echo JHtml::_('grid.sort', JText::_('COM_JTG_PUBLISHED'),
 	'published', @$this->lists['order_Dir'], @$this->lists['order'], 'element' ); ?>:</th>
 		<th class="title"><?php
-	echo JHTML::_('grid.sort', JText::_('COM_JTG_ACCESS_LEVEL'),
+	echo JHtml::_('grid.sort', JText::_('COM_JTG_ACCESS_LEVEL'),
 	'access', @$this->lists['order_Dir'], @$this->lists['order'], 'element' ); ?>:</th>
 		<th class="title"><?php
-	echo JHTML::_('grid.sort', JText::_('COM_JTG_INFO_AUTHOR'),
+	echo JHtml::_('grid.sort', JText::_('COM_JTG_INFO_AUTHOR'),
 	'uid', @$this->lists['order_Dir'], @$this->lists['order'], 'element' ); ?>:</th>
 	</tr>
     </thead>
@@ -126,5 +126,5 @@ $user		= JFactory::getUser($row->uid);
 	<input type="hidden" name="controller" value="element" />
 	<input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>" />
 	<input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>" />
-	<?php echo JHTML::_( 'form.token' ); ?>
+	<?php echo JHtml::_( 'form.token' ); ?>
 </form>

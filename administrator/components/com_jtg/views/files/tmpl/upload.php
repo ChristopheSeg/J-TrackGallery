@@ -34,7 +34,7 @@ $max = 100;
 					<input type="hidden" name="option" value="com_jtg" />
 					<input type="hidden" name="controller" value="files" />
 					<input type="hidden" name="task" value="" />
-					<?php echo JHTML::_( 'form.token' ); ?>
+					<?php echo JHtml::_( 'form.token' ); ?>
 				</form>
 				<input type='submit' value='<?php echo JText::_('COM_JTG_UPLOAD') ?>' class='submit' onclick="javascript:Joomla.submitbutton('uploadfiles')"  />
 			</td>

@@ -56,7 +56,7 @@ class JtgControllerMaps extends JtgController
     function orderup()  {
 
 		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		JSession::checkToken() or jexit( 'Invalid Token' );
 
 		$model = $this->getModel('maps');
 		$model->move(-1);
@@ -71,7 +71,7 @@ class JtgControllerMaps extends JtgController
     function orderdown()  {
 
 		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		JSession::checkToken() or jexit( 'Invalid Token' );
 
 		$model = $this->getModel('maps');
 		$model->move(1);
@@ -86,7 +86,7 @@ class JtgControllerMaps extends JtgController
 	function saveorder()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		JSession::checkToken() or jexit( 'Invalid Token' );
 
 		$cid 	= JRequest::getVar( 'cid', array(), 'post', 'array' );
 		$order 	= JRequest::getVar( 'order', array(), 'post', 'array' );
@@ -106,7 +106,7 @@ class JtgControllerMaps extends JtgController
 	function publish()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		JSession::checkToken() or jexit( 'Invalid Token' );
 
 		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
 		JArrayHelper::toInteger($cid);
@@ -129,7 +129,7 @@ class JtgControllerMaps extends JtgController
 	function unpublish()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		JSession::checkToken() or jexit( 'Invalid Token' );
 
 		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
 		JArrayHelper::toInteger($cid);
@@ -152,7 +152,7 @@ class JtgControllerMaps extends JtgController
 	function remove()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		JSession::checkToken() or jexit( 'Invalid Token' );
 
 		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
 		JArrayHelper::toInteger($cid);
@@ -175,7 +175,7 @@ class JtgControllerMaps extends JtgController
         function savemap()  {
 
 		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		JSession::checkToken() or jexit( 'Invalid Token' );
 
 		$model = $this->getModel('maps');
 		$savemap = $model->saveMap();
@@ -186,7 +186,7 @@ class JtgControllerMaps extends JtgController
 
         function savemaps() {
 		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		JSession::checkToken() or jexit( 'Invalid Token' );
 
                 $model = $this->getModel('maps');
 		if(!$model->saveMaps()) {
@@ -198,7 +198,7 @@ class JtgControllerMaps extends JtgController
 
         function updatemap() {
 		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		JSession::checkToken() or jexit( 'Invalid Token' );
 
                 $model = $this->getModel('maps');
 		if(!$model->updateMap())

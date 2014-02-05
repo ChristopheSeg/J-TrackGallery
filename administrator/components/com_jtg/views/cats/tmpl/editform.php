@@ -49,7 +49,7 @@ $image=$this->data->image;
 
 
 foreach ($this->images as $img) {
-	$imageurl = JURI::root().'images' . DS . 'jtrackgallery' . DS . 'cats' . DS;
+	$imageurl = JUri::root().'images' . DS . 'jtrackgallery' . DS . 'cats' . DS;
 	$pic = "";
 	$pic .= "<input type=\"radio\" name=\"catpic\" value=\"" . $img . "\" title=\"" . $img . "\"";
 	if ( $image == $img ) $pic .= " checked=\"checked\"";
@@ -68,7 +68,7 @@ foreach ($this->images as $img) {
 			</tr>
 		</tbody>
 	</table>
-	<?php echo JHTML::_( 'form.token' ); ?>
+	<?php echo JHtml::_( 'form.token' ); ?>
 	<input type="hidden" name="id" value="<?php echo $this->data->id; ?>">
 	<input type="hidden" name="option" value="com_jtg" />
     <input type="hidden" name="controller" value="cats" />

@@ -29,10 +29,10 @@ JToolBarHelper::custom('updateGeneratedValues', 'apply', 'apply', 'COM_JTG_REFRE
 endif;
 JToolBarHelper::help( 'files/form',true );
 $document =& JFactory::getDocument();
-$document->addStyleSheet(JURI::base().'components/com_jtg/template.css');
+$document->addStyleSheet(JUri::base().'components/com_jtg/template.css');
 // add jtg_map stylesheet
 $tmpl = ($cfg->template = "") ? $cfg->template : 'default';
-$document->addStyleSheet(JURI::root().'components/com_jtg/assets/template/'.$tmpl.'/jtg_map_style.css');
+$document->addStyleSheet(JUri::root().'components/com_jtg/assets/template/'.$tmpl.'/jtg_map_style.css');
 $map = "";
 if($this->id >= 1) 
 {
@@ -110,7 +110,7 @@ if($this->id >= 1)
 			<td><?php echo $this->lists['uid']; ?></td>
 		</tr>
 		<tr>
-			<td><?php echo JText::_('COM_JTG_LEVEL'); ?>* <?php echo JHTML::tooltip(JText::_('COM_JTG_TT_LEVEL')); ?>:
+			<td><?php echo JText::_('COM_JTG_LEVEL'); ?>* <?php echo JHtml::tooltip(JText::_('COM_JTG_TT_LEVEL')); ?>:
 			<td><?php echo $this->level; ?></td>
 		</tr>
 		<tr>
@@ -169,14 +169,14 @@ if($this->id >= 1)
 		 ?>
 		 <tr>
 		 <td><?php echo JText::_('COM_JTG_TERMS'); ?></td>
-		 <td><input id="terms" type="checkbox" name="terms" value="" /><?php echo JText::_('COM_JTG_AGREE'); ?> <a class="modal" href="<?php echo JURI::base() . "../?option=com_content&view=article&id=" . $cfg->terms_id; ?>" target="_blank"><?php echo JText::_('COM_JTG_TERMS'); ?></a></td>
+		 <td><input id="terms" type="checkbox" name="terms" value="" /><?php echo JText::_('COM_JTG_AGREE'); ?> <a class="modal" href="<?php echo JUri::base() . "../?option=com_content&view=article&id=" . $cfg->terms_id; ?>" target="_blank"><?php echo JText::_('COM_JTG_TERMS'); ?></a></td>
 		 </tr>
 		 <?php
 		 endif;
 		 ?>
 	</tbody>
 </table>
-<?php echo JHTML::_( 'form.token' ); ?>
+<?php echo JHtml::_( 'form.token' ); ?>
 <input type="hidden" name="option" value="com_jtg" />
 <input type="hidden" name="controller" value="files" />
 <input type="hidden" name="task" value="" />

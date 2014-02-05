@@ -18,7 +18,7 @@ JToolBarHelper::title(JText::_('COM_JTG_ADD_FILES'), 'categories.png');
 JToolBarHelper::back();
 JToolBarHelper::spacer();
 $bar=& JToolBar::getInstance( 'toolbar' );
-$folder = JURI::base().'index.php?option=com_jtg&tmpl=component&controller=files&task=upload';
+$folder = JUri::base().'index.php?option=com_jtg&tmpl=component&controller=files&task=upload';
 // popup:
 	$bar->appendButton( 'Popup', 'upload', 'Upload', $folder, 550, 400 );
 JToolBarHelper::addNew('newfiles', JText::_('COM_JTG_RELOAD'));
@@ -75,11 +75,11 @@ $table = ("		<tbody>\n
 			<tr class=\"row" . $row . "\">
 				<td colspan=\"4\" align=\"right\">".JText::_('COM_JTG_PRESELECTION') . ":</td>
 				<td>" . $toggle['level'] . "</td>
-				<td>".JHTML::_('select.genericlist', $cats, 'catid_all', 'size="1" onclick="setSelect(\'catid\')"', 'id', 'treename') . "</td>
-				<td>".JHTML::_('select.genericlist', $terrain, 'terrain_all', 'size="1" onclick="setSelect(\'terrain\')"', 'id', 'title') . "</td>
-				<td>".JHTML::_('list.users', 'uid_all', $me->id, 1, 'onclick="setSelect(\'uid\')"', 'name', 0 ) . "</td>
+				<td>".JHtml::_('select.genericlist', $cats, 'catid_all', 'size="1" onclick="setSelect(\'catid\')"', 'id', 'treename') . "</td>
+				<td>".JHtml::_('select.genericlist', $terrain, 'terrain_all', 'size="1" onclick="setSelect(\'terrain\')"', 'id', 'title') . "</td>
+				<td>".JHtml::_('list.users', 'uid_all', $me->id, 1, 'onclick="setSelect(\'uid\')"', 'name', 0 ) . "</td>
 				<td>" . $this->accesslevelForImport("access_all","onclick=\"setSelect('access')\"",true) . "</td>
-				<td>".JHTML::_('select.genericlist', $yesnolist, 'hidden_all', 'class="inputbox" size="1" onclick="setSelect(\'hidden\')"', 'id', 'title',0) . "</td>
+				<td>".JHtml::_('select.genericlist', $yesnolist, 'hidden_all', 'class="inputbox" size="1" onclick="setSelect(\'hidden\')"', 'id', 'title',0) . "</td>
 				<td></td>
 				</tr>
 ");
@@ -90,8 +90,8 @@ foreach($files AS $file) {
 	$size = count($cats);
 	if ( $size > 6 )
 	$size = 6;
-//	$lists['cats'] = JHTML::_('select.genericlist', $model->getCats(), 'catid_'.$count, 'size="'.$size.'"', 'id', 'title');
-	$lists['cats'] = JHTML::_('select.genericlist',
+//	$lists['cats'] = JHtml::_('select.genericlist', $model->getCats(), 'catid_'.$count, 'size="'.$size.'"', 'id', 'title');
+	$lists['cats'] = JHtml::_('select.genericlist',
 		$cats,
 		'catid_'.$count.'[]',
 		'size="'.$size.'" multiple="multiple"',
@@ -111,9 +111,9 @@ foreach($files AS $file) {
 	if ( $size > 6 )
 	$size = 6;
 	$lists['access'] = $this->accesslevelForImport("access_" . $count);
-	$lists['uid'] = JHTML::_('list.users', 'uid_'.$count, $me->id, 1, NULL, 'name', 0 );
-	$lists['hidden'] = JHTML::_('select.genericlist', $yesnolist, 'hidden_'.$count, 'class="inputbox" size="2"', 'id', 'title',0);
-	$lists['terrain'] = JHTML::_('select.genericlist',
+	$lists['uid'] = JHtml::_('list.users', 'uid_'.$count, $me->id, 1, NULL, 'name', 0 );
+	$lists['hidden'] = JHtml::_('select.genericlist', $yesnolist, 'hidden_'.$count, 'class="inputbox" size="2"', 'id', 'title',0);
+	$lists['terrain'] = JHtml::_('select.genericlist',
 		$terrain,
 		'terrain_'.$count.'[]',
 		'multiple="multiple" size="'.$size.'"',
@@ -174,7 +174,7 @@ foreach($files AS $file) {
 			( $check == 8 )
 			// Spur vorhanden, aber nicht an erster Stelle. Evtl. mehrere Spuren
 			)
-			$table .= ("<input type=\"checkbox\" checked=\"checked\" id=\"cb" . $count . "\" value=\"" . $file . "\" name=\"import_" . $count . "\" onclick=\"isChecked(this.checked);\" />\n");
+			$table .= ("<input type=\"checkbox\" checked=\"checked\" id=\"cb" . $count . "\" value=\"" . $file . "\" name=\"import_" . $count . "\" onclick=\"Joomla.isChecked(this.checked);\" />\n");
 //			$table .= ("<input type=\"checkbox\" id=\"cb" . $count . "\" value=\"" . $file . "\" name=\"cid[]\" onclick=\"isChecked(this.checked);\" />\n");
 			$table .= $filename_exists;
 			$table .= ("				</td>\n");
@@ -323,7 +323,7 @@ $toggle['level'] = ("<select name=\"level_all\" size=\"6\" onclick=\"setSelect('
 $table_header = ("	<table class=\"adminlist\" cellpadding=\"1\">
 		<thead>
 			<tr>
-				<th class=\"title\" width=\"1\"><input type=\"checkbox\" name=\"toggle\" value=\"\" onclick=\"checkAll(" . $count . ");\" /></th>
+				<th class=\"title\" width=\"1\"><input type=\"checkbox\" name=\"toggle\" value=\"\" onclick=\"Joomla.checkAll(" . $count . ");\" /></th>
 				<th class=\"title\" width=\"1\">".JText::_('COM_JTG_GPS_FILE') . "</th>
 				<th class=\"title\" width=\"1\">".JText::_('COM_JTG_DATE') . "</th>
 				<th class=\"title\" width=\"1\">".JText::_('COM_JTG_TITLE') . "</th>
@@ -355,7 +355,7 @@ if ( $count == 0 ){
 	JError::raiseNotice(0,JText::_('COM_JTG_IMPORTFOLDEREMPTY') . ": \"" . $importdir . "\"");
 } else
 echo $table_header.$table.$table_footer;
-echo JHTML::_( 'form.token' );
+echo JHtml::_( 'form.token' );
 $js = "function setSelect(select) {
 	var value = getSelectedValue('adminForm', select + '_all');
 	for (i=0; i < " . $count . "; i++) {

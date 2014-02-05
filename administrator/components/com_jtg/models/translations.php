@@ -26,7 +26,7 @@ class JtgModelTranslations extends JModelLegacy
 	}
 
 	function saveLanguage() {
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JSession::checkToken() or die( 'Invalid Token' );
 		$languages = $this->getRawLanguages();
 		foreach ($languages as $lang) {
 			$file = JPATH_SITE . '/images/jtrackgallery/language/' . $lang['tag'] . DS . $lang['tag'] . DS ."com_jtg_additional.ini";
@@ -69,7 +69,7 @@ class JtgModelTranslations extends JModelLegacy
 			}
 			if (JFile::exists($file))
 			{
-				$content = JFile::read($file);
+				$content = file_get_contents($file);
 				$text = explode("\n",$content);
 				foreach ($text as $val) { // find out max line lengh
 					if ( strlen($val) > $cols)

@@ -18,9 +18,9 @@ JToolBarHelper::title(JText::_('COM_JTG_UPLOAD_CATIMAGE'), 'categories.png');
 JToolBarHelper::back();
 JToolBarHelper::spacer();
 JToolBarHelper::help( 'cats/managecatpicsform',true );
-JHTML::script('jquery.js', 'components/com_jtg/assets/js/', false);
-JHTML::script('multifile.js', 'components/com_jtg/assets/js/', false);
-JHTML::script('mootools.js', '/media/system/js/', false);
+JHtml::script('jquery.js', 'components/com_jtg/assets/js/', false);
+JHtml::script('multifile.js', 'components/com_jtg/assets/js/', false);
+JHtml::script('mootools.js', '/media/system/js/', false);
 echo JText::sprintf('COM_JTG_ALLOWED_FILETYPES',$this->types);
 ?>
 <form action="" enctype="multipart/form-data" method="post" name="adminForm" id="adminForm">
@@ -30,5 +30,5 @@ echo JText::sprintf('COM_JTG_ALLOWED_FILETYPES',$this->types);
 	<input type="hidden" name="task" value="<?php echo JRequest::getVar('task'); ?>" />
 	<input type="hidden" name="boxchecked" value="0" />
 	<input type="hidden" name="controller" value="cats" />
-	<?php echo JHTML::_( 'form.token' ); ?>
+	<?php echo JHtml::_( 'form.token' ); ?>
 </form>

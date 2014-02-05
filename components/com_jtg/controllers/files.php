@@ -27,7 +27,7 @@ class JtgControllerFiles extends JtgController
 		jimport('joomla.filesystem.file');
 
 		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		JSession::checkToken() or jexit( 'Invalid Token' );
 		$file =& JRequest::getVar('file', null, 'files', 'array');
 		$images =& $_FILES['images'];
 		$model = $this->getModel('files');
@@ -82,7 +82,7 @@ class JtgControllerFiles extends JtgController
 		endif;
 
 		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		JSession::checkToken() or jexit( 'Invalid Token' );
 		$id =& JRequest::getInt('id');
 		$model = $this->getModel('files');
 		$errormsg = $model->updateFile($id);
@@ -103,7 +103,7 @@ class JtgControllerFiles extends JtgController
 		$mainframe =& JFactory::getApplication();
 
 		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		JSession::checkToken() or jexit( 'Invalid Token' );
 		$cfg = JtgHelper::getConfig();
 		$id = JRequest::getInt('id');
 

@@ -20,7 +20,7 @@ class JtgControllerDownload extends JtgController
 {
 	function download() {
 
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		JSession::checkToken() or jexit( 'Invalid Token' );
 
 //		if( headers_sent() )
 //			die('Headers Sent');

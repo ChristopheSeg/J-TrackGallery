@@ -48,13 +48,13 @@ echo $this->lh;
 	<thead>
 		<tr class="sectiontableheader<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
 			<th>#</th>
-			<th><?php echo JHTML::_('grid.sort', JText::_( 'COM_JTG_TITLE' ), 'title', @$this->lists['order_Dir'], @$this->lists['order'], 'files' ); ?></th>
-			<th width="80px"><?php echo JHTML::_('grid.sort', JText::_( 'COM_JTG_CAT' ), 'cat', @$this->lists['order_Dir'], @$this->lists['order'], 'files' ); ?></th>
-			<th width="80px"><?php echo JHTML::_('grid.sort', JText::_( 'COM_JTG_TERRAIN' ), 'terrain', @$this->lists['order_Dir'], @$this->lists['order'], 'files' ); ?></th>
-			<th width="80px"><?php echo JHTML::_('grid.sort', JText::_( 'COM_JTG_USER' ), 'user', @$this->lists['order_Dir'], @$this->lists['order'], 'files' ); ?></th>
-			<th width="20px"><?php echo JHTML::_('grid.sort', JText::_( 'COM_JTG_HITS' ), 'hits', @$this->lists['order_Dir'], @$this->lists['order'], 'files' ); ?></th>
-			<th width="20px"><?php echo JHTML::_('grid.sort', JText::_( 'COM_JTG_VOTING' ), 'vote', @$this->lists['order_Dir'], @$this->lists['order'], 'files' ); ?></th>
-			<th width="80px"><?php echo JHTML::_('grid.sort', JText::_( 'COM_JTG_DISTANCE' ), 'distance', @$this->lists['order_Dir'], @$this->lists['order'], 'files' ); ?></th>
+			<th><?php echo JHtml::_('grid.sort', JText::_( 'COM_JTG_TITLE' ), 'title', @$this->lists['order_Dir'], @$this->lists['order'], 'files' ); ?></th>
+			<th width="80px"><?php echo JHtml::_('grid.sort', JText::_( 'COM_JTG_CAT' ), 'cat', @$this->lists['order_Dir'], @$this->lists['order'], 'files' ); ?></th>
+			<th width="80px"><?php echo JHtml::_('grid.sort', JText::_( 'COM_JTG_TERRAIN' ), 'terrain', @$this->lists['order_Dir'], @$this->lists['order'], 'files' ); ?></th>
+			<th width="80px"><?php echo JHtml::_('grid.sort', JText::_( 'COM_JTG_USER' ), 'user', @$this->lists['order_Dir'], @$this->lists['order'], 'files' ); ?></th>
+			<th width="20px"><?php echo JHtml::_('grid.sort', JText::_( 'COM_JTG_HITS' ), 'hits', @$this->lists['order_Dir'], @$this->lists['order'], 'files' ); ?></th>
+			<th width="20px"><?php echo JHtml::_('grid.sort', JText::_( 'COM_JTG_VOTING' ), 'vote', @$this->lists['order_Dir'], @$this->lists['order'], 'files' ); ?></th>
+			<th width="80px"><?php echo JHtml::_('grid.sort', JText::_( 'COM_JTG_DISTANCE' ), 'distance', @$this->lists['order_Dir'], @$this->lists['order'], 'files' ); ?></th>
 		</tr>
 	</thead>
 	<tfoot>

@@ -55,5 +55,5 @@ foreach ($this->languages as $lang) {
     <input type="hidden" name="task" value="" />
     <input type="hidden" name="boxchecked" value="0" />
     <input type="hidden" name="controller" value="translations" />
-    <?php echo JHTML::_( 'form.token' ); ?>
+    <?php echo JHtml::_( 'form.token' ); ?>
 </form>

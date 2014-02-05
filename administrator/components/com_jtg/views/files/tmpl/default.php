@@ -19,7 +19,7 @@ JToolBarHelper::back();
 // JToolBarHelper::back();
 JToolBarHelper::spacer();
 $bar=& JToolBar::getInstance( 'toolbar' );
-$folder = JURI::base().'index.php?option=com_jtg&tmpl=component&controller=files&task=upload';
+$folder = JUri::base().'index.php?option=com_jtg&tmpl=component&controller=files&task=upload';
 // popup:
 $bar->appendButton( 'Popup', 'upload', 'COM_JTG_UPLOAD', $folder, 550, 400 );
 // Normal Window:
@@ -35,7 +35,7 @@ JToolBarHelper::help( 'files/default',true );
 
 $ordering = ($this->lists['order'] == 'ordering');
 $document =& JFactory::getDocument();
-$document->addStyleSheet(JURI::base().'components/com_jtg/template.css');
+$document->addStyleSheet(JUri::base().'components/com_jtg/template.css');
 
 ?>
 <form action="" method="post" name="adminForm" id="adminForm">
@@ -65,7 +65,7 @@ $document->addStyleSheet(JURI::base().'components/com_jtg/template.css');
 	$missingcat = array();
 	$missingterrain = false;
 	$cfg = $this->cfg;
-	$iconpath	= JURI::root() . "components/com_jtg/assets/template/" . $cfg->template . "/images/";
+	$iconpath	= JUri::root() . "components/com_jtg/assets/template/" . $cfg->template . "/images/";
 	for ($i=0, $n=count( $this->rows ); $i < $n; $i++)
 	{
 		$row = &$this->rows[$i];
@@ -73,9 +73,9 @@ $document->addStyleSheet(JURI::base().'components/com_jtg/template.css');
 		if ( $row->access == 9 )
 		$access 	= "<font color='orange'>".JText::_('COM_JTG_PRIVATE') . "</font>";
 		else
-		$access 	= JHTML::_('grid.access', $row, $i );
-		$checked 	= JHTML::_('grid.checkedout', $row, $i );
-		$published 	= JHTML::_('grid.published', $row, $i );
+		$access 	= JHtml::_('grid.access', $row, $i );
+		$checked 	= JHtml::_('grid.checkedout', $row, $i );
+		$published 	= JHtml::_('grid.published', $row, $i );
 		$user		= JFactory::getUser($row->uid);
 		$imagelink	= $this->buildImageFiletypes($row->istrack,$row->iswp,$row->isroute,$row->iscache);
 		
@@ -175,48 +175,48 @@ else
 		<tr>
 			<th class="title"><?php echo JText::_( 'COM_JTG_NUM' ); ?></th>
 			<th class="title" nowrap="nowrap"><?php
-			echo JHTML::_('grid.sort',
+			echo JHtml::_('grid.sort',
 			JText::_('COM_JTG_ID'), 'id', @$this->lists['order_Dir'], @$this->lists['order'], 'files' ); ?>:</th>
 			<th class="title"><input type="checkbox" name="toggle" value=""
-				onclick="checkAll(<?php
+				onclick="Joomla.checkAll(<?php
 			echo count($this->rows); ?>);" /></th>
 			<!--			<th class="title"><?php
-			// echo JHTML::_('grid.sort', JText::_('COM_JTG_GPS_FILE'),
+			// echo JHtml::_('grid.sort', JText::_('COM_JTG_GPS_FILE'),
 	// 'file', @$this->lists['order_Dir'], @$this->lists['order'], 'files' ); ?>:</th>
 -->
 			<th class="title"><?php
-			echo JHTML::_('grid.sort', JText::_('COM_JTG_TITLE')  . "<small> (" . JText::_('COM_JTG_GPS_FILE')  . ")</small> ",
+			echo JHtml::_('grid.sort', JText::_('COM_JTG_TITLE')  . "<small> (" . JText::_('COM_JTG_GPS_FILE')  . ")</small> ",
 	'title', @$this->lists['order_Dir'], @$this->lists['order'], 'files' ); ?>:</th>
 			<th class="title"><?php
 			echo JText::_('COM_JTG_GPS_FILETYPE');
 			?>:</th>
 			<th class="title"><?php
-			echo JHTML::_('grid.sort', JText::_('COM_JTG_CAT'),
+			echo JHtml::_('grid.sort', JText::_('COM_JTG_CAT'),
 	'cat', @$this->lists['order_Dir'], @$this->lists['order'], 'files' ); ?>:
 <?php echo $missingcat; ?>
 </th>
 			<th class="title"><?php
-			echo JHTML::_('grid.sort', JText::_('COM_JTG_TERRAIN'),
+			echo JHtml::_('grid.sort', JText::_('COM_JTG_TERRAIN'),
 	'terrain', @$this->lists['order_Dir'], @$this->lists['order'], 'files' ); ?>:
 <?php echo $missingterrain; ?>
 </th>
 			<th class="title"><?php
-			echo JHTML::_('grid.sort', JText::_('COM_JTG_LEVEL'),
+			echo JHtml::_('grid.sort', JText::_('COM_JTG_LEVEL'),
 	'level', @$this->lists['order_Dir'], @$this->lists['order'], 'files' ); ?>:</th>
 			<th class="title"><?php
-			echo JHTML::_('grid.sort', JText::_('COM_JTG_DATE'),
+			echo JHtml::_('grid.sort', JText::_('COM_JTG_DATE'),
 	'date', @$this->lists['order_Dir'], @$this->lists['order'], 'files' ); ?>:</th>
 			<th class="title"><?php
-			echo JHTML::_('grid.sort', JText::_('COM_JTG_PUBLISHED'),
+			echo JHtml::_('grid.sort', JText::_('COM_JTG_PUBLISHED'),
 	'published', @$this->lists['order_Dir'], @$this->lists['order'], 'files' ); ?>:</th>
 			<th class="title"><?php
-			echo JHTML::_('grid.sort', JText::_('COM_JTG_HIDDEN'),
+			echo JHtml::_('grid.sort', JText::_('COM_JTG_HIDDEN'),
 	'hidden', @$this->lists['order_Dir'], @$this->lists['order'], 'files' ); ?>:</th>
 			<th class="title"><?php
-			echo JHTML::_('grid.sort', JText::_('COM_JTG_ACCESS_LEVEL'),
+			echo JHtml::_('grid.sort', JText::_('COM_JTG_ACCESS_LEVEL'),
 	'access', @$this->lists['order_Dir'], @$this->lists['order'], 'files' ); ?>:</th>
 			<th class="title"><?php
-			echo JHTML::_('grid.sort', JText::_('COM_JTG_INFO_AUTHOR'),
+			echo JHtml::_('grid.sort', JText::_('COM_JTG_INFO_AUTHOR'),
 	'uid', @$this->lists['order_Dir'], @$this->lists['order'], 'files' ); ?>:</th>
 		</tr>
 	</thead>
@@ -227,5 +227,5 @@ else
 	value="files" /> <input type="hidden" name="filter_order"
 	value="<?php echo $this->lists['order']; ?>" /> <input type="hidden"
 	name="filter_order_Dir"
-	value="<?php echo $this->lists['order_Dir']; ?>" /> <?php echo JHTML::_( 'form.token' ); ?>
+	value="<?php echo $this->lists['order_Dir']; ?>" /> <?php echo JHtml::_( 'form.token' ); ?>
 </form>

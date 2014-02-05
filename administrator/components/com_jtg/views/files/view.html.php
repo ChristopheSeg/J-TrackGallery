@@ -21,7 +21,7 @@ jimport( 'joomla.application.component.view');
 /**
  *
  */
-class JtgViewFiles extends JView
+class JtgViewFiles extends JViewLegacy
 {
 	/**
 	 * Build the select list for access level
@@ -49,7 +49,7 @@ class JtgViewFiles extends JView
 			$size = count($groups);
 			if ( $size > 6 ) $size = 6;
 		}
-		$access = JHTML::_('select.genericlist', $groups, $name, 'class="inputbox" size="'.$size.'" '.$js, 'value', 'text', 0, '', 1 );
+		$access = JHtml::_('select.genericlist', $groups, $name, 'class="inputbox" size="'.$size.'" '.$js, 'value', 'text', 0, '', 1 );
 
 		return $access;
 	}
@@ -384,21 +384,21 @@ class JtgViewFiles extends JView
 	}
 
 	function _displayUpload($tpl) {
-		JHTML::script('jquery.js', 'components/com_jtg/assets/js/', false);
-		JHTML::script('multifile.js', 'components/com_jtg/assets/js/', false);
+		JHtml::script('jquery.js', 'components/com_jtg/assets/js/', false);
+		JHtml::script('multifile.js', 'components/com_jtg/assets/js/', false);
 		
 		// Quick'n'Dirty - Sonst funktioniert das Joomla-Menü nicht mehr: (!?)
-		JHTML::script('mootools.js', '/media/system/js/', false);
-		JHTML::script('core-uncompressed.js', 'media/system/js/', false);
+		JHtml::script('mootools.js', '/media/system/js/', false);
+		JHtml::script('core-uncompressed.js', 'media/system/js/', false);
 
 		parent::display($tpl);
 	}
 
 	function _displayForm($tpl) {
-		JHTML::script('jquery.js', 'components/com_jtg/assets/js/', false);
-		JHTML::script('multifile.js', 'components/com_jtg/assets/js/', false);
+		JHtml::script('jquery.js', 'components/com_jtg/assets/js/', false);
+		JHtml::script('multifile.js', 'components/com_jtg/assets/js/', false);
 		// Quick'n'Dirty - Sonst funktioniert das Joomla-Menü nicht mehr: (!?)
-		JHTML::script('mootools.js', '/media/system/js/', false);
+		JHtml::script('mootools.js', '/media/system/js/', false);
 		$cid =& JRequest::getVar( 'cid', array(), 'post', 'array' );
 		// $id = implode(',', $cid);
 		$cfg = JtgHelper::getConfig();
@@ -422,15 +422,15 @@ class JtgViewFiles extends JView
 			$access = $model->getAccess($id);
 			$size = count($cats);
 			if ( $size > 6) $size = 6;
-			$lists['cats']		= JHTML::_('select.genericlist', $cats, 'catid[]', 'size="'.$size.'" multiple="multiple"', 'id', 'treename', 0 );
+			$lists['cats']		= JHtml::_('select.genericlist', $cats, 'catid[]', 'size="'.$size.'" multiple="multiple"', 'id', 'treename', 0 );
 			$size = count($terrain);
 			if ( $size > 6) $size = 6;
-			$lists['terrain']	= JHTML::_('select.genericlist', $terrain, 'terrain[]', 'multiple="multiple" size="'.$size.'"', 'id', 'title', 0 );
+			$lists['terrain']	= JHtml::_('select.genericlist', $terrain, 'terrain[]', 'multiple="multiple" size="'.$size.'"', 'id', 'title', 0 );
 			$row->access = $access;
-			$lists['access']	= JHTML::_('list.accesslevel', $row );
-			$lists['uid']		= JHTML::_('list.users', 'uid', $uid, 1, NULL, 'name', 0 );
-			$lists['hidden']	= JHTML::_('select.genericlist', $yesnolist, 'hidden', 'class="inputbox" size="2"', 'id', 'title',0);
-			$lists['published']	= JHTML::_('select.genericlist', $yesnolist, 'published', 'class="inputbox" size="2"', 'id', 'title',1);
+			$lists['access']	= JHtml::_('list.accesslevel', $row );
+			$lists['uid']		= JHtml::_('list.users', 'uid', $uid, 1, NULL, 'name', 0 );
+			$lists['hidden']	= JHtml::_('select.genericlist', $yesnolist, 'hidden', 'class="inputbox" size="2"', 'id', 'title',0);
+			$lists['published']	= JHtml::_('select.genericlist', $yesnolist, 'published', 'class="inputbox" size="2"', 'id', 'title',1);
 			$this->lists = $lists;
 			$this->track = $track;
 			$this->id = $id;
@@ -454,16 +454,16 @@ class JtgViewFiles extends JView
 //			if ( $error === true ) $error = "<font color=\"red\">" . JText::_('Error') . ": " . $track->terrain . "</font><br />";
 			$size = min( count($cats), 6);
 			$trackids = explode(",",$track->catid);
-			$lists['cats']		= JHTML::_('select.genericlist', $cats, 'catid[]', 'size="'.$size.'" multiple="multiple"', 'id', 'title', $trackids, '', true);
+			$lists['cats']		= JHtml::_('select.genericlist', $cats, 'catid[]', 'size="'.$size.'" multiple="multiple"', 'id', 'title', $trackids, '', true);
 			$size = min( count($terrain), 6) ;
-			$lists['terrain']	= $error.JHTML::_('select.genericlist', $terrain, 'terrain[]', 'multiple="multiple" size="'.$size.'"', 'id', 'title', $terrainlist );
+			$lists['terrain']	= $error.JHtml::_('select.genericlist', $terrain, 'terrain[]', 'multiple="multiple" size="'.$size.'"', 'id', 'title', $terrainlist );
 			//			$row->access = $access;
 			$lists['access']	= JtgHelper::getAccessList($access);
-			//			$lists['access']	= JHTML::_('list.accesslevel', $row );
-			$lists['hidden'] = JHTML::_('select.genericlist', $yesnolist, 'hidden', 'class="inputbox" size="2"', 'id', 'title',$track->hidden);
-			$lists['uid']		= JHTML::_('list.users', 'uid', $track->uid, 1, NULL, 'name', 0 );
+			//			$lists['access']	= JHtml::_('list.accesslevel', $row );
+			$lists['hidden'] = JHtml::_('select.genericlist', $yesnolist, 'hidden', 'class="inputbox" size="2"', 'id', 'title',$track->hidden);
+			$lists['uid']		= JHtml::_('list.users', 'uid', $track->uid, 1, NULL, 'name', 0 );
 			$img_dir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'track_' . $id . DS;
-			$img_path = JURI::root().'images/jtrackgallery/track_'.$id.'/';
+			$img_path = JUri::root().'images/jtrackgallery/track_'.$id.'/';
 			$thumb_dir = $img_dir . 'thumbs' . DS;
 			$thumb_dir = $img_dir . 'thumbs/';
 			$images = null;
@@ -492,7 +492,7 @@ class JtgViewFiles extends JView
 					}
 				}
 			}
-			$lists['published'] = JHTML::_('select.genericlist', $yesnolist, 'published', 'class="inputbox" size="2"', 'id', 'title',$track->published);
+			$lists['published'] = JHtml::_('select.genericlist', $yesnolist, 'published', 'class="inputbox" size="2"', 'id', 'title',$track->published);
 			// Values BEGIN
 			$lists['values'] = JtgHelper::giveGeneratedValues('backend',$this->buildImageFiletypes($track->istrack,$track->iswp,$track->isroute,$track->iscache),$track);
 			// Values END

@@ -20,7 +20,7 @@ jimport( 'joomla.application.component.view');
 /**
  *
  */
-class JtgViewConfig extends JView
+class JtgViewConfig extends JViewLegacy
 {
 	/**
 	 *
@@ -103,7 +103,7 @@ class JtgViewConfig extends JView
 			$string .= $nopic;
 			if($i < count($files)-1)
 			$string .= "<br /><br /><br />";
-			$routingiconset[] = JHTML::_('select.option', $files[$i], $string);
+			$routingiconset[] = JHtml::_('select.option', $files[$i], $string);
 		}
 
 		// build the html select list
@@ -117,24 +117,24 @@ class JtgViewConfig extends JView
 		$db = JFactory::getDbo();
 		$db->setQuery($query);
 		$gtree = $db->loadObjectList();
-		$lists['gid']				= JHTML::_('select.genericlist', $gtree,'gid[]', 'class="inputbox" multiple="true" size="8"' , 'value', 'text', unserialize($config->gid) );
+		$lists['gid']				= JHtml::_('select.genericlist', $gtree,'gid[]', 'class="inputbox" multiple="true" size="8"' , 'value', 'text', unserialize($config->gid) );
 		if ($row) // if article(s) found in section jtg and category term
-		$lists['content']		= JHTML::_('select.genericlist', $row, 'terms_id', 'size="1"', 'id', 'title', $config->terms_id );
+		$lists['content']		= JHtml::_('select.genericlist', $row, 'terms_id', 'size="1"', 'id', 'title', $config->terms_id );
 		else
 		$lists['content']		= "<font color=red>".JText::_('COM_JTG_TT_TERMS_NOTFOUND') . "</font>";
-		$lists['unit']				= JHTML::_('select.genericlist', $unit, 'unit', 'size="1"', 'unit', 'unit', $config->unit );
-		$lists['tmpl']				= JHTML::_('select.genericlist', $tmpl, 'template', 'size="1"', 'name', 'name', $config->template );
-		$lists['who']				= JHTML::_('select.genericlist', $users, 'comment_who', 'size="1"', 'id', 'text', $config->comment_who );
-		$lists['inform']			= JHTML::_('select.genericlist', $inform, 'inform_autor', 'size="1"', 'id', 'text', $config->inform_autor );
-		$lists['captcha']			= JHTML::_('select.genericlist', $inform, 'captcha', 'size="1"', 'id', 'text', $config->captcha );
-		$lists['usevote']			= JHTML::_('select.genericlist', $inform, 'usevote', 'size="1"', 'id', 'text', $config->usevote );
-		$lists['download']			= JHTML::_('select.genericlist', $download, 'download', 'size="1"', 'id', 'text', $config->download );
-		$lists['order']				= JHTML::_('select.genericlist', $order, 'ordering', 'size="1"', 'order', 'text', $config->ordering );
-		$lists['comments']			= JHTML::_('select.genericlist', $comments, 'comments', 'size="1"', 'id', 'text', $config->comments );
-		$lists['access']			= JHTML::_('select.genericlist', $inform, 'access', 'size="1"', 'id', 'text', $config->access );
-		$lists['approach']			= JHTML::_('select.genericlist', $approach, 'approach', 'size="1"', 'id', 'text', $config->approach );
-		$lists['routingiconset']	= JHTML::_('select.radiolist', $routingiconset, 'routingiconset', null, 'value', 'text', $config->routingiconset );
-		$lists['gallery']			= JHTML::_('select.genericlist', $gallery, 'gallery', 'size="1"', 'id', 'text', $config->gallery );
+		$lists['unit']				= JHtml::_('select.genericlist', $unit, 'unit', 'size="1"', 'unit', 'unit', $config->unit );
+		$lists['tmpl']				= JHtml::_('select.genericlist', $tmpl, 'template', 'size="1"', 'name', 'name', $config->template );
+		$lists['who']				= JHtml::_('select.genericlist', $users, 'comment_who', 'size="1"', 'id', 'text', $config->comment_who );
+		$lists['inform']			= JHtml::_('select.genericlist', $inform, 'inform_autor', 'size="1"', 'id', 'text', $config->inform_autor );
+		$lists['captcha']			= JHtml::_('select.genericlist', $inform, 'captcha', 'size="1"', 'id', 'text', $config->captcha );
+		$lists['usevote']			= JHtml::_('select.genericlist', $inform, 'usevote', 'size="1"', 'id', 'text', $config->usevote );
+		$lists['download']			= JHtml::_('select.genericlist', $download, 'download', 'size="1"', 'id', 'text', $config->download );
+		$lists['order']				= JHtml::_('select.genericlist', $order, 'ordering', 'size="1"', 'order', 'text', $config->ordering );
+		$lists['comments']			= JHtml::_('select.genericlist', $comments, 'comments', 'size="1"', 'id', 'text', $config->comments );
+		$lists['access']			= JHtml::_('select.genericlist', $inform, 'access', 'size="1"', 'id', 'text', $config->access );
+		$lists['approach']			= JHtml::_('select.genericlist', $approach, 'approach', 'size="1"', 'id', 'text', $config->approach );
+		$lists['routingiconset']	= JHtml::_('select.radiolist', $routingiconset, 'routingiconset', null, 'value', 'text', $config->routingiconset );
+		$lists['gallery']			= JHtml::_('select.genericlist', $gallery, 'gallery', 'size="1"', 'id', 'text', $config->gallery );
 		if ( $config->level == "" )
 		{
 			$rows = 6;

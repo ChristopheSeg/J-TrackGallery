@@ -95,11 +95,11 @@ class JFormFieldOwnList extends JFormField
 	}
 
 	private function parseHelpButton() {
-		return "<table class=\"toolbar\"><tr><td class=\"button\" id=\"toolbar-help\"><a href=\"#\" onclick=\"popupWindow('components/com_jtg/help/en-GB/menu/overviewmap.html', 'Hilfe', 640, 480, 1)\" class=\"toolbar\"><span class=\"icon-32-help\" title=\"".JText::_('COM_JTG_HELP')  . "\"></span>".JText::_('COM_JTG_HELP')  . "</a></td></tr></table>";
+		return "<table class=\"toolbar\"><tr><td class=\"button\" id=\"toolbar-help\"><a href=\"#\" onclick=\"Joomla.popupWindow('components/com_jtg/help/en-GB/menu/overviewmap.html', 'Hilfe', 640, 480, 1)\" class=\"toolbar\"><span class=\"icon-32-help\" title=\"".JText::_('COM_JTG_HELP')  . "\"></span>".JText::_('COM_JTG_HELP')  . "</a></td></tr></table>";
 	}
 
 	private function parseHelpText() {
-		return "<a href=\"#\" onclick=\"popupWindow('components/com_jtg/help/en-GB/menu/overviewmap.html', 'Hilfe', 640, 480, 1)\" >".JText::_('COM_JTG_HELP')  . "</a>";
+		return "<a href=\"#\" onclick=\"Joomla.popupWindow('components/com_jtg/help/en-GB/menu/overviewmap.html', 'Hilfe', 640, 480, 1)\" >".JText::_('COM_JTG_HELP')  . "</a>";
 	}
 
 	private function parseLimitText() {
@@ -244,7 +244,7 @@ class JFormFieldOwnList extends JFormField
 		$parseLimitText[(string) $name] = $value;
 		$level = array();
 		for ($i = 0; $i <= $max; $i++) $level[] = JHtml::_('select.option', $i, $i);
-		$list = JHTML::_('select.genericlist', $level, $this->name, null, 'value', 'text', $this->value);
+		$list = JHtml::_('select.genericlist', $level, $this->name, null, 'value', 'text', $this->value);
 		return $list;
 	}
 	
@@ -261,7 +261,7 @@ class JFormFieldOwnList extends JFormField
 		$nullterrain = JArrayHelper::toObject($nullterrain);
 		array_unshift($terrain,$nullterrain);
 		$size = $this->getSelectSize($terrain);
-		$list = JHTML::_('select.genericlist', $terrain, $this->name.'[]', 'class="inputbox" multiple="multiple" size="'.$size.'"', 'id', 'title', $this->value, $this->id);
+		$list = JHtml::_('select.genericlist', $terrain, $this->name.'[]', 'class="inputbox" multiple="multiple" size="'.$size.'"', 'id', 'title', $this->value, $this->id);
 		return $list;
 	}
 
@@ -282,7 +282,7 @@ class JFormFieldOwnList extends JFormField
 		$nullgroup = JArrayHelper::toObject($nullgroup);
 		array_unshift($groups,$nullgroup);
 		$size = $this->getSelectSize($groups);
-		$list = JHTML::_('select.genericlist', $groups, $this->name.'[]', 'class="inputbox" multiple="multiple" size="'.$size.'"', 'value', 'text', $gid, '', 1 );
+		$list = JHtml::_('select.genericlist', $groups, $this->name.'[]', 'class="inputbox" multiple="multiple" size="'.$size.'"', 'value', 'text', $gid, '', 1 );
 		return $list;
 	}
 
@@ -295,7 +295,7 @@ class JFormFieldOwnList extends JFormField
 		$cats = new JtgModelFiles;
 		$cats = $cats->getCats($nosubcats,'COM_JTG_ALL',-1);
 		$size = $this->getSelectSize($cats);
-		$list = JHTML::_('select.genericlist', $cats, $this->name.'[]', 'class="inputbox" multiple="multiple" size="'.$size.'"', 'id', 'treename', $this->value,'',1);
+		$list = JHtml::_('select.genericlist', $cats, $this->name.'[]', 'class="inputbox" multiple="multiple" size="'.$size.'"', 'id', 'treename', $this->value,'',1);
 		return $list;
 	}
 
@@ -347,13 +347,13 @@ class JFormFieldOwnList extends JFormField
 		;
 		$db->setQuery( $query );
 		if ( $nouser ) {
-			$users[] = JHTML::_('select.option',  '0', JText::_( 'COM_JTG_ALL' ) );
+			$users[] = JHtml::_('select.option',  '0', JText::_( 'COM_JTG_ALL' ) );
 			$users = array_merge( $users, $db->loadObjectList() );
 		} else {
 			$users = $db->loadObjectList();
 		}
 		$size = $this->getSelectSize($users);
-		$users = JHTML::_('select.genericlist', $users, $name, 'class="inputbox" size="'.$size.'" '. $javascript, 'value', 'text', $active );
+		$users = JHtml::_('select.genericlist', $users, $name, 'class="inputbox" size="'.$size.'" '. $javascript, 'value', 'text', $active );
 
 		return $users;
 	}

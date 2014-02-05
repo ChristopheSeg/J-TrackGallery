@@ -54,6 +54,7 @@ class gpsDataClass
 		
 		$this->gpsFile = $gpsFile;
 		$this->trackfilename = $trackfilename;
+
 		$xml = $this->loadXmlFile($gpsFile); 
 		if ($this->error) 
 		{
@@ -131,6 +132,7 @@ class gpsDataClass
 	    }
 	    else 
 	    {
+
 		    $this->error = true; 
 		    $this->errorMessages[] = JText::sprintf('COM_JTG_GPS_FILE_ERROR_1', ($this->trackfilename?  $this->trackfilename: $gpsFile) );
 		    return false;
@@ -448,6 +450,10 @@ class gpsDataClass
 		    $this->totalAscent = (int) $this->totalAscent;
 		    $this->totalDescent = (int) $this->totalDescent;
 		}
+		if  ( ( $this->totalAscent ==0 ) or ($this->totalDescent ==0) )	
+		{
+		    $this->elevationDataExists=False;
+		}
 		return;
 	}	
 
@@ -634,7 +640,7 @@ class gpsDataClass
 		$catid = explode(",",$catid);
 		$catid = $catid[0];
 		$cfg =& JtgHelper::getConfig();
-		$iconpath = JURI::root() . "components/com_jtg/assets/template/" . $cfg->template . "/images/";
+		$iconpath = JUri::root() . "components/com_jtg/assets/template/" . $cfg->template . "/images/";
 		$catimage = false;
 		$cats = $this->getCats();
 		// TODO find a most efficient way to do this!!
@@ -677,7 +683,7 @@ class gpsDataClass
 				$offsety = round(-($sizey/2));
 				$marker .= "var size = new OpenLayers.Size(" . $sizex . ", " . $sizey . "); ";
 				$marker .= "var offset = new OpenLayers.Pixel(" . $offsetx . ", " . $offsety . "); ";
-				$marker .= "var file = '".JURI::base().$catimage . "'; ";
+				$marker .= "var file = '".JUri::base().$catimage . "'; ";
 				$marker .= "var icon = new OpenLayers.Icon(file,size,offset);";
 				$marker .= "addMarker(ll, popupClass, popupContentHTML, true, true, icon);\n";
 				return $marker;
@@ -707,10 +713,10 @@ class gpsDataClass
 	public function parseOwnIcon($ownicon=false) {
 		$cfg =& JtgHelper::getConfig();
 		$Tpath = JPATH_SITE . DS . "components" . DS . "com_jtg" . DS . "assets" . DS . "template" . DS . $cfg->template . DS . "images".DS;
-		$Tbase = JURI::root() . "components/com_jtg/assets/template/" . $cfg->template . "/images/";
+		$Tbase = JUri::root() . "components/com_jtg/assets/template/" . $cfg->template . "/images/";
 		$unknownicon = "";
 		$jpath = JPATH_SITE . DS . "components" . DS . "com_jtg" . DS . "assets" . DS . "images" . DS . "symbols".DS;
-		$jbase = JURI::root() . "components/com_jtg/assets/images/symbols/";
+		$jbase = JUri::root() . "components/com_jtg/assets/images/symbols/";
 
 		$filename = JFile::makeSafe($ownicon);
 		$pngfile = $jbase.$filename . ".png";
@@ -1239,7 +1245,7 @@ class gpsDataClass
 				$marker .= "<i>".JText::_('COM_JTG_NO_TITLE') . "</i>";
 				if ( $row->access != 0 )
 				{
-					$iconpath = JURI::root() . "components/com_jtg/assets/template/" . $cfg->template . "/images/";
+					$iconpath = JUri::root() . "components/com_jtg/assets/template/" . $cfg->template . "/images/";
 				}
 				switch ($row->access) {
 					case 1:
@@ -1511,7 +1517,7 @@ class gpsDataClass
 		$max_geoim_height = (int)$max_geoim_height;
 		$foundpics = false;
 		$map = "// <!-- parseOLGeotaggedImgs BEGIN -->\n";
-		$httppath = JURI::base() . "images/jtrackgallery/track_" . $id . "/";
+		$httppath = JUri::base() . "images/jtrackgallery/track_" . $id . "/";
 		$folder = JPATH_SITE . DS . "images" . DS . "jtrackgallery" . DS . 'track_' . $id . DS;
 		$map .= "layer_geotaggedImgs = new OpenLayers.Layer.Markers(\"".JText::_('COM_JTG_GEOTAGGED_IMAGES') . "\",".
 	" { displayInLayerSwitcher: true });".
@@ -1616,7 +1622,7 @@ class gpsDataClass
 		$jtg_microtime = microtime(true);
 		$zeiten = "<br />\n";
 		$cfg =& JtgHelper::getConfig();
-		$iconpath = JURI::root() . "components/com_jtg/assets/template/" . $cfg->template . "/images/";
+		$iconpath = JUri::root() . "components/com_jtg/assets/template/" . $cfg->template . "/images/";
 		$httpiconpath = JPATH_SITE . DS . "components" . DS . "com_jtg" . DS . "assets" . DS . "template" . DS . $cfg->template . DS . "images".DS;
 		jimport('joomla.filesystem.file');
 		// $rows = $this->getTracks(" WHERE a.id != " . $track->id);
@@ -1717,7 +1723,7 @@ class gpsDataClass
 		$mainframe =& JFactory::getApplication();
 		$template = $mainframe->getTemplate();
 		$imgpath = '/templates/' . $template . '/css/ol_images';
-
+		jimport('joomla.filesystem.folder');
 		if ( ! JFolder::exists(JPATH_SITE . $imgpath))
 		{
 		    $imgpath = '/components/com_jtg/assets/template/default/ol_images/';
@@ -1897,8 +1903,8 @@ class gpsDataClass
 		var sizeZiel = new OpenLayers.Size(24,24);
 		var offsetStart = new OpenLayers.Pixel(-3,-22);
 		var offsetZiel = new OpenLayers.Pixel(-21,-21);
-		var iconStart = new OpenLayers.Icon(\"".JURI::root() . "components" . DS . "com_jtg" . DS . "assets" . DS . "images" . DS . "start.png\",sizeStart,offsetStart);
-		var iconZiel = new OpenLayers.Icon(\"".JURI::root() . "components" . DS . "com_jtg" . DS . "assets" . DS . "images" . DS . "ziel.png\",sizeZiel,offsetZiel);
+		var iconStart = new OpenLayers.Icon(\"".JUri::root() . "components" . DS . "com_jtg" . DS . "assets" . DS . "images" . DS . "start.png\",sizeStart,offsetStart);
+		var iconZiel = new OpenLayers.Icon(\"".JUri::root() . "components" . DS . "com_jtg" . DS . "assets" . DS . "images" . DS . "ziel.png\",sizeZiel,offsetZiel);
 		layerStartZiel.addMarker(new OpenLayers.Marker(lonLatStart,iconStart));
 		layerStartZiel.addMarker(new OpenLayers.Marker(lonLatZiel,iconZiel));
 // <!-- parseStartPointCOM_JTG END -->\n";
@@ -1914,9 +1920,9 @@ class gpsDataClass
 		//		global $jtg_microtime;
 
 		$cfg =& JtgHelper::getConfig();
-		$iconpath = JURI::root() . "components/com_jtg/assets/template/" . $cfg->template . "/images/";
+		$iconpath = JUri::root() . "components/com_jtg/assets/template/" . $cfg->template . "/images/";
 
-		$link = JURI::current();
+		$link = JUri::current();
 
 		$string_se = "";
 		$string = "// <!-- parseXMLlinesCOM_JTG BEGIN -->\n";

@@ -21,7 +21,7 @@ jimport( 'joomla.application.component.view');
 /**
  *
  */
-class JtgViewCats extends JView
+class JtgViewCats extends JViewLegacy
 {
 	/**
 	 *
@@ -60,7 +60,7 @@ class JtgViewCats extends JView
 		$rows =& $this->get('Pics');
 		$children = array();
 		$imagedir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'cats' . DS;
-		$imageurl = JURI::root().'images' . DS . 'jtrackgallery' . DS . 'cats' . DS;
+		$imageurl = JUri::root().'images' . DS . 'jtrackgallery' . DS . 'cats' . DS;
 		jimport('joomla.filesystem.files');
 		$images = array();
 		foreach ($rows as $k => $v ) {
@@ -109,7 +109,7 @@ class JtgViewCats extends JView
 		$rows =& $this->get( 'Data');
 		$children = array();
 		$image = array();
-		$imagedir = JURI::base().'../images/jtrackgallery/cats/';
+		$imagedir = JUri::base().'../images/jtrackgallery/cats/';
 		foreach ($rows as $v ) {
 			$v->name = JText::_($v->title);
 			$pt	= $v->parent_id;
@@ -120,7 +120,7 @@ class JtgViewCats extends JView
 			$image[$v->id] = " <image src='" . $imagedir.$v->image . "' title='".JText::_($v->title) . "' alt='".JText::_($v->title) . "' />";
 		}
 		$levellimit = 50;
-		$list = JHTML::_('menu.treerecurse', 0, '', array(), $children, max( 0, $levellimit-1 ) );
+		$list = JHtml::_('menu.treerecurse', 0, '', array(), $children, max( 0, $levellimit-1 ) );
 		$list = array_slice($list, 0, 999);
 
 		$total		= & $this->get( 'Total');
@@ -148,8 +148,8 @@ class JtgViewCats extends JView
 		$nullcat = array('id' => 0, "name" => JText::_('COM_JTG_NOTHING'), "title" => JText::_('COM_JTG_NOTHING'));
 		array_unshift($parent, $nullcat);
 		$editor =& JFactory::getEditor();
-		$lists['block'] 	= JHTML::_('select.booleanlist', 'publish', 'class="inputbox" size="1"', 1 );
-		$lists['parent'] 	= JHTML::_('select.genericlist', $parent, 'parent', 'size="1"', 'id', 'name', '');
+		$lists['block'] 	= JHtml::_('select.booleanlist', 'publish', 'class="inputbox" size="1"', 1 );
+		$lists['parent'] 	= JHtml::_('select.genericlist', $parent, 'parent', 'size="1"', 'id', 'name', '');
 		$config =& JtgHelper::getConfig();
 		$images = $model->getPics();
 		$this->images = $images;
@@ -176,8 +176,8 @@ class JtgViewCats extends JView
 		$nullcat = array('id' => 0, "name" => JText::_('COM_JTG_NOTHING'), "title" => JText::_('COM_JTG_NOTHING'));
 		array_unshift($parent, $nullcat);
 		$data = $model->getCat($id);
-		$lists['block'] 	= JHTML::_('select.booleanlist', 'publish', 'class="inputbox" size="1"', $data->published );
-		$lists['parent'] 	= JHTML::_('select.genericlist', $parent, 'parent', 'size="1"', 'id', 'name', $data->parent_id);
+		$lists['block'] 	= JHtml::_('select.booleanlist', 'publish', 'class="inputbox" size="1"', $data->published );
+		$lists['parent'] 	= JHtml::_('select.genericlist', $parent, 'parent', 'size="1"', 'id', 'name', $data->parent_id);
 
 		$config =& JtgHelper::getConfig();
 		$images = $model->getPics();

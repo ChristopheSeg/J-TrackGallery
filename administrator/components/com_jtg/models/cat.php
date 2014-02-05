@@ -30,7 +30,7 @@ class JtgModelCat extends JModelLegacy
 	}
 
 	function saveCatImage() {
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JSession::checkToken() or die( 'Invalid Token' );
 		jimport('joomla.filesystem.file');
 		$files =& JRequest::getVar('files', null, 'files', 'array');
 		return $this->uploadCatImage($files);
@@ -197,7 +197,7 @@ class JtgModelCat extends JModelLegacy
 		$mainframe =& JFactory::getApplication();
 
 		// check the token
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JSession::checkToken() or die( 'Invalid Token' );
 		jimport('joomla.filesystem.file');
 
 		$db =& JFactory::getDBO();
@@ -274,7 +274,7 @@ class JtgModelCat extends JModelLegacy
 		$mainframe =& JFactory::getApplication();
 
 		// check the token
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JSession::checkToken() or die( 'Invalid Token' );
 		jimport('joomla.filesystem.file');
 
 		$db =& JFactory::getDBO();

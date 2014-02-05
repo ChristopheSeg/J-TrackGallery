@@ -25,7 +25,7 @@ jimport('joomla.application.component.view');
  * @subpackage	Content
  * @since 1.5
  */
-class ContentViewElement extends JView
+class ContentViewElement extends JViewLegacy
 {
 	function display()
 	{
@@ -39,7 +39,7 @@ class ContentViewElement extends JView
 		$document	= & JFactory::getDocument();
 		$document->setTitle(JText::_('COM_JTG_ARTICLE_SELECTION'));
 
-		JHTML::_('behavior.modal');
+		JHtml::_('behavior.modal');
 
 		$template = $mainframe->getTemplate();
 		$document->addStyleSheet("templates/$template/css/general.css");
@@ -53,7 +53,7 @@ class ContentViewElement extends JView
 
 		$rows = &$this->get('List');
 		$page = &$this->get('Pagination');
-		JHTML::_('behavior.tooltip');
+		JHtml::_('behavior.tooltip');
 		?>
 		<form action="index.php?option=com_content&amp;task=element&amp;tmpl=component&amp;object=id" method="post" name="adminForm" id="adminForm">
 
@@ -81,22 +81,22 @@ class ContentViewElement extends JView
 						<?php echo JText::_( 'COM_JTG_NUM' ); ?>
 					</th>
 					<th class="title">
-						<?php echo JHTML::_('grid.sort',   'Title', 'c.title', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php echo JHtml::_('grid.sort',   'Title', 'c.title', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="7%">
-						<?php echo JHTML::_('grid.sort',   'Access', 'groupname', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php echo JHtml::_('grid.sort',   'Access', 'groupname', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="2%" class="title">
-						<?php echo JHTML::_('grid.sort',   'ID', 'c.id', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php echo JHtml::_('grid.sort',   'ID', 'c.id', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th class="title" width="15%" nowrap="nowrap">
-						<?php echo JHTML::_('grid.sort',   'Section', 'section_name', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php echo JHtml::_('grid.sort',   'Section', 'section_name', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th  class="title" width="15%" nowrap="nowrap">
-						<?php echo JHTML::_('grid.sort',   'Category', 'cc.title', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php echo JHtml::_('grid.sort',   'Category', 'cc.title', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th align="center" width="10">
-						<?php echo JHTML::_('grid.sort',   'Date', 'c.created', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php echo JHtml::_('grid.sort',   'Date', 'c.created', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 				</tr>
 			</thead>
@@ -115,8 +115,8 @@ class ContentViewElement extends JView
 				$row = &$rows[$i];
 
 				$link 	= '';
-				$date	= JHTML::_('date',  $row->created, JText::_('COM_JTG_DATE_FORMAT_LC4') );
-				$access	= JHTML::_('grid.access',   $row, $i, $row->state );
+				$date	= JHtml::_('date',  $row->created, JText::_('COM_JTG_DATE_FORMAT_LC4') );
+				$access	= JHtml::_('grid.access',   $row, $i, $row->state );
 				?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td>
@@ -199,7 +199,7 @@ class ContentViewElement extends JView
 
 		// get list of sections for dropdown filter
 		$javascript = 'onchange="document.adminForm.submit();"';
-		$lists['sectionid'] = JHTML::_('list.section', 'filter_sectionid', $filter_sectionid, $javascript);
+		$lists['sectionid'] = JHtml::_('list.section', 'filter_sectionid', $filter_sectionid, $javascript);
 
 		// table ordering
 		$lists['order_Dir']	= $filter_order_Dir;

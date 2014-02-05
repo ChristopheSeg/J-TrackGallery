@@ -20,7 +20,7 @@ jimport( 'joomla.application.component.view');
 /**
  *
  */
-class JtgViewInfo extends JView
+class JtgViewInfo extends JViewLegacy
 {
     /**
      *

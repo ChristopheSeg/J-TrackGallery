@@ -584,7 +584,7 @@ class JtgModelFiles extends JModelLegacy
 		}
 		$levellimit = 50;
 
-		$rows = JHTML::_('menu.treerecurse', 0, '', array(), $children, max( 0, $levellimit-1 ) );
+		$rows = JHtml::_('menu.treerecurse', 0, '', array(), $children, max( 0, $levellimit-1 ) );
 		$nullcat = array(
 		"id"=>$stdid,
 		"parent"=>"0",

@@ -68,7 +68,7 @@ $link = ".." . DS . "components" . DS . "com_jtg" . DS . "assets" . DS . "images
     </div>
 <?php
 
-    echo JHTML::_( 'form.token' );
+    echo JHtml::_( 'form.token' );
     ?>
     <input type="hidden" name="option" value="com_jtg" />
     <input type="hidden" name="id" value="1" />

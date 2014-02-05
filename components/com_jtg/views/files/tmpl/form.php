@@ -78,7 +78,7 @@ Joomla.submitbutton = function(pressbutton)
 		if(!isset($this->id)) {
 			?>
 		<tr>
-			<td><?php echo JText::_('COM_JTG_GPS_FILE'); ?>* <?php echo JHTML::tooltip(JText::_('COM_JTG_TT_FILES'), JText::_('COM_JTG_TT_HEADER'),'tooltip.png'); ?></td>
+			<td><?php echo JText::_('COM_JTG_GPS_FILE'); ?>* <?php echo JHtml::tooltip(JText::_('COM_JTG_TT_FILES'), JText::_('COM_JTG_TT_HEADER'),'tooltip.png'); ?></td>
 			<td><input type="file" name="file" value="" size="30" /></td>
 		</tr>
 		<?php }
@@ -106,7 +106,7 @@ Joomla.submitbutton = function(pressbutton)
 				size="30" /></td>
 		</tr>
 		<tr>
-			<td><?php echo JText::_('COM_JTG_LEVEL'); ?>* <?php echo JHTML::tooltip(JText::_('COM_JTG_TT_LEVEL'), JText::_('COM_JTG_TT_HEADER'),'tooltip.png'); ?></td>
+			<td><?php echo JText::_('COM_JTG_LEVEL'); ?>* <?php echo JHtml::tooltip(JText::_('COM_JTG_TT_LEVEL'), JText::_('COM_JTG_TT_HEADER'),'tooltip.png'); ?></td>
 			<td>
 				<?php echo $this->level; ?>
 			</td>
@@ -119,16 +119,16 @@ Joomla.submitbutton = function(pressbutton)
 		if($this->cfg->access == 1) {
 			?>
 		<tr>
-			<td><?php echo JText::_('COM_JTG_ACCESS_LEVEL'); ?>&nbsp;<?php echo JHTML::tooltip(JText::_('COM_JTG_TT_ACCESS'), JText::_('COM_JTG_TT_HEADER'),'tooltip.png'); ?></td>
+			<td><?php echo JText::_('COM_JTG_ACCESS_LEVEL'); ?>&nbsp;<?php echo JHtml::tooltip(JText::_('COM_JTG_TT_ACCESS'), JText::_('COM_JTG_TT_HEADER'),'tooltip.png'); ?></td>
 			<td><?php echo $this->lists['access']; ?></td>
 		</tr>
 		<?php } ?>
 		<tr>
-			<td><?php echo JText::_('COM_JTG_TERRAIN'); ?> <?php echo JHTML::tooltip(JText::_('COM_JTG_TT_TERRAIN'), JText::_('COM_JTG_TT_HEADER'),'tooltip.png'); ?></td>
+			<td><?php echo JText::_('COM_JTG_TERRAIN'); ?> <?php echo JHtml::tooltip(JText::_('COM_JTG_TT_TERRAIN'), JText::_('COM_JTG_TT_HEADER'),'tooltip.png'); ?></td>
 			<td><?php echo $this->lists['terrain']; ?></td>
 		</tr>
 		<tr>
-			<td><?php echo JText::_('COM_JTG_DESCRIPTION'); ?>* <?php echo JHTML::tooltip(JText::_('COM_JTG_TT_DESC'), JText::_('COM_JTG_TT_HEADER'),'tooltip.png'); ?></td>
+			<td><?php echo JText::_('COM_JTG_DESCRIPTION'); ?>* <?php echo JHtml::tooltip(JText::_('COM_JTG_TT_DESC'), JText::_('COM_JTG_TT_HEADER'),'tooltip.png'); ?></td>
 			<td><?php echo $this->editor->display( 'description', $description , '500', '200', '15', '25', false ) ; ?></td>
 		</tr>
 		<tr>
@@ -160,7 +160,7 @@ $accept = explode(",",$accept);
 	</tbody>
 </table>
 		<?php
-		echo JHTML::_( 'form.token' ) . "\n"; ?> <input type="hidden"
+		echo JHtml::_( 'form.token' ) . "\n"; ?> <input type="hidden"
 	name="option" value="com_jtg" /> <input type="hidden"
 	name="controller" value="files" /> <?php
 	if(isset($this->id)) echo '<input type="hidden" name="id" value="'.$this->id.'" />';

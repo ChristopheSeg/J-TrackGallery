@@ -62,7 +62,7 @@ JToolBarHelper::help( 'terrain/form',true );
             </tr>
         </tbody>
     </table>
-    <?php echo JHTML::_( 'form.token' ); ?>
+    <?php echo JHtml::_( 'form.token' ); ?>
     <input type="hidden" name="option" value="com_jtg" />
     <input type="hidden" name="controller" value="terrain" />
     <input type="hidden" name="task" value="" />

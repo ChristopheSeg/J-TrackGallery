@@ -28,7 +28,7 @@ class JtgControllertranslations extends JtgController
 
 	function saveLanguages() {
 		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		JSession::checkToken() or jexit( 'Invalid Token' );
 
 		$model = $this->getModel('translations');
 		$success = $model->saveLanguage();

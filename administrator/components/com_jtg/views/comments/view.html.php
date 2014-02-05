@@ -20,7 +20,7 @@ jimport( 'joomla.application.component.view');
 /**
  *
  */
-class JtgViewComments extends JView
+class JtgViewComments extends JViewLegacy
 {
 	/**
 	 *

@@ -38,7 +38,7 @@ class JtgControllerConfig extends JtgController
 	{
 		$mainframe =& JFactory::getApplication();
 //		check the token
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JSession::checkToken() or die( 'Invalid Token' );
 		$model = $this->getModel('config');
 		$error = $model->saveConfig();
 		if ($error !== true)

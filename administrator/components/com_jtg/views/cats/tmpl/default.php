@@ -35,12 +35,12 @@ $ordering = ($this->lists['order'] == 'ordering');
 			<th width="5%" class="title" nowrap="nowrap"><?php echo JText::_( 'COM_JTG_ID'); ?>
 			</th>
 			<th width="5%" class="title"><input type="checkbox" name="toggle"
-				value="" onclick="checkAll(<?php echo count($this->rows); ?>);" /></th>
+				value="" onclick="Joomla.checkAll(<?php echo count($this->rows); ?>);" /></th>
 			<th width="5%" class="title"><?php echo JText::_( 'COM_JTG_IMAGE' ); ?></th>
 			<th width="20%" class="title"><?php echo JText::_( 'COM_JTG_CAT' ); ?></th>
 			<th width="40%" class="title"><?php echo JText::_( 'COM_JTG_DESCRIPTION' ); ?></th>
 			<?php if ( $ordering !== false ) { ?>
-			<th width="10%" class="order"><?php echo JText::_( 'COM_JTG_ORDER'); ?> <?php if ($ordering) echo JHTML::_('grid.order', $this->rows ); ?>
+			<th width="10%" class="order"><?php echo JText::_( 'COM_JTG_ORDER'); ?> <?php if ($ordering) echo JHtml::_('grid.order', $this->rows ); ?>
 			</th>
 			<?php } ?>
 			<th width="10%" class="title"><?php echo JText::_( 'COM_JTG_PUBLISHED'); ?></th>
@@ -52,8 +52,8 @@ $ordering = ($this->lists['order'] == 'ordering');
 	for ($i=0, $n=count( $this->list ); $i < $n; $i++)
 	{
 		$row = &$this->list[$i];
-		$checked 	= JHTML::_('grid.checkedout', $row, $i );
-		$published 	= JHTML::_('grid.published', $row, $i );
+		$checked 	= JHtml::_('grid.checkedout', $row, $i );
+		$published 	= JHtml::_('grid.published', $row, $i );
 
 		?>
 		<tr class="<?php echo "row$k"; ?>">
@@ -93,5 +93,5 @@ $ordering = ($this->lists['order'] == 'ordering');
 <input type="hidden" name="controller" value="cats" /> 
 <input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>" /> 
 <input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>" />
- <?php echo JHTML::_( 'form.token' ); ?>
+ <?php echo JHtml::_( 'form.token' ); ?>
 </form>

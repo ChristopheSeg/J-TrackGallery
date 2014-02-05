@@ -27,7 +27,7 @@ JToolBarHelper::help( 'cats/managecatpics',true );
 	<thead>
 		<tr>
 			<th width="5%" class="title"><?php echo JText::_( 'COM_JTG_NUM' ); ?></th>
-			<th width="5%" class="title"><input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($this->rows); ?>);" /></th>
+			<th width="5%" class="title"><input type="checkbox" name="toggle" value="" onclick="Joomla.checkAll(<?php echo count($this->rows); ?>);" /></th>
 			<th width="10%" class="title"><?php echo JText::_( 'COM_JTG_NAME' ); ?></th>
 <!--			<th width="10%" class="title"><?php echo JText::_( 'COM_JTG_EXTENSION' ); ?></th>-->
 			<th width="5%" class="title"><?php echo JText::_( 'COM_JTG_IMAGE' ); ?></th>
@@ -40,7 +40,7 @@ JToolBarHelper::help( 'cats/managecatpics',true );
 	for ($i=0, $n=count( $this->rows ); $i < $n; $i++)
 	{
 		$row = &$this->rows[$i];
-		$checked 	= JHTML::_('grid.checkedout', $row, $i );
+		$checked 	= JHtml::_('grid.checkedout', $row, $i );
 ?>
 		<tr class="<?php echo "row$k"; ?>">
 			<td align="center"><?php echo $i; ?></td>
@@ -64,5 +64,5 @@ JToolBarHelper::help( 'cats/managecatpics',true );
 	<input type="hidden" name="task" value="<?php echo JRequest::getVar('task'); ?>" />
 	<input type="hidden" name="boxchecked" value="0" />
 	<input type="hidden" name="controller" value="cats" />
-	<?php echo JHTML::_( 'form.token' ); ?>
+	<?php echo JHtml::_( 'form.token' ); ?>
 </form>

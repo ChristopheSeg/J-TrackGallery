@@ -19,7 +19,7 @@ jimport( 'joomla.application.component.view');
 /**
  * HTML View class for the jtg component
  */
-class JtgViewCats extends JView
+class JtgViewCats extends JViewLegacy
 {
     function display($tpl = null)
     {

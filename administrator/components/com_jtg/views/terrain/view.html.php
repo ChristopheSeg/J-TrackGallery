@@ -20,7 +20,7 @@ jimport( 'joomla.application.component.view');
 /**
  *
  */
-class JtgViewTerrain extends JView
+class JtgViewTerrain extends JViewLegacy
 {
 	/**
 	 *
@@ -66,7 +66,7 @@ class JtgViewTerrain extends JView
 			$terrain = $model->getData();
 			$published = 1;
 		}
-		$lists['block'] 	= JHTML::_('select.booleanlist', 'published', 'class="inputbox" size="1"', $published );
+		$lists['block'] 	= JHtml::_('select.booleanlist', 'published', 'class="inputbox" size="1"', $published );
 		
 		$this->id = $id;
 		$this->lists = $lists;

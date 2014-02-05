@@ -94,7 +94,7 @@ if ($maySeeSingleFile === true) {
 	    {
 		$beatchartaxis = 0;
 	    }
-	    JHTML :: script('jquery.js', 'components/com_jtg/assets/js/', false);
+	    JHtml::script('jquery.js', 'components/com_jtg/assets/js/', false);
 	    ?>
 	    <!-- begin Charts -->
 	    
@@ -482,7 +482,7 @@ if ($havechart) {
 <button class="button" type="button" onclick="submitbutton('download')">
 <?php echo JText::_('COM_JTG_DOWNLOAD_THIS_TRACK') ?></button>
 </span> <?php
-echo JHTML::_( 'form.token' ) . "\n"; ?> <input type="hidden"
+echo JHtml::_( 'form.token' ) . "\n"; ?> <input type="hidden"
 	name="option" value="com_jtg" /> <input type="hidden" name="id"
 	value="<?php echo $this->track->id; ?>" /> <input type="hidden"
 	name="task" value="" /></form>
@@ -560,7 +560,7 @@ echo JHTML::_( 'form.token' ) . "\n"; ?> <input type="hidden"
 <div class='comment'>
 <div class="comment-header">
 <div class="comment-title"><?php echo ($i+1) . ": " . $comment->title; ?></div>
-<div class="date"><?php echo JHTML::_('date', $comment->date, JText::_('COM_JTG_DATE_FORMAT_LC4'));; ?>
+<div class="date"><?php echo JHtml::_('date', $comment->date, JText::_('COM_JTG_DATE_FORMAT_LC4'));; ?>
 </div>
 <div class="no-float"></div>
 </div>
