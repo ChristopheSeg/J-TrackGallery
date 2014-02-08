@@ -87,7 +87,7 @@ class com_jtgInstallerScript
 
 	    ?>
 	    <br />
-	    <img src="<?php echo  DS . 'components' . DS . 'com_jtg' . DS . 'assets' . DS . 'images' . DS . 'logo_JTG.png'; ?>"  alt="J!Track Gallery" />
+	    <img src="<?php echo  DIRECTORY_SEPARATOR . 'components' . DIRECTORY_SEPARATOR . 'com_jtg' . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'logo_JTG.png'; ?>"  alt="J!Track Gallery" />
 	    <br />
 	    <table class="adminlist" border="1" width="100%">
 		    <tbody>
@@ -97,28 +97,28 @@ class com_jtgInstallerScript
 	    </table>
 	    <?php
 	    $folders_to_create = array (
-	    "images" . DS . "jtrackgallery",
-	    "images" . DS . "jtrackgallery" . DS . "cats",
-	    "images" . DS . "jtrackgallery" . DS . "terrain",
-	    "images" . DS . "jtrackgallery" . DS . "uploaded_tracks",
-	    "images" . DS . "jtrackgallery" . DS . "uploaded_tracks" . DS . "import"
+	    "images" . DIRECTORY_SEPARATOR . "jtrackgallery",
+	    "images" . DIRECTORY_SEPARATOR . "jtrackgallery" . DIRECTORY_SEPARATOR . "cats",
+	    "images" . DIRECTORY_SEPARATOR . "jtrackgallery" . DIRECTORY_SEPARATOR . "terrain",
+	    "images" . DIRECTORY_SEPARATOR . "jtrackgallery" . DIRECTORY_SEPARATOR . "uploaded_tracks",
+	    "images" . DIRECTORY_SEPARATOR . "jtrackgallery" . DIRECTORY_SEPARATOR . "uploaded_tracks" . DIRECTORY_SEPARATOR . "import"
 		);
 
 	    $folders_to_chmod = array (
-	    "images" . DS . "jtrackgallery" . DS . "uploaded_tracks",
-	    "images" . DS . "jtrackgallery" . DS . "uploaded_tracks" . DS . "import",
-	    "components" . DS . "com_jtg" . DS . "assets" . DS . "images" . DS . "symbols",
+	    "images" . DIRECTORY_SEPARATOR . "jtrackgallery" . DIRECTORY_SEPARATOR . "uploaded_tracks",
+	    "images" . DIRECTORY_SEPARATOR . "jtrackgallery" . DIRECTORY_SEPARATOR . "uploaded_tracks" . DIRECTORY_SEPARATOR . "import",
+	    "components" . DIRECTORY_SEPARATOR . "com_jtg" . DIRECTORY_SEPARATOR . "assets" . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "symbols",
 	    );
 
 	    echo '<table><tr><td colspan="3"><b>'.JText::_('COM_JTG_FILES_FOLDERS_TO_CREATE').'</td></tr>';
 	    echo '<tr><td>'.JText::_('COM_JTG_FILE').'/'.JText::_('COM_JTG_FOLDER').'</td><td>'.JText::_('COM_JTG_NAME').'</td><td>'.JText::_('COM_JTG_STATE').'</td></tr>';
 
 	    foreach ( $folders_to_create AS $folder ) {
-		    if(JFolder::exists(JPATH_SITE . DS . $folder))
+		    if(JFolder::exists(JPATH_SITE . DIRECTORY_SEPARATOR . $folder))
 			    echo '<tr><td>' . JText::_('COM_JTG_FOLDER') . '</td><td>' .
 			    $folder . '</td><td><font color="green">' . 
 			    JText::_('COM_JTG_ALREADY_EXISTS')  . '</font></td></tr>';
-		    elseif(JFolder::create(JPATH_SITE . DS . $folder)) {
+		    elseif(JFolder::create(JPATH_SITE . DIRECTORY_SEPARATOR . $folder)) {
 			    echo '<tr><td>' . JText::_('COM_JTG_FOLDER') . '</td><td>' .
 			    $folder . '</td><td><font color="green">' . 
 			    JText::_('COM_JTG_CREATED')  . '</font></td></tr>';
@@ -131,7 +131,7 @@ class com_jtgInstallerScript
 	
 	    foreach ( $folders_to_chmod AS $folder ) {
 		    ;
-		    if ( JPath::canChmod(JPATH_SITE . DS . $folder) AND (chmod(JPATH_SITE . DS . $folder, 0777))) {
+		    if ( JPath::canChmod(JPATH_SITE . DIRECTORY_SEPARATOR . $folder) AND (chmod(JPATH_SITE . DIRECTORY_SEPARATOR . $folder, 0777))) {
 			    echo '<tr><td>' . JText::_('COM_JTG_FOLDER') . '</td><td>' .
 			    $folder . '</td><td><font color="green">' . 
 			    JText::_('COM_JTG_CHMODDED')  . '</font></td></tr>';
@@ -143,26 +143,26 @@ class com_jtgInstallerScript
 	    }
 
 	    // copy Cats image
-	    $src_folder_to_copy =  JPATH_SITE . DS . 'components' . DS . 'com_jtg' . DS . 'assets' . DS . 'images' . DS . 'cats';
-	    $dest_folder_to_copy = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'cats';
+	    $src_folder_to_copy =  JPATH_SITE . DIRECTORY_SEPARATOR . 'components' . DIRECTORY_SEPARATOR . 'com_jtg' . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'cats';
+	    $dest_folder_to_copy = JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'cats';
 	    $files = JFolder::files($src_folder_to_copy);
 
 	    // copy file by file without erasing existing files
 	    foreach ($files as $file) {
-	       if (!JFile::exists($dest_folder_to_copy . DS.  $file) ) {
-		   JFile::copy($src_folder_to_copy. DS . $file, $dest_folder_to_copy . DS.  $file);
+	       if (!JFile::exists($dest_folder_to_copy . DIRECTORY_SEPARATOR.  $file) ) {
+		   JFile::copy($src_folder_to_copy. DIRECTORY_SEPARATOR . $file, $dest_folder_to_copy . DIRECTORY_SEPARATOR.  $file);
 	       }
 	    }
 	    
 	    // copy example tracks
-	    $src_folder_to_copy =  JPATH_SITE . DS . 'components' . DS . 'com_jtg' . DS . 'assets' . DS . 'sample_tracks';
-	    $dest_folder_to_copy = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploaded_tracks';
+	    $src_folder_to_copy =  JPATH_SITE . DIRECTORY_SEPARATOR . 'components' . DIRECTORY_SEPARATOR . 'com_jtg' . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'sample_tracks';
+	    $dest_folder_to_copy = JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'uploaded_tracks';
 	    $files = JFolder::files($src_folder_to_copy);
 
 	    // copy file by file without erasing existing files
 	    foreach ($files as $file) {
-	       if (!JFile::exists($dest_folder_to_copy . DS.  $file) ) {
-		   JFile::copy($src_folder_to_copy. DS . $file, $dest_folder_to_copy . DS.  $file);
+	       if (!JFile::exists($dest_folder_to_copy . DIRECTORY_SEPARATOR.  $file) ) {
+		   JFile::copy($src_folder_to_copy. DIRECTORY_SEPARATOR . $file, $dest_folder_to_copy . DIRECTORY_SEPARATOR.  $file);
 	       }
 	    }
 	    
@@ -207,15 +207,6 @@ class com_jtgInstallerScript
 	function postflight( $type, $parent ) {
  
 		// uninstall postflight JTEXT string must be saved in en-GB.com_jtg.sys.ini
-		// TODOTEMP TEST add a record in  #__jtg_users
-		$db =& JFactory::getDBO();
-		$application = JFactory::getApplication();
-		$query = 'INSERT INTO #__jtg_temp (method, version) VALUES ("UPDATE function","'.
-			$oldRelease.'==>'.$this->release.'") ';
-		$application->enqueueMessage( $query) ; //TODOTEMP
-		$db->setQuery($query);
-		$db->query();
-		// TODOTEMP TEST add a record in  #__jtg_users
 
 		// check if com_jtg is installed, 
 		$query = 'SELECT COUNT(*) FROM #__extensions WHERE name = "com_jtg"';
@@ -290,7 +281,7 @@ class com_jtgInstallerScript
 	    $application->enqueueMessage( JText::_('COM_JTG_THANK_YOU_FOR_USING') ) ;
 	    echo '<p>' . JText::_('COM_JTG_UNINSTALLING') . '</p>';
 	    $folders_to_delete = array (
-	    "images" . DS . "jtrackgallery"
+	    "images" . DIRECTORY_SEPARATOR . "jtrackgallery"
 	    );
 
 	    $files_to_delete = array ();
@@ -307,9 +298,9 @@ class com_jtgInstallerScript
 		    }
 	    }
 	    foreach ( $folders_to_delete AS $folder ) {
-		    if(!JFolder::exists(JPATH_SITE . DS . $folder)){
+		    if(!JFolder::exists(JPATH_SITE . DIRECTORY_SEPARATOR . $folder)){
 			    echo '<tr><td>'.JText::_('COM_JTG_FOLDER').'</td><td>' . $folder . '</td><td><font color="green">' . JText::_('COM_JTG_NOT_EXISTS') . '"</font>" </td></tr>';}
-		    elseif(JFolder::delete(JPATH_SITE . DS . $folder)) {
+		    elseif(JFolder::delete(JPATH_SITE . DIRECTORY_SEPARATOR . $folder)) {
 			    echo '<tr><td>'.JText::_('COM_JTG_FOLDER').'</td><td>' . $folder . '</td><td><font color="green">' .JText::_('COM_JTG_DELETED') . '"</font>" </td></tr>';
 		    } else {
 			    echo '<tr><td>'.JText::_('COM_JTG_FOLDER').'</td><td>' . $folder . '</td><font color="red">' . JText::_('COM_JTG_ERROR') . JText::_('COM_JTG_NOT_DELETED') . '"</font>" </td></tr>';

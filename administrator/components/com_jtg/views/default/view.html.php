@@ -16,7 +16,7 @@ defined('_JEXEC') or die('Restricted access');
 
 // Import Joomla! libraries
 jimport( 'joomla.application.component.view');
-require_once JPATH_ROOT . DS . 'components' . DS . 'com_jtg' . DS . 'helpers' . DS . 'gpsClass.php';
+require_once JPATH_ROOT . DIRECTORY_SEPARATOR . 'components' . DIRECTORY_SEPARATOR . 'com_jtg' . DIRECTORY_SEPARATOR . 'helpers' . DIRECTORY_SEPARATOR . 'gpsClass.php';
 /**
  *
  */

@@ -355,7 +355,7 @@ class JtgHelper
 
 	function parseMoreTerrains($allterrains,$terrainid,$format="array",$link=false) {
 		$baseurl = "index.php?option=com_jtg&view=files&layout=list&terrain=";
-		$image = JUri::base() . 'images' . DS . 'jtrackgallery' . DS . 'terrain' . DS;
+		$image = JUri::base() . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'terrain' . DIRECTORY_SEPARATOR;
 		$terrainids = explode(",",$terrainid);
 		$return = array();
 		switch ($format) {
@@ -515,7 +515,7 @@ class JtgHelper
 	 * @param string $filepath
 	 */
 	function createimageandthumbs($file_tmp_name, $ext, $image_dir, $image) {
-		require_once(JPATH_SITE . DS . "administrator" . DS . "components" . DS . "com_jtg" . DS . "models" . DS . "thumb_creation.php");
+		require_once(JPATH_SITE . DIRECTORY_SEPARATOR . "administrator" . DIRECTORY_SEPARATOR . "components" . DIRECTORY_SEPARATOR . "com_jtg" . DIRECTORY_SEPARATOR . "models" . DIRECTORY_SEPARATOR . "thumb_creation.php");
 		$filepath = $image_dir . $image ;
 		switch (strtolower($ext)) {
 			case 'jpeg':
@@ -571,6 +571,7 @@ class JtgHelper
 			case 'jpeg':
 			case 'pjpeg':
 			case 'jpg':
+				$filename = $filepath ;
 				if($resized)
 				{
 					// upload the image and convert
@@ -634,8 +635,8 @@ class JtgHelper
 				break;
 
 			case "js":
-				$jspath = JPATH_BASE . DS . 'components' . DS . 'com_community';
-				include_once($jspath . DS . 'libraries' . DS . 'core.php');
+				$jspath = JPATH_BASE . DIRECTORY_SEPARATOR . 'components' . DIRECTORY_SEPARATOR . 'com_community';
+				include_once($jspath . DIRECTORY_SEPARATOR . 'libraries' . DIRECTORY_SEPARATOR . 'core.php');
 
 				$link = "<a href=".CRoute::_('index.php?option=com_community&view=profile&userid='.$uid) . " >" . $username . "</a>";
 				return $link;

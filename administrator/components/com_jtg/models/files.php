@@ -51,8 +51,8 @@ class JtgModelFiles extends JModelLegacy
 		$file =& JRequest::getVar('file');
 		$cfg = JtgHelper::getConfig();
 		jimport('joomla.filesystem.file');
-		require_once(".." . DS . "components" . DS . "com_jtg" . DS . "helpers" . DS . "gpsClass.php");
-		$file = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploaded_tracks' . DS . $file;
+		require_once(".." . DIRECTORY_SEPARATOR . "components" . DIRECTORY_SEPARATOR . "com_jtg" . DIRECTORY_SEPARATOR . "helpers" . DIRECTORY_SEPARATOR . "gpsClass.php");
+		$file = JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'uploaded_tracks' . DIRECTORY_SEPARATOR . $file;
 		$gpsData = new gpsDataClass($cfg->unit);
 		$gpsData ->loadFileAndData($file, $file ); // Do not use cache here
 		if ($gpsData->displayErrors())
@@ -158,22 +158,7 @@ class JtgModelFiles extends JModelLegacy
 		}
 		return true;
 	}
-	function TODOREMOVEDEPRECATEDimageupload($images,$id,$path) {
-		$cfg = JtgHelper::getConfig();
-		$types = explode(',',$cfg->type); // jpg,png,gif f.e.
-		if(count($images) > 0 )  {
-			$img_dir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'track_' . $id;
-			JFolder::create($img_dir,0777);
-			foreach($images['name'] as $key => $value)  {
-				$ext = explode('.',$images['name'][$key]);
-				$ext = count($ext)-1;
-				$filename = str_replace("." . $ext,"",$images['name'][$key]);
-				if(in_array(strtolower($ext), $types)) {
-					JtgHelper::createimageandthumbs($images['tmp_name'][$key], $ext, $img_dir,$images['name'][$key]);
-				}
-			}
-		}
-	}
+
 
 	/**
 	 *
@@ -481,11 +466,11 @@ class JtgModelFiles extends JModelLegacy
 			}
 			foreach($rows as $row)  {
 				// folder and Pictures within delete
-				$folder = JPATH_SITE . DS . "images" . DS . "jtrackgallery" . DS . $row->id;
+				$folder = JPATH_SITE . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "jtrackgallery" . DIRECTORY_SEPARATOR . $row->id;
 				if (JFolder::exists($folder))
 				JFolder::delete($folder);
 				// File (gpx?) delete
-				$filename = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploaded_tracks' . DS . $row->file;
+				$filename = JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'uploaded_tracks' . DIRECTORY_SEPARATOR . $row->file;
 				if (JFile::exists($filename))
 				JFile::delete($filename);
 			}
@@ -665,11 +650,11 @@ class JtgModelFiles extends JModelLegacy
 	function saveFiles() {
 		$mainframe =& JFactory::getApplication();
 		jimport('joomla.filesystem.file');
-		require_once(".." . DS . "components" . DS . "com_jtg" . DS . "helpers" . DS . "gpsClass.php");
+		require_once(".." . DIRECTORY_SEPARATOR . "components" . DIRECTORY_SEPARATOR . "com_jtg" . DIRECTORY_SEPARATOR . "helpers" . DIRECTORY_SEPARATOR . "gpsClass.php");
 		$fileokay = true;
 		$db =& JFactory::getDBO();
 		$user =& JFactory::getUser();
-		$targetdir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploaded_tracks'.DS;
+		$targetdir = JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'uploaded_tracks'. DIRECTORY_SEPARATOR;
 		$found =& JRequest::getInt('found');
 		for($i=0;$i<$found;$i++) {
 			$existingfiles = JFolder::files($targetdir);
@@ -690,7 +675,7 @@ class JtgModelFiles extends JModelLegacy
 				$desc = $this->parsedesc($desc);
 				$file =& JRequest::getVar('file_'.$i);
 				$hidden =& JRequest::getVar('hidden_'.$i);
-				$file_tmp = explode(DS,$file);
+				$file_tmp = explode(DIRECTORY_SEPARATOR,$file);
 				$filename = strtolower($file_tmp[(count($file_tmp)-1)]);
 				$file_tmp = str_replace(' ','_',$filename);
 				$file_tmp = explode('.',$file_tmp);
@@ -765,8 +750,8 @@ class JtgModelFiles extends JModelLegacy
 				if ($fileokay == true) {
 
 					// upload the file
-					// 				$upload_dir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploaded_tracks'.DS;
-					// 				$filename = explode(DS,$file);
+					// 				$upload_dir = JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'uploaded_tracks'. DIRECTORY_SEPARATOR;
+					// 				$filename = explode(DIRECTORY_SEPARATOR,$file);
 					// 				$filename = $filename[(count($filename)-1)];
 					// 				$filename = JFile::makeSafe($filename);
 					if (!JFile::copy($file, $targetdir.$target)) {
@@ -815,15 +800,15 @@ class JtgModelFiles extends JModelLegacy
 		// TODO Deprecated, can be replacd by import from injooosm
 		$mainframe =& JFactory::getApplication();
 		jimport('joomla.filesystem.file');
-		require_once(".." . DS . "components" . DS . "com_jtg" . DS . "helpers" . DS . "gpsClass.php");
+		require_once(".." . DIRECTORY_SEPARATOR . "components" . DIRECTORY_SEPARATOR . "com_jtg" . DIRECTORY_SEPARATOR . "helpers" . DIRECTORY_SEPARATOR . "gpsClass.php");
 		$db =& JFactory::getDBO();
 		$fileokay = false;
-		$targetdir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploaded_tracks'.DS;
+		$targetdir = JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'uploaded_tracks'. DIRECTORY_SEPARATOR;
 		// TODO What was this import for? Joogpstracks to Injooosm??
-		$sourcedir = JPATH_SITE . DS . "components" . DS . "com_joomgpstracks" . DS . "uploaded_tracks".DS;
+		$sourcedir = JPATH_SITE . DIRECTORY_SEPARATOR . "components" . DIRECTORY_SEPARATOR . "com_joomgpstracks" . DIRECTORY_SEPARATOR . "uploaded_tracks". DIRECTORY_SEPARATOR;
 		$existingfiles = JFolder::files($targetdir);
 		$file = $sourcedir.$track['file'];
-		$file_tmp = explode(DS,$file);
+		$file_tmp = explode(DIRECTORY_SEPARATOR,$file);
 		$file_tmp = str_replace(' ','_',strtolower($file_tmp[(count($file_tmp)-1)]));
 		$file_tmp = explode('.',$file_tmp);
 		$extension = $file_tmp[(count($file_tmp)-1)];
@@ -919,9 +904,9 @@ class JtgModelFiles extends JModelLegacy
 					echo $db->stderr();
 					return false;
 				}
-				$imagedirsource = JPATH_SITE . DS . "images" . DS . "joomgpstracks" . DS . md5($track['title']).DS;
+				$imagedirsource = JPATH_SITE . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "joomgpstracks" . DIRECTORY_SEPARATOR . md5($track['title']). DIRECTORY_SEPARATOR;
 				$imagedirsourcedir = JFolder::files($imagedirsource);
-				$imagedirdestination = JPATH_SITE . DS . "images" . DS . "jtrackgallery" . DS . $result->id.DS;
+				$imagedirdestination = JPATH_SITE . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "jtrackgallery" . DIRECTORY_SEPARATOR . $result->id. DIRECTORY_SEPARATOR;
 				if((!JFolder::exists($imagedirdestination)) AND (count($imagedirsourcedir) > 0) )
 				JFolder::create($imagedirdestination,0777);
 				foreach ( $imagedirsourcedir AS $imagetocopy ) {
@@ -939,7 +924,7 @@ class JtgModelFiles extends JModelLegacy
 	function saveFile() {
 		$mainframe =& JFactory::getApplication();
 		jimport('joomla.filesystem.file');
-		require_once(".." . DS . "components" . DS . "com_jtg" . DS . "helpers" . DS . "gpsClass.php");
+		require_once(".." . DIRECTORY_SEPARATOR . "components" . DIRECTORY_SEPARATOR . "com_jtg" . DIRECTORY_SEPARATOR . "helpers" . DIRECTORY_SEPARATOR . "gpsClass.php");
 
 		$db =& JFactory::getDBO();
 		$user =& JFactory::getUser();
@@ -964,7 +949,7 @@ class JtgModelFiles extends JModelLegacy
 
 		// @ToDo: => JtgHelper::uploadfile
 		// upload the file
-		$upload_dir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploaded_tracks' . DS;
+		$upload_dir = JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'uploaded_tracks' . DIRECTORY_SEPARATOR;
 		$filename = JFile::makeSafe($file['name']);
 		$randnumber = (50-strlen($filename));
 		$fncount = 0;
@@ -992,7 +977,7 @@ class JtgModelFiles extends JModelLegacy
 		// get the start coordinates
 		$gpsData = new gpsDataClass("Kilometer");// default unit
 		//TODO $track is not defined  here !!!!
-		$file = ".." . DS . "images" . DS . "jtrackgallery" . DS . "uploaded_tracks" . DS . strtolower($filename);
+		$file = ".." . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "jtrackgallery" . DIRECTORY_SEPARATOR . "uploaded_tracks" . DIRECTORY_SEPARATOR . strtolower($filename);
 		$cache = & JFactory::getCache();
 		$gpsData = $cache->get(array ( $gpsData, 'loadFileAndData' ), array ($file, strtolower($filename) ), "Kilometer");
 		if ($gpsData->displayErrors())
@@ -1055,7 +1040,7 @@ class JtgModelFiles extends JModelLegacy
 		}
 		$id = $result->id;
 		//		images upload part
-		$imgpath = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'track_' . $id . DS;
+		$imgpath = JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'track_' . $id . DIRECTORY_SEPARATOR;
 		$images =& JRequest::getVar('images', null, 'files', 'array');
 		if(count($images['name']) > 1)
 		{
@@ -1067,10 +1052,10 @@ class JtgModelFiles extends JModelLegacy
 				if($value != "")
 				{
 					$imgfilename = JFile::makesafe($value);
-					$ext = explode('.',$images['name'][$key]);
-					if(in_array(strtolower($ext[1]),$types))
+					$ext = JFile::getExt($images['name'][$key]);
+					if(in_array(strtolower($ext),$types))
 					{
-						JtgHelper::createimageandthumbs($images['tmp_name'][$key], $ext[1],$imgpath, $imgfilename);
+						JtgHelper::createimageandthumbs($images['tmp_name'][$key], $ext,$imgpath, $imgfilename);
 					}
 				}
 			}
@@ -1089,11 +1074,11 @@ class JtgModelFiles extends JModelLegacy
 		$importfiles = $this->_fetchJPTfiles;
 		$mainframe =& JFactory::getApplication();
 		jimport('joomla.filesystem.file');
-		require_once(".." . DS . "components" . DS . "com_jtg" . DS . "helpers" . DS . "gpsClass.php");
+		require_once(".." . DIRECTORY_SEPARATOR . "components" . DIRECTORY_SEPARATOR . "com_jtg" . DIRECTORY_SEPARATOR . "helpers" . DIRECTORY_SEPARATOR . "gpsClass.php");
 		$fileokay = true;
 		$db =& JFactory::getDBO();
 		$user =& JFactory::getUser();
-		$targetdir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploaded_tracks'.DS;
+		$targetdir = JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'uploaded_tracks'. DIRECTORY_SEPARATOR;
 		//	$found =& JRequest::getInt('found');
 		for($i=0;$i<count($importfiles);$i++) {
 			$importfile = $importfiles[$i];
@@ -1107,7 +1092,7 @@ class JtgModelFiles extends JModelLegacy
 			$desc = $importfile['desc'];
 			$file = $importfile['file'];
 			$source = $file;
-			$file_tmp = explode(DS,$file);
+			$file_tmp = explode(DIRECTORY_SEPARATOR,$file);
 			//				$file_tmp = str_replace(' ','_',strtolower($file_tmp[(count($file_tmp)-1)]));
 			$file_tmp = explode('.',$file_tmp);
 			$extension = $file_tmp[(count($file_tmp)-1)];
@@ -1170,8 +1155,8 @@ class JtgModelFiles extends JModelLegacy
 			//			if ($fileokay == true) {
 
 			// upload the file
-			// 				$upload_dir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploaded_tracks'.DS;
-			// 				$filename = explode(DS,$file);
+			// 				$upload_dir = JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'uploaded_tracks'. DIRECTORY_SEPARATOR;
+			// 				$filename = explode(DIRECTORY_SEPARATOR,$file);
 			// 				$filename = $filename[(count($filename)-1)];
 			// 				$filename = JFile::makeSafe($filename);
 			if (!JFile::copy($file, $targetdir.$target)) {
@@ -1228,16 +1213,16 @@ class JtgModelFiles extends JModelLegacy
 				$images = 0;
 				// Fehlt noch ...
 
-				$sourcePath = JPATH_SITE . DS . 'images' . DS . 'joomgpstracks' . DS . md5($title);
-				$destPath = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'track_' . $id;
+				$sourcePath = JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'joomgpstracks' . DIRECTORY_SEPARATOR . md5($title);
+				$destPath = JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'track_' . $id;
 				if(count($images) > 0 )  {
 					JFolder::create($destPath,0777);
-					//						$img_dir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . md5($title);
+					//						$img_dir = JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . md5($title);
 					foreach($images['name'] as $key => $value)  {
-						$ext = explode('.',$images['name'][$key]);
-						if(in_array($ext[1], $types)) {
+						$ext = JFile::getExt($images['name'][$key]);
+						if(in_array($ext, $types)) {
 
-							JtgHelper::createimageandthumbs($images['tmp_name'][$key], $ext[1], $destPath,  strtolower($images['name'][$key]));
+							JtgHelper::createimageandthumbs($images['tmp_name'][$key], $ext, $destPath,  $images['name'][$key]);
 						}
 					}
 				}
@@ -1248,7 +1233,7 @@ class JtgModelFiles extends JModelLegacy
 	}
 
 	function getImages($id) {
-		$img_dir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'track_' . $id;
+		$img_dir = JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'track_' . $id;
 		if (!JFolder::exists($img_dir))
 		return null;
 		$images = JFolder::files($img_dir);
@@ -1258,7 +1243,7 @@ class JtgModelFiles extends JModelLegacy
 	function updateFile()  {
 		$mainframe =& JFactory::getApplication();
 		jimport('joomla.filesystem.file');
-		require_once('..' . DS . 'components' . DS . 'com_jtg' . DS . 'helpers' . DS . 'gpsClass.php');
+		require_once('..' . DIRECTORY_SEPARATOR . 'components' . DIRECTORY_SEPARATOR . 'com_jtg' . DIRECTORY_SEPARATOR . 'helpers' . DIRECTORY_SEPARATOR . 'gpsClass.php');
 
 		$db =& JFactory::getDBO();
 		$user =& JFactory::getUser();
@@ -1273,7 +1258,7 @@ class JtgModelFiles extends JModelLegacy
 		$published =& JRequest::getVar('published');
 
 		$allimages = $this->getImages($id);
-		$imgpath = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'track_' . $id. DS;
+		$imgpath = JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'track_' . $id. DIRECTORY_SEPARATOR;
 		if($allimages){
 			foreach ($allimages AS $key => $image) {
 				$image =& JRequest::getVar('deleteimage_'.str_replace('.',null,$image));
@@ -1281,9 +1266,9 @@ class JtgModelFiles extends JModelLegacy
 				{
 				    JFile::delete($imgpath.$image);
 				    // delete thumbnails too
-				    JFile::delete($imgpath. 'thumbs' . DS. 'thumb0_' . $image);
-				    JFile::delete($imgpath. 'thumbs' . DS. 'thumb1_' . $image);
-				    JFile::delete($imgpath. 'thumbs' . DS. 'thumb2_' . $image);
+				    JFile::delete($imgpath. 'thumbs' . DIRECTORY_SEPARATOR. 'thumb0_' . $image);
+				    JFile::delete($imgpath. 'thumbs' . DIRECTORY_SEPARATOR. 'thumb1_' . $image);
+				    JFile::delete($imgpath. 'thumbs' . DIRECTORY_SEPARATOR. 'thumb2_' . $image);
 				}
 			}
 		}
@@ -1311,10 +1296,10 @@ class JtgModelFiles extends JModelLegacy
 			foreach($images['name'] as $key => $value)
 			{
 				$filename = JFile::makesafe($value);
-				$ext = explode('.',$images['name'][$key]);
-				if(in_array(strtolower($ext[1]), $types))
+				$ext = JFile::getExt($images['name'][$key]);
+				if(in_array(strtolower($ext), $types))
 				{
-					JtgHelper::createimageandthumbs($images['tmp_name'][$key], $ext[1], $imgpath, $filename);
+					JtgHelper::createimageandthumbs($images['tmp_name'][$key], $ext, $imgpath, $filename);
 				}
 			}
 		}

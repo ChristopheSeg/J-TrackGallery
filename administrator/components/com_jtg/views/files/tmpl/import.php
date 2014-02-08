@@ -51,8 +51,8 @@ $level = JArrayHelper::toObject($level);
 $row=0;
 $count = 0;
 $errorposted = false;
-$importdir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploaded_tracks' . DS . "import";
-$filesdir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploaded_tracks'.DS;
+$importdir = JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'uploaded_tracks' . DIRECTORY_SEPARATOR . "import";
+$filesdir = JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'uploaded_tracks'. DIRECTORY_SEPARATOR;
 $filesdir = JFolder::files($filesdir);
 //	*.gpx, *.trk, *.kml (not case sensitive)
 $regex="(.[gG][pP][xX]$|.[tT][rR][kK]$|.[kK][mM][lL]$)";
@@ -127,8 +127,8 @@ foreach($files AS $file) {
 	unset($file_tmp[(count($file_tmp)-1)]);
 	$filename = implode('.',$file_tmp);
 	$filename = $filename . "." . $extension;
-	$filename = str_replace($importdir.DS,'',$filename);
-	$filename_wof = explode(DS,$filename);
+	$filename = str_replace($importdir. DIRECTORY_SEPARATOR,'',$filename);
+	$filename_wof = explode(DIRECTORY_SEPARATOR,$filename);
 	$filename_wof = $filename_wof[(count($filename_wof)-1)];
 
 	// $filename = strtolower(JFile::getName($file));
@@ -342,13 +342,13 @@ $table_footer = ("		</tbody>\n	</table>\n");
 if ( $count == 0 ){
 	$model = $this->getModel();
 	$rows = $model->_fetchJPTfiles();
-	if ( (JFolder::exists(JPATH_BASE . DS . 'components' . DS . 'com_joomgpstracks')) AND (count($rows) != 0 ) ) {
+	if ( (JFolder::exists(JPATH_BASE . DIRECTORY_SEPARATOR . 'components' . DIRECTORY_SEPARATOR . 'com_joomgpstracks')) AND (count($rows) != 0 ) ) {
 		// Datenimport von joomgpstracks BEGIN
 		JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_FOUND_H'));
 		echo (JText::_('COM_JTG_FOUND_T') . "<br /><br />");
 		echo (JText::_('COM_JTG_FOUND_L'));
 		//TODO folder/images don't exist !!!
-		echo (" <a href=\"index.php?option=com_jtg&task=importjgt&controller=files\"><img src=\"templates" . DS . "khepri" . DS . "images" . DS . "notice-download.png\" /></a>");
+		echo (" <a href=\"index.php?option=com_jtg&task=importjgt&controller=files\"><img src=\"templates" . DIRECTORY_SEPARATOR . "khepri" . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "notice-download.png\" /></a>");
 		// Datenimport von joomgpstracks END
 	} else
 	// Nichts zu importieren

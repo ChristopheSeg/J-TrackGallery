@@ -93,7 +93,7 @@ class JtgViewFiles extends JViewLegacy
 	 * @return <type>$gps
 	 */
 	function display($tpl = null) {
-		$file = JPATH_SITE . DS . "components" . DS . "com_jtg" . DS . "models" . DS . "jtg.php";
+		$file = JPATH_SITE . DIRECTORY_SEPARATOR . "components" . DIRECTORY_SEPARATOR . "com_jtg" . DIRECTORY_SEPARATOR . "models" . DIRECTORY_SEPARATOR . "jtg.php";
 		require_once $file;
 
 		if ($this->getLayout() == 'form')
@@ -199,8 +199,8 @@ class JtgViewFiles extends JViewLegacy
 			$sellevel = 0;
 		}
 		$level = $model->getLevelSelect($sellevel);
-		$img_dir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'track_' . $id . DS;
-		$thumb_dir = $img_dir . 'thumbs' . DS;
+		$img_dir = JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'track_' . $id . DIRECTORY_SEPARATOR;
+		$thumb_dir = $img_dir . 'thumbs' . DIRECTORY_SEPARATOR;
 		$img_path = JUri::root().'images/jtrackgallery/track_'.$id . "/";
 		$images = null;
 		$imgcount = 0;
@@ -213,13 +213,13 @@ class JtgViewFiles extends JViewLegacy
 				{
 				    JFolder::create($thumb_dir);
 				}
-				require_once(JPATH_SITE . DS . "administrator" . DS . "components" . DS . "com_jtg" . DS . "models" . DS . "thumb_creation.php");
+				require_once(JPATH_SITE . DIRECTORY_SEPARATOR . "administrator" . DIRECTORY_SEPARATOR . "components" . DIRECTORY_SEPARATOR . "com_jtg" . DIRECTORY_SEPARATOR . "models" . DIRECTORY_SEPARATOR . "thumb_creation.php");
 				
 				foreach($imgs AS $image)
 				{
-					// TODO {Update or New File} update or calculate Thumbnails
 					$ext = JFile::getExt($image);
 					$thumb_name =  'thumb1_' . $image;   
+					// TODO {Update or New File} update should have been already made ??
 					$thumb = com_jtg_create_Thumbnails ($img_dir, $image, $cfg->max_thumb_height, $cfg->max_geoim_height); 
 					// 
 					if (! $thumb) {	
@@ -267,12 +267,23 @@ class JtgViewFiles extends JViewLegacy
 		$mainframe =& JFactory::getApplication();
 		jimport('joomla.filesystem.file');
 		jimport('joomla.filesystem.folder');
-		$mapsxml = JPATH_COMPONENT_ADMINISTRATOR . DS . 'views' . DS . 'maps' . DS . 'maps.xml';
+		$mapsxml = JPATH_COMPONENT_ADMINISTRATOR . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . 'maps' . DIRECTORY_SEPARATOR . 'maps.xml';
 		$params_maps = new JRegistry( 'com_jtg', $mapsxml );
 		$this->params = $params_maps;
 		$params = &JComponentHelper::getParams( 'com_jtg' );
 		$sitename = $mainframe->getCfg('sitename');
+		$document = JFactory::getDocument();
+		$document->addScript('http://www.openlayers.org/api/OpenLayers.js');
+		$document->addScript('http://www.openstreetmap.org/openlayers/OpenStreetMap.js');
 		// JHtml::_('behavior.modal');	// with this option IE doesn't work
+		if(JVERSION>=3.0) //Code support for joomla version greater than 3.0
+		{
+		    JHtml::_('jquery.framework'); //load JQuery before combobox
+		}
+		else 
+		{
+		    // nothing 
+		}
 		JHtml::_('behavior.combobox');
 		$cache = & JFactory :: getCache('com_jtg');
 		// TODO when cache is used, Update a track, then browse it: jtg_osmGettile.js is not loaded!!
@@ -292,7 +303,7 @@ class JtgViewFiles extends JViewLegacy
 		// $track = $cache->get(array($model, 'getTrack'), array($id));
 		// if (!$id) die ("Schau mal in datei view.html.php Zeile 152 :-P");
 		// if (!$id) $id = 1;
-		//		$file = JPATH_SITE . DS . "components" . DS . "com_jtg" . DS . "models" . DS . "jtg.php";
+		//		$file = JPATH_SITE . DIRECTORY_SEPARATOR . "components" . DIRECTORY_SEPARATOR . "com_jtg" . DIRECTORY_SEPARATOR . "models" . DIRECTORY_SEPARATOR . "jtg.php";
 		//		require_once $file;
 		$sortedcats = JtgModeljtg::getCatsData(true);
 		$track = $cache->get(array ( $model, 'getFile' ), array ( $id ));
@@ -313,7 +324,6 @@ class JtgViewFiles extends JViewLegacy
 		//			));
 		$vote = $model->getVotes($id);
 		$pathway->addItem($track->title, '');
-		$document = JFactory::getDocument();
 		$document->setTitle($track->title . " - " . $sitename);
 		$date = JHtml::_('date', $track->date, JText :: _('COM_JTG_DATE_FORMAT_LC4'));
 		$profile = JtgHelper::getProfileLink($track->uid, $track->user);
@@ -346,12 +356,12 @@ class JtgViewFiles extends JViewLegacy
 
 		//			$document->addScript('http://maps.google.com/maps?file=api&amp;v=2&amp;key='.$cfg->apikey);
 		//			$document->addScript('http://api.maps.yahoo.com/ajaxymap?v=3.0&appid=');
-		$document->addScript('http://www.openlayers.org/api/OpenLayers.js');
-		$document->addScript('components' . DS . 'com_jtg' . DS . 'assets' . DS . 'js' . DS . 'fullscreen.js');
-		//		JHtml::script('OpenLayers.js', 'components' . DS . 'com_jtg' . DS . 'assets' . DS . 'js' . DS . 'OpenLayers'., false); // IE-Fehler
-		$document->addScript('http://www.openstreetmap.org/openlayers/OpenStreetMap.js');
+
+		$document->addScript('components' . DIRECTORY_SEPARATOR . 'com_jtg' . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'fullscreen.js');
+		//		JHtml::script('OpenLayers.js', 'components' . DIRECTORY_SEPARATOR . 'com_jtg' . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'OpenLayers'., false); // IE-Fehler
+
 		// 		$document->addScript('components/com_jtg/assets/js/GPX.js');
-		//		$document->addScript('components' . DS . 'com_jtg' . DS . 'assets' . DS . 'js' . DS . 'jtg.js');
+		//		$document->addScript('components' . DIRECTORY_SEPARATOR . 'com_jtg' . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'jtg.js');
 		// 		$document->addScript('');
 
 //	TODO remove script from file.php and use method addscript
@@ -361,7 +371,7 @@ class JtgViewFiles extends JViewLegacy
 //		}	
 		
 		$action = "index.php?option=com_jtg&amp;controller=download&amp;task=download";
-		$file = '.' . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploaded_tracks' . DS . strtolower($track->file);
+		$file = '.' . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'uploaded_tracks' . DIRECTORY_SEPARATOR . strtolower($track->file);
 		$gpsData = new gpsDataClass($cfg->unit);
 		// $gpsData->loadFileAndData($file, $track->file);
 		// $gpsData structure is cached, after LaodFileAndData
@@ -401,7 +411,7 @@ class JtgViewFiles extends JViewLegacy
 		//			}
 
 		// load images if exists
-		$img_dir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'track_' . $id;
+		$img_dir = JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'track_' . $id;
 		if (JFolder :: exists($img_dir)) {
 			$exclude = array ( '.db', '.txt' );
 			$images = JFolder :: files($img_dir, '', false, false, $exclude);
@@ -511,7 +521,7 @@ class JtgViewFiles extends JViewLegacy
 							{
 							    $thumb =  'thumbs/thumb2_' . $image;					    
 							}					
-							if ( ! JFile::exists (JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'track_' . $id . DS  . $thumb ) )
+							if ( ! JFile::exists (JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'track_' . $id . DIRECTORY_SEPARATOR  . $thumb ) )
 							{	
 							    $thumb = $image;
 							}		
@@ -876,7 +886,7 @@ class JtgViewFiles extends JViewLegacy
 
 	function parseTemplate($template, $content = null, $linkname = null, $only = null) {
 		$tmpl = ($this->cfg->template = "") ? $this->cfg->template : 'default';
-		$templatepath = JPATH_BASE . DS . "components" . DS . "com_jtg" . DS . "assets" . DS . "template" . DS . $tmpl . DS;
+		$templatepath = JPATH_BASE . DIRECTORY_SEPARATOR . "components" . DIRECTORY_SEPARATOR . "com_jtg" . DIRECTORY_SEPARATOR . "assets" . DIRECTORY_SEPARATOR . "template" . DIRECTORY_SEPARATOR . $tmpl . DIRECTORY_SEPARATOR;
 		if ((!$content)AND($content != "")) {
 			include_once ($templatepath . $template . "_" . $only . ".php");
 			return;

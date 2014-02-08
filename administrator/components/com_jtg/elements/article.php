@@ -33,7 +33,7 @@ class JElementArticle extends JElement
 		$doc 		=& JFactory::getDocument();
 //		$template 	= $mainframe->getTemplate();
 		$fieldName	= $control_name.'['.$name.']';
-		$path = JPATH_SITE . DS . "administrator" . DS . "components" . DS . "com_jtg" . DS . "tables".DS;
+		$path = JPATH_SITE . DIRECTORY_SEPARATOR . "administrator" . DIRECTORY_SEPARATOR . "components" . DIRECTORY_SEPARATOR . "com_jtg" . DIRECTORY_SEPARATOR . "tables". DIRECTORY_SEPARATOR;
 		JTable::addIncludePath($path);
 		$article =& JTable::getInstance('jtg_files','Table');
 		if ($value) {

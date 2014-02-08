@@ -15,7 +15,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.controller');
-JTable::addIncludePath(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_jtg' . DS . 'tables');
+JTable::addIncludePath(JPATH_ADMINISTRATOR . DIRECTORY_SEPARATOR . 'components' . DIRECTORY_SEPARATOR . 'com_jtg' . DIRECTORY_SEPARATOR . 'tables');
 /**
  * Controller Class Categories
  */

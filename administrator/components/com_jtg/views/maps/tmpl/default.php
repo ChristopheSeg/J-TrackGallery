@@ -17,7 +17,7 @@ JToolBarHelper::title(JText::_('COM_JTG_MAPS'), 'generic.png');
 JToolBarHelper::back();
 JToolBarHelper::addNew('newmap', 'COM_JTG_NEW_MAP');
 JToolBarHelper::editList('editmap');
-//$mapsxml = 'administrator' . DS . 'components' . DS . 'com_jtg' . DS . 'views' . DS . 'maps' . DS . 'maps.xml';
+//$mapsxml = 'administrator' . DIRECTORY_SEPARATOR . 'components' . DIRECTORY_SEPARATOR . 'com_jtg' . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . 'maps' . DIRECTORY_SEPARATOR . 'maps.xml';
 //JToolBarHelper::preferences( 'com_jtg', 400, 500, 'Preferences', $mapsxml );
 JToolBarHelper::spacer();
 JToolBarHelper::publish();

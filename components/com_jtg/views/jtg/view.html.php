@@ -43,7 +43,7 @@ class JtgViewjtg extends JViewLegacy
 
 		$sitename = $document->getTitle() . " - " . $mainframe->getCfg('sitename');
 		// $mainframe->setPagetitle($sitename);
-		$mapsxml = JPATH_COMPONENT_ADMINISTRATOR . DS . 'views' . DS . 'maps' . DS . 'maps.xml';
+		$mapsxml = JPATH_COMPONENT_ADMINISTRATOR . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . 'maps' . DIRECTORY_SEPARATOR . 'maps.xml';
 		$this->params_maps = new JRegistry( 'com_jtg', $mapsxml );
 		$params = &JComponentHelper::getParams( 'com_jtg' );
 		layoutHelper::parseMap($document);

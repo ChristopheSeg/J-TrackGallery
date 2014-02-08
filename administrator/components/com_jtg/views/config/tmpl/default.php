@@ -23,11 +23,36 @@ JHtml::_('behavior.tooltip');
 ?>
 <form action="" method="post" name="adminForm" id="adminForm" class="adminForm">
 	<?php
-	$tabs	=& JPane::getInstance('tabs');
-
+//	$tabs	=& JPane::getInstance('tabs');
+	jimport( 'joomla.html.html.tabs' );
+	// add style for horizontal menu in Joomla 3.x
+	$document =& JFactory::getDocument();
+	$style = 'dt.tabs h3 {
+		    float:left;
+		    margin-right: 10px;
+		}
+		div.current {
+		    clear: both;
+		}';
+	$document->addStyleDeclaration( $style );
+	$options = array(
+	    'onActive' => 'function(title, description){
+		description.setStyle("display", "block");
+		title.addClass("open").removeClass("closed");
+	    }',
+	    'onBackground' => 'function(title, description){
+		description.setStyle("display", "none");
+		title.addClass("closed").removeClass("open");
+	    }',
+	    'startOffset' => 0,  // 0 starts on the first tab, 1 starts the second, etc...
+	    'useCookie' => true, // this must not be a string. Don't use quotes.
+	);
+	
 // Hauptkonfiguration BEGIN
-	echo $tabs->startPane('configuration');
-	echo $tabs->startPanel(JText::_('COM_JTG_MAINCONF'), 'mainconfig');
+//	echo $tabs->startPane('configuration');
+//	echo $tabs->startPanel(JText::_('COM_JTG_MAINCONF'), 'mainconfig');
+	echo JHtml::_('tabs.start', 'tab_group_id', $options);
+	echo JHtml::_('tabs.panel', JText::_('COM_JTG_MAINCONF'), 'mainconfig');
 	?>
 	<table class="admintable">
 	<tbody>
@@ -88,11 +113,14 @@ if($this->config->terms == "1") {
 		</tbody>
 	</table>
 	<?php
-	echo $tabs->endPanel();
+//	echo JHtml::_('tabs.end');
+//	echo $tabs->endPanel();
 // Hauptkonfiguration END
 
 // Level BEGIN
-echo $tabs->startPanel(JText::_('COM_JTG_LEVEL'), 'levelconfig');
+//echo $tabs->startPanel(JText::_('COM_JTG_LEVEL'), 'levelconfig');
+	echo JHtml::_('tabs.panel', JText::_('COM_JTG_LEVEL'), 'levelconfig');
+
 ?>
 	<table class="admintable">
 		<tbody>
@@ -104,38 +132,15 @@ echo $tabs->startPanel(JText::_('COM_JTG_LEVEL'), 'levelconfig');
 		</tbody>
 	</table>
 <?php
-echo $tabs->endPanel();
+//echo JHtml::_('tabs.end');
+//echo $tabs->endPanel();
 // Level END
+echo JHtml::_('tabs.panel', JText::_('COM_JTG_MAPS'), 'Maps');
 
-// Viewingoptions BEGIN
-echo $tabs->startPanel(JText::_('COM_JTG_DISPLAY'), 'display');
 ?>
 <table class="admintable">
 	<tbody>
 			<tr>
-				<td><?php echo JText::_('COM_JTG_TEMPLATE'); ?></td>
-				<td><?php echo $this->lists['tmpl']; ?></td>
-			</tr>
-			<tr>
-				<td><?php echo JText::_('COM_JTG_GALLERY'); ?></td>
-				<td><?php echo $this->lists['gallery']; ?></td>
-			</tr>
-			<tr>
-				<td><?php echo JText::_( 'COM_JTG_IMAGETYPES' ); ?></td>
-				<td><input type="text" name="type" value="<?php echo $this->config->type; ?>" size="30" /></td>
-			</tr>
-			<tr>
-				<td><span class="hasTip" title="<?php echo JText::_('COM_JTG_TT_TITLE'); ?> :: <?php echo JText::_('COM_JTG_TT_SIZE_DESC'); ?>"><?php echo JText::_( 'COM_JTG_IMAGESIZE' ); ?></span></td>
-				<td><input type="text" name="max_size" value="<?php echo $this->config->max_size; ?>" size="20" /></td>
-			</tr>
-			<tr>
-				<td><span class="hasTip" title="<?php echo JText::_('COM_JTG_TT_TITLE'); ?> :: <?php echo JText::_('COM_JTG_TT_GEOIM_HEIGHT_DESC'); ?>"><?php echo JText::_( 'COM_JTG_GEOIM_HEIGHT' ); ?></span></td>
-				<td><input type="text" name="max_geoim_height" value="<?php echo $this->config->max_geoim_height; ?>" size="20" /></td>
-			</tr>
-			<tr>
-				<td><span class="hasTip" title="<?php echo JText::_('COM_JTG_TT_TITLE'); ?> :: <?php echo JText::_('COM_JTG_TT_THUMB_HEIGHT_DESC'); ?>"><?php echo JText::_( 'COM_JTG_THUMB_HEIGHT' ); ?></span></td>
-				<td><input type="text" name="max_thumb_height" value="<?php echo $this->config->max_thumb_height; ?>" size="20" /></td>
-			</tr>			<tr>
 				<td><?php echo JText::_('COM_JTG_UNIT'); ?></td>
 				<td><?php echo $this->lists['unit']; ?></td>
 			</tr>
@@ -173,12 +178,47 @@ echo $tabs->startPanel(JText::_('COM_JTG_DISPLAY'), 'display');
 		</tbody>
 	</table>
 	<?php
-	echo $tabs->endPanel();
+// Viewingoptions BEGIN
+//echo $tabs->startPanel(JText::_('COM_JTG_DISPLAY'), 'display');
+echo JHtml::_('tabs.panel', JText::_('COM_JTG_DISPLAY'), 'display');
+
+?>
+<table class="admintable">
+	<tbody>
+			<tr>
+				<td><?php echo JText::_('COM_JTG_TEMPLATE'); ?></td>
+				<td><?php echo $this->lists['tmpl']; ?></td>
+			</tr>
+			<tr>
+				<td><?php echo JText::_('COM_JTG_GALLERY'); ?></td>
+				<td><?php echo $this->lists['gallery']; ?></td>
+			</tr>
+			<tr>
+				<td><?php echo JText::_( 'COM_JTG_IMAGETYPES' ); ?></td>
+				<td><input type="text" name="type" value="<?php echo $this->config->type; ?>" size="30" /></td>
+			</tr>
+			<tr>
+				<td><span class="hasTip" title="<?php echo JText::_('COM_JTG_TT_TITLE'); ?> :: <?php echo JText::_('COM_JTG_TT_SIZE_DESC'); ?>"><?php echo JText::_( 'COM_JTG_IMAGESIZE' ); ?></span></td>
+				<td><input type="text" name="max_size" value="<?php echo $this->config->max_size; ?>" size="20" /></td>
+			</tr>
+			<tr>
+				<td><span class="hasTip" title="<?php echo JText::_('COM_JTG_TT_TITLE'); ?> :: <?php echo JText::_('COM_JTG_TT_GEOIM_HEIGHT_DESC'); ?>"><?php echo JText::_( 'COM_JTG_GEOIM_HEIGHT' ); ?></span></td>
+				<td><input type="text" name="max_geoim_height" value="<?php echo $this->config->max_geoim_height; ?>" size="20" /></td>
+			</tr>
+			<tr>
+				<td><span class="hasTip" title="<?php echo JText::_('COM_JTG_TT_TITLE'); ?> :: <?php echo JText::_('COM_JTG_TT_THUMB_HEIGHT_DESC'); ?>"><?php echo JText::_( 'COM_JTG_THUMB_HEIGHT' ); ?></span></td>
+				<td><input type="text" name="max_thumb_height" value="<?php echo $this->config->max_thumb_height; ?>" size="20" /></td>
+			</tr>
+		</tbody>
+	</table>
+	<?php
+//	echo JHtml::_('tabs.end');
+//	echo $tabs->endPanel();
 // Viewingoptions END
 
 // Comments BEGIN
 if ($this->config->comments != 0) {
-	echo $tabs->startPanel(JText::_('COM_JTG_COMMENTS'), 'display');
+	echo JHtml::_('tabs.panel', JText::_('COM_JTG_COMMENTS'), 'display');
 	?>
 	<table class="admintable">
 		<tr>
@@ -199,7 +239,8 @@ if ($this->config->comments != 0) {
 		</tr>
 	</table>
 	<?php
-	echo $tabs->endPanel();
+//	echo JHtml::_('tabs.end');
+//	echo $tabs->endPanel();
 }
 // Comments END
 
@@ -209,7 +250,7 @@ if ($this->config->comments != 0) {
 // Approach BEGIN
 if ($this->config->approach != "no") {
 //	die();
-echo $tabs->startPanel(JText::_('COM_JTG_APPROACH'), 'display');
+echo JHtml::_('tabs.panel', JText::_('COM_JTG_APPROACH'), 'display');
 ?>
 	<table class="admintable">
 <?php
@@ -247,11 +288,12 @@ if ( ($this->config->approach == "cm") OR ($this->config->approach == "cmkey") )
 ?>
 	</table>
 	<?php
-echo $tabs->endPanel();
+	echo JHtml::_('tabs.end');
+//echo $tabs->endPanel();
 }
 // Approach END
 
-	echo $tabs->endPane();
+	// echo $tabs->endPane();
 	echo JHtml::_( 'form.token' );
 	?>
 	<input type="hidden" name="option" value="com_jtg" />

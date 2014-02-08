@@ -587,11 +587,11 @@ echo JHtml::_( 'form.token' ) . "\n"; ?> <input type="hidden"
 			} elseif ($this->cfg->comments == 2) {
 
 				// 		Changes from jason-oxley https://sourceforge.net/projects/jtg/forums/forum/1042962/topic/3856273
-				require_once( JPATH_PLUGINS . DS . 'content' . DS . 'jom_comment_bot.php' );
+				require_once( JPATH_PLUGINS . DIRECTORY_SEPARATOR . 'content' . DIRECTORY_SEPARATOR . 'jom_comment_bot.php' );
 				echo jomcomment($this->track->id, "com_jtg");
 			} elseif ($this->cfg->comments == 3) {
 				//		global $mosConfig_absolute_path;
-				require_once( 'components' . DS . 'com_jcomments' . DS . 'jcomments.php' );
+				require_once( 'components' . DIRECTORY_SEPARATOR . 'com_jcomments' . DIRECTORY_SEPARATOR . 'jcomments.php' );
 				echo JComments::showComments($this->track->id, "com_jtg");
 			} else echo "<a name=\"jtg_param_header_comment\"></a>";
 			?>

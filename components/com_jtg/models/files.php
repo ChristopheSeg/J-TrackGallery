@@ -269,7 +269,7 @@ class JtgModelFiles extends JModelLegacy
 
 		$db =& JFactory::getDBO();
 		$user =& JFactory::getUser();
-
+		$cache =& JFactory::getCache('com_jtg');
 		// get the post data
 		$catid =& JRequest::getVar('catid');
 		if ( $catid !== null )
@@ -283,7 +283,7 @@ class JtgModelFiles extends JModelLegacy
 		$terrain = implode(', ', $terrain);
 		else
 		$terrain = "";
-		$desc =& JRequest::getVar( 'description', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$desc =& $db->quote(JRequest::getVar( 'description', '', 'post', 'string', JREQUEST_ALLOWRAW));
 		$file =& JRequest::getVar('file', null, 'files', 'array');
 		$uid = $user->get('id');
 		$date = date("Y-m-d");
@@ -293,35 +293,36 @@ class JtgModelFiles extends JModelLegacy
 		$published =& JRequest::getInt('published', 0);
 
 		// upload the file
-		$upload_dir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploaded_tracks' . DS;
-		$filename = JFile::makeSafe($file['name']);
-//		echo '<pre>';print_r($file);echo'</pre>';
-//		echo '<br>$upload_dir.strtolower($filename = '.$upload_dir.strtolower($filename);
-//		echo '<br>$file[\'tmp_name\'] = '.$file['tmp_name'];
-
-		if ( JFile::exists($upload_dir.strtolower($filename)))
+		$upload_dir = JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'uploaded_tracks' . DIRECTORY_SEPARATOR;
+		$filename = strtolower(JFile::makeSafe($file['name']));
+		$newfile = $upload_dir . strtolower($filename);
+		if ( JFile::exists($newfile))
 		{
 		    die("<script type='text/javascript'>alert('".JText::sprintf("COM_JTG_FILE_ALREADY_EXISTS",$filename) . "');window.history.back(-1);</script>"); 
 		}
-		if (!JFile::upload($file['tmp_name'], $upload_dir.$filename)) {
+		if (!JFile::upload($file['tmp_name'], $newfile)) {
 			die("<script type='text/javascript'>alert('".JText::_('COM_JTG_UPLOAD_FAILS') . "');window.history.back(-1);</script>");
 		} else {
-			chmod($upload_dir.strtolower($filename), 0777);
+			chmod($newfile, 0777);
 		}
 
 		// get the start coordinates.. 
-		$gpsData = new gpsDataClass();
-		$file = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploaded_tracks' . DS . strtolower($filename);
+		
 
 		$gpsData = new gpsDataClass("Kilometer");// default unit
-		//TODO $track is not defined  here !!!!
-		$gpsData = $cache->get(array ( $gpsData, 'loadFileAndData' ), array ($file, strtolower($filename)), "Kilometer");
+
+		$gpsData = $cache->get(array ( $gpsData, 'loadFileAndData' ), array ($newfile, strtolower($filename)), "Kilometer");
 		if ($gpsData->displayErrors())
 		{
 		   $map = ""; 
 		   $coords = "";
 		   $distance_float = 0;
 		   $distance = 0;
+		   // try to delete the file 
+		   if ( JFile::exists($upload_dir.strtolower($filename)))
+		    {
+			JFile::delete($upload_dir.strtolower($filename)); 
+		    }
 		   echo "<script type='text/javascript'>alert('".JText::_('COM_JTG_NO_SUPPORT') . "');window.history.back(-1);</script>";
 		   exit;
 		}		
@@ -347,7 +348,7 @@ class JtgModelFiles extends JModelLegacy
 		. "\n title='" . $title . "',"
 		. "\n file='".strtolower($filename) . "',"
 		. "\n terrain='" . $terrain . "',"
-		. "\n description='" . $desc . "',"
+		. "\n description=" . $desc . ","
 		. "\n published='" . $published . "',"
 		. "\n date='" . $date . "',"
 		. "\n start_n='" . $start_n . "',"
@@ -370,28 +371,34 @@ class JtgModelFiles extends JModelLegacy
 		if ($db->getErrorNum()) {
 			echo $db->stderr();
 			return false;
-		} else {
-			$query = "SELECT id FROM #__jtg_files WHERE file='".strtolower($filename) . "'";
+		} 
+		$query = "SELECT id FROM #__jtg_files WHERE file='".strtolower($filename) . "'";
 
-			$db->setQuery($query);
-			$rows = $db->loadObject();
+		$db->setQuery($query);
+		$rows = $db->loadObject();
 
-			// images upload part
-			$cfg = JtgHelper::getConfig();
-			$types = explode(',',$cfg->type);
-			if(count($images) > 0 ) {
-				$img_dir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . $rows->id;
-				JFolder::create($img_dir,0777);
-				foreach($images['name'] as $key => $value) {
-					$ext = explode('.',$images['name'][$key]);
-					if(in_array($ext[1], $types)) {
-						JtgHelper::createimageandthumbs($images['tmp_name'][$key], $ext[1], $img_dir . DS, strtolower($images['name'][$key]));
+		// images upload part
+		$cfg = JtgHelper::getConfig();
+		$types = explode(',',$cfg->type);
+		if(count($images) > 0 ) {
+			$img_dir = JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'track_' .  $rows->id . DIRECTORY_SEPARATOR;
+			JFolder::create($img_dir,0777);
+			foreach($images['name'] as $key => $value) 
+			{
+				if($value != "")
+				{
+					$imgfilename = JFile::makesafe($value);
+					$ext = JFile::getExt($images['name'][$key]);
+					if(in_array(strtolower($ext),$types))
+					{
+						JtgHelper::createimageandthumbs($images['tmp_name'][$key], $ext,$img_dir, $imgfilename);
 					}
 				}
-			}
 
-			return true;
+			}
 		}
+		return true;
+
 	}
 
 	/**
@@ -562,11 +569,11 @@ class JtgModelFiles extends JModelLegacy
 		$this->_db->setQuery($query);
 		$file = $this->_db->loadObject();
 		// folder and Pictures within delete
-		$folder = JPATH_SITE . DS . "images" . DS . "jtrackgallery" . DS . 'track_' . $id;
+		$folder = JPATH_SITE . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "jtrackgallery" . DIRECTORY_SEPARATOR . 'track_' . $id;
 		if (JFolder::exists($folder))
 		JFolder::delete($folder);
 		// File (gpx?) delete
-		$filename = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploaded_tracks' . DS . $file->file;
+		$filename = JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'uploaded_tracks' . DIRECTORY_SEPARATOR . $file->file;
 		if (JFile::exists($filename))
 		JFile::delete($filename);
 		// delete from DB
@@ -581,7 +588,7 @@ class JtgModelFiles extends JModelLegacy
 	}
 
 	function getImages($id) {
-		$img_dir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'track_' . $id;
+		$img_dir = JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'track_' . $id;
 		if (!JFolder::exists($img_dir))
 		return null;
 		$images = JFolder::files($img_dir);
@@ -599,11 +606,14 @@ class JtgModelFiles extends JModelLegacy
 
 		// get the post data
 		$catid =& JRequest::getVar('catid');
+		if ( $catid !== null )
 		$catid = implode(",",$catid);
+		else
+		$catid = "";
 		$level =& JRequest::getInt('level');
 		$title =& JRequest::getVar('title');
 		$allimages = $this->getImages($id);
-		$imgpath = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'track_' . $id.DS;
+		$imgpath = JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'track_' . $id. DIRECTORY_SEPARATOR;
 		foreach ($allimages AS $key => $image) 
 		{
 			$image =& JRequest::getVar('deleteimage_'.str_replace('.',null,$image));
@@ -611,9 +621,9 @@ class JtgModelFiles extends JModelLegacy
 			{
 			    JFile::delete($imgpath.$image);
 			    // delete thumbnails too
-			    JFile::delete($imgpath. 'thumbs' . DS. 'thumb0_' . $image);
-			    JFile::delete($imgpath. 'thumbs' . DS. 'thumb1_' . $image);
-			    JFile::delete($imgpath. 'thumbs' . DS. 'thumb2_' . $image);
+			    JFile::delete($imgpath. 'thumbs' . DIRECTORY_SEPARATOR. 'thumb0_' . $image);
+			    JFile::delete($imgpath. 'thumbs' . DIRECTORY_SEPARATOR. 'thumb1_' . $image);
+			    JFile::delete($imgpath. 'thumbs' . DIRECTORY_SEPARATOR. 'thumb2_' . $image);
 			}
 		}
 		$terrain =& JRequest::getVar('terrain');
@@ -621,7 +631,7 @@ class JtgModelFiles extends JModelLegacy
 		$terrain = implode(', ', $terrain);
 		else
 		$terrain = "";
-		$desc =& mysql_real_escape_string(JRequest::getVar( 'description', '', 'post', 'string', JREQUEST_ALLOWRAW));
+		$desc = & $db->quote(JRequest::getVar( 'description', '', 'post', 'string', JREQUEST_ALLOWRAW));
 		$images =& JRequest::getVar('images', null, 'files', 'array');
 		$access =& JRequest::getInt('access', 0);
 		$hidden =& JRequest::getInt('hidden', 0);
@@ -631,26 +641,29 @@ class JtgModelFiles extends JModelLegacy
 		// images upload part
 		$cfg = JtgHelper::getConfig();
 		$types = explode(',',$cfg->type);
-		if($images) {
-			$img_dir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'track_' . $id;
-			if(!JFolder::exists($img_dir)) {
-				JFolder::create($img_dir,0777);
+		
+		if($images) 
+		{
+			if(!JFolder::exists($imgpath)) 
+			{
+				JFolder::create($imgpath,0777);
 			}
 			foreach($images['name'] as $key => $value) {
-				if ($value) {
-					$ext = explode('.',$images['name'][$key]);
-					if(in_array(strtolower($ext[1]), $types)) {
-						JtgHelper::createimageandthumbs($images['tmp_name'][$key], $ext[1], $img_dir . DS, strtolower($images['name'][$key]));
+				if ($value)
+				{
+					$ext = JFile::getExt($images['name'][$key]);
+						if(in_array(strtolower($ext), $types)) 
+					{
+						JtgHelper::createimageandthumbs($images['tmp_name'][$key], $ext, $imgpath , $images['name'][$key]);
 					}
 				}
 			}
 		}
-
 		$query = "UPDATE #__jtg_files SET"
 		. "\n catid='" . $catid . "',"
 		. "\n title='" . $title . "',"
 		. "\n terrain='" . $terrain . "',"
-		. "\n description='" . $desc . "',"
+		. "\n description=" . $desc . "," // $desc is quoted
 		. "\n level='" . $level . "',"
 		. "\n hidden='" . $hidden . "',"
 		. "\n published='" . $published . "',"

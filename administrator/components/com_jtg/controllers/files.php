@@ -15,7 +15,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.controller');
-JTable::addIncludePath(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_jtg' . DS . 'tables');
+JTable::addIncludePath(JPATH_ADMINISTRATOR . DIRECTORY_SEPARATOR . 'components' . DIRECTORY_SEPARATOR . 'com_jtg' . DIRECTORY_SEPARATOR . 'tables');
 /**
  * Controller Class Files
  */
@@ -43,7 +43,7 @@ class JtgControllerFiles extends JtgController
 		}
 
 		$model = $this->getModel('files');
-		$dest = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploaded_tracks' . DS . 'import'.DS;
+		$dest = JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'uploaded_tracks' . DIRECTORY_SEPARATOR . 'import'. DIRECTORY_SEPARATOR;
 		if(!$model->uploadfiles( $files, $dest )) {
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}

@@ -28,7 +28,7 @@ class JtgModelDownload extends JModelLegacy
 		$mainframe =& JFactory::getApplication();
 		$cache = & JFactory :: getCache('com_jtg');
 		jimport('joomla.filesystem.file');
-		$file = "." . DS . "images" . DS . "jtrackgallery" . DS . "uploaded_tracks" . DS . $track->file;
+		$file = "." . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "jtrackgallery" . DIRECTORY_SEPARATOR . "uploaded_tracks" . DIRECTORY_SEPARATOR . $track->file;
 		$ext = JFile::getExt($file['name']);
 		$gpsData = new gpsDataClass("Kilometer");// default unit
 		$gpsData = $cache->get(array ( $gpsData, 'loadFileAndData' ), array ($file, $track->file ), "Kilometer");

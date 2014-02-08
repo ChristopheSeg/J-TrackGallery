@@ -17,7 +17,7 @@ defined('_JEXEC') or die('Restricted access');
 JToolBarHelper::title(JText::_('COM_JTG_INFO'), 'generic.png');
 JToolBarHelper::back();
 
-$link = ".." . DS . "components" . DS . "com_jtg" . DS . "assets" . DS . "images" . DS . "logo_JTG.png";
+$link = ".." . DIRECTORY_SEPARATOR . "components" . DIRECTORY_SEPARATOR . "com_jtg" . DIRECTORY_SEPARATOR . "assets" . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "logo_JTG.png";
 
 ?>
     <div style="margin: auto">

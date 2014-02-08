@@ -43,12 +43,12 @@ if($this->id >= 1)
 	$model = $this->getModel();
 	$track = $cache->get(array($model, 'getFile'), array($this->id));
 	$document =& JFactory::getDocument();
-	require_once(".." . DS . "components" . DS . "com_jtg" . DS . "helpers" . DS . "gpsClass.php");
+	require_once(".." . DIRECTORY_SEPARATOR . "components" . DIRECTORY_SEPARATOR . "com_jtg" . DIRECTORY_SEPARATOR . "helpers" . DIRECTORY_SEPARATOR . "gpsClass.php");
 	$document->addScript('http://www.openlayers.org/api/OpenLayers.js');
-	$document->addScript('../components' . DS . 'com_jtg' . DS . 'assets' . DS . 'js' . DS . 'fullscreen.js');
+	$document->addScript('../components' . DIRECTORY_SEPARATOR . 'com_jtg' . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'fullscreen.js');
 	$document->addScript('http://www.openstreetmap.org/openlayers/OpenStreetMap.js');
 	$document->addScript("../components/com_jtg/assets/js/jtg.js");
-	$file = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploaded_tracks' . DS . $this->track->file;
+	$file = JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'uploaded_tracks' . DIRECTORY_SEPARATOR . $this->track->file;
 	$gpsData = new gpsDataClass($cfg->unit);
 	$gpsData = $cache->get(array ( $gpsData, 'loadFileAndData' ), array ($file, $track->file ), $cfg->unit);
 	if ($gpsData->displayErrors())

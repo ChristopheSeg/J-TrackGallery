@@ -185,7 +185,7 @@ class JtgViewFiles extends JViewLegacy
 	public function checkFile($file,$exist=false) {
 		if ($exist !== false )
 		return 1;
-		$filename = explode(DS,$file);
+		$filename = explode(DIRECTORY_SEPARATOR,$file);
 		$filename = $filename[(count($filename)-1)];
 		if ( !is_writable($file) )		// Kein Schreibrecht
 		return 2;
@@ -462,11 +462,15 @@ class JtgViewFiles extends JViewLegacy
 			//			$lists['access']	= JHtml::_('list.accesslevel', $row );
 			$lists['hidden'] = JHtml::_('select.genericlist', $yesnolist, 'hidden', 'class="inputbox" size="2"', 'id', 'title',$track->hidden);
 			$lists['uid']		= JHtml::_('list.users', 'uid', $track->uid, 1, NULL, 'name', 0 );
-			$img_dir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'track_' . $id . DS;
+			$img_dir = JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'track_' . $id . DIRECTORY_SEPARATOR;
+			if(!JFolder::exists($img_dir)) {
+				JFolder::create($img_dir,0777);
+			}
 			$img_path = JUri::root().'images/jtrackgallery/track_'.$id.'/';
-			$thumb_dir = $img_dir . 'thumbs' . DS;
+			$thumb_dir = $img_dir . 'thumbs' . DIRECTORY_SEPARATOR;
 			$thumb_dir = $img_dir . 'thumbs/';
 			$images = null;
+			// TODO recreate thumbnails: this must be done only when updating track, not always!!
 			if(JFolder::exists($img_dir)) {
 				$imgs = JFolder::files($img_dir);
 				if($imgs)
@@ -475,7 +479,7 @@ class JtgViewFiles extends JViewLegacy
 					{
 					    JFolder::create($thumb_dir);
 					}
-					require_once(JPATH_SITE . DS . "administrator" . DS . "components" . DS . "com_jtg" . DS . "models" . DS . "thumb_creation.php");
+					require_once(JPATH_SITE . DIRECTORY_SEPARATOR . "administrator" . DIRECTORY_SEPARATOR . "components" . DIRECTORY_SEPARATOR . "com_jtg" . DIRECTORY_SEPARATOR . "models" . DIRECTORY_SEPARATOR . "thumb_creation.php");
 
 					foreach($imgs AS $image)
 					{

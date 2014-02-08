@@ -254,7 +254,7 @@ class JFormFieldOwnList extends JFormField
 		global $parseLimitText;
 		$parseLimitText[(string) $name] = $value;
 		jimport('joomla.filesystem.file');
-		require_once("components" . DS . "com_jtg" . DS . "models" . DS . "files.php");
+		require_once("components" . DIRECTORY_SEPARATOR . "com_jtg" . DIRECTORY_SEPARATOR . "models" . DIRECTORY_SEPARATOR . "files.php");
 		$terrain = new JtgModelFiles;
 		$terrain = $terrain->getTerrain("title, id");
 		$nullterrain = array('title'=>JText::_('COM_JTG_ALL'), 'id'=>$all);
@@ -291,7 +291,7 @@ class JFormFieldOwnList extends JFormField
 		global $parseLimitText;
 		$parseLimitText[(string) $name] = $value;
 		jimport('joomla.filesystem.file');
-		require_once("components" . DS . "com_jtg" . DS . "models" . DS . "files.php");
+		require_once("components" . DIRECTORY_SEPARATOR . "com_jtg" . DIRECTORY_SEPARATOR . "models" . DIRECTORY_SEPARATOR . "files.php");
 		$cats = new JtgModelFiles;
 		$cats = $cats->getCats($nosubcats,'COM_JTG_ALL',-1);
 		$size = $this->getSelectSize($cats);

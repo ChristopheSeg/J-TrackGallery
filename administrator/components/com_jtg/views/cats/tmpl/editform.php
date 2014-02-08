@@ -49,7 +49,7 @@ $image=$this->data->image;
 
 
 foreach ($this->images as $img) {
-	$imageurl = JUri::root().'images' . DS . 'jtrackgallery' . DS . 'cats' . DS;
+	$imageurl = JUri::root().'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'cats' . DIRECTORY_SEPARATOR;
 	$pic = "";
 	$pic .= "<input type=\"radio\" name=\"catpic\" value=\"" . $img . "\" title=\"" . $img . "\"";
 	if ( $image == $img ) $pic .= " checked=\"checked\"";

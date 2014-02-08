@@ -658,7 +658,7 @@ class gpsDataClass
 			$catimage = 'symbol_inter.png';
 		}
 		if ( $catimage !== false ) {
-			$catimage = "images" . DS . "jtrackgallery" . DS . "cats" . DS . $catimage;
+			$catimage = "images" . DIRECTORY_SEPARATOR . "jtrackgallery" . DIRECTORY_SEPARATOR . "cats" . DIRECTORY_SEPARATOR . $catimage;
 			if ( is_file($catimage) ) {
 				$simagesize = getimagesize($catimage);
 				$sizex = $simagesize[0];
@@ -693,7 +693,7 @@ class gpsDataClass
 		$marker .= "addMarker(ll, popupClass, popupContentHTML, true, true );\n";
 		else {
 			// ToDo: Typeigenes Icon (Track, WP, Route)
-			$hddpath = JPATH_SITE . DS . "components" . DS . "com_jtg" . DS . "assets" . DS . "template" . DS . $cfg->template . DS . "images".DS;
+			$hddpath = JPATH_SITE . DIRECTORY_SEPARATOR . "components" . DIRECTORY_SEPARATOR . "com_jtg" . DIRECTORY_SEPARATOR . "assets" . DIRECTORY_SEPARATOR . "template" . DIRECTORY_SEPARATOR . $cfg->template . DIRECTORY_SEPARATOR . "images". DIRECTORY_SEPARATOR;
 			$wpcoords = simplexml_load_file($hddpath . "unknown_Cat_wp.xml");
 			$marker .= "var size = new OpenLayers.Size(" . $wpcoords->sizex . ", " . $wpcoords->sizey . "); ";
 			$marker .= "var offset = new OpenLayers.Pixel(" . $wpcoords->offsetx . ", " . $wpcoords->offsety . "); ";
@@ -712,10 +712,10 @@ class gpsDataClass
 	 */
 	public function parseOwnIcon($ownicon=false) {
 		$cfg =& JtgHelper::getConfig();
-		$Tpath = JPATH_SITE . DS . "components" . DS . "com_jtg" . DS . "assets" . DS . "template" . DS . $cfg->template . DS . "images".DS;
+		$Tpath = JPATH_SITE . DIRECTORY_SEPARATOR . "components" . DIRECTORY_SEPARATOR . "com_jtg" . DIRECTORY_SEPARATOR . "assets" . DIRECTORY_SEPARATOR . "template" . DIRECTORY_SEPARATOR . $cfg->template . DIRECTORY_SEPARATOR . "images". DIRECTORY_SEPARATOR;
 		$Tbase = JUri::root() . "components/com_jtg/assets/template/" . $cfg->template . "/images/";
 		$unknownicon = "";
-		$jpath = JPATH_SITE . DS . "components" . DS . "com_jtg" . DS . "assets" . DS . "images" . DS . "symbols".DS;
+		$jpath = JPATH_SITE . DIRECTORY_SEPARATOR . "components" . DIRECTORY_SEPARATOR . "com_jtg" . DIRECTORY_SEPARATOR . "assets" . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "symbols". DIRECTORY_SEPARATOR;
 		$jbase = JUri::root() . "components/com_jtg/assets/images/symbols/";
 
 		$filename = JFile::makeSafe($ownicon);
@@ -1080,7 +1080,7 @@ class gpsDataClass
 			$map .= $this->parseOLTracks($rows); // Schlecht bei vielen verfügbaren Tracks
 			//			$map .= $this->parseXMLlinesOL($rows,"/" . $file);
 		}
-		$file = JPATH_SITE . DS . "components" . DS . "com_jtg" . DS . "models" . DS . "jtg.php";
+		$file = JPATH_SITE . DIRECTORY_SEPARATOR . "components" . DIRECTORY_SEPARATOR . "com_jtg" . DIRECTORY_SEPARATOR . "models" . DIRECTORY_SEPARATOR . "jtg.php";
 		require_once $file;
 		$this->sortedcats = JtgModeljtg::getCatsData(true);
 
@@ -1365,7 +1365,7 @@ class gpsDataClass
 		$string .= "olmap.addLayer(layer_vectors);\n";
 		$i=0;
 		foreach($rows AS $row) {
-			$file = "images" . DS . "jtrackgallery" . DS . "uploaded_tracks" . DS . $row->file;
+			$file = "images" . DIRECTORY_SEPARATOR . "jtrackgallery" . DIRECTORY_SEPARATOR . "uploaded_tracks" . DIRECTORY_SEPARATOR . $row->file;
 			$coords = $this->getCoords($file);
 			$string .= "geometries = new Array();geometries.push(drawLine([\n";
 			if ($coords){
@@ -1518,7 +1518,7 @@ class gpsDataClass
 		$foundpics = false;
 		$map = "// <!-- parseOLGeotaggedImgs BEGIN -->\n";
 		$httppath = JUri::base() . "images/jtrackgallery/track_" . $id . "/";
-		$folder = JPATH_SITE . DS . "images" . DS . "jtrackgallery" . DS . 'track_' . $id . DS;
+		$folder = JPATH_SITE . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "jtrackgallery" . DIRECTORY_SEPARATOR . 'track_' . $id . DIRECTORY_SEPARATOR;
 		$map .= "layer_geotaggedImgs = new OpenLayers.Layer.Markers(\"".JText::_('COM_JTG_GEOTAGGED_IMAGES') . "\",".
 	" { displayInLayerSwitcher: true });".
 	"\n	olmap.addLayer(layer_geotaggedImgs);".
@@ -1530,7 +1530,7 @@ class gpsDataClass
 					foreach($imgs AS $image)
 				{
 					// retrieve thumbnail path
-					if ( JFile::exists($folder . 'thumbs'. DS . '/thumb1_' . $image) )	
+					if ( JFile::exists($folder . 'thumbs'. DIRECTORY_SEPARATOR . '/thumb1_' . $image) )	
 					{
 					    $imagepath=$httppath.  'thumbs/thumb1_' . $image;  
 					}
@@ -1623,11 +1623,11 @@ class gpsDataClass
 		$zeiten = "<br />\n";
 		$cfg =& JtgHelper::getConfig();
 		$iconpath = JUri::root() . "components/com_jtg/assets/template/" . $cfg->template . "/images/";
-		$httpiconpath = JPATH_SITE . DS . "components" . DS . "com_jtg" . DS . "assets" . DS . "template" . DS . $cfg->template . DS . "images".DS;
+		$httpiconpath = JPATH_SITE . DIRECTORY_SEPARATOR . "components" . DIRECTORY_SEPARATOR . "com_jtg" . DIRECTORY_SEPARATOR . "assets" . DIRECTORY_SEPARATOR . "template" . DIRECTORY_SEPARATOR . $cfg->template . DIRECTORY_SEPARATOR . "images". DIRECTORY_SEPARATOR;
 		jimport('joomla.filesystem.file');
 		// $rows = $this->getTracks(" WHERE a.id != " . $track->id);
 		$zeiten .= (int) round( ( microtime(true) - $jtg_microtime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " getTracks<br />\n";
-//		$file = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery' . DS . 'uploaded_tracks' . DS . $track->file;
+//		$file = JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'uploaded_tracks' . DIRECTORY_SEPARATOR . $track->file;
 //		$this->gpsFile = $file;
 //		$xml = $this->loadFile();
 		$map = "\n<!-- writeTrackCOM_JTG BEGIN -->\n";
@@ -1903,8 +1903,8 @@ class gpsDataClass
 		var sizeZiel = new OpenLayers.Size(24,24);
 		var offsetStart = new OpenLayers.Pixel(-3,-22);
 		var offsetZiel = new OpenLayers.Pixel(-21,-21);
-		var iconStart = new OpenLayers.Icon(\"".JUri::root() . "components" . DS . "com_jtg" . DS . "assets" . DS . "images" . DS . "start.png\",sizeStart,offsetStart);
-		var iconZiel = new OpenLayers.Icon(\"".JUri::root() . "components" . DS . "com_jtg" . DS . "assets" . DS . "images" . DS . "ziel.png\",sizeZiel,offsetZiel);
+		var iconStart = new OpenLayers.Icon(\"".JUri::root() . "components" . DIRECTORY_SEPARATOR . "com_jtg" . DIRECTORY_SEPARATOR . "assets" . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "start.png\",sizeStart,offsetStart);
+		var iconZiel = new OpenLayers.Icon(\"".JUri::root() . "components" . DIRECTORY_SEPARATOR . "com_jtg" . DIRECTORY_SEPARATOR . "assets" . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "ziel.png\",sizeZiel,offsetZiel);
 		layerStartZiel.addMarker(new OpenLayers.Marker(lonLatStart,iconStart));
 		layerStartZiel.addMarker(new OpenLayers.Marker(lonLatZiel,iconZiel));
 // <!-- parseStartPointCOM_JTG END -->\n";

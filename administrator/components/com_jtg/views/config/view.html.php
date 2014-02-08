@@ -83,22 +83,22 @@ class JtgViewConfig extends JViewLegacy
 		array('id' => 'highslide', 'text' => JText::_('COM_JTG_GAL_HIGHSLIDE'))
 		);
 		$routingiconset = array();
-		$imgdir = ".." . DS . "components" . DS . "com_jtg" . DS . "assets" . DS . "images" . DS . "approach".DS;
-		$importdir = JPATH_SITE . DS . "components" . DS . "com_jtg" . DS . "assets" . DS . "images" . DS . "approach".DS;
+		$imgdir = ".." . DIRECTORY_SEPARATOR . "components" . DIRECTORY_SEPARATOR . "com_jtg" . DIRECTORY_SEPARATOR . "assets" . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "approach". DIRECTORY_SEPARATOR;
+		$importdir = JPATH_SITE . DIRECTORY_SEPARATOR . "components" . DIRECTORY_SEPARATOR . "com_jtg" . DIRECTORY_SEPARATOR . "assets" . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "approach". DIRECTORY_SEPARATOR;
 		$files = JFolder::folders($importdir);
 		for($i=0;$i<count($files);$i++) {
 			$nopic = "<font color=\"red\"><font size=\"+2\">X</font> (Icon missing) </font>";
 			$string = $files[$i] . "<br />".JText::_( 'COM_JTG_PREVIEW' ) . ":&nbsp;&nbsp;";
-			if(is_file($imgdir.$files[$i] . DS . "car.png"))
-			$string .= "<img src=\"" . $imgdir.$files[$i] . DS . "car.png\" alt=\"car.png\" title=\"car.png\" /> ";
+			if(is_file($imgdir.$files[$i] . DIRECTORY_SEPARATOR . "car.png"))
+			$string .= "<img src=\"" . $imgdir.$files[$i] . DIRECTORY_SEPARATOR . "car.png\" alt=\"car.png\" title=\"car.png\" /> ";
 			else
 			$string .= $nopic;
-			if(is_file($imgdir.$files[$i] . DS . "bike.png"))
-			$string .= "<img src=\"" . $imgdir.$files[$i] . DS . "bike.png\" alt=\"bike.png\" title=\"bike.png\" /> ";
+			if(is_file($imgdir.$files[$i] . DIRECTORY_SEPARATOR . "bike.png"))
+			$string .= "<img src=\"" . $imgdir.$files[$i] . DIRECTORY_SEPARATOR . "bike.png\" alt=\"bike.png\" title=\"bike.png\" /> ";
 			else
 			$string .= $nopic;
-			if(is_file($imgdir.$files[$i] . DS . "foot.png"))
-			$string .= "<img src=\"" . $imgdir.$files[$i] . DS . "foot.png\" alt=\"foot.png\" title=\"foot.png\" />";
+			if(is_file($imgdir.$files[$i] . DIRECTORY_SEPARATOR . "foot.png"))
+			$string .= "<img src=\"" . $imgdir.$files[$i] . DIRECTORY_SEPARATOR . "foot.png\" alt=\"foot.png\" title=\"foot.png\" />";
 			else
 			$string .= $nopic;
 			if($i < count($files)-1)

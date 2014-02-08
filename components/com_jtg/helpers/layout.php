@@ -102,9 +102,9 @@ class layoutHelper
 
 	function parseMap($document)
 	{
-		// $document->addScript('components' . DS . 'com_jtg' . DS . 'assets' . DS . 'js' . DS . 'OpenLayers' . DS . 'OpenLayers.js'); // Benötigt für Spuransich in Übersicht
+		// $document->addScript('components' . DIRECTORY_SEPARATOR . 'com_jtg' . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'OpenLayers' . DIRECTORY_SEPARATOR . 'OpenLayers.js'); // Benötigt für Spuransich in Übersicht
 		$document->addScript('http://www.openlayers.org/api/OpenLayers.js');
-		$document->addScript('components' . DS . 'com_jtg' . DS . 'assets' . DS . 'js' . DS . 'fullscreen.js');
+		$document->addScript('components' . DIRECTORY_SEPARATOR . 'com_jtg' . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'fullscreen.js');
 		// $document->addScript('http://www.openstreetmap.org/openlayers/OpenLayers.js'); // tuts nicht
 		$document->addScript('http://www.openstreetmap.org/openlayers/OpenStreetMap.js');
 		$document->addScript('components/com_jtg/assets/js/jtg.js'); // Benötigt für Spuransich in Übersicht

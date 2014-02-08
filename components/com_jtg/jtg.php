@@ -13,19 +13,16 @@
 
 // No direct access
 defined('_JEXEC') or die('Restricted access');
-if (!defined('DS')) 
-{
-    define('DS', DIRECTORY_SEPARATOR);
-}
+
 global $jtg_microtime;
 $jtg_microtime = microtime(true);
 // Require the base controller
-require_once JPATH_COMPONENT . DS . 'controller.php';
+require_once JPATH_COMPONENT . DIRECTORY_SEPARATOR . 'controller.php';
 
 // Require the base helper
-require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'layout.php';
-require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
-JLoader::register('gpsCLass', '.' . DS . 'components' . DS . 'com_jtg' . DS . 'helpers'.DS);
+require_once JPATH_COMPONENT . DIRECTORY_SEPARATOR . 'helpers' . DIRECTORY_SEPARATOR . 'layout.php';
+require_once JPATH_COMPONENT . DIRECTORY_SEPARATOR . 'helpers' . DIRECTORY_SEPARATOR . 'helper.php';
+JLoader::register('gpsCLass', '.' . DIRECTORY_SEPARATOR . 'components' . DIRECTORY_SEPARATOR . 'com_jtg' . DIRECTORY_SEPARATOR . 'helpers'. DIRECTORY_SEPARATOR);
 JLoader::import('components.com_jtg.helpers.gpsClass', JPATH_SITE, 'gpsClass');
 
 JFactory::getLanguage()->load('com_jtg', JPATH_SITE . '/components/com_jtg', 'en-GB', true);
@@ -48,7 +45,7 @@ $document->addStyleSheet( 'templates/' . $template . '/css/jtg_style.css' );
 
 // Initialize the controller
 if($controller = JRequest::getWord('controller')) {
-	$path = JPATH_COMPONENT . DS . 'controllers' . DS . $controller.'.php';
+	$path = JPATH_COMPONENT . DIRECTORY_SEPARATOR . 'controllers' . DIRECTORY_SEPARATOR . $controller.'.php';
 	if (file_exists($path)) {
 		require_once $path;
 	} else {

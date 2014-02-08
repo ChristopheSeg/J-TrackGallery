@@ -58,7 +58,7 @@ class JtgModelConfig extends JModelLegacy
 			OR ($row['max_thumb_height']<>$cfg->max_thumb_height) )
 		{
 		    // recreate thumbnails if max_height changed
-		    require_once(JPATH_SITE . DS . "administrator" . DS . "components" . DS . "com_jtg" . DS . "models" . DS . "thumb_creation.php");
+		    require_once(JPATH_SITE . DIRECTORY_SEPARATOR . "administrator" . DIRECTORY_SEPARATOR . "components" . DIRECTORY_SEPARATOR . "com_jtg" . DIRECTORY_SEPARATOR . "models" . DIRECTORY_SEPARATOR . "thumb_creation.php");
 		    com_jtg_refresh_Thumbnails();
 		}
 		return true;
@@ -105,7 +105,7 @@ class JtgModelConfig extends JModelLegacy
 		return true;
 
 		//	load install.sql
-		$file = JPath::clean(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_jtg' . DS . 'sql' . DS . 'install.sql');
+		$file = JPath::clean(JPATH_ADMINISTRATOR . DIRECTORY_SEPARATOR . 'components' . DIRECTORY_SEPARATOR . 'com_jtg' . DIRECTORY_SEPARATOR . 'sql' . DIRECTORY_SEPARATOR . 'install.sql');
 		if (!is_file($file))
 		return ('File "'.$file.'" not found');
 		if (jimport('joomla.filesystem.file'))
@@ -185,9 +185,9 @@ class JtgModelConfig extends JModelLegacy
 
 
 	function getTemplates()  {
-		jimport('joomla.filesystem.file');
+		jimport('joomla.filesystem.folder');
 
-		$templates = JFolder::listFolderTree('..' . DS . 'components' . DS . 'com_jtg' . DS . 'assets' . DS . 'template','',1);
+		$templates = JFolder::listFolderTree('..' . DIRECTORY_SEPARATOR . 'components' . DIRECTORY_SEPARATOR . 'com_jtg' . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'template','',1);
 		return $templates;
 	}
 }

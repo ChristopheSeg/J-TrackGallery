@@ -27,8 +27,8 @@ jimport('joomla.application.component.model');
 function com_jtg_refresh_Thumbnails()  
 {
 	$cfg = JtgHelper::getConfig();
-	require_once(JPATH_SITE . DS . "administrator" . DS . "components" . DS . "com_jtg" . DS . "models" . DS . "thumb_creation.php");
-	$base_dir = JPATH_SITE . DS . 'images' . DS . 'jtrackgallery';
+	require_once(JPATH_SITE . DIRECTORY_SEPARATOR . "administrator" . DIRECTORY_SEPARATOR . "components" . DIRECTORY_SEPARATOR . "com_jtg" . DIRECTORY_SEPARATOR . "models" . DIRECTORY_SEPARATOR . "thumb_creation.php");
+	$base_dir = JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery';
 	$success=true; 
 	$regex_folder = "^track_";
 	$regex_images="([^\s]+(\.(?i)(jpg|png|gif|bmp))$)";
@@ -36,8 +36,8 @@ function com_jtg_refresh_Thumbnails()
 
 	foreach ($folders as $folder)
 	{
-	    $imgs = JFolder::files($base_dir . DS . $folder);
-	    $thumb_dir = $base_dir . DS . $folder . DS. 'thumbs';
+	    $imgs = JFolder::files($base_dir . DIRECTORY_SEPARATOR . $folder);
+	    $thumb_dir = $base_dir . DIRECTORY_SEPARATOR . $folder . DIRECTORY_SEPARATOR. 'thumbs';
 	    if($imgs)
 	    {
 		if(JFolder::exists($thumb_dir)) 
@@ -46,16 +46,12 @@ function com_jtg_refresh_Thumbnails()
 		    $filesToDelete = JFolder::files($thumb_dir, $regex_images);
 		    foreach($filesToDelete AS $fileToDelete)
 		    {
-			JFile::delete($thumb_dir . DS . $fileToDelete); 
+			JFile::delete($thumb_dir . DIRECTORY_SEPARATOR . $fileToDelete); 
 		    }
-		}
-		else 
-		{
-		    JFolder::create($thumb_dir);
 		}
 		foreach($imgs AS $image)
 		{
-			$thumb = com_jtg_create_Thumbnails ($base_dir . DS . $folder .DS, $image, $cfg->max_thumb_height, $cfg->max_geoim_height); 
+			$thumb = com_jtg_create_Thumbnails ($base_dir . DIRECTORY_SEPARATOR . $folder . DIRECTORY_SEPARATOR, $image, $cfg->max_thumb_height, $cfg->max_geoim_height); 
 			if (! $thumb) 
 			{
 			    $success=false; 
@@ -82,6 +78,11 @@ function com_jtg_create_Thumbnails ($image_dir, $image_name, $max_thumb_height=2
 
 	$ext = JFile::getExt($image_name);
 	$image_path = $image_dir . $image_name;
+	$thumb_dir = $image_dir . 'thumbs' . DIRECTORY_SEPARATOR ;
+	if(! JFolder::exists($thumb_dir)) 
+	{
+	    JFolder::create($thumb_dir);
+	}
 	switch (strtolower($ext))
 	{
 		case 'jpeg':
@@ -111,10 +112,10 @@ function com_jtg_create_Thumbnails ($image_dir, $image_name, $max_thumb_height=2
 	    $thumb_height = $height;
 	    $thumb_width = $width;	    
 	}
-	// create geotaged image thumbnail
+	// create geotaged image thumbnail (use Geotagged image size)
 	$tmp=imagecreatetruecolor($thumb_width,$thumb_height);
 	imagecopyresampled($tmp,$src,0,0,0,0,$thumb_width,$thumb_height,$width,$height);//resample the image
-	$thumb_path = $image_dir . 'thumbs/thumb0_' . $image_name; 
+	$thumb_path = $thumb_dir . 'thumb0_' . $image_name; 
 	switch (strtolower($ext))
 	{
 		case 'jpeg':
@@ -149,7 +150,7 @@ function com_jtg_create_Thumbnails ($image_dir, $image_name, $max_thumb_height=2
 	$thumb_width = 2 * ( (int) ($width/2/$height*$max_thumb_height) );
 	$tmp=imagecreatetruecolor($thumb_width,$thumb_height);
 	imagecopyresampled($tmp,$src,0,0,0,0,$thumb_width,$thumb_height,$width,$height);//resample the image
-	$thumb_path = $image_dir . 'thumbs/thumb1_' . $image_name; 
+	$thumb_path = $thumb_dir . 'thumb1_' . $image_name; 
 
 	switch (strtolower($ext))
 	{
@@ -171,7 +172,7 @@ function com_jtg_create_Thumbnails ($image_dir, $image_name, $max_thumb_height=2
 	// create second thumbnail
 	$tmp=imagecreatetruecolor($thumb_width/2,$thumb_height/2);
 	imagecopyresampled($tmp,$src,0,0,0,0,$thumb_width/2,$thumb_height/2,$width,$height);//resample the image
-	$thumb_path = $image_dir . 'thumbs/thumb2_' . $image_name; 
+	$thumb_path = $thumb_dir . 'thumb2_' . $image_name; 
 
 	switch (strtolower($ext))
 	{

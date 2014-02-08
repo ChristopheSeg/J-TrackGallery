@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS `#__jtg_config` (
 	`routingiconset` varchar(10) DEFAULT 'real',
 	`usevote` TINYINT(1) UNSIGNED ZEROFILL DEFAULT '1',
 	`download` TINYINT(1) UNSIGNED ZEROFILL DEFAULT '1',
-	`gpsstore` VARCHAR( 100 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'JPATH_SITE . DS . "images" . DS . "jtrackgallery" . DS . "uploaded_tracks".DS',
+	`gpsstore` VARCHAR( 100 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'JPATH_SITE . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "jtrackgallery" . DIRECTORY_SEPARATOR . "uploaded_tracks". DIRECTORY_SEPARATOR',
 	`gallery` VARCHAR(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'straight',
 	`showcharts` TINYINT(1) UNSIGNED ZEROFILL DEFAULT '2',
 	`level` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci,
@@ -78,7 +78,7 @@ INSERT INTO `#__jtg_config` (`id`, `gid`, `apikey`, `unit`, `type`, `max_size`, 
 400, 0, 0, 5, '500px', '100%', '100%', 
 '180px', 'FF0000', '0000CC', '0', 'default', 0, 
 1, 0, 'DESC', 0, 0, 'no', 
-'real', 0, 2, 'JPATH_SITE . DS . "images" . DS . "jtrackgallery" . DS . "uploads".DS', 'straight', 2, 
+'real', 0, 2, 'JPATH_SITE . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "jtrackgallery" . DIRECTORY_SEPARATOR . "uploads". DIRECTORY_SEPARATOR', 'straight', 2, 
 'COM_JTG_LEVEL_1\nCOM_JTG_LEVEL_2\nCOM_JTG_LEVEL_3\nCOM_JTG_LEVEL_4\nCOM_JTG_LEVEL_5');
 
 CREATE TABLE IF NOT EXISTS `#__jtg_files` (

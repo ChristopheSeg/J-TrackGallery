@@ -71,9 +71,23 @@ $document->addStyleSheet(JUri::base().'components/com_jtg/template.css');
 		$row = &$this->rows[$i];
 		$row->groupname = $this->buildRowGroupname($row->access); // wird für die Zugriffsebene benötigt
 		if ( $row->access == 9 )
-		$access 	= "<font color='orange'>".JText::_('COM_JTG_PRIVATE') . "</font>";
+		{
+		    $access = "<font color='orange'>".JText::_('COM_JTG_PRIVATE') . "</font>";
+		}
 		else
-		$access 	= JHtml::_('grid.access', $row, $i );
+		{
+		    if(JVERSION>=3.0) //Code support for joomla version greater than 3.0
+		    {
+			$access = "<font color='red'>TODOJ3</font>";
+
+		    }
+		    else 
+		    {
+			$access = JHtml::_('grid.access', $row, $i );
+		    }
+		    
+		}
+
 		$checked 	= JHtml::_('grid.checkedout', $row, $i );
 		$published 	= JHtml::_('grid.published', $row, $i );
 		$user		= JFactory::getUser($row->uid);

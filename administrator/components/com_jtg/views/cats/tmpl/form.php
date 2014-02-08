@@ -46,7 +46,7 @@ JToolBarHelper::help( 'cats/form',true );
 				<td><input type="radio" name="catpic" value="" title="<?php echo JText::_('COM_JTG_NONE'); ?>" checked="checked"><?php echo JText::_('COM_JTG_NONE'); ?><br />
 <?php
 foreach ($this->images as $img) {
-	$imageurl = JUri::root().'images' . DS . 'jtrackgallery' . DS . 'cats' . DS;
+	$imageurl = JUri::root().'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'cats' . DIRECTORY_SEPARATOR;
 	$pic = "";
 	$pic .= "<input type=\"radio\" name=\"catpic\" value=\"" . $img . "\" title=\"" . $img . "\"";
 	$pic .= ">".
