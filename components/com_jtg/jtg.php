@@ -25,30 +25,37 @@ require_once JPATH_COMPONENT . DIRECTORY_SEPARATOR . 'helpers' . DIRECTORY_SEPAR
 JLoader::register('gpsCLass', '.' . DIRECTORY_SEPARATOR . 'components' . DIRECTORY_SEPARATOR . 'com_jtg' . DIRECTORY_SEPARATOR . 'helpers'. DIRECTORY_SEPARATOR);
 JLoader::import('components.com_jtg.helpers.gpsClass', JPATH_SITE, 'gpsClass');
 
-JFactory::getLanguage()->load('com_jtg', JPATH_SITE . '/components/com_jtg', 'en-GB', true);
-JFactory::getLanguage()->load('com_jtg', JPATH_SITE . '/components/com_jtg',    null, true);
-JFactory::getLanguage()->load('com_jtg_common', JPATH_SITE . '/components/com_jtg', 'en-GB', true);
-JFactory::getLanguage()->load('com_jtg_common', JPATH_SITE . '/components/com_jtg',    null, true);
+JFactory::getLanguage()->load('com_jtg', JPATH_SITE . DIRECTORY_SEPARATOR . 'components' . DIRECTORY_SEPARATOR . 'com_jtg', 'en-GB', true);
+JFactory::getLanguage()->load('com_jtg', JPATH_SITE . DIRECTORY_SEPARATOR . 'components' . DIRECTORY_SEPARATOR . 'com_jtg',    null, true);
+JFactory::getLanguage()->load('com_jtg_common', JPATH_SITE . DIRECTORY_SEPARATOR . 'components' . DIRECTORY_SEPARATOR . 'com_jtg', 'en-GB', true);
+JFactory::getLanguage()->load('com_jtg_common', JPATH_SITE . DIRECTORY_SEPARATOR . 'components' . DIRECTORY_SEPARATOR . 'com_jtg',    null, true);
 // com_jtg_additional language files are in /images/jtrackgallery/language folder
-JFactory::getLanguage()->load('com_jtg_additional', JPATH_SITE . '/images/jtrackgallery', 'en-GB', true);
-JFactory::getLanguage()->load('com_jtg_additional', JPATH_SITE . '/images/jtrackgallery',    null, true);
+JFactory::getLanguage()->load('com_jtg_additional' . DIRECTORY_SEPARATOR . JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery', 'en-GB', true);
+JFactory::getLanguage()->load('com_jtg_additional' . DIRECTORY_SEPARATOR . JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery',    null, true);
 $cfg = JtgHelper::getConfig();
 // set the template
 $tmpl = ($cfg->template = "") ? $cfg->template : 'default';
 
 $document =& JFactory::getDocument();
-$document->addStyleSheet(JUri::base().'components/com_jtg/assets/template/'.$tmpl.'/jtg_style.css');
+$document->addStyleSheet(JUri::base().'components' . DIRECTORY_SEPARATOR . 'com_jtg' . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'template' . DIRECTORY_SEPARATOR . $tmpl. DIRECTORY_SEPARATOR . 'jtg_style.css');
 // override style with user templates
 $mainframe =& JFactory::getApplication();
-$template = $mainframe->getTemplate();
-$document->addStyleSheet( 'templates/' . $template . '/css/jtg_style.css' );
-
+jimport('joomla.filesystem.file');
+$template_css = 'templates' . DIRECTORY_SEPARATOR .  $mainframe->getTemplate() . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . 'jtg_style.css';
+if (JFile::exists($template_css) ) 
+{
+   // override with site template
+   $document->addStyleSheet( $template_css);
+ 
+}
 // Initialize the controller
-if($controller = JRequest::getWord('controller')) {
+if($controller = JRequest::getWord('controller')) 
+{
 	$path = JPATH_COMPONENT . DIRECTORY_SEPARATOR . 'controllers' . DIRECTORY_SEPARATOR . $controller.'.php';
 	if (file_exists($path)) {
 		require_once $path;
-	} else {
+	} else 
+	{
 		$controller = '';
 	}
 }

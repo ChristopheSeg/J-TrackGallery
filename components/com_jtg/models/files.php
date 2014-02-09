@@ -266,6 +266,7 @@ class JtgModelFiles extends JModelLegacy
 		$mainframe =& JFactory::getApplication();
 
 		jimport('joomla.filesystem.file');
+		jimport('joomla.filesystem.folder');
 
 		$db =& JFactory::getDBO();
 		$user =& JFactory::getUser();
@@ -564,6 +565,7 @@ class JtgModelFiles extends JModelLegacy
 	function deleteFile($id) {
 		$mainframe =& JFactory::getApplication();
 		jimport('joomla.filesystem.file');
+		jimport('joomla.filesystem.folder');
 		$db = JFactory::getDBO();
 		$query = "SELECT * FROM #__jtg_files WHERE id='" . $id . "'";
 		$this->_db->setQuery($query);
@@ -600,6 +602,7 @@ class JtgModelFiles extends JModelLegacy
 		$mainframe =& JFactory::getApplication();
 
 		jimport('joomla.filesystem.file');
+		jimport('joomla.filesystem.folder');
 
 		$db =& JFactory::getDBO();
 		$user =& JFactory::getUser();

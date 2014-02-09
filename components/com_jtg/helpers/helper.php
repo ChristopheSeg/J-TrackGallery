@@ -207,6 +207,7 @@ class JtgHelper
 		( $file["size"] == 0 )
 		)
 		return false;
+		jimport('joomla.filesystem.file');
 		$filename = JFile::makeSafe($file['name']);
 		$randnumber = (50-strlen($filename));
 		$fncount = 0;
@@ -517,6 +518,7 @@ class JtgHelper
 	function createimageandthumbs($file_tmp_name, $ext, $image_dir, $image) {
 		require_once(JPATH_SITE . DIRECTORY_SEPARATOR . "administrator" . DIRECTORY_SEPARATOR . "components" . DIRECTORY_SEPARATOR . "com_jtg" . DIRECTORY_SEPARATOR . "models" . DIRECTORY_SEPARATOR . "thumb_creation.php");
 		$filepath = $image_dir . $image ;
+		jimport('joomla.filesystem.file');
 		switch (strtolower($ext)) {
 			case 'jpeg':
 			case 'pjpeg':

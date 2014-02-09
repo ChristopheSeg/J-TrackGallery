@@ -119,12 +119,12 @@ class gpsDataClass
 	public function loadXmlFile($gpsFile=false) {
 	    jimport('joomla.filesystem.file');
 	    $xml = false; 
-	    if ( ($gpsFile) and (file_exists($gpsFile)) )
+	    if ( ($gpsFile) and (JFile::exists($gpsFile)) )
 	    { 
 		    $this->ext = JFile::getExt($gpsFile);
 		    $xml = simplexml_load_file($this->gpsFile);
 	    }
-	    elseif  (file_exists($this->gpsFile)) 
+	    elseif  (JFile::exists($this->gpsFile)) 
 	    {
 		    $this->gpsFile = $gpsFile;
 		    $this->ext = JFile::getExt($this->gpsFile);
@@ -1514,6 +1514,7 @@ class gpsDataClass
 
 	private function parseOLGeotaggedImgs($id,$max_geoim_height,$iconfolder,$httpiconpath)
 	{
+		jimport('joomla.filesystem.folder');
 		$max_geoim_height = (int)$max_geoim_height;
 		$foundpics = false;
 		$map = "// <!-- parseOLGeotaggedImgs BEGIN -->\n";
@@ -1577,7 +1578,7 @@ class gpsDataClass
 						//	$lat = 50.99+(float)(rand(1000,2000)-1000)/100000;
 						$size = "width=\"".(int)$width . "\" height=\"".(int)$height . "\"";
 						$image = "<img " . $size . " src=\"" . $imagepath . "\" alt=\"" . $image . "\" title=\"" . $image . "\">";
-						$xml = $this->loadXmlFile($httpiconpath . "foto.xml");
+						$xml = simplexml_load_file($httpiconpath . "foto.xml");
 						$sizex = $xml->sizex;
 						$sizey = $xml->sizey;
 						$offsetx = $xml->offsetx;
@@ -1623,7 +1624,7 @@ class gpsDataClass
 		$zeiten = "<br />\n";
 		$cfg =& JtgHelper::getConfig();
 		$iconpath = JUri::root() . "components/com_jtg/assets/template/" . $cfg->template . "/images/";
-		$httpiconpath = JPATH_SITE . DIRECTORY_SEPARATOR . "components" . DIRECTORY_SEPARATOR . "com_jtg" . DIRECTORY_SEPARATOR . "assets" . DIRECTORY_SEPARATOR . "template" . DIRECTORY_SEPARATOR . $cfg->template . DIRECTORY_SEPARATOR . "images". DIRECTORY_SEPARATOR;
+		$httpiconpath = JPATH_SITE . "/components/com_jtg/assets/template/" . $cfg->template . "/images/";
 		jimport('joomla.filesystem.file');
 		// $rows = $this->getTracks(" WHERE a.id != " . $track->id);
 		$zeiten .= (int) round( ( microtime(true) - $jtg_microtime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " getTracks<br />\n";
@@ -1721,9 +1722,9 @@ class gpsDataClass
 	private function parseScriptOLHead() {
 
 		$mainframe =& JFactory::getApplication();
+		jimport('joomla.filesystem.folder');
 		$template = $mainframe->getTemplate();
 		$imgpath = '/templates/' . $template . '/css/ol_images';
-		jimport('joomla.filesystem.folder');
 		if ( ! JFolder::exists(JPATH_SITE . $imgpath))
 		{
 		    $imgpath = '/components/com_jtg/assets/template/default/ol_images/';

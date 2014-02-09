@@ -277,6 +277,8 @@ class com_jtgInstallerScript
 	    // Set a simple message
 
 	    // uninstall JTEXT strings must be saved in en-GB.com_jtg.sys.ini
+	    jimport('joomla.filesystem.file');
+	    jimport('joomla.filesystem.folder');
 	    $application = JFactory::getApplication();
 	    $application->enqueueMessage( JText::_('COM_JTG_THANK_YOU_FOR_USING') ) ;
 	    echo '<p>' . JText::_('COM_JTG_UNINSTALLING') . '</p>';

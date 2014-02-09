@@ -26,6 +26,8 @@ jimport('joomla.application.component.model');
  */
 function com_jtg_refresh_Thumbnails()  
 {
+	jimport('joomla.filesystem.folder');
+	jimport('joomla.filesystem.file');
 	$cfg = JtgHelper::getConfig();
 	require_once(JPATH_SITE . DIRECTORY_SEPARATOR . "administrator" . DIRECTORY_SEPARATOR . "components" . DIRECTORY_SEPARATOR . "com_jtg" . DIRECTORY_SEPARATOR . "models" . DIRECTORY_SEPARATOR . "thumb_creation.php");
 	$base_dir = JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery';
@@ -76,6 +78,8 @@ function com_jtg_refresh_Thumbnails()
 function com_jtg_create_Thumbnails ($image_dir, $image_name, $max_thumb_height=210, $max_geoim_height=300)  
 {
 
+	jimport('joomla.filesystem.folder');
+	jimport('joomla.filesystem.file');
 	$ext = JFile::getExt($image_name);
 	$image_path = $image_dir . $image_name;
 	$thumb_dir = $image_dir . 'thumbs' . DIRECTORY_SEPARATOR ;

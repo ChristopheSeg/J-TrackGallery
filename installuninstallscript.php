@@ -293,6 +293,8 @@ class com_jtgInstallerScript
 	function uninstall( $parent ) {
 	    // Set a simple message
 
+	    jimport('joomla.filesystem.folder');
+	    jimport('joomla.filesystem.file');
 	    $application = JFactory::getApplication();
 	    $application->enqueueMessage( JText::_('COM_JTG_THANK_YOU_FOR_USING') ) ;
 	    echo '<p>' . JText::_('COM_JTG_UNINSTALLING') . '</p>';

@@ -26,6 +26,7 @@ class JtgModelTranslations extends JModelLegacy
 	}
 
 	function saveLanguage() {
+		jimport('joomla.filesystem.file');
 		JSession::checkToken() or die( 'Invalid Token' );
 		$languages = $this->getRawLanguages();
 		foreach ($languages as $lang) {
@@ -44,6 +45,7 @@ class JtgModelTranslations extends JModelLegacy
 	}
 
 	function getLanguages() {
+		jimport('joomla.filesystem.file');
 		$languages = $this->getRawLanguages();
 		$newlanguages = array();
 		foreach ($languages as $lang) {

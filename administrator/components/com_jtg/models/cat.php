@@ -237,6 +237,7 @@ class JtgModelCat extends JModelLegacy
 	}
 
 	function uploadCatImage($file) {
+		jimport('joomla.filesystem.file');
 		if ($file['name'] != "") {
 			$file['ext'] = JFile::getext($file['name']);
 			$config = JtgHelper::getConfig();

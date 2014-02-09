@@ -397,6 +397,7 @@ class JtgViewFiles extends JViewLegacy
 	function _displayForm($tpl) {
 		JHtml::script('jquery.js', 'components/com_jtg/assets/js/', false);
 		JHtml::script('multifile.js', 'components/com_jtg/assets/js/', false);
+		jimport('joomla.filesystem.folder');
 		// Quick'n'Dirty - Sonst funktioniert das Joomla-Menü nicht mehr: (!?)
 		JHtml::script('mootools.js', '/media/system/js/', false);
 		$cid =& JRequest::getVar( 'cid', array(), 'post', 'array' );

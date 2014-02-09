@@ -139,12 +139,12 @@ if ($maySeeSingleFile === true) {
 			xAxis: [{
 			    labels: {
 				formatter: function() {
-					return this.value +' km';
+					return this.value + '<?php echo (JText::_('COM_JTG_DISTANCE_UNIT_'.strtoupper($this->cfg->unit))); ?>';
 				}
 			},
 			    tooltip: {
 				valueDecimals: 2,
-				valueSuffix: ' km'
+				valueSuffix: '<?php echo (JText::_('COM_JTG_DISTANCE_UNIT_'.strtoupper($this->cfg->unit))); ?>'
 
 			    }
 			}],
@@ -153,14 +153,14 @@ if ($maySeeSingleFile === true) {
 			{ // Elevation data
 			    labels: {
 				formatter: function() {
-				    return this.value +' m';
+				    return this.value +'<?php echo JText::_('COM_JTG_ELEVATION_UNIT'); ?>';
 				},
 				style: {
 				    color: '#89A54E'
 				}
 			    },
 			    title: {
-				text: 'Elevation (m)',
+				text: '<?php echo JText::_('COM_JTG_ELEVATION') . '(' . JText::_('COM_JTG_ELEVATION_UNIT'); ?>)',
 				style: {
 				    color: '#89A54E'
 				}
@@ -171,14 +171,14 @@ if ($maySeeSingleFile === true) {
 			, { // Speed data
 			    gridLineWidth: 0,
 			    title: {
-				text: 'Speed (km/h)',
+				text: '<?php echo (JText::_('COM_JTG_SPEED'.strtoupper($this->cfg->unit))); ?>(<?php echo (JText::_('COM_JTG_SPEED_UNIT_'.strtoupper($this->cfg->unit))); ?>)',
 				style: {
 				    color: '#4572A7'
 				}
 			    },
 			    labels: {
 				formatter: function() {
-				    return this.value +' km/h';
+				    return this.value +'<?php echo (JText::_('COM_JTG_SPEED_UNIT_'.strtoupper($this->cfg->unit))); ?>';
 				},
 				style: {
 				    color: '#4572A7'
@@ -193,14 +193,14 @@ if ($maySeeSingleFile === true) {
 			    ,{ // Heart beat data
 			    gridLineWidth: 0,
 			    title: {
-				text: 'Heart beat (/s)',
+				text: '<?php echo JText::_('COM_JTG_HEARTFREQU') . '(' . JText::_('COM_JTG_HEARTFREQU_UNIT'); ?>)',
 				style: {
 				    color: '#AA4643'
 				}
 			    },
 			    labels: {
 				formatter: function() {
-				    return this.value +' mb';
+				    return this.value +'<?php echo JText::_('COM_JTG_HEARTFREQU_UNIT'); ?>'
 				},
 				style: {
 				    color: '#AA4643'
@@ -215,7 +215,7 @@ if ($maySeeSingleFile === true) {
 			tooltip: {
 			    valueDecimals: 2,
 			    formatter: function() {	
-				var s = '<b>distance: '+ this.x +' km</b>';
+				var s = '<b><?php echo JText::_('COM_JTG_DISTANCE'); ?>: '+ this.x +' <?php echo (JText::_('COM_JTG_DISTANCE_UNIT_'.strtoupper($this->cfg->unit))); ?></b>';
 				$.each(this.points, function(i, point) {
 				    s += '<br/>'+ point.series.name +': '+
 					point.y + ' ' + point.series.options.unit;
@@ -233,7 +233,7 @@ if ($maySeeSingleFile === true) {
 			    floating: true,
 			    backgroundColor: '#FFFFFF',
 			    labelFormatter: function() {
-				return this.name <?php echo ( ($axisnumber > 1)? "+ ' (click to hide)'": ''); ?>;
+				return this.name <?php echo ( ($axisnumber > 1)? ' (click to hide' . JText::_('COM_JTG_CLICK_TO_HIDE') . ')': ''); ?>;
 			    }
 			},
 			series: [
@@ -277,7 +277,7 @@ if ($maySeeSingleFile === true) {
 			    color: '#89A54E',
 			    data: <?php echo $this->beatdata; ?>,
 			    tooltip: {
-				valueSuffix: ' <?php echo JText::_('COM_JTG_HEARTFREQU_UNIT'); ?>'
+				valueSuffix: '<?php echo JText::_('COM_JTG_HEARTFREQU_UNIT'); ?>'
 			    }
 			}
 			<?php } ?>

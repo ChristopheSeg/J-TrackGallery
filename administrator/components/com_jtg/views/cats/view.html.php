@@ -61,7 +61,7 @@ class JtgViewCats extends JViewLegacy
 		$children = array();
 		$imagedir = JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'cats' . DIRECTORY_SEPARATOR;
 		$imageurl = JUri::root().'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'cats' . DIRECTORY_SEPARATOR;
-		jimport('joomla.filesystem.files');
+		jimport('joomla.filesystem.file');
 		$images = array();
 		foreach ($rows as $k => $v ) {
 			$new = new stdClass;

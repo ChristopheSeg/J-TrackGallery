@@ -29,6 +29,7 @@ class JtgViewConfig extends JViewLegacy
 	function display($tpl = null) {
 
 		jimport('joomla.filesystem.file');
+		jimport('joomla.filesystem.folder');
 		$config =& JtgHelper::getConfig();
 
 		$captcha = JtgHelper::checkCaptcha();

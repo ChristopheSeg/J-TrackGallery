@@ -451,6 +451,7 @@ class JtgModelFiles extends JModelLegacy
 	function delete($cid = array())
 	{
 		jimport('joomla.filesystem.file');
+		jimport('joomla.filesystem.folder');
 		$result = false;
 		if (count( $cid ))
 		{
@@ -650,6 +651,7 @@ class JtgModelFiles extends JModelLegacy
 	function saveFiles() {
 		$mainframe =& JFactory::getApplication();
 		jimport('joomla.filesystem.file');
+		jimport('joomla.filesystem.folder');
 		require_once(".." . DIRECTORY_SEPARATOR . "components" . DIRECTORY_SEPARATOR . "com_jtg" . DIRECTORY_SEPARATOR . "helpers" . DIRECTORY_SEPARATOR . "gpsClass.php");
 		$fileokay = true;
 		$db =& JFactory::getDBO();
@@ -800,6 +802,7 @@ class JtgModelFiles extends JModelLegacy
 		// TODO Deprecated, can be replacd by import from injooosm
 		$mainframe =& JFactory::getApplication();
 		jimport('joomla.filesystem.file');
+		jimport('joomla.filesystem.folder');
 		require_once(".." . DIRECTORY_SEPARATOR . "components" . DIRECTORY_SEPARATOR . "com_jtg" . DIRECTORY_SEPARATOR . "helpers" . DIRECTORY_SEPARATOR . "gpsClass.php");
 		$db =& JFactory::getDBO();
 		$fileokay = false;
@@ -924,6 +927,7 @@ class JtgModelFiles extends JModelLegacy
 	function saveFile() {
 		$mainframe =& JFactory::getApplication();
 		jimport('joomla.filesystem.file');
+		jimport('joomla.filesystem.folder');
 		require_once(".." . DIRECTORY_SEPARATOR . "components" . DIRECTORY_SEPARATOR . "com_jtg" . DIRECTORY_SEPARATOR . "helpers" . DIRECTORY_SEPARATOR . "gpsClass.php");
 
 		$db =& JFactory::getDBO();
@@ -1071,9 +1075,10 @@ class JtgModelFiles extends JModelLegacy
 	function importJPTtracks()  {
 		/* under construction */
 	    // TODO DEPRECATED 
+		jimport('joomla.filesystem.file');
+		jimport('joomla.filesystem.folder');
 		$importfiles = $this->_fetchJPTfiles;
 		$mainframe =& JFactory::getApplication();
-		jimport('joomla.filesystem.file');
 		require_once(".." . DIRECTORY_SEPARATOR . "components" . DIRECTORY_SEPARATOR . "com_jtg" . DIRECTORY_SEPARATOR . "helpers" . DIRECTORY_SEPARATOR . "gpsClass.php");
 		$fileokay = true;
 		$db =& JFactory::getDBO();
@@ -1233,6 +1238,7 @@ class JtgModelFiles extends JModelLegacy
 	}
 
 	function getImages($id) {
+		jimport('joomla.filesystem.folder');
 		$img_dir = JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'track_' . $id;
 		if (!JFolder::exists($img_dir))
 		return null;
@@ -1243,6 +1249,7 @@ class JtgModelFiles extends JModelLegacy
 	function updateFile()  {
 		$mainframe =& JFactory::getApplication();
 		jimport('joomla.filesystem.file');
+		jimport('joomla.filesystem.folder');
 		require_once('..' . DIRECTORY_SEPARATOR . 'components' . DIRECTORY_SEPARATOR . 'com_jtg' . DIRECTORY_SEPARATOR . 'helpers' . DIRECTORY_SEPARATOR . 'gpsClass.php');
 
 		$db =& JFactory::getDBO();

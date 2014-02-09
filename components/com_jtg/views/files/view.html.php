@@ -127,6 +127,8 @@ class JtgViewFiles extends JViewLegacy
 	 */
 	function _displayForm($tpl = null) {
 		$mainframe =& JFactory::getApplication();
+		jimport('joomla.filesystem.file');
+		jimport('joomla.filesystem.folder');
 
 		JHtml::script('jquery.js', 'components/com_jtg/assets/js/', false);
 		JHtml::script('multifile.js', 'components/com_jtg/assets/js/', false);
