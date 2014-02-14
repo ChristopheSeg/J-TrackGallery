@@ -19,6 +19,7 @@ JToolBarHelper::back();
 JToolBarHelper::spacer();
 $bar=& JToolBar::getInstance( 'toolbar' );
 $folder = JUri::base().'index.php?option=com_jtg&tmpl=component&controller=files&task=upload';
+jimport('joomla.filesystem.folder');
 // popup:
 	$bar->appendButton( 'Popup', 'upload', 'Upload', $folder, 550, 400 );
 JToolBarHelper::addNew('newfiles', JText::_('COM_JTG_RELOAD'));

@@ -5,6 +5,23 @@
     Description: style for openlayers
 */
 
+/* 
+ svg, label,input  used by joomla 3.x css must be redefined for olMpa	
+*/ 
+#jtg_map svg { max-width: none; }
+
+.olMap label, .olMap input, .olMap button, .olMap select, .olMap textarea {
+    font-size: inherit;
+    font-weight: inherit;
+    line-height: inherit;
+}
+.olMap label {
+    display: inline;
+    margin-bottom: inherit;
+}
+/* 
+ svg label used by joomla 3.x	
+*/ 
 .olControlLayerSwitcher {
 	opacity : 0.8!important;
 	margin: 5px;

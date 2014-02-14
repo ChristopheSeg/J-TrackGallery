@@ -354,17 +354,10 @@ class JtgViewFiles extends JViewLegacy
 		} 
 		    
 		// Kartenauswahl BEGIN
-		JHtml::script('jtg.js', 'components/com_jtg/assets/js/', false);
-
-		//			$document->addScript('http://maps.google.com/maps?file=api&amp;v=2&amp;key='.$cfg->apikey);
-		//			$document->addScript('http://api.maps.yahoo.com/ajaxymap?v=3.0&appid=');
-
+		$document->addScript('components' . DIRECTORY_SEPARATOR . 'com_jtg' . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'jtg.js');
+	
 		$document->addScript('components' . DIRECTORY_SEPARATOR . 'com_jtg' . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'fullscreen.js');
-		//		JHtml::script('OpenLayers.js', 'components' . DIRECTORY_SEPARATOR . 'com_jtg' . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'OpenLayers'., false); // IE-Fehler
 
-		// 		$document->addScript('components/com_jtg/assets/js/GPX.js');
-		//		$document->addScript('components' . DIRECTORY_SEPARATOR . 'com_jtg' . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'jtg.js');
-		// 		$document->addScript('');
 
 //	TODO remove script from file.php and use method addscript
 //			if ( ($this->params->get("jtg_param_show_heightchart"))  AND $track ) {

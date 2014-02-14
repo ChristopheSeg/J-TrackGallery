@@ -171,7 +171,7 @@ if ($maySeeSingleFile === true) {
 			, { // Speed data
 			    gridLineWidth: 0,
 			    title: {
-				text: '<?php echo (JText::_('COM_JTG_SPEED'.strtoupper($this->cfg->unit))); ?>(<?php echo (JText::_('COM_JTG_SPEED_UNIT_'.strtoupper($this->cfg->unit))); ?>)',
+				text: '<?php echo (JText::_('COM_JTG_SPEED')) . '(' . JText::_('COM_JTG_SPEED_UNIT_'.strtoupper($this->cfg->unit)); ?>)',
 				style: {
 				    color: '#4572A7'
 				}
@@ -233,7 +233,7 @@ if ($maySeeSingleFile === true) {
 			    floating: true,
 			    backgroundColor: '#FFFFFF',
 			    labelFormatter: function() {
-				return this.name <?php echo ( ($axisnumber > 1)? ' (click to hide' . JText::_('COM_JTG_CLICK_TO_HIDE') . ')': ''); ?>;
+				return this.name <?php echo ( ($axisnumber > 1)? "+ ' (" . JText::_('COM_JTG_CLICK_TO_HIDE') . ")'": ''); ?>;
 			    }
 			},
 			series: [
