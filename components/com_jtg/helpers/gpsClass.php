@@ -155,7 +155,7 @@ class gpsDataClass
 		$error = false; 
 		foreach ($this->errorMessages as $errorMessage)
 		{
-		    Jerror::raiseWarning(null, $errorMessage);
+		    JFactory::getApplication()->enqueueMessage($errorMessage, 'Warning');
 		    $error = true; 
 		}
 		return $error;

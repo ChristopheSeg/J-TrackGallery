@@ -42,7 +42,10 @@ class JtgControllerConfig extends JtgController
 		$model = $this->getModel('config');
 		$error = $model->saveConfig();
 		if ($error !== true)
-			JError::raiseWarning( "1", $error );
+		{
+		    JFactory::getApplication()->enqueueMessage($error, 'Warning');
+		}
+
 		$link = JRoute::_( "index.php?option=com_jtg&task=config&controller=config",false);
 		$this->setRedirect($link, JText::_('COM_JTG_CONFIG_SAVED'));
 	}

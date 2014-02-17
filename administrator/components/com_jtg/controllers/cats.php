@@ -41,7 +41,7 @@ class JtgControllerCats extends JtgController
         if ($success)
         	$this->setRedirect($link, JText::_('COM_JTG_CATPIC_SAVED'));
         else {
-        	JError::raiseWarning( 1, JText::_('COM_JTG_CATPIC_NOTSAVED'));
+        	JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_CATPIC_NOTSAVED'), 'Warning');
         	$this->setRedirect($link);
         }
 	}
@@ -133,8 +133,10 @@ class JtgControllerCats extends JtgController
 		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
 		JArrayHelper::toInteger($cid);
 
-		if (count( $cid ) < 1) {
-			JError::raiseError(500, JText::_( 'COM_JTG_SELECT_AN_ITEM_TO_PUBLISH' ) );
+		if (count( $cid ) < 1) 
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_( 'COM_JTG_SELECT_AN_ITEM_TO_PUBLISH' ),'Error' );
+		    
 		}
 
 		$model = $this->getModel('cat');
@@ -160,7 +162,7 @@ class JtgControllerCats extends JtgController
 		JArrayHelper::toInteger($cid);
 
 		if (count( $cid ) < 1) {
-			JError::raiseError(500, JText::_( 'COM_JTG_SELECT_AN_ITEM_TO_UNPUBLISH' ) );
+			JFactory::getApplication()->enqueueMessage(JText::_( 'COM_JTG_SELECT_AN_ITEM_TO_UNPUBLISH' ),'Error' );
 		}
 
 		$model = $this->getModel('cat');
@@ -182,8 +184,9 @@ class JtgControllerCats extends JtgController
 
 		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
 		
-		if (count( $cid ) < 1) {
-			JError::raiseError(500, JText::_( 'COM_JTG_SELECT_AN_ITEM_TO_DELETE' ) );
+		if (count( $cid ) < 1)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_( 'COM_JTG_SELECT_AN_ITEM_TO_DELETE' ),'Error' );
 		}
 		$model = $this->getModel('cat');
 		if(!$model->deleteCatImage($cid)) {
@@ -205,8 +208,9 @@ class JtgControllerCats extends JtgController
 		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
 		JArrayHelper::toInteger($cid);
 
-		if (count( $cid ) < 1) {
-			JError::raiseError(500, JText::_( 'COM_JTG_SELECT_AN_ITEM_TO_DELETE' ) );
+		if (count( $cid ) < 1)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_( 'COM_JTG_SELECT_AN_ITEM_TO_DELETE' ),'Error' );
 		}
 
 		$model = $this->getModel('cat');

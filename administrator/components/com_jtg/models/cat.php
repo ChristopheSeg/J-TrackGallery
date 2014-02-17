@@ -205,7 +205,7 @@ class JtgModelCat extends JModelLegacy
 		$title =& JRequest::getVar( 'title' );
 		if ( $title == "" )
 		{
-			JError::raiseWarning( 1, JText::_('COM_JTG_NO_TITLE'));
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_NO_TITLE'), 'Warning');
 			return false;
 		}
 		$published =& JRequest::getInt( 'publish' );
@@ -245,14 +245,14 @@ class JtgModelCat extends JModelLegacy
 			$allowedimages = explode(',',$allowedimages);
 			if ( !in_array($file['ext'],$allowedimages) )
 			{
-				JError::raiseWarning( 1, JText::sprintf('COM_JTG_NOTALLOWED_FILETYPE',$file['ext']));
+				JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_JTG_NOTALLOWED_FILETYPE',$file['ext']), 'Warning');
 				return false;
 			}
 			$upload_dir = JPATH_SITE . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "jtrackgallery" . DIRECTORY_SEPARATOR . "cats". DIRECTORY_SEPARATOR;
 			$filename = JFile::makeSafe(strtolower($file['name']));
 				
 			if (JFile::exists($upload_dir.$filename)) {
-				JError::raiseWarning( 1, JText::_('COM_JTG_CATPIC_ALLREADYEXIST'));
+				JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_CATPIC_ALLREADYEXIST'), 'Warning');
 				return false;
 			} else {
 				$upload = JFile::upload($file['tmp_name'], $upload_dir.$filename);
@@ -286,7 +286,7 @@ class JtgModelCat extends JModelLegacy
 		$image =& JRequest::getVar( 'catpic' );
 		if ( $title == "" )
 		{
-			JError::raiseWarning( 1, JText::_('COM_JTG_NO_TITLE'));
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_NO_TITLE'), 'Warning');
 			return false;
 		}
 		$published =& JRequest::getInt( 'publish' );

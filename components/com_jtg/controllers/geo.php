@@ -35,9 +35,10 @@ class JtgControllerGeo extends JtgController
 		$db = JFactory::getDBO();
 		$db->setQuery($query);
 		$db->query();
-		if ($db->getErrorNum()) {
-			JError::raiseWarning(0,JText::_('COM_JTG_DATABASE_ERROR_H') );
-			echo JText::_('COM_JTG_DATABASE_ERROR') . "<br /><br />\n" . $db->stderr();
+		if ($db->getErrorNum()) 
+		{
+		    JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_DATABASE_ERROR_H'), 'Warning');
+		    JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_DATABASE_ERROR') . "<br /><br />\n" . $db->stderr(), 'Warning');
 			return false;
 		} else {
 			$url = "index.php?option=com_jtg&view=jtg&layout=geo";

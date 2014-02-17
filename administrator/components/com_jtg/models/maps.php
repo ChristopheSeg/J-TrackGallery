@@ -275,7 +275,7 @@ class JtgModelMaps extends JModelLegacy
 		$checked_out =& JRequest::getVar('checked_out');
 		$param = str_replace("'",'"',htmlentities($param));
 		if ( ( $name == "" ) OR ( $param == "" ) ) {
-			JError::raiseWarning(0,JText::_('COM_JTG_MAP_NOT_SAVED') );
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_MAP_NOT_SAVED'), 'Warning');
 			return false;
 		}
 		$script =& JRequest::getVar('script');
@@ -328,7 +328,7 @@ class JtgModelMaps extends JModelLegacy
 		$code =& JRequest::getVar('code');
 		$code = htmlentities($code);
 		if ( ( $name == "" ) OR ( $param == "" ) ) {
-			JError::raiseWarning(0,JText::_('COM_JTG_MAP_NOT_SAVED') );
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_MAP_NOT_SAVED'), 'Warning');
 			return false;
 		}
 

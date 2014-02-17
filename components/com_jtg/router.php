@@ -167,7 +167,7 @@ function jtgParseRoute($segments) {
 	{
 //		$errmsg = implode("/",$segments);
 //		$errmsg = "Route " . $errmsg . " does not exists!";
-//		JError::raiseWarning(0,$errmsg );
+//		JFactory::getApplication()->enqueueMessage($errmsg, 'Warning');
 		$vars['view'] = 'files';
 		$vars['layout'] = 'list';
 		return $vars;

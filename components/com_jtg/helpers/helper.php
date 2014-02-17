@@ -228,8 +228,9 @@ class JtgHelper
 				$filename = $randname.JFile::makeSafe($file['name']);
 				// Man weiß ja nie ;)
 				if ( $fncount > 10000 )
-				JError::raiseError(501, "<p class=\"type\">".JText::_( 'COM_JTG_ERROR_NO_FREE_FILENAMES' ) . "</p>".
-				"<i>".JFile::makeSafe($file['name']) . "</i></p>");
+				{
+				    JFactory::getApplication()->enqueueMessage(JText::_( 'COM_JTG_ERROR_NO_FREE_FILENAMES' ) . "(".JFile::makeSafe($file['name']) . ")",'Error' );
+				}
 				$fncount++;
 			}
 		}

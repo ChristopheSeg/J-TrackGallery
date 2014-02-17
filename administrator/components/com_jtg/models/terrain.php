@@ -153,7 +153,8 @@ class JtgModelTerrain extends JModelLegacy
 		$table->bind( $row );
 
 		if (!$table->store()) {
-			return JError::raiseWarning( $table->getError() );
+			JFactory::getApplication()->enqueueMessage($table->getError() , 'Warning');
+			return false;
 		}
 		return TRUE;
 	}

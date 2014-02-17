@@ -111,8 +111,9 @@ class JtgControllerMaps extends JtgController
 		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
 		JArrayHelper::toInteger($cid);
 
-		if (count( $cid ) < 1) {
-			JError::raiseError(500, JText::_( 'COM_JTG_SELECT_AN_ITEM_TO_PUBLISH' ) );
+		if (count( $cid ) < 1) 
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_( 'COM_JTG_SELECT_AN_ITEM_TO_PUBLISH'),'Error' );
 		}
 
 		$model = $this->getModel('maps');
@@ -133,8 +134,9 @@ class JtgControllerMaps extends JtgController
 
 		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
 		JArrayHelper::toInteger($cid);
-		if (count( $cid ) < 1) {
-			JError::raiseError(500, JText::_( 'COM_JTG_SELECT_AN_ITEM_TO_UNPUBLISH' ) );
+		if (count( $cid ) < 1) 
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_( 'COM_JTG_SELECT_AN_ITEM_TO_UNPUBLISH'),'Error' );
 		}
 
 		$model = $this->getModel('maps');
@@ -157,8 +159,9 @@ class JtgControllerMaps extends JtgController
 		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
 		JArrayHelper::toInteger($cid);
 
-		if (count( $cid ) < 1) {
-			JError::raiseError(500, JText::_( 'COM_JTG_SELECT_AN_ITEM_TO_DELETE' ) );
+		if (count( $cid ) < 1) 
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_( 'COM_JTG_SELECT_AN_ITEM_TO_DELETE'),'Error' );
 		}
 
 		$model = $this->getModel('maps');

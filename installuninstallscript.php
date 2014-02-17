@@ -54,18 +54,20 @@ class com_jtgInstallerScript
 		echo '<br /> &nbsp; ' . JText::sprintf('COM_JTG_PREFLIGHT_MIN_JOOMLA', $this->minimum_joomla_release ,$jversion->getShortVersion());
 
 		// abort if the current Joomla release is older
-		if( version_compare( $jversion->getShortVersion(), $this->minimum_joomla_release, 'lt' ) ) {
-			Jerror::raiseWarning(null, JText::sprintf('COM_JTG_PREFLIGHT_MIN_JOOMLA_ABORT',$this->minimum_joomla_release) );
-			return false;
+		if( version_compare( $jversion->getShortVersion(), $this->minimum_joomla_release, 'lt' ) ) 
+		{
+		    JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_JTG_PREFLIGHT_MIN_JOOMLA_ABORT',$this->minimum_joomla_release), 'Warning');
+		    return false;
 		}
  
 		// abort if the component being installed is not newer than the currently installed version
 		if ( $type == 'update' ) {
 			$oldRelease = $this->getParam('version');
-			if ( version_compare( $this->release, $oldRelease, 'le' ) ) {
-				Jerror::raiseWarning(null, JText::sprintf('COM_JTG_PREFLIGHT_JTG_WRONG_VERSION', $oldRelease, $this->release) );
-				return false;
-				// TODO this aborts the install process but generates and error in Joomla !!!
+			if ( version_compare( $this->release, $oldRelease, 'le' ) ) 
+			{
+			    JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_JTG_PREFLIGHT_JTG_WRONG_VERSION', $oldRelease, $this->release), 'Warning');
+			    return false;
+			    // TODO this aborts the install process but generates and error in Joomla !!!
 			}
 		}
 		return true;

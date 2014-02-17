@@ -384,22 +384,44 @@ class JtgViewFiles extends JViewLegacy
 	}
 
 	function _displayUpload($tpl) {
-		JHtml::script('jquery.js', 'components/com_jtg/assets/js/', false);
-		JHtml::script('multifile.js', 'components/com_jtg/assets/js/', false);
-		
-		// Quick'n'Dirty - Sonst funktioniert das Joomla-Menü nicht mehr: (!?)
-		JHtml::script('mootools.js', '/media/system/js/', false);
-		JHtml::script('core-uncompressed.js', 'media/system/js/', false);
+		if(JVERSION>=3.0) //Code support for joomla version greater than 3.0
+		{
+		    JHtml::_('jquery.framework');
+		    JHtml::script(Juri::base() . 'components/com_jtg/assets/js/multifile.js');
+		    JHTML::_('behavior.framework');
+		    // Quick'n'Dirty - Sonst funktioniert das Joomla-Menü nicht mehr: (!?)
+		    // JHtml::script('core-uncompressed.js', 'media/system/js/', false); //Joomla 2.5??
+		}
+		else 
+		{
+		    JHtml::script('jquery.js', 'components/com_jtg/assets/js/', false); 
+		    JHtml::script('multifile.js', 'components/com_jtg/assets/js/', false);
+		    // Quick'n'Dirty - Sonst funktioniert das Joomla-Menü nicht mehr: (!?)
+		    JHtml::script('mootools.js', '/media/system/js/', false);
+		    JHtml::script('core-uncompressed.js', 'media/system/js/', false);
+		}
 
 		parent::display($tpl);
 	}
 
 	function _displayForm($tpl) {
-		JHtml::script('jquery.js', 'components/com_jtg/assets/js/', false);
-		JHtml::script('multifile.js', 'components/com_jtg/assets/js/', false);
+		if(JVERSION>=3.0) //Code support for joomla version greater than 3.0
+		{
+		    JHtml::_('jquery.framework');
+		    JHtml::script(Juri::base() . 'components/com_jtg/assets/js/multifile.js');
+		    JHTML::_('behavior.framework');
+		}
+		else 
+		{
+		    JHtml::script('jquery.js', 'components/com_jtg/assets/js/', false); 
+		    JHtml::script('multifile.js', 'components/com_jtg/assets/js/', false);
+		    // Quick'n'Dirty - Sonst funktioniert das Joomla-Menü nicht mehr: (!?)
+		    JHtml::script('mootools.js', '/media/system/js/', false);
+		}
+
 		jimport('joomla.filesystem.folder');
 		// Quick'n'Dirty - Sonst funktioniert das Joomla-Menü nicht mehr: (!?)
-		JHtml::script('mootools.js', '/media/system/js/', false);
+		
 		$cid =& JRequest::getVar( 'cid', array(), 'post', 'array' );
 		// $id = implode(',', $cid);
 		$cfg = JtgHelper::getConfig();

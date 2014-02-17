@@ -39,7 +39,7 @@ class JtgControllertranslations extends JtgController
 		{
 			$this->setRedirect($link, JText::_('COM_JTG_TRANSLATIONS_SAVED'));
 		} else {
-			JError::raiseWarning( 1, JText::_('COM_JTG_TRANSLATIONS_NOTSAVED'));
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_TRANSLATIONS_NOTSAVED'), 'Warning');
 			$this->setRedirect($link);
 		}
 	}

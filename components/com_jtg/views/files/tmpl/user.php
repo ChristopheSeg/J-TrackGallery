@@ -109,6 +109,6 @@ if ($user->id != 0) {
 			<?php
 } else {
 	JResponse::setHeader('HTTP/1.0 403',true);
-	JError::raiseWarning( 403, JText::_('COM_JTG_ALERT_NOT_AUTHORISED') );
+	JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_ALERT_NOT_AUTHORISED'), 'Error');
 }
 echo $this->footer;

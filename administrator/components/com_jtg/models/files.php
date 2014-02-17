@@ -505,7 +505,7 @@ class JtgModelFiles extends JModelLegacy
 				{
 					if (!JFile::delete($file))
 					{
-						JError::raiseError(500, "<p class=\"type\">".JText::_( 'COM_JTG_ERROR_FILE_NOT_ERASEABLE' ) . "</p><p>" . $file . "</p>" );
+						JFactory::getApplication()->enqueueMessage(JText::_( 'COM_JTG_ERROR_FILE_NOT_ERASEABLE' ) . "(" . $file . ")",'Error' );
 						return false;
 					}
 				}

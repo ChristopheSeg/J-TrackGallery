@@ -18,9 +18,19 @@ JToolBarHelper::title(JText::_('COM_JTG_UPLOAD_CATIMAGE'), 'categories.png');
 JToolBarHelper::back();
 JToolBarHelper::spacer();
 JToolBarHelper::help( 'cats/managecatpicsform',true );
-JHtml::script('jquery.js', 'components/com_jtg/assets/js/', false);
-JHtml::script('multifile.js', 'components/com_jtg/assets/js/', false);
-JHtml::script('mootools.js', '/media/system/js/', false);
+if(JVERSION>=3.0) //Code support for joomla version greater than 3.0
+{
+    JHtml::_('jquery.framework');
+    JHtml::script(Juri::base() . 'components/com_jtg/assets/js/multifile.js');
+    JHTML::_('behavior.framework');
+}
+else 
+{
+    JHtml::script('jquery.js', 'components/com_jtg/assets/js/', false); 
+    JHtml::script('multifile.js', 'components/com_jtg/assets/js/', false);
+    JHtml::script('mootools.js', '/media/system/js/', false);
+}
+
 echo JText::sprintf('COM_JTG_ALLOWED_FILETYPES',$this->types);
 ?>
 <form action="" enctype="multipart/form-data" method="post" name="adminForm" id="adminForm">

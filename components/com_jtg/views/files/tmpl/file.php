@@ -94,7 +94,14 @@ if ($maySeeSingleFile === true) {
 	    {
 		$beatchartaxis = 0;
 	    }
-	    JHtml::script('jquery.js', 'components/com_jtg/assets/js/', false);
+	    if(JVERSION>=3.0) //Code support for joomla version greater than 3.0
+	    {
+		JHtml::_('jquery.framework');
+	    }
+	    else 
+	    {
+		JHtml::script('jquery.js', 'components/com_jtg/assets/js/', false);
+	    }
 	    ?>
 	    <!-- begin Charts -->
 	    

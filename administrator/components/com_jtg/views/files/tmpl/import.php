@@ -148,7 +148,7 @@ foreach($files AS $file) {
 	{
 		if ( ( $check != 8 ) AND ( $errorposted == false ) ) {
 			$errorposted = true;
-			JError::raiseNotice(0,JText::_('COM_JTG_ERROR_FOUND'));
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_ERROR_FOUND'),'Notice' );
 		}
 
 		$table .= ("			<tr><td colspan=\"11\"><hr></td></tr><tr class=\"row" . $row . "\">\n");
@@ -296,7 +296,7 @@ foreach($files AS $file) {
 
 		$count++;
 		if ( $count > 50 ) {
-			JError::raiseNotice(0,JText::_('COM_JTG_TOO_MUCH_TRACKS_TO_IMPORT'));
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_TOO_MUCH_TRACKS_TO_IMPORT'),'Warning' );
 			break;
 		}
 	}
@@ -351,11 +351,17 @@ if ( $count == 0 ){
 		//TODO folder/images don't exist !!!
 		echo (" <a href=\"index.php?option=com_jtg&task=importjgt&controller=files\"><img src=\"templates" . DIRECTORY_SEPARATOR . "khepri" . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "notice-download.png\" /></a>");
 		// Datenimport von joomgpstracks END
-	} else
-	// Nichts zu importieren
-	JError::raiseNotice(0,JText::_('COM_JTG_IMPORTFOLDEREMPTY') . ": \"" . $importdir . "\"");
-} else
+	} 
+	else
+	{
+		// Nichts zu importieren
+		JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_IMPORTFOLDEREMPTY') . ": \"" . $importdir . "\"",'Warning' );
+	}
+} 
+else
+{
 echo $table_header.$table.$table_footer;
+}
 echo JHtml::_( 'form.token' );
 $js = "function setSelect(select) {
 	var value = getSelectedValue('adminForm', select + '_all');

@@ -129,9 +129,17 @@ class JtgViewFiles extends JViewLegacy
 		$mainframe =& JFactory::getApplication();
 		jimport('joomla.filesystem.file');
 		jimport('joomla.filesystem.folder');
+		if(JVERSION>=3.0) //Code support for joomla version greater than 3.0
+		{
+		    JHtml::_('jquery.framework');
+		    JHtml::script(Juri::base() . 'components/com_jtg/assets/js/multifile.js');
+		}
+		else 
+		{
+		    JHtml::script('jquery.js', 'components/com_jtg/assets/js/', false); 
+		    JHtml::script('multifile.js', 'components/com_jtg/assets/js/', false);
+		}
 
-		JHtml::script('jquery.js', 'components/com_jtg/assets/js/', false);
-		JHtml::script('multifile.js', 'components/com_jtg/assets/js/', false);
 		JHtml::_('behavior.modal');
 		JHtml::_('behavior.tooltip');
 		$cache = & JFactory :: getCache('com_jtg');
@@ -147,7 +155,7 @@ class JtgViewFiles extends JViewLegacy
 		// TODO check this if ($user->get('gid') < $cfg->gid) {
 		if (! JtgHelper :: userHasFrontendRights() ) {
 		    JResponse :: setHeader('HTTP/1.0 403', true);
-			JError :: raiseWarning(403, JText :: _('COM_JTG_ALERT_NOT_AUTHORISED'));
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_ALERT_NOT_AUTHORISED'), 'Error');
 			return;
 		}
 
