@@ -1,1 +1,0 @@
-INSERT INTO #__jtg_temp (method, version) VALUES ("upgrade/install.sql","0.7.0.sql");

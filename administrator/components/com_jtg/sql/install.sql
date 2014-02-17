@@ -1,9 +1,3 @@
-CREATE TABLE IF NOT EXISTS `#__jtg_temp` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `method` varchar(100) NOT NULL,
-  `version` varchar(100) NOT NULL,
-  KEY `id` (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 CREATE TABLE IF NOT EXISTS `#__jtg_maps` (
 	`id` int(2) NOT NULL AUTO_INCREMENT,
@@ -59,7 +53,7 @@ CREATE TABLE IF NOT EXISTS `#__jtg_config` (
 	`routingiconset` varchar(10) DEFAULT 'real',
 	`usevote` TINYINT(1) UNSIGNED ZEROFILL DEFAULT '1',
 	`download` TINYINT(1) UNSIGNED ZEROFILL DEFAULT '1',
-	`gpsstore` VARCHAR( 100 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'JPATH_SITE . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "jtrackgallery" . DIRECTORY_SEPARATOR . "uploaded_tracks". DIRECTORY_SEPARATOR',
+	`gpsstore` VARCHAR( 300 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'JPATH_SITE . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "jtrackgallery" . DIRECTORY_SEPARATOR . "uploads". DIRECTORY_SEPARATOR',
 	`gallery` VARCHAR(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'straight',
 	`showcharts` TINYINT(1) UNSIGNED ZEROFILL DEFAULT '2',
 	`level` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci,
@@ -68,7 +62,7 @@ CREATE TABLE IF NOT EXISTS `#__jtg_config` (
 
 TRUNCATE `#__jtg_config`;
 
-INSERT INTO `#__jtg_config` (`id`, `gid`, `apikey`, `unit`, `type`, `max_size`, `max_thumb_height`,
+INSERT  IGNORE INTO `#__jtg_config` (`id`, `gid`, `apikey`, `unit`, `type`, `max_size`, `max_thumb_height`,
 `max_geoim_height`, `terms`, `terms_id`, `sort`, `map_height`, `map_width`, `charts_width`, 
 `charts_height`, `charts_linec`, `charts_bg`, `profile`, `template`, `comment_who`, 
 `inform_autor`, `captcha`, `ordering`, `comments`, `access`, `approach`, 
@@ -160,7 +154,7 @@ INSERT IGNORE INTO `#__jtg_maps` (`name`, `ordering`, `published`, `param`, `scr
 ('COM_JTG_MAP_BING_HYBRID', 11, 1, 'OpenLayers.Layer.Bing({ name: "{name}", key: BingApiKey, type: "AerialWithLabels", wrapDateLine: true })', '', 'var BingApiKey = &quot;AqTGBsziZHIJYYxgivLBf0hVdrAk9mWO5cQcb8Yux8sW5M8c8opEC2lZqKR1ZZXf&quot;;'),
 ('COM_JTG_MAP_FRENCH_IGN_GEOPORTAL', 12, 1, 'OpenLayers.Layer.WMTS({ 		name: "{name}", 		url: "http://gpp3-wxs.ign.fr/"+ ign_api_key + "/wmts", 		layer: "GEOGRAPHICALGRIDSYSTEMS.MAPS", 		matrixSet: "PM",         projection: new OpenLayers.Projection("EPSG:900913"),         units: "m", 		theme: null, 		style: "normal", 		numZoomLevels: 19, 		attribution: "Map base: ©IGN  Terms of Service" 	})', '', 'var ign_api_key = &quot;10gwaoqj0yqvlfi94vw12rns&quot;;');
 
-INSERT INTO `#__jtg_cats` (`id`, `parent_id`, `title`, `description`, `image`, `ordering`, `published`, `checked_out`) VALUES
+INSERT IGNORE INTO `#__jtg_cats` (`id`, `parent_id`, `title`, `description`, `image`, `ordering`, `published`, `checked_out`) VALUES
     (1, 0, 'dummy','','',0,1,0),
     (2, 0, 'dummy','','',0,1,0),
     (3, 0, 'dummy','','',0,1,0),
@@ -194,7 +188,7 @@ VALUES
     ('4','COM_JTG_PRIVATE','1','0','0'),
     ('5','COM_JTG_ADMINISTRATORS','1','0','0');
 
-INSERT INTO `#__jtg_files` (`id`, `uid`, `catid`, `title`, `file`, `terrain`, `description`, `published`, `date`, `hits`, `checked_out`, `start_n`, `start_e`, `distance`, `ele_asc`, `ele_desc`, `level`, `access`, `istrack`, `iswp`, `isroute`, `iscache`, `vote`, `hidden`) VALUES
+INSERT IGNORE INTO `#__jtg_files` (`id`, `uid`, `catid`, `title`, `file`, `terrain`, `description`, `published`, `date`, `hits`, `checked_out`, `start_n`, `start_e`, `distance`, `ele_asc`, `ele_desc`, `level`, `access`, `istrack`, `iswp`, `isroute`, `iscache`, `vote`, `hidden`) VALUES
 (1, 430, '19', '-sample- Woodhead Reconnaissance', 'sample_woodhead_reconnaissance.gpx', '2', '<p>This tracks by has been provided by Richard from RSInfotech <a href=&#34;http://www.rsinfotech.co.uk/&#34;>http://www.rsinfotech.co.uk/</a></p>\r\n<p><em>It its only intended to be used as a sample file for testing and demonstrating J!Track Gallery component.</em></p>', 1, '2013-09-22', 26, 0, '53.4947858175', '-1.8294689814', 5.94, 357, 284, 1, 0, 1, 0, 0, NULL, 0.000, 0),
 (2, 430, '15', '-sample- Circuit de Bavay', 'sample_bavay.gpx', '2', '<p>This tracks by has been provided by Arnaud  from the French Alpin Club:  Club Alpin de Lille <a href=&#34;http://clubalpinlille.fr/&#34;>http://clubalpinlille.fr/</a></p>\r\n<p><em>It its only intended to be used as a sample file for testing and demonstrating J!Track Gallery component.</em></p>', 1, '2013-09-23', 18, 0, '50.297820', '3.792730', 21.92, 254, 254, 1, 0, 1, 0, 0, 0, 0.000, 0),
 (3, 430, '15', '-sample- Circuit Honnelles-Belgique', 'sample_honnelles_belgique.gpx', '2', '<p>This tracks by has been provided by Arnaud  from the French Alpin Club:  Club Alpin de Lille <a href=&#34;http://clubalpinlille.fr/&#34;>http://clubalpinlille.fr/</a></p>\r\n<p><em>It its only intended to be used as a sample file for testing and demonstrating J!Track Gallery component.</em></p>', 1, '2013-09-23', 12, 0, '50.364941', '3.775907', 21.29, 256, 256, 1, 0, 1, 0, 0, 0, 0.000, 0),

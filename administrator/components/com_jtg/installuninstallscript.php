@@ -221,7 +221,6 @@ class com_jtgInstallerScript
 		    // TODO truncate all com_jtg tables
 		    // DROP TABLE `crl05_jtg_cats`, `crl05_jtg_cats2`, `crl05_jtg_comments`, `crl05_jtg_config`, `crl05_jtg_files`, `crl05_jtg_files2`, `crl05_jtg_maps`, `crl05_jtg_terrains`, `crl05_jtg_users`, `crl05_jtg_votes`;
 		    $application->enqueueMessage( 'SHOULD TRUNCATE ALL TABLES' ) ;
-		    // DROP TABLE `dhwlt_jtg_cats`, `dhwlt_jtg_comments`, `dhwlt_jtg_config`, `dhwlt_jtg_files`, `dhwlt_jtg_maps`, `dhwlt_jtg_temp`, `dhwlt_jtg_terrains`, `dhwlt_jtg_users`, `dhwlt_jtg_votes`;
 		}
 
 		if (( $type == 'install' ) and ($componentJtgIsInstalled !== null) )  
