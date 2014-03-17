@@ -335,7 +335,8 @@ class JtgViewFiles extends JViewLegacy
 	 * @param object $tpl
 	 */
 	function display($tpl = null) {
-		$mainframe =& JFactory::getApplication(); $option = JRequest::getCmd('option');
+		$mainframe =& JFactory::getApplication(); 
+		$option = JFactory::getApplication()->input->get('option');
 
 		if($this->getLayout() == 'form'):
 		$this->_displayForm($tpl);
@@ -349,7 +350,7 @@ class JtgViewFiles extends JViewLegacy
 
 		$model =& $this->getModel();
 
-		$order = JRequest::getVar( 'order', 'order', 'post', 'string' );
+		$order = JFactory::getApplication()->input->get( 'order', 'order', 'post', 'string' );
 
 		$filter_order		= $mainframe->getUserStateFromRequest( $option . "filter_order",
  	'filter_order',
@@ -422,7 +423,7 @@ class JtgViewFiles extends JViewLegacy
 		jimport('joomla.filesystem.folder');
 		// Quick'n'Dirty - Sonst funktioniert das Joomla-Menü nicht mehr: (!?)
 		
-		$cid =& JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$cid =& JFactory::getApplication()->input->get( 'cid', array(), 'post', 'array' );
 		// $id = implode(',', $cid);
 		$cfg = JtgHelper::getConfig();
 		$editor =& JFactory::getEditor();

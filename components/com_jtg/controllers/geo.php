@@ -22,9 +22,9 @@ class JtgControllerGeo extends JtgController
 		$user = JFactory::getUser();
 		$userid = (int)$user->id;
 		JSession::checkToken() or jexit( 'Invalid Token' );
-		$lat =& JRequest::getVar('lat');
-		$lon =& JRequest::getVar('lon');
-		$visible =& JRequest::getVar('visible');
+		$lat =& JFactory::getApplication()->input->get('lat');
+		$lon =& JFactory::getApplication()->input->get('lon');
+		$visible =& JFactory::getApplication()->input->get('visible');
 		$mainframe =& JFactory::getApplication();
 		$query = "INSERT INTO #__jtg_users (jtglat,jtglon,jtgvisible,user_id) VALUES ".
 			"('" . $lat . "','" . $lon . "','" . $visible . "','" . $userid . "') ". 

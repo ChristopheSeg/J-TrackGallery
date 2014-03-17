@@ -27,7 +27,8 @@ class JtgViewComments extends JViewLegacy
 	 * @param object $tpl
 	 */
 	function display($tpl = null) {
-		$mainframe =& JFactory::getApplication(); $option = JRequest::getCmd('option');
+		$mainframe =& JFactory::getApplication(); 
+		$option = JFactory::getApplication()->input->get('option');
 
 		if($this->getLayout() == 'form'):
 		$this->_displayForm($tpl);
@@ -48,7 +49,7 @@ class JtgViewComments extends JViewLegacy
 
 	function _displayForm($tpl) {
 
-		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$cid = JFactory::getApplication()->input->get( 'cid', array(), 'post', 'array' );
 		JArrayHelper::toInteger($cid);
 
 		$model = $this->getModel();

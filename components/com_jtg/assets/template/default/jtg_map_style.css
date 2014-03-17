@@ -10,27 +10,18 @@
 */ 
 #jtg_map svg { max-width: none; }
 
-.olMap label, .olMap input, .olMap button, .olMap select, .olMap textarea {
-    font-size: inherit;
-    font-weight: inherit;
-    line-height: inherit;
-}
-.olMap label {
-    display: inline;
-    margin-bottom: inherit;
-}
-/* 
- svg label used by joomla 3.x	
-*/ 
+ 
 .olControlLayerSwitcher {
 	opacity : 0.8!important;
 	margin: 5px;
 	top: 40px;
+	right: 0px;
 	padding: 5px;
 	width: 20em;
 	font-family: sans-serif;
 	font-weight: bold;
-	font-size: smaller;
+	text-align: left; 
+	font-size: 100%;
 	color: #4D553D;
 	background-color: #D1D6BE;
 	border-radius: 4px;
@@ -45,6 +36,7 @@
 }
 .olControlLayerSwitcher .minimizeDiv {
 	right: 0px;
+	top: 0px;
 	left : auto;
 }
 .olControlLayerSwitcher .maximizeDiv {
@@ -54,6 +46,17 @@
 }
 .olControlLayerSwitcher .baseLbl {
 	font-size: small;
+}
+
+#jtg_map label, .olMap input, .olMap button, #jtg_map.olButton, .olMap select, .olMap textarea {
+    font-family: Roboto, Arial,​sans-serif;
+    /* Roboto used by Google Maps , added to avoid font resizing when GoogleMaps selected*/
+    font-size: 11px;
+    font-weight: inherit;
+    line-height: inherit;
+    display: inline;
+    margin-bottom: 0px;
+    margin-top: 0px;
 }
 
 .olControlZoom {

@@ -38,8 +38,9 @@ class JtgViewMaps extends JViewLegacy
 	* @param object $tpl
 	*/
 	function display($tpl = null) {
-		$mainframe =& JFactory::getApplication(); $option = JRequest::getCmd('option');
-		//		$order = JRequest::getVar('order',true);
+		$mainframe =& JFactory::getApplication(); 
+		$option = JFactory::getApplication()->input->get('option');
+		//		$order = JFactory::getApplication()->input->get('order',true);
 
 		if($this->getLayout() == 'form'):
 		$this->_displayForm($tpl);
@@ -53,7 +54,7 @@ class JtgViewMaps extends JViewLegacy
 		//	$tmpl = $model->getTemplates();
 
 		$lists['block']	= JHtml::_('select.booleanlist', 'publish', 'class="inputbox" size="1"', 1 );
-//		$order = JRequest::getVar( 'order', 'order', 'post', 'string' );
+//		$order = JFactory::getApplication()->input->get( 'order', 'order', 'post', 'string' );
 
 		$filter_order		= $mainframe->getUserStateFromRequest( $option . "filter_order",
  	'filter_order',

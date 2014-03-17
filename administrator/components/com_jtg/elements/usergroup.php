@@ -20,7 +20,7 @@ defined('JPATH_BASE') or die();
  *
  */
  
-class JElementUsergroupList extends JElement
+class JElementUsergroupList extends JFormField
 {
         /**
         * Element name
@@ -30,7 +30,8 @@ class JElementUsergroupList extends JElement
         */
         var    $_name = 'MultiList';
  
-        function fetchElement($name, $value, &$node, $control_name)
+        protected function getInput($name, $value, &$node, $control_name)
+		// TODO You still need to replace the references to $control_name 
         {
                 // Base name of the HTML control.
                 $ctrl  = $control_name .'['. $name .']';

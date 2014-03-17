@@ -28,7 +28,7 @@ class JtgModelComments extends JModelLegacy
         $limitstart	= $mainframe->getUserStateFromRequest( $this->option.'.limitstart', 'limitstart', 0, 'int' );
 
         // In case limit has been changed, adjust limitstart accordingly
-        $limitstart = JRequest::getVar('limitstart',0);
+        $limitstart = JFactory::getApplication()->input->get('limitstart',0);
 
         $this->setState('limit', $limit);
         $this->setState('limitstart', $limitstart);
@@ -187,8 +187,8 @@ class JtgModelComments extends JModelLegacy
             $mainframe =& JFactory::getApplication();
 
             $id     =& JRequest::getInt('id');
-            $title  =& JRequest::getVar('title');
-            $text   =& JRequest::getVar( 'text', '', 'post', 'string', JREQUEST_ALLOWRAW);
+            $title  =& JFactory::getApplication()->input->get('title');
+            $text   =& JFactory::getApplication()->input->get( 'text', '', 'post', 'string', JREQUEST_ALLOWRAW);
 
             $db =& JFactory::getDBO();
 

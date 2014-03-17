@@ -23,12 +23,14 @@ class JtgController extends JControllerLegacy
 {
 	function display() {
 		// Make sure we have a default view
-		if( !JRequest::getCmd( 'view' )) {
+		// if( !JRequest::getCmd( 'view' )) 
+		if( ! JFactory::getApplication()->input->get('view')) 
+		{
 			JRequest::setVar('view', 'jtg' );
 		}
 
 		//update the hit count for the file
-		if(JRequest::getCmd('view') == 'files')
+		if(JFactory::getApplication()->input->get('view') == 'files')
 		{
 			$model =& $this->getModel('files');
 			$model->hit();

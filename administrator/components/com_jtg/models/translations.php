@@ -31,7 +31,7 @@ class JtgModelTranslations extends JModelLegacy
 		$languages = $this->getRawLanguages();
 		foreach ($languages as $lang) {
 			$file = JPATH_SITE . '/images/jtrackgallery/language/' . $lang['tag'] . DIRECTORY_SEPARATOR . $lang['tag'] . DIRECTORY_SEPARATOR ."com_jtg_additional.ini";
-			$inhalt =& JRequest::getVar( $lang['tag'] );
+			$inhalt =& JFactory::getApplication()->input->get( $lang['tag'] );
 			if(!JFile::write( $file, $inhalt ))
 			return false;
 		}

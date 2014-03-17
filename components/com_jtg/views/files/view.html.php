@@ -606,7 +606,9 @@ class JtgViewFiles extends JViewLegacy
 	}
 
 	function _displayList($tpl) {
-		$mainframe =& JFactory::getApplication(); $option = JRequest::getCmd('option');
+		$mainframe =& JFactory::getApplication(); 
+		// $option = JRequest::getCmd('option');
+		$option = JFactory::getApplication()->input->get('option');
 
 		$model = & $this->getModel();
 		$cache = & JFactory :: getCache('com_jtg');
@@ -662,8 +664,9 @@ class JtgViewFiles extends JViewLegacy
 	}
 
 	function _displayUserTracks($tpl) {
-		$mainframe =& JFactory::getApplication(); $option = JRequest::getCmd('option');
-
+		$mainframe =& JFactory::getApplication(); 
+		// $option = JRequest::getCmd('option');
+		$option = JFactory::getApplication()->input->get('option');
 		$cache = & JFactory :: getCache('com_jtg');
 		$lh = layoutHelper :: navigation();
 		$footer = layoutHelper :: footer();

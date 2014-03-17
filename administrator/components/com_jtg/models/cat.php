@@ -23,8 +23,8 @@ class JtgModelCat extends JModelLegacy
 	{
 		parent::__construct();
 
-		$array = JRequest::getVar('cid', array(0), '', 'array');
-		$edit	= JRequest::getVar('edit',true);
+		$array = JFactory::getApplication()->input->get('cid', array(0), '', 'array');
+		$edit	= JFactory::getApplication()->input->get('edit',true);
 		if($edit)
 		$this->setId((int)$array[0]);
 	}
@@ -32,7 +32,7 @@ class JtgModelCat extends JModelLegacy
 	function saveCatImage() {
 		JSession::checkToken() or die( 'Invalid Token' );
 		jimport('joomla.filesystem.file');
-		$files =& JRequest::getVar('files', null, 'files', 'array');
+		$files =& JFactory::getApplication()->input->get('files', null, 'files', 'array');
 		return $this->uploadCatImage($files);
 	}
 
@@ -202,21 +202,21 @@ class JtgModelCat extends JModelLegacy
 
 		$db =& JFactory::getDBO();
 
-		$title =& JRequest::getVar( 'title' );
+		$title =& JFactory::getApplication()->input->get( 'title' );
 		if ( $title == "" )
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_NO_TITLE'), 'Warning');
 			return false;
 		}
 		$published =& JRequest::getInt( 'publish' );
-		$desc =& JRequest::getVar( 'desc', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$desc =& JFactory::getApplication()->input->get( 'desc', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		// allow for JTEXT in category description
 		if ( (substr($desc,0,3)=='<p>') AND (substr($desc,-4,4)=='</p>') ) {
 		    //remove enclosing <p> tags,try translating text, add <p> tags
 		    $desc = substr($desc,3,-4);
 		}
 		$parent =& JRequest::getInt('parent');
-		$image =& JRequest::getVar( 'catpic' );
+		$image =& JFactory::getApplication()->input->get( 'catpic' );
 		
 		$query = "INSERT INTO #__jtg_cats SET"
 		. "\n parent_id='" . $parent . "',"
@@ -281,16 +281,16 @@ class JtgModelCat extends JModelLegacy
 		$db =& JFactory::getDBO();
 
 		$id =& JRequest::getInt('id');
-		$file =& JRequest::getVar('image', null, 'files', 'array');
-		$title =& JRequest::getVar( 'title' );
-		$image =& JRequest::getVar( 'catpic' );
+		$file =& JFactory::getApplication()->input->get('image', null, 'files', 'array');
+		$title =& JFactory::getApplication()->input->get( 'title' );
+		$image =& JFactory::getApplication()->input->get( 'catpic' );
 		if ( $title == "" )
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_NO_TITLE'), 'Warning');
 			return false;
 		}
 		$published =& JRequest::getInt( 'publish' );
-		$desc =& JRequest::getVar( 'desc', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$desc =& JFactory::getApplication()->input->get( 'desc', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		// allow for JTEXT in category description
 		if ( (substr($desc,0,3)=='<p>') AND (substr($desc,-4,4)=='</p>') ) {
 		    //remove enclosing <p> tags,try translating text, add <p> tags

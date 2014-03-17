@@ -37,7 +37,7 @@ echo JText::sprintf('COM_JTG_ALLOWED_FILETYPES',$this->types);
 	<input type="file" name="files" accept="image/*" /><br />
 	<input type='submit' value='<?php echo JText::_('COM_JTG_UPLOAD') ?>' class='submit' onclick="javascript: submitbutton('uploadcatimages')"  />
 	<input type="hidden" name="option" value="com_jtg" />
-	<input type="hidden" name="task" value="<?php echo JRequest::getVar('task'); ?>" />
+	<input type="hidden" name="task" value="<?php echo JFactory::getApplication()->input->get('task'); ?>" />
 	<input type="hidden" name="boxchecked" value="0" />
 	<input type="hidden" name="controller" value="cats" />
 	<?php echo JHtml::_( 'form.token' ); ?>

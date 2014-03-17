@@ -36,7 +36,7 @@ class JtgControllerFiles extends JtgController
 	function uploadfiles() {
 
 		JSession::checkToken() or jexit( 'Invalid Token' );
-		$files =& JRequest::getVar('files', null, 'files', 'array');
+		$files =& JFactory::getApplication()->input->get('files', null, 'files', 'array');
 
 		if (count( $files["name"] ) <= 1) 
 		{
@@ -48,7 +48,7 @@ class JtgControllerFiles extends JtgController
 		if(!$model->uploadfiles( $files, $dest )) {
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
-		if ( JRequest::getVar('toimport') )
+		if ( JFactory::getApplication()->input->get('toimport') )
 		$this->setRedirect( JRoute::_('index.php?option=com_jtg&task=newfiles&controller=files', false ));
 		else
 		$this->setRedirect( JRoute::_('index.php?option=com_jtg&task=files&controller=files', false ));
@@ -63,7 +63,7 @@ class JtgControllerFiles extends JtgController
 		// Check for request forgeries
 		JSession::checkToken() or jexit( 'Invalid Token' );
 
-		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$cid = JFactory::getApplication()->input->get( 'cid', array(), 'post', 'array' );
 		JArrayHelper::toInteger($cid);
 
 		if (count( $cid ) < 1) 
@@ -86,7 +86,7 @@ class JtgControllerFiles extends JtgController
 		// Check for request forgeries
 		JSession::checkToken() or jexit( 'Invalid Token' );
 
-		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$cid = JFactory::getApplication()->input->get( 'cid', array(), 'post', 'array' );
 		JArrayHelper::toInteger($cid);
 
 		if (count( $cid ) < 1) 
@@ -110,7 +110,7 @@ class JtgControllerFiles extends JtgController
 		// Check for request forgeries
 		JSession::checkToken() or jexit( 'Invalid Token' );
 
-		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$cid = JFactory::getApplication()->input->get( 'cid', array(), 'post', 'array' );
 		JArrayHelper::toInteger($cid);
 
 		if (count( $cid ) < 1) 
@@ -135,7 +135,7 @@ class JtgControllerFiles extends JtgController
 		// Check for request forgeries
 		JSession::checkToken() or jexit( 'Invalid Token' );
 
-		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$cid = JFactory::getApplication()->input->get( 'cid', array(), 'post', 'array' );
 		JArrayHelper::toInteger($cid);
 
 		if (count( $cid ) < 1) 
@@ -161,7 +161,7 @@ class JtgControllerFiles extends JtgController
 		// Check for request forgeries
 		JSession::checkToken() or jexit( 'Invalid Token' );
 
-		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$cid = JFactory::getApplication()->input->get( 'cid', array(), 'post', 'array' );
 		JArrayHelper::toInteger($cid);
 
 		if (count( $cid ) < 1) 
@@ -186,7 +186,7 @@ class JtgControllerFiles extends JtgController
 		// Check for request forgeries
 		JSession::checkToken() or jexit( 'Invalid Token' );
 
-		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$cid = JFactory::getApplication()->input->get( 'cid', array(), 'post', 'array' );
 		JArrayHelper::toInteger($cid);
 
 		if (count( $cid ) < 1) 
@@ -211,7 +211,7 @@ class JtgControllerFiles extends JtgController
 		// Check for request forgeries
 		JSession::checkToken() or jexit( 'Invalid Token' );
 
-		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$cid = JFactory::getApplication()->input->get( 'cid', array(), 'post', 'array' );
 		JArrayHelper::toInteger($cid);
 
 		if (count( $cid ) < 1) 
@@ -236,7 +236,7 @@ class JtgControllerFiles extends JtgController
 		// Check for request forgeries
 		JSession::checkToken() or jexit( 'Invalid Token' );
 
-		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$cid = JFactory::getApplication()->input->get( 'cid', array(), 'post', 'array' );
 		JArrayHelper::toInteger($cid);
 
 		if (count( $cid ) < 1) 
@@ -261,7 +261,7 @@ class JtgControllerFiles extends JtgController
 		// Check for request forgeries
 		JSession::checkToken() or jexit( 'Invalid Token' );
 
-		$found = JRequest::getVar( 'found' );
+		$found = JFactory::getApplication()->input->get( 'found' );
 
 		$model = $this->getModel('files');
 		if(!$model->deleteFromImport($found)) {

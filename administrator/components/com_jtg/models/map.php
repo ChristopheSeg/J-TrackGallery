@@ -23,8 +23,8 @@ class JtgModelMAp extends JModelLegacy
 	{
 		parent::__construct();
 
-		$array = JRequest::getVar('cid', array(0), '', 'array');
-		$edit	= JRequest::getVar('edit',true);
+		$array = JFactory::getApplication()->input->get('cid', array(0), '', 'array');
+		$edit	= JFactory::getApplication()->input->get('edit',true);
 		if($edit)
 		$this->setId((int)$array[0]);
 	}

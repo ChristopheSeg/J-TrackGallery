@@ -15,7 +15,7 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die( 'Restricted access' );
 
-class JElementArticle extends JElement
+class JElementArticle extends JFormField
 {
 	/**
 	 * Element name
@@ -25,7 +25,8 @@ class JElementArticle extends JElement
 	 */
 	var	$_name = 'Article';
 
-	function fetchElement($name, $value, &$node, $control_name)
+	protected function getInput($name, $value, &$node, $control_name)
+		// TODO You still need to replace the references to $control_name 
 	{
 		$mainframe =& JFactory::getApplication();
 

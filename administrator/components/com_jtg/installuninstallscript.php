@@ -31,10 +31,9 @@ class com_jtgInstallerScript
 		@set_time_limit( 240 );    // execution time 5 minutes
 		ignore_user_abort( true ); // continue execution if client disconnects
 		//
-		// language is not loaded at preflight time!!
 		// load english language file for 'com_jtg' component then override with current language file
-		JFactory::getLanguage()->load('com_jtg',   JPATH_ADMINISTRATOR, 'en-GB', true);
-		JFactory::getLanguage()->load('com_jtg',   JPATH_ADMINISTRATOR,    null, true);		
+		JFactory::getLanguage()->load('com_jtg', JPATH_ADMINISTRATOR . DIRECTORY_SEPARATOR . 'components' . DIRECTORY_SEPARATOR . 'com_jtg' . DIRECTORY_SEPARATOR . 'language', 'en-GB', true);
+		JFactory::getLanguage()->load('com_jtg', JPATH_ADMINISTRATOR . DIRECTORY_SEPARATOR . 'components' . DIRECTORY_SEPARATOR . 'com_jtg' . DIRECTORY_SEPARATOR . 'language',    null, true);		
 		$jversion = new JVersion();
 
 		// Installing component manifest file version
@@ -105,7 +104,7 @@ class com_jtgInstallerScript
 	    "images" . DIRECTORY_SEPARATOR . "jtrackgallery" . DIRECTORY_SEPARATOR . "uploaded_tracks",
 	    "images" . DIRECTORY_SEPARATOR . "jtrackgallery" . DIRECTORY_SEPARATOR . "uploaded_tracks" . DIRECTORY_SEPARATOR . "import"
 		);
-
+	    
 	    $folders_to_chmod = array (
 	    "images" . DIRECTORY_SEPARATOR . "jtrackgallery" . DIRECTORY_SEPARATOR . "uploaded_tracks",
 	    "images" . DIRECTORY_SEPARATOR . "jtrackgallery" . DIRECTORY_SEPARATOR . "uploaded_tracks" . DIRECTORY_SEPARATOR . "import",
@@ -156,6 +155,11 @@ class com_jtgInstallerScript
 	       }
 	    }
 	    
+	    // copy additional.ini language files without erasing existing files
+	    $src_folder_to_copy =  JPATH_SITE . DIRECTORY_SEPARATOR . 'components' . DIRECTORY_SEPARATOR . 'com_jtg' . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'language';
+	    $dest_folder_to_copy = JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'language';
+	    JFolder::copy($src_folder_to_copy, $dest_folder_to_copy, $force = false);
+	    
 	    // copy example tracks
 	    $src_folder_to_copy =  JPATH_SITE . DIRECTORY_SEPARATOR . 'components' . DIRECTORY_SEPARATOR . 'com_jtg' . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'sample_tracks';
 	    $dest_folder_to_copy = JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'uploaded_tracks';
@@ -191,6 +195,7 @@ class com_jtgInstallerScript
 			    
 	    // this is executed after upgrade.sql
 	    // upgrading from $oldRelease to $this->release
+	    $oldRelease = $this->getParam('version');
 	    if ( version_compare( $oldRelease, '0.7.0', '<' ) ) {
 		// installed version is lower then 0.7.0 ==> do some stuff
 	    }    
@@ -208,35 +213,41 @@ class com_jtgInstallerScript
 	 */
 	function postflight( $type, $parent ) {
  
-		// uninstall postflight JTEXT string must be saved in en-GB.com_jtg.sys.ini
+
+		$db =& JFactory::getDBO();
+		$application = JFactory::getApplication();
+
 
 		// check if com_jtg is installed, 
 		$query = 'SELECT COUNT(*) FROM #__extensions WHERE name = "com_jtg"';
-		$application->enqueueMessage( $query) ; //TODOTEMP
 		$db->setQuery($query);
 		$db->query();
 		$componentJtgIsInstalled = $db->loadResult();		
-		$application->enqueueMessage('$componentJtgIsInstalled='. ($componentJtgIsInstalled? 'YES':'NO')) ; //TODOTEMP
+
 		if (( $type == 'install' ) and (! $componentJtgIsInstalled) ) 
 		{
 		    // this a NON successfull install: 
 		    // TODO truncate all com_jtg tables
-		    // DROP TABLE `crl05_jtg_cats`, `crl05_jtg_cats2`, `crl05_jtg_comments`, `crl05_jtg_config`, `crl05_jtg_files`, `crl05_jtg_files2`, `crl05_jtg_maps`, `crl05_jtg_terrains`, `crl05_jtg_users`, `crl05_jtg_votes`;
 		    $application->enqueueMessage( 'SHOULD TRUNCATE ALL TABLES' ) ;
-		}
+	    // DROP TABLE `crl05_jtg_cats`, `crl05_jtg_cats2`, `crl05_jtg_comments`, `crl05_jtg_config`, `crl05_jtg_files`, `crl05_jtg_files2`, `crl05_jtg_maps`, `crl05_jtg_terrains`, `crl05_jtg_users`, `crl05_jtg_votes`;
+			}
 
 		if (( $type == 'install' ) and ($componentJtgIsInstalled !== null) )  
 		{
 		    // this is a successful install (not an upgrade): 
 		    // affect sample tracks to this admin user
 		    $user =& JFactory::getUser();
-		    $query = 'UPDATE #__jtg_files SET uid ='. $user->get('id') . ' WHERE uid =430';
-		    $application->enqueueMessage( $query) ; //TODOTEMP
-		    $db->setQuery($query);
-		    $db->query();
+		    $uid=$user->get('id');
+		    if ( $uid!==430) 
+		    {
+			$query = 'UPDATE #__jtg_files SET uid ='. $uid . ' WHERE uid =430';
+			$db->setQuery($query);
+			$db->query();
+		    }
+
 		    // save default params
-		    $query = 'UPDATE #__extensions SET params = '. 
-		    $query.= ' {"jtg_param_newest":"10","jtg_param_mostklicks":"10",
+		    $query = 'UPDATE #__extensions SET params = ';
+		    $query.= '\' {"jtg_param_newest":"10","jtg_param_mostklicks":"10",
 			"jtg_param_best":"0","jtg_param_rand":"0",
 			"jtg_param_otherfiles":"0",
 			"jtg_param_lh":"1",
@@ -262,7 +273,7 @@ class com_jtgInstallerScript
 			"jtg_param_level_from":"0",
 			"jtg_param_level_to":"5",
 			"jtg_param_vote_from":"0",
-			"jtg_param_vote_to":"10"}';
+			"jtg_param_vote_to":"10"}\'';
 		    $query.= ' WHERE name = "com_jtg" AND type = "Component"'; 
 		    $db->setQuery($query);
 		    $db->query();
@@ -277,9 +288,8 @@ class com_jtgInstallerScript
 	function uninstall( $parent ) {
 	    // Set a simple message
 
-	    // uninstall JTEXT strings must be saved in en-GB.com_jtg.sys.ini
-	    jimport('joomla.filesystem.file');
 	    jimport('joomla.filesystem.folder');
+	    jimport('joomla.filesystem.file');
 	    $application = JFactory::getApplication();
 	    $application->enqueueMessage( JText::_('COM_JTG_THANK_YOU_FOR_USING') ) ;
 	    echo '<p>' . JText::_('COM_JTG_UNINSTALLING') . '</p>';
@@ -293,20 +303,20 @@ class com_jtgInstallerScript
 	    echo '<tr><td>'.JText::_('COM_JTG_FILE').'/'.JText::_('COM_JTG_FOLDER').'</td><td>'.JText::_('COM_JTG_NAME').'</td><td>'.JText::_('COM_JTG_STATE').'</td></tr>';
 	    foreach ( $files_to_delete AS $file ) {	    
 		    if(!JFile::exists($file)) {
-		    echo '<tr><td>'.JText::_('COM_JTG_FILE').'</td><td>' . $file . '</td><td><font color="green">' . JText::_('COM_JTG_NOT_EXISTS') .' "</font>"  </td></tr>';}
+		    echo '<tr><td>'.JText::_('COM_JTG_FILE').'</td><td>' . $file . '</td><td><font color="green">' . JText::_('COM_JTG_NOT_EXISTS') .' </font>  </td></tr>';}
 		    elseif(JFile::delete($file)) {
-			    echo '<tr><td>'.JText::_('COM_JTG_FILE').'</td><td>' . $file . '</td><td><font color="green">' . JText::_('COM_JTG_DELETED') .' "</font>" </td></tr>';
+			    echo '<tr><td>'.JText::_('COM_JTG_FILE').'</td><td>' . $file . '</td><td><font color="green">' . JText::_('COM_JTG_DELETED') .' </font> </td></tr>';
 		    } else {
-			    echo '<tr><td>'.JText::_('COM_JTG_FILE').'</td><td>' . $file . '</td><td><font color="red">' . JText::_('COM_JTG_ERROR') .'/'. JText::_('COM_JTG_NOT_DELETED'). '"</font>" </td></tr>';
+			    echo '<tr><td>'.JText::_('COM_JTG_FILE').'</td><td>' . $file . '</td><td><font color="red">' . JText::_('COM_JTG_ERROR') .'/'. JText::_('COM_JTG_NOT_DELETED'). '</font> </td></tr>';
 		    }
 	    }
 	    foreach ( $folders_to_delete AS $folder ) {
 		    if(!JFolder::exists(JPATH_SITE . DIRECTORY_SEPARATOR . $folder)){
-			    echo '<tr><td>'.JText::_('COM_JTG_FOLDER').'</td><td>' . $folder . '</td><td><font color="green">' . JText::_('COM_JTG_NOT_EXISTS') . '"</font>" </td></tr>';}
+			    echo '<tr><td>'.JText::_('COM_JTG_FOLDER').'</td><td>' . $folder . '</td><td><font color="green">' . JText::_('COM_JTG_NOT_EXISTS') . '</font> </td></tr>';}
 		    elseif(JFolder::delete(JPATH_SITE . DIRECTORY_SEPARATOR . $folder)) {
-			    echo '<tr><td>'.JText::_('COM_JTG_FOLDER').'</td><td>' . $folder . '</td><td><font color="green">' .JText::_('COM_JTG_DELETED') . '"</font>" </td></tr>';
+			    echo '<tr><td>'.JText::_('COM_JTG_FOLDER').'</td><td>' . $folder . '</td><td><font color="green">' .JText::_('COM_JTG_DELETED') . '</font> </td></tr>';
 		    } else {
-			    echo '<tr><td>'.JText::_('COM_JTG_FOLDER').'</td><td>' . $folder . '</td><font color="red">' . JText::_('COM_JTG_ERROR') . JText::_('COM_JTG_NOT_DELETED') . '"</font>" </td></tr>';
+			    echo '<tr><td>'.JText::_('COM_JTG_FOLDER').'</td><td>' . $folder . '</td><font color="red">' . JText::_('COM_JTG_ERROR') . JText::_('COM_JTG_NOT_DELETED') . '</font> </td></tr>';
 		    }
 	    }
 	    echo '</table>';

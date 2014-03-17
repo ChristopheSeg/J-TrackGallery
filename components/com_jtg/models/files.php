@@ -125,9 +125,9 @@ class JtgModelFiles extends JModelLegacy
 		$where		= $this->_buildContentWhere();
 		$userwhere	= "";
 
-		if(JRequest::getVar('layout') == 'user' && !$where) {
+		if(JFactory::getApplication()->input->get('layout') == 'user' && !$where) {
 			$userwhere = " WHERE uid='" . $user->get('id') . "'";
-		} else if(JRequest::getVar('layout') == 'user' && $where) {
+		} else if(JFactory::getApplication()->input->get('layout') == 'user' && $where) {
 			$userwhere = " AND uid='" . $user->get('id') . "'";
 		}
 
@@ -180,9 +180,9 @@ class JtgModelFiles extends JModelLegacy
 
 		$mainframe =& JFactory::getApplication(); // global _ $option;
 
-		$search =& JRequest::getVar('search');
-		$cat =& JRequest::getVar('cat');
-		$terrain =& JRequest::getVar('terrain');
+		$search =& JFactory::getApplication()->input->get('search');
+		$cat =& JFactory::getApplication()->input->get('cat');
+		$terrain =& JFactory::getApplication()->input->get('terrain');
 		$index = "a";
 		$where = array();
 		$db =& JFactory::getDBO();
@@ -272,23 +272,23 @@ class JtgModelFiles extends JModelLegacy
 		$user =& JFactory::getUser();
 		$cache =& JFactory::getCache('com_jtg');
 		// get the post data
-		$catid =& JRequest::getVar('catid');
+		$catid =& JFactory::getApplication()->input->get('catid');
 		if ( $catid !== null )
 		$catid = implode(",",$catid);
 		else
 		$catid = "";
 		$level =& JRequest::getInt('level');
-		$title =& JRequest::getVar('title');
-		$terrain =& JRequest::getVar('terrain');
+		$title =& JFactory::getApplication()->input->get('title');
+		$terrain =& JFactory::getApplication()->input->get('terrain');
 		if($terrain != NULL)
 		$terrain = implode(', ', $terrain);
 		else
 		$terrain = "";
-		$desc =& $db->quote(JRequest::getVar( 'description', '', 'post', 'string', JREQUEST_ALLOWRAW));
-		$file =& JRequest::getVar('file', null, 'files', 'array');
+		$desc =& $db->quote(JFactory::getApplication()->input->get( 'description', '', 'post', 'string', JREQUEST_ALLOWRAW));
+		$file =& JFactory::getApplication()->input->get('file', null, 'files', 'array');
 		$uid = $user->get('id');
 		$date = date("Y-m-d");
-		$images =& JRequest::getVar('images', null, 'files', 'array');
+		$images =& JFactory::getApplication()->input->get('images', null, 'files', 'array');
 		$access =& JRequest::getInt('access', 0);
 		$hidden =& JRequest::getInt('hidden', 0);
 		$published =& JRequest::getInt('published', 0);
@@ -608,18 +608,18 @@ class JtgModelFiles extends JModelLegacy
 		$user =& JFactory::getUser();
 
 		// get the post data
-		$catid =& JRequest::getVar('catid');
+		$catid =& JFactory::getApplication()->input->get('catid');
 		if ( $catid !== null )
 		$catid = implode(",",$catid);
 		else
 		$catid = "";
 		$level =& JRequest::getInt('level');
-		$title =& JRequest::getVar('title');
+		$title =& JFactory::getApplication()->input->get('title');
 		$allimages = $this->getImages($id);
 		$imgpath = JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'track_' . $id. DIRECTORY_SEPARATOR;
 		foreach ($allimages AS $key => $image) 
 		{
-			$image =& JRequest::getVar('deleteimage_'.str_replace('.',null,$image));
+			$image =& JFactory::getApplication()->input->get('deleteimage_'.str_replace('.',null,$image));
 			if($image !== NULL) 
 			{
 			    JFile::delete($imgpath.$image);
@@ -629,13 +629,13 @@ class JtgModelFiles extends JModelLegacy
 			    JFile::delete($imgpath. 'thumbs' . DIRECTORY_SEPARATOR. 'thumb2_' . $image);
 			}
 		}
-		$terrain =& JRequest::getVar('terrain');
+		$terrain =& JFactory::getApplication()->input->get('terrain');
 		if ($terrain)
 		$terrain = implode(', ', $terrain);
 		else
 		$terrain = "";
-		$desc = & $db->quote(JRequest::getVar( 'description', '', 'post', 'string', JREQUEST_ALLOWRAW));
-		$images =& JRequest::getVar('images', null, 'files', 'array');
+		$desc = & $db->quote(JFactory::getApplication()->input->get( 'description', '', 'post', 'string', JREQUEST_ALLOWRAW));
+		$images =& JFactory::getApplication()->input->get('images', null, 'files', 'array');
 		$access =& JRequest::getInt('access', 0);
 		$hidden =& JRequest::getInt('hidden', 0);
 		$published =& JRequest::getInt('published', 0);
@@ -823,11 +823,11 @@ class JtgModelFiles extends JModelLegacy
 	function savecomment($id, $cfg) {
 		$mainframe =& JFactory::getApplication();
 
-		$name =& JRequest::getVar('name');
-		$email =& JRequest::getVar('email');
-		$homepage =& JRequest::getVar('homepage');
-		$title =& JRequest::getVar('title');
-		$text =& JRequest::getVar( 'text', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$name =& JFactory::getApplication()->input->get('name');
+		$email =& JFactory::getApplication()->input->get('email');
+		$homepage =& JFactory::getApplication()->input->get('homepage');
+		$title =& JFactory::getApplication()->input->get('title');
+		$text =& JFactory::getApplication()->input->get( 'text', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		if ($text=="") return false;
 
 		$db =& JFactory::getDBO();

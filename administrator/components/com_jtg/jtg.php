@@ -40,15 +40,22 @@ require_once JPATH_COMPONENT . DIRECTORY_SEPARATOR . 'controller.php';
 
 
 // Initialize the controller
-if($controller = JRequest::getWord('controller')) {
-	$path = JPATH_COMPONENT . DIRECTORY_SEPARATOR . 'controllers' . DIRECTORY_SEPARATOR . $controller.'.php';
-	$getCmdTask = JRequest::getCmd( 'task' );
-	if (file_exists($path)) {
-		require_once $path;
-	} else {
-		$controller = '';
+if($controller = JRequest::getWord('controller')) 
+	{
+	    $path = JPATH_COMPONENT . DIRECTORY_SEPARATOR . 'controllers' . DIRECTORY_SEPARATOR . $controller.'.php';
+	    $getCmdTask = JFactory::getApplication()->input->get( 'task' );
+	    if (file_exists($path)) 
+	    {
+		    require_once $path;
+	    } else
+	    {
+		    $controller = '';
+	    }
+	} 
+	else
+	{
+	    $getCmdTask = "info";
 	}
-} else $getCmdTask = "info";
 
 $classname = 'JtgController'.$controller;
 $controller = new $classname( );

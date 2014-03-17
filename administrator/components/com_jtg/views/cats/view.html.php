@@ -89,10 +89,11 @@ class JtgViewCats extends JViewLegacy
 	 * @param object $tpl
 	 */
 	function _displayDefault($tpl) {
-		$mainframe =& JFactory::getApplication(); $option = JRequest::getCmd('option');
+		$mainframe =& JFactory::getApplication(); 
+		$option = JFactory::getApplication()->input->get('option');
 		$model =& $this->getModel();
 
-		// $order = JRequest::getVar( 'order', 'order', 'post', 'string' );
+		// $order = JFactory::getApplication()->input->get( 'order', 'order', 'post', 'string' );
 
 		$filter_order		= $mainframe->getUserStateFromRequest( $option . "filter_order",
 		'filter_order',
@@ -141,7 +142,7 @@ class JtgViewCats extends JViewLegacy
 	 * @param object $tpl
 	 */
 	function _displayForm($tpl) {
-//		$mainframe =& JFactory::getApplication(); $option = JRequest::getCmd('option');
+//		$mainframe =& JFactory::getApplication(); $option = JFactory::getApplication()->input->get('option');
 
 		$model = $this->getModel();
 		$parent = $model->getParent();
@@ -167,7 +168,7 @@ class JtgViewCats extends JViewLegacy
 	 */
 	function _displayEditcat($tpl) {
 //		$mainframe =& JFactory::getApplication();
-		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$cid = JFactory::getApplication()->input->get( 'cid', array(), 'post', 'array' );
 		$id =$cid[0];
 
 		$editor =& JFactory::getEditor();

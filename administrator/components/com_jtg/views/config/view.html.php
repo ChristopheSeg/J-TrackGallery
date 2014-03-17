@@ -65,7 +65,8 @@ class JtgViewConfig extends JViewLegacy
 		$comments = array(
 		array('id' => 0, 'text' => JText::_('COM_JTG_NO_COMMENTS')),
 		array('id' => 1, 'text' => JText::_('COM_JTG_INTERN_COMMENTS')),
-		array('id' => 2, 'text' => JText::_('COM_JTG_JOMCOMMENTS')),
+		// removed, no longer exists
+		// array('id' => 2, 'text' => JText::_('COM_JTG_JOMCOMMENTS')),
 		array('id' => 3, 'text' => JText::_('COM_JTG_JCOMMENTS'))
 		);
 		$approach = array(

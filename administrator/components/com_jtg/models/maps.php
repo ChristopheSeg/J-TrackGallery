@@ -69,13 +69,13 @@ class JtgModelMaps extends JModelLegacy
 
 		//	In case limit has been changed, adjust limitstart accordingly
 		//	$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
-		$limitstart = JRequest::getVar('limitstart',0);
+		$limitstart = JFactory::getApplication()->input->get('limitstart',0);
 
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
 
-		$array = JRequest::getVar('cid', array(0), '', 'array');
-		$edit	= JRequest::getVar('edit',true);
+		$array = JFactory::getApplication()->input->get('cid', array(0), '', 'array');
+		$edit	= JFactory::getApplication()->input->get('edit',true);
 		if($edit)
 		$this->setId((int)$array[0]);
 	}
@@ -175,7 +175,7 @@ class JtgModelMaps extends JModelLegacy
 
 		$mainframe =& JFactory::getApplication(); // global _ $option;
 
-		$search =& JRequest::getVar('search');
+		$search =& JFactory::getApplication()->input->get('search');
 		$where = array();
 		$db =& JFactory::getDBO();
 
@@ -269,18 +269,18 @@ class JtgModelMaps extends JModelLegacy
 		//	get the post data
 		$publish =& JRequest::getInt('publish');
 		$order =& JRequest::getInt('order');
-		$name =& JRequest::getVar('name');
+		$name =& JFactory::getApplication()->input->get('name');
 		$name = htmlentities($name);
-		$param =& JRequest::getVar('param');
-		$checked_out =& JRequest::getVar('checked_out');
+		$param =& JFactory::getApplication()->input->get('param');
+		$checked_out =& JFactory::getApplication()->input->get('checked_out');
 		$param = str_replace("'",'"',htmlentities($param));
 		if ( ( $name == "" ) OR ( $param == "" ) ) {
 			JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_MAP_NOT_SAVED'), 'Warning');
 			return false;
 		}
-		$script =& JRequest::getVar('script');
+		$script =& JFactory::getApplication()->input->get('script');
 		$script = htmlentities($script);
-		$code =& JRequest::getVar('code');
+		$code =& JFactory::getApplication()->input->get('code');
 		$code = htmlentities($code);
 		$query = "INSERT INTO #__jtg_maps SET"
 		. "\n name='" . $name . "',"
@@ -319,20 +319,20 @@ class JtgModelMaps extends JModelLegacy
 		$publish =& JRequest::getInt('publish');
 		$order =& JRequest::getInt('order');
 		$id =& JRequest::getInt('id');
-		$name =& JRequest::getVar('name');
+		$name =& JFactory::getApplication()->input->get('name');
 		$name = htmlentities($name);
-		$param =& JRequest::getVar('param');
+		$param =& JFactory::getApplication()->input->get('param');
 		$param = str_replace("'",'"',htmlentities($param));
-		$param =& JRequest::getVar('param');
-		$checked_out =& JRequest::getVar('checked_out');
-		$code =& JRequest::getVar('code');
+		$param =& JFactory::getApplication()->input->get('param');
+		$checked_out =& JFactory::getApplication()->input->get('checked_out');
+		$code =& JFactory::getApplication()->input->get('code');
 		$code = htmlentities($code);
 		if ( ( $name == "" ) OR ( $param == "" ) ) {
 			JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_MAP_NOT_SAVED'), 'Warning');
 			return false;
 		}
 
-		$script =& JRequest::getVar('script');
+		$script =& JFactory::getApplication()->input->get('script');
 		$script = htmlentities($script);
 		$query = "UPDATE #__jtg_maps SET"
 		. "\n name='" . $name . "',"

@@ -28,7 +28,7 @@ class JtgControllerFiles extends JtgController
 
 		// Check for request forgeries
 		JSession::checkToken() or jexit( 'Invalid Token' );
-		$file =& JRequest::getVar('file', null, 'files', 'array');
+		$file =& JFactory::getApplication()->input->get('file', null, 'files', 'array');
 		$images =& $_FILES['images'];
 		$model = $this->getModel('files');
 
@@ -109,7 +109,7 @@ class JtgControllerFiles extends JtgController
 
 		if($cfg->captcha == 1) {
 			$return = false;
-			$word = JRequest::getVar('word', false, '', 'CMD');
+			$word = JFactory::getApplication()->input->get('word', false, '', 'CMD');
 			$mainframe->triggerEvent('onCaptcha_confirm', array($word, &$return));
 			if (!$return) {
 				echo "<script> alert('".JText::_('COM_JTG_CAPTCHA_WRONG') . "'); window.history.go(-1); </script>\n";

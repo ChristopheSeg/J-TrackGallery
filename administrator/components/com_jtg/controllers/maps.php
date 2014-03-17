@@ -30,7 +30,7 @@ class JtgControllerMaps extends JtgController
 //
 //		// In case limit has been changed, adjust limitstart accordingly
 //		//		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
-//		$limitstart = JRequest::getVar('limitstart',0);
+//		$limitstart = JFactory::getApplication()->input->get('limitstart',0);
 //
 //		$this->setState('limit', $limit);
 //		$this->setState('limitstart', $limitstart);
@@ -43,10 +43,10 @@ class JtgControllerMaps extends JtgController
 			}
 		}
 		$where = ' WHERE ' . implode( ' AND ', $where );
-		$search = JRequest::getVar('search',true);
-		$layout = JRequest::getVar('layout',true);
-		$task = JRequest::getVar('task',true);
-		$controller = JRequest::getVar('controller',true);
+		$search = JFactory::getApplication()->input->get('search',true);
+		$layout = JFactory::getApplication()->input->get('layout',true);
+		$task = JFactory::getApplication()->input->get('task',true);
+		$controller = JFactory::getApplication()->input->get('controller',true);
 	}
 
     /**
@@ -88,8 +88,8 @@ class JtgControllerMaps extends JtgController
 		// Check for request forgeries
 		JSession::checkToken() or jexit( 'Invalid Token' );
 
-		$cid 	= JRequest::getVar( 'cid', array(), 'post', 'array' );
-		$order 	= JRequest::getVar( 'order', array(), 'post', 'array' );
+		$cid 	= JFactory::getApplication()->input->get( 'cid', array(), 'post', 'array' );
+		$order 	= JFactory::getApplication()->input->get( 'order', array(), 'post', 'array' );
 		JArrayHelper::toInteger($cid);
 		JArrayHelper::toInteger($order);
 
@@ -108,7 +108,7 @@ class JtgControllerMaps extends JtgController
 		// Check for request forgeries
 		JSession::checkToken() or jexit( 'Invalid Token' );
 
-		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$cid = JFactory::getApplication()->input->get( 'cid', array(), 'post', 'array' );
 		JArrayHelper::toInteger($cid);
 
 		if (count( $cid ) < 1) 
@@ -132,7 +132,7 @@ class JtgControllerMaps extends JtgController
 		// Check for request forgeries
 		JSession::checkToken() or jexit( 'Invalid Token' );
 
-		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$cid = JFactory::getApplication()->input->get( 'cid', array(), 'post', 'array' );
 		JArrayHelper::toInteger($cid);
 		if (count( $cid ) < 1) 
 		{
@@ -156,7 +156,7 @@ class JtgControllerMaps extends JtgController
 		// Check for request forgeries
 		JSession::checkToken() or jexit( 'Invalid Token' );
 
-		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$cid = JFactory::getApplication()->input->get( 'cid', array(), 'post', 'array' );
 		JArrayHelper::toInteger($cid);
 
 		if (count( $cid ) < 1) 

@@ -36,13 +36,13 @@ class JtgModelTerrain extends JModelLegacy
 		$limitstart	= $mainframe->getUserStateFromRequest( $this->option.'.limitstart', 'limitstart', 0, 'int' );
 
 		// In case limit has been changed, adjust limitstart accordingly
-		$limitstart = JRequest::getVar('limitstart',0);
+		$limitstart = JFactory::getApplication()->input->get('limitstart',0);
 
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
 
-		$array = JRequest::getVar('cid', array(0), '', 'array');
-		$edit	= JRequest::getVar('edit',true);
+		$array = JFactory::getApplication()->input->get('cid', array(0), '', 'array');
+		$edit	= JFactory::getApplication()->input->get('edit',true);
 		if($edit)
 		$this->setId((int)$array[0]);
 	}

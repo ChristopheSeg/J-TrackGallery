@@ -64,7 +64,7 @@ class JtgModelCats extends JModelLegacy
 
 		// In case limit has been changed, adjust limitstart accordingly
 		//		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
-		$limitstart = JRequest::getVar('limitstart',0);
+		$limitstart = JFactory::getApplication()->input->get('limitstart',0);
 
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);

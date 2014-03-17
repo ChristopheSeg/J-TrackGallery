@@ -47,8 +47,8 @@ class JtgModelFiles extends JModelLegacy
 		//$mainframe =& JFactory::getApplication();
 
 		// get the post data
-		$id =& JRequest::getVar('id');
-		$file =& JRequest::getVar('file');
+		$id =& JFactory::getApplication()->input->get('id');
+		$file =& JFactory::getApplication()->input->get('file');
 		$cfg = JtgHelper::getConfig();
 		jimport('joomla.filesystem.file');
 		require_once(".." . DIRECTORY_SEPARATOR . "components" . DIRECTORY_SEPARATOR . "com_jtg" . DIRECTORY_SEPARATOR . "helpers" . DIRECTORY_SEPARATOR . "gpsClass.php");
@@ -175,13 +175,13 @@ class JtgModelFiles extends JModelLegacy
 
 		// In case limit has been changed, adjust limitstart accordingly
 		//		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
-		$limitstart = JRequest::getVar('limitstart',0);
+		$limitstart = JFactory::getApplication()->input->get('limitstart',0);
 
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
 
-		$array = JRequest::getVar('cid', array(0), '', 'array');
-		$edit	= JRequest::getVar('edit',true);
+		$array = JFactory::getApplication()->input->get('cid', array(0), '', 'array');
+		$edit	= JFactory::getApplication()->input->get('edit',true);
 		if($edit)
 		$this->setId((int)$array[0]);
 	}
@@ -303,7 +303,7 @@ class JtgModelFiles extends JModelLegacy
 
 		$mainframe =& JFactory::getApplication(); // global _ $option;
 
-		$search =& JRequest::getVar('search');
+		$search =& JFactory::getApplication()->input->get('search');
 		$where = array();
 		$db =& JFactory::getDBO();
 
@@ -493,12 +493,12 @@ class JtgModelFiles extends JModelLegacy
 	 */
 	function deleteFromImport($found)
 	{
-		$cid = JRequest::getVar( 'import_0' );
+		$cid = JFactory::getApplication()->input->get( 'import_0' );
 		jimport('joomla.filesystem.file');
 		$result = false;
 		for ($i = 0; $i <= $found; $i++)
 		{
-			$file = JRequest::getVar( 'import_'.$i );
+			$file = JFactory::getApplication()->input->get( 'import_'.$i );
 			if ( $file !== null )
 			{
 				if (JFile::exists($file))
@@ -660,23 +660,23 @@ class JtgModelFiles extends JModelLegacy
 		$found =& JRequest::getInt('found');
 		for($i=0;$i<$found;$i++) {
 			$existingfiles = JFolder::files($targetdir);
-			$import =& JRequest::getVar('import_'.$i);
+			$import =& JFactory::getApplication()->input->get('import_'.$i);
 			if ( $import !== null ) {
-				$catid =& JRequest::getVar('catid_'.$i);
+				$catid =& JFactory::getApplication()->input->get('catid_'.$i);
 				if ( $catid )
 
 				$catid = implode(",",$catid);
 				$level =& JRequest::getInt('level_'.$i);
-				$title =& JRequest::getVar('title_'.$i);
-				$terrain =& JRequest::getVar('terrain_'.$i);
+				$title =& JFactory::getApplication()->input->get('title_'.$i);
+				$terrain =& JFactory::getApplication()->input->get('terrain_'.$i);
 				if ($terrain)
 				$terrain = implode(',', $terrain);
 				else
 				$terrain = "";
-				$desc =& JRequest::getVar( 'desc_'.$i, '', 'post', 'string', JREQUEST_ALLOWRAW);
+				$desc =& JFactory::getApplication()->input->get( 'desc_'.$i, '', 'post', 'string', JREQUEST_ALLOWRAW);
 				$desc = $this->parsedesc($desc);
-				$file =& JRequest::getVar('file_'.$i);
-				$hidden =& JRequest::getVar('hidden_'.$i);
+				$file =& JFactory::getApplication()->input->get('file_'.$i);
+				$hidden =& JFactory::getApplication()->input->get('hidden_'.$i);
 				$file_tmp = explode(DIRECTORY_SEPARATOR,$file);
 				$filename = strtolower($file_tmp[(count($file_tmp)-1)]);
 				$file_tmp = str_replace(' ','_',$filename);
@@ -719,9 +719,9 @@ class JtgModelFiles extends JModelLegacy
 					}
 				}
 
-				$uid =& JRequest::getVar('uid_'.$i);
-				$date =& JRequest::getVar('date_'.$i);
-				//			$images =& JRequest::getVar('images_'.$i, null, 'files', 'array');
+				$uid =& JFactory::getApplication()->input->get('uid_'.$i);
+				$date =& JFactory::getApplication()->input->get('date_'.$i);
+				//			$images =& JFactory::getApplication()->input->get('images_'.$i, null, 'files', 'array');
 				$access =& JRequest::getInt('access_'.$i);
 				// 	get the start coordinates $target
 				$cache = & JFactory::getCache();
@@ -933,23 +933,23 @@ class JtgModelFiles extends JModelLegacy
 		$db =& JFactory::getDBO();
 		$user =& JFactory::getUser();
 		// get the post data
-		$catid =& JRequest::getVar('catid');
+		$catid =& JFactory::getApplication()->input->get('catid');
 		$catid = implode(",",$catid);
 		$level =& JRequest::getInt('level');
-		$title =& JRequest::getVar('title');
-		$terrain =& JRequest::getVar('terrain');
+		$title =& JFactory::getApplication()->input->get('title');
+		$terrain =& JFactory::getApplication()->input->get('terrain');
 		if ($terrain)
 		$terrain = implode(',', $terrain);
 		else
 		$terrain = "";
-		$desc =& JRequest::getVar( 'description', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$desc =& JFactory::getApplication()->input->get( 'description', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$desc = $this->parsedesc($desc);
-		$file =& JRequest::getVar('file', null, 'files', 'array');
-		$uid =& JRequest::getVar('uid');
+		$file =& JFactory::getApplication()->input->get('file', null, 'files', 'array');
+		$uid =& JFactory::getApplication()->input->get('uid');
 		$date = date("Y-m-d");
-		$images =& JRequest::getVar('images', null, 'files', 'array');
+		$images =& JFactory::getApplication()->input->get('images', null, 'files', 'array');
 		$access =& JRequest::getInt('access');
-		$hidden =& JRequest::getVar('hidden');
+		$hidden =& JFactory::getApplication()->input->get('hidden');
 
 		// @ToDo: => JtgHelper::uploadfile
 		// upload the file
@@ -1045,7 +1045,7 @@ class JtgModelFiles extends JModelLegacy
 		$id = $result->id;
 		//		images upload part
 		$imgpath = JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'track_' . $id . DIRECTORY_SEPARATOR;
-		$images =& JRequest::getVar('images', null, 'files', 'array');
+		$images =& JFactory::getApplication()->input->get('images', null, 'files', 'array');
 		if(count($images['name']) > 1)
 		{
 			$cfg = JtgHelper::getConfig();
@@ -1088,7 +1088,7 @@ class JtgModelFiles extends JModelLegacy
 		for($i=0;$i<count($importfiles);$i++) {
 			$importfile = $importfiles[$i];
 			$existingfiles = JFolder::files($targetdir);
-			//		$import =& JRequest::getVar('import_'.$i);
+			//		$import =& JFactory::getApplication()->input->get('import_'.$i);
 			//		if ( $import == "on" ) {
 			$catid = $importfile['catid'];
 			$level = $importfile['level'];
@@ -1257,18 +1257,18 @@ class JtgModelFiles extends JModelLegacy
 
 		// get the post data
 		$id =& JRequest::getInt('id');
-		$catid =& JRequest::getVar('catid');
+		$catid =& JFactory::getApplication()->input->get('catid');
 		$catid = implode(",",$catid);
 		$level =& JRequest::getInt('level');
-		$title =& JRequest::getVar('title');
-		$hidden =& JRequest::getVar('hidden');
-		$published =& JRequest::getVar('published');
+		$title =& JFactory::getApplication()->input->get('title');
+		$hidden =& JFactory::getApplication()->input->get('hidden');
+		$published =& JFactory::getApplication()->input->get('published');
 
 		$allimages = $this->getImages($id);
 		$imgpath = JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'track_' . $id. DIRECTORY_SEPARATOR;
 		if($allimages){
 			foreach ($allimages AS $key => $image) {
-				$image =& JRequest::getVar('deleteimage_'.str_replace('.',null,$image));
+				$image =& JFactory::getApplication()->input->get('deleteimage_'.str_replace('.',null,$image));
 				if($image !== NULL) 
 				{
 				    JFile::delete($imgpath.$image);
@@ -1279,22 +1279,22 @@ class JtgModelFiles extends JModelLegacy
 				}
 			}
 		}
-		$date =& JRequest::getVar('date');
-		$terrain =& JRequest::getVar('terrain');
+		$date =& JFactory::getApplication()->input->get('date');
+		$terrain =& JFactory::getApplication()->input->get('terrain');
 		// ToDo: empty Terrain = bad
 		if ($terrain != "")
 		$terrain = implode(',', $terrain);
-		$desc =& JRequest::getVar( 'description', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$desc =& JFactory::getApplication()->input->get( 'description', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$desc = $this->parsedesc($desc);
 		//         $uid = $user->get('id');
-		$uid =& JRequest::getVar('uid');
+		$uid =& JFactory::getApplication()->input->get('uid');
 		if ( $date == "" )
 		$date = date("Y-m-d");
 		$access =& JRequest::getInt('access');
 
 
 		//		images upload part
-		$images =& JRequest::getVar('images', null, 'files', 'array');
+		$images =& JFactory::getApplication()->input->get('images', null, 'files', 'array');
 		if(count($images['name']) > 1)
 		{
 			$cfg = JtgHelper::getConfig();

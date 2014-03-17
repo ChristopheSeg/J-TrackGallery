@@ -584,23 +584,37 @@ echo JHtml::_( 'form.token' ) . "\n"; ?> <input type="hidden"
 					}
 				}
 				//
-				if($this->cfg->comment_who == 0) {
+				if($this->cfg->comment_who == 0) 
+				{
 					echo $this->model->addcomment($this->cfg);
-				} elseif ($this->cfg->comment_who == 1 && $this->user->get('id')) {
+				} elseif ($this->cfg->comment_who == 1 && $this->user->get('id')) 
+				{
 					echo $this->model->addcomment($this->cfg);
-				} else {
+				} 
+				else 
+				{
 					echo JText::_('COM_JTG_ADD_COMMENT_NOT_AUTH');
 				}
-			} elseif ($this->cfg->comments == 2) {
-
-				// 		Changes from jason-oxley https://sourceforge.net/projects/jtg/forums/forum/1042962/topic/3856273
-				require_once( JPATH_PLUGINS . DIRECTORY_SEPARATOR . 'content' . DIRECTORY_SEPARATOR . 'jom_comment_bot.php' );
-				echo jomcomment($this->track->id, "com_jtg");
-			} elseif ($this->cfg->comments == 3) {
+			} 
+			elseif ($this->cfg->comments == 3) 
+			{
+			    $jcommentsfile = 'components' . DIRECTORY_SEPARATOR . 'com_jcomments' . DIRECTORY_SEPARATOR . 'jcomments.php' ;
+			    if ((JFile::exists(JPATH_SITE . DIRECTORY_SEPARATOR . $jcommentsfile)))
+			    {
 				//		global $mosConfig_absolute_path;
 				require_once( 'components' . DIRECTORY_SEPARATOR . 'com_jcomments' . DIRECTORY_SEPARATOR . 'jcomments.php' );
 				echo JComments::showComments($this->track->id, "com_jtg");
-			} else echo "<a name=\"jtg_param_header_comment\"></a>";
+			    }
+			    else
+			    {
+				JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_ERROR_ACTIVATE_JCOMMENTS'),'Error' );
+			    }
+
+			} 
+			else 
+			{
+			    echo "<a name=\"jtg_param_header_comment\"></a>";
+			}
 			?>
 <div style="display: none"><!-- load necessary pics in background --> <img
 	src="http://www.openlayers.org/api/img/cloud-popup-relative.png"

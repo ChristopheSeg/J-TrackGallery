@@ -109,8 +109,8 @@ class JtgControllerCats extends JtgController
 		// Check for request forgeries
 		JSession::checkToken() or jexit( 'Invalid Token' );
 
-		$cid 	= JRequest::getVar( 'cid', array(), 'post', 'array' );
-		$order 	= JRequest::getVar( 'order', array(), 'post', 'array' );
+		$cid 	= JFactory::getApplication()->input->get( 'cid', array(), 'post', 'array' );
+		$order 	= JFactory::getApplication()->input->get( 'order', array(), 'post', 'array' );
 		JArrayHelper::toInteger($cid);
 		JArrayHelper::toInteger($order);
 
@@ -130,7 +130,7 @@ class JtgControllerCats extends JtgController
 		// Check for request forgeries
 		JSession::checkToken() or jexit( 'Invalid Token' );
 
-		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$cid = JFactory::getApplication()->input->get( 'cid', array(), 'post', 'array' );
 		JArrayHelper::toInteger($cid);
 
 		if (count( $cid ) < 1) 
@@ -158,7 +158,7 @@ class JtgControllerCats extends JtgController
 		// Check for request forgeries
 		JSession::checkToken() or jexit( 'Invalid Token' );
 
-		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$cid = JFactory::getApplication()->input->get( 'cid', array(), 'post', 'array' );
 		JArrayHelper::toInteger($cid);
 
 		if (count( $cid ) < 1) {
@@ -182,7 +182,7 @@ class JtgControllerCats extends JtgController
 		// Check for request forgeries
 		JSession::checkToken() or jexit( 'Invalid Token' );
 
-		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$cid = JFactory::getApplication()->input->get( 'cid', array(), 'post', 'array' );
 		
 		if (count( $cid ) < 1)
 		{
@@ -205,7 +205,7 @@ class JtgControllerCats extends JtgController
 		// Check for request forgeries
 		JSession::checkToken() or jexit( 'Invalid Token' );
 
-		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$cid = JFactory::getApplication()->input->get( 'cid', array(), 'post', 'array' );
 		JArrayHelper::toInteger($cid);
 
 		if (count( $cid ) < 1)

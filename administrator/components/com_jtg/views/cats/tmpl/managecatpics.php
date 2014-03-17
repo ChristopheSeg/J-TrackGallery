@@ -61,7 +61,7 @@ JToolBarHelper::help( 'cats/managecatpics',true );
 		</tbody>
 	</table>
 	<input type="hidden" name="option" value="com_jtg" />
-	<input type="hidden" name="task" value="<?php echo JRequest::getVar('task'); ?>" />
+	<input type="hidden" name="task" value="<?php echo JFactory::getApplication()->input->get('task'); ?>" />
 	<input type="hidden" name="boxchecked" value="0" />
 	<input type="hidden" name="controller" value="cats" />
 	<?php echo JHtml::_( 'form.token' ); ?>

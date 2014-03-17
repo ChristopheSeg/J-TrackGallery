@@ -44,7 +44,7 @@ class ContentViewElement extends JViewLegacy
 		$template = $mainframe->getTemplate();
 		$document->addStyleSheet("templates/$template/css/general.css");
 
-		$limitstart = JRequest::getVar('limitstart', '0', '', 'int');
+		$limitstart = JFactory::getApplication()->input->get('limitstart', '0', '', 'int');
 
 		$lists = $this->_getLists();
 
@@ -123,7 +123,7 @@ class ContentViewElement extends JViewLegacy
 						<?php echo $page->getRowOffset( $i ); ?>
 					</td>
 					<td>
-						<a style="cursor: pointer;" onclick="window.parent.jSelectArticle('<?php echo $row->id; ?>', '<?php echo str_replace(array("'", "\""), array("\\'", ""),$row->title); ?>', '<?php echo JRequest::getVar('object'); ?>');">
+						<a style="cursor: pointer;" onclick="window.parent.jSelectArticle('<?php echo $row->id; ?>', '<?php echo str_replace(array("'", "\""), array("\\'", ""),$row->title); ?>', '<?php echo JFactory::getApplication()->input->get('object'); ?>');">
 							<?php echo htmlspecialchars($row->title, ENT_QUOTES, 'UTF-8'); ?></a>
 					</td>
 					<td align="center">
@@ -164,9 +164,9 @@ class ContentViewElement extends JViewLegacy
 		$db		= &JFactory::getDBO();
 
 		// Get some variables from the request
-		$sectionid			= JRequest::getVar( 'sectionid', -1, '', 'int' );
+		$sectionid			= JFactory::getApplication()->input->get( 'sectionid', -1, '', 'int' );
 		$redirect			= $sectionid;
-		$option				= JRequest::getCmd( 'option' );
+		$option = JFactory::getApplication()->input->get('option');
 		$filter_order		= $mainframe->getUserStateFromRequest('articleelement.filter_order',		'filter_order',		'',	'cmd');
 		$filter_order_Dir	= $mainframe->getUserStateFromRequest('articleelement.filter_order_Dir',	'filter_order_Dir',	'',	'word');
 		$filter_state		= $mainframe->getUserStateFromRequest('articleelement.filter_state',		'filter_state',		'',	'word');
