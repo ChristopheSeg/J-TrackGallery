@@ -2,12 +2,12 @@
 /**
  * @component  J!Track Gallery (jtg) for Joomla! 2.5
  *
- * 
- * @author     J!Track Gallery, InJooosm and joomGPStracks teams
- * @package    com_jtg
- * @subpackage frontend
- * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL2
- * @link       http://jtrackgallery.net/
+ *
+ * @author       J!Track Gallery, InJooosm and joomGPStracks teams
+ * @package      com_jtg
+ * @subpackage  frontend
+ * @license      http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL2
+ * @link          http://jtrackgallery.net/
  *
  */
 
@@ -42,19 +42,19 @@ $document->addStyleSheet(JUri::base().'components' . DIRECTORY_SEPARATOR . 'com_
 $mainframe =& JFactory::getApplication();
 jimport('joomla.filesystem.file');
 $template_css = 'templates' . DIRECTORY_SEPARATOR .  $mainframe->getTemplate() . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . 'jtg_style.css';
-if (JFile::exists($template_css) ) 
+if (JFile::exists($template_css) )
 {
    // override with site template
    $document->addStyleSheet( $template_css);
- 
+
 }
 // Initialize the controller
-if($controller = JRequest::getWord('controller')) 
+if($controller = JRequest::getWord('controller'))
 {
 	$path = JPATH_COMPONENT . DIRECTORY_SEPARATOR . 'controllers' . DIRECTORY_SEPARATOR . $controller.'.php';
 	if (file_exists($path)) {
 		require_once $path;
-	} else 
+	} else
 	{
 		$controller = '';
 	}
