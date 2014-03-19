@@ -1,11 +1,11 @@
 <?php
 /**
- * @component  J!Track Gallery (jtg) for Joomla! 2.5
+ * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
  * 
- * @author     J!Track Gallery, InJooosm and joomGPStracks teams
- * @package    com_jtg
- * @subpackage backend
+ * @package    Comjtg
+ * @author     Christophe Seguinot <christophe@jtrackgallery.net>
+ * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL2
  * @link       http://jtrackgallery.net/
  *
@@ -54,7 +54,7 @@ class JtgViewMaps extends JViewLegacy
 		//	$tmpl = $model->getTemplates();
 
 		$lists['block']	= JHtml::_('select.booleanlist', 'publish', 'class="inputbox" size="1"', 1 );
-//		$order = JFactory::getApplication()->input->get( 'order', 'order', 'post', 'string' );
+//		$order = JFactory::getApplication()->input->get('order', 'order', 'post', 'string' );
 
 		$filter_order		= $mainframe->getUserStateFromRequest( $option . "filter_order",
  	'filter_order',
@@ -75,7 +75,7 @@ class JtgViewMaps extends JViewLegacy
 		$lists['search'] = $search;
 		$state = $search;
 
-		$pagination = & $this->get( 'Pagination' );
+		$pagination = & $this->get('Pagination' );
 		$this->pagination = $pagination;
 		$this->state = $state;
 		$this->config = $config;

@@ -1,11 +1,11 @@
 <?php
 /**
- * @component  J!Track Gallery (jtg) for Joomla! 2.5
+ * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
- * 
- * @author     J!Track Gallery, InJooosm and joomGPStracks teams
- * @package    com_jtg
- * @subpackage backend
+ *
+ * @package    Comjtg
+ * @author     Christophe Seguinot <christophe@jtrackgallery.net>
+ * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL2
  * @link       http://jtrackgallery.net/
  *
@@ -36,25 +36,27 @@ class JtgModelConfig extends JModelLegacy
 	function saveConfig()
 	{
 		//	get post data
-		$row =& JRequest::get( 'post' );
-		//	Store tables if they not exists		
+		$row =& JRequest::get('post' );
+		//	Store tables if they not exists
 		$cfg = JtgHelper::getConfig();
 		$createColumns = $this->createColumns($row, "config");
 		if ($createColumns !== true)
 		return $createColumns;
 		//	Bereinige $row um OSM-Available Map
-		//	$row = $this->cleanJTGconfig($row);
 		$table = $this->getTable( 'jtg_config' );
 
 		// for gid multiple select Normally done in bind  (/models/config.php but does not work!)
-		$row['gid'] = serialize($row['gid']) ;		
+		$row['gid'] = serialize($row['gid']) ;
+
+		// for comment_who multiple select Normally done in bind  (/models/config.php but does not work!)
+		$row['comment_who'] = serialize($row['comment_who']) ;
 		$table->bind( $row );
-		if (!$table->store()) 
+		if (!$table->store())
 		{
 		    return $table->getError();
 		}
-		// Config saved, 
-		if ( ($row['max_geoim_height']<>$cfg->max_geoim_height) 
+		// Config saved,
+		if ( ($row['max_geoim_height']<>$cfg->max_geoim_height)
 			OR ($row['max_thumb_height']<>$cfg->max_thumb_height) )
 		{
 		    // recreate thumbnails if max_height changed

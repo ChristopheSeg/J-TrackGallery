@@ -1,11 +1,11 @@
 <?php
 /**
- * @component  J!Track Gallery (jtg) for Joomla! 2.5
+ * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
  * 
- * @author     J!Track Gallery, InJooosm and joomGPStracks teams
- * @package    com_jtg
- * @subpackage backend
+ * @package    Comjtg
+ * @author     Christophe Seguinot <christophe@jtrackgallery.net>
+ * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL2
  * @link       http://jtrackgallery.net/
  *
@@ -36,9 +36,9 @@ class JtgViewComments extends JViewLegacy
 		endif;
 
 		$model =& $this->getModel();
-		$rows =& $this->get( 'Data');
-		$total =& $this->get( 'Total');
-		$pagination = & $this->get( 'Pagination' );
+		$rows =& $this->get('Data');
+		$total =& $this->get('Total');
+		$pagination = & $this->get('Pagination' );
 		if (!isset($lists)) {$lists=false;}
 		$this->lists = $lists;
 		$this->rows = $rows;
@@ -49,7 +49,7 @@ class JtgViewComments extends JViewLegacy
 
 	function _displayForm($tpl) {
 
-		$cid = JFactory::getApplication()->input->get( 'cid', array(), 'post', 'array' );
+		$cid = JFactory::getApplication()->input->get('cid', array(), 'post', 'array' );
 		JArrayHelper::toInteger($cid);
 
 		$model = $this->getModel();

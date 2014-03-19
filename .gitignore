@@ -4,4 +4,6 @@
 /components/com_jtg/uploads/*.GPX
 /components/com_jtg/uploads/*.kml
 /components/com_jtg/uploads/*.KML
+.settings
+
 

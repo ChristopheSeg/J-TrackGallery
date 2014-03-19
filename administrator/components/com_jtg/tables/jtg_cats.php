@@ -1,11 +1,11 @@
 <?php
 /**
- * @component  J!Track Gallery (jtg) for Joomla! 2.5
+ * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
- * 
- * @author     J!Track Gallery, InJooosm and joomGPStracks teams
- * @package    com_jtg
- * @subpackage backend
+ *
+ * @package    Comjtg
+ * @author     Christophe Seguinot <christophe@jtrackgallery.net>
+ * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL2
  * @link       http://jtrackgallery.net/
  *
@@ -18,52 +18,57 @@ defined('_JEXEC') or die('Restricted access');
 jimport('joomla.filter.input');
 
 /**
-* Table class
-*
-*/
-class TableJTG_cats extends JTable
+ * Table class
+ *
+ * @since  0.1
+ */
+class TableJTG_Cats extends JTable
 {
-        var $id                   = NULL;
+	var $id = null;
 
-        var $parent               = NULL;
+	var $parent = null;
 
-        var $title                = NULL;
+	var $title = null;
 
-        var $description          = NULL;
+	var $description = null;
 
-        var $image                = NULL;
+	var $image = null;
 
-        var $ordering             = NULL;
+	var $ordering = null;
 
-        var $published            = NULL;
+	var $published = null;
 
-        var $checked_out          = NULL;
+	var $checked_out = null;
 
-        /**
-         *
-         * @param object $db
-         */
-        function __construct(& $db) {
-            parent::__construct('#__jtg_cats', 'id', $db);
-        }
+	/**
+	 *
+	 * @param   object  $db  the  database
+	 *
+	 */
+	function __construct (& $db)
+	{
+		parent::__construct('#__jtg_cats', 'id', $db);
+	}
 
-        /**
-         *
-         * @param array $array
-         * @param string $ignore
-         * @return object
-         */
-        function bind($array, $ignore = '')
-        {
-            if (key_exists( 'params', $array ) && is_array( $array['params'] ))
-            {
-                $registry = new JRegistry();
-                $registry->loadArray($array['params']);
-                $array['params'] = $registry->toString();
-            }
+	/**
+	 * bind function
+	 *
+	 * @param   array   $array
+	 * @param   string  $ignore
+	 *
+	 * @return object
+	 */
+	function bind ($array, $ignore = '')
+	{
+		if (key_exists('params', $array) && is_array($array['params']))
+		{
+			$registry = new JRegistry;
+			$registry->loadArray($array['params']);
+			$array['params'] = $registry->toString();
+		}
 
-            return parent::bind($array, $ignore);
-        }
+		return parent::bind($array, $ignore);
+	}
 
 	/**
 	 * Overloaded check method to ensure data integrity
@@ -71,8 +76,8 @@ class TableJTG_cats extends JTable
 	 * @access public
 	 * @return boolean True on success
 	 */
-	function check() {
+	function check ()
+	{
 		return true;
 	}
-
 }

@@ -1,11 +1,11 @@
 <?php
 /**
- * @component  J!Track Gallery (jtg) for Joomla! 2.5
+ * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
  * 
- * @author     J!Track Gallery, InJooosm and joomGPStracks teams
- * @package    com_jtg
- * @subpackage backend
+ * @package    Comjtg
+ * @author     Christophe Seguinot <christophe@jtrackgallery.net>
+ * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL2
  * @link       http://jtrackgallery.net/
  *
@@ -103,7 +103,7 @@ class JtgModelComments extends JModelLegacy
 
     /**
      *
-     * @param array $cid
+     * @param   array  $cid
      * @param int $publish
      * @return boolean
      */
@@ -132,7 +132,7 @@ class JtgModelComments extends JModelLegacy
 
     /**
      *
-     * @param array $cid
+     * @param   array  $cid
      * @return boolean
      */
 	function delete($cid = array())
@@ -161,7 +161,7 @@ class JtgModelComments extends JModelLegacy
         /**
          *
          * @global object $mainframe
-         * @param array $cid
+         * @param   array  $cid
          * @return object
          */
         function getComment($cid)  {
@@ -188,7 +188,7 @@ class JtgModelComments extends JModelLegacy
 
             $id     =& JRequest::getInt('id');
             $title  =& JFactory::getApplication()->input->get('title');
-            $text   =& JFactory::getApplication()->input->get( 'text', '', 'post', 'string', JREQUEST_ALLOWRAW);
+            $text   =& JFactory::getApplication()->input->get('text', '', 'post', 'string', JREQUEST_ALLOWRAW);
 
             $db =& JFactory::getDBO();
 

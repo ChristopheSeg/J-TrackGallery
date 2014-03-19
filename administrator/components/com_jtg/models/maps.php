@@ -1,11 +1,11 @@
 <?php
 /**
- * @component  J!Track Gallery (jtg) for Joomla! 2.5
+ * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
  * 
- * @author     J!Track Gallery, InJooosm and joomGPStracks teams
- * @package    com_jtg
- * @subpackage backend
+ * @package    Comjtg
+ * @author     Christophe Seguinot <christophe@jtrackgallery.net>
+ * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL2
  * @link       http://jtrackgallery.net/
  *
@@ -35,7 +35,7 @@ class JtgModelMaps extends JModelLegacy
 
 	/**
 	 *
-	 * @param string $direction
+	 * @param   string  $direction
 	 * @return boolean
 	 */
 	function move($direction)
@@ -99,7 +99,7 @@ class JtgModelMaps extends JModelLegacy
 
 	/**
 	 *
-	 * @param array $cid
+	 * @param   array  $cid
 	 * @return boolean
 	 */
 	function delete($cid = array())
@@ -122,7 +122,7 @@ class JtgModelMaps extends JModelLegacy
 	/**
 	 *
 	 * @global object $mainframe
-	 * @param string $id
+	 * @param   string  $id
 	 * @return object
 	 */
 	function getMap($id)  {
@@ -236,8 +236,8 @@ class JtgModelMaps extends JModelLegacy
 
 	/**
 	 *
-	 * @param array $cid
-	 * @param string $publish
+	 * @param   array  $cid
+	 * @param   string  $publish
 	 * @return bool
 	 */
 	function publish($cid = array(), $publish = 1)
@@ -300,7 +300,7 @@ class JtgModelMaps extends JModelLegacy
 
 	/**
 	 *
-	 * @param string $id
+	 * @param   string  $id
 	 */
 	function setId($id)
 	{

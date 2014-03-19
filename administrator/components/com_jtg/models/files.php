@@ -1,11 +1,11 @@
 <?php
 /**
- * @component  J!Track Gallery (jtg) for Joomla! 2.5
+ * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
  * 
- * @author     J!Track Gallery, InJooosm and joomGPStracks teams
- * @package    com_jtg
- * @subpackage backend
+ * @package    Comjtg
+ * @author     Christophe Seguinot <christophe@jtrackgallery.net>
+ * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL2
  * @link       http://jtrackgallery.net/
  *
@@ -320,7 +320,7 @@ class JtgModelFiles extends JModelLegacy
 	/**
 	 *
 	 * @global object $mainframe
-	 * @param string $id
+	 * @param   string  $id
 	 * @return object
 	 */
 	function getFile($id)  {
@@ -345,7 +345,7 @@ class JtgModelFiles extends JModelLegacy
 
 	/**
 	 *
-	 * @param string $id
+	 * @param   string  $id
 	 */
 	function setId($id)
 	{
@@ -356,8 +356,8 @@ class JtgModelFiles extends JModelLegacy
 
 	/**
 	 *
-	 * @param array $cid
-	 * @param string $publish
+	 * @param   array  $cid
+	 * @param   string  $publish
 	 * @return bool
 	 */
 	function publish($cid = array(), $publish = 1)
@@ -385,8 +385,8 @@ class JtgModelFiles extends JModelLegacy
 	}
 	/**
 	 *
-	 * @param array $cid
-	 * @param string $hide
+	 * @param   array  $cid
+	 * @param   string  $hide
 	 * @return bool
 	 */
 	function showhide($cid = array(), $hide = 0)
@@ -415,8 +415,8 @@ class JtgModelFiles extends JModelLegacy
 
 	/**
 	 *
-	 * @param array $cid
-	 * @param string $access
+	 * @param   array  $cid
+	 * @param   string  $access
 	 * @return bool
 	 */
 	function access($cid = array(), $access = 1)
@@ -445,7 +445,7 @@ class JtgModelFiles extends JModelLegacy
 
 	/**
 	 *
-	 * @param array $cid
+	 * @param   array  $cid
 	 * @return boolean
 	 */
 	function delete($cid = array())
@@ -488,17 +488,17 @@ class JtgModelFiles extends JModelLegacy
 
 	/**
 	 *
-	 * @param array $cid
+	 * @param   array  $cid
 	 * @return boolean
 	 */
 	function deleteFromImport($found)
 	{
-		$cid = JFactory::getApplication()->input->get( 'import_0' );
+		$cid = JFactory::getApplication()->input->get('import_0' );
 		jimport('joomla.filesystem.file');
 		$result = false;
 		for ($i = 0; $i <= $found; $i++)
 		{
-			$file = JFactory::getApplication()->input->get( 'import_'.$i );
+			$file = JFactory::getApplication()->input->get('import_'.$i );
 			if ( $file !== null )
 			{
 				if (JFile::exists($file))
@@ -673,7 +673,7 @@ class JtgModelFiles extends JModelLegacy
 				$terrain = implode(',', $terrain);
 				else
 				$terrain = "";
-				$desc =& JFactory::getApplication()->input->get( 'desc_'.$i, '', 'post', 'string', JREQUEST_ALLOWRAW);
+				$desc =& JFactory::getApplication()->input->get('desc_'.$i, '', 'post', 'string', JREQUEST_ALLOWRAW);
 				$desc = $this->parsedesc($desc);
 				$file =& JFactory::getApplication()->input->get('file_'.$i);
 				$hidden =& JFactory::getApplication()->input->get('hidden_'.$i);
@@ -942,7 +942,7 @@ class JtgModelFiles extends JModelLegacy
 		$terrain = implode(',', $terrain);
 		else
 		$terrain = "";
-		$desc =& JFactory::getApplication()->input->get( 'description', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$desc =& JFactory::getApplication()->input->get('description', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$desc = $this->parsedesc($desc);
 		$file =& JFactory::getApplication()->input->get('file', null, 'files', 'array');
 		$uid =& JFactory::getApplication()->input->get('uid');
@@ -1070,7 +1070,7 @@ class JtgModelFiles extends JModelLegacy
 	/*
 	 * description: Import tracks from JoomGPSTracks
 	 *
-	 * @param string $id
+	 * @param   string  $id
 	 */
 	function importJPTtracks()  {
 		/* under construction */
@@ -1284,7 +1284,7 @@ class JtgModelFiles extends JModelLegacy
 		// ToDo: empty Terrain = bad
 		if ($terrain != "")
 		$terrain = implode(',', $terrain);
-		$desc =& JFactory::getApplication()->input->get( 'description', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$desc =& JFactory::getApplication()->input->get('description', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$desc = $this->parsedesc($desc);
 		//         $uid = $user->get('id');
 		$uid =& JFactory::getApplication()->input->get('uid');

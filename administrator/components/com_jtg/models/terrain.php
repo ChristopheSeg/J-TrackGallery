@@ -1,11 +1,11 @@
 <?php
 /**
- * @component  J!Track Gallery (jtg) for Joomla! 2.5
+ * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
  * 
- * @author     J!Track Gallery, InJooosm and joomGPStracks teams
- * @package    com_jtg
- * @subpackage backend
+ * @package    Comjtg
+ * @author     Christophe Seguinot <christophe@jtrackgallery.net>
+ * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL2
  * @link       http://jtrackgallery.net/
  *
@@ -137,7 +137,7 @@ class JtgModelTerrain extends JModelLegacy
 
 	/**
 	 *
-	 * @param string $id
+	 * @param   string  $id
 	 */
 	function setId($id)
 	{
@@ -148,7 +148,7 @@ class JtgModelTerrain extends JModelLegacy
 
 	function save() {
 		// get post data
-		$row =& JRequest::get( 'post' );
+		$row =& JRequest::get('post' );
 		$table = $this->getTable( 'jtg_terrain' );
 		$table->bind( $row );
 
@@ -161,7 +161,7 @@ class JtgModelTerrain extends JModelLegacy
 
 	/**
 	 *
-	 * @param array $cid
+	 * @param   array  $cid
 	 * @param int $publish
 	 * @return boolean
 	 */
@@ -191,7 +191,7 @@ class JtgModelTerrain extends JModelLegacy
 
 	/**
 	 *
-	 * @param array $cid
+	 * @param   array  $cid
 	 * @return boolean
 	 */
 	function delete($cid = array())

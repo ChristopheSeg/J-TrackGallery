@@ -1,11 +1,11 @@
 <?php
 /**
- * @component  J!Track Gallery (jtg) for Joomla! 2.5
+ * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
  * 
- * @author     J!Track Gallery, InJooosm and joomGPStracks teams
- * @package    com_jtg
- * @subpackage frontend
+ * @package    Comjtg
+ * @author     Christophe Seguinot <christophe@jtrackgallery.net>
+ * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL2
  * @link       http://jtrackgallery.net/
  *
@@ -38,7 +38,7 @@ class JtgViewjtg extends JViewLegacy
 		$template_jtg_map_style='templates/' . $template . '/css/jtg_map_style.css';
 		if ( JFile::exists($template_jtg_map_style) )
 		{
-		    $document->addStyleSheet( 'templates/' . $template . '/css/jtg_map_style.css' );
+		    $document->addStyleSheet('templates/' . $template . '/css/jtg_map_style.css' );
 		}
 
 		$sitename = $document->getTitle() . " - " . $mainframe->getCfg('sitename');

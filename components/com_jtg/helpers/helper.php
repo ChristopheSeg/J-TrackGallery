@@ -1,11 +1,11 @@
 <?php
 /**
- * @component  J!Track Gallery (jtg) for Joomla! 2.5
+ * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
  * 
- * @author     J!Track Gallery, InJooosm and joomGPStracks teams
- * @package    com_jtg
- * @subpackage frontend
+ * @package    Comjtg
+ * @author     Christophe Seguinot <christophe@jtrackgallery.net>
+ * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL2
  * @link       http://jtrackgallery.net/
  *
@@ -501,7 +501,7 @@ class JtgHelper
 
 	/**
 	 *
-	 * @param string $distance
+	 * @param   string  $distance
 	 * @return string
 	 */
 	function getMiles($distance) {
@@ -512,9 +512,9 @@ class JtgHelper
 	/**
 	 * creates the images
 	 *
-	 * @param string $file_tmp_name
-	 * @param string $ext
-	 * @param string $filepath
+	 * @param   string  $file_tmp_name
+	 * @param   string  $ext
+	 * @param   string  $filepath
 	 */
 	function createimageandthumbs($file_tmp_name, $ext, $image_dir, $image) {
 		require_once(JPATH_SITE . DIRECTORY_SEPARATOR . "administrator" . DIRECTORY_SEPARATOR . "components" . DIRECTORY_SEPARATOR . "com_jtg" . DIRECTORY_SEPARATOR . "models" . DIRECTORY_SEPARATOR . "thumb_creation.php");
@@ -622,8 +622,8 @@ class JtgHelper
 
 	/**
 	 *
-	 * @param string $uid
-	 * @param string $username
+	 * @param   string  $uid
+	 * @param   string  $username
 	 * @return string
 	 */
 	function getProfileLink($uid, $username) {

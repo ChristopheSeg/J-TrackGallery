@@ -1,14 +1,14 @@
 <?php
 
 /**
- *    @component   J!Track Gallery (jtg) for Joomla! 2.5
- * 
- *    @package     Com_Jtg
- *    @subpackage  Backend
- *    @author      J!Track Gallery, InJooosm and joomGPStracks teams <christophe@jtrackgallery.net>
- *    @copyright   test 
- *    @license     http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL2 *
- *    @link        http://jtrackgallery.net/
+ * @component   J!Track Gallery (jtg) for Joomla! 2.5 and Joomla 3.x
+ *
+ * @package     Com_Jtg
+ * @subpackage  Backend
+ * @author      J!Track Gallery, InJooosm and joomGPStracks teams <christophe@jtrackgallery.net>
+ * @copyright   test
+ * @license     http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL2 *
+ * @link        http://jtrackgallery.net/
  */
 
 // No direct access
@@ -24,7 +24,7 @@ class JtgController extends JControllerLegacy
 	/**
 	 *
 	 */
-	function __construct() 
+	function __construct()
 	{
 		parent::__construct();
 		$this->registerTask('savecat', 'savecat');
@@ -33,7 +33,7 @@ class JtgController extends JControllerLegacy
 	/**
 	 * @use get task form uri and set view and layout
 	 */
-	function display() 
+	function display()
 	{
 		require_once JPATH_COMPONENT . '/helpers/jtg.php';
 

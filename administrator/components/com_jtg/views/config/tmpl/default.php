@@ -1,11 +1,11 @@
 <?php
 /**
- * @component  J!Track Gallery (jtg) for Joomla! 2.5
+ * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
- * 
- * @author     J!Track Gallery, InJooosm and joomGPStracks teams
- * @package    com_jtg
- * @subpackage backend
+ *
+ * @package    Comjtg
+ * @author     Christophe Seguinot <christophe@jtrackgallery.net>
+ * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL2
  * @link       http://jtrackgallery.net/
  *
@@ -47,10 +47,9 @@ JHtml::_('behavior.tooltip');
 	    'startOffset' => 0,  // 0 starts on the first tab, 1 starts the second, etc...
 	    'useCookie' => true, // this must not be a string. Don't use quotes.
 	);
-	
-// Hauptkonfiguration BEGIN
-//	echo $tabs->startPane('configuration');
-//	echo $tabs->startPanel(JText::_('COM_JTG_MAINCONF'), 'mainconfig');
+
+	// Hauptkonfiguration BEGIN
+
 	echo JHtml::_('tabs.start', 'tab_group_id', $options);
 	echo JHtml::_('tabs.panel', JText::_('COM_JTG_MAINCONF'), 'mainconfig');
 	?>
@@ -64,10 +63,6 @@ JHtml::_('behavior.tooltip');
 				<td><span class="hasTip" title="<?php echo JText::_('COM_JTG_TT_TITLE'); ?> :: <?php echo JText::_('COM_JTG_TT_USE_ACCESS_LEVEL'); ?>"><?php echo JText::_('COM_JTG_USE_ACCESS_LEVEL'); ?></span></td>
 				<td><?php echo $this->lists['access']; ?></td>
 			</tr>
-		<tr>
-			<td><?php echo JText::_('COM_JTG_ACTIVATE_COMMENTS'); ?></td>
-			<td><?php echo $this->lists['comments']; ?></td>
-		</tr>
 			<tr>
 				<td><span class="hasTip" title="<?php echo JText::_('COM_JTG_TT_TITLE'); ?> :: <?php echo JText::_('COM_JTG_TT_TERMS_IN_USE'); ?>"><?php echo JText::_('COM_JTG_TERMS_IN_USE'); ?></span></td>
 				<td>
@@ -217,31 +212,33 @@ echo JHtml::_('tabs.panel', JText::_('COM_JTG_DISPLAY'), 'display');
 // Viewingoptions END
 
 // Comments BEGIN
-if ($this->config->comments != 0) {
-	echo JHtml::_('tabs.panel', JText::_('COM_JTG_COMMENTS'), 'display');
-	?>
-	<table class="admintable">
-		<tr>
-			<td valign="top"><?php echo JText::_('COM_JTG_COMMENT_WHO'); ?></td>
-			<td><?php echo $this->lists['who']; ?></td>
-		</tr>
-		<tr>
-			<td valign="top"><span class="hasTip" title="<?php echo JText::_('COM_JTG_TT_TITLE'); ?> :: <?php echo JText::_('COM_JTG_TT_INFORM_AUTOR'); ?>"><?php echo JText::_('COM_JTG_INFORM_AUTOR'); ?></span></td>
-			<td><?php echo $this->lists['inform']; ?></td>
-		</tr>
-		<tr>
-			<td valign="top"><span class="hasTip" title="<?php echo JText::_('COM_JTG_TT_TITLE'); ?> :: <?php echo JText::_('COM_JTG_TT_CAPTCHA'); ?>"><?php echo JText::_('COM_JTG_CAPTCHA'); ?></span></td>
-			<td><?php echo $this->lists['captcha']; ?><div><?php echo JText::_('COM_JTG_OST_CAPTCHA') . " " . $this->captcha; ?></div></td>	 
-		</tr>
-		<tr>
-			<td valign="top"><?php echo JText::_('COM_JTG_ORDERING'); ?></td>
-			<td><?php echo $this->lists['order']; ?></td>
-		</tr>
-	</table>
-	<?php
-//	echo JHtml::_('tabs.end');
-//	echo $tabs->endPanel();
-}
+
+echo JHtml::_('tabs.panel', JText::_('COM_JTG_COMMENTS'), 'display');
+?>
+<table class="admintable">
+	<tr>
+		<td valign="top"><span class="hasTip" title="<?php echo JText::_('COM_JTG_TT_TITLE'); ?> :: <?php echo JText::_('COM_JTG_TT_ACTIVATE_COMMENTS'); ?>"><?php echo JText::_('COM_JTG_ACTIVATE_COMMENTS'); ?></span></td>
+		<td><?php echo $this->lists['comments']; ?></td>
+	</tr>
+	<tr>
+		<td valign="top"><span class="hasTip" title="<?php echo JText::_('COM_JTG_TT_TITLE'); ?> :: <?php echo JText::_('COM_JTG_TT_COMMENT_WHO'); ?>"><?php echo JText::_('COM_JTG_COMMENT_WHO'); ?></span></td>
+		<td><?php echo $this->lists['comment_who']; ?></td>
+	</tr>
+	<tr>
+		<td valign="top"><span class="hasTip" title="<?php echo JText::_('COM_JTG_TT_TITLE'); ?> :: <?php echo JText::_('COM_JTG_TT_INFORM_AUTOR'); ?>"><?php echo JText::_('COM_JTG_INFORM_AUTOR'); ?></span></td>
+		<td><?php echo $this->lists['inform']; ?></td>
+	</tr>
+	<tr>
+		<td valign="top"><span class="hasTip" title="<?php echo JText::_('COM_JTG_TT_TITLE'); ?> :: <?php echo JText::_('COM_JTG_TT_CAPTCHA'); ?>"><?php echo JText::_('COM_JTG_CAPTCHA'); ?></span></td>
+		<td><?php echo $this->lists['captcha']; ?><div><?php echo JText::_('COM_JTG_OST_CAPTCHA') . " " . $this->captcha; ?></div></td>
+	</tr>
+	<tr>
+		<td valign="top"><?php echo JText::_('COM_JTG_ORDERING'); ?></td>
+		<td><?php echo $this->lists['order']; ?></td>
+	</tr>
+</table>
+<?php
+
 // Comments END
 
 // Vote BEGIN
@@ -260,7 +257,7 @@ if ($this->config->approach == "easy") {
 				<td><span class="hasTip" title="<?php echo JText::_('COM_JTG_TT_TITLE'); ?> :: <?php echo JText::_('COM_JTG_TT_SERVICE_PROVIDER'); ?>"><?php echo JText::_('COM_JTG_SERVICE_PROVIDER'); ?></span></td>
 				<td><?php echo "TODO"; // echo $this->lists['serviceprovider']; ?></td>
 			</tr>
-			
+
 <?php
 }
 if ($this->config->approach == "ors") {

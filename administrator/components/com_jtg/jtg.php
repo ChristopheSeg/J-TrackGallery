@@ -1,11 +1,11 @@
 <?php
 /**
- * @component  J!Track Gallery (jtg) for Joomla! 2.5
+ * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
- * 
- * @author     J!Track Gallery, InJooosm and joomGPStracks teams
- * @package    com_jtg
- * @subpackage backend
+ *
+ * @package    Comjtg
+ * @author     Christophe Seguinot <christophe@jtrackgallery.net>
+ * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL2
  * @link       http://jtrackgallery.net/
  *
@@ -40,26 +40,28 @@ require_once JPATH_COMPONENT . DIRECTORY_SEPARATOR . 'controller.php';
 
 
 // Initialize the controller
-if($controller = JRequest::getWord('controller')) 
+if ($controller = JRequest::getWord('controller'))
+{
+	$path = JPATH_COMPONENT . DIRECTORY_SEPARATOR . 'controllers' . DIRECTORY_SEPARATOR . $controller.'.php';
+	$getCmdTask = JFactory::getApplication()->input->get('task' );
+
+	if (file_exists($path))
 	{
-	    $path = JPATH_COMPONENT . DIRECTORY_SEPARATOR . 'controllers' . DIRECTORY_SEPARATOR . $controller.'.php';
-	    $getCmdTask = JFactory::getApplication()->input->get( 'task' );
-	    if (file_exists($path)) 
-	    {
-		    require_once $path;
-	    } else
-	    {
-		    $controller = '';
-	    }
-	} 
+		require_once $path;
+	}
 	else
 	{
-	    $getCmdTask = "info";
+		$controller = '';
 	}
+}
+else
+{
+	    $getCmdTask = "info";
+}
 
 $classname = 'JtgController'.$controller;
 $controller = new $classname( );
-$controller->execute( $getCmdTask );
+$controller->execute($getCmdTask );
 
 // Redirect if set by the controller
 $controller->redirect();

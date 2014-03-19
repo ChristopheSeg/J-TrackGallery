@@ -1,11 +1,11 @@
 <?php
 /**
- * @component  J!Track Gallery (jtg) for Joomla! 2.5
+ * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
  * 
- * @author     J!Track Gallery, InJooosm and joomGPStracks teams
- * @package    com_jtg
- * @subpackage backend
+ * @package    Comjtg
+ * @author     Christophe Seguinot <christophe@jtrackgallery.net>
+ * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL2
  * @link       http://jtrackgallery.net/
  *
@@ -350,7 +350,7 @@ class JtgViewFiles extends JViewLegacy
 
 		$model =& $this->getModel();
 
-		$order = JFactory::getApplication()->input->get( 'order', 'order', 'post', 'string' );
+		$order = JFactory::getApplication()->input->get('order', 'order', 'post', 'string' );
 
 		$filter_order		= $mainframe->getUserStateFromRequest( $option . "filter_order",
  	'filter_order',
@@ -369,9 +369,9 @@ class JtgViewFiles extends JViewLegacy
 		$lists['order']		= $filter_order;
 		$lists['order_Dir']	= $filter_order_Dir;
 		$lists['search']	= $search;
-		$rows		= & $this->get( 'Data');
-		$total		= & $this->get( 'Total');
-		$pagination = & $this->get( 'Pagination' );
+		$rows		= & $this->get('Data');
+		$total		= & $this->get('Total');
+		$pagination = & $this->get('Pagination' );
 		$cfg = JtgHelper::getConfig();
 		$cats = $model->getCats();
 
@@ -423,7 +423,7 @@ class JtgViewFiles extends JViewLegacy
 		jimport('joomla.filesystem.folder');
 		// Quick'n'Dirty - Sonst funktioniert das Joomla-Menü nicht mehr: (!?)
 		
-		$cid =& JFactory::getApplication()->input->get( 'cid', array(), 'post', 'array' );
+		$cid =& JFactory::getApplication()->input->get('cid', array(), 'post', 'array' );
 		// $id = implode(',', $cid);
 		$cfg = JtgHelper::getConfig();
 		$editor =& JFactory::getEditor();

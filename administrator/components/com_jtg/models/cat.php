@@ -1,11 +1,11 @@
 <?php
 /**
- * @component  J!Track Gallery (jtg) for Joomla! 2.5
+ * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
  * 
- * @author     J!Track Gallery, InJooosm and joomGPStracks teams
- * @package    com_jtg
- * @subpackage backend
+ * @package    Comjtg
+ * @author     Christophe Seguinot <christophe@jtrackgallery.net>
+ * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL2
  * @link       http://jtrackgallery.net/
  *
@@ -49,7 +49,7 @@ class JtgModelCat extends JModelLegacy
 
 	/**
 	 *
-	 * @param string $direction
+	 * @param   string  $direction
 	 * @return boolean
 	 */
 	function move($direction)
@@ -70,8 +70,8 @@ class JtgModelCat extends JModelLegacy
 
 	/**
 	 *
-	 * @param array $cid
-	 * @param string $order
+	 * @param   array  $cid
+	 * @param   string  $order
 	 * @return boolean
 	 */
 	function saveorder($cid = array(), $order)
@@ -107,7 +107,7 @@ class JtgModelCat extends JModelLegacy
 
 	/**
 	 *
-	 * @param array $cid
+	 * @param   array  $cid
 	 * @param int $publish
 	 * @return boolean
 	 */
@@ -146,7 +146,7 @@ class JtgModelCat extends JModelLegacy
 
 	/**
 	 *
-	 * @param array $cid
+	 * @param   array  $cid
 	 * @return boolean
 	 */
 	function delete($cid = array())
@@ -202,21 +202,21 @@ class JtgModelCat extends JModelLegacy
 
 		$db =& JFactory::getDBO();
 
-		$title =& JFactory::getApplication()->input->get( 'title' );
+		$title =& JFactory::getApplication()->input->get('title' );
 		if ( $title == "" )
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_NO_TITLE'), 'Warning');
 			return false;
 		}
 		$published =& JRequest::getInt( 'publish' );
-		$desc =& JFactory::getApplication()->input->get( 'desc', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$desc =& JFactory::getApplication()->input->get('desc', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		// allow for JTEXT in category description
 		if ( (substr($desc,0,3)=='<p>') AND (substr($desc,-4,4)=='</p>') ) {
 		    //remove enclosing <p> tags,try translating text, add <p> tags
 		    $desc = substr($desc,3,-4);
 		}
 		$parent =& JRequest::getInt('parent');
-		$image =& JFactory::getApplication()->input->get( 'catpic' );
+		$image =& JFactory::getApplication()->input->get('catpic' );
 		
 		$query = "INSERT INTO #__jtg_cats SET"
 		. "\n parent_id='" . $parent . "',"
@@ -282,15 +282,15 @@ class JtgModelCat extends JModelLegacy
 
 		$id =& JRequest::getInt('id');
 		$file =& JFactory::getApplication()->input->get('image', null, 'files', 'array');
-		$title =& JFactory::getApplication()->input->get( 'title' );
-		$image =& JFactory::getApplication()->input->get( 'catpic' );
+		$title =& JFactory::getApplication()->input->get('title' );
+		$image =& JFactory::getApplication()->input->get('catpic' );
 		if ( $title == "" )
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_NO_TITLE'), 'Warning');
 			return false;
 		}
 		$published =& JRequest::getInt( 'publish' );
-		$desc =& JFactory::getApplication()->input->get( 'desc', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$desc =& JFactory::getApplication()->input->get('desc', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		// allow for JTEXT in category description
 		if ( (substr($desc,0,3)=='<p>') AND (substr($desc,-4,4)=='</p>') ) {
 		    //remove enclosing <p> tags,try translating text, add <p> tags

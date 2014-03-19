@@ -1,16 +1,19 @@
 <?php
 /**
- * @component  J!Track Gallery (jtg) for Joomla! 2.5
+ * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
- * 
- * @author     J!Track Gallery, InJooosm and joomGPStracks teams
- * @package    com_jtg
- * @subpackage frontend
+ *
+ * @package    Comjtg
+ * @author     Christophe Seguinot <christophe@jtrackgallery.net>
+ * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL2
  * @link       http://jtrackgallery.net/
  *
  */
- 
+
+// No direct access
+defined('_JEXEC') or die('Restricted access');
+
 class JtgControllerGeo extends JtgController
 {
 	function __construct()
@@ -27,7 +30,7 @@ class JtgControllerGeo extends JtgController
 		$visible =& JFactory::getApplication()->input->get('visible');
 		$mainframe =& JFactory::getApplication();
 		$query = "INSERT INTO #__jtg_users (jtglat,jtglon,jtgvisible,user_id) VALUES ".
-			"('" . $lat . "','" . $lon . "','" . $visible . "','" . $userid . "') ". 
+			"('" . $lat . "','" . $lon . "','" . $visible . "','" . $userid . "') ".
 			"ON DUPLICATE KEY UPDATE ".
 			"jtglat='" . $lat . "', ".
 			"jtglon='" . $lon . "', ".
@@ -35,7 +38,7 @@ class JtgControllerGeo extends JtgController
 		$db = JFactory::getDBO();
 		$db->setQuery($query);
 		$db->query();
-		if ($db->getErrorNum()) 
+		if ($db->getErrorNum())
 		{
 		    JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_DATABASE_ERROR_H'), 'Warning');
 		    JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_DATABASE_ERROR') . "<br /><br />\n" . $db->stderr(), 'Warning');

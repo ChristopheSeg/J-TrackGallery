@@ -1,11 +1,11 @@
 <?php
 /**
- * @component  J!Track Gallery (jtg) for Joomla! 2.5
+ * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
- * 
- * @author     J!Track Gallery, InJooosm and joomGPStracks teams
- * @package    com_jtg
- * @subpackage frontend
+ *
+ * @package    Comjtg
+ * @author     Christophe Seguinot <christophe@jtrackgallery.net>
+ * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL2
  * @link       http://jtrackgallery.net/
  *
@@ -284,7 +284,7 @@ class JtgModelFiles extends JModelLegacy
 		$terrain = implode(', ', $terrain);
 		else
 		$terrain = "";
-		$desc =& $db->quote(JFactory::getApplication()->input->get( 'description', '', 'post', 'string', JREQUEST_ALLOWRAW));
+		$desc =& $db->quote(JFactory::getApplication()->input->get('description', '', 'post', 'string', JREQUEST_ALLOWRAW));
 		$file =& JFactory::getApplication()->input->get('file', null, 'files', 'array');
 		$uid = $user->get('id');
 		$date = date("Y-m-d");
@@ -299,7 +299,7 @@ class JtgModelFiles extends JModelLegacy
 		$newfile = $upload_dir . strtolower($filename);
 		if ( JFile::exists($newfile))
 		{
-		    die("<script type='text/javascript'>alert('".JText::sprintf("COM_JTG_FILE_ALREADY_EXISTS",$filename) . "');window.history.back(-1);</script>"); 
+		    die("<script type='text/javascript'>alert('".JText::sprintf("COM_JTG_FILE_ALREADY_EXISTS",$filename) . "');window.history.back(-1);</script>");
 		}
 		if (!JFile::upload($file['tmp_name'], $newfile)) {
 			die("<script type='text/javascript'>alert('".JText::_('COM_JTG_UPLOAD_FAILS') . "');window.history.back(-1);</script>");
@@ -307,30 +307,30 @@ class JtgModelFiles extends JModelLegacy
 			chmod($newfile, 0777);
 		}
 
-		// get the start coordinates.. 
-		
+		// get the start coordinates..
+
 
 		$gpsData = new gpsDataClass("Kilometer");// default unit
 
 		$gpsData = $cache->get(array ( $gpsData, 'loadFileAndData' ), array ($newfile, strtolower($filename)), "Kilometer");
 		if ($gpsData->displayErrors())
 		{
-		   $map = ""; 
+		   $map = "";
 		   $coords = "";
 		   $distance_float = 0;
 		   $distance = 0;
-		   // try to delete the file 
+		   // try to delete the file
 		   if ( JFile::exists($upload_dir.strtolower($filename)))
 		    {
-			JFile::delete($upload_dir.strtolower($filename)); 
+			JFile::delete($upload_dir.strtolower($filename));
 		    }
 		   echo "<script type='text/javascript'>alert('".JText::_('COM_JTG_NO_SUPPORT') . "');window.history.back(-1);</script>";
 		   exit;
-		}		
-		
+		}
+
 		$start_n = $gpsData->start[1];
 		$start_e = $gpsData->start[0];
-		$coords = $gpsData->allCoords;  
+		$coords = $gpsData->allCoords;
 		$isTrack = $gpsData->isTrack;
 		$isWaypoint = $gpsData->isWaypoint;
 		$isRoute = 0;
@@ -372,7 +372,7 @@ class JtgModelFiles extends JModelLegacy
 		if ($db->getErrorNum()) {
 			echo $db->stderr();
 			return false;
-		} 
+		}
 		$query = "SELECT id FROM #__jtg_files WHERE file='".strtolower($filename) . "'";
 
 		$db->setQuery($query);
@@ -384,7 +384,7 @@ class JtgModelFiles extends JModelLegacy
 		if(count($images) > 0 ) {
 			$img_dir = JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'track_' .  $rows->id . DIRECTORY_SEPARATOR;
 			JFolder::create($img_dir,0777);
-			foreach($images['name'] as $key => $value) 
+			foreach($images['name'] as $key => $value)
 			{
 				if($value != "")
 				{
@@ -617,10 +617,10 @@ class JtgModelFiles extends JModelLegacy
 		$title =& JFactory::getApplication()->input->get('title');
 		$allimages = $this->getImages($id);
 		$imgpath = JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'track_' . $id. DIRECTORY_SEPARATOR;
-		foreach ($allimages AS $key => $image) 
+		foreach ($allimages AS $key => $image)
 		{
 			$image =& JFactory::getApplication()->input->get('deleteimage_'.str_replace('.',null,$image));
-			if($image !== NULL) 
+			if($image !== NULL)
 			{
 			    JFile::delete($imgpath.$image);
 			    // delete thumbnails too
@@ -634,7 +634,7 @@ class JtgModelFiles extends JModelLegacy
 		$terrain = implode(', ', $terrain);
 		else
 		$terrain = "";
-		$desc = & $db->quote(JFactory::getApplication()->input->get( 'description', '', 'post', 'string', JREQUEST_ALLOWRAW));
+		$desc = & $db->quote(JFactory::getApplication()->input->get('description', '', 'post', 'string', JREQUEST_ALLOWRAW));
 		$images =& JFactory::getApplication()->input->get('images', null, 'files', 'array');
 		$access =& JRequest::getInt('access', 0);
 		$hidden =& JRequest::getInt('hidden', 0);
@@ -644,10 +644,10 @@ class JtgModelFiles extends JModelLegacy
 		// images upload part
 		$cfg = JtgHelper::getConfig();
 		$types = explode(',',$cfg->type);
-		
-		if($images) 
+
+		if($images)
 		{
-			if(!JFolder::exists($imgpath)) 
+			if(!JFolder::exists($imgpath))
 			{
 				JFolder::create($imgpath,0777);
 			}
@@ -655,7 +655,7 @@ class JtgModelFiles extends JModelLegacy
 				if ($value)
 				{
 					$ext = JFile::getExt($images['name'][$key]);
-						if(in_array(strtolower($ext), $types)) 
+						if(in_array(strtolower($ext), $types))
 					{
 						JtgHelper::createimageandthumbs($images['tmp_name'][$key], $ext, $imgpath , $images['name'][$key]);
 					}
@@ -716,7 +716,7 @@ class JtgModelFiles extends JModelLegacy
 	 *
 	 * @global object $mainframe
 	 * @param int $id
-	 * @param string $order
+	 * @param   string  $order
 	 * @return array
 	 */
 	function getComments($id, $order) {
@@ -824,10 +824,10 @@ class JtgModelFiles extends JModelLegacy
 		$mainframe =& JFactory::getApplication();
 
 		$name =& JFactory::getApplication()->input->get('name');
-		$email =& JFactory::getApplication()->input->get('email');
+		$email =& JFactory::getApplication()->input->get('email', '', 'Raw');
 		$homepage =& JFactory::getApplication()->input->get('homepage');
 		$title =& JFactory::getApplication()->input->get('title');
-		$text =& JFactory::getApplication()->input->get( 'text', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$text =& JFactory::getApplication()->input->get('text', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		if ($text=="") return false;
 
 		$db =& JFactory::getDBO();
@@ -846,13 +846,29 @@ class JtgModelFiles extends JModelLegacy
 
 		// send autor email if set
 		if($cfg->inform_autor == 1) {
-			jimport('joomla.mail.helper');
-			$jcfg = JFactory::getConfig();
+			$mailer = JFactory::getMailer();
+			$config = JFactory::getConfig();
+			$sender = array(
+			    $config->getValue( 'config.mailfrom' ),
+			    $config->getValue( 'config.fromname' ) );
+			$mailer->setSender($sender);
+			$user = JFactory::getUser();
+			$recipient = $user->email;
+			$mailer->addRecipient($recipient);
+			$link = JUri::base() . "index.php?option=com_jtg&view=files&layout=file&id=" . $id;
+			$msg = JText::_('COM_JTG_CMAIL_MSG');
+			$body   = sprintf($msg, $link);
+			$mailer->setSubject(JText::_('COM_JTG_CMAIL_SUBJECT'));
+			$mailer->setBody($body);
+			// Optional file attached
+			$mailer->addAttachment(JPATH_COMPONENT.'/assets/document.pdf');
+/*
+jimport('joomla.mail.helper');
+			$config = JFactory::getConfig();
 			$autor = $this->getAutorData($id);
-			$jcfg = $jcfg->_registry['config']['data'];
 			$email = $autor->email;
-			$from = $jcfg->mailfrom;
-			$sender = $jcfg->fromname;
+		    $from =$config->getValue( 'config.mailfrom' );
+		    $sender =$config->getValue( 'config.fromname' );
 			$link = JUri::base() . "index.php?option=com_jtg&view=files&layout=file&id=" . $id;
 			$msg = JText::_('COM_JTG_CMAIL_MSG');
 			$body = sprintf($msg, $link);
@@ -864,6 +880,11 @@ class JtgModelFiles extends JModelLegacy
 			$sender = JMailHelper::cleanAddress($sender);
 
 			JMail::sendMail($from, $sender,$email,$subject,$body);
+*/
+			$send = $mailer->Send();
+			if ( $send !== true ) {
+				echo 'Error sending email: ' . $send->__toString();
+			}
 		}
 
 		if ($db->getErrorNum()) {
@@ -916,9 +937,9 @@ class JtgModelFiles extends JModelLegacy
 	 * Homepage: http://maps.cloudmade.com/
 	 * WIKI: http://wiki.openstreetmap.org/wiki/CloudMade
 	 *
-	 * @param string Absolute Link to ORS
-	 * @param string lat
-	 * @param string lon
+	 * @param   string  Absolute Link to ORS
+	 * @param   string  lat
+	 * @param   string  lon
 	 * @return array
 	 **/
 	function approachcm($to_lat,$to_lon,$lang) {
@@ -950,9 +971,9 @@ class JtgModelFiles extends JModelLegacy
 	 * Homepage: http://maps.cloudmade.com/
 	 * WIKI: http://wiki.openstreetmap.org/wiki/CloudMade
 	 *
-	 * @param string Absolute Link to ORS
-	 * @param string lat
-	 * @param string lon
+	 * @param   string  Absolute Link to ORS
+	 * @param   string  lat
+	 * @param   string  lon
 	 * @return array
 	 **/
 	function approachcmkey($to_lat,$to_lon,$lang) {
@@ -993,11 +1014,11 @@ class JtgModelFiles extends JModelLegacy
 
 	function parseEMailIcon($mail) {
 		$cfg = JtgHelper::getConfig();
-		$return = JHtml::_('email.cloak', $mail, true, "<img src=\"" .
-		JUri :: base() .
-		"components/com_jtg/assets/template/" .
-		$cfg->template .
-		"/images/emailButton.png\" />",0);
+		$link = "<img src=\"" . JUri :: base() .
+		"components/com_jtg/assets/template/" . $cfg->template . "/images/emailButton.png\" />";
+
+		$return = JHtml::_('email.cloak', $mail, true, $link, 0);
+
 		return $return;
 	}
 

@@ -1,12 +1,12 @@
 <?php
 /**
 /**
- * @component  J!Track Gallery (jtg) for Joomla! 2.5
+ * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
  * 
- * @author     J!Track Gallery, InJooosm and joomGPStracks teams
- * @package    com_jtg
- * @subpackage backend
+ * @package    Comjtg
+ * @author     Christophe Seguinot <christophe@jtrackgallery.net>
+ * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL2
  * @link       http://jtrackgallery.net/
  */
@@ -88,8 +88,8 @@ class JtgControllerMaps extends JtgController
 		// Check for request forgeries
 		JSession::checkToken() or jexit( 'Invalid Token' );
 
-		$cid 	= JFactory::getApplication()->input->get( 'cid', array(), 'post', 'array' );
-		$order 	= JFactory::getApplication()->input->get( 'order', array(), 'post', 'array' );
+		$cid 	= JFactory::getApplication()->input->get('cid', array(), 'post', 'array' );
+		$order 	= JFactory::getApplication()->input->get('order', array(), 'post', 'array' );
 		JArrayHelper::toInteger($cid);
 		JArrayHelper::toInteger($order);
 
@@ -108,7 +108,7 @@ class JtgControllerMaps extends JtgController
 		// Check for request forgeries
 		JSession::checkToken() or jexit( 'Invalid Token' );
 
-		$cid = JFactory::getApplication()->input->get( 'cid', array(), 'post', 'array' );
+		$cid = JFactory::getApplication()->input->get('cid', array(), 'post', 'array' );
 		JArrayHelper::toInteger($cid);
 
 		if (count( $cid ) < 1) 
@@ -132,7 +132,7 @@ class JtgControllerMaps extends JtgController
 		// Check for request forgeries
 		JSession::checkToken() or jexit( 'Invalid Token' );
 
-		$cid = JFactory::getApplication()->input->get( 'cid', array(), 'post', 'array' );
+		$cid = JFactory::getApplication()->input->get('cid', array(), 'post', 'array' );
 		JArrayHelper::toInteger($cid);
 		if (count( $cid ) < 1) 
 		{
@@ -156,7 +156,7 @@ class JtgControllerMaps extends JtgController
 		// Check for request forgeries
 		JSession::checkToken() or jexit( 'Invalid Token' );
 
-		$cid = JFactory::getApplication()->input->get( 'cid', array(), 'post', 'array' );
+		$cid = JFactory::getApplication()->input->get('cid', array(), 'post', 'array' );
 		JArrayHelper::toInteger($cid);
 
 		if (count( $cid ) < 1) 

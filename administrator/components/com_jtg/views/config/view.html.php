@@ -1,11 +1,11 @@
 <?php
 /**
- * @component  J!Track Gallery (jtg) for Joomla! 2.5
+ * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
- * 
- * @author     J!Track Gallery, InJooosm and joomGPStracks teams
- * @package    com_jtg
- * @subpackage backend
+ *
+ * @package    Comjtg
+ * @author     Christophe Seguinot <christophe@jtrackgallery.net>
+ * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL2
  * @link       http://jtrackgallery.net/
  *
@@ -121,12 +121,17 @@ class JtgViewConfig extends JViewLegacy
 		$gtree = $db->loadObjectList();
 		$lists['gid']				= JHtml::_('select.genericlist', $gtree,'gid[]', 'class="inputbox" multiple="true" size="8"' , 'value', 'text', unserialize($config->gid) );
 		if ($row) // if article(s) found in section jtg and category term
-		$lists['content']		= JHtml::_('select.genericlist', $row, 'terms_id', 'size="1"', 'id', 'title', $config->terms_id );
+		{
+			$lists['content']		= JHtml::_('select.genericlist', $row, 'terms_id', 'size="1"', 'id', 'title', $config->terms_id );
+		}
 		else
-		$lists['content']		= "<font color=red>".JText::_('COM_JTG_TT_TERMS_NOTFOUND') . "</font>";
+		{
+			$lists['content']		= "<font color=red>".JText::_('COM_JTG_TT_TERMS_NOTFOUND') . "</font>";
+		}
 		$lists['unit']				= JHtml::_('select.genericlist', $unit, 'unit', 'size="1"', 'unit', 'unit', $config->unit );
 		$lists['tmpl']				= JHtml::_('select.genericlist', $tmpl, 'template', 'size="1"', 'name', 'name', $config->template );
-		$lists['who']				= JHtml::_('select.genericlist', $users, 'comment_who', 'size="1"', 'id', 'text', $config->comment_who );
+		// $lists['who']				= JHtml::_('select.genericlist', $users, 'comment_who', 'size="1"', 'id', 'text', $config->comment_who );
+		$lists['comment_who']				= JHtml::_('select.genericlist', $gtree,'comment_who[]', 'class="inputbox" multiple="true" size="8"' , 'value', 'text', unserialize($config->comment_who) );
 		$lists['inform']			= JHtml::_('select.genericlist', $inform, 'inform_autor', 'size="1"', 'id', 'text', $config->inform_autor );
 		$lists['captcha']			= JHtml::_('select.genericlist', $inform, 'captcha', 'size="1"', 'id', 'text', $config->captcha );
 		$lists['usevote']			= JHtml::_('select.genericlist', $inform, 'usevote', 'size="1"', 'id', 'text', $config->usevote );
@@ -159,7 +164,7 @@ class JtgViewConfig extends JViewLegacy
 		}
 		$lists['translevel']		= "<textarea disabled=\"disabled\" cols=\"50\" rows=\"" . $rows . "\" >" . implode("\n", $translevel) . "</textarea>";
 		$lists['level']				= "<textarea name=\"level\" cols=\"50\" rows=\"" . $rows . "\" >" . $config->level . "</textarea>";
-		
+
 		$this->config = $config;
 		$this->lists = $lists;
 		$this->captcha = $cactiv;
@@ -171,5 +176,5 @@ class JtgViewConfig extends JViewLegacy
 		return "<input type=\"checkbox\" name=\"" . $name . "\" value=\"" . $value . "\"" . $checked . " />&nbsp;" . $label;
 	}
 
-	
+
 }

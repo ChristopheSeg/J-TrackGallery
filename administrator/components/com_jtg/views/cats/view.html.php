@@ -1,11 +1,11 @@
 <?php
 /**
- * @component  J!Track Gallery (jtg) for Joomla! 2.5
+ * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
  * 
- * @author     J!Track Gallery, InJooosm and joomGPStracks teams
- * @package    com_jtg
- * @subpackage backend
+ * @package    Comjtg
+ * @author     Christophe Seguinot <christophe@jtrackgallery.net>
+ * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL2
  * @link       http://jtrackgallery.net/
  *
@@ -93,7 +93,7 @@ class JtgViewCats extends JViewLegacy
 		$option = JFactory::getApplication()->input->get('option');
 		$model =& $this->getModel();
 
-		// $order = JFactory::getApplication()->input->get( 'order', 'order', 'post', 'string' );
+		// $order = JFactory::getApplication()->input->get('order', 'order', 'post', 'string' );
 
 		$filter_order		= $mainframe->getUserStateFromRequest( $option . "filter_order",
 		'filter_order',
@@ -107,7 +107,7 @@ class JtgViewCats extends JViewLegacy
 		$lists['order']		= $filter_order;
 		$lists['order_Dir']	= $filter_order_Dir;
 
-		$rows =& $this->get( 'Data');
+		$rows =& $this->get('Data');
 		$children = array();
 		$image = array();
 		$imagedir = JUri::base().'../images/jtrackgallery/cats/';
@@ -124,8 +124,8 @@ class JtgViewCats extends JViewLegacy
 		$list = JHtml::_('menu.treerecurse', 0, '', array(), $children, max( 0, $levellimit-1 ) );
 		$list = array_slice($list, 0, 999);
 
-		$total		= & $this->get( 'Total');
-		$pagination = & $this->get( 'Pagination') ;
+		$total		= & $this->get('Total');
+		$pagination = & $this->get('Pagination') ;
 		$this->lists = $lists;
 		$this->pagination = $pagination;
 		$this->list = $list;
@@ -168,7 +168,7 @@ class JtgViewCats extends JViewLegacy
 	 */
 	function _displayEditcat($tpl) {
 //		$mainframe =& JFactory::getApplication();
-		$cid = JFactory::getApplication()->input->get( 'cid', array(), 'post', 'array' );
+		$cid = JFactory::getApplication()->input->get('cid', array(), 'post', 'array' );
 		$id =$cid[0];
 
 		$editor =& JFactory::getEditor();

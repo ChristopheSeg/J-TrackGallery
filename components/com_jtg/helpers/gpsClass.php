@@ -1,11 +1,11 @@
 <?php
 /**
- * @component  J!Track Gallery (jtg) for Joomla! 2.5
+ * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
  * 
- * @author     J!Track Gallery, InJooosm and joomGPStracks teams
- * @package    com_jtg
- * @subpackage frontend
+ * @package    Comjtg
+ * @author     Christophe Seguinot <christophe@jtrackgallery.net>
+ * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL2
  * @link       http://jtrackgallery.net/
  *
@@ -19,8 +19,8 @@ defined('_JEXEC') or die('Restricted access');
  */
 class gpsDataClass
 {
-	var $gpsFile = NULL;
-	var $sortedcats = NULL;
+	var $gpsFile = null;
+	var $sortedcats = null;
 	var $tracks; // array 
 		// tracks[j]->coords; // array containing longitude latitude elevation time and heartbeat data
 	var $speedDataExists = false;
@@ -80,7 +80,7 @@ class gpsDataClass
 			break;
 		    default:
 			// TODO Error 
-			$extract_result = NULL;
+			$extract_result = null;
 			$this->error = true; 
 			$this->errorMessages[] = JText::_('COM_JTG_GPS_FILE_ERROR');
 			return $this;
@@ -162,7 +162,7 @@ class gpsDataClass
 	}
 	/**
 	 *
-	 * @param string $file
+	 * @param   string  $file
 	 * @return array
 	 */
 
@@ -281,7 +281,7 @@ class gpsDataClass
 	
 		/**
 	 *
-	 * @param string $file
+	 * @param   string  $file
 	 * @return array
 	 */
 	private function getCoordsTCX($file,$trackid=0) {
@@ -460,7 +460,7 @@ class gpsDataClass
 
 	/**
 	 *
-	 * @param string $date
+	 * @param   string  $date
 	 * @return (int) timestamp
 	 */
 	public function giveTimestamp($date) {
@@ -553,7 +553,7 @@ class gpsDataClass
 		} 
 		else 
 		{
-		    $this->wp = NULL;
+		    $this->wp = null;
 		    $this->isWaypoint = false;
 		    return false;
 		}
@@ -1054,7 +1054,7 @@ class gpsDataClass
 
 	/**
 	 *
-	 * @param array $coords
+	 * @param   array  $coords
 	 * @return array
 	 */
 
@@ -1914,7 +1914,7 @@ class gpsDataClass
 
 	/**
 	 *
-	 * @param string $file
+	 * @param   string  $file
 	 * @return array
 	 */
 	private function parseXMLlinesOL() {
@@ -2017,7 +2017,7 @@ class gpsDataClass
 
 	/**
 	 *
-	 * @param string $file
+	 * @param   string  $file
 	 * @return array
 	 */
 	public function giveClickLinks($file) {
@@ -2045,7 +2045,7 @@ class gpsDataClass
 	/**
 	 * Return Filename (trackid=-1) or track name
 	 *
-	 * @param string $file GPS file name
+	 * @param   string  $file GPS file name
 	 * @param object $xml parsed xml file
 	 * @return string 
 	 */
@@ -2090,7 +2090,7 @@ class gpsCoordsClass
 	 * counts the total distance of a track
 	 * $koords look like this: $array($point1(array(lat,lon)),$point2(array(lat,lon)))...
 	 *
-	 * @param array $koord
+	 * @param   array  $koord
 	 * @return int kilometers
 	 */
 	public function getDistance($koord) {

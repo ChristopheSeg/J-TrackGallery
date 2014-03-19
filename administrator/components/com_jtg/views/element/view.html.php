@@ -1,11 +1,11 @@
 <?php
 /**
- * @component  J!Track Gallery (jtg) for Joomla! 2.5
+ * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
- * 
- * @author     J!Track Gallery, InJooosm and joomGPStracks teams
- * @package    com_jtg
- * @subpackage backend
+ *
+ * @package    Comjtg
+ * @author     Christophe Seguinot <christophe@jtrackgallery.net>
+ * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL2
  * @link       http://jtrackgallery.net/
  *
@@ -13,8 +13,7 @@
  */
 
 // No direct access
-//defined('_JEXEC') or 
-die('Restricted access');
+defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.view');
 
@@ -164,7 +163,7 @@ class ContentViewElement extends JViewLegacy
 		$db		= &JFactory::getDBO();
 
 		// Get some variables from the request
-		$sectionid			= JFactory::getApplication()->input->get( 'sectionid', -1, '', 'int' );
+		$sectionid			= JFactory::getApplication()->input->get('sectionid', -1, '', 'int' );
 		$redirect			= $sectionid;
 		$option = JFactory::getApplication()->input->get('option');
 		$filter_order		= $mainframe->getUserStateFromRequest('articleelement.filter_order',		'filter_order',		'',	'cmd');
@@ -176,6 +175,7 @@ class ContentViewElement extends JViewLegacy
 		$limit				= $mainframe->getUserStateFromRequest('global.list.limit',					'limit', $mainframe->getCfg('list_limit'), 'int');
 		$limitstart			= $mainframe->getUserStateFromRequest('articleelement.limitstart',			'limitstart',		0,	'int');
 		$search				= $mainframe->getUserStateFromRequest('articleelement.search',				'search',			'',	'string');
+
 		if (strpos($search, '"') !== false) {
 			$search = str_replace(array('=', '<'), '', $search);
 		}
