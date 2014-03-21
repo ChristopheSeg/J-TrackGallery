@@ -2,7 +2,7 @@
 /**
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
- * 
+ *
  * @package    Comjtg
  * @author     Christophe Seguinot <christophe@jtrackgallery.net>
  * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
@@ -55,7 +55,7 @@ class layoutHelper
 			if ( JtgHelper :: userHasFrontendRights() ) {
 			    // if ($juser->get('gid') >= $cfg->gid ) {
 				// Erscheint nur, wenn User Berechtigung zum erstellen hat
-				$navi .= '<div class="navi-part"><a href="'.
+				die('STOP');$navi .= '<div class="navi-part"><a href="'.
 				JRoute::_("index.php?option=com_jtg&view=files&layout=form").'">'.
 				JText::_('COM_JTG_ADD_FILE').'</a></div>';
 			}
@@ -69,8 +69,8 @@ class layoutHelper
 				$track = $gpsfile->getFile($track);
 
 				if ( ($track !== null) AND (
-				( $user->get('id') == $track->uid ) OR (JtgHelper :: userHasFrontendRights() ) ) )
-				// Wenn Trackbesitzer oder in Gruppe "Editor" oder höher
+				( $user->get('id') == $track->uid ) ) ) )
+				// User can delete or, update its own tracks
 				{
 					$navi .= '<div class="navi-part"><a href="'.
 					JRoute::_("index.php?option=com_jtg&view=files&layout=form&id=".
@@ -400,7 +400,7 @@ class layoutHelper
 		$where = "";
 		else
 		$where = "( ".implode(" AND \n",$where) . " )";
-		
+
 		if(count($catswhere) == 0)
 		$catswhere = "";
 		else
@@ -410,7 +410,7 @@ class layoutHelper
 		$operand = " AND \n";
 		else
 		$operand = "";
-		
+
 		$return = $where.$operand.$catswhere;
 		return $return;
 	}

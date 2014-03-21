@@ -4,7 +4,7 @@
 /**
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
- * 
+ *
  * @package    Comjtg
  * @author     Christophe Seguinot <christophe@jtrackgallery.net>
  * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
@@ -60,7 +60,7 @@ class JtgViewFiles extends JViewLegacy
 		    {
 		    $registred = false;
 		    }
- 
+
 		$owner = (int) $param->track->uid;
 
 		if ( ( $access == 9 ) AND ( $uid != $owner ) ) return false; // private only
@@ -134,9 +134,9 @@ class JtgViewFiles extends JViewLegacy
 		    JHtml::_('jquery.framework');
 		    JHtml::script(Juri::base() . 'components/com_jtg/assets/js/multifile.js');
 		}
-		else 
+		else
 		{
-		    JHtml::script('jquery.js', 'components/com_jtg/assets/js/', false); 
+		    JHtml::script('jquery.js', 'components/com_jtg/assets/js/', false);
 		    JHtml::script('multifile.js', 'components/com_jtg/assets/js/', false);
 		}
 
@@ -150,9 +150,8 @@ class JtgViewFiles extends JViewLegacy
 
 		$cfg = JtgHelper :: getConfig();
 
-		// Make sure you are logged in and have the necessary access rights
+		// Make sure user is logged in and have the necessary access rights
 
-		// TODO check this if ($user->get('gid') < $cfg->gid) {
 		if (! JtgHelper :: userHasFrontendRights() ) {
 		    JResponse :: setHeader('HTTP/1.0 403', true);
 			JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_ALERT_NOT_AUTHORISED'), 'Error');
@@ -219,26 +218,26 @@ class JtgViewFiles extends JViewLegacy
 			if($imgs)
 			{
 				$imgcount = count($imgs);
-				if(!JFolder::exists($thumb_dir)) 
+				if(!JFolder::exists($thumb_dir))
 				{
 				    JFolder::create($thumb_dir);
 				}
 				require_once(JPATH_SITE . DIRECTORY_SEPARATOR . "administrator" . DIRECTORY_SEPARATOR . "components" . DIRECTORY_SEPARATOR . "com_jtg" . DIRECTORY_SEPARATOR . "models" . DIRECTORY_SEPARATOR . "thumb_creation.php");
-				
+
 				foreach($imgs AS $image)
 				{
 					$ext = JFile::getExt($image);
-					$thumb_name =  'thumb1_' . $image;   
+					$thumb_name =  'thumb1_' . $image;
 					// TODO {Update or New File} update should have been already made ??
-					$thumb = com_jtg_create_Thumbnails ($img_dir, $image, $cfg->max_thumb_height, $cfg->max_geoim_height); 
-					// 
-					if (! $thumb) {	
+					$thumb = com_jtg_create_Thumbnails ($img_dir, $image, $cfg->max_thumb_height, $cfg->max_geoim_height);
+					//
+					if (! $thumb) {
 					    $images .= "<input type=\"checkbox\" name=\"deleteimage_".str_replace('.',null,$image) . "\" value=\"" . $image . "\">".JText::_( 'COM_JTG_DELETE_IMAGE' ) . " (" . $image . ")<br />".
-					    "<img src=\"" . $img_path.$image . "\" alt=\"" . $image . "\" title=\"" . $image . "\" /><br /><br />\n";					    
-		
+					    "<img src=\"" . $img_path.$image . "\" alt=\"" . $image . "\" title=\"" . $image . "\" /><br /><br />\n";
+
 					} else {
 					    $images .= "<input type=\"checkbox\" name=\"deleteimage_".str_replace('.',null,$image) . "\" value=\"" . $image . "\">".JText::_( 'COM_JTG_DELETE_IMAGE' ) . " (" . $image . " {only thumbnail displayed})<br />".
-					    "<img src=\"" . $img_path. 'thumbs/'. $thumb_name . "\" alt=\"" . $image . "\" title=\"" . $image . " (thumbnail)\" /><br /><br />\n";					    
+					    "<img src=\"" . $img_path. 'thumbs/'. $thumb_name . "\" alt=\"" . $image . "\" title=\"" . $image . " (thumbnail)\" /><br /><br />\n";
 					}
 
 				}
@@ -255,7 +254,7 @@ class JtgViewFiles extends JViewLegacy
 		$lists['access'] = JtgHelper::getAccessList($track->access);
 		$lists['hidden']	= JHtml::_('select.genericlist', $yesnolist, 'hidden', 'class="inputbox" size="1"', 'id', 'title',$value_hidden);
 		$lists['published']	= JHtml::_('select.genericlist', $yesnolist, 'published', 'class="inputbox" size="1"', 'id', 'title',$value_published);
-		
+
 		$this->imgcount = $imgcount;
 		$this->images = $images;
 		$this->kml = null; // TODO $this->kml = $start;
@@ -290,9 +289,9 @@ class JtgViewFiles extends JViewLegacy
 		{
 		    JHtml::_('jquery.framework'); //load JQuery before combobox
 		}
-		else 
+		else
 		{
-		    // nothing 
+		    // nothing
 		}
 		JHtml::_('behavior.combobox');
 		$cache = & JFactory :: getCache('com_jtg');
@@ -359,11 +358,11 @@ class JtgViewFiles extends JViewLegacy
 		if ( JFile::exists($template_jtg_map_style) )
 		{
 		    $document->addStyleSheet('templates/' . $template . '/css/jtg_map_style.css' );
-		} 
-		    
+		}
+
 		// Kartenauswahl BEGIN
 		$document->addScript('components' . DIRECTORY_SEPARATOR . 'com_jtg' . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'jtg.js');
-	
+
 		$document->addScript('components' . DIRECTORY_SEPARATOR . 'com_jtg' . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'fullscreen.js');
 
 
@@ -371,8 +370,8 @@ class JtgViewFiles extends JViewLegacy
 //			if ( ($this->params->get("jtg_param_show_heightchart"))  AND $track ) {
 //		    $document->addScript('http://code.highcharts.com/highcharts.js');
 //		    $document->addScript('http://code.highcharts.com/modules/exporting.js');
-//		}	
-		
+//		}
+
 		$action = "index.php?option=com_jtg&amp;controller=download&amp;task=download";
 		$file = '.' . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'uploaded_tracks' . DIRECTORY_SEPARATOR . strtolower($track->file);
 		$gpsData = new gpsDataClass($cfg->unit);
@@ -381,12 +380,12 @@ class JtgViewFiles extends JViewLegacy
 		$gpsData = $cache->get(array ( $gpsData, 'loadFileAndData' ), array ($file, $track->file ), $cfg->unit);
 		if ($gpsData->displayErrors())
 		{
-		   $map = ""; 
+		   $map = "";
 		   $coords = "";
 		   $distance_float = 0;
 		   $distance = 0;
 		}
-		else 
+		else
 		{
 		    // Kartenauswahl BEGIN
 		    $map = $cache->get(array ( $gpsData, 'writeTrackOL' ), array ( $track, $params ));
@@ -396,11 +395,11 @@ class JtgViewFiles extends JViewLegacy
 		    $distance = JtgHelper::getLocatedFloat($distance_float,0,$cfg->unit);
 		    // charts
 
-		    $coords = $gpsData->allCoords;  
+		    $coords = $gpsData->allCoords;
 		}
 
 
-	
+
 		// Klicklinks for every track in one file (at the moment not active)
 		// function giveClickLinks is not performant!
 		//			$clicklist = $cache->get(array (
@@ -447,7 +446,7 @@ class JtgViewFiles extends JViewLegacy
 					});
 				}
 				window.addEvent('domready',startGallery);
-				</script>\n";					
+				</script>\n";
 					$document->addScript('components/com_jtg/assets/js/jd.gallery.js');
 					$imageBlock .= "<div id=\"myGallery\">";
 					foreach($images as $image)
@@ -504,10 +503,10 @@ class JtgViewFiles extends JViewLegacy
 					    var miniGalleryOptions1 = {
 						    thumbnailId: 'thumb1'
 					    }
-				    </script>\n";	
+				    </script>\n";
  				        $document->addScript('components/com_jtg/assets/highslide/highslide-with-gallery.packed.js');
 					$document->addStyleSheet(JUri::base().'components/com_jtg/assets/highslide/highslide.css');
-					// TODO This style sheet is not overrided. 
+					// TODO This style sheet is not overrided.
 					$imageBlock .= "\n<div class=\"highslide-gallery\" style=\"width: auto; margin: auto\">\n";
 					$imgcount = count ($images);
 					foreach($images as $image)
@@ -516,25 +515,25 @@ class JtgViewFiles extends JViewLegacy
 						$imgtypes = explode(',',$cfg->type);
 						if ( in_array(strtolower($ext),$imgtypes) )
 						{
-							if ($imgcount < 5) 
+							if ($imgcount < 5)
 							{
 							    $thumb =  'thumbs/thumb1_' . $image;
 							}
-							else 
+							else
 							{
-							    $thumb =  'thumbs/thumb2_' . $image;					    
-							}					
+							    $thumb =  'thumbs/thumb2_' . $image;
+							}
 							if ( ! JFile::exists (JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'track_' . $id . DIRECTORY_SEPARATOR  . $thumb ) )
-							{	
+							{
 							    $thumb = $image;
-							}		
+							}
 							$imageBlock .= "	<a class=\"highslide\" href='/images/jtrackgallery/track_" . $id . "/" . $image ."' title=\"" . $image ."\" onclick=\"return hs.expand(this)\">
 			<img src=\"" . JUri::base() . "images/jtrackgallery/track_" . $id . '/' . $thumb . "\" alt=\"$image\"  /></a>\n\n";
 						}
-					} 
+					}
 					$imageBlock .= "</div>\n";
 					break;
-					
+
 				    case 'straight' :
 					$galscript = "";
 					$i=0;
@@ -550,9 +549,9 @@ class JtgViewFiles extends JViewLegacy
 						}
 					}
 					break;
-					
+
 				    default:
-					$galscript = "";					
+					$galscript = "";
 					}
 		}
 		else {
@@ -594,7 +593,7 @@ class JtgViewFiles extends JViewLegacy
 		$this->heighdata = $gpsData->elevationData;
 		$this->speeddata = $gpsData->speedData;
 		$this->speedDataExists = $gpsData->speedDataExists;
-		$this->elevationDataExists = $gpsData->elevationDataExists; 
+		$this->elevationDataExists = $gpsData->elevationDataExists;
 		$this->beatDataExists = $gpsData->beatDataExists;
 		$this->comments = $comments;
 		$this->user = $user;
@@ -606,7 +605,7 @@ class JtgViewFiles extends JViewLegacy
 	}
 
 	function _displayList($tpl) {
-		$mainframe =& JFactory::getApplication(); 
+		$mainframe =& JFactory::getApplication();
 		// $option = JRequest::getCmd('option');
 		$option = JFactory::getApplication()->input->get('option');
 
@@ -652,7 +651,7 @@ class JtgViewFiles extends JViewLegacy
 		$this->lists = $lists;
 		$this->rows = $rows;
 		$this->uid = $uid;
-		$this->gid = $gid; 
+		$this->gid = $gid;
 		$this->pagination = $pagination;
 		$this->lh = $lh;
 		$this->footer = $footer;
@@ -664,7 +663,7 @@ class JtgViewFiles extends JViewLegacy
 	}
 
 	function _displayUserTracks($tpl) {
-		$mainframe =& JFactory::getApplication(); 
+		$mainframe =& JFactory::getApplication();
 		// $option = JRequest::getCmd('option');
 		$option = JFactory::getApplication()->input->get('option');
 		$cache = & JFactory :: getCache('com_jtg');

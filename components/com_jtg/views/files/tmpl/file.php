@@ -2,7 +2,7 @@
 /**
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
- * 
+ *
  * @package    Comjtg
  * @author     Christophe Seguinot <christophe@jtrackgallery.net>
  * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
@@ -16,46 +16,46 @@ defined('_JEXEC') or die('Restricted access');
 echo $this->lh;
 
 $maySeeSingleFile = $this->maySeeSingleFile($this);
-if ($maySeeSingleFile === true) { 
+if ($maySeeSingleFile === true) {
 
 	$durationbox = (bool)$this->params->get("jtg_param_show_durationcalc");
 	echo $this->map;
 	if ( ( $this->cfg->gallery == "jd2" ) OR ( $this->cfg->gallery == "jd21" )  OR ( $this->cfg->gallery == "highslide" ) ) {
 		echo $this->galscript;
-	} 
-					
+	}
+
 	if ( $this->params->get("jtg_param_show_heightchart") AND $this->elevationDataExists)
 	{
-	    $heightchart=true;		    
-	} 
-	else 
+	    $heightchart=true;
+	}
+	else
 	{
 	    $heightchart=false;
 	}
 
-	if ( $this->params->get("jtg_param_show_speedchart") AND $this->speedDataExists ) 
+	if ( $this->params->get("jtg_param_show_speedchart") AND $this->speedDataExists )
 	{
-	    $speedchart=true;		    
-	} 
-	else 
+	    $speedchart=true;
+	}
+	else
 	{
 	    $speedchart=false;
 	}
 
-	if ($this->params->get("jtg_param_show_speedchart") AND $this->beatDataExists ) 
+	if ($this->params->get("jtg_param_show_speedchart") AND $this->beatDataExists )
 	{
-	    $beatchart=true;		    
-	} 
-	else 
+	    $beatchart=true;
+	}
+	else
 	{
 	    $beatchart=false;
 	}
-	
-	$havechart = ($heightchart or $speedchart) or $beatchart; 
-	if ($havechart) 
+
+	$havechart = ($heightchart or $speedchart) or $beatchart;
+	if ($havechart)
 	{
-	    $axisnumber = 0; 
-	    if ($heightchart) 
+	    $axisnumber = 0;
+	    if ($heightchart)
 	    {
 		// heightchart is always on left (first) axis
 		$heightchartaxis = 1;
@@ -65,9 +65,9 @@ if ($maySeeSingleFile === true) {
 	    {
 		$heightchartaxis = 0;
 	    }
-	    if ($speedchart) 
+	    if ($speedchart)
 	    {
-		// speedchart is on left (first) axis or on right axis when there is a heighchart 
+		// speedchart is on left (first) axis or on right axis when there is a heighchart
 		$speedchartaxis = $heightchartaxis + 1;
 		$axisnumber += 1;
 	    }
@@ -76,18 +76,18 @@ if ($maySeeSingleFile === true) {
 		$speedchartaxis = 0;
 	    }
 
-	    if ($beatchart) 
+	    if ($beatchart)
 	    {
 		// beatchart is on left (first) axis or on right axis when there is a heighchart or a speed chart
-		if ($axisnumber=1) 
+		if ($axisnumber=1)
 		{
 		    $beatchartaxis = 2;
 		    $axisnumber = 2;
 		}
-		else 
+		else
 		{
 		    $beatchartaxis = 1;
-		    $axisnumber = 1;		    
+		    $axisnumber = 1;
 		}
 	    }
 	    else
@@ -98,13 +98,13 @@ if ($maySeeSingleFile === true) {
 	    {
 		JHtml::_('jquery.framework');
 	    }
-	    else 
+	    else
 	    {
 		JHtml::script('jquery.js', 'components/com_jtg/assets/js/', false);
 	    }
 	    ?>
 	    <!-- begin Charts -->
-	    
+
 	    <script type="text/javascript">
 		jQuery.noConflict();
 	    </script>
@@ -171,7 +171,7 @@ if ($maySeeSingleFile === true) {
 				style: {
 				    color: '#89A54E'
 				}
-			    } 
+			    }
 			}
 			<?php } ?>
 			<?php if ($speedchart) { ?>
@@ -217,11 +217,11 @@ if ($maySeeSingleFile === true) {
 				    ,opposite: true // suppress this if only one axis
 			    <?php } ?>
 			}
-			<?php } ?>			
+			<?php } ?>
 			],
 			tooltip: {
 			    valueDecimals: 2,
-			    formatter: function() {	
+			    formatter: function() {
 				var s = '<b><?php echo JText::_('COM_JTG_DISTANCE'); ?>: '+ this.x +' <?php echo (JText::_('COM_JTG_DISTANCE_UNIT_'.strtoupper($this->cfg->unit))); ?></b>';
 				$.each(this.points, function(i, point) {
 				    s += '<br/>'+ point.series.name +': '+
@@ -294,7 +294,7 @@ if ($maySeeSingleFile === true) {
 	    })(jQuery);
 	    </script>
 	    <!-- end Charts -->
-	    
+
 	    <?php
 
 	    }
@@ -313,11 +313,11 @@ echo $this->parseTemplate("headline",$this->track->title,"jtg_param_header_map")
 		z-index: 20;
 }
 
-    </style>    
-<?php 
-if ($this->map) 
+    </style>
+<?php
+if ($this->map)
 {
-    echo "<center><div id=\"jtg_map\" class=\"olMap\"></div><br /></center>\n";  
+    echo "<center><div id=\"jtg_map\" class=\"olMap\"></div><br /></center>\n";
 }
 ?>
 <!--    <div>
@@ -584,19 +584,17 @@ echo JHtml::_( 'form.token' ) . "\n"; ?> <input type="hidden"
 					}
 				}
 				//
-				if($this->cfg->comment_who == 0) 
+
+				if(JtgHelper :: userHasCommentsRights() )
 				{
 					echo $this->model->addcomment($this->cfg);
-				} elseif ($this->cfg->comment_who == 1 && $this->user->get('id')) 
-				{
-					echo $this->model->addcomment($this->cfg);
-				} 
-				else 
+				}
+				else
 				{
 					echo JText::_('COM_JTG_ADD_COMMENT_NOT_AUTH');
 				}
-			} 
-			elseif ($this->cfg->comments == 3) 
+			}
+			elseif ($this->cfg->comments == 3)
 			{
 			    $jcommentsfile = 'components' . DIRECTORY_SEPARATOR . 'com_jcomments' . DIRECTORY_SEPARATOR . 'jcomments.php' ;
 			    if ((JFile::exists(JPATH_SITE . DIRECTORY_SEPARATOR . $jcommentsfile)))
@@ -605,13 +603,12 @@ echo JHtml::_( 'form.token' ) . "\n"; ?> <input type="hidden"
 				require_once( 'components' . DIRECTORY_SEPARATOR . 'com_jcomments' . DIRECTORY_SEPARATOR . 'jcomments.php' );
 				echo JComments::showComments($this->track->id, "com_jtg");
 			    }
-			    else
-			    {
+			    else{
 				JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_ERROR_ACTIVATE_JCOMMENTS'),'Error' );
 			    }
 
-			} 
-			else 
+			}
+			else
 			{
 			    echo "<a name=\"jtg_param_header_comment\"></a>";
 			}
@@ -630,6 +627,6 @@ echo JHtml::_( 'form.token' ) . "\n"; ?> <input type="hidden"
 	if ( isset($this->cfg) )
 	{
 	    echo ("\n<script language=\"javascript\" type=\"text/javascript\">\n
-		var olmap={ title: 'com_jtg_map_object' } \n 
+		var olmap={ title: 'com_jtg_map_object' } \n
 		slippymap_init();</script>\n");
 	}

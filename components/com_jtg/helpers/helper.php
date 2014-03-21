@@ -2,7 +2,7 @@
 /**
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
- * 
+ *
  * @package    Comjtg
  * @author     Christophe Seguinot <christophe@jtrackgallery.net>
  * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
@@ -14,19 +14,26 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
-function jtgdebug($val, $die=false) {
+function jtgdebug($val, $die=false)
+{
 	$r = "<pre>";
+
 	if ( is_array($val) )
 	{
 		foreach ($val AS $k => $v)
 		{
-			$r .= $k . " = " . print_r($v,true) . "<br />\n";
+			$r .= $k . " = " . print_r($v, true) . "<br />\n";
 		}
 	}
 	else
-	$r .= print_r($val) . "<br />\n";
+	{
+		$r .= print_r($val) . "<br />\n";
+	}
+
 	$r .= "</pre>";
-	if ( $die !== false ) die($r);
+
+	if ( $die !== false ) { die($r);}
+
 	echo $r;
 	// if ( JDEBUG )
 }
@@ -45,7 +52,7 @@ class JtgHelper
 	public static function addSubmenu($vName)
 	{
 		// TODO move addSubmenu and GetConfig function to backend code
-		JSubMenuHelper::addEntry(   
+		JSubMenuHelper::addEntry(
 			JText::_('COM_JTG_CONFIGURATION'),
 			'index.php?option=com_jtg&task=config&controller=config',
 			$vName == 'config'
@@ -54,7 +61,7 @@ class JtgHelper
 			JText::_('COM_JTG_GPS_FILES'),
 			'index.php?option=com_jtg&task=files&controller=files',
 			$vName == 'config'
-		);		
+		);
 		JSubMenuHelper::addEntry(
 			JText::_('COM_JTG_MAPS'),
 			'index.php?option=com_jtg&task=maps&controller=maps',
@@ -64,12 +71,12 @@ class JtgHelper
 			JText::_('COM_JTG_CATEGORIES'),
 			'index.php?option=com_jtg&task=cats&controller=cats',
 			$vName == 'config'
-		);		
+		);
 		JSubMenuHelper::addEntry(
 			JText::_('COM_JTG_TERRAIN'),
 			'index.php?option=com_jtg&task=terrain&controller=terrain',
 			$vName == 'config'
-		);		
+		);
 		JSubMenuHelper::addEntry(
 			JText::_('COM_JTG_COMMENTS'),
 			'index.php?option=com_jtg&task=comments&controller=comments',
@@ -88,7 +95,7 @@ class JtgHelper
 		);
 
 		// Groups and Levels are restricted to core.admin
-		// $canDo = self::getActions(); ... 
+		// $canDo = self::getActions(); ...
 
 	}
 	public function howMuchVote($tid) {
@@ -99,7 +106,8 @@ class JtgHelper
 		return (int)$db->loadResult();
 	}
 
-	public function giveGeneratedValues($surface,$filetypes,$track) {
+	public function giveGeneratedValues($surface,$filetypes,$track)
+	{
 		switch ($surface) {
 			case 'backend':
 				break;
@@ -264,7 +272,7 @@ class JtgHelper
 				}
 				$return = implode(", ",$return);
 				break;
-					
+
 			case "TrackDetails":
 				if ( ( $link === false ) OR ( $catid == "0" ) )
 				{
@@ -296,7 +304,7 @@ class JtgHelper
 				}
 				$return = implode(", ",$return);
 				break;
-					
+
 			case "Images":
 				if ( ( $link === false ) OR ( $catid == "0" ) )
 				{
@@ -319,7 +327,7 @@ class JtgHelper
 				}
 				$return = implode(", ",$return);
 				break;
-					
+
 			case "list":
 				if ( ( $link === false ) OR ( $catid == "0" ) )
 				{
@@ -342,7 +350,7 @@ class JtgHelper
 				}
 				$return = implode(" ",$return);
 				break;
-					
+
 			case "array":
 			default:
 				foreach ($catids as $catid) {
@@ -394,14 +402,31 @@ class JtgHelper
 		$return = "<label title=\"".JText::_('COM_JTG_TERRAIN_NONE') . "\">-</label>";
 		return $return;
 	}
-	
+	function userHasCommentsRights() {
+		$user_groups = JFactory :: getUser()->getAuthorisedGroups();
+		// Admin (root) is not allowed excepted if explicitly given the right to manage front-end.
+		// if ( JFactory :: getUser()->get('isRoot') ) { return true;};
+		if (!$user_groups) {return false;} // seems $user_groups is never empty !!
+		$cfg_id = unserialize(JtgHelper :: getConfig()->comment_who);
+		if (!$cfg_id )
+		{
+			return false;
+		}
+		foreach ($cfg_id as $key => $group) {
+			if (array_search ($group , $user_groups ) ) {
+				return true;
+			}
+		}
+		return  false;
+	}
+
 	function userHasFrontendRights() {
 	    $user_groups = JFactory :: getUser()->getAuthorisedGroups();
-	    // Admin (root) is not allowed excepted if explicitly given the right to manage front-end. 
+	    // Admin (root) is not allowed excepted if explicitly given the right to manage front-end.
 	    // if ( JFactory :: getUser()->get('isRoot') ) { return true;};
 	    if (!$user_groups) {return false;} // seems $user_groups is never empty !!
 	    $cfg_id = unserialize(JtgHelper :: getConfig()->gid);
-	    if (!$cfg_id ) 
+	    if (!$cfg_id )
 	    {
 		return false;
 	    }
@@ -410,8 +435,8 @@ class JtgHelper
 		    return true;
 		}
 	    }
-	    return  false;    
-	}	    
+	    return  false;
+	}
 
 	function getAccessList($accesslevel) {
 		$access = array (
@@ -540,7 +565,7 @@ class JtgHelper
 		$cfg =& JtgHelper::getConfig();
 		$maxsize = (int)$cfg->max_size;  // pixsize in pixel
 		$resized = false;
-		if ( ( $height > $maxsize ) OR ( $width > $maxsize ) ) 
+		if ( ( $height > $maxsize ) OR ( $width > $maxsize ) )
 		// @ToDo http://www.php.net/manual/de/function.getimagesize.php#97564
 		{
 			if ( $height == $width ) // square
@@ -607,15 +632,15 @@ class JtgHelper
 
 		}
 		imagedestroy($tmp);
-		if($statusupload) 
+		if($statusupload)
 		{
 		    $statusthumbs = com_jtg_create_Thumbnails ($image_dir, $image, $cfg->max_thumb_height, $cfg->max_geoim_height);
-			    
+
 		}
-		if ($statusupload and $statusthumbs) 
+		if ($statusupload and $statusthumbs)
 		{
 		    return true;
-			    
+
 		}
 		return false;
 	}
@@ -695,7 +720,7 @@ class JtgHelper
 
 		if ( $unit !== null )
 		$unit = "&nbsp;" . $unit;
-			
+
 		if ( preg_match('/\./',$float) ) { // has decimal place
 			$digit = explode('.',$float);
 			$digits = strlen($digit[1]); // count of digits after decimal place
