@@ -2,7 +2,7 @@
 /**
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
- * 
+ *
  * @package    Comjtg
  * @author     Christophe Seguinot <christophe@jtrackgallery.net>
  * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
@@ -13,7 +13,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-// toolbar
+// Toolbar
 JToolBarHelper::title(JText::_('COM_JTG_CATS'), 'categories.png');
 JToolBarHelper::back();
 JToolBarHelper::spacer();
@@ -87,11 +87,11 @@ $ordering = ($this->lists['order'] == 'ordering');
 	?>
 	</tbody>
 </table>
-<input type="hidden" name="option" value="com_jtg" /> 
-<input type="hidden" name="task" value="cats" /> 
-<input type="hidden" name="boxchecked" value="0" /> 
-<input type="hidden" name="controller" value="cats" /> 
-<input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>" /> 
+<input type="hidden" name="option" value="com_jtg" />
+<input type="hidden" name="task" value="cats" />
+<input type="hidden" name="boxchecked" value="0" />
+<input type="hidden" name="controller" value="cats" />
+<input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>" />
 <input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>" />
  <?php echo JHtml::_( 'form.token' ); ?>
 </form>

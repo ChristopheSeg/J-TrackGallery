@@ -63,5 +63,11 @@ $classname = 'JtgController'.$controller;
 $controller = new $classname( );
 $controller->execute($getCmdTask );
 
+// Access check: is this user allowed to access the backend of J!TrackGallery?
+if (!JFactory::getUser()->authorise('core.manage', 'com_jtg'))
+{
+	return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+}
+
 // Redirect if set by the controller
 $controller->redirect();

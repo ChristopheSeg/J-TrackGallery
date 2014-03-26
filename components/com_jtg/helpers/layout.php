@@ -55,7 +55,7 @@ class layoutHelper
 			if ( JtgHelper :: userHasFrontendRights() ) {
 			    // if ($juser->get('gid') >= $cfg->gid ) {
 				// Erscheint nur, wenn User Berechtigung zum erstellen hat
-				die('STOP');$navi .= '<div class="navi-part"><a href="'.
+				$navi .= '<div class="navi-part"><a href="'.
 				JRoute::_("index.php?option=com_jtg&view=files&layout=form").'">'.
 				JText::_('COM_JTG_ADD_FILE').'</a></div>';
 			}
@@ -69,7 +69,7 @@ class layoutHelper
 				$track = $gpsfile->getFile($track);
 
 				if ( ($track !== null) AND (
-				( $user->get('id') == $track->uid ) ) ) )
+				( $user->get('id') == $track->uid ) ) )
 				// User can delete or, update its own tracks
 				{
 					$navi .= '<div class="navi-part"><a href="'.

@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS `#__jtg_cats` (
 
 CREATE TABLE IF NOT EXISTS `#__jtg_config` (
 	`id` int(10) NOT NULL AUTO_INCREMENT,
-	`gid` VARCHAR(150) NULL DEFAULT NULL,
+	`gid` VARCHAR( 150 ) NOT NULL DEFAULT 'a:0:{}',
 	`apikey` varchar(100),
 	`unit` varchar(20) NOT NULL,
 	`type` varchar(30) NOT NULL,
@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `#__jtg_config` (
 	`charts_bg` varchar(6) NOT NULL,
 	`profile` varchar(5) NOT NULL DEFAULT '0',
 	`template` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-	`comment_who` INT( 5 ) NOT NULL DEFAULT '1',
+	`comment_who` VARCHAR( 150 ) NOT NULL DEFAULT 'a:0:{}',
 	`inform_autor` INT( 5 ) NOT NULL DEFAULT '0',
 	`captcha` INT( 5 ) NOT NULL DEFAULT '0',
 	`ordering` VARCHAR( 5 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
@@ -68,9 +68,9 @@ INSERT  IGNORE INTO `#__jtg_config` (`id`, `gid`, `apikey`, `unit`, `type`, `max
 `inform_autor`, `captcha`, `ordering`, `comments`, `access`, `approach`, 
 `routingiconset`, `usevote`, `download`, `gpsstore`, `gallery`, `showcharts`, 
 `level`) VALUES
-(1, NULL, NULL, 'Kilometer', 'jpg,jpeg,png,gif', 200, 220, 
+(1, 'a:0:{}', NULL, 'Kilometer', 'jpg,jpeg,png,gif', 200, 220, 
 400, 0, 0, 5, '500px', '100%', '100%', 
-'180px', 'FF0000', '0000CC', '0', 'default', 0, 
+'180px', 'FF0000', '0000CC', '0', 'default', 'a:0:{}', 
 1, 0, 'DESC', 0, 0, 'no', 
 'real', 0, 2, 'JPATH_SITE . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "jtrackgallery" . DIRECTORY_SEPARATOR . "uploads". DIRECTORY_SEPARATOR', 'straight', 2, 
 'COM_JTG_LEVEL_1\nCOM_JTG_LEVEL_2\nCOM_JTG_LEVEL_3\nCOM_JTG_LEVEL_4\nCOM_JTG_LEVEL_5');
