@@ -2,7 +2,7 @@
 /**
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
- * 
+ *
  * @package    Comjtg
  * @author     Christophe Seguinot <christophe@jtrackgallery.net>
  * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
@@ -195,7 +195,7 @@ class JtgViewFiles extends JViewLegacy
 		return 4;
 		if ( preg_match('/\#/',$filename) )	// Wenn "#" im Dateinamen
 		return 5;
-		// TODO adapt for kml files???? 
+		// TODO adapt for kml files????
 		$xml = simplexml_load_file($file);
 		if (empty($xml->trk))		// Keine Spur vorhanden
 		return 6;
@@ -335,7 +335,7 @@ class JtgViewFiles extends JViewLegacy
 	 * @param object $tpl
 	 */
 	function display($tpl = null) {
-		$mainframe =& JFactory::getApplication(); 
+		$mainframe =& JFactory::getApplication();
 		$option = JFactory::getApplication()->input->get('option');
 
 		if($this->getLayout() == 'form'):
@@ -350,7 +350,7 @@ class JtgViewFiles extends JViewLegacy
 
 		$model =& $this->getModel();
 
-		$order = JFactory::getApplication()->input->get('order', 'order', 'post', 'string' );
+		$order = JFactory::getApplication()->input->get('order', 'order', 'string' );
 
 		$filter_order		= $mainframe->getUserStateFromRequest( $option . "filter_order",
  	'filter_order',
@@ -393,9 +393,9 @@ class JtgViewFiles extends JViewLegacy
 		    // Quick'n'Dirty - Sonst funktioniert das Joomla-Menü nicht mehr: (!?)
 		    // JHtml::script('core-uncompressed.js', 'media/system/js/', false); //Joomla 2.5??
 		}
-		else 
+		else
 		{
-		    JHtml::script('jquery.js', 'components/com_jtg/assets/js/', false); 
+		    JHtml::script('jquery.js', 'components/com_jtg/assets/js/', false);
 		    JHtml::script('multifile.js', 'components/com_jtg/assets/js/', false);
 		    // Quick'n'Dirty - Sonst funktioniert das Joomla-Menü nicht mehr: (!?)
 		    JHtml::script('mootools.js', '/media/system/js/', false);
@@ -412,9 +412,9 @@ class JtgViewFiles extends JViewLegacy
 		    JHtml::script(Juri::base() . 'components/com_jtg/assets/js/multifile.js');
 		    JHTML::_('behavior.framework');
 		}
-		else 
+		else
 		{
-		    JHtml::script('jquery.js', 'components/com_jtg/assets/js/', false); 
+		    JHtml::script('jquery.js', 'components/com_jtg/assets/js/', false);
 		    JHtml::script('multifile.js', 'components/com_jtg/assets/js/', false);
 		    // Quick'n'Dirty - Sonst funktioniert das Joomla-Menü nicht mehr: (!?)
 		    JHtml::script('mootools.js', '/media/system/js/', false);
@@ -422,8 +422,8 @@ class JtgViewFiles extends JViewLegacy
 
 		jimport('joomla.filesystem.folder');
 		// Quick'n'Dirty - Sonst funktioniert das Joomla-Menü nicht mehr: (!?)
-		
-		$cid =& JFactory::getApplication()->input->get('cid', array(), 'post', 'array' );
+
+		$cid =& JFactory::getApplication()->input->get('cid', array(), 'array' );
 		// $id = implode(',', $cid);
 		$cfg = JtgHelper::getConfig();
 		$editor =& JFactory::getEditor();
@@ -499,7 +499,7 @@ class JtgViewFiles extends JViewLegacy
 				$imgs = JFolder::files($img_dir);
 				if($imgs)
 				{
-					if(!JFolder::exists($thumb_dir)) 
+					if(!JFolder::exists($thumb_dir))
 					{
 					    JFolder::create($thumb_dir);
 					}
@@ -507,16 +507,16 @@ class JtgViewFiles extends JViewLegacy
 
 					foreach($imgs AS $image)
 					{
-						$thumb_name =  'thumb1_' . $image;   
-						$thumb = com_jtg_create_Thumbnails ($img_dir, $image, $cfg->max_thumb_height, $cfg->max_geoim_height); 
-						// 
-						if (! $thumb) {	
+						$thumb_name =  'thumb1_' . $image;
+						$thumb = com_jtg_create_Thumbnails ($img_dir, $image, $cfg->max_thumb_height, $cfg->max_geoim_height);
+						//
+						if (! $thumb) {
 						    $images .= "<input type=\"checkbox\" name=\"deleteimage_".str_replace('.',null,$image) . "\" value=\"" . $image . "\">".JText::_( 'COM_JTG_DELETE_IMAGE' ) . " (" . $image . ")<br />".
-						    "<img src=\"" . $img_path.$image . "\" alt=\"" . $image . "\" title=\"" . $image . "\" /><br /><br />\n";					    
+						    "<img src=\"" . $img_path.$image . "\" alt=\"" . $image . "\" title=\"" . $image . "\" /><br /><br />\n";
 						    } else {
 						    $images .= "<input type=\"checkbox\" name=\"deleteimage_".str_replace('.',null,$image) . "\" value=\"" . $image . "\">".JText::_( 'COM_JTG_DELETE_IMAGE' ) . " (" . $image . " {only thumbnail displayed})<br />".
-						    "<img src=\"" . $img_path. 'thumbs/'. $thumb_name . "\" alt=\"" . $image . "\" title=\"" . $image . " (thumbnail)\" /><br /><br />\n";					    
-						}					    
+						    "<img src=\"" . $img_path. 'thumbs/'. $thumb_name . "\" alt=\"" . $image . "\" title=\"" . $image . " (thumbnail)\" /><br /><br />\n";
+						}
 					}
 				}
 			}

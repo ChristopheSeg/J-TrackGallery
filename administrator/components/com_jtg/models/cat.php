@@ -2,7 +2,7 @@
 /**
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
- * 
+ *
  * @package    Comjtg
  * @author     Christophe Seguinot <christophe@jtrackgallery.net>
  * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
@@ -23,7 +23,7 @@ class JtgModelCat extends JModelLegacy
 	{
 		parent::__construct();
 
-		$array = JFactory::getApplication()->input->get('cid', array(0), '', 'array');
+		$array = JFactory::getApplication()->input->get('cid', array(), 'array');
 		$edit	= JFactory::getApplication()->input->get('edit',true);
 		if($edit)
 		$this->setId((int)$array[0]);
@@ -32,7 +32,7 @@ class JtgModelCat extends JModelLegacy
 	function saveCatImage() {
 		JSession::checkToken() or die( 'Invalid Token' );
 		jimport('joomla.filesystem.file');
-		$files =& JFactory::getApplication()->input->get('files', null, 'files', 'array');
+		$files =& JFactory::getApplication()->input->files->get('files');
 		return $this->uploadCatImage($files);
 	}
 
@@ -209,7 +209,7 @@ class JtgModelCat extends JModelLegacy
 			return false;
 		}
 		$published =& JRequest::getInt( 'publish' );
-		$desc =& JFactory::getApplication()->input->get('desc', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$desc =& JFactory::getApplication()->input->get('desc', '', 'raw');
 		// allow for JTEXT in category description
 		if ( (substr($desc,0,3)=='<p>') AND (substr($desc,-4,4)=='</p>') ) {
 		    //remove enclosing <p> tags,try translating text, add <p> tags
@@ -217,7 +217,7 @@ class JtgModelCat extends JModelLegacy
 		}
 		$parent =& JRequest::getInt('parent');
 		$image =& JFactory::getApplication()->input->get('catpic' );
-		
+
 		$query = "INSERT INTO #__jtg_cats SET"
 		. "\n parent_id='" . $parent . "',"
 		. "\n title='" . $title . "',"
@@ -228,7 +228,7 @@ class JtgModelCat extends JModelLegacy
 
 		$db->setQuery($query);
 		$db->query();
-		
+
 		if ($db->getErrorNum()) {
 			echo $db->stderr();
 			return false;
@@ -250,7 +250,7 @@ class JtgModelCat extends JModelLegacy
 			}
 			$upload_dir = JPATH_SITE . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "jtrackgallery" . DIRECTORY_SEPARATOR . "cats". DIRECTORY_SEPARATOR;
 			$filename = JFile::makeSafe(strtolower($file['name']));
-				
+
 			if (JFile::exists($upload_dir.$filename)) {
 				JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_CATPIC_ALLREADYEXIST'), 'Warning');
 				return false;
@@ -281,7 +281,7 @@ class JtgModelCat extends JModelLegacy
 		$db =& JFactory::getDBO();
 
 		$id =& JRequest::getInt('id');
-		$file =& JFactory::getApplication()->input->get('image', null, 'files', 'array');
+		$file =& JFactory::getApplication()->input->files->get('image');
 		$title =& JFactory::getApplication()->input->get('title' );
 		$image =& JFactory::getApplication()->input->get('catpic' );
 		if ( $title == "" )
@@ -290,7 +290,7 @@ class JtgModelCat extends JModelLegacy
 			return false;
 		}
 		$published =& JRequest::getInt( 'publish' );
-		$desc =& JFactory::getApplication()->input->get('desc', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$desc =& JFactory::getApplication()->input->get('desc', '', 'raw');
 		// allow for JTEXT in category description
 		if ( (substr($desc,0,3)=='<p>') AND (substr($desc,-4,4)=='</p>') ) {
 		    //remove enclosing <p> tags,try translating text, add <p> tags

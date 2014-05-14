@@ -168,7 +168,7 @@ class JtgViewCats extends JViewLegacy
 	 */
 	function _displayEditcat($tpl) {
 //		$mainframe =& JFactory::getApplication();
-		$cid = JFactory::getApplication()->input->get('cid', array(), 'post', 'array' );
+		$cid = JFactory::getApplication()->input->get('cid', array(), 'array' );
 		$id =$cid[0];
 
 		$editor =& JFactory::getEditor();

@@ -53,7 +53,7 @@ class JtgViewTerrain extends JViewLegacy
 	function _displayForm($tpl) {
 
 		$model = $this->getModel();
-		$cid =& JFactory::getApplication()->input->get('cid', array(), 'post', 'array' );
+		$cid =& JFactory::getApplication()->input->get('cid', array(), 'array' );
 		if ( count($cid) != 0 )
 		{
 			$id = $cid[0];

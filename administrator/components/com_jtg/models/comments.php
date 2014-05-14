@@ -2,7 +2,7 @@
 /**
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
- * 
+ *
  * @package    Comjtg
  * @author     Christophe Seguinot <christophe@jtrackgallery.net>
  * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
@@ -169,7 +169,7 @@ class JtgModelComments extends JModelLegacy
 
             $db =& JFactory::getDBO();
             $cids = implode(',', $cid);
-            
+
             $query = "SELECT * FROM #__jtg_comments WHERE id IN( " . $cids . " )";
             $db->setQuery($query);
             $result = $db->loadObject();
@@ -188,7 +188,7 @@ class JtgModelComments extends JModelLegacy
 
             $id     =& JRequest::getInt('id');
             $title  =& JFactory::getApplication()->input->get('title');
-            $text   =& JFactory::getApplication()->input->get('text', '', 'post', 'string', JREQUEST_ALLOWRAW);
+            $text   =& JFactory::getApplication()->input->get('text', '', 'raw');
 
             $db =& JFactory::getDBO();
 

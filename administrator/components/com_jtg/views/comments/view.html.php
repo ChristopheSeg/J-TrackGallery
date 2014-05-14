@@ -49,7 +49,7 @@ class JtgViewComments extends JViewLegacy
 
 	function _displayForm($tpl) {
 
-		$cid = JFactory::getApplication()->input->get('cid', array(), 'post', 'array' );
+		$cid = JFactory::getApplication()->input->get('cid', array(), 'array' );
 		JArrayHelper::toInteger($cid);
 
 		$model = $this->getModel();

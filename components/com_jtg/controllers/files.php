@@ -39,7 +39,8 @@ class JtgControllerFiles extends JtgController
 
 		$ext = JFile::getExt($file['name']);
 		if($ext == 'kml' || $ext == 'gpx' || $ext == 'tcx') {
-			if(!$model->saveFile()) {
+			if(!$model->saveFile())
+			{
 				echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 			}
 			$this->setRedirect( JRoute::_('index.php', false), false );

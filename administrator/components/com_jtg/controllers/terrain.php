@@ -59,7 +59,7 @@ class JtgControllerTerrain extends JtgController
 		// Check for request forgeries
 		JSession::checkToken() or jexit( 'Invalid Token' );
 
-		$cid = JFactory::getApplication()->input->get('cid', array(), 'post', 'array' );
+		$cid = JFactory::getApplication()->input->get('cid', array(), 'array' );
 		JArrayHelper::toInteger($cid);
 
 		if (count( $cid ) < 1) 
@@ -84,7 +84,7 @@ class JtgControllerTerrain extends JtgController
 		// Check for request forgeries
 		JSession::checkToken() or jexit( 'Invalid Token' );
 
-		$cid = JFactory::getApplication()->input->get('cid', array(), 'post', 'array' );
+		$cid = JFactory::getApplication()->input->get('cid', array(), 'array' );
 		JArrayHelper::toInteger($cid);
 
 		if (count( $cid ) < 1) 
@@ -109,7 +109,7 @@ class JtgControllerTerrain extends JtgController
 		// Check for request forgeries
 		JSession::checkToken() or jexit( 'Invalid Token' );
 
-		$cid = JFactory::getApplication()->input->get('cid', array(), 'post', 'array' );
+		$cid = JFactory::getApplication()->input->get('cid', array(), 'array' );
 		JArrayHelper::toInteger($cid);
 
 		if (count( $cid ) < 1)

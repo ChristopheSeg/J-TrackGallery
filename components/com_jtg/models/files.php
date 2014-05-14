@@ -284,11 +284,11 @@ class JtgModelFiles extends JModelLegacy
 		$terrain = implode(', ', $terrain);
 		else
 		$terrain = "";
-		$desc =& $db->quote(JFactory::getApplication()->input->get('description', '', 'post', 'string', JREQUEST_ALLOWRAW));
+		$desc = & $db->quote(implode(' ',JFactory::getApplication()->input->get('description', '', 'array') ) );
 		$file =& JFactory::getApplication()->input->files->get('file');
 		$uid = $user->get('id');
 		$date = date("Y-m-d");
-		$images =& JFactory::getApplication()->input->get('images', null, 'files', 'array');
+		$images =& JFactory::getApplication()->input->files->get('images');
 		$access =& JRequest::getInt('access', 0);
 		$hidden =& JRequest::getInt('hidden', 0);
 		$published =& JRequest::getInt('published', 0);
@@ -617,6 +617,7 @@ class JtgModelFiles extends JModelLegacy
 		$title =& JFactory::getApplication()->input->get('title');
 		$allimages = $this->getImages($id);
 		$imgpath = JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'track_' . $id. DIRECTORY_SEPARATOR;
+		// TODO no images !!$allimages==??
 		foreach ($allimages AS $key => $image)
 		{
 			$image =& JFactory::getApplication()->input->get('deleteimage_'.str_replace('.',null,$image));
@@ -634,8 +635,10 @@ class JtgModelFiles extends JModelLegacy
 		$terrain = implode(', ', $terrain);
 		else
 		$terrain = "";
-		$desc = & $db->quote(JFactory::getApplication()->input->get('description', '', 'post', 'string', JREQUEST_ALLOWRAW));
-		$images =& JFactory::getApplication()->input->get('images', null, 'files', 'array');
+		// Joomla Jinput strips html tags!!
+		// Reference http://stackoverflow.com/questions/19426943/joomlas-jinput-strips-html-with-every-filter
+		$desc = & $db->quote(implode(' ',JFactory::getApplication()->input->get('description', '', 'array') ) );
+		$images =& JFactory::getApplication()->input->files->get('images');
 		$access =& JRequest::getInt('access', 0);
 		$hidden =& JRequest::getInt('hidden', 0);
 		$published =& JRequest::getInt('published', 0);
@@ -827,7 +830,7 @@ class JtgModelFiles extends JModelLegacy
 		$email =& JFactory::getApplication()->input->get('email', '', 'Raw');
 		$homepage =& JFactory::getApplication()->input->get('homepage');
 		$title =& JFactory::getApplication()->input->get('title');
-		$text =& JFactory::getApplication()->input->get('text', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$text =& JFactory::getApplication()->input->get('text', '','raw');
 		if ($text=="") return false;
 
 		$db =& JFactory::getDBO();

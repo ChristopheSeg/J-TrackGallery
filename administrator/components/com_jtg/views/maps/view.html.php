@@ -2,7 +2,7 @@
 /**
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
- * 
+ *
  * @package    Comjtg
  * @author     Christophe Seguinot <christophe@jtrackgallery.net>
  * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
@@ -38,7 +38,7 @@ class JtgViewMaps extends JViewLegacy
 	* @param object $tpl
 	*/
 	function display($tpl = null) {
-		$mainframe =& JFactory::getApplication(); 
+		$mainframe =& JFactory::getApplication();
 		$option = JFactory::getApplication()->input->get('option');
 		//		$order = JFactory::getApplication()->input->get('order',true);
 
@@ -54,7 +54,7 @@ class JtgViewMaps extends JViewLegacy
 		//	$tmpl = $model->getTemplates();
 
 		$lists['block']	= JHtml::_('select.booleanlist', 'publish', 'class="inputbox" size="1"', 1 );
-//		$order = JFactory::getApplication()->input->get('order', 'order', 'post', 'string' );
+//		$order = JFactory::getApplication()->input->get('order', 'order', 'string' );
 
 		$filter_order		= $mainframe->getUserStateFromRequest( $option . "filter_order",
  	'filter_order',
