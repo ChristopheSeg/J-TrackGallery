@@ -723,8 +723,8 @@ class JtgViewFiles extends JViewLegacy
 			$config = & JFactory :: getConfig();
 			$lang = $config->getValue('language');
 		} else {
-			$lang = JFactory :: getLanguage();
-			$lang = $user->_params->_registry["_default"]["data"]->language;
+			$user = JFactory::getUser();
+			$lang = $user->getParam('language', 'the default');
 		}
 		$lang = explode("-", $lang);
 		$userlang = $lang[0];

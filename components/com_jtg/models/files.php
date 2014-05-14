@@ -272,20 +272,20 @@ class JtgModelFiles extends JModelLegacy
 		$user =& JFactory::getUser();
 		$cache =& JFactory::getCache('com_jtg');
 		// get the post data
-		$catid =& JFactory::getApplication()->input->get('catid');
+		$catid =& JFactory::getApplication()->input->get('catid', NULL,'array');
 		if ( $catid !== null )
 		$catid = implode(",",$catid);
 		else
 		$catid = "";
 		$level =& JRequest::getInt('level');
 		$title =& JFactory::getApplication()->input->get('title');
-		$terrain =& JFactory::getApplication()->input->get('terrain');
+		$terrain =& JFactory::getApplication()->input->get('terrain', NULL, 'array');
 		if($terrain != NULL)
 		$terrain = implode(', ', $terrain);
 		else
 		$terrain = "";
 		$desc =& $db->quote(JFactory::getApplication()->input->get('description', '', 'post', 'string', JREQUEST_ALLOWRAW));
-		$file =& JFactory::getApplication()->input->get('file', null, 'files', 'array');
+		$file =& JFactory::getApplication()->input->files->get('file');
 		$uid = $user->get('id');
 		$date = date("Y-m-d");
 		$images =& JFactory::getApplication()->input->get('images', null, 'files', 'array');
@@ -608,7 +608,7 @@ class JtgModelFiles extends JModelLegacy
 		$user =& JFactory::getUser();
 
 		// get the post data
-		$catid =& JFactory::getApplication()->input->get('catid');
+		$catid =& JFactory::getApplication()->input->get('catid', NULL,'array');
 		if ( $catid !== null )
 		$catid = implode(",",$catid);
 		else
@@ -629,7 +629,7 @@ class JtgModelFiles extends JModelLegacy
 			    JFile::delete($imgpath. 'thumbs' . DIRECTORY_SEPARATOR. 'thumb2_' . $image);
 			}
 		}
-		$terrain =& JFactory::getApplication()->input->get('terrain');
+		$terrain =& JFactory::getApplication()->input->get('terrain', NULL, 'array');
 		if ($terrain)
 		$terrain = implode(', ', $terrain);
 		else

@@ -2,7 +2,7 @@
 /**
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
- * 
+ *
  * @package    Comjtg
  * @author     Christophe Seguinot <christophe@jtrackgallery.net>
  * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
@@ -271,16 +271,17 @@ class JtgModelMaps extends JModelLegacy
 		$order =& JRequest::getInt('order');
 		$name =& JFactory::getApplication()->input->get('name');
 		$name = htmlentities($name);
-		$param =& JFactory::getApplication()->input->get('param');
+		$param =& JFactory::getApplication()->input->get('param', '', 'raw');
 		$checked_out =& JFactory::getApplication()->input->get('checked_out');
 		$param = str_replace("'",'"',htmlentities($param));
 		if ( ( $name == "" ) OR ( $param == "" ) ) {
 			JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_MAP_NOT_SAVED'), 'Warning');
 			return false;
 		}
-		$script =& JFactory::getApplication()->input->get('script');
+		$script =& JFactory::getApplication()->input->get('script', '', 'raw');
+
 		$script = htmlentities($script);
-		$code =& JFactory::getApplication()->input->get('code');
+		$code =& JFactory::getApplication()->input->get('code', '', 'raw');
 		$code = htmlentities($code);
 		$query = "INSERT INTO #__jtg_maps SET"
 		. "\n name='" . $name . "',"
@@ -321,18 +322,18 @@ class JtgModelMaps extends JModelLegacy
 		$id =& JRequest::getInt('id');
 		$name =& JFactory::getApplication()->input->get('name');
 		$name = htmlentities($name);
-		$param =& JFactory::getApplication()->input->get('param');
+		$param =& JFactory::getApplication()->input->get('param', '', 'raw');
+		// TODO was this usefull???
 		$param = str_replace("'",'"',htmlentities($param));
-		$param =& JFactory::getApplication()->input->get('param');
 		$checked_out =& JFactory::getApplication()->input->get('checked_out');
-		$code =& JFactory::getApplication()->input->get('code');
+		$code =& JFactory::getApplication()->input->get('code', '', 'raw');
 		$code = htmlentities($code);
 		if ( ( $name == "" ) OR ( $param == "" ) ) {
 			JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_MAP_NOT_SAVED'), 'Warning');
 			return false;
 		}
 
-		$script =& JFactory::getApplication()->input->get('script');
+		$script =& JFactory::getApplication()->input->get('script', '', 'raw');
 		$script = htmlentities($script);
 		$query = "UPDATE #__jtg_maps SET"
 		. "\n name='" . $name . "',"

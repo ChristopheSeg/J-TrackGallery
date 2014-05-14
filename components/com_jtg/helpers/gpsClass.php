@@ -267,7 +267,7 @@ class gpsDataClass
 			if ($coordinatesCount >1)
 			{
 			    $this->trackCount++;
-			    $this->track[$this->trackCount]->trackname = (string) $trackname = @$xml->trk[$t]->name;;
+			    $this->track[$this->trackCount]->trackname = (string) @$xml->trk[$t]->name;;
 			    $this->track[$this->trackCount]->coords = $coords;
 			    $this->track[$this->trackCount]->start = ($coords[0][0] . "," . $coords[0][1]);
 			    $this->track[$this->trackCount]->stop = ($coords[$coordinatesCount-1][0] . "," . $coords[$coordinatesCount-1][1]);
@@ -1435,7 +1435,7 @@ class gpsDataClass
 
 		//TODO move this to overlays
 		// relief ombragé "Hillshade of Europe" http://www.osm-wms.de/
-		$return .= "hs_name = \"".JText::_('COM_JTG_HILL_SHADE_EUROPE') . "\"\n";
+		$return .= "hs_name = \"".JText::_('COM_JTG_HILL_SHADE_EUROPE') . "\";\n";
 		$return .= "hs_url = \"http://129.206.228.72/cached/hillshade?\";\n";
 		$return .= "hs_options = {layers: 'europe_wms:hs_srtm_europa',srs: 'EPSG:900913', format: 'image/jpeg', transparent: 'true',numZoomLevels: 19};\n";
 		$return .= "hs2_1_options = {layers: 'europe_wms:hs_srtm_europa',srs: 'EPSG:900913', format: 'image/jpeg',numZoomLevels: 19};\n";

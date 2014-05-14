@@ -2,7 +2,7 @@
 /**
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
- * 
+ *
  * @package    Comjtg
  * @author     Christophe Seguinot <christophe@jtrackgallery.net>
  * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
@@ -48,7 +48,7 @@ Joomla.submitbutton = function(pressbutton)
     // do field validation
 	if (document.getElementById('title').value == ""){
 		alert( "<?php echo JText::_( 'COM_JTG_NEED_TITLE', true ); ?>" );
-    }  
+    }
     <?php if($this->cfg->terms == 1)  { ?>
         else if (document.getElementById('terms').checked == false) {
             alert( "<?php echo JText::_( 'COM_JTG_NEED_TERMS', true ); ?>" );
@@ -170,16 +170,20 @@ $accept = explode(",",$accept);
 </button>
 <button class="button" type="button" onclick="submitbutton('reset')"><?php echo JText::_('COM_JTG_RESET') ?>
 </button>
-<!--<?php
-/*	if(isset($this->id))
-		$reject = "index.php?option=com_jtg&amp;view=files&amp;layout=file&amp;id=" . $this->id;
-	else
-		$reject = "index.php?option=com_jtg";
-*/	?>
-	<button class="button" type="button" onclick="window.location.replace('<?php echo $reject; ?>')">
-		<?php echo JText::_('COM_JTG_CANCEL_TO_FILEVIEW') ?>
-	</button>-->
-<button class="button" type="button" onclick="history.back();"><?php echo JText::_('Cancel') ?>
+<?php
+if(isset($this->id))
+{
+	$reject = "index.php?option=com_jtg&amp;view=files&amp;layout=file&amp;id=" . $this->id;
+	$cancel =JText::_('COM_JTG_CANCEL_TO_FILEVIEW');
+}
+else
+{
+	$reject = "index.php?option=com_jtg";
+	$cancel =JText::_('Cancel');
+}
+?>
+<button class="button" type="button" onclick="window.location.replace('<?php echo $reject; ?>')">
+	<?php echo $cancel; ?>
 </button>
 </div>
 </form>

@@ -2,7 +2,7 @@
 
 /**
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
- * 
+ *
  * @package    Com_Jtg
  * @subpackage Backend
  * @author     J!Track Gallery, InJooOSM and joomGPStracks teams <christophe@jtrackgallery.net>
@@ -15,7 +15,7 @@
 
 // No direct access to this file
 defined('_JEXEC') or die('Restricted access');
- 
+
 //the name of the class must be the name of your component + InstallerScript
 class com_jtgInstallerScript
 {
@@ -33,20 +33,20 @@ class com_jtgInstallerScript
 		//
 		// load english language file for 'com_jtg' component then override with current language file
 		JFactory::getLanguage()->load('com_jtg', JPATH_ADMINISTRATOR . DIRECTORY_SEPARATOR . 'components' . DIRECTORY_SEPARATOR . 'com_jtg' . DIRECTORY_SEPARATOR . 'language', 'en-GB', true);
-		JFactory::getLanguage()->load('com_jtg', JPATH_ADMINISTRATOR . DIRECTORY_SEPARATOR . 'components' . DIRECTORY_SEPARATOR . 'com_jtg' . DIRECTORY_SEPARATOR . 'language',    null, true);		
+		JFactory::getLanguage()->load('com_jtg', JPATH_ADMINISTRATOR . DIRECTORY_SEPARATOR . 'components' . DIRECTORY_SEPARATOR . 'com_jtg' . DIRECTORY_SEPARATOR . 'language',    null, true);
 		$jversion = new JVersion();
 
 		// Installing component manifest file version
 		$this->release = $parent->get( "manifest" )->version;
-		
+
 		// File version of existing manifest file
 		$this->release_existing = $this->getParam('version');
-		
+
 		// Manifest file minimum Joomla version
-		$this->minimum_joomla_release = $parent->get( "manifest" )->attributes()->version;   
+		$this->minimum_joomla_release = $parent->get( "manifest" )->attributes()->version;
 		echo '<p> -- ' . JText::sprintf('COM_JTG_PREFLIGHT',$this->release) .'</p>';
 		if ($this->release_existing) {
-		    
+
 		    echo '<br /> &nbsp; ' . JText::sprintf('COM_JTG_PREFLIGHT_UPDATING',$this->release_existing,$this->release);
 		} else {
 		    echo '<br /> &nbsp; ' . JText::sprintf('COM_JTG_PREFLIGHT_INSTALLING',$this->release);
@@ -54,16 +54,16 @@ class com_jtgInstallerScript
 		echo '<br /> &nbsp; ' . JText::sprintf('COM_JTG_PREFLIGHT_MIN_JOOMLA', $this->minimum_joomla_release ,$jversion->getShortVersion());
 
 		// abort if the current Joomla release is older
-		if( version_compare( $jversion->getShortVersion(), $this->minimum_joomla_release, 'lt' ) ) 
+		if( version_compare( $jversion->getShortVersion(), $this->minimum_joomla_release, 'lt' ) )
 		{
 		    JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_JTG_PREFLIGHT_MIN_JOOMLA_ABORT',$this->minimum_joomla_release), 'Warning');
 		    return false;
 		}
- 
-		// abort if the component being installed is not newer than the currently installed version
+
+		// Abort if the component being installed is not newer than the currently installed version
 		if ( $type == 'update' ) {
 			$oldRelease = $this->getParam('version');
-			if ( version_compare( $this->release, $oldRelease, 'le' ) ) 
+			if ( version_compare( $this->release, $oldRelease, 'lt' ) )
 			{
 			    JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_JTG_PREFLIGHT_JTG_WRONG_VERSION', $oldRelease, $this->release), 'Warning');
 			    return false;
@@ -71,9 +71,9 @@ class com_jtgInstallerScript
 			}
 		}
 		return true;
- 
+
 	}
- 
+
 	/*
 	 * $parent is the class calling this method.
 	 * install runs after the database scripts are executed.
@@ -104,7 +104,7 @@ class com_jtgInstallerScript
 	    "images" . DIRECTORY_SEPARATOR . "jtrackgallery" . DIRECTORY_SEPARATOR . "uploaded_tracks",
 	    "images" . DIRECTORY_SEPARATOR . "jtrackgallery" . DIRECTORY_SEPARATOR . "uploaded_tracks" . DIRECTORY_SEPARATOR . "import"
 		);
-	    
+
 	    $folders_to_chmod = array (
 	    "images" . DIRECTORY_SEPARATOR . "jtrackgallery" . DIRECTORY_SEPARATOR . "uploaded_tracks",
 	    "images" . DIRECTORY_SEPARATOR . "jtrackgallery" . DIRECTORY_SEPARATOR . "uploaded_tracks" . DIRECTORY_SEPARATOR . "import",
@@ -117,28 +117,28 @@ class com_jtgInstallerScript
 	    foreach ( $folders_to_create AS $folder ) {
 		    if(JFolder::exists(JPATH_SITE . DIRECTORY_SEPARATOR . $folder))
 			    echo '<tr><td>' . JText::_('COM_JTG_FOLDER') . '</td><td>' .
-			    $folder . '</td><td><font color="green">' . 
+			    $folder . '</td><td><font color="green">' .
 			    JText::_('COM_JTG_ALREADY_EXISTS')  . '</font></td></tr>';
 		    elseif(JFolder::create(JPATH_SITE . DIRECTORY_SEPARATOR . $folder)) {
 			    echo '<tr><td>' . JText::_('COM_JTG_FOLDER') . '</td><td>' .
-			    $folder . '</td><td><font color="green">' . 
+			    $folder . '</td><td><font color="green">' .
 			    JText::_('COM_JTG_CREATED')  . '</font></td></tr>';
 		    } else {
 			    echo '<tr><td>' . JText::_('COM_JTG_FOLDER') . '</td><td>' .
-			    $folder . '</td><td><font color="red">' . 
+			    $folder . '</td><td><font color="red">' .
 			    JText::_('COM_JTG_NOT_CREATED')  . '</font></td></tr>';
 		    }
 	    }
-	
+
 	    foreach ( $folders_to_chmod AS $folder ) {
 		    ;
 		    if ( JPath::canChmod(JPATH_SITE . DIRECTORY_SEPARATOR . $folder) AND (chmod(JPATH_SITE . DIRECTORY_SEPARATOR . $folder, 0777))) {
 			    echo '<tr><td>' . JText::_('COM_JTG_FOLDER') . '</td><td>' .
-			    $folder . '</td><td><font color="green">' . 
+			    $folder . '</td><td><font color="green">' .
 			    JText::_('COM_JTG_CHMODDED')  . '</font></td></tr>';
 		    } else {
 			    echo '<tr><td>' . JText::_('COM_JTG_FOLDER') . '</td><td>' .
-			    $folder . '</td><td><font color="red">' . 
+			    $folder . '</td><td><font color="red">' .
 			    JText::_('COM_JTG_NOT_CHMODDED')  . '</font></td></tr>';
 		    }
 	    }
@@ -154,12 +154,12 @@ class com_jtgInstallerScript
 		   JFile::copy($src_folder_to_copy. DIRECTORY_SEPARATOR . $file, $dest_folder_to_copy . DIRECTORY_SEPARATOR.  $file);
 	       }
 	    }
-	    
+
 	    // copy additional.ini language files without erasing existing files
 	    $src_folder_to_copy =  JPATH_SITE . DIRECTORY_SEPARATOR . 'components' . DIRECTORY_SEPARATOR . 'com_jtg' . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'language';
 	    $dest_folder_to_copy = JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'language';
 	    JFolder::copy($src_folder_to_copy, $dest_folder_to_copy, $force = false);
-	    
+
 	    // copy example tracks
 	    $src_folder_to_copy =  JPATH_SITE . DIRECTORY_SEPARATOR . 'components' . DIRECTORY_SEPARATOR . 'com_jtg' . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'sample_tracks';
 	    $dest_folder_to_copy = JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'uploaded_tracks';
@@ -171,20 +171,20 @@ class com_jtgInstallerScript
 		   JFile::copy($src_folder_to_copy. DIRECTORY_SEPARATOR . $file, $dest_folder_to_copy . DIRECTORY_SEPARATOR.  $file);
 	       }
 	    }
-	    
+
 	    echo '<tr><td colspan="3">' . JText::sprintf('COM_JTG_INSTALLED_VERSION',$this->release) . '</td></tr>';
 	    // You can have the backend jump directly to the newly installed component configuration page
 	    // $parent->getParent()->setRedirectURL('index.php?option=com_jtg');
-	    
+
 	    //TODO check if is this remains usefull ??
 	    echo '<tr><td colspan="3">';
 	    echo('<font color="red" size="+1">' . JText::_('COM_JTG_HINTS') . '</font>');
-	    echo(JText::_('COM_JTG_HINTS_DETAILS')); 
+	    echo(JText::_('COM_JTG_HINTS_DETAILS'));
 	    echo '</td></tr>';
 	    echo '</table>';
 	    return true;
 	}
- 
+
 	/*
 	 * $parent is the class calling this method.
 	 * update runs after the database scripts are executed.
@@ -192,53 +192,53 @@ class com_jtgInstallerScript
 	 * If this returns false, Joomla will abort the update and undo everything already done.
 	 */
 	function update( $parent ) {
-			    
+
 	    // this is executed after upgrade.sql
 	    // upgrading from $oldRelease to $this->release
 	    $oldRelease = $this->getParam('version');
 	    if ( version_compare( $oldRelease, '0.7.0', '<' ) ) {
 		// installed version is lower then 0.7.0 ==> do some stuff
-	    }    
+	    }
 	    echo '<p>' . JText::sprintf('COM_JTG_UPDATED', $this->release) . '</p>';
-		
+
 	    // You can have the backend jump directly to the newly updated component configuration page
 	    // $parent->getParent()->setRedirectURL('index.php?option=com_jtg');
 	    return true;
 	}
- 
+
 	/*
 	 * $parent is the class calling this method.
 	 * $type is the type of change (install, update or discover_install, not uninstall).
 	 * postflight is run after the extension is registered in the database.
 	 */
 	function postflight( $type, $parent ) {
- 
+
 
 		$db =& JFactory::getDBO();
 		$application = JFactory::getApplication();
 
 
-		// check if com_jtg is installed, 
+		// check if com_jtg is installed,
 		$query = 'SELECT COUNT(*) FROM #__extensions WHERE name = "com_jtg"';
 		$db->setQuery($query);
 		$db->query();
-		$componentJtgIsInstalled = $db->loadResult();		
+		$componentJtgIsInstalled = $db->loadResult();
 
-		if (( $type == 'install' ) and (! $componentJtgIsInstalled) ) 
+		if (( $type == 'install' ) and (! $componentJtgIsInstalled) )
 		{
-		    // this a NON successfull install: 
+		    // this a NON successfull install:
 		    // TODO truncate all com_jtg tables
 		    $application->enqueueMessage( 'SHOULD TRUNCATE ALL TABLES' ) ;
 	    // DROP TABLE `crl05_jtg_cats`, `crl05_jtg_cats2`, `crl05_jtg_comments`, `crl05_jtg_config`, `crl05_jtg_files`, `crl05_jtg_files2`, `crl05_jtg_maps`, `crl05_jtg_terrains`, `crl05_jtg_users`, `crl05_jtg_votes`;
 			}
 
-		if (( $type == 'install' ) and ($componentJtgIsInstalled !== null) )  
+		if (( $type == 'install' ) and ($componentJtgIsInstalled !== null) )
 		{
-		    // this is a successful install (not an upgrade): 
+		    // this is a successful install (not an upgrade):
 		    // affect sample tracks to this admin user
 		    $user =& JFactory::getUser();
 		    $uid=$user->get('id');
-		    if ( $uid!==430) 
+		    if ( $uid!==430)
 		    {
 			$query = 'UPDATE #__jtg_files SET uid ='. $uid . ' WHERE uid =430';
 			$db->setQuery($query);
@@ -274,7 +274,7 @@ class com_jtgInstallerScript
 			"jtg_param_level_to":"5",
 			"jtg_param_vote_from":"0",
 			"jtg_param_vote_to":"10"}\'';
-		    $query.= ' WHERE name = "com_jtg" AND type = "Component"'; 
+		    $query.= ' WHERE name = "com_jtg" AND type = "Component"';
 		    $db->setQuery($query);
 		    $db->query();
 		 }
@@ -298,10 +298,10 @@ class com_jtgInstallerScript
 	    );
 
 	    $files_to_delete = array ();
-	    
+
 	    echo '<table><tr><td colspan="3"><b>'.JText::_('COM_JTG_FILES_FOLDERS_TO_DELETE').'</td></tr>';
 	    echo '<tr><td>'.JText::_('COM_JTG_FILE').'/'.JText::_('COM_JTG_FOLDER').'</td><td>'.JText::_('COM_JTG_NAME').'</td><td>'.JText::_('COM_JTG_STATE').'</td></tr>';
-	    foreach ( $files_to_delete AS $file ) {	    
+	    foreach ( $files_to_delete AS $file ) {
 		    if(!JFile::exists($file)) {
 		    echo '<tr><td>'.JText::_('COM_JTG_FILE').'</td><td>' . $file . '</td><td><font color="green">' . JText::_('COM_JTG_NOT_EXISTS') .' </font>  </td></tr>';}
 		    elseif(JFile::delete($file)) {
@@ -323,7 +323,7 @@ class com_jtgInstallerScript
 
 	    return true;
 	}
- 
+
 	/*
 	 * get a variable from the manifest file (actually, from the manifest cache).
 	 */
@@ -333,7 +333,7 @@ class com_jtgInstallerScript
 		$manifest = json_decode( $db->loadResult(), true );
 		return $manifest[ $name ];
 	}
- 
+
 	/*
 	 * sets parameter values in the component's row of the extension table
 	 */

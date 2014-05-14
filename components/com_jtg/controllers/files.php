@@ -2,7 +2,7 @@
 /**
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
- * 
+ *
  * @package    Comjtg
  * @author     Christophe Seguinot <christophe@jtrackgallery.net>
  * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
@@ -28,7 +28,12 @@ class JtgControllerFiles extends JtgController
 
 		// Check for request forgeries
 		JSession::checkToken() or jexit( 'Invalid Token' );
-		$file =& JFactory::getApplication()->input->get('file', null, 'files', 'array');
+		$file =& JFactory::getApplication()->input->files->get('file');
+		if (!$file['name'])
+		{
+			echo "<script> alert('".JText::_('COM_JTG_FILE_UPLOAD_NO_FILE') . "'); window.history.go(-1); </script>\n";
+			exit;
+		}
 		$images =& $_FILES['images'];
 		$model = $this->getModel('files');
 
@@ -38,9 +43,10 @@ class JtgControllerFiles extends JtgController
 				echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 			}
 			$this->setRedirect( JRoute::_('index.php', false), false );
-
-		} else {
-			echo "<script> alert('".JText::_('COM_JTG_GPS_FILE_ERROR') . "'); window.history.go(-1); </script>\n";
+		}
+		else
+		{
+			echo "<script> alert('".$file['name'].JText::_('COM_JTG_GPS_FILE_ERROR') . "'); window.history.go(-1); </script>\n";
 			exit;
 		}
 	}
