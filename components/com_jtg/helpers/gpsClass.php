@@ -152,11 +152,11 @@ class gpsDataClass
 
 	public function displayErrors()
 	{
-		$error = false;
+		$error = "";
 		foreach ($this->errorMessages as $errorMessage)
 		{
 		    JFactory::getApplication()->enqueueMessage($errorMessage, 'Warning');
-		    $error = true;
+		    $error .= $errorMessage.'<br>';
 		}
 		return $error;
 	}

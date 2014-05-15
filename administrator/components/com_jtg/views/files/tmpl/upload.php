@@ -2,7 +2,7 @@
 /**
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
- * 
+ *
  * @package    Comjtg
  * @author     Christophe Seguinot <christophe@jtrackgallery.net>
  * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
@@ -28,9 +28,9 @@ $max = 100;
 		<tr>
 			<td>
 				<form action="" method="post" name="adminForm" id="adminForm" class="adminForm" enctype="multipart/form-data" target="_parent">
-					<?php echo JText::sprintf('COM_JTG_ALLOWED_FILETYPES', implode(", ",$accept)); ?><br /><?php echo JText::_('COM_JTG_MAXIMAL') . " " . $max; ?><br /><br />
-					<input type="file" name="files[]" class="multi" maxlength="<?php echo $max; ?>" accept="<?php echo implode("|",$accept) ?>" />
-					<input type="checkbox" name="toimport" checked="checked"><?php echo JText::_('COM_JTG_REDIRECT_TO_IMPORT') ?></input>
+					<?php echo JText::sprintf('COM_JTG_ALLOWED_FILETYPES', implode(", ", $accept)); ?><br /><?php echo JText::_('COM_JTG_MAXIMAL') . " " . $max; ?><br /><br />
+					<input type="file" name="files[]" class="multi" maxlength="<?php echo $max; ?>" accept="<?php echo implode("|", $accept) ?>" />
+					<input type="checkbox" name="toimport" checked="checked"> <?php echo JText::_('COM_JTG_REDIRECT_TO_IMPORT') ?>
 					<input type="hidden" name="option" value="com_jtg" />
 					<input type="hidden" name="controller" value="files" />
 					<input type="hidden" name="task" value="" />

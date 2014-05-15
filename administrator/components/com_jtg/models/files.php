@@ -180,7 +180,7 @@ class JtgModelFiles extends JModelLegacy
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
 
-		$array = JFactory::getApplication()->input->get('cid', array(), 'array');
+		$array = JFactory::getApplication()->input->get('cid', array(0), 'array');
 		$edit	= JFactory::getApplication()->input->get('edit',true);
 		if($edit)
 		$this->setId((int)$array[0]);
@@ -668,7 +668,7 @@ class JtgModelFiles extends JModelLegacy
 				$catid = implode(",",$catid);
 				$level =& JRequest::getInt('level_'.$i);
 				$title =& JFactory::getApplication()->input->get('title_'.$i);
-				$terrain =& JFactory::getApplication()->input->get('terrain_'.$i);
+				$terrain =& JFactory::getApplication()->input->get('terrain_'.$i, NULL,'array');
 				if ($terrain)
 				$terrain = implode(',', $terrain);
 				else
@@ -676,7 +676,7 @@ class JtgModelFiles extends JModelLegacy
 				// $desc =& JFactory::getApplication()->input->get('desc_'.$i, '', 'raw');
 				$desc = & $db->quote(implode(' ',JFactory::getApplication()->input->get('desc_'.$i, '', 'array') ) );
 				$desc = $this->parsedesc($desc);
-				$file =& JFactory::getApplication()->input->get('file_'.$i);
+				$file =& JFactory::getApplication()->input->get('file_'.$i,'','raw');
 				$hidden =& JFactory::getApplication()->input->get('hidden_'.$i);
 				$file_tmp = explode(DIRECTORY_SEPARATOR,$file);
 				$filename = strtolower($file_tmp[(count($file_tmp)-1)]);
@@ -707,7 +707,9 @@ class JtgModelFiles extends JModelLegacy
 						die("<html>Booah! No free Filename available!<br>\"<i>" . $file . "</i>\"</html>");
 						$fncount++;
 					}
-				} elseif (strlen($target) > 50) { // Wenn Dateiname über 50 Zeichen hat...
+				}
+				elseif (strlen($target) > 50)
+				{ // Wenn Dateiname über 50 Zeichen hat...
 					for($j=0;$j<100;$j++) { // ... unternehme 100 Versuche...
 						$file_tmp = JtgHelper::alphanumericPass(45); // $this->alphanumericPass(45);
 						if ( !in_array($file_tmp . "." . $extension,$existingfiles) ) {
@@ -728,13 +730,14 @@ class JtgModelFiles extends JModelLegacy
 				$cache = & JFactory::getCache();
 				$gpsData = new gpsDataClass("Kilometer");// default unit
 				$gpsData = $cache->get(array ( $gpsData, 'loadFileAndData' ), array ($file, $filename ), "Kilometer");
-				if ($gpsData->displayErrors())
+				$errors = $gpsData->displayErrors();
+				if ($errors)
 				{
 				   $map = "";
 				   $coords = "";
 				   $distance_float = 0;
 				   $distance = 0;
-				   echo "<script type='text/javascript'>alert('".JText::_('COM_JTG_NO_SUPPORT') . "');window.history.back(-1);</script>";
+				   echo "<script type='text/javascript'>alert('".JText::_('COM_JTG_NO_SUPPORT') . '<br>' .$errors."');window.history.back(-1);</script>";
 				   //TODO before exit, remove downloaded file!!
 				   exit; //TODO chekch if exit is correcxt here ???
 				}
@@ -865,7 +868,7 @@ class JtgModelFiles extends JModelLegacy
 		} else
 		{
 			// TODO print an error message
-			echo "<script type='text/javascript'>alert('".JText::_('COM_JTG_NO_SUPPORT') . ": " . $target . "');window.history.back(-1);</script>";
+			echo "<script type='text/javascript'>alert('".JText::_('COM_JTG_NO_SUPPORT') . "(2): " . $target . "');window.history.back(-1);</script>";
 			// 				exit;
 		}
 		if ($fileokay == true) {
@@ -991,7 +994,7 @@ class JtgModelFiles extends JModelLegacy
 		   $coords = "";
 		   $distance_float = 0;
 		   $distance = 0;
-		   echo "<script type='text/javascript'>alert('".JText::_('COM_JTG_NO_SUPPORT') . "');window.history.back(-1);</script>";
+		   echo "<script type='text/javascript'>alert('".JText::_('COM_JTG_NO_SUPPORT') . "(3)');window.history.back(-1);</script>";
 		   //TODO before exit, remove downloaded file!!
 		   exit; //TODO chekch if exit is correcxt here ???
 		}

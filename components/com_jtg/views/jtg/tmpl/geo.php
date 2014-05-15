@@ -2,7 +2,7 @@
 /**
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
- * 
+ *
  * @package    Comjtg
  * @author     Christophe Seguinot <christophe@jtrackgallery.net>
  * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
@@ -71,7 +71,7 @@ for($x=0;$x<=count($latlon);$x++){
 				array($latlon[$x]->jtglon,$latlon[$x]->jtglat)));
 				$distance = JtgHelper::getLocatedFloat($distance,0,$this->cfg->unit);
 
-				$distancetext = "<br />".JText::_('COM_JTG_DISTANCE') . ": ";
+				$distancetext = "<br />".JText::_('COM_JTG_DISTANCE_GUEST') . ": ";
 			}
 			else
 			{
@@ -175,7 +175,7 @@ if ( $userid ) {
 	value="" /> <?php
 	if(isset($this->id)) echo '	<input type="hidden" name="id" value="'.$this->id.'" />';
 	?> <input type="submit" name="Submit" class="button"
-	value="<?php echo JText::_('COM_JTG_SAVE') ?>" onclick="submitbutton('save')" />
+	value="<?php echo JText::_('COM_JTG_SAVE') ?>" ondblclick="submitbutton('save')" />
 </form>
 	<?php } else { ?>
 <input type="hidden"

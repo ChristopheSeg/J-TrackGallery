@@ -2,7 +2,7 @@
 /**
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
- * 
+ *
  * @package    Comjtg
  * @author     Christophe Seguinot <christophe@jtrackgallery.net>
  * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
@@ -176,7 +176,6 @@ foreach($files AS $file) {
 			// Spur vorhanden, aber nicht an erster Stelle. Evtl. mehrere Spuren
 			)
 			$table .= ("<input type=\"checkbox\" checked=\"checked\" id=\"cb" . $count . "\" value=\"" . $file . "\" name=\"import_" . $count . "\" onclick=\"Joomla.isChecked(this.checked);\" />\n");
-//			$table .= ("<input type=\"checkbox\" id=\"cb" . $count . "\" value=\"" . $file . "\" name=\"cid[]\" onclick=\"isChecked(this.checked);\" />\n");
 			$table .= $filename_exists;
 			$table .= ("				</td>\n");
 		}
@@ -351,13 +350,13 @@ if ( $count == 0 ){
 		//TODO folder/images don't exist !!!
 		echo (" <a href=\"index.php?option=com_jtg&task=importjgt&controller=files\"><img src=\"templates" . DIRECTORY_SEPARATOR . "khepri" . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "notice-download.png\" /></a>");
 		// Datenimport von joomgpstracks END
-	} 
+	}
 	else
 	{
 		// Nichts zu importieren
 		JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_IMPORTFOLDEREMPTY') . ": \"" . $importdir . "\"",'Warning' );
 	}
-} 
+}
 else
 {
 echo $table_header.$table.$table_footer;

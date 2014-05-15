@@ -2,7 +2,7 @@
 /**
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
- * 
+ *
  * @package    Comjtg
  * @author     Christophe Seguinot <christophe@jtrackgallery.net>
  * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
@@ -14,7 +14,7 @@
 defined('_JEXEC') or die('Restricted access');
 $id = $this->_models['maps']->_id;
 // toolbar
-if($id < 1) 
+if($id < 1)
 	$title = JText::_('COM_JTG_ADD_MAP');
 else
 	$title = JText::_('COM_JTG_EDIT_MAP');
@@ -72,8 +72,8 @@ if (($id) AND (isset($map->param)))
 	echo $param;
 }
 ?></textarea>
-		
-		    
+
+
 </td>
             </tr>
             <tr>
@@ -98,7 +98,7 @@ if (($id) AND (isset($map->code)))
             </tr>
             <tr>
                 <td><?php echo JText::_('COM_JTG_ORDER'); ?>:*</td>
-                <td><input id="order" type="text" name="order" value="<?php if (($id) AND (isset($map->ordering))) echo $map->ordering; else echo 99; ?>" size="2" maxsize="2" </td>
+                <td><input id="order" type="text" name="order" value="<?php if (($id) AND (isset($map->ordering))) {echo $map->ordering;} else {echo 99;} ?>" size="2" maxsize="2" > </td>
             </tr>
         </tbody>
     </table>
@@ -112,7 +112,7 @@ if (($id) AND (isset($map->code)))
 if ($id)
 { ?>
 	<input type="hidden" name="id" value="<?php echo $id; ?>" />
-	
+
 <?php }
 ?>
 </form>
