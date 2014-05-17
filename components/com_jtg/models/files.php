@@ -342,7 +342,8 @@ class JtgModelFiles extends JModelLegacy
 				$newfile,
 				strtolower($filename)
 		), "Kilometer");
-		if ($gpsData->displayErrors())
+		$errors = $gpsData->displayErrors();
+		if ($errors)
 		{
 			$map = "";
 			$coords = "";
@@ -353,7 +354,7 @@ class JtgModelFiles extends JModelLegacy
 			{
 				JFile::delete($upload_dir . strtolower($filename));
 			}
-			echo "<script type='text/javascript'>alert('" . JText::_('COM_JTG_NO_SUPPORT') . "');window.history.back(-1);</script>";
+			echo "<script type='text/javascript'>alert('" . JText::_('COM_JTG_NO_SUPPORT') . "\n" .$errors."');window.history.back(-1);</script>";
 			exit();
 		}
 

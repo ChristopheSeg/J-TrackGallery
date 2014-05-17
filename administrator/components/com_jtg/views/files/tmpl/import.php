@@ -44,7 +44,8 @@ $yesnolist = array(
 $tracks = $this->rows;
 $trackfilename = array();
 // Vorhandene Dateinamen in array speichern
-for($i=0;$i<count($tracks);$i++) {
+for($i=0;$i<count($tracks);$i++)
+{
 	$trackfilename[$i] = $tracks[$i]->file;
 }
 $level = array("access" => 0);
@@ -63,7 +64,17 @@ $me =& JFactory::getUser();
 $files = JFolder::files($importdir,$regex,true,true);
 $model = $this->getModel();
 $terrain = $model->getTerrain("*",true," WHERE published=1 ");
+$terrainsize = count($terrain);
+if ( $terrainsize > 6 )
+{
+	$terrainsize = 6;
+}
 $cats = $model->getCats();
+$catssize = count($cats);
+if ( $catssize > 6 )
+{
+	$catssize = 6;
+}
 $toggle['level'] = ("<select name=\"level_all\" size=\"1\" onclick=\"setSelect('level');\">
 						<option value=\"0\">".JText::_('COM_JTG_SELECT') . "</option>
 						<option value=\"1\">1</option>
@@ -74,10 +85,12 @@ $toggle['level'] = ("<select name=\"level_all\" size=\"1\" onclick=\"setSelect('
 					</select>\n");
 $table = ("		<tbody>\n
 			<tr class=\"row" . $row . "\">
-				<td colspan=\"4\" align=\"right\">".JText::_('COM_JTG_PRESELECTION') . ":</td>
+				<td colspan=\"2\" align=\"right\">".JText::_('COM_JTG_PRESELECTION') . "==></td>
 				<td>" . $toggle['level'] . "</td>
-				<td>".JHtml::_('select.genericlist', $cats, 'catid_all', 'size="1" onclick="setSelect(\'catid\')"', 'id', 'treename') . "</td>
-				<td>".JHtml::_('select.genericlist', $terrain, 'terrain_all', 'size="1" onclick="setSelect(\'terrain\')"', 'id', 'title') . "</td>
+				<td>".JHtml::_('select.genericlist', $cats, 'catid_all[]', 'size="'.$catssize.'" multiple="multiple" onclick="setSelect(\'catid\')"', 'id', 'name')
+					. "<br /><small>".JText::_('COM_JTG_MULTIPLE_CHOICE_POSSIBLE') . "</small>". "</td>
+				<td>".JHtml::_('select.genericlist', $terrain, 'terrain_all[]', 'size="'.$terrainsize.'"  multiple="multiple" onclick="setSelect(\'terrain\')"', 'id', 'title')
+					. "<br /><small>".JText::_('COM_JTG_MULTIPLE_CHOICE_POSSIBLE') . "</small>". "</td>
 				<td>".JHtml::_('list.users', 'uid_all', $me->id, 1, 'onclick="setSelect(\'uid\')"', 'name', 0 ) . "</td>
 				<td>" . $this->accesslevelForImport("access_all","onclick=\"setSelect('access')\"",true) . "</td>
 				<td>".JHtml::_('select.genericlist', $yesnolist, 'hidden_all', 'class="inputbox" size="1" onclick="setSelect(\'hidden\')"', 'id', 'title',0) . "</td>
@@ -88,15 +101,13 @@ if ( $files !== false )
 foreach($files AS $file) {
 		$row = (1 - $row);
 	// Formatierungen
-	$size = count($cats);
-	if ( $size > 6 )
-	$size = 6;
+
 //	$lists['cats'] = JHtml::_('select.genericlist', $model->getCats(), 'catid_'.$count, 'size="'.$size.'"', 'id', 'title');
 	$lists['cats'] = JHtml::_('select.genericlist',
 		$cats,
 		'catid_'.$count.'[]',
-		'size="'.$size.'" multiple="multiple"',
-		'id', 'treename' );
+		'multiple="multiple" size="'.$catssize.'"',
+		'id', 'name' );
 	$editor = JFactory::getEditor();
 	$buttons = array(
 	"pagebreak",
@@ -108,25 +119,21 @@ foreach($files AS $file) {
 		'table' => '0',
 		'clear_entities'=>'0');
 	$lists['description'] = $editor->display( 'desc_'.$count, '', '100%', '200', '20', '20', $buttons, $params );
-	$size = count($terrain);
-	if ( $size > 6 )
-	$size = 6;
 	$lists['access'] = $this->accesslevelForImport("access_" . $count);
 	$lists['uid'] = JHtml::_('list.users', 'uid_'.$count, $me->id, 1, NULL, 'name', 0 );
 	$lists['hidden'] = JHtml::_('select.genericlist', $yesnolist, 'hidden_'.$count, 'class="inputbox" size="2"', 'id', 'title',0);
 	$lists['terrain'] = JHtml::_('select.genericlist',
 		$terrain,
 		'terrain_'.$count.'[]',
-		'multiple="multiple" size="'.$size.'"',
-		'id', 'title'
-		//		,$track->terrain
-	) . "<br /><small>".JText::_('COM_JTG_MULTIPLE_CHOICE_POSSIBLE') . "</small>";
+		'multiple="multiple" size="'.$terrainsize.'"',
+		'id', 'title');
 
 	jimport('joomla.filesystem.file');
 	$extension = JFile::getExt($file);
 	$file_tmp = explode('.',$file);
 	unset($file_tmp[(count($file_tmp)-1)]);
 	$filename = implode('.',$file_tmp);
+	// TODO Verify these lines !!
 	$filename = $filename . "." . $extension;
 	$filename = str_replace($importdir. DIRECTORY_SEPARATOR,'',$filename);
 	$filename_wof = explode(DIRECTORY_SEPARATOR,$filename);
@@ -139,50 +146,61 @@ foreach($files AS $file) {
 	if (in_array(strtolower($filename_wof),$filesdir) ) {
 		$check = $this->checkFile($file,true);
 		$filename_exists = "<input type=\"hidden\" name=\"filenameexists_" . $count . "\" value=\"true\">\n";
-	} else {
+	}
+	else
+	{
 		$check = $this->checkFile($file);
 		$filename_exists = "<input type=\"hidden\" name=\"filenameexists_" . $count . "\" value=\"false\">\n";
 	}
 
 	//if ( ( $errorposted == false ) AND ( $check !== true ) )
 	{
-		if ( ( $check != 8 ) AND ( $errorposted == false ) ) {
+		if ( ( $check != 8 ) AND ( $errorposted == false ) )
+		{
 			$errorposted = true;
 			JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_ERROR_FOUND'),'Notice' );
 		}
 
-		$table .= ("			<tr><td colspan=\"11\"><hr></td></tr><tr class=\"row" . $row . "\">\n");
-		// Spalte: Checkbox
+		$table .= ("			<tr><td colspan=\"9\"><hr></td></tr><tr class=\"row" . $row . "\">\n");
+
+		// Row: Selector + Date
 		{
-			$table .= ("				<td rowspan='2'>");
+			$table .= '<td nowrap>'.$filename_exists;
+
 			if (
-			( $check === true ) OR
-			// eine Spur mit Punkten an erster Stelle vorhanden
-			( $check == 1 ) OR
-			// Dateiname existiert
-			//			( $check == 2 ) OR
-			// Kein Löschrecht
-			( $check == 3 ) OR
-			// Dateinamenslänge überschritten
-			//			( $check == 4 ) OR
-			// Wenn "&" im Dateinamen
-			( $check == 5 ) OR
-			// Wenn "#" im Dateinamen
-			( $check == 6 ) OR
-			// Keine Spur vorhanden
-			( $check == 7 ) OR
-			// Spur vorhanden, aber kein Punkt
-			( $check == 8 )
-			// Spur vorhanden, aber nicht an erster Stelle. Evtl. mehrere Spuren
+				( $check === true ) OR
+				// eine Spur mit Punkten an erster Stelle vorhanden
+				( $check == 1 ) OR
+				// Dateiname existiert
+				//			( $check == 2 ) OR
+				// Kein Löschrecht
+				( $check == 3 ) OR
+				// Dateinamenslänge überschritten
+				//			( $check == 4 ) OR
+				// Wenn "&" im Dateinamen
+				( $check == 5 ) OR
+				// Wenn "#" im Dateinamen
+				( $check == 6 ) OR
+				// Keine Spur vorhanden
+				( $check == 7 ) OR
+				// Spur vorhanden, aber kein Punkt
+				( $check == 8 )
+				// Spur vorhanden, aber nicht an erster Stelle. Evtl. mehrere Spuren
 			)
-			$table .= ("<input type=\"checkbox\" checked=\"checked\" id=\"cb" . $count . "\" value=\"" . $file . "\" name=\"import_" . $count . "\" onclick=\"Joomla.isChecked(this.checked);\" />\n");
-			$table .= $filename_exists;
-			$table .= ("				</td>\n");
+			{
+				$table .= ("<input type=\"checkbox\" checked=\"checked\" id=\"cb" . $count . "\" value=\"" . $file . "\" name=\"import_" . $count . "\" onclick=\"Joomla.isChecked(this.checked);\" /><br><br><br>\n");
+			}
+			$table .= ("				<input id=\"date_" . $count . "\" type=\"text\" name=\"date_" . $count . "\" size=\"10\" value=\"");
+			if ($date === false)
+			$table .= (date('Y-m-d',time()) . "\" /><font color=\"orange\">&nbsp;</font></td>");
+			else
+			$table .= ($date . "\" /></td>");
 		}
 
-		// Spalte: Dateiname
+		//Row: GPS filename / Title
 		{
-			$table .= ("				<td nowrap rowspan='2'>");
+			$table .= ("				<td>");
+			$table .= ("<input type=\"hidden\" name=\"file_" . $count . "\" value=\"" . $file . "\" />\n");
 			/*
 			 1 = JText::_('COM_JTG_TT_ERR_FILEEXIST');		green
 			 2 = JText::_('COM_JTG_TT_ERR_NODELETE');		red
@@ -194,9 +212,9 @@ foreach($files AS $file) {
 			 8 = JText::_('COM_JTG_TT_ERR_MORETRACKS');		blue
 			 */
 			// if ( ( $check === true ) OR ( $check == 8 ) )
-			$table .= ("<input type=\"hidden\" name=\"file_" . $count . "\" value=\"" . $file . "\" />\n");
-			if ( $check !== true ) {
-				$table .= ("<span class=\"hasTip\" title=\"" . $filename . "\">");
+
+			if ( $check !== true )
+			{
 				if ( $check == 1 ) {
 					$tt = JText::_('COM_JTG_TT_ERR_FILEEXIST');
 					$color = "green";
@@ -222,26 +240,17 @@ foreach($files AS $file) {
 					$tt = JText::_('COM_JTG_TT_ERR_MORETRACKS');
 					$color = "blue";
 				}
-				$table .= ("<font color=\"" . $color . "\">" . $tt . "</font>: " . $extension . "</span>\n");
-			} else $table .= ("<span class=\"hasTip\" title=\"" . $filename . "\"><font color=\"black\">".JText::_('COM_JTG_TT_FILEOKAY') . ":</font> " . $extension . "</span>\n");
-			$table .= ("</td>\n");
-		}
-
-		// Spalte: Datum
-		{
-			$table .= ("				<td nowrap><input id=\"date_" . $count . "\" type=\"text\" name=\"date_" . $count . "\" size=\"10\" value=\"");
-			if ($date === false)
-			$table .= (date('Y-m-d',time()) . "\" /><font color=\"orange\">&nbsp;?</font></td>");
+				$table .= ($tt."<br><font color=\"" . $color . "\">" . $filename . "</font>: " . $extension . "</span>\n");
+			}
 			else
-			$table .= ($date . "\" /></td>");
+			{
+				$table .= ("<font color=\"black\">".JText::_('COM_JTG_TT_FILEOKAY') . ":</font> " . $filename . " " . $extension . "\n");
+			}
+
+			$table .= ("\n				<br><br><input id=\"title\" type=\"text\" name=\"title_" . $count . "\" value=\"" . $title . "\" size=\"30\" /></td>\n");
 		}
 
-		// Spalte: Titel
-		{
-			$table .= ("\n				<td><input id=\"title\" type=\"text\" name=\"title_" . $count . "\" value=\"" . $title . "\" size=\"30\" /></td>\n");
-		}
-
-		// Spalte: Schwierigkeitsgrad
+		//Row: Schwierigkeitsgrad
 		{
 			$table .= ("				<td>
 					<select id=\"level_" . $count . "\" name=\"level_" . $count . "\" size=\"6\">
@@ -255,38 +264,38 @@ foreach($files AS $file) {
 				</td>\n");
 		}
 
-		// Spalte: Kategorien
+		//Row: Kategorien
 		{
 			$table .= ("				<td>" . $lists['cats'] . "</td>\n");
 		}
 
-		// Spalte: Terrain
+		//Row: Terrain
 		{
 			$table .= ("				<td>" . $lists['terrain'] . "</td>\n");
 		}
 
-		// Spalte: Autor
+		//Row: Autor
 		{
 			$table .= ("				<td>" . $lists['uid'] . "</td>\n");
 		}
 
-		// Spalte: Zugriffsebene
+		//Row: Zugriffsebene
 		{
 			$table .= ("				<td>" . $lists['access'] . "</td>\n");
 		}
 
-		// Spalte: Hidden
+		//Row: Hidden
 		{
 			$table .= ("				<td>" . $lists['hidden'] . "</td>\n");
 		}
 
-		// Spalte: NULL
+		//Row: NULL
 		{
 			$table .= ("				<td></td>\n");
 		}
 
 		$table .= ("			</tr>\n<tr class=\"row" . $row . "\">\n");
-		// Spalte: Beschreibung
+		//Row: Beschreibung
 		{
 			$table .= ("				<td colspan='8'>".JText::_('COM_JTG_DESCRIPTION') . ":<br />\n" . $lists['description'] . "</td>\n");
 		}
@@ -323,10 +332,9 @@ $toggle['level'] = ("<select name=\"level_all\" size=\"6\" onclick=\"setSelect('
 $table_header = ("	<table class=\"adminlist\" cellpadding=\"1\">
 		<thead>
 			<tr>
-				<th class=\"title\" width=\"1\"><input type=\"checkbox\" name=\"toggle\" value=\"\" onclick=\"Joomla.checkAll(" . $count . ");\" /></th>
-				<th class=\"title\" width=\"1\">".JText::_('COM_JTG_GPS_FILE') . "</th>
-				<th class=\"title\" width=\"1\">".JText::_('COM_JTG_DATE') . "</th>
-				<th class=\"title\" width=\"1\">".JText::_('COM_JTG_TITLE') . "</th>
+				<th class=\"title\" width=\"1\"><input type=\"checkbox\" name=\"toggle\" value=\"\" onclick=\"Joomla.checkAll(" . $count . ");\" /><br>/ "
+					.JText::_('COM_JTG_DATE') . "</th>
+				<th class=\"title\" width=\"1\">".JText::_('COM_JTG_GPS_FILE') . "<br>/ ".JText::_('COM_JTG_TITLE') . "</th>
 				<th class=\"title\" width=\"1\">".JText::_('COM_JTG_LEVEL') . "</th>
 				<th class=\"title\" width=\"1\">".JText::_('COM_JTG_CAT') . "</th>
 				<th class=\"title\" width=\"1\">".JText::_('COM_JTG_TERRAIN') . "</th>
@@ -353,8 +361,10 @@ if ( $count == 0 ){
 	}
 	else
 	{
-		// Nichts zu importieren
-		JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_IMPORTFOLDEREMPTY') . ": \"" . $importdir . "\"",'Warning' );
+		// Nothing in import folder
+		JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_IMPORTFOLDEREMPTY') . " (" . DIRECTORY_SEPARATOR
+			. 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'uploaded_tracks'
+			. DIRECTORY_SEPARATOR . "import)",'Warning' );
 	}
 }
 else

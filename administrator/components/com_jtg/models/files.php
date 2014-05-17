@@ -587,6 +587,7 @@ class JtgModelFiles extends JModelLegacy
 		$nullcat = JArrayHelper::toObject($nullcat);
 		array_unshift($rows,$nullcat);
 		return $rows;
+		// What's taht stuff !!!
 		foreach($rows AS $value){
 			$return[] = $value;
 		}
@@ -737,9 +738,9 @@ class JtgModelFiles extends JModelLegacy
 				   $coords = "";
 				   $distance_float = 0;
 				   $distance = 0;
-				   echo "<script type='text/javascript'>alert('".JText::_('COM_JTG_NO_SUPPORT') . '<br>' .$errors."');window.history.back(-1);</script>";
+				   echo "<script type='text/javascript'>alert('".JText::_('COM_JTG_NO_SUPPORT') . "\n" .$errors."');window.history.back(-1);</script>";
 				   //TODO before exit, remove downloaded file!!
-				   exit; //TODO chekch if exit is correcxt here ???
+				   exit; //TODO chekch if exit is correct here ???
 				}
 				$fileokay = true; // TODO remove $fileokay
 
@@ -977,7 +978,10 @@ class JtgModelFiles extends JModelLegacy
 				$filename = $randname.JFile::makeSafe($file['name']);
 				// Man weiß ja nie ;)
 				if ( $fncount > 10000 )
-				die("<html>Booah! No free Filename available!<br>\"<i>".JFile::makeSafe($file['name']) . "</i>\"</html>");
+				{
+					//This would never happen !!
+					die("<html>Booah! No free Filename available!<br>\"<i>".JFile::makeSafe($file['name']) . "</i>\"</html>");
+				}
 				$fncount++;
 			}
 		}
@@ -988,15 +992,16 @@ class JtgModelFiles extends JModelLegacy
 		$file = ".." . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "jtrackgallery" . DIRECTORY_SEPARATOR . "uploaded_tracks" . DIRECTORY_SEPARATOR . strtolower($filename);
 		$cache = & JFactory::getCache();
 		$gpsData = $cache->get(array ( $gpsData, 'loadFileAndData' ), array ($file, strtolower($filename) ), "Kilometer");
-		if ($gpsData->displayErrors())
+		$errors = $gpsData->displayErrors();
+		if ($errors)
 		{
 		   $map = "";
 		   $coords = "";
 		   $distance_float = 0;
 		   $distance = 0;
-		   echo "<script type='text/javascript'>alert('".JText::_('COM_JTG_NO_SUPPORT') . "(3)');window.history.back(-1);</script>";
+		   echo "<script type='text/javascript'>alert('".JText::_('COM_JTG_NO_SUPPORT') . "\n" . $errors . "');window.history.back(-1);</script>";
 		   //TODO before exit, remove downloaded file!!
-		   exit; //TODO chekch if exit is correcxt here ???
+		   exit;
 		}
 		$fileokay = true; // TODO remove $fileokay
 

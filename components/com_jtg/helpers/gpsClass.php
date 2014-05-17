@@ -156,7 +156,7 @@ class gpsDataClass
 		foreach ($this->errorMessages as $errorMessage)
 		{
 		    JFactory::getApplication()->enqueueMessage($errorMessage, 'Warning');
-		    $error .= $errorMessage.'<br>';
+		    $error .= $errorMessage . "\n";
 		}
 		return $error;
 	}
@@ -267,7 +267,14 @@ class gpsDataClass
 			if ($coordinatesCount >1)
 			{
 			    $this->trackCount++;
-			    $this->track[$this->trackCount]->trackname = (string) @$xml->trk[$t]->name;;
+			    if (isset($xml->trk[$t]->name) )
+			    {
+			    	$this->track[$this->trackCount]->trackname = (string) $xml->trk[$t]->name;
+			    }
+			    else
+			    {
+			    	$this->track[$this->trackCount]->trackname = $this->trackname . '-' . (string) $this->trackCount;
+			    }
 			    $this->track[$this->trackCount]->coords = $coords;
 			    $this->track[$this->trackCount]->start = ($coords[0][0] . "," . $coords[0][1]);
 			    $this->track[$this->trackCount]->stop = ($coords[$coordinatesCount-1][0] . "," . $coords[$coordinatesCount-1][1]);
@@ -1039,8 +1046,7 @@ class gpsDataClass
 
 		$db = JFactory::getDBO();
 
-		$query = "SELECT * FROM #__jtg_cats"
-		;
+		$query = "SELECT * FROM #__jtg_cats";
 
 		$db->setQuery($query);
 		$rows = $db->loadObjectList();
