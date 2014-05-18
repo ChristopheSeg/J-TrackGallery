@@ -599,6 +599,38 @@ class JtgModelFiles extends JModelLegacy
 	 * @global object $mainframe
 	 * @return array
 	 */
+	function getUsers($nullter = false, $where = "WHERE block = 0" )  {
+		//		Used to generate generic list of users
+		// Joomla 2.5 JHtml::_('list.users'..); returns duplicate users
+
+		$db =& JFactory::getDBO();
+		$rows=null;
+		$query = "SELECT id, name as title FROM #__users " . $where . " ORDER BY name";
+	    $db->setQuery($query);
+	    $rows = $db->loadObjectList();
+
+		$users = array();
+		if($rows)
+		{
+			foreach ($rows as $v) {
+				$users[] = $v;
+			}
+		}
+		if ($nullter !== false)
+		{
+			$nullter = new stdClass();
+			$nullter->title = JText::_('COM_JTG_SELECT');
+			$nullter->id = null;
+			array_unshift($users,$nullter);
+		}
+		return $users;
+	}
+
+	/**
+	 *
+	 * @global object $mainframe
+	 * @return array
+	 */
 	function getTerrain($select="*", $nullter = false, $where = null )  {
 		//		$mainframe =& JFactory::getApplication();
 

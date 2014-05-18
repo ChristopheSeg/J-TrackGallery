@@ -75,6 +75,12 @@ if ( $catssize > 6 )
 {
 	$catssize = 6;
 }
+$userslist = $model->getUsers(false, $where = "WHERE block = 0" );
+$userslistsize = count($userslist);
+if ( $userslistsize > 6 )
+{
+	$userslistsize = 6;
+}
 $toggle['level'] = ("<select name=\"level_all\" size=\"1\" onclick=\"setSelect('level');\">
 						<option value=\"0\">".JText::_('COM_JTG_SELECT') . "</option>
 						<option value=\"1\">1</option>
@@ -83,17 +89,19 @@ $toggle['level'] = ("<select name=\"level_all\" size=\"1\" onclick=\"setSelect('
 						<option value=\"4\">4</option>
 						<option value=\"5\">5</option>
 					</select>\n");
+
 $table = ("		<tbody>\n
 			<tr class=\"row" . $row . "\">
-				<td colspan=\"2\" align=\"right\">".JText::_('COM_JTG_PRESELECTION') . "==></td>
+				<td colspan=\"2\" align=\"right\"><b>" . JText::_('COM_JTG_PRESELECTION') . "==></b><br><br>"
+				. JText::_('COM_JTG_PRESELECTION_DESCRIPTION') . "</td>
 				<td>" . $toggle['level'] . "</td>
-				<td>".JHtml::_('select.genericlist', $cats, 'catid_all[]', 'size="'.$catssize.'" multiple="multiple" onclick="setSelect(\'catid\')"', 'id', 'name')
+				<td>" . JHtml::_('select.genericlist', $cats, 'catid_all[]', 'size="'.$catssize.'" multiple="multiple" onclick="setSelectMultiple(\'catid\')"', 'id', 'name')
 					. "<br /><small>".JText::_('COM_JTG_MULTIPLE_CHOICE_POSSIBLE') . "</small>". "</td>
-				<td>".JHtml::_('select.genericlist', $terrain, 'terrain_all[]', 'size="'.$terrainsize.'"  multiple="multiple" onclick="setSelect(\'terrain\')"', 'id', 'title')
+				<td>" . JHtml::_('select.genericlist', $terrain, 'terrain_all[]', 'size="'.$terrainsize.'"  multiple="multiple" onclick="setSelectMultiple(\'terrain\')"', 'id', 'title')
 					. "<br /><small>".JText::_('COM_JTG_MULTIPLE_CHOICE_POSSIBLE') . "</small>". "</td>
-				<td>".JHtml::_('list.users', 'uid_all', $me->id, 1, 'onclick="setSelect(\'uid\')"', 'name', 0 ) . "</td>
-				<td>" . $this->accesslevelForImport("access_all","onclick=\"setSelect('access')\"",true) . "</td>
-				<td>".JHtml::_('select.genericlist', $yesnolist, 'hidden_all', 'class="inputbox" size="1" onclick="setSelect(\'hidden\')"', 'id', 'title',0) . "</td>
+				<td>" . JHtml::_('select.genericlist', $userslist, 'uid_all', 'class="inputbox" size="'.$userslistsize.'" onclick="setSelect(\'uid\')"', 'id','title', $me->id) . "</td>
+				<td>" . $this->accesslevelForImport("access_all","onclick=\"setSelect('access')\"",false) . "</td>
+				<td>" . JHtml::_('select.genericlist', $yesnolist, 'hidden_all', 'class="inputbox" size="1" onclick="setSelect(\'hidden\')"', 'id', 'title') . "</td>
 				<td></td>
 				</tr>
 ");
@@ -120,7 +128,9 @@ foreach($files AS $file) {
 		'clear_entities'=>'0');
 	$lists['description'] = $editor->display( 'desc_'.$count, '', '100%', '200', '20', '20', $buttons, $params );
 	$lists['access'] = $this->accesslevelForImport("access_" . $count);
-	$lists['uid'] = JHtml::_('list.users', 'uid_'.$count, $me->id, 1, NULL, 'name', 0 );
+	$lists['uid'] = JHtml::_('select.genericlist', $userslist, 'uid_'.$count, ' size="'.$userslistsize.'"','id', 'title', $me->id);
+	// $me->id, 1, 'onclick="setSelect(\'uid\')"', 'name', 0 );
+	// 				genericlist($arr, $name, $attribs=null, $key= 'value', $text= 'text', $selected=NULL, $idtag=false, $translate=false)
 	$lists['hidden'] = JHtml::_('select.genericlist', $yesnolist, 'hidden_'.$count, 'class="inputbox" size="2"', 'id', 'title',0);
 	$lists['terrain'] = JHtml::_('select.genericlist',
 		$terrain,
@@ -240,11 +250,11 @@ foreach($files AS $file) {
 					$tt = JText::_('COM_JTG_TT_ERR_MORETRACKS');
 					$color = "blue";
 				}
-				$table .= ($tt."<br><font color=\"" . $color . "\">" . $filename . "</font>: " . $extension . "</span>\n");
+				$table .= ($tt."<br><font color=\"" . $color . "\">" . $filename . "</font>: </span>\n");
 			}
 			else
 			{
-				$table .= ("<font color=\"black\">".JText::_('COM_JTG_TT_FILEOKAY') . ":</font> " . $filename . " " . $extension . "\n");
+				$table .= ("<font color=\"black\">".JText::_('COM_JTG_TT_FILEOKAY') . ":</font> " . $filename . "\n");
 			}
 
 			$table .= ("\n				<br><br><input id=\"title\" type=\"text\" name=\"title_" . $count . "\" value=\"" . $title . "\" size=\"30\" /></td>\n");
@@ -372,12 +382,66 @@ else
 echo $table_header.$table.$table_footer;
 }
 echo JHtml::_( 'form.token' );
-$js = "function setSelect(select) {
+$js = "
+
+function setSelectMultiple(select) {
+	var srcListName = select + '_all';
+	var form = document['adminForm'];
+	var srcList = form[srcListName];
+  	var values =[];
+	var i;
+  	for (i=0; i<srcList.options.length; i++) {
+      	values[i] = (srcList.options[i].selected==true);
+    }
+	for (i=0; i < " . $count . "; i++) {
+		setSelectedMultipleValues('adminForm', select + '_' + i , values);
+	}
+}
+function setSelectedMultipleValues( frmName, srcListName, values ) {
+	var form = eval( 'document.' + frmName );
+	var srcList = eval( 'form.' + srcListName );
+  	var i;
+  	for (i=0; i<srcList.options.length; i++) {
+		srcList.options[i].selected = values[i];
+	}
+}
+
+
+function setSelect(select) {
+
 	var value = getSelectedValue('adminForm', select + '_all');
 	for (i=0; i < " . $count . "; i++) {
 		setSelectedValue('adminForm', select + '_' + i , value);
 	}
-}";
+}
+
+function getSelectedValue(frmName, srcListName) {
+	var form = eval( 'document.' + frmName );
+	var srcList = eval( 'form.' + srcListName );
+
+	i = srcList.selectedIndex;
+	if (i != null && i > -1) {
+		return srcList.options[i].value;
+	} else {
+		return null;
+	}
+}
+
+
+function setSelectedValue( frmName, srcListName, value ) {
+	var form = eval( 'document.' + frmName );
+	var srcList = eval( 'form.' + srcListName );
+
+	var srcLen = srcList.length;
+
+	for (var i=0; i < srcLen; i++) {
+		srcList.options[i].selected = false;
+		if (srcList.options[i].value == value) {
+			srcList.options[i].selected = true;
+		}
+	}
+}
+";
 $document =& JFactory::getDocument();
 $document->addScriptDeclaration($js);
 echo ("	<input type=\"hidden\" name=\"option\" value=\"com_jtg\" />
