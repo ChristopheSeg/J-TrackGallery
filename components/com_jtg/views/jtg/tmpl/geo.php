@@ -66,12 +66,12 @@ for($x=0;$x<=count($latlon);$x++){
 		if ( ( ( $userid ) && ( $latlon[$x]->jtgvisible != "non" ) ) || ( ( !$userid ) && ( $latlon[$x]->jtgvisible == "all" ) ) ) {
 			if (isset($userlon))
 			{
-				$distance = $gpsCoords->getDistance(array(
+				$distance = (int) $gpsCoords->getDistance(array(
 				array($userlon,$userlat),
 				array($latlon[$x]->jtglon,$latlon[$x]->jtglat)));
 				$distance = JtgHelper::getLocatedFloat($distance,0,$this->cfg->unit);
 
-				$distancetext = "<br />".JText::_('COM_JTG_DISTANCE_GUEST') . ": ";
+				$distancetext = "<br />".JText::_('COM_JTG_DISTANCE_GUEST');
 			}
 			else
 			{
@@ -120,9 +120,11 @@ if ( $userid ) {
 	?>
 <form action="<?php echo ($this->geo); ?>" method="post"
 	name="adminForm" id="adminForm">
+<?php echo '<br>'.JText::_('COM_JTG_LOCATION_DESCRIPTION').'<br>';?>
 <table>
 	<tr>
 		<td><?php
+
 		echo JText::_('COM_JTG_LAT');
 		if (isset($userlat)) $lat = round($userlat,15); else $lat = "";
 		if (isset($userlon)) $lon = round($userlon,15); else $lon = "";
@@ -175,7 +177,7 @@ if ( $userid ) {
 	value="" /> <?php
 	if(isset($this->id)) echo '	<input type="hidden" name="id" value="'.$this->id.'" />';
 	?> <input type="submit" name="Submit" class="button"
-	value="<?php echo JText::_('COM_JTG_SAVE') ?>" ondblclick="submitbutton('save')" />
+	value="<?php echo JText::_('COM_JTG_SAVE') ?>" onclick="submitbutton('save')" />
 </form>
 	<?php } else { ?>
 <input type="hidden"
