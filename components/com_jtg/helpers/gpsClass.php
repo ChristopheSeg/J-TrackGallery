@@ -853,6 +853,9 @@ class gpsDataClass
 		$stringlength = 200;
 		$maxslperrow = 50;
 
+		// strip all tags but <p>
+		$desc = str_replace(array("'","\n","\r"), array("\'","<br/>"," "), $desc);
+		$desc = strip_tags($desc,'<p>');
 		// Trennung nach <p>Katitel</p> BEGIN
 		$desc = str_replace('</p>',"",$desc);
 		$desc = explode('<p>',$desc);
@@ -861,16 +864,20 @@ class gpsDataClass
 		$return = "";
 		foreach ( $desc AS $chapter ) {
 			if ( $chapter != "" ) {
+				$chapter = strip_tags($chapter);
 				$chapter = trim($chapter);
 				// 	Trennung nach Wörter BEGIN
 				$words = explode(' ',$chapter);
 				$return .= "<p>";
 				$rowlen = 0;
-				foreach($words AS $word) {
+				foreach($words AS $word)
+				{
+					// strip additionnal (non <p>) tags, quote and return
 					$count_letters = ( $count_letters + strlen($word) +1 ); // "1" wegen der Leerstelle
 					// 		Einfügung von Zeilensprung BEGIN
 					$rowlen = ( $rowlen + strlen($word) );
-					if ( $rowlen > $maxslperrow ) {
+					if ( $rowlen > $maxslperrow )
+					{
 						$return = trim($return) . "<br />";
 						$rowlen = 0;
 					}
@@ -1270,13 +1277,7 @@ class gpsDataClass
 				} else
 				$marker .= "<br /><i>".JText::_('COM_JTG_CAT_NONE') . "</i>";
 				// Add track description, after striping HTML tags
-				$marker .= str_replace(
-				array(
-					"'","\n"
-				),
-				array(
-					"\'","<br />"
-				),($this->showDesc(strip_tags($row->description, '<p>'))));
+				$marker .= $this->showDesc($row->description);
 				$marker .= "'; ";
 
 				// start icon
