@@ -1250,9 +1250,9 @@ class gpsDataClass
 						break;
 				}
 				if ($row->title)
-				$marker .= $row->title;
+				$marker .= str_replace(array("'"), array("\'"), $row->title);
 				else
-				$marker .= "<i>".JText::_('COM_JTG_NO_TITLE') . "</i>";
+				$marker .= "<i>" . str_replace(array("'"), array("\'"), JText::_('COM_JTG_NO_TITLE') ) . "</i>";
 				if ( $row->access != 0 )
 				{
 					$iconpath = JUri::root() . "components/com_jtg/assets/template/" . $cfg->template . "/images/";
@@ -1270,12 +1270,12 @@ class gpsDataClass
 				}
 				$marker .= "</a></b>";
 				if ( $row->cat != "" ) {
-					$marker .= "<br />".JText::_('COM_JTG_CAT') . ": ";
+					$marker .= "<br />" . str_replace(array("'"), array("\'"), JText::_('COM_JTG_CAT') ) . ": ";
 					$marker .= JtgHelper::parseMoreCats($this->sortedcats,$row->catid,"box",true);
 					//					"<a href=\"index.php?option=com_jtg&amp;view=files&amp;layout=list&amp;search=" . $row->cat . "\">" . $row->cat . "</a><br />";
 					//					$marker .= "<a href=\"index.php?option=com_jtg&amp;view=files&amp;layout=list&amp;search=" . $row->cat . "\">" . $row->cat . "</a><br />";
 				} else
-				$marker .= "<br /><i>".JText::_('COM_JTG_CAT_NONE') . "</i>";
+				$marker .= "<br /><i>".str_replace(array("'"), array("\'"), JText::_('COM_JTG_CAT_NONE') ) . "</i>";
 				// Add track description, after striping HTML tags
 				$marker .= $this->showDesc($row->description);
 				$marker .= "'; ";

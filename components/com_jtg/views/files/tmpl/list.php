@@ -2,7 +2,7 @@
 /**
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
- * 
+ *
  * @package    Comjtg
  * @author     Christophe Seguinot <christophe@jtrackgallery.net>
  * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
@@ -50,7 +50,13 @@ echo $this->lh;
 			<th>#</th>
 			<th><?php echo JHtml::_('grid.sort', JText::_( 'COM_JTG_TITLE' ), 'title', @$this->lists['order_Dir'], @$this->lists['order'], 'files' ); ?></th>
 			<th width="80px"><?php echo JHtml::_('grid.sort', JText::_( 'COM_JTG_CAT' ), 'cat', @$this->lists['order_Dir'], @$this->lists['order'], 'files' ); ?></th>
+			<?php
+			if (! $this->params->get("jtg_param_disable_terrains"))
+			{?>
 			<th width="80px"><?php echo JHtml::_('grid.sort', JText::_( 'COM_JTG_TERRAIN' ), 'terrain', @$this->lists['order_Dir'], @$this->lists['order'], 'files' ); ?></th>
+			<?php
+			}
+			?>
 			<th width="80px"><?php echo JHtml::_('grid.sort', JText::_( 'COM_JTG_USER' ), 'user', @$this->lists['order_Dir'], @$this->lists['order'], 'files' ); ?></th>
 			<th width="20px"><?php echo JHtml::_('grid.sort', JText::_( 'COM_JTG_HITS' ), 'hits', @$this->lists['order_Dir'], @$this->lists['order'], 'files' ); ?></th>
 			<th width="20px"><?php echo JHtml::_('grid.sort', JText::_( 'COM_JTG_VOTING' ), 'vote', @$this->lists['order_Dir'], @$this->lists['order'], 'files' ); ?></th>
@@ -87,10 +93,10 @@ echo $this->lh;
 			$profile .= "<br />";
 		else
 			$profile .= "<font class=\"emptyEntry\">" . JText::_('COM_JTG_NO_USER')  . "</font><br />";
-		if ( 
+		if (
 		( ( $this->uid != 0 ) AND ( $this->uid == $row->uid ) ) // My File
 		OR
-		( JFactory::getUser()->get('isRoot') ) ) // I am Admin 
+		( JFactory::getUser()->get('isRoot') ) ) // I am Admin
 		{
 			// I can edit and delete
 			$editlink = JRoute::_('index.php?option=com_jtg&view=files&layout=form&id='.$row->id,false);
@@ -108,7 +114,14 @@ echo $this->lh;
 			<td><?php echo $this->pagination->getRowOffset( $i ).$links; ?></td>
 			<td><a href="<?php echo $link; ?>"><?php echo $row->title; ?></a></td>
 			<td><?php echo $cat; ?></td>
-			<td><?php echo $terrain; ?></td>
+			<?php
+			if (! $this->params->get("jtg_param_disable_terrains"))
+			{?>
+				<td><?php echo $terrain; ?></td>
+			<?php
+			}
+			?>
+
 			<td><?php echo $profile; ?></td>
 			<td><?php echo $hits; ?></td>
 			<td><?php echo $votes; ?></td>

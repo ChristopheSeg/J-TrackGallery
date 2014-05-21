@@ -240,13 +240,13 @@ class JtgModelFiles extends JModelLegacy
 		$children = array();
 		foreach ($rows as $v)
 		{
-			$v->name = JText::_($v->title);
+			$v->title = JText::_($v->title);
 			$pt = $v->parent_id;
 			$list = @$children[$pt] ? $children[$pt] : array();
 			array_push($list, $v);
 			$children[$pt] = $list;
 		}
-		$list = JHtml::_('menu.treerecurse', 0, '', array(), $children);
+		$list = JHtml::_('menu.treerecurse', 0, '', array(), $children, $maxlevel=9999, $level=0, $type=0);
 		$list = array_slice($list, 0, $limit);
 		$cats = array();
 		$nullcat = array(

@@ -586,12 +586,9 @@ class JtgModelFiles extends JModelLegacy
 		);
 		$nullcat = JArrayHelper::toObject($nullcat);
 		array_unshift($rows,$nullcat);
+		// print_r($rows);die();
+
 		return $rows;
-		// What's taht stuff !!!
-		foreach($rows AS $value){
-			$return[] = $value;
-		}
-		return $return;
 	}
 
 	/**

@@ -2,7 +2,7 @@
 /**
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
- * 
+ *
  * @package    Comjtg
  * @author     Christophe Seguinot <christophe@jtrackgallery.net>
  * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
@@ -31,7 +31,7 @@ class JtgModelCats extends JModelLegacy
 		$children = array();
 		foreach ($rows as $v )
 		{
-			$v->name = JText::_($v->title);
+			$v->title = JText::_($v->title);
 			$pt 	= $v->parent_id;
 			$list 	= @$children[$pt] ? $children[$pt] : array();
 			array_push( $list, $v );

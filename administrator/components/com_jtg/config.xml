@@ -21,9 +21,9 @@
 		    <option value="1">JSHOW</option>
 		    <option value="0">JHIDE</option>
 	    </field>
-	    <field name="jtg_param_show_terrains" addfieldpath="/administrator/components/com_jtg/elements" type="radio" default="1" label="COM_JTG_MENU_SHOW_TERRAINS" description="COM_JTG_TT_MENU_SHOW_TERRAINS">
-		    <option value="1">COM_JTG_AUTOMATIC</option>
-		    <option value="0">JHIDE</option>
+	    <field name="jtg_param_disable_terrains" addfieldpath="/administrator/components/com_jtg/elements" type="radio" default="O" label="COM_JTG_MENU_DISABLE_TERRAINS" description="COM_JTG_TT_MENU_DISABLE_TERRAINS">
+		    <option value="1">JYES</option>
+		    <option value="0">JNO</option>
 	    </field>
 	    <field name="jtg_param_show_speedchart" addfieldpath="/administrator/components/com_jtg/elements" type="radio" default="1" label="COM_JTG_MENU_SHOW_SPEEDCHART" description="COM_JTG_TT_MENU_SHOW_SPEEDCHART">
 		    <option value="1">COM_JTG_AUTOMATIC</option>

@@ -500,21 +500,29 @@ echo JHtml::_( 'form.token' ) . "\n"; ?> <input type="hidden"
 				}
 			} else echo "<a name=\"jtg_param_header_download\"></a>";
 
-			if ($this->track->terrain)
+			if (! $this->params->get("jtg_param_disable_terrains"))
 			{
-				$terrain = $this->track->terrain;
-				$terrain = explode(",",$terrain);
-				$newterrain = array();
-				foreach ($terrain as $t) {
-					$t = $this->model->getTerrain(" WHERE id=" . $t);
-					if ( ( isset($t[0])) AND ( $t[0]->published == 1 ) ) {
-						$newterrain[] = $t[0]->title;
+				// Terrain description is enabled
+							if ($this->track->terrain)
+				{
+					$terrain = $this->track->terrain;
+					$terrain = explode(",",$terrain);
+					$newterrain = array();
+					foreach ($terrain as $t) {
+						$t = $this->model->getTerrain(" WHERE id=" . $t);
+						if ( ( isset($t[0])) AND ( $t[0]->published == 1 ) ) {
+							$newterrain[] = $t[0]->title;
+						}
 					}
+					$terrain = implode(", ",$newterrain);
+					echo $this->parseTemplate("headline",JText::_('COM_JTG_TERRAIN'),"jtg_param_header_terrain");
+					echo $this->parseTemplate("description",$terrain);
 				}
-				$terrain = implode(", ",$newterrain);
-				echo $this->parseTemplate("headline",JText::_('COM_JTG_TERRAIN'),"jtg_param_header_terrain");
-				echo $this->parseTemplate("description",$terrain);
-			} else echo "<a name=\"jtg_param_header_terrain\"></a>";
+				else
+				{
+					echo "<a name=\"jtg_param_header_terrain\"></a>";
+				}
+			}
 
 			if ($this->track->description)
 			{

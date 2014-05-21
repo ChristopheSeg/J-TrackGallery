@@ -307,9 +307,7 @@ class JtgViewFiles extends JViewLegacy
 			$newcat[$catid]->id = 0;
 			$newcat[$catid]->title = JText::sprintf('COM_JTG_ERROR_MISSING_CATID',$catid);
 			$newcat[$catid]->parent_id = 0;
-			$newcat[$catid]->treename = "<font class=\"errorEntry\">".
-			$newcat[$catid]->title.
-			"</font>";
+			$newcat[$catid]->treename = "<font class=\"errorEntry\">" . $newcat[$catid]->title . "</font>";
 		}
 		$return = array();
 		$j = count($newcat);

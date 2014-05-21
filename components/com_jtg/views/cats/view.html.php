@@ -2,7 +2,7 @@
 /**
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
- * 
+ *
  * @package    Comjtg
  * @author     Christophe Seguinot <christophe@jtrackgallery.net>
  * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
@@ -33,7 +33,6 @@ class JtgViewCats extends JViewLegacy
 	$document->setTitle(JText::_('COM_JTG_CATS') . " - " . $sitename);
 	$model = $this->getModel();
 	$this->cats = $model->getCats();
-
 
 	    parent::display($tpl);
     }

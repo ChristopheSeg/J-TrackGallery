@@ -185,8 +185,7 @@ VALUES
     ('1','COM_JTG_TERRAIN_STREET','1','0','0'),
     ('2','COM_JTG_PUBLIC','1','0','0'),
     ('3','COM_JTG_TERRAIN_FARM_TRACK','1','0','0'),
-    ('4','COM_JTG_PRIVATE','1','0','0'),
-    ('5','COM_JTG_ADMINISTRATORS','1','0','0');
+    ('4','COM_JTG_PRIVATE','1','0','0');
 
 INSERT IGNORE INTO `#__jtg_files` (`id`, `uid`, `catid`, `title`, `file`, `terrain`, `description`, `published`, `date`, `hits`, `checked_out`, `start_n`, `start_e`, `distance`, `ele_asc`, `ele_desc`, `level`, `access`, `istrack`, `iswp`, `isroute`, `iscache`, `vote`, `hidden`) VALUES
 (1, 430, '19', '-sample- Woodhead Reconnaissance', 'sample_woodhead_reconnaissance.gpx', '2', '<p>This tracks by has been provided by Richard from RSInfotech <a href=&#34;http://www.rsinfotech.co.uk/&#34;>http://www.rsinfotech.co.uk/</a></p>\r\n<p><em>It its only intended to be used as a sample file for testing and demonstrating J!Track Gallery component.</em></p>', 1, '2013-09-22', 26, 0, '53.4947858175', '-1.8294689814', 5.94, 357, 284, 1, 0, 1, 0, 0, NULL, 0.000, 0),

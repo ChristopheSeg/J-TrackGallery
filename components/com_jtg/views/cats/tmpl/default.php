@@ -2,7 +2,7 @@
 /**
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
- * 
+ *
  * @package    Comjtg
  * @author     Christophe Seguinot <christophe@jtrackgallery.net>
  * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
@@ -31,12 +31,12 @@ echo $this->lh;
             $cat = $this->cats[$i];
             $cat->img = null;
         	if ($cat->image)
-        		$cat->img = "&nbsp;<img title=\"".JText::_($cat->name) . "\" alt=\"".JText::_($cat->name) . "\" src=\"" . $imgdir.$cat->image . "\" />";
+        		$cat->img = "&nbsp;<img title=\"".JText::_($cat->title) . "\" alt=\"".JText::_($cat->title) . "\" src=\"" . $imgdir.$cat->image . "\" />";
             $link = JRoute::_('index.php?option=com_jtg&view=files&layout=list&cat='.$cat->id);
             ?>
     <tr class="sectiontableentry<?php echo $k; ?>">
         <td width="10%" align="center"><a href="<?php echo $link; ?>" ><?php echo $cat->img; ?></a></td>
-        <td><b><a href="<?php echo $link; ?>" ><?php echo JText::_($cat->name); ?></a></b></td>
+        <td><b><a href="<?php echo $link; ?>" ><?php echo JText::_($cat->treename); ?></a></b></td>
         <td><?php echo JText::_($cat->description); ?></td>
     </tr>
             <?php
