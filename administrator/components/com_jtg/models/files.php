@@ -561,7 +561,8 @@ class JtgModelFiles extends JModelLegacy
 		foreach ($rows as $v ) {
 			if ( ( ($nosubcats) AND ($v->parent_id == 0) ) OR (!$nosubcats) )
 			{
-				$v->name = JText::_($v->title);
+				$v->title = JText::_($v->title);
+				$v->name = $v->title; // TODO  unnecessary
 				$pt	= $v->parent_id;
 				$list	= @$children[$pt] ? $children[$pt] : array();
 				array_push( $list, $v );

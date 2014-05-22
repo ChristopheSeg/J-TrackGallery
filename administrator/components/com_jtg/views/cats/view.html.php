@@ -2,7 +2,7 @@
 /**
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
- * 
+ *
  * @package    Comjtg
  * @author     Christophe Seguinot <christophe@jtrackgallery.net>
  * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
@@ -89,7 +89,7 @@ class JtgViewCats extends JViewLegacy
 	 * @param object $tpl
 	 */
 	function _displayDefault($tpl) {
-		$mainframe =& JFactory::getApplication(); 
+		$mainframe =& JFactory::getApplication();
 		$option = JFactory::getApplication()->input->get('option');
 		$model =& $this->getModel();
 
@@ -112,7 +112,8 @@ class JtgViewCats extends JViewLegacy
 		$image = array();
 		$imagedir = JUri::base().'../images/jtrackgallery/cats/';
 		foreach ($rows as $v ) {
-			$v->name = JText::_($v->title);
+			$v->title = JText::_($v->title);
+			$v->name = $v->title; // TODO  unnecessary
 			$pt	= $v->parent_id;
 			$list = @$children[$pt] ? $children[$pt] : array();
 			array_push( $list, $v );
@@ -156,7 +157,7 @@ class JtgViewCats extends JViewLegacy
 		$this->images = $images;
 		$this->lists = $lists;
 		$this->editor = $editor;
-		$this->maxsize = $config->max_size;  //improper max_size use !! 
+		$this->maxsize = $config->max_size;  //improper max_size use !!
 
 		parent::display($tpl);
 	}

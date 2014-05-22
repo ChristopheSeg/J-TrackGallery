@@ -95,7 +95,7 @@ $table = ("		<tbody>\n
 				<td colspan=\"2\" align=\"right\"><b>" . JText::_('COM_JTG_PRESELECTION') . "==></b><br><br>"
 				. JText::_('COM_JTG_PRESELECTION_DESCRIPTION') . "</td>
 				<td>" . $toggle['level'] . "</td>
-				<td>" . JHtml::_('select.genericlist', $cats, 'catid_all[]', 'size="'.$catssize.'" multiple="multiple" onclick="setSelectMultiple(\'catid\')"', 'id', 'name')
+				<td>" . JHtml::_('select.genericlist', $cats, 'catid_all[]', 'size="'.$catssize.'" multiple="multiple" onclick="setSelectMultiple(\'catid\')"', 'id', 'treename')
 					. "<br /><small>".JText::_('COM_JTG_MULTIPLE_CHOICE_POSSIBLE') . "</small>". "</td>
 				<td>" . JHtml::_('select.genericlist', $terrain, 'terrain_all[]', 'size="'.$terrainsize.'"  multiple="multiple" onclick="setSelectMultiple(\'terrain\')"', 'id', 'title')
 					. "<br /><small>".JText::_('COM_JTG_MULTIPLE_CHOICE_POSSIBLE') . "</small>". "</td>

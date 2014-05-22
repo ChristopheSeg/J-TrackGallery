@@ -894,7 +894,7 @@ class gpsDataClass
 		// Trennung nach <p>Katitel</p> END
 
 		if ( $count_letters == 0 )
-		return "<p>".JText::_('COM_JTG_NO_DESC') . "</p>";
+		return "<p>" . str_replace(array("'","\n","\r"), array("\'","<br/>"," "), JText::_('COM_JTG_NO_DESC')) . "</p>";
 		return $return;
 	}
 

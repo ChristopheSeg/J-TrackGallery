@@ -2,7 +2,7 @@
 /**
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
- * 
+ *
  * @package    Comjtg
  * @author     Christophe Seguinot <christophe@jtrackgallery.net>
  * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
@@ -27,7 +27,7 @@ echo $this->gpsData->writeOLMap($this->where,$this->tracks,$this->params);
 		width: 100%;
 		z-index: 20;
 }
-</style> 
+</style>
 <center>
 <div id="jtg_map" class="olMap"></div>
     <script src="/components/com_jtg/assets/js/fullscreen.js" type="text/javascript"></script>
