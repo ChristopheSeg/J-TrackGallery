@@ -546,15 +546,11 @@ class JtgModelFiles extends JModelLegacy
 	 * @global object $mainframe
 	 * @return array
 	 */
-	function getCats($nosubcats=false,$stdtext='COM_JTG_SELECT',$stdid=0) {
+	function getCats($nosubcats=false,$stdtext='COM_JTG_SELECT',$stdid=0, $type=1) {
 		$mainframe =& JFactory::getApplication();
 		$db =& JFactory::getDBO();
 
-		// 	$query = "SELECT * FROM #__jtg_cats ORDER BY title ASC";
 		$query = "SELECT * FROM #__jtg_cats WHERE published=1 ORDER BY ordering,id ASC";
-		// 	$query = "SELECT * FROM #__jtg_cats";
-		// 	$query = "SELECT * FROM #__jtg_cats ORDER BY parent,id ASC";
-
 		$db->setQuery($query);
 		$rows = $db->loadObjectList();
 		$children = array();
@@ -571,7 +567,7 @@ class JtgModelFiles extends JModelLegacy
 		}
 		$levellimit = 50;
 
-		$rows = JHtml::_('menu.treerecurse', 0, '', array(), $children, max( 0, $levellimit-1 ) );
+		$rows = JHtml::_('menu.treerecurse', 0, '', array(), $children, max( 0, $levellimit-1 ),0 , $type );
 		$nullcat = array(
 		"id"=>$stdid,
 		"parent"=>"0",
@@ -1084,7 +1080,9 @@ class JtgModelFiles extends JModelLegacy
 		$id = $result->id;
 		//		images upload part
 		$imgpath = JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'track_' . $id . DIRECTORY_SEPARATOR;
-		$images =& JFactory::getApplication()->input->files->get('images');
+		$jInput = JFactory::getApplication()->input;
+		$jFileInput = new jInput($_FILES);
+    	$images = $jFileInput->get('images',array(),'array');
 		if(count($images['name']) > 1)
 		{
 			$cfg = JtgHelper::getConfig();
@@ -1333,8 +1331,10 @@ class JtgModelFiles extends JModelLegacy
 
 
 		//		images upload part
-		$images =& JFactory::getApplication()->input->files->get('images');
-		if(count($images['name']) > 1)
+		$jInput = JFactory::getApplication()->input;
+		$jFileInput = new jInput($_FILES);
+    	$images = $jFileInput->get('images',array(),'array');
+				if(count($images['name']) > 1)
 		{
 			$cfg = JtgHelper::getConfig();
 			$types = explode(',',$cfg->type);

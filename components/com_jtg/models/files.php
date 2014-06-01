@@ -306,7 +306,9 @@ class JtgModelFiles extends JModelLegacy
 		$file = & JFactory::getApplication()->input->files->get('file');
 		$uid = $user->get('id');
 		$date = date("Y-m-d");
-		$images = & JFactory::getApplication()->input->files->get('images');
+		$jInput = JFactory::getApplication()->input;
+		$jFileInput = new jInput($_FILES);
+    	$images = $jFileInput->get('images',array(),'array');
 		$access = & JRequest::getInt('access', 0);
 		$hidden = & JRequest::getInt('hidden', 0);
 		$published = & JRequest::getInt('published', 0);
@@ -354,7 +356,7 @@ class JtgModelFiles extends JModelLegacy
 			{
 				JFile::delete($upload_dir . strtolower($filename));
 			}
-			echo "<script type='text/javascript'>alert('" . JText::_('COM_JTG_NO_SUPPORT') . "\n" .$errors."');window.history.back(-1);</script>";
+			echo "<script type='text/javascript'>alert('" . JText::_('COM_JTG_NO_SUPPORT') . '\n' .$errors."');window.history.back(-1);</script>";
 			exit();
 		}
 
@@ -669,8 +671,11 @@ class JtgModelFiles extends JModelLegacy
 			// Reference
 		// http://stackoverflow.com/questions/19426943/joomlas-jinput-strips-html-with-every-filter
 		$desc = & $db->quote(implode(' ', JFactory::getApplication()->input->get('description', '', 'array')));
-		$images = & JFactory::getApplication()->input->files->get('images');
-		$access = & JRequest::getInt('access', 0);
+		// $images = & JFactory::getApplication()->input->files->get('images');
+		$jInput = JFactory::getApplication()->input;
+		$jFileInput = new jInput($_FILES);
+    	$images = $jFileInput->get('images',array(),'array');
+    	$access = & JRequest::getInt('access', 0);
 		$hidden = & JRequest::getInt('hidden', 0);
 		$published = & JRequest::getInt('published', 0);
 		// if($images["tmp_name"][0] == "") return "no tempname";
@@ -687,6 +692,7 @@ class JtgModelFiles extends JModelLegacy
 			}
 			foreach ($images['name'] as $key => $value)
 			{
+
 				if ($value)
 				{
 					$ext = JFile::getExt($images['name'][$key]);

@@ -223,12 +223,11 @@ class JtgViewFiles extends JViewLegacy
 				    JFolder::create($thumb_dir);
 				}
 				require_once(JPATH_SITE . DIRECTORY_SEPARATOR . "administrator" . DIRECTORY_SEPARATOR . "components" . DIRECTORY_SEPARATOR . "com_jtg" . DIRECTORY_SEPARATOR . "models" . DIRECTORY_SEPARATOR . "thumb_creation.php");
-
 				foreach($imgs AS $image)
 				{
 					$ext = JFile::getExt($image);
 					$thumb_name =  'thumb1_' . $image;
-					// TODO {Update or New File} update should have been already made ??
+					// TODO Remove {Update or New File} update should have been already made before??
 					$thumb = com_jtg_create_Thumbnails ($img_dir, $image, $cfg->max_thumb_height, $cfg->max_geoim_height);
 					//
 					if (! $thumb) {

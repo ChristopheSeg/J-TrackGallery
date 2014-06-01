@@ -69,7 +69,7 @@ if ( $terrainsize > 6 )
 {
 	$terrainsize = 6;
 }
-$cats = $model->getCats();
+$cats = $model->getCats(0,'COM_JTG_SELECT',0,0);
 $catssize = count($cats);
 if ( $catssize > 6 )
 {
@@ -115,7 +115,7 @@ foreach($files AS $file) {
 		$cats,
 		'catid_'.$count.'[]',
 		'multiple="multiple" size="'.$catssize.'"',
-		'id', 'name' );
+		'id', 'treename' );
 	$editor = JFactory::getEditor();
 	$buttons = array(
 	"pagebreak",

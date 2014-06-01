@@ -50,7 +50,7 @@ class gpsDataClass
 	public function loadFileAndData($gpsFile, $trackfilename)
 		{
 
-		// $xml should not belong to $this (SimpleXMLElement can not be serialzed => not cached)
+		// $xml can not belong to $this (SimpleXMLElement can not be serialzed => not cached)
 
 		$this->gpsFile = $gpsFile;
 		$this->trackfilename = $trackfilename;
@@ -144,7 +144,7 @@ class gpsDataClass
 
 		    foreach(libxml_get_errors() as $error)
 		    {
-			    $this->errorMessages[] = "<br>".$error->message;
+			    $this->errorMessages[] = $error->message;
 		    }
 	    }
 	    return $xml;
@@ -156,7 +156,7 @@ class gpsDataClass
 		foreach ($this->errorMessages as $errorMessage)
 		{
 		    JFactory::getApplication()->enqueueMessage($errorMessage, 'Warning');
-		    $error .= $errorMessage . "\n";
+		    $error .= '\n' . $errorMessage ;
 		}
 		return $error;
 	}
@@ -165,8 +165,120 @@ class gpsDataClass
 	 * @param   string  $file
 	 * @return array
 	 */
-
 	private function extractCoordsKML($xml)
+	{
+		// TODO directly load DOMDOCUMENT without loading xml??
+		$xmldom=new DOMDocument;
+		$xmldom->loadXML($xml->asXML());
+
+		$rootNamespace = $xmldom->lookupNamespaceUri($xmldom->namespaceURI);
+		$xpath = new DomXPath($xmldom);
+		$xpath->registerNamespace('kml', $rootNamespace);
+
+		$documentNodes = $xpath->query('kml:Document/kml:name|kml:Document/kml:description');
+		$gps_file_name = '';
+		$gps_file_description= '';
+
+		// Search for NAME (Title) and description of GPS file
+		foreach ($documentNodes as $documentNode)
+		{
+			switch ($documentNode->nodeName)
+			{
+				case 'name':
+					$gps_file_name .= preg_replace('/<!\[CDATA\[(.*?)\]\]>/s','',$documentNode->nodeValue);
+					break;
+				case 'description':
+					$gps_file_description .= preg_replace('/<!\[CDATA\[(.*?)\]\]>/s','',$documentNode->nodeValue);
+					break;
+			}
+		}
+
+		// search for tracks (name (title), description and coordinates
+		$placemarkNodes = $xpath->query('//kml:Placemark');
+		$this->trackCount = 0;
+
+		$track_name = '';
+		$track_description= '';
+		foreach ($placemarkNodes as $placemarkNode)
+		{
+			// echo "<br>-> {$placemarkNode->nodeName} ";
+			$nodes = $xpath->query('.//kml:name|.//kml:description|.//kml:LineString|.//kml:coordinates',$placemarkNode);
+			if ($nodes)
+			{
+				$found_linestring = false;
+				$name = '';
+				$description ='';
+				$tracks_description='';
+				$coordinates = NULL;
+				foreach ($nodes as $node)
+				{
+					// echo "<br>===> {$node->nodeName} ";// {$elementList->nodeValue}";
+
+					switch ($node->nodeName) {
+						case 'name':
+							$name = preg_replace('/<!\[CDATA\[(.*?)\]\]>/s','',$node->nodeValue);
+							break;
+						case 'description':
+							$description = preg_replace('/<!\[CDATA\[(.*?)\]\]>/s','',$node->nodeValue);
+							break;
+						case 'LineString':
+							$found_linestring = true;
+							break;
+						case 'coordinates':
+							// exploit coordinates only when it is a child of LineString
+							if ($found_linestring)
+							{
+								$coordinates = $this->extractKmlCoordinates($node->nodeValue);
+								if ($coordinates)
+								{
+									$coordinatesCount = count($coordinates);
+									$this->trackCount++;
+									$this->track[$this->trackCount]->trackname =  $name;
+									$this->track[$this->trackCount]->description =  $description;
+									$tracks_description .= $description;
+									$this->track[$this->trackCount]->coords= $coordinates;
+									$this->track[$this->trackCount]->start = ($coordinates[0][0] . "," . $coordinates[0][1]);
+									$this->track[$this->trackCount]->stop = ($coordinates[$coordinatesCount-1][0] . "," . $coordinates[$coordinatesCount-1][1]);
+								}
+
+							}
+							else
+							{
+								// Use description and name for file
+								$gps_file_name .= $name;
+								$gps_file_description .= $description;
+							}
+							break;
+					}
+				}
+
+				if ($this->trackCount)
+				{
+					// GPS file name (title) and description
+					$this->trackname =  $gps_file_name;
+					if ( strlen($gps_file_name)>2 )
+					{
+						$this->trackname =  $gps_file_name;
+					}
+					if ( ( strlen($this->trackname) < 10 ) AND ($this->trackCount ==1) )
+					{
+						$this->trackname .=  $this->track[1]->trackname;
+					}
+					if ( strlen($this->trackname) < 10 )
+					{
+						$this->trackname .=  $this->gpsFile;
+					}
+					$this->description = $gps_file_description .'<br>'.$tracks_description;
+					$this->isTrack = ($this->trackCount>0);
+					$this->isCache = $this->isThisCache($xml);
+
+				}
+			}
+		}
+		return true ; // nothing to return
+	}
+
+	private function extractCoordsKML_old($xml)
 	{
 
 		$this->trackname =  (string) @$xml->Document->name;
@@ -197,9 +309,9 @@ class gpsDataClass
 					// split each line by /
 					$coord = explode(',', $line);
 					if (count($coord) ==3)
-					{
-					    array_push($coords, array($coord[0],$coord[1],$coord[2],0,0) );
-					}
+						{
+						    array_push($coords, array($coord[0],$coord[1],$coord[2],0,0) );
+						}
 				    }
 				    // this is a track if more than 2 coordinates found
 				    $coordinatesCount = count($coords);
@@ -226,6 +338,44 @@ class gpsDataClass
 		else
 		return false;
 	}
+
+	private function extractKmlCoordinates($coord_sets)
+	{
+		$coordinates = array();
+		if ($coord_sets)
+		{
+
+			$coord_sets = str_replace("\n", '/', $coord_sets);
+			$coord_sets = str_replace(" ", '/', $coord_sets);
+
+			$coord_sets = explode('/', $coord_sets);
+			foreach ($coord_sets as $set_string) {
+				$set_string = trim($set_string);
+				if ($set_string)
+				{
+					$set_array = explode(',',$set_string);
+					$set_size = count($set_array);
+					if ($set_size == 2)
+					{
+						array_push($coordinates, array($set_array[0],$set_array[1],0,0,0) );
+					}
+					elseif ($set_size == 3)
+					{
+						array_push($coordinates, array($set_array[0],$set_array[1],$set_array[2],0,0) );
+					}
+				}
+			}
+			// Suppress coordinates set with less than 5 points
+
+			if (count($coordinates)<5)
+			{
+				$coordinates=NULL;
+			}
+		}
+
+		return $coordinates;
+	}
+
 	private function extractCoordsGPX($xml) {
 
 		$this->trackname =  (string) @$xml->name;
@@ -299,7 +449,7 @@ class gpsDataClass
 
 	    if (file_exists($file))
 		{
-		echo"<br>TODOPRINT";$xml = simplexml_load_file($file);
+		$xml = simplexml_load_file($file);
 		if(isset($xml->Activities->Activity->Lap->Track)) {
 			$startpoint = $xml->Activities->Activity->Lap->Track[$trackid];
 		} elseif (isset($xml->Courses->Course->Track)) {
@@ -1391,6 +1541,7 @@ class gpsDataClass
 	 */
 	private function parseOLPOIs() {
 		$pois = "// <!-- parseOLPOIs BEGIN -->\n";
+		$pois = "// <!-- POI not handled by J!TrackGallery -->\n";
 		$pois .= "// <!-- parseOLPOIs END -->\n";
 		return $pois;
 	}
@@ -2055,6 +2206,7 @@ class gpsDataClass
 	 * @return string
 	 */
 	public function getTrackName($file,$xml,$trackid=-1) {
+		//TODO function keeped for TCX, move this in extractCoordsTCX
 		jimport('joomla.filesystem.file');
 		$ext = JFile::getExt($file);
 

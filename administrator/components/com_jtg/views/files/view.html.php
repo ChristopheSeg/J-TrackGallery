@@ -265,7 +265,8 @@ class JtgViewFiles extends JViewLegacy
 			$id = (int)$cat->id;
 			if(isset($cat->title))
 			$title[$id] = $cat->title;
-			if ((isset($cat->id))AND( $catid == $id )){
+			if ((isset($cat->id))AND( $catid == $id ))
+			{
 				$parentid = (int)$cat->parent_id;
 				break;
 			}
@@ -279,29 +280,23 @@ class JtgViewFiles extends JViewLegacy
 	function parseCatTree($cats,$catid,$separator = "<br />") {
 		$catid = (int)$catid;
 		if ($catid == 0)
-		return null;
-//		$model = $this->getModel();
-//		$cats = $model->getCats();
-//		$cats = JArrayHelper::toObject($cats);
-//		$i = 0;
+		{
+			return null;
+		}
+
 		$newcat = array();
 		$missingcat = array();
 		foreach($cats AS $cat){
 			$newcat[$cat->id] = $cat;
-//			if(isset($cat->id))
-//			$id = (int)$cat->id;
-			if(isset($cat->title)) {
+			if(isset($cat->title))
+			{
 			    $newcat[$cat->id]->title = JText::_($cat->title);
 			}
-//			$title[$id] = $cat->title;
-//			if ((isset($cat->id))AND( $catid == $id )){
-//				$parentid = (int)$cat->parent_id;
-//				break;
-//			}
-//			$i++;
+
 		}
 		if ( !isset($newcat[$catid]) )
-		{ // missing Category
+		{
+			// missing Category
 			$missingcat[$catid] = $catid;
 			$newcat[$catid] = new stdClass;
 			$newcat[$catid]->id = 0;
@@ -316,13 +311,17 @@ class JtgViewFiles extends JViewLegacy
 			$catid = $cat->parent_id;
 			array_unshift($return,JText::_($cat->treename) );
 			if ( ( $cat->parent_id == 0 ) OR ( $j <= 0 ) )
-			break;
+			{
+				break;
+			}
 			$j--;
 		}
 		$return = implode($separator,$return);
 		return array("tree" => $return,"missing" => $missingcat);
 		if((isset($parentid) AND ($parentid != 0) AND isset($title[$parentid])))
-		return (JText::_($title[$parentid]));
+		{
+			return (JText::_($title[$parentid]));
+		}
 		return null;
 	}
 
@@ -337,14 +336,16 @@ class JtgViewFiles extends JViewLegacy
 		$option = JFactory::getApplication()->input->get('option');
 
 		if($this->getLayout() == 'form'):
-		$this->_displayForm($tpl);
-		return;
-		endif;
+		{
+			$this->_displayForm($tpl);
+			return;
+		}
 
 		if($this->getLayout() == 'upload'):
-		$this->_displayUpload($tpl);
-		return;
-		endif;
+		{
+			$this->_displayUpload($tpl);
+			return;
+		}
 
 		$model =& $this->getModel();
 
