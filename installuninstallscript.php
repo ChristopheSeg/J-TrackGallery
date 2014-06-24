@@ -1,5 +1,5 @@
 <?php
-
+// This is a test
 /**
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
@@ -75,7 +75,7 @@ class com_jtgInstallerScript
 	}
 
 	/*
-	 * $parent is the class calling this method.
+	 * $parent is the class calling this method. 
 	 * install runs after the database scripts are executed.
 	 * If the extension is new, the install method is run.
 	 * If install returns false, Joomla will abort the install and undo everything already done.
