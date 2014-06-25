@@ -233,6 +233,7 @@ class gpsDataClass
 								{
 									$coordinatesCount = count($coordinates);
 									$this->trackCount++;
+									$this->track[$this->trackCount] = new stdClass();
 									$this->track[$this->trackCount]->trackname =  $name;
 									$this->track[$this->trackCount]->description =  $description;
 									$tracks_description .= $description;
@@ -417,9 +418,10 @@ class gpsDataClass
 			if ($coordinatesCount >1)
 			{
 			    $this->trackCount++;
+			    $this->track[$this->trackCount] = new stdClass();
 			    if (isset($xml->trk[$t]->name) )
-			    {
-			    	$this->track[$this->trackCount]->trackname = (string) $xml->trk[$t]->name;
+			    { 
+			    	 $this->track[$this->trackCount]->trackname = (string) $xml->trk[$t]->name;
 			    }
 			    else
 			    {
