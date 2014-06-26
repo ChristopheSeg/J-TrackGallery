@@ -1897,6 +1897,10 @@ class gpsDataClass
 		$map .= "		   // control images folder : remember the trailing slash\n";
 		//TODO ACCOUNT FOR TEMPLATES
 		$map .= "		   OpenLayers.ImgPath = \"/components/com_jtg/assets/template/default/ol_images/\" \n";
+// Doesn't works !! http://www.stoimen.com/blog/2009/06/20/openlayers-disable-mouse-wheel-on-zoom/		
+//		$map .= "		   var nav = new OpenLayers.Control.Navigation() \n";
+//		$map .= "		   nav.zoomWheelEnabled = false \n";
+//		$map .= "		   olmap = new OpenLayers.Map ( {controls: [Nav,], theme: null, div: \"jtg_map\",\n";
 		$map .= "		   olmap = new OpenLayers.Map ( {theme: null, div: \"jtg_map\",\n";
 		$map .= "// <!-- parseScriptOLHead END -->\n";
 
@@ -1949,13 +1953,9 @@ class gpsDataClass
 		$control .= "				new OpenLayers.Control.KeyboardDefaults(),	// Tastatur: hoch, runter, links, rechts, +, -\n";
 		if ( ( $params === false ) OR ( $params->get('jtg_param_show_mouselocation') != "0" ) )
 		$control .= "				new OpenLayers.Control.MousePosition(),		// Koordinate des Mauszeigers (lat, lon)\n";
-		if ( ( $params === false ) OR ( $params->get('jtg_param_allow_mousemove') != "0" ) )
-		$control .= "				new OpenLayers.Control.Navigation(),		// mit Maus verschieb- und zoombar\n";
 		if ( ( $params === false ) OR ( $params->get('jtg_param_show_layerswitcher') != "0" ) )
 		{
 		    $control .= "				new OpenLayers.Control.LayerSwitcher(),		// Menue zum ein/aus-Schalten der Layer\n";
-//		    $control .= "				OpenLayers.Control.layerSwitcher.baseLbl.innerText = 'YOUR NEW TEXT',";
-//		    $control .= "				OpenLayers.Control.layerSwitcher.dataLbl.innerText = 'YOUR NEW OVERLAY TEXT',";
 		}
 		if ( $adminonly === false){
 			if ( ( $params === false ) OR ( $params->get('jtg_param_show_panzoombar') != "0" ) )
@@ -1968,9 +1968,7 @@ class gpsDataClass
 			//	$control .= "				new OpenLayers.Control.Permalink(null,'t', permalinkOptions),\n";
 			//	$control .= "				new OpenLayers.Control.Permalink(),		// Permalink\n";
 		}
-		if ( ( $params === false ) OR ( $params->get('jtg_param_allow_mousemove') != "0" ) )
-//		$control .= "				new OpenLayers.Control.MouseDefaults()		// mit Maus verschieb- und zoombar\n";
-		$control .= "				new OpenLayers.Control.Navigation()		// mit Maus verschieb- und zoombar\n";
+
 		$control .= "			],\n";
 		$control .= "				maxExtent: new OpenLayers.Bounds(-20037508.34,-20037508.34,20037508.34,20037508.34),\n";
 		$control .= "				maxResolution: 156543.0399,\n";
@@ -1989,8 +1987,24 @@ class gpsDataClass
 		$control .= "		});\n";
 		$control .= "		button_fullscreen.title = \"Plein écran\";\n";
 		$control .= "		fullscreenToolbar.addControls([button_fullscreen]);\n";
-		$control .= "		olmap.addControl(fullscreenToolbar);\n";
+  		$control .= "		olmap.addControl(fullscreenToolbar);\n";
 		$control .= "		// <!-- parseOLMapFullscreen button END -->\n";
+		$control .= "		// <!-- parseOLMapmouse wheel (this must stay after NavToolbar) BEGIN -->\n";
+		if ( ( $params === false ) OR ( $params->get('jtg_param_allow_mousemove') != "0" ) )
+		{
+			$control .= "				var mousewheelcontrol = new OpenLayers.Control.Navigation();		// with mouse Zoom/move\n";
+	  		$control .= "				olmap.addControl(mousewheelcontrol);\n";		}
+		else
+		{
+	  		// See http://www.stoimen.com/blog/2009/06/20/openlayers-disable-mouse-wheel-on-zoom/
+
+	  		$control .= "				var controls = olmap.getControlsByClass('OpenLayers.Control.Navigation'); \n";
+	  		$control .= "				for(var i = 0; i < controls.length; ++i) \n";
+	  		$control .= "				controls[i].disableZoomWheel(); \n";
+		}
+  		
+  		$control .= "		// <!-- parseOLMapmouse wheel (this must stay after NavToolbar) END -->\n";
+		
 		if ( $adminonly === false) {
 			//	$control .= "				var layer_overviewmap = new OpenLayers.Layer.OSM.Mapnik(\"Mapnik\");\n";
 			//	$control .= "				olmap.addControl(new OpenLayers.Control.OverviewMap({layers: [layer_overviewmap]}));\n";

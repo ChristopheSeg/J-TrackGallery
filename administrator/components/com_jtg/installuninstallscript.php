@@ -290,11 +290,15 @@ class com_jtgInstallerScript
 
 			// save default params
 			$query = 'UPDATE #__extensions SET params = ';
-			$query .= '\' {"jtg_param_newest":"10","jtg_param_mostklicks":"10",
-			"jtg_param_best":"0","jtg_param_rand":"0",
+			$query .= '\' {
+			"jtg_param_newest":"10",
+			"jtg_param_mostklicks":"10",
+			"jtg_param_best":"0",
+			"jtg_param_rand":"0",
 			"jtg_param_otherfiles":"0",
 			"jtg_param_lh":"1",
 			"jtg_param_vote_show_stars":"0",
+			"jtg_param_disable_terrains":"0",
 			"jtg_param_show_speedchart":"1",
 			"jtg_param_show_heightchart":"1",
 			"jtg_param_show_durationcalc":"1",

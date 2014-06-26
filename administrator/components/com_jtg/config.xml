@@ -83,11 +83,6 @@
 		    <option value="1">JYES</option>
 		    <option value="0">JNO</option>
 	    </field>
-<!--			<field name="jtg_param_other_tracks" type="radio" addfieldpath="/administrator/components/com_jtg/elements" default="1" label="COM_JTG_MENU_OTHER_TRACKS" description="COM_JTG_TT_MENU_OTHER_TRACKS">
-		    <option value="1">JYES</option>
-		    <option value="0">JNO</option>
-	    </field>-->
-
         </fieldset> 
 	<fieldset name="LIMIT"
 	    label="COM_JTG_TT_MENU_LIMIT">
