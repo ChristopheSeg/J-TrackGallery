@@ -335,13 +335,13 @@ class JtgViewFiles extends JViewLegacy
 		$mainframe =& JFactory::getApplication();
 		$option = JFactory::getApplication()->input->get('option');
 
-		if($this->getLayout() == 'form'):
+		if($this->getLayout() == 'form')
 		{
 			$this->_displayForm($tpl);
 			return;
 		}
 
-		if($this->getLayout() == 'upload'):
+		if($this->getLayout() == 'upload')
 		{
 			$this->_displayUpload($tpl);
 			return;

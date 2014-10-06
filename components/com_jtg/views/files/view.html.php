@@ -742,7 +742,7 @@ class JtgViewFiles extends JViewLegacy
 				$routservices = array (
 				array (
 						"img" => $imgdir . "car.png",
-						"name" => JText::_( 'COM_JTG_CAR'),
+						"name" => JText::_( 'COM_JTG_BY_CAR'),
 				array (
 				array (
 								"Fastest",
@@ -756,7 +756,7 @@ class JtgViewFiles extends JViewLegacy
 				),
 				array (
 						"img" => $imgdir . "bike.png",
-						"name" => JText::_( 'COM_JTG_BICYCLE'),
+						"name" => JText::_( 'COM_JTG_BY_BICYCLE'),
 				array (
 				array (
 								"BicycleSafety",
@@ -768,11 +768,11 @@ class JtgViewFiles extends JViewLegacy
 				),
 				array (
 								"BicycleMTB",
-				JText::_( 'COM_JTG_MTB')
+				JText::_( 'COM_JTG_BY_MTB')
 				),
 				array (
 								"BicycleRacer",
-				JText::_( 'COM_JTG_RACERBIKE')
+				JText::_( 'COM_JTG_BY_RACERBIKE')
 				)
 				)
 				),
@@ -808,7 +808,7 @@ class JtgViewFiles extends JViewLegacy
 				),
 				array (
 						"img" => $imgdir . "bike.png",
-						"name" => JText::_( 'COM_JTG_BICYCLE'),
+						"name" => JText::_( 'COM_JTG_BY_BICYCLE'),
 				array (
 				array (
 								"bicycle",
@@ -834,7 +834,7 @@ class JtgViewFiles extends JViewLegacy
 				$routservices = array (
 				array (
 						"img" => $imgdir . "car.png",
-						"name" => JText::_( 'COM_JTG_CAR'),
+						"name" => JText::_( 'COM_JTG_BY_CAR'),
 				array (
 				array (
 								"car",
@@ -848,7 +848,7 @@ class JtgViewFiles extends JViewLegacy
 				),
 				array (
 						"img" => $imgdir . "bike.png",
-						"name" => JText::_( 'COM_JTG_BICYCLE'),
+						"name" => JText::_( 'COM_JTG_BY_BICYCLE'),
 				array (
 				array (
 								"bicycle",
