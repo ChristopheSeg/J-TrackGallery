@@ -101,6 +101,13 @@
     background-position: -128px -1px;
 }
 
+.olControlAttribution {
+    bottom: 0.2em;
+}
+div.olControlMousePosition  {
+    bottom: 1.5em;
+}
+
 
 .buttonFullScreenItemInactive
 {

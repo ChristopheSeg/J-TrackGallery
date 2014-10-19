@@ -30,11 +30,18 @@ $document->addScript('components/com_jtg/assets/js/homeposition.js');
 //JHtml::_('behavior.tooltip'); // with this option IE8 doesn't work
 $otherusers = 0;
 $scriptbody = "";
+$imgpath = '/templates/' . $template . '/css/ol_images';
+if ( ! JFolder::exists(JPATH_SITE . $imgpath))
+{
+    $imgpath = '/components/com_jtg/assets/template/default/ol_images/';
+}
 $scriptheader = ("<script type=\"text/javascript\">
 	var iconpath = '" . $iconpath . "';\n");
+	
 $params = $this->params;
 				$defaultvars = (
-"	var jtg_param_geo_lat = ".(float)$params->get('jtg_param_geo_lat') . ";
+"	var imgpath = '" . $imgpath . "';
+	var jtg_param_geo_lat = ".(float)$params->get('jtg_param_geo_lat') . ";
 	var jtg_param_geo_lon = ".(float)$params->get('jtg_param_geo_lon') . ";
 	var jtg_param_geo_zoom = ".(int)$params->get('jtg_param_geo_zoom') . ";
 	var jtg_param_geo_zoom_loggedin = ".(int)$params->get('jtg_param_geo_zoom_loggedin') . ";\n");

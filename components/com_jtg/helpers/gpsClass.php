@@ -1896,7 +1896,7 @@ class gpsDataClass
 		$map .= "	function slippymap_init() {\n";
 		$map .= "		   // control images folder : remember the trailing slash\n";
 		//TODO ACCOUNT FOR TEMPLATES
-		$map .= "		   OpenLayers.ImgPath = \"/components/com_jtg/assets/template/default/ol_images/\" \n";
+		$map .= "		   OpenLayers.ImgPath = \"$imgpath\" \n";
 // Doesn't works !! http://www.stoimen.com/blog/2009/06/20/openlayers-disable-mouse-wheel-on-zoom/		
 //		$map .= "		   var nav = new OpenLayers.Control.Navigation() \n";
 //		$map .= "		   nav.zoomWheelEnabled = false \n";

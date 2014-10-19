@@ -396,7 +396,10 @@ h3 {
 	font-size: 100%;
 	text-decoration: none;
 	color: inherit;
+	margin: 0;
+    padding: 0;
 }
+
 
 .jdGallery a.right,.jdGallery a.left {
 	position: absolute;

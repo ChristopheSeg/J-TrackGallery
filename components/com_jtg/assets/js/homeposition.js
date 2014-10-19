@@ -128,8 +128,9 @@ function parseOtherUsers() {
 		}
 	}
 }
-
+//TODO ACCOUNT FOR TEMPLATES See gpsclass.php
 function init() {
+	OpenLayers.ImgPath = imgpath,
 	map = new OpenLayers.Map('jtg_map',{
 		controls:[
 				new OpenLayers.Control.MousePosition(),		// Koordinate des Mauszeigers (lat, lon)
@@ -138,6 +139,7 @@ function init() {
 				new OpenLayers.Control.Attribution()		// Lizenz
 //				new OpenLayers.Control.LayerSwitcher(),		// Menü zum ein/aus-Schalten der Layer
 			],
+			theme: null ,
 			maxExtent: new OpenLayers.Bounds(-20037508.34,-20037508.34,20037508.34,20037508.34),
 			maxResolution: 156543.0399,
 			numZoomLevels: 19,
