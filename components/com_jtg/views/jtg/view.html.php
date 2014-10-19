@@ -29,7 +29,8 @@ class JtgViewjtg extends JViewLegacy
 		$document =& JFactory::getDocument();
 		jimport('joomla.filesystem.file');
 		// load Openlayers stylesheet first (for overridding)
-		$document->addStyleSheet('http://openlayers.org/dev/theme/default/style.css');
+		// TODO add openlayers style in JTrackGallery (url may vary!)
+		$document->addStyleSheet('http://dev.openlayers.org/theme/default/style.css');
 		// then load jtg_map stylesheet
 		$tmpl = ($cfg->template = "") ? $cfg->template : 'default';
 		$document->addStyleSheet(JUri::base().'components/com_jtg/assets/template/'.$tmpl.'/jtg_map_style.css');
