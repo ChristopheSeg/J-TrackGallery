@@ -46,9 +46,16 @@ function addlayer_startziel(ll, popupClass, popupContentHTML, closeBox, overflow
 	layer_startziel.addMarker(marker);
 }
 
-function getAvgTime(speed, length)  {
+function getAvgTime(speed_str, length, decimal_separator)  {
 
-//         var time = parseInt(length) / speed;
+		if (decimal_separator == '.') 
+		{
+			var speed = speed_str;
+		} 
+		else 
+		{
+			var speed = speed_str.replace(decimal_separator, '.');
+		}
         var time = length / speed;
         var timestring = time.toString();
         var parts = timestring.split(".");
@@ -59,7 +66,6 @@ function getAvgTime(speed, length)  {
         var m = m2.split(".");
         var time2 = parts[0] + "h " + m[1] + "m";
         document.getElementById('time').value = time2;
-
 }
 
 function runde(x, n) {

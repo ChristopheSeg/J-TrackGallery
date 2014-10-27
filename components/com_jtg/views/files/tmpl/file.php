@@ -368,7 +368,8 @@ if ($havechart) {
 			</label> <input type="text" name="speed" id="speed" value="" size="4" />
 			</span> <input type="button" name="button" class="button"
 				value="Submit"
-				onclick="getAvgTime(document.getElementById('speed').value,<?php echo $this->distance_float; ?>);" />
+				onclick="getAvgTime(document.getElementById('speed').value,<?php echo $this->distance_float; ?>,
+				<?php echo '\'' . JText::_('COM_JTG_SEPARATOR_DEC') . '\''; ?>);" />
 			</div>
 			<div align="center"><span> <label for="time"> <?php echo JText::_('COM_JTG_ESTIMATED_TIME'); ?>
 			</label> <input type="text" name="time" id="time" value="" size="9"

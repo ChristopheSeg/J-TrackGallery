@@ -115,7 +115,6 @@ if($this->config->terms == "1") {
 // Level BEGIN
 //echo $tabs->startPanel(JText::_('COM_JTG_LEVEL'), 'levelconfig');
 	echo JHtml::_('tabs.panel', JText::_('COM_JTG_LEVEL'), 'levelconfig');
-
 ?>
 	<table class="admintable">
 		<tbody>
@@ -127,6 +126,7 @@ if($this->config->terms == "1") {
 		</tbody>
 	</table>
 <?php
+	echo '<br><br>' . JText::_('COM_JTG_LEVELCONF_HELP') . '<br>';
 //echo JHtml::_('tabs.end');
 //echo $tabs->endPanel();
 // Level END
