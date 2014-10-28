@@ -104,7 +104,7 @@ class com_jtgInstallerScript
 	{
 		jimport('joomla.filesystem.folder');
 		jimport('joomla.filesystem.file');
-		$doc = & JFactory::getDocument();
+		$doc = JFactory::getDocument();
 
 		?>
 <br />
@@ -255,7 +255,7 @@ class com_jtgInstallerScript
 	 */
 	function postflight ($type, $parent)
 	{
-		$db = & JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$application = JFactory::getApplication();
 
 		// check if com_jtg is installed,
@@ -279,7 +279,7 @@ class com_jtgInstallerScript
 		{
 			// this is a successful install (not an upgrade):
 			// affect sample tracks to this admin user
-			$user = & JFactory::getUser();
+			$user = JFactory::getUser();
 			$uid = $user->get('id');
 			if ($uid !== 430)
 			{

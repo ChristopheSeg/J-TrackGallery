@@ -40,7 +40,7 @@ class JtgModelMaps extends JModelLegacy
 	 */
 	function move($direction)
 	{
-		$row =& $this->getTable('jtg_maps');
+		$row =$this->getTable('jtg_maps');
 		if (!$row->load($this->_id)) {
 			$this->setError($this->_db->getErrorMsg());
 			return false;
@@ -61,7 +61,7 @@ class JtgModelMaps extends JModelLegacy
 	 */
 	function __construct() {
 		parent::__construct();
-		$mainframe =& JFactory::getApplication(); // global _ $option;
+		$mainframe = JFactory::getApplication(); // global _ $option;
 
 		//	Get the pagination request variables
 		$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int' );
@@ -86,10 +86,10 @@ class JtgModelMaps extends JModelLegacy
 	 * @return string
 	 */
 	function _buildQuery()  {
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 		$orderby = $this->_buildContentOrderBy();
 		$where = $this->_buildContentWhere();
-		//	$db =& JFactory::getDBO();
+		//	$db = JFactory::getDBO();
 		$query = "SELECT * FROM #__jtg_maps"
 		. $where
 		. $orderby
@@ -126,8 +126,8 @@ class JtgModelMaps extends JModelLegacy
 	 * @return object
 	 */
 	function getMap($id)  {
-		$mainframe =& JFactory::getApplication();
-		$db =& JFactory::getDBO();
+		$mainframe = JFactory::getApplication();
+		$db = JFactory::getDBO();
 		$query = "SELECT * FROM #__jtg_maps"
 		. "\n WHERE id='" . $id . "'";
 		$db->setQuery($query);
@@ -148,7 +148,7 @@ class JtgModelMaps extends JModelLegacy
 	 */
 	function _buildContentOrderBy()
 	{
-		$mainframe =& JFactory::getApplication(); // global _ $option;
+		$mainframe = JFactory::getApplication(); // global _ $option;
 
 		$filter_order		= $mainframe->getUserStateFromRequest
 		( $this->option.'filter_order','filter_order','ordering','cmd' );
@@ -173,11 +173,11 @@ class JtgModelMaps extends JModelLegacy
 	 */
 	function _buildContentWhere()  {
 
-		$mainframe =& JFactory::getApplication(); // global _ $option;
+		$mainframe = JFactory::getApplication(); // global _ $option;
 
-		$search =& JFactory::getApplication()->input->get('search');
+		$search = JFactory::getApplication()->input->get('search');
 		$where = array();
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		if($search)  {
 			$where[] = 'LOWER(a.name) LIKE '.$db->Quote( '%'.$db->getEscaped( $search, true ).'%', false );
@@ -208,7 +208,7 @@ class JtgModelMaps extends JModelLegacy
 	 * @return Object
 	 */
 	function getMaps($order=false) {
-		$db = &JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$sql='Select * from #__jtg_maps ';
 		if($order)
 		$sql .= 'ORDER BY '.$order;
@@ -242,7 +242,7 @@ class JtgModelMaps extends JModelLegacy
 	 */
 	function publish($cid = array(), $publish = 1)
 	{
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 
 		if (count( $cid ))
 		{
@@ -262,26 +262,26 @@ class JtgModelMaps extends JModelLegacy
 	}
 
 	function saveMap()  {
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 		jimport('joomla.filesystem.file');
 
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		//	get the post data
 		$publish =& JRequest::getInt('publish');
 		$order =& JRequest::getInt('order');
-		$name =& JFactory::getApplication()->input->get('name');
+		$name = JFactory::getApplication()->input->get('name');
 		$name = htmlentities($name);
-		$param =& JFactory::getApplication()->input->get('param', '', 'raw');
-		$checked_out =& JFactory::getApplication()->input->get('checked_out');
+		$param = JFactory::getApplication()->input->get('param', '', 'raw');
+		$checked_out = JFactory::getApplication()->input->get('checked_out');
 		$param = str_replace("'",'"',htmlentities($param));
 		if ( ( $name == "" ) OR ( $param == "" ) ) {
 			JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_MAP_NOT_SAVED'), 'Warning');
 			return false;
 		}
-		$script =& JFactory::getApplication()->input->get('script', '', 'raw');
+		$script = JFactory::getApplication()->input->get('script', '', 'raw');
 
 		$script = htmlentities($script);
-		$code =& JFactory::getApplication()->input->get('code', '', 'raw');
+		$code = JFactory::getApplication()->input->get('code', '', 'raw');
 		$code = htmlentities($code);
 		$query = "INSERT INTO #__jtg_maps SET"
 		. "\n name='" . $name . "',"
@@ -315,25 +315,25 @@ class JtgModelMaps extends JModelLegacy
 	 */
 	function updateMap()
 	{
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		//	get the post data
 		$publish =& JRequest::getInt('publish');
 		$order =& JRequest::getInt('order');
 		$id =& JRequest::getInt('id');
-		$name =& JFactory::getApplication()->input->get('name');
+		$name = JFactory::getApplication()->input->get('name');
 		$name = htmlentities($name);
-		$param =& JFactory::getApplication()->input->get('param', '', 'raw');
+		$param = JFactory::getApplication()->input->get('param', '', 'raw');
 		// TODO was this usefull???
 		$param = str_replace("'",'"',htmlentities($param));
-		$checked_out =& JFactory::getApplication()->input->get('checked_out');
-		$code =& JFactory::getApplication()->input->get('code', '', 'raw');
+		$checked_out = JFactory::getApplication()->input->get('checked_out');
+		$code = JFactory::getApplication()->input->get('code', '', 'raw');
 		$code = htmlentities($code);
 		if ( ( $name == "" ) OR ( $param == "" ) ) {
 			JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_MAP_NOT_SAVED'), 'Warning');
 			return false;
 		}
 
-		$script =& JFactory::getApplication()->input->get('script', '', 'raw');
+		$script = JFactory::getApplication()->input->get('script', '', 'raw');
 		$script = htmlentities($script);
 		$query = "UPDATE #__jtg_maps SET"
 		. "\n name='" . $name . "',"

@@ -74,7 +74,7 @@ class JtgModelConfig extends JModelLegacy
 	{
 		echo "deprecated: JtgModelConfig::createColumns";
 		//	find out exists columns
-		$db = &JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$sql='Select * from #__jtg_'.$tablekey;
 		$db->setQuery($sql);
 		$existobj = $db->loadObject();
@@ -147,7 +147,7 @@ class JtgModelConfig extends JModelLegacy
 				break;
 			}
 		}
-		$db = &JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$db->setQuery($content);
 		$db->query();
 
@@ -160,7 +160,7 @@ class JtgModelConfig extends JModelLegacy
 	 * @return Object
 	 */
 	function getContent() {
-		$db = &JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$sql='Select id from #__categories where title=\'term\'';
 		$db->setQuery($sql);
 		$catid = $db->loadResult();
@@ -169,7 +169,7 @@ class JtgModelConfig extends JModelLegacy
 		$secid = $db->loadResult();
 		if (($catid==null)OR($secid==null))
 		return false;
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 		$query = "SELECT id, title FROM #__content WHERE"
 		. "\n sectionid='" . $secid . "'"
 		. "\n AND catid='" . $catid . "'"

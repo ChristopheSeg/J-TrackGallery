@@ -34,10 +34,10 @@ else:
 endif;
 JToolBarHelper::help("maps/newmap", true);
 if($id) {
-	$cache =& JFactory::getCache('com_jtg');
+	$cache = JFactory::getCache('com_jtg');
 	$cfg = JtgHelper::getConfig();
 	$model = $this->getModel();
-	$document =& JFactory::getDocument();
+	$document = JFactory::getDocument();
 }
 ?>
 <form action="" method="post" name="adminForm" id="adminForm" class="adminForm" enctype="multipart/form-data">

@@ -47,14 +47,14 @@ $cfg = JtgHelper::getConfig();
 // Set the template
 $tmpl = ($cfg->template = "") ? $cfg->template : 'default';
 
-$document = & JFactory::getDocument();
+$document = JFactory::getDocument();
 $document->addStyleSheet(
 		JUri::base() . 'components' . DIRECTORY_SEPARATOR . 'com_jtg' . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'template' .
 				DIRECTORY_SEPARATOR . $tmpl . DIRECTORY_SEPARATOR . 'jtg_style.css'
 );
 
 // Override style with user templates
-$mainframe = & JFactory::getApplication();
+$mainframe = JFactory::getApplication();
 jimport('joomla.filesystem.file');
 $template_css = 'templates' . DIRECTORY_SEPARATOR . $mainframe->getTemplate() . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . 'jtg_style.css';
 

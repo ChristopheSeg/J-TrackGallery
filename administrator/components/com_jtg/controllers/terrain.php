@@ -23,7 +23,7 @@ JTable::addIncludePath(JPATH_ADMINISTRATOR . DIRECTORY_SEPARATOR . 'components' 
 class JtgControllerTerrain extends JtgController
 {
     function save()  {
-        $mainframe =& JFactory::getApplication();
+        $mainframe = JFactory::getApplication();
         
         // Check for request forgeries
         JSession::checkToken() or jexit( 'Invalid Token' );
@@ -37,7 +37,7 @@ class JtgControllerTerrain extends JtgController
     }
 
     function update()  {
-        $mainframe =& JFactory::getApplication();
+        $mainframe = JFactory::getApplication();
         
         // Check for request forgeries
         JSession::checkToken() or jexit( 'Invalid Token' );

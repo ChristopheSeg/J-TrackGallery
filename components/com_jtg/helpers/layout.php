@@ -36,9 +36,9 @@ class layoutHelper
 	}
 
 	function navigation() {
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 		$juser = new JUser($user->id);
-		$uri =& JFactory::getApplication()->input->get('layout');
+		$uri = JFactory::getApplication()->input->get('layout');
 		$navi = '';
 		$navi .= '<div class="gps-navi">';
 		$navi .= '<div class="navi-part"><a href="'.
@@ -65,7 +65,7 @@ class layoutHelper
 			JText::_('COM_JTG_MY_FILES').'</a></div>';
 			if ( ($uri != null) AND ($uri == 'file') ) {
 				$gpsfile = new JtgModelFiles;
-				$track =& JFactory::getApplication()->input->get('id');
+				$track = JFactory::getApplication()->input->get('id');
 				$track = $gpsfile->getFile($track);
 
 				if ( ($track !== null) AND (
@@ -364,7 +364,7 @@ class layoutHelper
 
 	function filterTracks($cats)
 	{
-		$params = &JComponentHelper::getParams( 'com_jtg' );
+		$params = JComponentHelper::getParams( 'com_jtg' );
 
 		$access = $params->get('jtg_param_otherfiles');
 		$where = array();

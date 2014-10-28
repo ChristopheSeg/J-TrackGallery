@@ -126,7 +126,7 @@ class JtgViewFiles extends JViewLegacy
 	 * @return <type>
 	 */
 	function _displayForm($tpl = null) {
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 		jimport('joomla.filesystem.file');
 		jimport('joomla.filesystem.folder');
 		if(JVERSION>=3.0) //Code support for joomla version greater than 3.0
@@ -142,7 +142,7 @@ class JtgViewFiles extends JViewLegacy
 
 		JHtml::_('behavior.modal');
 		JHtml::_('behavior.tooltip');
-		$cache = & JFactory :: getCache('com_jtg');
+		$cache = JFactory :: getCache('com_jtg');
 		$yesnolist = array(
 		array('id' => 0, 'title' => JText::_('JNO')),
 		array('id' => 1, 'title' => JText::_('JYES'))
@@ -158,12 +158,12 @@ class JtgViewFiles extends JViewLegacy
 			return;
 		}
 
-		$editor = & JFactory :: getEditor();
-		$pathway = & $mainframe->getPathway();
+		$editor = JFactory :: getEditor();
+		$pathway = $mainframe->getPathway();
 		$lh = layoutHelper :: navigation();
 		$footer = layoutHelper :: footer();
 		$model = $this->getModel();
-		//		$uri = & JFactory :: getURI();
+		//		$uri = JFactory :: getURI();
 		//		$uri = $uri->get('_uri');
 		$uri = "index.php?option=com_jtg&view=files&layout=form";
 		$uri = JRoute :: _($uri,false);
@@ -272,13 +272,13 @@ class JtgViewFiles extends JViewLegacy
 	}
 
 	function _displayFile($tpl) {
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 		jimport('joomla.filesystem.file');
 		jimport('joomla.filesystem.folder');
 		$mapsxml = JPATH_COMPONENT_ADMINISTRATOR . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . 'maps' . DIRECTORY_SEPARATOR . 'maps.xml';
 		$params_maps = new JRegistry( 'com_jtg', $mapsxml );
 		$this->params = $params_maps;
-		$params = &JComponentHelper::getParams( 'com_jtg' );
+		$params = JComponentHelper::getParams( 'com_jtg' );
 		$sitename = $mainframe->getCfg('sitename');
 		$document = JFactory::getDocument();
 		$document->addScript('http://www.openlayers.org/api/OpenLayers.js');
@@ -293,7 +293,7 @@ class JtgViewFiles extends JViewLegacy
 		    // nothing
 		}
 		JHtml::_('behavior.combobox');
-		$cache = & JFactory :: getCache('com_jtg');
+		$cache = JFactory :: getCache('com_jtg');
 		// TODO when cache is used, Update a track, then browse it: jtg_osmGettile.js is not loaded!!
 		// $cache->setCaching( 1 ); // activate caching
 
@@ -305,7 +305,7 @@ class JtgViewFiles extends JViewLegacy
 		$cfg = JtgHelper :: getConfig();
 
 		$model = $this->getModel();
-		$pathway = & $mainframe->getPathway();
+		$pathway = $mainframe->getPathway();
 		$id = & JRequest :: getInt('id');
 		// $track = $model->getTrack($id);
 		// $track = $cache->get(array($model, 'getTrack'), array($id));
@@ -343,8 +343,8 @@ class JtgViewFiles extends JViewLegacy
 		//			$id,
 		//			$cfg->ordering
 		//		));
-		$user = & JFactory :: getUser();
-		$document = & JFactory :: getDocument();
+		$user = JFactory :: getUser();
+		$document = JFactory :: getDocument();
 		// load Openlayers stylesheet first (for overridding)
 		// TODO add openlayers style in JTrackGallery (url may vary!)
 		$document->addStyleSheet('http://dev.openlayers.org/theme/default/style.css');
@@ -569,7 +569,7 @@ class JtgViewFiles extends JViewLegacy
 		8 => "eight",
 		9 => "nine",
 		10 => "ten");
-		$stars =& JArrayHelper::toObject($stars);
+		$stars = JArrayHelper::toObject($stars);
 
 		$level = $model->getLevel($track->level);
 		$this->lh = $lh;
@@ -605,26 +605,26 @@ class JtgViewFiles extends JViewLegacy
 	}
 
 	function _displayList($tpl) {
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 		// $option = JRequest::getCmd('option');
 		$option = JFactory::getApplication()->input->get('option');
 
-		$model = & $this->getModel();
-		$cache = & JFactory :: getCache('com_jtg');
+		$model = $this->getModel();
+		$cache = JFactory :: getCache('com_jtg');
 		$sortedcats = JtgModeljtg::getCatsData(true);
 		$sortedter = JtgModeljtg::getTerrainData(true);
-		$user = & JFactory :: getUser();
+		$user = JFactory :: getUser();
 		$uid = $user->get('id');
 		$gid = $user->get('gid');
 		$lh = layoutHelper :: navigation();
 		$footer = layoutHelper :: footer();
 		$cfg = JtgHelper :: getConfig();
-		$pathway = & $mainframe->getPathway();
+		$pathway = $mainframe->getPathway();
 		$pathway->addItem(JText::_( 'COM_JTG_GPS_FILES'), '');
 		$sitename = $mainframe->getCfg('sitename');
 		$document = JFactory::getDocument();
 		$document->setTitle(JText::_( 'COM_JTG_GPS_FILES') . " - " . $sitename);
-		$params = & $mainframe->getParams();
+		$params =  $mainframe->getParams();
 
 		$order = JRequest :: getVar('order', 'order', 'post', 'string');
 
@@ -643,7 +643,7 @@ class JtgViewFiles extends JViewLegacy
 
 		//	$rows =& $model->getData($limit, $limitstart );
 		$rows = $cache->get(array ( $model, 'getData' ), array ( $limit, $limitstart ));
-		$total = & $this->get('Total');
+		$total = $this->get('Total');
 		$pagination = new JPagination($total, $limitstart, $limit);
 
 		$this->sortedcats = $sortedcats;
@@ -663,15 +663,15 @@ class JtgViewFiles extends JViewLegacy
 	}
 
 	function _displayUserTracks($tpl) {
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 		// $option = JRequest::getCmd('option');
 		$option = JFactory::getApplication()->input->get('option');
-		$cache = & JFactory :: getCache('com_jtg');
+		$cache = JFactory :: getCache('com_jtg');
 		$lh = layoutHelper :: navigation();
 		$footer = layoutHelper :: footer();
-		$model = & $this->getModel();
+		$model = $this->getModel();
 		$cfg = JtgHelper :: getConfig();
-		$pathway = & $mainframe->getPathway();
+		$pathway = $mainframe->getPathway();
 		$pathway->addItem(JText::_( 'COM_JTG_MY_FILES'), '');
 		$sitename = $mainframe->getCfg('sitename');
 		$document = JFactory::getDocument();
@@ -694,12 +694,12 @@ class JtgViewFiles extends JViewLegacy
 
 		//		$rows = & $model->getData($limit, $limitstart);
 		$rows = $cache->get(array ( $model, 'getData' ), array ( $limit, $limitstart ));
-		$total = & $this->get('Total');
+		$total = $this->get('Total');
 		$pagination = new JPagination($total, $limitstart, $limit);
 		$cats = JtgModeljtg::getCatsData(true);
 		//		$cats = $model->getCats();
 		$sortedter = JtgModeljtg::getTerrainData(true);
-		$params = & $mainframe->getParams();
+		$params = $mainframe->getParams();
 		$this->params = $params;
 		$this->sortedter = $sortedter;
 		$this->lh = $lh;
@@ -716,11 +716,11 @@ class JtgViewFiles extends JViewLegacy
 
 	function approach($service) {
 		//		$userparams = explode("\n", $this->user->params);
-		$user = & JFactory :: getUser();
+		$user = JFactory :: getUser();
 
 		if ($user->id == 0) // user is public
 		{
-			$config = & JFactory :: getConfig();
+			$config = JFactory :: getConfig();
 			$lang = $config->getValue('language');
 		} else {
 			$user = JFactory::getUser();

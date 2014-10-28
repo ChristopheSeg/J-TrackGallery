@@ -28,7 +28,7 @@ JToolBarHelper::save('updatefile', $alt= 'COM_JTG_SAVE');
 JToolBarHelper::custom('updateGeneratedValues', 'apply', 'apply', 'COM_JTG_REFRESH_DATAS', false );
 endif;
 JToolBarHelper::help( 'files/form',true );
-$document =& JFactory::getDocument();
+$document = JFactory::getDocument();
 $document->addStyleSheet(JUri::base().'components/com_jtg/template.css');
 // add jtg_map stylesheet
 $tmpl = ($cfg->template = "") ? $cfg->template : 'default';
@@ -37,12 +37,12 @@ $map = "";
 if($this->id >= 1) 
 {
 	//	edit file
-	$cache =& JFactory::getCache('com_jtg');
+	$cache = JFactory::getCache('com_jtg');
 	$cfg = JtgHelper::getConfig();
-	$params = &JComponentHelper::getParams( 'com_jtg' );
+	$params = JComponentHelper::getParams( 'com_jtg' );
 	$model = $this->getModel();
 	$track = $cache->get(array($model, 'getFile'), array($this->id));
-	$document =& JFactory::getDocument();
+	$document = JFactory::getDocument();
 	require_once(".." . DIRECTORY_SEPARATOR . "components" . DIRECTORY_SEPARATOR . "com_jtg" . DIRECTORY_SEPARATOR . "helpers" . DIRECTORY_SEPARATOR . "gpsClass.php");
 	$document->addScript('http://www.openlayers.org/api/OpenLayers.js');
 	$document->addScript('../components' . DIRECTORY_SEPARATOR . 'com_jtg' . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'fullscreen.js');

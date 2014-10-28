@@ -21,7 +21,7 @@ class JtgControllerMaps extends JtgController
 {
 	function bak__construct() {
 		parent::__construct();
-		$mainframe =& JFactory::getApplication(); // global _ $option;
+		$mainframe = JFactory::getApplication(); // global _ $option;
 		$where = array();
 //
 //		// Get the pagination request variables

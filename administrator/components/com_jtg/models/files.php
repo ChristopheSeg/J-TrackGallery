@@ -44,11 +44,11 @@ class JtgModelFiles extends JModelLegacy
 	var $_pagination = null;
 
 	function updateGeneratedValues() {
-		//$mainframe =& JFactory::getApplication();
+		//$mainframe = JFactory::getApplication();
 
 		// get the post data
-		$id =& JFactory::getApplication()->input->get('id');
-		$file =& JFactory::getApplication()->input->get('file');
+		$id = JFactory::getApplication()->input->get('id');
+		$file = JFactory::getApplication()->input->get('file');
 		$cfg = JtgHelper::getConfig();
 		jimport('joomla.filesystem.file');
 		require_once(".." . DIRECTORY_SEPARATOR . "components" . DIRECTORY_SEPARATOR . "com_jtg" . DIRECTORY_SEPARATOR . "helpers" . DIRECTORY_SEPARATOR . "gpsClass.php");
@@ -88,7 +88,7 @@ class JtgModelFiles extends JModelLegacy
 			return false;
 		}
 
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		// count votings
 		$query = "SELECT COUNT(*) FROM #__jtg_votes"
 		. "\n WHERE trackid='" .$id. "'";
@@ -121,7 +121,7 @@ class JtgModelFiles extends JModelLegacy
 		. "\n WHERE id='" . $id . "'"
 		;
 
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$db->setQuery($query);
 		$db->query();
 
@@ -167,7 +167,7 @@ class JtgModelFiles extends JModelLegacy
 	 */
 	function __construct() {
 		parent::__construct();
-		$mainframe =& JFactory::getApplication(); // global _ $option;
+		$mainframe = JFactory::getApplication(); // global _ $option;
 
 		// Get the pagination request variables
 		$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int' );
@@ -238,8 +238,8 @@ class JtgModelFiles extends JModelLegacy
 	 * @return string
 	 */
 	function _fetchJPTfiles()  {
-		$mainframe =& JFactory::getApplication();
-		$db =& JFactory::getDBO();
+		$mainframe = JFactory::getApplication();
+		$db = JFactory::getDBO();
 		$query = "SELECT * FROM #__gps_tracks";
 		if($db->setQuery($query)) return false;
 		$rows = $db->loadAssocList();
@@ -252,12 +252,12 @@ class JtgModelFiles extends JModelLegacy
 	 * @return string
 	 */
 	function _buildQuery()  {
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 
 		$orderby	= $this->_buildContentOrderBy();
 		$where      = $this->_buildContentWhere();
 
-		//        $db =& JFactory::getDBO();
+		//        $db = JFactory::getDBO();
 
 		$query = "SELECT a.*, b.title AS cat FROM"
 		. "\n #__jtg_files AS a"
@@ -277,7 +277,7 @@ class JtgModelFiles extends JModelLegacy
 	 */
 	function _buildContentOrderBy()
 	{
-		$mainframe =& JFactory::getApplication(); // global _ $option;
+		$mainframe = JFactory::getApplication(); // global _ $option;
 
 		$filter_order		= $mainframe->getUserStateFromRequest
 		( $this->option.'filter_order','filter_order','ordering','cmd' );
@@ -301,11 +301,11 @@ class JtgModelFiles extends JModelLegacy
 	 */
 	function _buildContentWhere()  {
 
-		$mainframe =& JFactory::getApplication(); // global _ $option;
+		$mainframe = JFactory::getApplication(); // global _ $option;
 
-		$search =& JFactory::getApplication()->input->get('search');
+		$search = JFactory::getApplication()->input->get('search');
 		$where = array();
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		if($search)  {
 			$where[] = 'LOWER(a.title) LIKE '.$db->Quote( '%'.$db->getEscaped( $search, true ).'%', false );
@@ -324,8 +324,8 @@ class JtgModelFiles extends JModelLegacy
 	 * @return object
 	 */
 	function getFile($id)  {
-		$mainframe =& JFactory::getApplication();
-		$db =& JFactory::getDBO();
+		$mainframe = JFactory::getApplication();
+		$db = JFactory::getDBO();
 		$query = "SELECT * FROM #__jtg_files"
 		. "\n WHERE id='" . $id . "'";
 		$db->setQuery($query);
@@ -362,7 +362,7 @@ class JtgModelFiles extends JModelLegacy
 	 */
 	function publish($cid = array(), $publish = 1)
 	{
-		$user 	=& JFactory::getUser();
+		$user 	= JFactory::getUser();
 
 		if (count( $cid ))
 		{
@@ -391,7 +391,7 @@ class JtgModelFiles extends JModelLegacy
 	 */
 	function showhide($cid = array(), $hide = 0)
 	{
-		$user 	=& JFactory::getUser();
+		$user 	= JFactory::getUser();
 
 		if (count( $cid ))
 		{
@@ -421,7 +421,7 @@ class JtgModelFiles extends JModelLegacy
 	 */
 	function access($cid = array(), $access = 1)
 	{
-		$user 	=& JFactory::getUser();
+		$user 	= JFactory::getUser();
 
 		if (count( $cid ))
 		{
@@ -547,8 +547,8 @@ class JtgModelFiles extends JModelLegacy
 	 * @return array
 	 */
 	function getCats($nosubcats=false,$stdtext='COM_JTG_SELECT',$stdid=0, $type=1) {
-		$mainframe =& JFactory::getApplication();
-		$db =& JFactory::getDBO();
+		$mainframe = JFactory::getApplication();
+		$db = JFactory::getDBO();
 
 		$query = "SELECT * FROM #__jtg_cats WHERE published=1 ORDER BY ordering,id ASC";
 		$db->setQuery($query);
@@ -597,7 +597,7 @@ class JtgModelFiles extends JModelLegacy
 		//		Used to generate generic list of users
 		// Joomla 2.5 JHtml::_('list.users'..); returns duplicate users
 
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$rows=null;
 		$query = "SELECT id, name as title FROM #__users " . $where . " ORDER BY name";
 	    $db->setQuery($query);
@@ -626,9 +626,9 @@ class JtgModelFiles extends JModelLegacy
 	 * @return array
 	 */
 	function getTerrain($select="*", $nullter = false, $where = null )  {
-		//		$mainframe =& JFactory::getApplication();
+		//		$mainframe = JFactory::getApplication();
 
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$rows=null;
 		if ($where!=="WHERE id = ")
 		    {
@@ -664,9 +664,9 @@ class JtgModelFiles extends JModelLegacy
 	 * @return array
 	 */
 	function getAccess($id)  {
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		$query = "SELECT access FROM #__jtg_files WHERE id='" . $id . "'";
 
@@ -676,35 +676,35 @@ class JtgModelFiles extends JModelLegacy
 	}
 
 	function saveFiles() {
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 		jimport('joomla.filesystem.file');
 		jimport('joomla.filesystem.folder');
 		require_once(".." . DIRECTORY_SEPARATOR . "components" . DIRECTORY_SEPARATOR . "com_jtg" . DIRECTORY_SEPARATOR . "helpers" . DIRECTORY_SEPARATOR . "gpsClass.php");
 		$fileokay = true;
-		$db =& JFactory::getDBO();
-		$user =& JFactory::getUser();
+		$db = JFactory::getDBO();
+		$user = JFactory::getUser();
 		$targetdir = JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'uploaded_tracks'. DIRECTORY_SEPARATOR;
 		$found =& JRequest::getInt('found');
 		for($i=0;$i<$found;$i++) {
 			$existingfiles = JFolder::files($targetdir);
-			$import =& JFactory::getApplication()->input->get('import_'.$i);
+			$import = JFactory::getApplication()->input->get('import_'.$i);
 			if ( $import !== null ) {
-				$catid =& JFactory::getApplication()->input->get('catid_'.$i, NULL,'array');
+				$catid = JFactory::getApplication()->input->get('catid_'.$i, NULL,'array');
 				if ( $catid )
 
 				$catid = implode(",",$catid);
 				$level =& JRequest::getInt('level_'.$i);
-				$title =& JFactory::getApplication()->input->get('title_'.$i);
-				$terrain =& JFactory::getApplication()->input->get('terrain_'.$i, NULL,'array');
+				$title = JFactory::getApplication()->input->get('title_'.$i);
+				$terrain = JFactory::getApplication()->input->get('terrain_'.$i, NULL,'array');
 				if ($terrain)
 				$terrain = implode(',', $terrain);
 				else
 				$terrain = "";
-				// $desc =& JFactory::getApplication()->input->get('desc_'.$i, '', 'raw');
+				// $desc = JFactory::getApplication()->input->get('desc_'.$i, '', 'raw');
 				$desc = & $db->quote(implode(' ',JFactory::getApplication()->input->get('desc_'.$i, '', 'array') ) );
 				$desc = $this->parsedesc($desc);
-				$file =& JFactory::getApplication()->input->get('file_'.$i,'','raw');
-				$hidden =& JFactory::getApplication()->input->get('hidden_'.$i);
+				$file = JFactory::getApplication()->input->get('file_'.$i,'','raw');
+				$hidden = JFactory::getApplication()->input->get('hidden_'.$i);
 				$file_tmp = explode(DIRECTORY_SEPARATOR,$file);
 				$filename = strtolower($file_tmp[(count($file_tmp)-1)]);
 				$file_tmp = str_replace(' ','_',$filename);
@@ -749,12 +749,12 @@ class JtgModelFiles extends JModelLegacy
 					}
 				}
 
-				$uid =& JFactory::getApplication()->input->get('uid_'.$i);
-				$date =& JFactory::getApplication()->input->get('date_'.$i);
-				//			$images =& JFactory::getApplication()->input->files->get('images_'.$i,);
+				$uid = JFactory::getApplication()->input->get('uid_'.$i);
+				$date = JFactory::getApplication()->input->get('date_'.$i);
+				//			$images = JFactory::getApplication()->input->files->get('images_'.$i,);
 				$access =& JRequest::getInt('access_'.$i);
 				// 	get the start coordinates $target
-				$cache = & JFactory::getCache();
+				$cache = JFactory::getCache();
 				$gpsData = new gpsDataClass("Kilometer");// default unit
 				$gpsData = $cache->get(array ( $gpsData, 'loadFileAndData' ), array ($file, $filename ), "Kilometer");
 				$errors = $gpsData->displayErrors();
@@ -831,11 +831,11 @@ class JtgModelFiles extends JModelLegacy
 
 	function importFromJPT($track) {
 		// TODO Deprecated, can be replacd by import from injooosm
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 		jimport('joomla.filesystem.file');
 		jimport('joomla.filesystem.folder');
 		require_once(".." . DIRECTORY_SEPARATOR . "components" . DIRECTORY_SEPARATOR . "com_jtg" . DIRECTORY_SEPARATOR . "helpers" . DIRECTORY_SEPARATOR . "gpsClass.php");
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$fileokay = false;
 		$targetdir = JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'uploaded_tracks'. DIRECTORY_SEPARATOR;
 		// TODO What was this import for? Joogpstracks to Injooosm??
@@ -956,31 +956,31 @@ class JtgModelFiles extends JModelLegacy
 	}
 
 	function saveFile() {
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 		jimport('joomla.filesystem.file');
 		jimport('joomla.filesystem.folder');
 		require_once(".." . DIRECTORY_SEPARATOR . "components" . DIRECTORY_SEPARATOR . "com_jtg" . DIRECTORY_SEPARATOR . "helpers" . DIRECTORY_SEPARATOR . "gpsClass.php");
 
-		$db =& JFactory::getDBO();
-		$user =& JFactory::getUser();
+		$db = JFactory::getDBO();
+		$user = JFactory::getUser();
 		// get the post data
-		$catid =& JFactory::getApplication()->input->get('catid', NULL,'array');
+		$catid = JFactory::getApplication()->input->get('catid', NULL,'array');
 		$catid = implode(",",$catid);
 		$level =& JRequest::getInt('level');
-		$title =& JFactory::getApplication()->input->get('title');
-		$terrain =& JFactory::getApplication()->input->get('terrain', NULL, 'array');
+		$title = JFactory::getApplication()->input->get('title');
+		$terrain = JFactory::getApplication()->input->get('terrain', NULL, 'array');
 		if ($terrain)
 		$terrain = implode(',', $terrain);
 		else
 		$terrain = "";
 		$desc = & $db->quote(implode(' ',JFactory::getApplication()->input->get('description', '', 'array') ) );
 		$desc = $this->parsedesc($desc);
-		$file =& JFactory::getApplication()->input->files->get('file');
-		$uid =& JFactory::getApplication()->input->get('uid');
+		$file = JFactory::getApplication()->input->files->get('file');
+		$uid = JFactory::getApplication()->input->get('uid');
 		$date = date("Y-m-d");
-		$images =& JFactory::getApplication()->input->files->get('images');
+		$images = JFactory::getApplication()->input->files->get('images');
 		$access =& JRequest::getInt('access');
-		$hidden =& JFactory::getApplication()->input->get('hidden');
+		$hidden = JFactory::getApplication()->input->get('hidden');
 
 		// @ToDo: => JtgHelper::uploadfile
 		// upload the file
@@ -1016,7 +1016,7 @@ class JtgModelFiles extends JModelLegacy
 		$gpsData = new gpsDataClass("Kilometer");// default unit
 		//TODO $track is not defined  here !!!!
 		$file = ".." . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "jtrackgallery" . DIRECTORY_SEPARATOR . "uploaded_tracks" . DIRECTORY_SEPARATOR . strtolower($filename);
-		$cache = & JFactory::getCache();
+		$cache = JFactory::getCache();
 		$gpsData = $cache->get(array ( $gpsData, 'loadFileAndData' ), array ($file, strtolower($filename) ), "Kilometer");
 		$errors = $gpsData->displayErrors();
 		if ($errors)
@@ -1115,17 +1115,17 @@ class JtgModelFiles extends JModelLegacy
 		jimport('joomla.filesystem.file');
 		jimport('joomla.filesystem.folder');
 		$importfiles = $this->_fetchJPTfiles;
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 		require_once(".." . DIRECTORY_SEPARATOR . "components" . DIRECTORY_SEPARATOR . "com_jtg" . DIRECTORY_SEPARATOR . "helpers" . DIRECTORY_SEPARATOR . "gpsClass.php");
 		$fileokay = true;
-		$db =& JFactory::getDBO();
-		$user =& JFactory::getUser();
+		$db = JFactory::getDBO();
+		$user = JFactory::getUser();
 		$targetdir = JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'uploaded_tracks'. DIRECTORY_SEPARATOR;
 		//	$found =& JRequest::getInt('found');
 		for($i=0;$i<count($importfiles);$i++) {
 			$importfile = $importfiles[$i];
 			$existingfiles = JFolder::files($targetdir);
-			//		$import =& JFactory::getApplication()->input->get('import_'.$i);
+			//		$import = JFactory::getApplication()->input->get('import_'.$i);
 			//		if ( $import == "on" ) {
 			$catid = $importfile['catid'];
 			$level = $importfile['level'];
@@ -1284,28 +1284,28 @@ class JtgModelFiles extends JModelLegacy
 	}
 
 	function updateFile()  {
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 		jimport('joomla.filesystem.file');
 		jimport('joomla.filesystem.folder');
 		require_once('..' . DIRECTORY_SEPARATOR . 'components' . DIRECTORY_SEPARATOR . 'com_jtg' . DIRECTORY_SEPARATOR . 'helpers' . DIRECTORY_SEPARATOR . 'gpsClass.php');
 
-		$db =& JFactory::getDBO();
-		$user =& JFactory::getUser();
+		$db = JFactory::getDBO();
+		$user = JFactory::getUser();
 
 		// get the post data
 		$id =& JRequest::getInt('id');
-		$catid =& JFactory::getApplication()->input->get('catid', NULL,'array');
+		$catid = JFactory::getApplication()->input->get('catid', NULL,'array');
 		$catid = implode(",",$catid);
 		$level =& JRequest::getInt('level');
-		$title =& JFactory::getApplication()->input->get('title');
-		$hidden =& JFactory::getApplication()->input->get('hidden');
-		$published =& JFactory::getApplication()->input->get('published');
+		$title = JFactory::getApplication()->input->get('title');
+		$hidden = JFactory::getApplication()->input->get('hidden');
+		$published = JFactory::getApplication()->input->get('published');
 
 		$allimages = $this->getImages($id);
 		$imgpath = JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'track_' . $id. DIRECTORY_SEPARATOR;
 		if($allimages){
 			foreach ($allimages AS $key => $image) {
-				$image =& JFactory::getApplication()->input->get('deleteimage_'.str_replace('.',null,$image));
+				$image = JFactory::getApplication()->input->get('deleteimage_'.str_replace('.',null,$image));
 				if($image !== NULL)
 				{
 				    JFile::delete($imgpath.$image);
@@ -1316,15 +1316,15 @@ class JtgModelFiles extends JModelLegacy
 				}
 			}
 		}
-		$date =& JFactory::getApplication()->input->get('date');
-		$terrain =& JFactory::getApplication()->input->get('terrain', NULL, 'array');
+		$date = JFactory::getApplication()->input->get('date');
+		$terrain = JFactory::getApplication()->input->get('terrain', NULL, 'array');
 		// ToDo: empty Terrain = bad
 		if ($terrain != "")
 		$terrain = implode(',', $terrain);
 		$desc = & $db->quote(implode(' ',JFactory::getApplication()->input->get('description', '', 'array') ) );
 		$desc = $this->parsedesc($desc);
 		//         $uid = $user->get('id');
-		$uid =& JFactory::getApplication()->input->get('uid');
+		$uid = JFactory::getApplication()->input->get('uid');
 		if ( $date == "" )
 		$date = date("Y-m-d");
 		$access =& JRequest::getInt('access');

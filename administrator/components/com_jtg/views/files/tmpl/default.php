@@ -18,7 +18,7 @@ JToolBarHelper::title(JText::_('COM_JTG_GPS_FILES'), 'categories.png');
 JToolBarHelper::back();
 // JToolBarHelper::back();
 JToolBarHelper::spacer();
-$bar=& JToolBar::getInstance( 'toolbar' );
+$bar = JToolBar::getInstance( 'toolbar' );
 $folder = JUri::base().'index.php?option=com_jtg&tmpl=component&controller=files&task=upload';
 // popup:
 $bar->appendButton( 'Popup', 'upload', 'COM_JTG_UPLOAD', $folder, 550, 400 );
@@ -34,7 +34,7 @@ JToolBarHelper::deleteList('COM_JTG_VALIDATE_DELETE_ITEMS');
 JToolBarHelper::help( 'files/default',true );
 
 $ordering = ($this->lists['order'] == 'ordering');
-$document =& JFactory::getDocument();
+$document = JFactory::getDocument();
 $document->addStyleSheet(JUri::base().'components/com_jtg/template.css');
 
 ?>

@@ -38,7 +38,7 @@ class JtgViewMaps extends JViewLegacy
 	* @param object $tpl
 	*/
 	function display($tpl = null) {
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 		$option = JFactory::getApplication()->input->get('option');
 		//		$order = JFactory::getApplication()->input->get('order',true);
 
@@ -47,7 +47,7 @@ class JtgViewMaps extends JViewLegacy
 		// return;
 		endif;
 		jimport('joomla.filesystem.file');
-		$config =& JtgHelper::getConfig();
+		$config = JtgHelper::getConfig();
 		$model = $this->getModel();
 		$total = $model->getTotal();
 		$maps = $model->getMaps();
@@ -75,7 +75,7 @@ class JtgViewMaps extends JViewLegacy
 		$lists['search'] = $search;
 		$state = $search;
 
-		$pagination = & $this->get('Pagination' );
+		$pagination = $this->get('Pagination' );
 		$this->pagination = $pagination;
 		$this->state = $state;
 		$this->config = $config;

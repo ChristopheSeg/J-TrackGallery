@@ -22,7 +22,7 @@ jimport('joomla.application.component.controller');
 class JtgController extends JControllerLegacy
 {
 
-	function display ()
+	function display ($cachable = false, $urlparams = false)
 	{
 		// Make sure we have a default view
 		// if( !JRequest::getCmd( 'view' ))
@@ -34,7 +34,7 @@ class JtgController extends JControllerLegacy
 		// update the hit count for the file
 		if (JFactory::getApplication()->input->get('view') == 'files')
 		{
-			$model = & $this->getModel('files');
+			$model = $this->getModel('files');
 			$model->hit();
 		}
 
@@ -46,10 +46,10 @@ class JtgController extends JControllerLegacy
 	 */
 	function displayimg ()
 	{
-		$mainframe = & JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 
 		// By default, just display an image
-		$document = &JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$doc = &JDocument::getInstance('raw');
 
 		// Swap the objects

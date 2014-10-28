@@ -23,7 +23,7 @@ class JtgViewCats extends JViewLegacy
 {
     function display($tpl = null)
     {
-	$mainframe =& JFactory::getApplication();
+	$mainframe = JFactory::getApplication();
 	$this->lh = layoutHelper::navigation();
 	$this->footer = layoutHelper::footer();
 	$pathway =& $mainframe->getPathway();

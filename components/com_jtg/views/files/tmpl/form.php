@@ -28,7 +28,7 @@ if(isset($this->id))
 }
 
 // $cfg = JtgHelper::getConfig();
-$user =& JFactory::getUser();
+$user = JFactory::getUser();
 $juser = new JUser($user->id);
 
 ?>

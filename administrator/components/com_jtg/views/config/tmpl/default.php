@@ -26,7 +26,7 @@ JHtml::_('behavior.tooltip');
 //	$tabs	=& JPane::getInstance('tabs');
 	jimport( 'joomla.html.html.tabs' );
 	// add style for horizontal menu in Joomla 3.x
-	$document =& JFactory::getDocument();
+	$document = JFactory::getDocument();
 	$style = 'dt.tabs h3 {
 		    float:left;
 		    margin-right: 10px;

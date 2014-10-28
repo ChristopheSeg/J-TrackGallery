@@ -30,7 +30,7 @@ class JtgViewConfig extends JViewLegacy
 
 		jimport('joomla.filesystem.file');
 		jimport('joomla.filesystem.folder');
-		$config =& JtgHelper::getConfig();
+		$config = JtgHelper::getConfig();
 
 		$captcha = JtgHelper::checkCaptcha();
 		$cactiv = ($captcha > 0) ? '<font color="green">'.JText::_('COM_JTG_INSTALLED').'</font>' : '<font color="red">'.JText::_('COM_JTG_NOT_INSTALLED').'</font>';

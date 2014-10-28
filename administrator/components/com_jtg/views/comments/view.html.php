@@ -27,7 +27,7 @@ class JtgViewComments extends JViewLegacy
 	 * @param object $tpl
 	 */
 	function display($tpl = null) {
-		$mainframe =& JFactory::getApplication(); 
+		$mainframe = JFactory::getApplication(); 
 		$option = JFactory::getApplication()->input->get('option');
 
 		if($this->getLayout() == 'form'):
@@ -35,10 +35,10 @@ class JtgViewComments extends JViewLegacy
 		return;
 		endif;
 
-		$model =& $this->getModel();
-		$rows =& $this->get('Data');
-		$total =& $this->get('Total');
-		$pagination = & $this->get('Pagination' );
+		$model =$this->getModel();
+		$rows =$this->get('Data');
+		$total =$this->get('Total');
+		$pagination = $this->get('Pagination' );
 		if (!isset($lists)) {$lists=false;}
 		$this->lists = $lists;
 		$this->rows = $rows;
@@ -54,7 +54,7 @@ class JtgViewComments extends JViewLegacy
 
 		$model = $this->getModel();
 		$comment = $model->getComment($cid);
-		$editor =& JFactory::getEditor();
+		$editor = JFactory::getEditor();
 
 		$this->comment = $comment;
 		$this->editor = $editor;

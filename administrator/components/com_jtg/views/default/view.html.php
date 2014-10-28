@@ -28,11 +28,11 @@ class JtgViewDefault extends JViewLegacy
      */
     function display($tpl = null,$map=false) {
 
-        $cfg =& JtgHelper::getConfig();
+        $cfg = JtgHelper::getConfig();
 
         $gpsData = new gpsDataClass();
 
-        $document =& JFactory::getDocument();
+        $document = JFactory::getDocument();
         $this->cfg = $cfg;
         $this->gps = $gpsData;
         

@@ -56,8 +56,8 @@ class JtgViewCats extends JViewLegacy
 	 */
 	function _displayManageCatPics($tpl) {
 
-		$model =& $this->getModel();
-		$rows =& $this->get('Pics');
+		$model =$this->getModel();
+		$rows =$this->get('Pics');
 		$children = array();
 		$imagedir = JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'cats' . DIRECTORY_SEPARATOR;
 		$imageurl = JUri::root().'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'cats' . DIRECTORY_SEPARATOR;
@@ -89,9 +89,9 @@ class JtgViewCats extends JViewLegacy
 	 * @param object $tpl
 	 */
 	function _displayDefault($tpl) {
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 		$option = JFactory::getApplication()->input->get('option');
-		$model =& $this->getModel();
+		$model =$this->getModel();
 
 		// $order = JFactory::getApplication()->input->get('order', 'order', 'post', 'string' );
 
@@ -107,7 +107,7 @@ class JtgViewCats extends JViewLegacy
 		$lists['order']		= $filter_order;
 		$lists['order_Dir']	= $filter_order_Dir;
 
-		$rows =& $this->get('Data');
+		$rows =$this->get('Data');
 		$children = array();
 		$image = array();
 		$imagedir = JUri::base().'../images/jtrackgallery/cats/';
@@ -125,8 +125,8 @@ class JtgViewCats extends JViewLegacy
 		$list = JHtml::_('menu.treerecurse', 0, '', array(), $children, max( 0, $levellimit-1 ) );
 		$list = array_slice($list, 0, 999);
 
-		$total		= & $this->get('Total');
-		$pagination = & $this->get('Pagination') ;
+		$total		= $this->get('Total');
+		$pagination = $this->get('Pagination') ;
 		$this->lists = $lists;
 		$this->pagination = $pagination;
 		$this->list = $list;
@@ -143,16 +143,16 @@ class JtgViewCats extends JViewLegacy
 	 * @param object $tpl
 	 */
 	function _displayForm($tpl) {
-//		$mainframe =& JFactory::getApplication(); $option = JFactory::getApplication()->input->get('option');
+//		$mainframe = JFactory::getApplication(); $option = JFactory::getApplication()->input->get('option');
 
 		$model = $this->getModel();
 		$parent = $model->getParent();
 		$nullcat = array('id' => 0, "name" => JText::_('COM_JTG_NOTHING'), "title" => JText::_('COM_JTG_NOTHING'));
 		array_unshift($parent, $nullcat);
-		$editor =& JFactory::getEditor();
+		$editor = JFactory::getEditor();
 		$lists['block'] 	= JHtml::_('select.booleanlist', 'publish', 'class="inputbox" size="1"', 1 );
 		$lists['parent'] 	= JHtml::_('select.genericlist', $parent, 'parent', 'size="1"', 'id', 'name', '');
-		$config =& JtgHelper::getConfig();
+		$config = JtgHelper::getConfig();
 		$images = $model->getPics();
 		$this->images = $images;
 		$this->lists = $lists;
@@ -168,12 +168,12 @@ class JtgViewCats extends JViewLegacy
 	 * @param object $tpl
 	 */
 	function _displayEditcat($tpl) {
-//		$mainframe =& JFactory::getApplication();
+//		$mainframe = JFactory::getApplication();
 		$cid = JFactory::getApplication()->input->get('cid', array(), 'array' );
 		$id =$cid[0];
 
-		$editor =& JFactory::getEditor();
-		$model =& $this->getModel();
+		$editor = JFactory::getEditor();
+		$model =$this->getModel();
 		$parent = $model->getParent($id);
 		$nullcat = array('id' => 0, "name" => JText::_('COM_JTG_NOTHING'), "title" => JText::_('COM_JTG_NOTHING'));
 		array_unshift($parent, $nullcat);
@@ -181,7 +181,7 @@ class JtgViewCats extends JViewLegacy
 		$lists['block'] 	= JHtml::_('select.booleanlist', 'publish', 'class="inputbox" size="1"', $data->published );
 		$lists['parent'] 	= JHtml::_('select.genericlist', $parent, 'parent', 'size="1"', 'id', 'name', $data->parent_id);
 
-		$config =& JtgHelper::getConfig();
+		$config = JtgHelper::getConfig();
 		$images = $model->getPics();
 		$this->images = $images;
 		$this->lists = $lists;

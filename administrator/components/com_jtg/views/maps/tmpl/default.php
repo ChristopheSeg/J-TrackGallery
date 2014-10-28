@@ -86,7 +86,7 @@ $link = JRoute::_('index.php?option=com_jtg&task=maps&controller=maps&layout=def
 		<tbody>
 <?php
 $k = 0;
-$user =& JFactory::getUser();
+$user = JFactory::getUser();
 for ($i=0, $n=count( $this->maps ); $i < $n; $i++) {
 	//	$map->published
 	$map = $this->maps[$i];

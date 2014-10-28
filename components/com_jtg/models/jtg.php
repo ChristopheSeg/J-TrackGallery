@@ -33,9 +33,9 @@ class JtgModeljtg extends JModelLegacy
 	 * @return <type>
 	 */
 	function getFile($id)  {
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		$query = "SELECT * FROM #__jtg_files WHERE id='" .$id. "'";
 
@@ -49,8 +49,8 @@ class JtgModeljtg extends JModelLegacy
 	function getTracksData($order, $limit,$where="",$access=null) {
 		if ( $where != "" ) $where = " AND ( " . $where . " )";
 //		if ( $access !== null ) $where .= " AND a.access <= " . $access;
-		$mainframe =& JFactory::getApplication();
-		$db =& JFactory::getDBO();
+		$mainframe = JFactory::getApplication();
+		$db = JFactory::getDBO();
 		$query = "SELECT a.*, b.title AS cat FROM #__jtg_files AS a"
 		. "\n LEFT JOIN #__jtg_cats AS b"
 		. "\n ON a.catid=b.id WHERE a.published = 1" . $where
@@ -63,9 +63,9 @@ class JtgModeljtg extends JModelLegacy
 
 	function getCatsData($sort=false) {
 
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		$query = "SELECT * FROM #__jtg_cats WHERE published = 1"
 		. "\n ORDER BY title ASC";
@@ -98,9 +98,9 @@ class JtgModeljtg extends JModelLegacy
 
 	function getTerrainData($sort=false) {
 
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		$query = "SELECT * FROM #__jtg_terrains"
 		. "\n ORDER BY title ASC";
@@ -129,9 +129,9 @@ class JtgModeljtg extends JModelLegacy
 	}
 
 	function getVotesData() {
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		$query = "SELECT trackid AS id ,rating FROM #__jtg_votes"
 		. "\n ORDER BY trackid ASC";

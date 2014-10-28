@@ -41,7 +41,7 @@ class JtgControllerFiles extends JtgController
 	{
 		JSession::checkToken() or jexit('Invalid Token');
 		// Joomla does not load $_FILES !!
-		// $files = & JFactory::getApplication()->input->files->get('files');
+		// $files = JFactory::getApplication()->input->files->get('files');
 		// see http://stackoverflow.com/questions/13840624/joomla-custom-component-upload-form
 		$jInput = JFactory::getApplication()->input;
 		$jFileInput = new jInput($_FILES);

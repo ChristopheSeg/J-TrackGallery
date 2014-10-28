@@ -15,7 +15,7 @@ defined('_JEXEC') or die('Restricted access');
 
 // toolbar
 $ordering = ($this->lists['order'] == 'ordering');
-$document =& JFactory::getDocument();
+$document = JFactory::getDocument();
 $document->addStyleSheet(JUri::base().'components/com_jtg/template.css');
 
 ?>

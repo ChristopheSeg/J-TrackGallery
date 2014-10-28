@@ -32,7 +32,7 @@ class JtgModelCat extends JModelLegacy
 	function saveCatImage() {
 		JSession::checkToken() or die( 'Invalid Token' );
 		jimport('joomla.filesystem.file');
-		$files =& JFactory::getApplication()->input->files->get('files');
+		$files = JFactory::getApplication()->input->files->get('files');
 		return $this->uploadCatImage($files);
 	}
 
@@ -54,7 +54,7 @@ class JtgModelCat extends JModelLegacy
 	 */
 	function move($direction)
 	{
-		$row =& $this->getTable('jtg_cats');
+		$row =$this->getTable('jtg_cats');
 		if (!$row->load($this->_id)) {
 			$this->setError($this->_db->getErrorMsg());
 			return false;
@@ -76,7 +76,7 @@ class JtgModelCat extends JModelLegacy
 	 */
 	function saveorder($cid = array(), $order)
 	{
-		$row =& $this->getTable('jtg_cats');
+		$row =$this->getTable('jtg_cats');
 		$groupings = array();
 
 		// update ordering values
@@ -113,7 +113,7 @@ class JtgModelCat extends JModelLegacy
 	 */
 	function publish($cid = array(), $publish = 1)
 	{
-		$user 	=& JFactory::getUser();
+		$user 	= JFactory::getUser();
 
 		if (count( $cid ))
 		{
@@ -194,29 +194,29 @@ class JtgModelCat extends JModelLegacy
 	 * @return boolean
 	 */
 	function saveCat() {
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 
 		// check the token
 		JSession::checkToken() or die( 'Invalid Token' );
 		jimport('joomla.filesystem.file');
 
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 
-		$title =& JFactory::getApplication()->input->get('title' );
+		$title = JFactory::getApplication()->input->get('title' );
 		if ( $title == "" )
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_NO_TITLE'), 'Warning');
 			return false;
 		}
 		$published =& JRequest::getInt( 'publish' );
-		$desc =& JFactory::getApplication()->input->get('desc', '', 'raw');
+		$desc = JFactory::getApplication()->input->get('desc', '', 'raw');
 		// allow for JTEXT in category description
 		if ( (substr($desc,0,3)=='<p>') AND (substr($desc,-4,4)=='</p>') ) {
 		    //remove enclosing <p> tags,try translating text, add <p> tags
 		    $desc = substr($desc,3,-4);
 		}
 		$parent =& JRequest::getInt('parent');
-		$image =& JFactory::getApplication()->input->get('catpic' );
+		$image = JFactory::getApplication()->input->get('catpic' );
 
 		$query = "INSERT INTO #__jtg_cats SET"
 		. "\n parent_id='" . $parent . "',"
@@ -272,25 +272,25 @@ class JtgModelCat extends JModelLegacy
 	 * @return boolean
 	 */
 	function updateCat() {
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 
 		// check the token
 		JSession::checkToken() or die( 'Invalid Token' );
 		jimport('joomla.filesystem.file');
 
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		$id =& JRequest::getInt('id');
-		$file =& JFactory::getApplication()->input->files->get('image');
-		$title =& JFactory::getApplication()->input->get('title' );
-		$image =& JFactory::getApplication()->input->get('catpic' );
+		$file = JFactory::getApplication()->input->files->get('image');
+		$title = JFactory::getApplication()->input->get('title' );
+		$image = JFactory::getApplication()->input->get('catpic' );
 		if ( $title == "" )
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_NO_TITLE'), 'Warning');
 			return false;
 		}
 		$published =& JRequest::getInt( 'publish' );
-		$desc =& JFactory::getApplication()->input->get('desc', '', 'raw');
+		$desc = JFactory::getApplication()->input->get('desc', '', 'raw');
 		// allow for JTEXT in category description
 		if ( (substr($desc,0,3)=='<p>') AND (substr($desc,-4,4)=='</p>') ) {
 		    //remove enclosing <p> tags,try translating text, add <p> tags

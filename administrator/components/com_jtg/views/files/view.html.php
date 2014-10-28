@@ -28,7 +28,7 @@ class JtgViewFiles extends JViewLegacy
 	 */
 	function accesslevelForImport( $name , $js=null, $oneline=false )
 	{
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		$query = 'SELECT id AS value, title AS text'
 		. ' FROM #__viewlevels'
@@ -332,7 +332,7 @@ class JtgViewFiles extends JViewLegacy
 	 * @param object $tpl
 	 */
 	function display($tpl = null) {
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 		$option = JFactory::getApplication()->input->get('option');
 
 		if($this->getLayout() == 'form')
@@ -347,7 +347,7 @@ class JtgViewFiles extends JViewLegacy
 			return;
 		}
 
-		$model =& $this->getModel();
+		$model =$this->getModel();
 
 		$order = JFactory::getApplication()->input->get('order', 'order', 'string' );
 
@@ -368,9 +368,9 @@ class JtgViewFiles extends JViewLegacy
 		$lists['order']		= $filter_order;
 		$lists['order_Dir']	= $filter_order_Dir;
 		$lists['search']	= $search;
-		$rows		= & $this->get('Data');
-		$total		= & $this->get('Total');
-		$pagination = & $this->get('Pagination' );
+		$rows		= $this->get('Data');
+		$total		= $this->get('Total');
+		$pagination = $this->get('Pagination' );
 		$cfg = JtgHelper::getConfig();
 		$cats = $model->getCats();
 
@@ -422,14 +422,14 @@ class JtgViewFiles extends JViewLegacy
 		jimport('joomla.filesystem.folder');
 		// Quick'n'Dirty - Sonst funktioniert das Joomla-Menü nicht mehr: (!?)
 
-		$cid =& JFactory::getApplication()->input->get('cid', array(), 'array' );
+		$cid = JFactory::getApplication()->input->get('cid', array(), 'array' );
 		// $id = implode(',', $cid);
 		$cfg = JtgHelper::getConfig();
-		$editor =& JFactory::getEditor();
+		$editor = JFactory::getEditor();
 		$model = $this->getModel();
 		$cats = $model->getCats(true,'COM_JTG_SELECT',-1);
 		$terrain = $model->getTerrain("*",true," WHERE published=1 ");
-		$user 	=& JFactory::getUser();
+		$user 	= JFactory::getUser();
 		$uid = $user->get('id');
 		$yesnolist = array(
 		array('id' => 0, 'title' => JText::_('JNO')),

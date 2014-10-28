@@ -99,7 +99,7 @@ class JtgHelper
 
 	}
 	public function howMuchVote($tid) {
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$query = "SELECT COUNT(id) FROM #__jtg_votes"
 		. "\n WHERE trackid='" .$tid. "'";
 		$db->setQuery($query);
@@ -461,7 +461,7 @@ class JtgHelper
 	}
 
 	function giveAccessLevel() {
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 		// Admin		24
 		// Registered	18
 		// Guest		0
@@ -478,10 +478,10 @@ class JtgHelper
 	 * @global object $mainframe
 	 * @return object
 	 */
-	function getConfig()  {
-		$mainframe =& JFactory::getApplication();
+	static function getConfig()  {
+		$mainframe = JFactory::getApplication();
 
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		$query = "SELECT * FROM #__jtg_config WHERE id='1'";
 
@@ -497,7 +497,7 @@ class JtgHelper
 	}
 
 	function checkCaptcha()  {
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 
 		$db = JFactory::getDBO();
 
@@ -512,8 +512,8 @@ class JtgHelper
 	 * Fetchs lat/lon from users given ID, otherwise from all users
 	 */
 	function getLatLon($uid=false,$exclude=false) {
-		$mainframe =& JFactory::getApplication();
-		$db =& JFactory::getDBO();
+		$mainframe = JFactory::getApplication();
+		$db = JFactory::getDBO();
 		$query = "SELECT u.id,u.name,u.username,u2.jtglat,u2.jtglon,u2.jtgvisible FROM #__users as u left join #__jtg_users as u2 ON u.id=u2.user_id";
 		if ($uid !== false)
 		$query .= " WHERE u.id='" . $uid . "'";
@@ -562,7 +562,7 @@ class JtgHelper
 
 		}
 		list($width,$height)=getimagesize($file_tmp_name);
-		$cfg =& JtgHelper::getConfig();
+		$cfg = JtgHelper::getConfig();
 		$maxsize = (int)$cfg->max_size;  // pixsize in pixel
 		$resized = false;
 		if ( ( $height > $maxsize ) OR ( $width > $maxsize ) )
@@ -745,7 +745,7 @@ class JtgHelper
 		}
 		else $digits = 0;
 		jimport('joomla.language.language');
-		$lang =& JFactory::getLanguage();
+		$lang = JFactory::getLanguage();
 		$locale = $lang->getLocale();
 		setlocale (LC_ALL, $locale);
 		$locale = localeconv();

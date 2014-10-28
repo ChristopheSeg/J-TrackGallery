@@ -127,8 +127,8 @@ class JtgModelFiles extends JModelLegacy
 	 */
 	function _buildQuery ()
 	{
-		$mainframe = & JFactory::getApplication();
-		$user = & JFactory::getUser();
+		$mainframe = JFactory::getApplication();
+		$user = JFactory::getUser();
 		$orderby = $this->_buildContentOrderBy();
 		$where = $this->_buildContentWhere();
 		$userwhere = "";
@@ -142,7 +142,7 @@ class JtgModelFiles extends JModelLegacy
 			$userwhere = " AND uid='" . $user->get('id') . "'";
 		}
 
-		$db = & JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		$query = "SELECT a.*, b.title AS cat, b.image AS image, c.username AS user" . "\n FROM #__jtg_files AS a" .
 				 "\n LEFT JOIN #__jtg_cats AS b ON a.catid=b.id"
@@ -161,7 +161,7 @@ class JtgModelFiles extends JModelLegacy
 	 */
 	function _buildContentOrderBy ()
 	{
-		$mainframe = & JFactory::getApplication(); // global _ $option;
+		$mainframe = JFactory::getApplication(); // global _ $option;
 
 		$filter_order = $mainframe->getUserStateFromRequest($this->option . 'filter_order', 'filter_order', 'ordering', 'cmd');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest($this->option . 'filter_order_Dir', 'filter_order_Dir', '', 'word');
@@ -186,14 +186,14 @@ class JtgModelFiles extends JModelLegacy
 	 */
 	function _buildContentWhere ()
 	{
-		$mainframe = & JFactory::getApplication(); // global _ $option;
+		$mainframe = JFactory::getApplication(); // global _ $option;
 
-		$search = & JFactory::getApplication()->input->get('search');
-		$cat = & JFactory::getApplication()->input->get('cat');
-		$terrain = & JFactory::getApplication()->input->get('terrain');
+		$search = JFactory::getApplication()->input->get('search');
+		$cat = JFactory::getApplication()->input->get('cat');
+		$terrain = JFactory::getApplication()->input->get('terrain');
 		$index = "a";
 		$where = array();
-		$db = & JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		if ($search)
 		{
@@ -228,9 +228,9 @@ class JtgModelFiles extends JModelLegacy
 	 */
 	function getCats ()
 	{
-		$mainframe = & JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 
-		$db = & JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		$query = "SELECT * FROM #__jtg_cats WHERE published=1 ORDER BY ordering ASC";
 
@@ -281,29 +281,29 @@ class JtgModelFiles extends JModelLegacy
 	 */
 	function saveFile ()
 	{
-		$mainframe = & JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 
 		jimport('joomla.filesystem.file');
 		jimport('joomla.filesystem.folder');
 
-		$db = & JFactory::getDBO();
-		$user = & JFactory::getUser();
-		$cache = & JFactory::getCache('com_jtg');
+		$db = JFactory::getDBO();
+		$user = JFactory::getUser();
+		$cache = JFactory::getCache('com_jtg');
 		// get the post data
-		$catid = & JFactory::getApplication()->input->get('catid', NULL, 'array');
+		$catid = JFactory::getApplication()->input->get('catid', NULL, 'array');
 		if ($catid !== null)
 			$catid = implode(",", $catid);
 		else
 			$catid = "";
 		$level = & JRequest::getInt('level');
-		$title = & JFactory::getApplication()->input->get('title');
-		$terrain = & JFactory::getApplication()->input->get('terrain', NULL, 'array');
+		$title = JFactory::getApplication()->input->get('title');
+		$terrain = JFactory::getApplication()->input->get('terrain', NULL, 'array');
 		if ($terrain != NULL)
 			$terrain = implode(', ', $terrain);
 		else
 			$terrain = "";
 		$desc = & $db->quote(implode(' ', JFactory::getApplication()->input->get('description', '', 'array')));
-		$file = & JFactory::getApplication()->input->files->get('file');
+		$file = JFactory::getApplication()->input->files->get('file');
 		$uid = $user->get('id');
 		$date = date("Y-m-d");
 		$jInput = JFactory::getApplication()->input;
@@ -428,13 +428,13 @@ class JtgModelFiles extends JModelLegacy
 	 */
 	function hit ()
 	{
-		$mainframe = & JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 
 		$id = & JRequest::getInt('id');
 
 		if ($id)
 		{
-			$tracks = & $this->getTable('jtg_files', 'Table');
+			$tracks = $this->getTable('jtg_files', 'Table');
 			$tracks->hit($id);
 			return true;
 		}
@@ -449,9 +449,9 @@ class JtgModelFiles extends JModelLegacy
 	 */
 	function getFile ($id)
 	{
-		$mainframe = & JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 
-		$db = & JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		$query = "SELECT a.*, b.title AS cat, b.image AS image, c.username AS user" . "\n FROM #__jtg_files AS a" .
 				 "\n LEFT JOIN #__jtg_cats AS b ON a.catid=b.id" . "\n LEFT JOIN #__users AS c ON a.uid=c.id" . "\n WHERE a.id='" . $id . "'";
@@ -471,7 +471,7 @@ class JtgModelFiles extends JModelLegacy
 	 */
 	function getVotes ($id)
 	{
-		$mainframe = & JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 
 		$class = array(
 				'nostar',
@@ -487,7 +487,7 @@ class JtgModelFiles extends JModelLegacy
 				'tenstar'
 		);
 
-		$db = & JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		// count votings
 		$query = "SELECT COUNT(*) FROM #__jtg_votes" . "\n WHERE trackid='" . $id . "'";
@@ -556,9 +556,9 @@ class JtgModelFiles extends JModelLegacy
 		:
 			$givevotes = $this->getVotes($id);
 
-			$mainframe = & JFactory::getApplication();
+			$mainframe = JFactory::getApplication();
 
-			$db = & JFactory::getDBO();
+			$db = JFactory::getDBO();
 
 			$query = "INSERT INTO #__jtg_votes SET" . "\n trackid='" . $id . "'," . "\n rating='" . $rate . "'";
 			$db->setQuery($query);
@@ -590,7 +590,7 @@ class JtgModelFiles extends JModelLegacy
 
 	function deleteFile ($id)
 	{
-		$mainframe = & JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 		jimport('joomla.filesystem.file');
 		jimport('joomla.filesystem.folder');
 		$db = JFactory::getDBO();
@@ -630,29 +630,29 @@ class JtgModelFiles extends JModelLegacy
 
 	function updateFile ($id)
 	{
-		$mainframe = & JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 
 		jimport('joomla.filesystem.file');
 		jimport('joomla.filesystem.folder');
 
-		$db = & JFactory::getDBO();
-		$user = & JFactory::getUser();
+		$db = JFactory::getDBO();
+		$user = JFactory::getUser();
 
 		// get the post data
-		$catid = & JFactory::getApplication()->input->get('catid', NULL, 'array');
+		$catid = JFactory::getApplication()->input->get('catid', NULL, 'array');
 		if ($catid !== null)
 			$catid = implode(",", $catid);
 		else
 			$catid = "";
 		$level = & JRequest::getInt('level');
-		$title = & JFactory::getApplication()->input->get('title');
+		$title = JFactory::getApplication()->input->get('title');
 		$allimages = $this->getImages($id);
 		$imgpath = JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'track_' . $id .
 				 DIRECTORY_SEPARATOR;
 		// TODO no images !!$allimages==??
 		foreach ($allimages as $key => $image)
 		{
-			$image = & JFactory::getApplication()->input->get('deleteimage_' . str_replace('.', null, $image));
+			$image = JFactory::getApplication()->input->get('deleteimage_' . str_replace('.', null, $image));
 			if ($image !== NULL)
 			{
 				JFile::delete($imgpath . $image);
@@ -662,7 +662,7 @@ class JtgModelFiles extends JModelLegacy
 				JFile::delete($imgpath . 'thumbs' . DIRECTORY_SEPARATOR . 'thumb2_' . $image);
 			}
 		}
-		$terrain = & JFactory::getApplication()->input->get('terrain', NULL, 'array');
+		$terrain = JFactory::getApplication()->input->get('terrain', NULL, 'array');
 		if ($terrain)
 			$terrain = implode(', ', $terrain);
 		else
@@ -671,7 +671,7 @@ class JtgModelFiles extends JModelLegacy
 			// Reference
 		// http://stackoverflow.com/questions/19426943/joomlas-jinput-strips-html-with-every-filter
 		$desc = & $db->quote(implode(' ', JFactory::getApplication()->input->get('description', '', 'array')));
-		// $images = & JFactory::getApplication()->input->files->get('images');
+		// $images = JFactory::getApplication()->input->files->get('images');
 		$jInput = JFactory::getApplication()->input;
 		$jFileInput = new jInput($_FILES);
     	$images = $jFileInput->get('images',array(),'array');
@@ -729,7 +729,7 @@ class JtgModelFiles extends JModelLegacy
 	 */
 	function getTerrain ($where = null)
 	{
-		$mainframe = & JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 
 		$db = JFactory::getDBO();
 
@@ -760,7 +760,7 @@ class JtgModelFiles extends JModelLegacy
 	 */
 	function getComments ($id, $order)
 	{
-		$mainframe = & JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 
 		$db = JFactory::getDBO();
 		$query = "SELECT * FROM #__jtg_comments WHERE" . "\n tid='" . $id . "'" . "\n AND published='1'" . "\n ORDER BY date " . $order;
@@ -777,11 +777,11 @@ class JtgModelFiles extends JModelLegacy
 	function addcomment ($cfg)
 	{
 		JHtml::_('behavior.formvalidation');
-		$editor = & JFactory::getEditor('tinymce');
+		$editor = JFactory::getEditor('tinymce');
 		$editor_params = array(
 				'theme' => 'simple'
 		);
-		$user = & JFactory::getUser();
+		$user = JFactory::getUser();
 		$id = JRequest::getInt('id');
 		?>
 <script language="javascript">
@@ -864,17 +864,17 @@ class JtgModelFiles extends JModelLegacy
 	 */
 	function savecomment ($id, $cfg)
 	{
-		$mainframe = & JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 
-		$name = & JFactory::getApplication()->input->get('name');
-		$email = & JFactory::getApplication()->input->get('email', '', 'Raw');
-		$homepage = & JFactory::getApplication()->input->get('homepage');
-		$title = & JFactory::getApplication()->input->get('title');
-		$text = & JFactory::getApplication()->input->get('text', '', 'raw');
+		$name = JFactory::getApplication()->input->get('name');
+		$email = JFactory::getApplication()->input->get('email', '', 'Raw');
+		$homepage = JFactory::getApplication()->input->get('homepage');
+		$title = JFactory::getApplication()->input->get('title');
+		$text = JFactory::getApplication()->input->get('text', '', 'raw');
 		if ($text == "")
 			return false;
 
-		$db = & JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$query = "INSERT INTO #__jtg_comments SET" . "\n tid='" . $id . "'," . "\n user='" . $name . "'," . "\n email='" . $email . "'," .
 				 "\n homepage='" . $homepage . "'," . "\n title='" . $title . "'," . "\n text='" . $text . "'," . "\n published='1'";
 
@@ -934,7 +934,7 @@ class JtgModelFiles extends JModelLegacy
 
 	function getAutorData ($id)
 	{
-		$mainframe = & JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 
 		$db = JFactory::getDBO();
 		$query = "SELECT a.uid, b.name, b.email FROM #__jtg_files AS a" . "\n LEFT JOIN #__users AS b ON a.uid=b.id" . "\n WHERE a.id='" . $id . "'";

@@ -23,7 +23,7 @@ class JtgControllerConfig extends JtgController
 	/**
 	 *
 	 */
-	function display()
+	function display($cachable = false, $urlparams = false)
 	{
 		parent::display();
 	}
@@ -36,7 +36,7 @@ class JtgControllerConfig extends JtgController
 	 */
 	function saveconfig()
 	{
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 //		check the token
 		JSession::checkToken() or die( 'Invalid Token' );
 		$model = $this->getModel('config');

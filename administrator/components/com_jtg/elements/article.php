@@ -28,10 +28,10 @@ class JElementArticle extends JFormField
 	protected function getInput($name, $value, &$node, $control_name)
 		// TODO You still need to replace the references to $control_name 
 	{
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 
-//		$db			=& JFactory::getDBO();
-		$doc 		=& JFactory::getDocument();
+//		$db			= JFactory::getDBO();
+		$doc 		= JFactory::getDocument();
 //		$template 	= $mainframe->getTemplate();
 		$fieldName	= $control_name.'['.$name.']';
 		$path = JPATH_SITE . DIRECTORY_SEPARATOR . "administrator" . DIRECTORY_SEPARATOR . "components" . DIRECTORY_SEPARATOR . "com_jtg" . DIRECTORY_SEPARATOR . "tables". DIRECTORY_SEPARATOR;

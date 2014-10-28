@@ -19,12 +19,13 @@ defined('_JEXEC') or die('Restricted access');
  */
 function jtgBuildRoute(&$query) {
 	$segments = array();
+	$app = JFactory::getApplication();
+	$menu = $app->getMenu();
 
-	$menu = &JSite::getMenu();
 	if (empty($query['Itemid'])) {
-		$menuItem = &$menu->getActive();
+		$menuItem = $menu->getActive();
 	} else {
-		$menuItem = &$menu->getItem($query['Itemid']);
+		$menuItem = $menu->getItem($query['Itemid']);
 	}
 	//	$menuid = $menuItem->id;
 
@@ -132,8 +133,9 @@ function jtgParseRoute($segments) {
 	$vars = array();
 
 	//Get the active menu item
-	$menu =& JSite::getMenu();
-	$item =& $menu->getActive();
+	$app = JFactory::getApplication();
+	$menu = $app->getMenu();
+	$item = $menu->getActive();
 
 	// Count route segments
 	$count = count($segments);

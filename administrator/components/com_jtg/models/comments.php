@@ -21,7 +21,7 @@ class JtgModelComments extends JModelLegacy
 {
     function __construct() {
         parent::__construct();
-        $mainframe =& JFactory::getApplication(); // global _ $option;
+        $mainframe = JFactory::getApplication(); // global _ $option;
 
         // Get the pagination request variables
         $limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int' );
@@ -88,9 +88,9 @@ class JtgModelComments extends JModelLegacy
      */
 
     function _buildQuery()  {
-        $mainframe =& JFactory::getApplication();
+        $mainframe = JFactory::getApplication();
 
-        $db =& JFactory::getDBO();
+        $db = JFactory::getDBO();
 
         $query = "SELECT a.*, b.title AS track FROM #__jtg_comments AS a"
                 . "\n LEFT JOIN #__jtg_files AS b ON b.id=a.tid"
@@ -109,7 +109,7 @@ class JtgModelComments extends JModelLegacy
      */
 	function publish($cid = array(), $publish = 1)
 	{
-		$user 	=& JFactory::getUser();
+		$user 	= JFactory::getUser();
 
 		if (count( $cid ))
 		{
@@ -165,9 +165,9 @@ class JtgModelComments extends JModelLegacy
          * @return object
          */
         function getComment($cid)  {
-            $mainframe =& JFactory::getApplication();
+            $mainframe = JFactory::getApplication();
 
-            $db =& JFactory::getDBO();
+            $db = JFactory::getDBO();
             $cids = implode(',', $cid);
 
             $query = "SELECT * FROM #__jtg_comments WHERE id IN( " . $cids . " )";
@@ -184,13 +184,13 @@ class JtgModelComments extends JModelLegacy
          * @return boolean
          */
         function saveComment()  {
-            $mainframe =& JFactory::getApplication();
+            $mainframe = JFactory::getApplication();
 
             $id     =& JRequest::getInt('id');
-            $title  =& JFactory::getApplication()->input->get('title');
-            $text   =& JFactory::getApplication()->input->get('text', '', 'raw');
+            $title  = JFactory::getApplication()->input->get('title');
+            $text   = JFactory::getApplication()->input->get('text', '', 'raw');
 
-            $db =& JFactory::getDBO();
+            $db = JFactory::getDBO();
 
             $query = "UPDATE #__jtg_comments SET"
                     . "\n title='" . $title . "',"

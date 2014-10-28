@@ -20,7 +20,7 @@ class JtgModelCats extends JModelLegacy
 {
 	function getCats()
 	{
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 		$db = JFactory::getDBO();
 		$query = "SELECT * FROM #__jtg_cats"
 		. "\n WHERE published=1"

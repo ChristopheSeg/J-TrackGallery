@@ -33,7 +33,7 @@ class JtgController extends JControllerLegacy
 	/**
 	 * @use get task form uri and set view and layout
 	 */
-	function display()
+	function display($cachable = false, $urlparams = false) 
 	{
 		require_once JPATH_COMPONENT . '/helpers/jtg.php';
 

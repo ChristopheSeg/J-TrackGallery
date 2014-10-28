@@ -24,7 +24,7 @@ class JtgControllerDownload extends JtgController
 
 //		if( headers_sent() )
 //			die('Headers Sent');
-		$format =& JFactory::getApplication()->input->get('format');
+		$format = JFactory::getApplication()->input->get('format');
 		$model = $this->getModel('download');
 		$id =& JRequest::getInt('id');
 		$track = $model->getFile($id);

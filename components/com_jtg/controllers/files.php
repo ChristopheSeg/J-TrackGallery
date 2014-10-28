@@ -28,7 +28,7 @@ class JtgControllerFiles extends JtgController
 
 		// Check for request forgeries
 		JSession::checkToken() or jexit( 'Invalid Token' );
-		$file =& JFactory::getApplication()->input->files->get('file');
+		$file = JFactory::getApplication()->input->files->get('file');
 		if (!$file['name'])
 		{
 			echo "<script> alert('".JText::_('COM_JTG_FILE_UPLOAD_NO_FILE') . "'); window.history.go(-1); </script>\n";
@@ -64,7 +64,7 @@ class JtgControllerFiles extends JtgController
 	}
 
 	function delete() {
-		$user		=& JFactory::getUser();
+		$user		= JFactory::getUser();
 
 		if(!$user->get('id')):
 		$this->setRedirect( JRoute::_('index.php?option=com_jtg',false), false );
@@ -82,7 +82,7 @@ class JtgControllerFiles extends JtgController
 
 	function update() {
 		jimport('joomla.filesystem.file');
-		$user		=& JFactory::getUser();
+		$user		= JFactory::getUser();
 
 		if(!$user->get('id')):
 		$this->setRedirect( JRoute::_('index.php?option=com_jtg',false), false );
@@ -107,7 +107,7 @@ class JtgControllerFiles extends JtgController
 	}
 
 	function savecomment() {
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 
 		// Check for request forgeries
 		JSession::checkToken() or jexit( 'Invalid Token' );

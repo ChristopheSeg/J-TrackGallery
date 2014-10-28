@@ -795,7 +795,7 @@ class gpsDataClass
 	public function parseCatIcon($catid,$istrack=0,$iswp=0,$isroute=0) {
 		$catid = explode(",",$catid);
 		$catid = $catid[0];
-		$cfg =& JtgHelper::getConfig();
+		$cfg = JtgHelper::getConfig();
 		$iconpath = JUri::root() . "components/com_jtg/assets/template/" . $cfg->template . "/images/";
 		$catimage = false;
 		$cats = $this->getCats();
@@ -867,7 +867,7 @@ class gpsDataClass
 	 * @return (int) Anzahl
 	 */
 	public function parseOwnIcon($ownicon=false) {
-		$cfg =& JtgHelper::getConfig();
+		$cfg = JtgHelper::getConfig();
 		$Tpath = JPATH_SITE . DIRECTORY_SEPARATOR . "components" . DIRECTORY_SEPARATOR . "com_jtg" . DIRECTORY_SEPARATOR . "assets" . DIRECTORY_SEPARATOR . "template" . DIRECTORY_SEPARATOR . $cfg->template . DIRECTORY_SEPARATOR . "images". DIRECTORY_SEPARATOR;
 		$Tbase = JUri::root() . "components/com_jtg/assets/template/" . $cfg->template . "/images/";
 		$unknownicon = "";
@@ -1150,9 +1150,9 @@ class gpsDataClass
 	 * @return array
 	 */
 	function getMapNates() {
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		$query = "SELECT start_n FROM #__jtg_files"
 		. "\n ORDER BY start_n ASC"
@@ -1182,7 +1182,7 @@ class gpsDataClass
 	 * @return array
 	 */
 	function getTracks($where="") {
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 
 		$db = JFactory::getDBO();
 
@@ -1201,7 +1201,7 @@ class gpsDataClass
 	 * @return array
 	 */
 	function getCats() {
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 
 		$db = JFactory::getDBO();
 
@@ -1224,7 +1224,7 @@ class gpsDataClass
 
 	// Openlayers write maps BEGIN
 	public function writeOLMap($where,$tracks,$params) {
-		$cfg =& JtgHelper::getConfig();
+		$cfg = JtgHelper::getConfig();
 
 		// 	$cnates = $this->getMapNates();
 		$rows = $this->getTracks($where);
@@ -1362,7 +1362,7 @@ class gpsDataClass
 	 * @return string
 	 */
 	private function parseOLMarker($track_array,$visibility=true) {
-		$cfg =& JtgHelper::getConfig();
+		$cfg = JtgHelper::getConfig();
 		if(!$track_array) return false;
 		$marker = "// <!-- parseOLMarker BEGIN -->\n";
 		if ( $visibility != true )
@@ -1552,7 +1552,7 @@ class gpsDataClass
 	 * @return Object
 	 */
 	private function getMaps($desc=false) {
-		$db = &JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$sql='Select * from #__jtg_maps';
 		if($desc)
 		$sql .= ' ORDER BY '.$desc;
@@ -1567,7 +1567,7 @@ class gpsDataClass
 	private function buildMaps() {
 		$maps = $this->getMaps("ordering");
 		$return = "";
-		$document = & JFactory :: getDocument();
+		$document = JFactory :: getDocument();
 		for($i=0;$i<count($maps);$i++){
 			$map = $maps[$i];
 			$name = strtolower(str_replace(array(" ","_"),"",html_entity_decode($map->name)));
@@ -1777,10 +1777,10 @@ class gpsDataClass
 
 	public function writeTrackOL($track, $params) {
 
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 		$jtg_microtime = microtime(true);
 		$zeiten = "<br />\n";
-		$cfg =& JtgHelper::getConfig();
+		$cfg = JtgHelper::getConfig();
 		$iconpath = JUri::root() . "components/com_jtg/assets/template/" . $cfg->template . "/images/";
 		$httpiconpath = JPATH_SITE . "/components/com_jtg/assets/template/" . $cfg->template . "/images/";
 		jimport('joomla.filesystem.file');
@@ -1839,7 +1839,7 @@ class gpsDataClass
 
 	public function writeSingleTrackOL($file,$params=false) {
 		// for little Map in Administration
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 		jimport('joomla.filesystem.file');
 
 		$map = "\n<!-- writeSingleTrackCOM_JTG BEGIN -->\n";
@@ -1879,7 +1879,7 @@ class gpsDataClass
 	 */
 	private function parseScriptOLHead() {
 
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 		jimport('joomla.filesystem.folder');
 		$template = $mainframe->getTemplate();
 		$imgpath = '/templates/' . $template . '/css/ol_images';
@@ -2092,7 +2092,7 @@ class gpsDataClass
 	private function parseXMLlinesOL() {
 		//		global $jtg_microtime;
 
-		$cfg =& JtgHelper::getConfig();
+		$cfg = JtgHelper::getConfig();
 		$iconpath = JUri::root() . "components/com_jtg/assets/template/" . $cfg->template . "/images/";
 
 		$link = JUri::current();

@@ -149,7 +149,7 @@ class JFormFieldOwnList extends JFormField
 			}
 			return $this->implodeDesc($return,"or");
 		}
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		$query = "SELECT * FROM #__jtg_terrains WHERE id='" . $cids . "'";
 
@@ -208,7 +208,7 @@ class JFormFieldOwnList extends JFormField
 			$parseLimitText['jtg_param_catname'] = $return;
 			return $return;
 		}
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		$query = "SELECT * FROM #__jtg_cats WHERE id='" . $cids . "'";
 
@@ -233,7 +233,7 @@ class JFormFieldOwnList extends JFormField
 			}
 			return $this->implodeDesc($return,"or");
 		}
-		$user =& JFactory::getUser($uid);
+		$user = JFactory::getUser($uid);
 		return $user->name;
 	}
 
@@ -270,7 +270,7 @@ class JFormFieldOwnList extends JFormField
 		global $parseLimitText;
 		$parseLimitText[(string) $name] = $value;
 		$gid = $this->giveUsergroupid($value);
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		$query = 'SELECT id AS value, title AS text'
 		. ' FROM #__viewlevels'
@@ -318,7 +318,7 @@ class JFormFieldOwnList extends JFormField
 
 	private function fetchParams()
 	{
-		$params = &JComponentHelper::getParams( 'com_jtg' );
+		$params = JComponentHelper::getParams( 'com_jtg' );
 		// doesn't work
 		//		if(!@$params = $this->_parent->_registry["_default"]["data"])
 		//		$params = false;
@@ -330,7 +330,7 @@ class JFormFieldOwnList extends JFormField
 	 */
 	private function JHTML_list_users( $name, $active, $nouser = 0, $javascript = NULL, $order = 'name', $reg = 1 )
 	{
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		$and = '';
 		if ( $reg ) {

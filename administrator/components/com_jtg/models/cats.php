@@ -56,7 +56,7 @@ class JtgModelCats extends JModelLegacy
 	 */
 	function __construct() {
 		parent::__construct();
-		$mainframe =& JFactory::getApplication(); // global _ $option;
+		$mainframe = JFactory::getApplication(); // global _ $option;
 
 		// Get the pagination request variables
 		$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int' );
@@ -141,8 +141,8 @@ class JtgModelCats extends JModelLegacy
 	 * @return string
 	 */
 	function _buildQuery()  {
-		$mainframe =& JFactory::getApplication();
-		$db =& JFactory::getDBO();
+		$mainframe = JFactory::getApplication();
+		$db = JFactory::getDBO();
 		$query = "SELECT * FROM #__jtg_cats ORDER BY ordering";
 		return $query;
 	}
@@ -154,9 +154,9 @@ class JtgModelCats extends JModelLegacy
 	 * @return object
 	 */
 	function getCat($id)  {
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		$query = "SELECT * FROM #__jtg_cats"
 		. "\n WHERE id='" . $id . "'";
@@ -172,7 +172,7 @@ class JtgModelCats extends JModelLegacy
 	}
 
 	function getParent($exclusion=null)  {
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 		$db = JFactory::getDBO();
 
 		$query = "SELECT * FROM #__jtg_cats"

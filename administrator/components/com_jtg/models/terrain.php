@@ -29,7 +29,7 @@ class JtgModelTerrain extends JModelLegacy
 
 	function __construct() {
 		parent::__construct();
-		$mainframe =& JFactory::getApplication(); // global _ $option;
+		$mainframe = JFactory::getApplication(); // global _ $option;
 
 		// Get the pagination request variables
 		$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int' );
@@ -101,11 +101,11 @@ class JtgModelTerrain extends JModelLegacy
 	 */
 
 	function _buildQuery($terrain=null) {
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 
 		$orderby	= $this->_buildContentOrderBy();
 
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		$query = "SELECT * FROM #__jtg_terrains"
 		. $orderby;
@@ -125,7 +125,7 @@ class JtgModelTerrain extends JModelLegacy
 	function _buildContentOrderBy()
 	{
 		return;
-		$mainframe =& JFactory::getApplication(); // global _ $option;
+		$mainframe = JFactory::getApplication(); // global _ $option;
 
 		$filter_order		= $mainframe->getUserStateFromRequest( $this->option.'filter_order',		'filter_order',		'title',	'cmd' );
 		$filter_order_Dir	= $mainframe->getUserStateFromRequest( $this->option.'filter_order_Dir',	'filter_order_Dir',	'',		'word' );
@@ -167,7 +167,7 @@ class JtgModelTerrain extends JModelLegacy
 	 */
 	function publish($cid = array(), $publish = 1)
 	{
-		$user 	=& JFactory::getUser();
+		$user 	= JFactory::getUser();
 
 		if (count( $cid ))
 		{

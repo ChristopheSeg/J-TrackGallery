@@ -23,10 +23,10 @@ jimport( 'joomla.application.component.view');
 class JtgViewTranslations extends JViewLegacy
 {
 	function display($tpl = null) {
-		$mainframe =& JFactory::getApplication(); 
+		$mainframe = JFactory::getApplication(); 
 		$option = JFactory::getApplication()->input->get('option');
 
-		$model =& $this->getModel();
+		$model =$this->getModel();
 		$languages = $model->getLanguages();
 		$this->languages = $languages;
 		

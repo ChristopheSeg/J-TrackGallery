@@ -23,7 +23,7 @@ class JtgControllerInstall extends JtgController
 	/**
 	 *
 	 */
-	function display()
+	function display($cachable = false, $urlparams = false) 
 	{
 		parent::display();
 	}

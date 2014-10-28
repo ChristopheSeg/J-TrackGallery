@@ -13,7 +13,7 @@
 
 // No direct access
 defined('_JEXEC') or die('Restricted access');
-$user =& JFactory::getUser();
+$user = JFactory::getUser();
 if ($user->id != 0) {
 	echo $this->lh;
 	?>

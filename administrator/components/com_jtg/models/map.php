@@ -48,7 +48,7 @@ class JtgModelMAp extends JModelLegacy
 	 */
 	function saveorder($cid = array(), $order)
 	{
-		$row =& $this->getTable('jtg_maps');
+		$row =$this->getTable('jtg_maps');
 		$groupings = array();
 
 		// update ordering values

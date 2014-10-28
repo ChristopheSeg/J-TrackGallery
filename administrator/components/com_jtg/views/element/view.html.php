@@ -26,16 +26,16 @@ jimport('joomla.application.component.view');
  */
 class ContentViewElement extends JViewLegacy
 {
-	function display()
+	function display($cachable = false, $urlparams = false)
 	{
 		return false;
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 
 		// Initialize variables
-		$db			= &JFactory::getDBO();
+		$db			= JFactory::getDBO();
 		$nullDate	= $db->getNullDate();
 
-		$document	= & JFactory::getDocument();
+		$document	= JFactory::getDocument();
 		$document->setTitle(JText::_('COM_JTG_ARTICLE_SELECTION'));
 
 		JHtml::_('behavior.modal');
@@ -157,10 +157,10 @@ class ContentViewElement extends JViewLegacy
 
 	function _getLists()
 	{
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 
 		// Initialize variables
-		$db		= &JFactory::getDBO();
+		$db		= JFactory::getDBO();
 
 		// Get some variables from the request
 		$sectionid			= JFactory::getApplication()->input->get('sectionid', -1, '', 'int' );

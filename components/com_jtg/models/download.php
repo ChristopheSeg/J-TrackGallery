@@ -25,8 +25,8 @@ class JtgModelDownload extends JModelLegacy
 	 * @return string
 	 */
 	function download($id, $format, $track)  {
-		$mainframe =& JFactory::getApplication();
-		$cache = & JFactory :: getCache('com_jtg');
+		$mainframe = JFactory::getApplication();
+		$cache = JFactory :: getCache('com_jtg');
 		jimport('joomla.filesystem.file');
 		$file = "." . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "jtrackgallery" . DIRECTORY_SEPARATOR . "uploaded_tracks" . DIRECTORY_SEPARATOR . $track->file;
 		$ext = JFile::getExt($file['name']);
@@ -206,9 +206,9 @@ class JtgModelDownload extends JModelLegacy
 	 * @return object
 	 */
 	function getFile($id)  {
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		$query = "SELECT a.*, b.title AS cat, b.image AS image, c.username AS user"
 		. "\n FROM #__jtg_files AS a"

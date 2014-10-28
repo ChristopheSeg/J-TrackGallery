@@ -12,7 +12,7 @@
  */
 
 defined('_JEXEC') or die('Restricted access');
-$document =& JFactory::getDocument();
+$document = JFactory::getDocument();
 $user = JFactory::getUser();
 $userid = (int)$user->id;
 $tmpl = ($this->cfg->template = "") ? $this->cfg->template : 'default';

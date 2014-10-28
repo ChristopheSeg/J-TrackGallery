@@ -29,7 +29,7 @@ class JtgViewTerrain extends JViewLegacy
 	 * @param object $tpl
 	 */
 	function display($tpl = null) {
-		$mainframe =& JFactory::getApplication(); 
+		$mainframe = JFactory::getApplication(); 
 		$option = JFactory::getApplication()->input->get('option');
 
 		if($this->getLayout() == 'form'):
@@ -37,11 +37,11 @@ class JtgViewTerrain extends JViewLegacy
 		return;
 		endif;
 
-		$model =& $this->getModel();
+		$model =$this->getModel();
 
-		$rows =& $this->get('Data');
-		$total	=& $this->get('Total');
-		$pagination =& $this->get('Pagination' );
+		$rows =$this->get('Data');
+		$total	=$this->get('Total');
+		$pagination =$this->get('Pagination' );
 		if (!isset($lists)) {$lists=false;}
 		$this->lists = $lists;
 		$this->rows = $rows;
@@ -53,7 +53,7 @@ class JtgViewTerrain extends JViewLegacy
 	function _displayForm($tpl) {
 
 		$model = $this->getModel();
-		$cid =& JFactory::getApplication()->input->get('cid', array(), 'array' );
+		$cid = JFactory::getApplication()->input->get('cid', array(), 'array' );
 		if ( count($cid) != 0 )
 		{
 			$id = $cid[0];

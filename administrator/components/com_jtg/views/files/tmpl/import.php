@@ -17,7 +17,7 @@ defined('_JEXEC') or die('Restricted access');
 JToolBarHelper::title(JText::_('COM_JTG_ADD_FILES'), 'categories.png');
 JToolBarHelper::back();
 JToolBarHelper::spacer();
-$bar=& JToolBar::getInstance( 'toolbar' );
+$bar= JToolBar::getInstance( 'toolbar' );
 $folder = JUri::base().'index.php?option=com_jtg&tmpl=component&controller=files&task=upload';
 jimport('joomla.filesystem.folder');
 // popup:
@@ -58,7 +58,7 @@ $filesdir = JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 
 $filesdir = JFolder::files($filesdir);
 //	*.gpx, *.trk, *.kml (not case sensitive)
 $regex="(.[gG][pP][xX]$|.[tT][rR][kK]$|.[kK][mM][lL]$)";
-$me =& JFactory::getUser();
+$me = JFactory::getUser();
 //$access = new StdClass();
 //$access->access=0;
 $files = JFolder::files($importdir,$regex,true,true);
@@ -442,7 +442,7 @@ function setSelectedValue( frmName, srcListName, value ) {
 	}
 }
 ";
-$document =& JFactory::getDocument();
+$document = JFactory::getDocument();
 $document->addScriptDeclaration($js);
 echo ("	<input type=\"hidden\" name=\"option\" value=\"com_jtg\" />
 	<input type=\"hidden\" name=\"controller\" value=\"files\" />

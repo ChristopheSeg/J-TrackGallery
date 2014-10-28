@@ -23,10 +23,10 @@ class JtgViewjtg extends JViewLegacy
 {
 	function display($tpl = null) {
 // @ToDo split in jtg and geoposition
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 		$cfg = JtgHelper::getConfig();
 		$gpsData = new gpsDataClass($cfg->unit);
-		$document =& JFactory::getDocument();
+		$document = JFactory::getDocument();
 		jimport('joomla.filesystem.file');
 		// load Openlayers stylesheet first (for overridding)
 		// TODO add openlayers style in JTrackGallery (url may vary!)
@@ -46,7 +46,7 @@ class JtgViewjtg extends JViewLegacy
 		// $mainframe->setPagetitle($sitename);
 		$mapsxml = JPATH_COMPONENT_ADMINISTRATOR . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . 'maps' . DIRECTORY_SEPARATOR . 'maps.xml';
 		$this->params_maps = new JRegistry( 'com_jtg', $mapsxml );
-		$params = &JComponentHelper::getParams( 'com_jtg' );
+		$params = JComponentHelper::getParams( 'com_jtg' );
 		layoutHelper::parseMap($document);
 		$tracks = (bool)$params->get('jtg_param_tracks');	// show Tracks in Overview-Map?
 
