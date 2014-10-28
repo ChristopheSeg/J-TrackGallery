@@ -208,14 +208,14 @@ class JtgModelCat extends JModelLegacy
 			JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_NO_TITLE'), 'Warning');
 			return false;
 		}
-		$published =& JRequest::getInt( 'publish' );
+		$published = JRequest::getInt( 'publish' );
 		$desc = JFactory::getApplication()->input->get('desc', '', 'raw');
 		// allow for JTEXT in category description
 		if ( (substr($desc,0,3)=='<p>') AND (substr($desc,-4,4)=='</p>') ) {
 		    //remove enclosing <p> tags,try translating text, add <p> tags
 		    $desc = substr($desc,3,-4);
 		}
-		$parent =& JRequest::getInt('parent');
+		$parent = JRequest::getInt('parent');
 		$image = JFactory::getApplication()->input->get('catpic' );
 
 		$query = "INSERT INTO #__jtg_cats SET"
@@ -280,7 +280,7 @@ class JtgModelCat extends JModelLegacy
 
 		$db = JFactory::getDBO();
 
-		$id =& JRequest::getInt('id');
+		$id = JRequest::getInt('id');
 		$file = JFactory::getApplication()->input->files->get('image');
 		$title = JFactory::getApplication()->input->get('title' );
 		$image = JFactory::getApplication()->input->get('catpic' );
@@ -289,14 +289,14 @@ class JtgModelCat extends JModelLegacy
 			JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_NO_TITLE'), 'Warning');
 			return false;
 		}
-		$published =& JRequest::getInt( 'publish' );
+		$published = JRequest::getInt( 'publish' );
 		$desc = JFactory::getApplication()->input->get('desc', '', 'raw');
 		// allow for JTEXT in category description
 		if ( (substr($desc,0,3)=='<p>') AND (substr($desc,-4,4)=='</p>') ) {
 		    //remove enclosing <p> tags,try translating text, add <p> tags
 		    $desc = substr($desc,3,-4);
 		}
-		$parent =& JRequest::getInt('parent');
+		$parent = JRequest::getInt('parent');
 
 		$query = "UPDATE #__jtg_cats SET"
 		. "\n parent_id='" . $parent . "',"

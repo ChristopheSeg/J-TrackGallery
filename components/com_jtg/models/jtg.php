@@ -46,7 +46,7 @@ class JtgModeljtg extends JModelLegacy
 		return $result;
 	}
 
-	function getTracksData($order, $limit,$where="",$access=null) {
+	static function getTracksData($order, $limit,$where="",$access=null) {
 		if ( $where != "" ) $where = " AND ( " . $where . " )";
 //		if ( $access !== null ) $where .= " AND a.access <= " . $access;
 		$mainframe = JFactory::getApplication();
@@ -61,7 +61,7 @@ class JtgModeljtg extends JModelLegacy
 		return $rows;
 	}
 
-	function getCatsData($sort=false) {
+	static function getCatsData($sort=false) {
 
 		$mainframe = JFactory::getApplication();
 
@@ -96,7 +96,7 @@ class JtgModeljtg extends JModelLegacy
 		}
 	}
 
-	function getTerrainData($sort=false) {
+	static function getTerrainData($sort=false) {
 
 		$mainframe = JFactory::getApplication();
 
@@ -128,7 +128,7 @@ class JtgModeljtg extends JModelLegacy
 		}
 	}
 
-	function getVotesData() {
+	static function getVotesData() {
 		$mainframe = JFactory::getApplication();
 
 		$db = JFactory::getDBO();

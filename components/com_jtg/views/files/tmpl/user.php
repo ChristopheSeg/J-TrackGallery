@@ -59,7 +59,7 @@ if ($user->id != 0) {
 	$k = 0;
 	for ($i=0, $n=count( $this->rows ); $i < $n; $i++)
 	{
-		$row = &$this->rows[$i];
+		$row = $this->rows[$i];
 		$terrain = JtgHelper::parseMoreTerrains($this->sortedter,$row->terrain,"array");
 		$terrain = implode(", ",$terrain);
 		if($this->cfg->unit == "Miles") {

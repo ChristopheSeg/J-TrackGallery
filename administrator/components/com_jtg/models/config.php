@@ -36,7 +36,7 @@ class JtgModelConfig extends JModelLegacy
 	function saveConfig()
 	{
 		//	get post data
-		$row =& JRequest::get('post' );
+		$row = JRequest::get('post' );
 		//	Store tables if they not exists
 		$cfg = JtgHelper::getConfig();
 		$createColumns = $this->createColumns($row, "config");

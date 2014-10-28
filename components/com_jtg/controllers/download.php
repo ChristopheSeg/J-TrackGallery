@@ -26,7 +26,7 @@ class JtgControllerDownload extends JtgController
 //			die('Headers Sent');
 		$format = JFactory::getApplication()->input->get('format');
 		$model = $this->getModel('download');
-		$id =& JRequest::getInt('id');
+		$id = JRequest::getInt('id');
 		$track = $model->getFile($id);
 		$trackname = str_replace(' ', '_', $track->title);
 		if($format == "kml") {

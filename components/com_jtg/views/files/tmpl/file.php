@@ -417,7 +417,8 @@ if ($havechart) {
 		<tr>
 			<td><?php echo JText::_('COM_JTG_CATS'); ?>:</td>
 			<td colspan="2"><?php
-			echo JtgHelper::parseMoreCats($this->sortedcats,$this->track->catid,"TrackDetails",true);
+			$JtgHelper = new JtgHelper();
+			echo $JtgHelper->parseMoreCats($this->sortedcats,$this->track->catid,"TrackDetails",true);
 			?></td>
 		</tr>
 		<tr>
@@ -452,7 +453,7 @@ if ($havechart) {
 					$template .= JText::_('COM_JTG_NOT_VOTED') . "\n";
 				} else {
 					$template .= JText::_('COM_JTG_ARITHMETICAL_MIDDLE') . ": ".
-					JtgHelper::getLocatedFloat($this->vote['rate'])
+					$JtgHelper->getLocatedFloat($this->vote['rate'])
 					 . " ".JText::_('COM_JTG_FROM') . " ".($i-1) . "<br />\n";
 					$template .= $this->vote['count'] . "&nbsp;".JText::_('COM_JTG_RATINGS') . "\n";
 				}
@@ -594,7 +595,7 @@ echo JHtml::_( 'form.token' ) . "\n"; ?> <input type="hidden"
 				}
 				//
 
-				if(JtgHelper :: userHasCommentsRights() )
+				if($JtgHelper->userHasCommentsRights() )
 				{
 					echo $this->model->addcomment($this->cfg);
 				}

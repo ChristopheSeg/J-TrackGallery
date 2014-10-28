@@ -36,7 +36,7 @@ class JElementArticle extends JFormField
 		$fieldName	= $control_name.'['.$name.']';
 		$path = JPATH_SITE . DIRECTORY_SEPARATOR . "administrator" . DIRECTORY_SEPARATOR . "components" . DIRECTORY_SEPARATOR . "com_jtg" . DIRECTORY_SEPARATOR . "tables". DIRECTORY_SEPARATOR;
 		JTable::addIncludePath($path);
-		$article =& JTable::getInstance('jtg_files','Table');
+		$article = JTable::getInstance('jtg_files','Table');
 		if ($value) {
 			$article->load($value);
 		} else {

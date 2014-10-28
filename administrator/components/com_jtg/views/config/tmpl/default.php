@@ -23,7 +23,7 @@ JHtml::_('behavior.tooltip');
 ?>
 <form action="" method="post" name="adminForm" id="adminForm" class="adminForm">
 	<?php
-//	$tabs	=& JPane::getInstance('tabs');
+//	$tabs	= JPane::getInstance('tabs');
 	jimport( 'joomla.html.html.tabs' );
 	// add style for horizontal menu in Joomla 3.x
 	$document = JFactory::getDocument();

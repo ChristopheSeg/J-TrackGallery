@@ -68,7 +68,7 @@ $document->addStyleSheet(JUri::base().'components/com_jtg/template.css');
 	$iconpath	= JUri::root() . "components/com_jtg/assets/template/" . $cfg->template . "/images/";
 	for ($i=0, $n=count( $this->rows ); $i < $n; $i++)
 	{
-		$row = &$this->rows[$i];
+		$row = $this->rows[$i];
 		$row->groupname = $this->buildRowGroupname($row->access); // wird für die Zugriffsebene benötigt
 		if ( $row->access == 9 )
 		{

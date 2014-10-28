@@ -50,7 +50,7 @@ JHtml::_('behavior.tooltip');
 	$k = 0;
 	for ($i=0, $n=count( $this->rows ); $i < $n; $i++)
 	{
-		$row = &$this->rows[$i];
+		$row = $this->rows[$i];
 
 		$link 	= JRoute::_( 'index.php?option=com_jtg&task=editComment&controller=comments&id='. $row->id, false );
 		// eh?? terrain??

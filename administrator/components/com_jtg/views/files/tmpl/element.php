@@ -83,7 +83,7 @@ $document->addStyleSheet(JUri::base().'components/com_jtg/template.css');
 	$k = 0;
 	for ($i=0, $n=count( $this->rows ); $i < $n; $i++)
 	{
-		$row = &$this->rows[$i];
+		$row = $this->rows[$i];
 		$row->groupname = $this->buildRowGroupname($row->access); // wird für die Zugriffsebene benötigt
 		$access 	= $this->buildRowGroupname($row->access,true);
 $published	= $row->published;

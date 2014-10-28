@@ -26,7 +26,7 @@ class JtgViewCats extends JViewLegacy
 	$mainframe = JFactory::getApplication();
 	$this->lh = layoutHelper::navigation();
 	$this->footer = layoutHelper::footer();
-	$pathway =& $mainframe->getPathway();
+	$pathway = $mainframe->getPathway();
 	$pathway->addItem(JText::_('COM_JTG_CATS'), '');
 	$sitename = $mainframe->getCfg('sitename');
 	$document = JFactory::getDocument();

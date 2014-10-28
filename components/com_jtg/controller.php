@@ -50,7 +50,7 @@ class JtgController extends JControllerLegacy
 
 		// By default, just display an image
 		$document = JFactory::getDocument();
-		$doc = &JDocument::getInstance('raw');
+		$doc = JDocument::getInstance('raw');
 
 		// Swap the objects
 		$document = $doc;

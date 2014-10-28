@@ -295,23 +295,23 @@ class JtgModelFiles extends JModelLegacy
 			$catid = implode(",", $catid);
 		else
 			$catid = "";
-		$level = & JRequest::getInt('level');
+		$level = JRequest::getInt('level');
 		$title = JFactory::getApplication()->input->get('title');
 		$terrain = JFactory::getApplication()->input->get('terrain', NULL, 'array');
 		if ($terrain != NULL)
 			$terrain = implode(', ', $terrain);
 		else
 			$terrain = "";
-		$desc = & $db->quote(implode(' ', JFactory::getApplication()->input->get('description', '', 'array')));
+		$desc = db->quote(implode(' ', JFactory::getApplication()->input->get('description', '', 'array')));
 		$file = JFactory::getApplication()->input->files->get('file');
 		$uid = $user->get('id');
 		$date = date("Y-m-d");
 		$jInput = JFactory::getApplication()->input;
 		$jFileInput = new jInput($_FILES);
     	$images = $jFileInput->get('images',array(),'array');
-		$access = & JRequest::getInt('access', 0);
-		$hidden = & JRequest::getInt('hidden', 0);
-		$published = & JRequest::getInt('published', 0);
+		$access = JRequest::getInt('access', 0);
+		$hidden = JRequest::getInt('hidden', 0);
+		$published = JRequest::getInt('published', 0);
 
 		// upload the file
 		$upload_dir = JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'uploaded_tracks' .
@@ -430,7 +430,7 @@ class JtgModelFiles extends JModelLegacy
 	{
 		$mainframe = JFactory::getApplication();
 
-		$id = & JRequest::getInt('id');
+		$id = JRequest::getInt('id');
 
 		if ($id)
 		{
@@ -644,7 +644,7 @@ class JtgModelFiles extends JModelLegacy
 			$catid = implode(",", $catid);
 		else
 			$catid = "";
-		$level = & JRequest::getInt('level');
+		$level = JRequest::getInt('level');
 		$title = JFactory::getApplication()->input->get('title');
 		$allimages = $this->getImages($id);
 		$imgpath = JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'track_' . $id .
@@ -670,14 +670,14 @@ class JtgModelFiles extends JModelLegacy
 			// Joomla Jinput strips html tags!!
 			// Reference
 		// http://stackoverflow.com/questions/19426943/joomlas-jinput-strips-html-with-every-filter
-		$desc = & $db->quote(implode(' ', JFactory::getApplication()->input->get('description', '', 'array')));
+		$desc = $db->quote(implode(' ', JFactory::getApplication()->input->get('description', '', 'array')));
 		// $images = JFactory::getApplication()->input->files->get('images');
 		$jInput = JFactory::getApplication()->input;
 		$jFileInput = new jInput($_FILES);
     	$images = $jFileInput->get('images',array(),'array');
-    	$access = & JRequest::getInt('access', 0);
-		$hidden = & JRequest::getInt('hidden', 0);
-		$published = & JRequest::getInt('published', 0);
+    	$access = JRequest::getInt('access', 0);
+		$hidden = JRequest::getInt('hidden', 0);
+		$published = JRequest::getInt('published', 0);
 		// if($images["tmp_name"][0] == "") return "no tempname";
 
 		// images upload part

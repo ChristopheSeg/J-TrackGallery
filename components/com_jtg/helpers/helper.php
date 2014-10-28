@@ -98,7 +98,7 @@ class JtgHelper
 		// $canDo = self::getActions(); ...
 
 	}
-	public function howMuchVote($tid) {
+	public static function howMuchVote($tid) {
 		$db = JFactory::getDBO();
 		$query = "SELECT COUNT(id) FROM #__jtg_votes"
 		. "\n WHERE trackid='" .$tid. "'";
@@ -106,7 +106,7 @@ class JtgHelper
 		return (int)$db->loadResult();
 	}
 
-	public function giveGeneratedValues($surface,$filetypes,$track)
+	public static function giveGeneratedValues($surface,$filetypes,$track)
 	{
 		switch ($surface) {
 			case 'backend':
@@ -189,7 +189,7 @@ class JtgHelper
 	 * @return random string with given (int) lengh
 	 * http://www.php.net/manual/de/function.mt-rand.php#92711
 	 */
-	function alphanumericPass($length) {
+	static function alphanumericPass($length) {
 		$p ="";
 		for ($i=0;$i<$length;$i++)
 		{
@@ -209,7 +209,7 @@ class JtgHelper
 		return $p;
 	}
 
-	function uploadfile($file, $dest) {
+	static function uploadfile($file, $dest) {
 		if (
 		( $file["error"] != 0 ) OR
 		( $file["size"] == 0 )
@@ -245,7 +245,7 @@ class JtgHelper
 		return true;
 	}
 
-	function parseMoreCats($allcats,$catid,$format="array",$link=false) {
+	static function parseMoreCats($allcats,$catid,$format="array",$link=false) {
 		$baseurl = "index.php?option=com_jtg&view=files&layout=list&cat=";
 		$image = JUri::base() . 'images/jtrackgallery/cats/';
 		$catids = explode(",",$catid);
@@ -363,7 +363,7 @@ class JtgHelper
 		return $return;
 	}
 
-	function parseMoreTerrains($allterrains,$terrainid,$format="array",$link=false) {
+	static function parseMoreTerrains($allterrains,$terrainid,$format="array",$link=false) {
 		$baseurl = "index.php?option=com_jtg&view=files&layout=list&terrain=";
 		$image = JUri::base() . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'terrain' . DIRECTORY_SEPARATOR;
 		$terrainids = explode(",",$terrainid);
@@ -402,7 +402,8 @@ class JtgHelper
 		$return = "<label title=\"".JText::_('COM_JTG_TERRAIN_NONE') . "\">-</label>";
 		return $return;
 	}
-	function userHasCommentsRights() {
+	
+	static function userHasCommentsRights() {
 		$user_groups = JFactory :: getUser()->getAuthorisedGroups();
 		// Admin (root) is not allowed excepted if explicitly given the right to manage front-end.
 		// if ( JFactory :: getUser()->get('isRoot') ) { return true;};
@@ -420,7 +421,7 @@ class JtgHelper
 		return  false;
 	}
 
-	function userHasFrontendRights() {
+	static function userHasFrontendRights() {
 	    $user_groups = JFactory :: getUser()->getAuthorisedGroups();
 	    // Admin (root) is not allowed excepted if explicitly given the right to manage front-end.
 	    // if ( JFactory :: getUser()->get('isRoot') ) { return true;};
@@ -438,7 +439,7 @@ class JtgHelper
 	    return  false;
 	}
 
-	function getAccessList($accesslevel) {
+	static function getAccessList($accesslevel) {
 		$access = array (
 		array (
 				'id' => 9,
@@ -460,7 +461,7 @@ class JtgHelper
 		return JHtml::_('select.genericlist', $access, 'access', 'size="4"', 'id', 'text', $accesslevel);
 	}
 
-	function giveAccessLevel() {
+	static function giveAccessLevel() {
 		$user = JFactory::getUser();
 		// Admin		24
 		// Registered	18
@@ -496,7 +497,7 @@ class JtgHelper
 		return $result;
 	}
 
-	function checkCaptcha()  {
+	static function checkCaptcha()  {
 		$mainframe = JFactory::getApplication();
 
 		$db = JFactory::getDBO();
@@ -511,7 +512,7 @@ class JtgHelper
 	/**
 	 * Fetchs lat/lon from users given ID, otherwise from all users
 	 */
-	function getLatLon($uid=false,$exclude=false) {
+	static function getLatLon($uid=false,$exclude=false) {
 		$mainframe = JFactory::getApplication();
 		$db = JFactory::getDBO();
 		$query = "SELECT u.id,u.name,u.username,u2.jtglat,u2.jtglon,u2.jtgvisible FROM #__users as u left join #__jtg_users as u2 ON u.id=u2.user_id";
@@ -529,7 +530,7 @@ class JtgHelper
 	 * @param   string  $distance
 	 * @return string
 	 */
-	function getMiles($distance) {
+	static function getMiles($distance) {
 		$miles = round($distance * 0.621, 2);
 		return $miles;
 	}
@@ -541,7 +542,7 @@ class JtgHelper
 	 * @param   string  $ext
 	 * @param   string  $filepath
 	 */
-	function createimageandthumbs($file_tmp_name, $ext, $image_dir, $image) {
+	static function createimageandthumbs($file_tmp_name, $ext, $image_dir, $image) {
 		require_once(JPATH_SITE . DIRECTORY_SEPARATOR . "administrator" . DIRECTORY_SEPARATOR . "components" . DIRECTORY_SEPARATOR . "com_jtg" . DIRECTORY_SEPARATOR . "models" . DIRECTORY_SEPARATOR . "thumb_creation.php");
 		$filepath = $image_dir . $image ;
 		jimport('joomla.filesystem.file');
@@ -651,7 +652,7 @@ class JtgHelper
 	 * @param   string  $username
 	 * @return string
 	 */
-	function getProfileLink($uid, $username) {
+	static function getProfileLink($uid, $username) {
 
 		$cfg = JtgHelper::getConfig();
 
@@ -682,7 +683,7 @@ class JtgHelper
 		}
 	}
 
-	function MayIsee($where,$access,$otherfiles) {
+	static function MayIsee($where,$access,$otherfiles) {
 		$otherfiles = (int)$otherfiles;
 		if ( $where != "" ) $where = $where . " AND ";
 		switch ($otherfiles) {
@@ -701,7 +702,7 @@ class JtgHelper
 		}
 	}
 
-	function getLocatedFloat($float,$default=0,$unit=null) {
+	static function getLocatedFloat($float,$default=0,$unit=null) {
 		if ( $float == 0 ) return $default;
 		if ( strtolower($unit) == "kilometer" )
 		{
@@ -735,7 +736,7 @@ class JtgHelper
 		).$unit;
 	}
 
-	function _getLocatedFloat_old($float) {
+	static function _getLocatedFloat_old($float) {
 		//		preg_match('/([0-9.]+)/', $float, $newfloat);
 		//		$float = (float)$newfloat[0];
 		$float = (float) $float;

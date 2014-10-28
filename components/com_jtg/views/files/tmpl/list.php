@@ -74,14 +74,15 @@ echo $this->lh;
 	$k = 0;
 	for ($i=0, $n=count( $this->rows ); $i < $n; $i++)
 	{
-		$row = &$this->rows[$i];
+		$row = $this->rows[$i];
 		if (!$row->title) $row->title = "<font class=\"emptyEntry\">".JText::_('COM_JTG_NO_TITLE') . "</font>";
 		$link = JRoute::_('index.php?option=com_jtg&view=files&layout=file&id='.$row->id,false);
 		$profile = JtgHelper::getProfileLink($row->uid, $row->user);
 		$cat = JtgHelper::parseMoreCats($this->sortedcats,$row->catid,"list",true);
 		$terrain = JtgHelper::parseMoreTerrains($this->sortedter,$row->terrain,"list",true);
 		$hits = JtgHelper::getLocatedFloat($row->hits);
-		$votes = layoutHelper::parseVoteFloat($row->vote,true);
+		$layoutHelper= new layoutHelper; 
+		$votes = $layoutHelper->parseVoteFloat($row->vote,true);
 		$links = null;
 		if(!$row->distance) $row->distance = 0;
 		if($this->cfg->unit == "Miles") {

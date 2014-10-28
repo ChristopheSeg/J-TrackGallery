@@ -186,7 +186,7 @@ class JtgModelComments extends JModelLegacy
         function saveComment()  {
             $mainframe = JFactory::getApplication();
 
-            $id     =& JRequest::getInt('id');
+            $id     = JRequest::getInt('id');
             $title  = JFactory::getApplication()->input->get('title');
             $text   = JFactory::getApplication()->input->get('text', '', 'raw');
 

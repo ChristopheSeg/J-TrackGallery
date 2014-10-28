@@ -54,8 +54,8 @@ class JtgControllerFiles extends JtgController
 
 	function vote() {
 
-		$id =& JRequest::getInt('id');
-		$rate =& JRequest::getInt('rate');
+		$id = JRequest::getInt('id');
+		$rate = JRequest::getInt('rate');
 		$model = $this->getModel('files');
 		$model->vote($id, $rate);
 
@@ -70,7 +70,7 @@ class JtgControllerFiles extends JtgController
 		$this->setRedirect( JRoute::_('index.php?option=com_jtg',false), false );
 		endif;
 
-		$id =& JRequest::getInt('id');
+		$id = JRequest::getInt('id');
 		$model = $this->getModel('files');
 
 		if(!$model->deleteFile($id)) {
@@ -90,7 +90,7 @@ class JtgControllerFiles extends JtgController
 
 		// Check for request forgeries
 		JSession::checkToken() or jexit( 'Invalid Token' );
-		$id =& JRequest::getInt('id');
+		$id = JRequest::getInt('id');
 		$model = $this->getModel('files');
 		$errormsg = $model->updateFile($id);
 		if($errormsg !== true) {

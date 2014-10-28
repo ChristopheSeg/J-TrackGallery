@@ -62,7 +62,7 @@ class JtgModelDownload extends JModelLegacy
 				$file .= "<LineString>";
 				$file .= "<coordinates>";
 				for($i=0, $n=count($coords); $i<$n; $i++){
-					$coord = &$coords[$i];
+					$coord = $coords[$i];
 					if($i != $n-1) {
 						$file .= $coord[0] . "," . $coord[1] . "," . $coord[2] . "";
 					} else {
@@ -106,7 +106,7 @@ class JtgModelDownload extends JModelLegacy
 				$minlon = 90;
 				$maxlon = -90;
 				for($i=0, $n=count($coords); $i<$n; $i++)  {
-					$coord = &$coords[$i];
+					$coord = $coords[$i];
 					if ( $coord[0] < $minlat )	$minlat = $coord[0];
 					if ( $coord[1] < $minlon )	$minlon = $coord[1];
 					if ( $coord[0] > $maxlat )	$maxlat = $coord[0];
@@ -157,7 +157,7 @@ class JtgModelDownload extends JModelLegacy
 				$file .= "         </Lap>\n";
 				$file .= "         <Track>\n";
 				for($i=0, $n=count($coords); $i<$n; $i++)  {
-					$coord = &$coords[$i];
+					$coord = $coords[$i];
 					$file .= "              <Trackpoint>\n";
 					$file .= "                  <Time>" . $coord[3] . "</Time>\n";
 					$file .= "                  <Position>\n";

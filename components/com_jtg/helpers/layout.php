@@ -16,7 +16,7 @@ defined('_JEXEC') or die('Restricted access');
 
 class layoutHelper
 {
-	function parseVoteFloat($float,$expressive = false) {
+	static function parseVoteFloat($float,$expressive = false) {
 		if ( ( $float === null ) OR ( $float == 0 ) )
 		{
 			if ( $expressive )
@@ -35,7 +35,7 @@ class layoutHelper
 		return $return;
 	}
 
-	function navigation() {
+	static function navigation() {
 		$user = JFactory::getUser();
 		$juser = new JUser($user->id);
 		$uri = JFactory::getApplication()->input->get('layout');
@@ -86,7 +86,7 @@ class layoutHelper
 		return $navi;
 	}
 
-	function footer() {
+	static function footer() {
 		$footer = '<div class="gps-footer">'.JText::_('COM_JTG_POWERED_BY');
 		$footer .= ' <a href="http://jtrackgallery.net"';
 		$footer .= ' target="_blank">J!Track Gallery</a>';
@@ -94,13 +94,13 @@ class layoutHelper
 		return $footer;
 	}
 
-	function disclaimericons() {
+	static function disclaimericons() {
 		$disclaimericons = '<div class="gps-footer">'.JText::_('COM_JTG_DISCLAIMER_ICONS');
 		$disclaimericons .= ' '.JText::_('COM_JTG_SUBMITTER').': <a href="" target="_blank"></a></div>';
 		return $disclaimericons;
 	}
 
-	function parseMap($document)
+	static function parseMap($document)
 	{
 		// $document->addScript('components' . DIRECTORY_SEPARATOR . 'com_jtg' . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'OpenLayers' . DIRECTORY_SEPARATOR . 'OpenLayers.js'); // Benötigt für Spuransich in Übersicht
 		$document->addScript('http://www.openlayers.org/api/OpenLayers.js');
@@ -113,7 +113,7 @@ class layoutHelper
 	/*
 	 * For CSS-Declaration
 	 */
-	function parseToptracks($params) {
+	static function parseToptracks($params) {
 		$i = 0;
 		if ($params->get('jtg_param_newest') != 0)		$i++;
 		if ($params->get('jtg_param_mostklicks') != 0)	$i++;
@@ -122,28 +122,28 @@ class layoutHelper
 		return "toptracks_" . $i;
 	}
 
-	function parseTopNewest($where,$access,$model,$newest) {
+	static function parseTopNewest($where,$access,$model,$newest) {
 		if ($access === null)
 		$access = $where;
 		$limit = "LIMIT 0," . $newest;
 		return $model->getTracksData("ORDER BY a.id DESC", $limit, $access);
 	}
 
-	function parseTopHits($where,$access,$model,$hits) {
+	static function parseTopHits($where,$access,$model,$hits) {
 		if ($access === null)
 		$access = $where;
 		$limit = "LIMIT 0," . $hits;
 		return $model->getTracksData("ORDER BY a.hits DESC", $limit, $access);
 	}
 
-	function parseTopRand($where,$access,$model,$limit) {
+	static function parseTopRand($where,$access,$model,$limit) {
 		if ($access === null)
 		$access = $where;
 		$limit = "LIMIT 0," . $limit;
 		return $model->getTracksData("ORDER BY RAND()", $limit, $access);
 	}
 
-	function parseTopBest($where,$access,$model,$best,$showstars) {
+	static function parseTopBest($where,$access,$model,$best,$showstars) {
 		if ($access === null)
 		$access = $where;
 		$limit = "LIMIT 0," . $best;
@@ -167,7 +167,9 @@ class layoutHelper
 		$translate);
 	}
 
-	function _parseTopBest_old($otherfiles,$access,$model,$best,$showstars) {
+/*
+ * 
+static function _parseTopBest_old($otherfiles,$access,$model,$best,$showstars) {
 		echo "function giveBest: parseTopBest_old";
 		$alltracks = $model->getTracksData(null,null);
 		$allbest = layoutHelper::giveBest($model,$best,false);
@@ -204,8 +206,9 @@ class layoutHelper
 		}
 		return $return;
 	}
-
-	private function giveBest($model,$best,$bad=false) {
+ */	
+/*
+	static private function giveBest($model,$best,$bad=false) {
 		echo "function giveBest: deprecated";
 		$votes = $model->getVotesData();
 		$calc = 0;
@@ -268,8 +271,8 @@ class layoutHelper
 		}
 		return $limitreturn;
 	}
-
-	private function parseParam_User($val) {
+*/ 
+	static private function parseParam_User($val) {
 		$where = null;
 		if(is_array($val))
 		{
@@ -286,7 +289,7 @@ class layoutHelper
 		return $where;
 	}
 
-	private function parseParam_Cats($val) {
+	static private function parseParam_Cats($val) {
 		$catswhere = null;
 		if(is_array($val))
 		{
@@ -301,7 +304,7 @@ class layoutHelper
 		return $catswhere;
 	}
 
-	private function parseParam_Subcats($val,$cats) {
+	static private function parseParam_Subcats($val,$cats) {
 		$catswhere = null;
 		if(is_array($val))
 		{
@@ -316,7 +319,7 @@ class layoutHelper
 		return $catswhere;
 	}
 
-	private function parseParam_Usergroup($val) {
+	static private function parseParam_Usergroup($val) {
 		$where = null;
 		    if(is_array($val))
 		{
@@ -331,7 +334,7 @@ class layoutHelper
 		return $where;
 	}
 
-	private function parseParam_Terrain($val) {
+	static private function parseParam_Terrain($val) {
 		$where = null;
 		if(is_array($val))
 		{
@@ -346,23 +349,23 @@ class layoutHelper
 		return $where;
 	}
 
-	private function parseParam_LevelFrom($val) {
+	static private function parseParam_LevelFrom($val) {
 		if( ($val != 0) AND (!is_null($val) ) ) return "a.level >= " . $val;
 	}
 
-	private function parseParam_LevelTo($val) {
+	static private function parseParam_LevelTo($val) {
 		if( ($val != 5) AND (!is_null($val) ) ) return "a.level <= " . $val;
 	}
 
-	private function parseParam_VotingFrom($val) {
+	static private function parseParam_VotingFrom($val) {
 		if( ($val != 0) AND (!is_null($val) ) ) return "a.vote >= " . $val;
 	}
 
-	private function parseParam_VotingTo($val) {
+	static private function parseParam_VotingTo($val) {
 		if( ($val != 10) AND (!is_null($val) ) ) return "a.vote <= " . $val;
 	}
 
-	function filterTracks($cats)
+	static function filterTracks($cats)
 	{
 		$params = JComponentHelper::getParams( 'com_jtg' );
 
@@ -415,7 +418,7 @@ class layoutHelper
 		return $return;
 	}
 
-	private function getParentcats($catid,$cats,$lockage=false) {
+	static private function getParentcats($catid,$cats,$lockage=false) {
 		$returncats = array();
 		if ( $lockage !== false )
 		$returncats[] = "a.catid LIKE '%" . $catid . "%'";

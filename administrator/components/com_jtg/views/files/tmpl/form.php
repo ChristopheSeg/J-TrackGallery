@@ -31,7 +31,8 @@ JToolBarHelper::help( 'files/form',true );
 $document = JFactory::getDocument();
 $document->addStyleSheet(JUri::base().'components/com_jtg/template.css');
 // add jtg_map stylesheet
-$tmpl = ($cfg->template = "") ? $cfg->template : 'default';
+$cfg = JtgHelper::getConfig();
+$tmpl = ($cfg->template <> "") ? $cfg->template : 'default';
 $document->addStyleSheet(JUri::root().'components/com_jtg/assets/template/'.$tmpl.'/jtg_map_style.css');
 $map = "";
 if($this->id >= 1) 

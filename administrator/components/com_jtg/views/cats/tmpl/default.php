@@ -51,7 +51,7 @@ $ordering = ($this->lists['order'] == 'ordering');
 	$k = 0;
 	for ($i=0, $n=count( $this->list ); $i < $n; $i++)
 	{
-		$row = &$this->list[$i];
+		$row = $this->list[$i];
 		$checked 	= JHtml::_('grid.checkedout', $row, $i );
 		$published 	= JHtml::_('grid.published', $row, $i );
 

@@ -26,7 +26,7 @@ JToolBarHelper::addNew('newfiles', JText::_('COM_JTG_RELOAD'));
 // JToolBarHelper::media_manager('&folder=jtg/newfiles',"Upload");
 // $directory = "jtg/newfiles";
 // $alt = "Upload";
-// 		$bar = & JToolBar::getInstance('toolbar');
+// 		$bar =  JToolBar::getInstance('toolbar');
 // 		// Add an upload button
 // 		$bar->appendButton( 'Popup', 'upload', $alt, "index.php?option=com_media&tmpl=component&task=popupUpload&folder=" . $directory, 800, 520 );
 

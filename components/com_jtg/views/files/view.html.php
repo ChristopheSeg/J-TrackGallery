@@ -306,7 +306,7 @@ class JtgViewFiles extends JViewLegacy
 
 		$model = $this->getModel();
 		$pathway = $mainframe->getPathway();
-		$id = & JRequest :: getInt('id');
+		$id = JRequest :: getInt('id');
 		// $track = $model->getTrack($id);
 		// $track = $cache->get(array($model, 'getTrack'), array($id));
 		// if (!$id) die ("Schau mal in datei view.html.php Zeile 152 :-P");
@@ -641,7 +641,7 @@ class JtgViewFiles extends JViewLegacy
 		$lists['order_Dir'] = $filter_order_Dir;
 		$lists['search'] = $search;
 
-		//	$rows =& $model->getData($limit, $limitstart );
+		//	$rows = $model->getData($limit, $limitstart );
 		$rows = $cache->get(array ( $model, 'getData' ), array ( $limit, $limitstart ));
 		$total = $this->get('Total');
 		$pagination = new JPagination($total, $limitstart, $limit);
@@ -692,7 +692,7 @@ class JtgViewFiles extends JViewLegacy
 		$lists['order_Dir'] = $filter_order_Dir;
 		$lists['search'] = $search;
 
-		//		$rows = & $model->getData($limit, $limitstart);
+		//		$rows =  $model->getData($limit, $limitstart);
 		$rows = $cache->get(array ( $model, 'getData' ), array ( $limit, $limitstart ));
 		$total = $this->get('Total');
 		$pagination = new JPagination($total, $limitstart, $limit);

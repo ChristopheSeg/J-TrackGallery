@@ -100,6 +100,7 @@ for ($i=0, $n=count( $this->maps ); $i < $n; $i++) {
 				<td align="center"><?php echo $map->id;									?></td>
                 <td align="center"><?php echo $checked;									?></td>
 				<td align="center"><?php
+// TODO Non-static method JTable::isCheckedOut() should not be called statically
 if (  JTable::isCheckedOut($user->get ('id'), $map->checked_out ) )
 	echo JText::_($map->name);
 else

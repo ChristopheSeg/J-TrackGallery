@@ -267,8 +267,8 @@ class JtgModelMaps extends JModelLegacy
 
 		$db = JFactory::getDBO();
 		//	get the post data
-		$publish =& JRequest::getInt('publish');
-		$order =& JRequest::getInt('order');
+		$publish = JRequest::getInt('publish');
+		$order = JRequest::getInt('order');
 		$name = JFactory::getApplication()->input->get('name');
 		$name = htmlentities($name);
 		$param = JFactory::getApplication()->input->get('param', '', 'raw');
@@ -317,9 +317,9 @@ class JtgModelMaps extends JModelLegacy
 	{
 		$db = JFactory::getDBO();
 		//	get the post data
-		$publish =& JRequest::getInt('publish');
-		$order =& JRequest::getInt('order');
-		$id =& JRequest::getInt('id');
+		$publish = JRequest::getInt('publish');
+		$order = JRequest::getInt('order');
+		$id = JRequest::getInt('id');
 		$name = JFactory::getApplication()->input->get('name');
 		$name = htmlentities($name);
 		$param = JFactory::getApplication()->input->get('param', '', 'raw');

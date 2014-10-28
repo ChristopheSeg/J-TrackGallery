@@ -50,8 +50,8 @@ class ContentViewElement extends JViewLegacy
 		//Ordering allowed ?
 		$ordering = ($lists['order'] == 'section_name' && $lists['order_Dir'] == 'ASC');
 
-		$rows = &$this->get('List');
-		$page = &$this->get('Pagination');
+		$rows = $this->get('List');
+		$page = $this->get('Pagination');
 		JHtml::_('behavior.tooltip');
 		?>
 		<form action="index.php?option=com_content&amp;task=element&amp;tmpl=component&amp;object=id" method="post" name="adminForm" id="adminForm">
@@ -111,7 +111,7 @@ class ContentViewElement extends JViewLegacy
 			$k = 0;
 			for ($i=0, $n=count( $rows ); $i < $n; $i++)
 			{
-				$row = &$rows[$i];
+				$row = $rows[$i];
 
 				$link 	= '';
 				$date	= JHtml::_('date',  $row->created, JText::_('COM_JTG_DATE_FORMAT_LC4') );
