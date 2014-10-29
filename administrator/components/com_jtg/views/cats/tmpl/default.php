@@ -77,7 +77,7 @@ $ordering = ($this->lists['order'] == 'ordering');
 				?>"
 				<?php echo $disabled;
 				?> class="text_area"
-				style="text-align: center" /></td>
+				style="text-align: center; width:3em" /></td>
 				<?php } ?>
 			<td align="center"><?php echo $published;?></td>
 		</tr>

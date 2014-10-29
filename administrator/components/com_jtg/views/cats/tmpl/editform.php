@@ -64,7 +64,7 @@ foreach ($this->images as $img) {
 			</tr>
 			<tr>
 				<td><?php echo JText::_('COM_JTG_DESC_JTEXT_ALLOWED'); ?></td>
-				<td><?php echo $this->editor->display( 'desc', $this->data->description , '500', '200', '75', '20', false ) ; ?></td>
+				<td><?php echo $this->editor->display( 'desc', $this->data->description , '500', '200', '75', '10', false ) ; ?></td>
 			</tr>
 		</tbody>
 	</table>
