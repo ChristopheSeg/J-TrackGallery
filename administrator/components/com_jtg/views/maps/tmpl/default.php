@@ -113,7 +113,7 @@ else
 				<span><?php echo $this->pagination->orderDownIcon( $i, $n, true, 'orderdown', 'Move Down', $map->ordering );
 				?></span>
 				<input type="text" name="order[]" size="2" maxlength="2" value="<?php echo $map->ordering;
-				?>" class="text_area" style="text-align: center; width:3em"/>
+				?>" class="text_area" style="text-align: center; width: 3em; display: inline"/>
                 </td>
 <?php } ?>
 				<td align="center"><?php echo $published;								?></td>

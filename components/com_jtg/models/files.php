@@ -302,7 +302,7 @@ class JtgModelFiles extends JModelLegacy
 			$terrain = implode(', ', $terrain);
 		else
 			$terrain = "";
-		$desc = db->quote(implode(' ', JFactory::getApplication()->input->get('description', '', 'array')));
+		$desc = $db->quote(implode(' ', JFactory::getApplication()->input->get('description', '', 'array')));
 		$file = JFactory::getApplication()->input->files->get('file');
 		$uid = $user->get('id');
 		$date = date("Y-m-d");

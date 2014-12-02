@@ -79,7 +79,6 @@ $document->addStyleSheet(JUri::base().'components/com_jtg/template.css');
 		    if(JVERSION>=3.0) //Code support for joomla version greater than 3.0
 		    {
 			$access = "<font color='red'>TODOJ3</font>";
-
 		    }
 		    else 
 		    {
@@ -184,6 +183,21 @@ else
 {
 	$missingterrain = null;
 }
+/*
+ * <input type="checkbox" name="toggle" value=""
+				onclick="Joomla.checkAll(<?php
+			echo count($this->rows); ?>);" />
+ */
+if(JVERSION>=3.0) //Code support for joomla version greater than 3.0
+{
+	$checkall = JHtml::_('grid.checkall');
+}
+else 
+{
+	$checkall = "<input type=\"checkbox\" name=\"toggle\" value=\"\"
+				onclick=\"Joomla.checkAll(". count($this->rows) . ");\" />";
+}
+
 ?>
 	<thead>
 		<tr>
@@ -191,9 +205,7 @@ else
 			<th class="title" nowrap="nowrap"><?php
 			echo JHtml::_('grid.sort',
 			JText::_('COM_JTG_ID'), 'id', @$this->lists['order_Dir'], @$this->lists['order'], 'files' ); ?>:</th>
-			<th class="title"><input type="checkbox" name="toggle" value=""
-				onclick="Joomla.checkAll(<?php
-			echo count($this->rows); ?>);" /></th>
+			<th class="title"><?php echo $checkall; ?></th>
 			<!--			<th class="title"><?php
 			// echo JHtml::_('grid.sort', JText::_('COM_JTG_GPS_FILE'),
 	// 'file', @$this->lists['order_Dir'], @$this->lists['order'], 'files' ); ?>:</th>
