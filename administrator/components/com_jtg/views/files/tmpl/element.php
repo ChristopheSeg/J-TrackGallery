@@ -101,7 +101,7 @@ $user		= JFactory::getUser($row->uid);
 			$row->cat = "<i>".JText::_('COM_JTG_NOTHING') . "</i>";
 
         ?>
-             <tr class="<?php echo "row" . $k; ?>">
+             <tr class="<?php echo "row$k "; echo($k? "row-odd":"row-even"); ?>">
                 <td align="center"><?php echo $this->pagination->getRowOffset( $i ); ?></td>
                 <td align="center"><?php echo $row->id; ?></td>
                 <td align="center"><?php echo $file; ?></td>

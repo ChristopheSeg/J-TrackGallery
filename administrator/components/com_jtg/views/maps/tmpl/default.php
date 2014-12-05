@@ -95,7 +95,7 @@ for ($i=0, $n=count( $this->maps ); $i < $n; $i++) {
 	$name		= $this->buildEditKlicks(JText::_($map->name),$i);
 	$replace	= "PASTE_YOUR_KEY_HERE"; // TODO JTEXT here
 	$with		= "<font color=red>PASTE_YOUR_KEY_HERE</font>";
-?>			<tr class="<?php echo "row" . $k; $k=1-$k; ?>">
+?>			<tr class="<?php echo "row$k "; echo($k? "row-odd":"row-even"); $k=1-$k; ?>">
 				<td align="center"><?php echo $i;										?></td>
 				<td align="center"><?php echo $map->id;									?></td>
                 <td align="center"><?php echo $checked;									?></td>

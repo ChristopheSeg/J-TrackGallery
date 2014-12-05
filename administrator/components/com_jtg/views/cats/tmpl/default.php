@@ -56,7 +56,7 @@ $ordering = ($this->lists['order'] == 'ordering');
 		$published 	= JHtml::_('grid.published', $row, $i );
 
 		?>
-		<tr class="<?php echo "row$k"; ?>">
+		<tr class= "<?php echo "row$k "; echo($k? "row-odd":"row-even"); ?>">
 			<td align="center"><?php echo $this->pagination->getRowOffset( $i ); ?></td>
 			<td><?php echo $row->id; ?></td>
 			<td align="center"><?php echo $checked; ?></td>
