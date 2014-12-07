@@ -18,7 +18,7 @@ JToolBarHelper::back();
 JToolBarHelper::save('saveconfig',$alt= 'COM_JTG_SAVE', 'save.png' );
 JToolBarHelper::preferences( 'com_jtg', 600, 800, $alt='COM_JTG_MENU_DEFAULT_SETTINGS');
 JToolBarHelper::help( 'config/default',true );
-jimport('joomla.html.pane');
+// jimport('joomla.html.pane');
 JHtml::_('behavior.tooltip');
 ?>
 <form action="" method="post" name="adminForm" id="adminForm" class="adminForm">
@@ -27,13 +27,55 @@ JHtml::_('behavior.tooltip');
 	jimport( 'joomla.html.html.tabs' );
 	// add style for horizontal menu in Joomla 3.x
 	$document = JFactory::getDocument();
-	$style = 'dt.tabs h3 {
+	$style = '
+		dt.tabs h3 
+		{
 		    float:left;
+		    margin: 0; 
 		    margin-right: 10px;
 		}
 		div.current {
 		    clear: both;
-		}';
+		}
+		dl.tabs {
+			float: left;
+			margin: 10px 0 -1px 0;	
+			z-index: 50;
+		}
+		
+		dl.tabs dt {
+			float: left;
+			padding: 4px 10px;
+			border: 1px solid #ccc;
+			margin-left: 3px;
+			background: #e9e9e9;
+			color: #666;
+		}
+		
+		dl.tabs dt.open {
+			background: #F9F9F9;
+			border-bottom: 1px solid #f9f9f9;
+			z-index: 100;
+			color: #000;
+		}
+		
+		div.current {
+			clear: both;
+			border: 1px solid #ccc;
+			padding: 10px 10px;
+		}
+		
+		div.current dd {
+			padding: 0;
+			margin: 0;
+		}
+		dl.tabs h3{
+			font-size:1.0em;
+		}
+		dl#content-pane.tabs {
+			margin: 1px 0 0 0;
+		}	
+	';
 	$document->addStyleDeclaration( $style );
 	$options = array(
 	    'onActive' => 'function(title, description){
@@ -48,7 +90,7 @@ JHtml::_('behavior.tooltip');
 	    'useCookie' => true, // this must not be a string. Don't use quotes.
 	);
 
-	// Hauptkonfiguration BEGIN
+	// Configuration BEGIN
 
 	echo JHtml::_('tabs.start', 'tab_group_id', $options);
 	echo JHtml::_('tabs.panel', JText::_('COM_JTG_MAINCONF'), 'mainconfig');
@@ -108,12 +150,10 @@ if($this->config->terms == "1") {
 		</tbody>
 	</table>
 	<?php
-//	echo JHtml::_('tabs.end');
-//	echo $tabs->endPanel();
-// Hauptkonfiguration END
+
+// Configuration END
 
 // Level BEGIN
-//echo $tabs->startPanel(JText::_('COM_JTG_LEVEL'), 'levelconfig');
 	echo JHtml::_('tabs.panel', JText::_('COM_JTG_LEVEL'), 'levelconfig');
 ?>
 	<table class="admintable">
@@ -127,8 +167,7 @@ if($this->config->terms == "1") {
 	</table>
 <?php
 	echo '<br><br>' . JText::_('COM_JTG_LEVELCONF_HELP') . '<br>';
-//echo JHtml::_('tabs.end');
-//echo $tabs->endPanel();
+
 // Level END
 echo JHtml::_('tabs.panel', JText::_('COM_JTG_MAPS'), 'Maps');
 
@@ -173,8 +212,7 @@ echo JHtml::_('tabs.panel', JText::_('COM_JTG_MAPS'), 'Maps');
 		</tbody>
 	</table>
 	<?php
-// Viewingoptions BEGIN
-//echo $tabs->startPanel(JText::_('COM_JTG_DISPLAY'), 'display');
+// Viewing options BEGIN
 echo JHtml::_('tabs.panel', JText::_('COM_JTG_DISPLAY'), 'display');
 
 ?>
@@ -207,9 +245,8 @@ echo JHtml::_('tabs.panel', JText::_('COM_JTG_DISPLAY'), 'display');
 		</tbody>
 	</table>
 	<?php
-//	echo JHtml::_('tabs.end');
-//	echo $tabs->endPanel();
-// Viewingoptions END
+
+// Viewing options END
 
 // Comments BEGIN
 
@@ -286,11 +323,9 @@ if ( ($this->config->approach == "cm") OR ($this->config->approach == "cmkey") )
 	</table>
 	<?php
 	echo JHtml::_('tabs.end');
-//echo $tabs->endPanel();
 }
 // Approach END
 
-	// echo $tabs->endPane();
 	echo JHtml::_( 'form.token' );
 	?>
 	<input type="hidden" name="option" value="com_jtg" />

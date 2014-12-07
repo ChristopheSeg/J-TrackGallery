@@ -130,8 +130,7 @@ class JtgViewConfig extends JViewLegacy
 		}
 		$lists['unit']				= JHtml::_('select.genericlist', $unit, 'unit', 'size="1"', 'unit', 'unit', $config->unit );
 		$lists['tmpl']				= JHtml::_('select.genericlist', $tmpl, 'template', 'size="1"', 'name', 'name', $config->template );
-		// $lists['who']				= JHtml::_('select.genericlist', $users, 'comment_who', 'size="1"', 'id', 'text', $config->comment_who );
-		$lists['comment_who']				= JHtml::_('select.genericlist', $gtree,'comment_who[]', 'class="inputbox" multiple="true" size="8"' , 'value', 'text', unserialize($config->comment_who) );
+		$lists['comment_who']		= JHtml::_('select.genericlist', $gtree,'comment_who[]', 'class="inputbox" multiple="true" size="8"' , 'value', 'text', unserialize($config->comment_who) );		
 		$lists['inform']			= JHtml::_('select.genericlist', $inform, 'inform_autor', 'size="1"', 'id', 'text', $config->inform_autor );
 		$lists['captcha']			= JHtml::_('select.genericlist', $inform, 'captcha', 'size="1"', 'id', 'text', $config->captcha );
 		$lists['usevote']			= JHtml::_('select.genericlist', $inform, 'usevote', 'size="1"', 'id', 'text', $config->usevote );
@@ -170,11 +169,13 @@ class JtgViewConfig extends JViewLegacy
 		$this->captcha = $cactiv;
 		parent::display($tpl);
 	}
-
+/*
 	function createCheckbox($name,$value,$label,$checked=null){
 		if($checked===true) $checked = " checked=\"checked\"";
 		return "<input type=\"checkbox\" name=\"" . $name . "\" value=\"" . $value . "\"" . $checked . " />&nbsp;" . $label;
 	}
+	*/
+	
 
 
 }

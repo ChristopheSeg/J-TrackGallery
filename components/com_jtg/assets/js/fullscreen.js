@@ -17,18 +17,18 @@ function switch_fullscreen2(){
 	OpenLayers.Element.addClass(ol_buttonFullScreen.panel_div,"buttonFullScreenItemActive");
 	OpenLayers.Element.removeClass(ol_buttonFullScreen.panel_div,"buttonFullScreenItemInactive");	
         jtg_map.className = "fullscreen";  
- 	new_zoom = olmap.getZoom()+1;
+ 	// new_zoom = olmap.getZoom()+1;
    } else { // map is already in fullscreen mode
 	OpenLayers.Element.addClass(ol_buttonFullScreen.panel_div,"buttonFullScreenItemInactive");
 	OpenLayers.Element.removeClass(ol_buttonFullScreen.panel_div,"buttonFullScreenItemActive");	
         jtg_map.className = "olMap"; 
- 	new_zoom = olmap.getZoom()-1;   
+ 	// new_zoom = olmap.getZoom()-1;   
    }
 
 	olmap.updateSize();
-	//setTimeout("olmap.setCenter(map_center);", 1000)
 		
-	setTimeout("olmap.zoomTo(new_zoom);	", 1000);
+	// setTimeout("olmap.zoomTo(new_zoom);	", 1000);
+	// TODO improve Zoom calculation accounting for screen size
 }  
 function switch_fullscreen()
 {
