@@ -62,7 +62,7 @@ if($id) {
                 <td><?php echo $this->list['published']; ?></td>
             </tr>
             <tr>
-                <td><?php echo JText::_('COM_JTG_PARAMETERS'); ?>:*</td>
+                <td><?php echo JText::_('COM_JTG_OL_PARAMETERS'); ?>:*</td>
                 <td><textarea id="param" type="text" name="param" value="" cols="100" maxsize="300" rows="8"><?php
 	$replace = array("'",'"');
 	$with = array("'","&quot;");

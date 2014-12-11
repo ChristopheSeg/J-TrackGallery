@@ -23,7 +23,15 @@ JToolBarHelper::unpublish();
 JToolBarHelper::deleteList();
 JToolBarHelper::help( 'comments',true );
 
-JHtml::_('behavior.tooltip');
+if(JVERSION>=3.0) //Code support for joomla version greater than 3.0
+{
+	JHtml::_('bootstrap.tooltip');
+}
+else
+{
+	JHtml::_('behavior.tooltip');
+}
+
 ?>
 <form action="index.php" method="post" name="adminForm" id="adminForm">
 <table class="adminlist" cellpadding="1">

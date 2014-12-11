@@ -438,7 +438,8 @@ class JtgHelper
 	    }
 	    return  false;
 	}
-
+	
+	
 	static function getAccessList($accesslevel) {
 		$access = array (
 		array (

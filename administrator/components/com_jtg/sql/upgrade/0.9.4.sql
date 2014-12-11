@@ -1,1 +1,0 @@
-ALTER TABLE `J33a5_jtg_config` CHANGE `comment_who` `comment_who` VARCHAR( 150 ) NOT NULL DEFAULT '';

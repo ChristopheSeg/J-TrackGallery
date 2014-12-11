@@ -70,21 +70,20 @@ $document->addStyleSheet(JUri::base().'components/com_jtg/template.css');
 	{
 		$row = $this->rows[$i];
 		$row->groupname = $this->buildRowGroupname($row->access); // wird für die Zugriffsebene benötigt
-		if ( $row->access == 9 )
+		switch ($row->access)
 		{
-		    $access = "<font color='orange'>".JText::_('COM_JTG_PRIVATE') . "</font>";
-		}
-		else
-		{
-		    if(JVERSION>=3.0) //Code support for joomla version greater than 3.0
-		    {
-			$access = "<font color='red'>TODOJ3</font>";
-		    }
-		    else 
-		    {
-			$access = JHtml::_('grid.access', $row, $i );
-		    }
-		    
+			case 9:
+				$access = "<font color='orange'>".JTet::_('COM_JTG_PRIVATE') . "</font>";;
+				break;
+			case 0:
+				$access = JText::_( 'COM_JTG_PUBLIC');
+				break;
+			case 1:
+				$access = JText::_( 'COM_JTG_REGISTERED');
+				break;
+			case 2:
+				$access = JText::_( 'COM_JTG_ADMINISTRATORS');
+				break;
 		}
 
 		$checked 	= JHtml::_('grid.checkedout', $row, $i );
@@ -100,9 +99,11 @@ $document->addStyleSheet(JUri::base().'components/com_jtg/template.css');
 		$cats = "<font class=\"emptyEntry\">".JText::_('COM_JTG_NOTHING') . "</font>";
 		else
 		{
-			$cats = "<ul class=\"cattree\">";
+			$cats=""; 
+			//$cats = "<ul class=\"cattree\">";
 			$l = 0;
-			foreach ($catids AS $catid) {
+			foreach ($catids AS $catid) 
+			{
 				$cattree = $this->parseCatTree($this->cats,$catid);
 				if ( count($cattree["missing"]) != 0 )
 				{
@@ -111,10 +112,11 @@ $document->addStyleSheet(JUri::base().'components/com_jtg/template.css');
 						$missingcat[$miss] = $miss;
 					}
 				}
-				$cats .= "<li>" . $cattree["tree"] . "</li>";
+				$cats .= $cattree["tree"] . ",<br/>";
+				// $cats .= "<li>" . $cattree["tree"] . "</li>";
 				$l++;
 			}
-			$cats .= "</ul>";
+			// $cats .= "</ul>";
 			//TODO improve next "if" ... parse not needed (use cattree !!!
 			if ( $l == 1 ) { // only List if more than 1 entry
 				$cats = $this->parseCatTree($this->cats,$catid);

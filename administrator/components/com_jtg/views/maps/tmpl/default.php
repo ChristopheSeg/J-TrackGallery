@@ -27,7 +27,15 @@ JToolBarHelper::spacer();
 JToolBarHelper::help("maps", true);
 
 jimport('joomla.html.pane');
-JHtml::_('behavior.tooltip');
+if(JVERSION>=3.0) //Code support for joomla version greater than 3.0
+{
+	JHtml::_('bootstrap.tooltip');
+}
+else
+{
+	JHtml::_('behavior.tooltip');
+}
+
 $ordering = ($this->lists['order'] == 'ordering' );
 
 $link = JRoute::_('index.php?option=com_jtg&task=maps&controller=maps&layout=default');
@@ -51,7 +59,6 @@ $link = JRoute::_('index.php?option=com_jtg&task=maps&controller=maps&layout=def
 	<table class="adminlist" cellpadding="1">
 		<thead>
 			<tr>
-				<th class="title"><?php echo JText::_( 'COM_JTG_NUM' ); ?></th>
 				<th class="title" nowrap="nowrap"><?php
 //					echo JHtml::_('grid.sort', JText::_('COM_JTG_ID'), 'id', @$this->lists['order_Dir'], @$this->lists['order'], 'maps' );
 					echo JText::_('COM_JTG_ID');
@@ -73,7 +80,7 @@ $link = JRoute::_('index.php?option=com_jtg&task=maps&controller=maps&layout=def
 //					echo JHtml::_('grid.sort', JText::_('COM_JTG_PUBLISHED'), 'published', @$this->lists['order_Dir'], @$this->lists['order'], 'maps' ); ? >:</th>
 					echo JText::_('COM_JTG_PUBLISHED'); ?>:</th>
 				<th class="title"><?php
-					echo JText::_('COM_JTG_PARAMETERS');
+					echo JText::_('COM_JTG_OL_PARAMETERS');
 					?>:</th>
 				<th class="title"><?php
 					echo JText::_('COM_JTG_NEEDSCRIPT');
@@ -95,16 +102,22 @@ for ($i=0, $n=count( $this->maps ); $i < $n; $i++) {
 	$name		= $this->buildEditKlicks(JText::_($map->name),$i);
 	$replace	= "PASTE_YOUR_KEY_HERE"; // TODO JTEXT here
 	$with		= "<font color=red>PASTE_YOUR_KEY_HERE</font>";
+	$map_parameters = JHtml::tooltip($map->param, JText::_('COM_JTG_OL_PARAMETERS'), 'tooltip.png', JText::_('COM_JTG_OL_PARAMETERS'));
+	$map_script = ($map->script? JHtml::tooltip($map->script, JText::_('COM_JTG_NEEDSCRIPT'), 'tooltip.png', JText::_('COM_JTG_NEEDSCRIPT')) : '<i>' . JText::_('JNONE') . '</i>' );
+	$map_code = ($map->code? JHtml::tooltip($map->code, JText::_('COM_JTG_CODE'), 'tooltip.png', JText::_('COM_JTG_CODE'))  : '<i>' . JText::_('JNONE') . '</i>' );
+	
 ?>			<tr class="<?php echo "row$k "; echo($k? "row-odd":"row-even"); $k=1-$k; ?>">
-				<td align="center"><?php echo $i;										?></td>
 				<td align="center"><?php echo $map->id;									?></td>
                 <td align="center"><?php echo $checked;									?></td>
-				<td align="center"><?php
+				<td align="center"><?php echo $name;
 // TODO Non-static method JTable::isCheckedOut() should not be called statically
+/* var_dump($map);echo ('<br>'); var_dump($name);
+die();
 if (  JTable::isCheckedOut($user->get ('id'), $map->checked_out ) )
 	echo JText::_($map->name);
 else
-	echo $name;
+
+	echo $name;*/ 
 				?></td>
 <?php if ($ordering) { ?>
                 <td colspan="2" class="order">
@@ -116,10 +129,10 @@ else
 				?>" class="text_area" style="text-align: center; width: 3em; display: inline"/>
                 </td>
 <?php } ?>
-				<td align="center"><?php echo $published;								?></td>
-				<td align="center"><?php echo $map->param;								?></td>
-				<td align="center"><?php echo str_replace($replace,$with,$map->script);	?></td>
-				<td align="center"><?php echo str_replace($replace,$with,$map->code);	?></td>
+				<td align="center"><?php echo $published; ?></td>
+				<td align="center"><?php echo $map_parameters; ?></td>
+				<td align="center"><?php echo $map_script;?></td>
+				<td align="center"><?php echo $map_code;?></td>
 			</tr>
 <?php } ?>		</tbody>
 <!--         <tfoot>

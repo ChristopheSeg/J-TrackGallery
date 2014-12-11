@@ -295,7 +295,7 @@ class JtgModelFiles extends JModelLegacy
 			$catid = implode(",", $catid);
 		else
 			$catid = "";
-		$level = JRequest::getInt('level');
+		$level = JRequest::getInt('level', 4);
 		$title = JFactory::getApplication()->input->get('title');
 		$terrain = JFactory::getApplication()->input->get('terrain', NULL, 'array');
 		if ($terrain != NULL)
@@ -830,8 +830,9 @@ class JtgModelFiles extends JModelLegacy
 					class='required' maxlength='80' /></td>
 			</tr>
 			<tr>
-				<td><label for='text'><?php echo JText::_('COM_JTG_TEXT'); ?>*</label></td>
-				<td><?php echo $editor->display('text', '', '400', '100', '10', '10', false, $editor_params); ?></td>
+				<td colspan='2'><label for='text'><?php echo JText::_('COM_JTG_TEXT'); ?>*</label>
+					<?php $editor->display( 'text', '', '400', '400', '80', '20', false, $params );?>
+				</td>
 			</tr>
 		<?php if($cfg->captcha == 1): ?>
 		<tr>

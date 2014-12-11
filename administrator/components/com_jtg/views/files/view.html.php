@@ -429,6 +429,7 @@ class JtgViewFiles extends JViewLegacy
 		$model = $this->getModel();
 		$cats = $model->getCats(true,'COM_JTG_SELECT',-1);
 		$terrain = $model->getTerrain("*",true," WHERE published=1 ");
+		// $levels= ;
 		$user 	= JFactory::getUser();
 		$uid = $user->get('id');
 		$yesnolist = array(
@@ -441,7 +442,6 @@ class JtgViewFiles extends JViewLegacy
 			//			New File
 			$id = 0;
 			$track = $model->getFile($id);
-			$level = $model->getLevel($id);
 			$access = $model->getAccess($id);
 			$size = count($cats);
 			if ( $size > 6) $size = 6;
@@ -457,7 +457,7 @@ class JtgViewFiles extends JViewLegacy
 			$this->lists = $lists;
 			$this->track = $track;
 			$this->id = $id;
-			$this->level = $level;
+			$lists['level']	= $model->getLevelList(0);
 
 		}
 		else
@@ -465,7 +465,7 @@ class JtgViewFiles extends JViewLegacy
 			//			Edit File
 			$id = $cid[0];
 			$track = $model->getFile($id);
-			$level = $model->getLevel($track->level);
+			$lists['level']	= $model->getLevelList($track->level);
 			$access = $model->getAccess($id);
 			// $terrain[0]->checked_out=1;
 			$error = false;
@@ -523,10 +523,10 @@ class JtgViewFiles extends JViewLegacy
 			// Values BEGIN
 			$lists['values'] = JtgHelper::giveGeneratedValues('backend',$this->buildImageFiletypes($track->istrack,$track->iswp,$track->isroute,$track->iscache),$track);
 			// Values END
+			$lists['level']	= $model->getLevelList($track->level);
 			$this->lists = $lists;
 			$this->track = $track;
 			$this->id = $id;
-			$this->level = $level;
 			$this->images = $images;
 
 		}

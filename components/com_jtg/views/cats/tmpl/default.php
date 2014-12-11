@@ -34,13 +34,12 @@ echo $this->lh;
         		$cat->img = "&nbsp;<img title=\"".JText::_($cat->title) . "\" alt=\"".JText::_($cat->title) . "\" src=\"" . $imgdir.$cat->image . "\" />";
             $link = JRoute::_('index.php?option=com_jtg&view=files&layout=list&cat='.$cat->id);
             ?>
-    <tr class="sectiontableentry<?php echo $k; ?>">
+    <tr class="sectiontableentry<?php echo $k; $k = 1 -$k;?>">
         <td width="10%" align="center"><a href="<?php echo $link; ?>" ><?php echo $cat->img; ?></a></td>
         <td><b><a href="<?php echo $link; ?>" ><?php echo JText::_($cat->treename); ?></a></b></td>
         <td><?php echo JText::_($cat->description); ?></td>
     </tr>
             <?php
-        $k = 1 -$k;
         }
     ?>
     </tbody>

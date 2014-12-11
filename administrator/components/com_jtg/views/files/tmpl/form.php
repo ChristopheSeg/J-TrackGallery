@@ -77,72 +77,74 @@ if($this->id >= 1)
 		</tr>
 	</thead>
 	<tbody>
-		<tr>
+		<tr class="row1 row-odd">
 			<td><?php echo JText::_('COM_JTG_GPS_FILE') . ":"; if($this->id < 1) echo "*";?></td>
 			<td><?php if($this->id < 1) { ?><input type="file" name="file"
 				value="" size="30" /><?php } else echo $this->track->file; ?></td>
 			<td rowspan="12" width="1" valign="top"><?php echo $map; ?></td>
 		</tr>
 		<?php if($this->id >= 1) { ?>
-		<tr>
+		<tr class="row0 row-even">
 			<td>Id:</td>
 			<td><?php echo $this->id; ?></td>
 		</tr>
 		<?php } ?>
-		<tr>
+		<tr class="row1 row-odd">
 			<td><?php echo JText::_('COM_JTG_PUBLISHED'); ?>:*</td>
 			<td><?php echo $this->lists['published']; ?></td>
 		</tr>
-		<tr>
+		<tr class="row0 row-even">
 			<td><?php echo JText::_('COM_JTG_TITLE'); ?>:*</td>
 			<td><input id="title" type="text" name="title"
 				value="<?php if( isset($this->id) AND ($this->id != 0) ) echo $this->track->title; ?>"
 				size="30" /></td>
 		</tr>
-		<tr>
+		<tr class="row1 row-odd">
 			<td><?php echo JText::_('COM_JTG_DATE'); ?>:*</td>
 			<td><input id="date" type="text" name="date"
 				value="<?php if( isset($this->id) AND ($this->id != 0) ) echo $this->track->date; ?>"
 				size="10" /></td>
 		</tr>
-		<tr>
+		<tr class="row0 row-even">
 			<td><?php echo JText::_('COM_JTG_INFO_AUTHOR'); ?>:*<br />
 			</td>
 			<td><?php echo $this->lists['uid']; ?></td>
 		</tr>
-		<tr>
+		<tr class="row1 row-odd">
 			<td><?php echo JText::_('COM_JTG_LEVEL'); ?>* <?php echo JHtml::tooltip(JText::_('COM_JTG_TT_LEVEL')); ?>:
-			<td><?php echo $this->level; ?></td>
+			<td><?php echo $this->lists['level']; ?></td>
 		</tr>
-		<tr>
+		<tr class="row0 row-even">
 			<td><?php echo JText::_('COM_JTG_CAT'); ?>:</td>
 			<td><?php echo $this->lists['cats']; ?></td>
 		</tr>
-		<tr>
+		<tr class="row1 row-odd">
 			<td><?php echo JText::_('COM_JTG_ACCESS_LEVEL'); ?>:</td>
 			<td><?php echo $this->lists['access']; ?></td>
 		</tr>
-		<tr>
+		<tr class="row0 row-even">
 			<td><?php echo JText::_('COM_JTG_HIDDEN'); ?>:</td>
 			<td><?php echo $this->lists['hidden']; ?></td>
 		</tr>
-		<tr>
+		<tr class="row1 row-odd">
 			<td><?php echo JText::_('COM_JTG_TERRAIN'); ?>:</td>
 			<td><?php echo $this->lists['terrain']; ?></td>
 		</tr>
-		<tr>
+		<tr class="row0 row-even">
 			<td><?php echo JText::_('COM_JTG_CALCULATED_VALUES'); ?>:</td>
 			<td><?php echo $this->lists['values']; ?></td>
 		</tr>
-		<tr>
-			<td><?php echo JText::_('COM_JTG_DESCRIPTION'); ?>:*</td>
-			<td colspan="2"><?php
+		<tr class="row1 row-odd">
+			<td colspan="3">
+			<?php echo JText::_('COM_JTG_DESCRIPTION'); ?>:*
+			<?php
 			if( isset($this->track->description) )
 			$trackdescription = $this->track->description;
 			else
 			$trackdescription = null;
-			echo $this->editor->display( 'description', $trackdescription, '100%', '200', '15', '25', false ) ;
-			?></td>
+			echo $this->editor->display( 'description', $trackdescription, '100%', '200px', '15', '25', false ) ;
+			?>
+			</td>
 		</tr>
 		<?php
 		/*
@@ -157,9 +159,10 @@ if($this->id >= 1)
 		 ");
 		 */
 		?>
-		<tr>
-			<td valign="top"><?php echo JText::_('COM_JTG_IMAGES'); ?> (max. 10):</td>
-			<td colspan="2"><input type="file" name="images[]" class="multi"
+		<tr class="row0 row-even">
+			<td valign="top"colspan="3">
+			<?php echo JText::_('COM_JTG_IMAGES'); ?> (max. 10):
+			<input type="file" name="images[]" class="multi"
 				maxlength="10"><br clear="all" />
 			<br />
 			<?php if( isset($this->images) )
