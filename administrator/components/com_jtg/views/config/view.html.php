@@ -82,7 +82,8 @@ class JtgViewConfig extends JViewLegacy
 		array('id' => 'none', 'text' => JText::_('JNONE')),
 		array('id' => 'straight', 'text' => JText::_('COM_JTG_GAL_STRAIGHT')),
 		array('id' => 'jd2', 'text' => JText::_('COM_JTG_GAL_JDGALLERY2')),
-		array('id' => 'highslide', 'text' => JText::_('COM_JTG_GAL_HIGHSLIDE'))
+		array('id' => 'highslide', 'text' => JText::_('COM_JTG_GAL_HIGHSLIDE')),
+		array('id' => 'ext_plugin', 'text' => JText::_('COM_JTG_GAL_EXTERNAL_PLUGIN'))
 		);
 		$routingiconset = array();
 		$imgdir = ".." . DIRECTORY_SEPARATOR . "components" . DIRECTORY_SEPARATOR . "com_jtg" . DIRECTORY_SEPARATOR . "assets" . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "approach". DIRECTORY_SEPARATOR;

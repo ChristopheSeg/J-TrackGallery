@@ -83,6 +83,13 @@ else
 	?>
 	</tbody>
 </table>
+<?php 
+if ($n==0) 
+{
+	echo '<br><br><b>' . JText::_('COM_JTG_NO_COMMENTS') . '</b>';
+}
+?>
+
 <input type="hidden" name="option" value="com_jtg" /> <input
 	type="hidden" name="task" value="" /> <input type="hidden"
 	name="boxchecked" value="0" /> <input type="hidden" name="controller"

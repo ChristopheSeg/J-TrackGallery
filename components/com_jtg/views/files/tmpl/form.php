@@ -27,7 +27,7 @@ if(isset($this->id))
 	$title = JText::_('COM_JTG_NEW_TRACK');
 }
 
-// $cfg = JtgHelper::getConfig();
+$cfg = JtgHelper::getConfig();
 $user = JFactory::getUser();
 $juser = new JUser($user->id);
 $k = 0; 
@@ -133,19 +133,18 @@ Joomla.submitbutton = function(pressbutton)
 		</tr>
 		<tr class="sectiontableentry<?php echo $k; $k=1-$k;?>">
 			<?php
-// @ToDo define max in BE
-$max = 10;
+$max_images = $cfg->max_images;
 if(isset($this->id))
 {
-	$max = ( $max - $this->imgcount );
-	if ( $max <= 0 ) $max = 0;
+	$max_images = ( $this->max_images - $this->imgcount );
+	if ( $max_images <= 0 ) $max_images = 0;
 }
 $accept = $this->cfg->type; // e.g. jpg,png,gif
 $accept = explode(",",$accept);
-$tt= JText::sprintf('COM_JTG_ALLOWED_FILETYPES', implode(", ",$accept)) . '  ' . JText::_('COM_JTG_MAXIMAL') . ' ' . $max;
+$tt= JText::sprintf('COM_JTG_ALLOWED_FILETYPES', implode(", ",$accept)) . '  ' . JText::_('COM_JTG_MAXIMAL') . ' ' . $max_images;
 ?>
 			<td><?php echo JText::_('COM_JTG_IMAGES'); ?> <?php echo JHtml::tooltip($tt, JText::_('COM_JTG_TT_HEADER'),'tooltip.png'); ?></td>
-			<td><input <?php if ( $max <= 0 ) echo "disabled=\"disabled\" ";?>type="file" name="images[]" class="multi" maxlength="<?php echo $max; ?>" accept="<?php echo implode("|",$accept) ?>"><br clear="all" />
+			<td><input <?php if ( $max_images <= 0 ) echo "disabled=\"disabled\" ";?>type="file" name="images[]" class="multi" maxlength="<?php echo $max_images; ?>" accept="<?php echo implode("|",$accept) ?>"><br clear="all" />
 				<?php echo $this->images; ?>
 		</tr>
 		<?php

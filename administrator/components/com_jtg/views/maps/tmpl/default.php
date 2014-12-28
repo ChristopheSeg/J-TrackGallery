@@ -100,8 +100,6 @@ for ($i=0, $n=count( $this->maps ); $i < $n; $i++) {
 	$published 	= JHtml::_('grid.published', $map, $i );
 	$checked 	= JHtml::_('grid.checkedout', $map, $i );
 	$name		= $this->buildEditKlicks(JText::_($map->name),$i);
-	$replace	= "PASTE_YOUR_KEY_HERE"; // TODO JTEXT here
-	$with		= "<font color=red>PASTE_YOUR_KEY_HERE</font>";
 	$map_parameters = JHtml::tooltip($map->param, JText::_('COM_JTG_OL_PARAMETERS'), 'tooltip.png', JText::_('COM_JTG_OL_PARAMETERS'));
 	$map_script = ($map->script? JHtml::tooltip($map->script, JText::_('COM_JTG_NEEDSCRIPT'), 'tooltip.png', JText::_('COM_JTG_NEEDSCRIPT')) : '<i>' . JText::_('JNONE') . '</i>' );
 	$map_code = ($map->code? JHtml::tooltip($map->code, JText::_('COM_JTG_CODE'), 'tooltip.png', JText::_('COM_JTG_CODE'))  : '<i>' . JText::_('JNONE') . '</i>' );
@@ -109,16 +107,7 @@ for ($i=0, $n=count( $this->maps ); $i < $n; $i++) {
 ?>			<tr class="<?php echo "row$k "; echo($k? "row-odd":"row-even"); $k=1-$k; ?>">
 				<td align="center"><?php echo $map->id;									?></td>
                 <td align="center"><?php echo $checked;									?></td>
-				<td align="center"><?php echo $name;
-// TODO Non-static method JTable::isCheckedOut() should not be called statically
-/* var_dump($map);echo ('<br>'); var_dump($name);
-die();
-if (  JTable::isCheckedOut($user->get ('id'), $map->checked_out ) )
-	echo JText::_($map->name);
-else
-
-	echo $name;*/ 
-				?></td>
+				<td align="center"><?php echo $name;	?></td>
 <?php if ($ordering) { ?>
                 <td colspan="2" class="order">
                 <span><?php echo $this->pagination->orderUpIcon( $i, true,'orderup', 'Move Up', $map->ordering );

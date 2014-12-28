@@ -157,6 +157,7 @@ class JtgViewCats extends JViewLegacy
 		$this->images = $images;
 		$this->lists = $lists;
 		$this->editor = $editor;
+		$this->max_images = $config->max_images;
 		$this->maxsize = $config->max_size;  //improper max_size use !!
 
 		parent::display($tpl);

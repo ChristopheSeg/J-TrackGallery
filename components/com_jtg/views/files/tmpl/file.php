@@ -100,7 +100,8 @@ if ($maySeeSingleFile === true) {
 	    }
 	    else
 	    {
-		JHtml::script('jquery.js', 'components/com_jtg/assets/js/', false);
+		// TODO is this JQuery necessary (conflicting with 
+		// JHtml::script('jquery.js', 'components/com_jtg/assets/js/', false);
 	    }
 	    ?>
 	    <!-- begin Charts -->
@@ -531,10 +532,9 @@ echo JHtml::_( 'form.token' ) . "\n"; ?> <input type="hidden"
 				echo $this->parseTemplate("headline",JText::_('COM_JTG_DESCRIPTION'),"jtg_param_header_description");
 				echo $this->parseTemplate("description",$this->track->description);
 			} else echo "<a name=\"jtg_param_header_description\"></a>";
-
 			if (($this->images) AND ( $this->cfg->gallery != "none" ))
 			{
-				echo $this->parseTemplate("headline",JText::_('COM_JTG_GALLERY'),"jtg_param_header_gallery");
+				echo $this->parseTemplate("headline",JText::_('COM_JTG_GALLERY'),"jtg_param_header_gallery");	
 				echo $this->parseTemplate("description",$this->imageBlock);
 			} else echo "<a name=\"jtg_param_header_gallery\"></a>";
 

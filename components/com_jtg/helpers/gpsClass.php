@@ -446,7 +446,7 @@ class gpsDataClass
 	private function getCoordsTCX($file,$trackid=0) {
 	    // TODO REWRITE
 	    $this->error = true;
-	    $this->errorMessages[] = " ERROR TCX file not yer supported";
+	    $this->errorMessages[] = " ERROR TCX file not yet supported";
 	    return false;
 
 	    if (file_exists($file))
@@ -496,6 +496,7 @@ class gpsDataClass
 		$this->bbox_lat_min = 90;
 		$this->bbox_lon_max = -180;
 		$this->bbox_lon_min = 180;
+		/*
 		if ( $this->unit == "Kilometer" )
 		{
 		    $earthRadius = 6378.137;
@@ -504,6 +505,7 @@ class gpsDataClass
 		{
 		    $earthRadius = 6378.137/1.609344;
 		}
+		*/
 		$earthRadius = 6378.137;
 		for($t=1; $t <= $this->trackCount; $t++)
 		{
@@ -1594,7 +1596,7 @@ class gpsDataClass
 		}
 
 		//TODO move this to overlays
-		// relief ombragé "Hillshade of Europe" http://www.osm-wms.de/
+		// "Hillshade of Europe" http://www.osm-wms.de/
 		$return .= "hs_name = \"".JText::_('COM_JTG_HILL_SHADE_EUROPE') . "\";\n";
 		$return .= "hs_url = \"http://129.206.228.72/cached/hillshade?\";\n";
 		$return .= "hs_options = {layers: 'europe_wms:hs_srtm_europa',srs: 'EPSG:900913', format: 'image/jpeg', transparent: 'true',numZoomLevels: 19};\n";

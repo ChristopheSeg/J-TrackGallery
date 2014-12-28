@@ -549,9 +549,16 @@ class JtgViewFiles extends JViewLegacy
 						}
 					}
 					break;
+				    case 'ext_plugin':
+					    $gallery_folder="jtrackgallery/track_" . $id; 
+					    $external_gallery= str_replace('%folder%',$gallery_folder,$cfg->gallery_code);
+					    $imageBlock=JHTML::_('content.prepare',$external_gallery);
+					    $galscript = "";
+				    break;
 
 				    default:
 					$galscript = "";
+					
 					}
 		}
 		else {
@@ -600,7 +607,6 @@ class JtgViewFiles extends JViewLegacy
 		$this->model = $model;
 		$this->level = $level;
 		$this->imageBlock = $imageBlock;
-
 		parent :: display($tpl);
 	}
 

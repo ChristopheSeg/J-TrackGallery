@@ -209,6 +209,9 @@ echo JHtml::_('tabs.panel', JText::_('COM_JTG_MAPS'), 'Maps');
 				<td><?php echo JText::_('COM_JTG_CHARTBG'); ?></td>
 				<td>#<input type="text" name="charts_bg" value="<?php echo $this->config->charts_bg; ?>" size="20" /></td>
 			</tr>
+	$max_images = ($this->max_images - $this->imgcount );
+	if ( $max_images <= 0 ) $max_images = 0;
+			
 		</tbody>
 	</table>
 	<?php
@@ -227,8 +230,16 @@ echo JHtml::_('tabs.panel', JText::_('COM_JTG_DISPLAY'), 'display');
 				<td><?php echo $this->lists['gallery']; ?></td>
 			</tr>
 			<tr>
-				<td><?php echo JText::_( 'COM_JTG_IMAGETYPES' ); ?></td>
+				<td><span class="hasTip" title="<?php echo JText::_('COM_JTG_TT_TITLE'); ?> :: <?php echo JText::_('COM_JTG_GALLERY_CODE_DESC'); ?>"><?php echo JText::_('COM_JTG_GALLERY_CODE'); ?></span></td>
+				<td><input type="text" name="gallery_code" value="<?php echo $this->config->gallery_code; ?>" size="200" /></td>
+			</tr>			<tr>
+				<td><span class="hasTip" title="<?php echo JText::_('COM_JTG_TT_TITLE'); ?> :: <?php echo JText::_('COM_JTG_IMAGETYPES_DESC'); ?>"><?php echo JText::_( 'COM_JTG_IMAGETYPES' ); ?></span></td>
+				<?php echo JText::_( 'COM_JTG_IMAGETYPES' ); ?></td>
 				<td><input type="text" name="type" value="<?php echo $this->config->type; ?>" size="30" /></td>
+			</tr>
+			<tr>
+				<td><span class="hasTip" title="<?php echo JText::_('COM_JTG_TT_TITLE'); ?> :: <?php echo JText::_('COM_JTG_TT_MAX_IMAGES_DESC'); ?>"><?php echo JText::_( 'COM_JTG_MAX_IMAGES' ); ?></span></td>
+				<td><input type="text" name="max_images" value="<?php echo $this->config->max_images; ?>" size="30" /></td>
 			</tr>
 			<tr>
 				<td><span class="hasTip" title="<?php echo JText::_('COM_JTG_TT_TITLE'); ?> :: <?php echo JText::_('COM_JTG_TT_SIZE_DESC'); ?>"><?php echo JText::_( 'COM_JTG_IMAGESIZE' ); ?></span></td>

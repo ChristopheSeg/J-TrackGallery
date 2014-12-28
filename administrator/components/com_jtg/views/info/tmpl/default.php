@@ -46,7 +46,7 @@ $link = ".." . DIRECTORY_SEPARATOR . "components" . DIRECTORY_SEPARATOR . "com_j
             </tr>
             <tr>
                 <td><?php echo(JText::_('COM_JTG_DEMO_PAGE'));?>:</td>
-                <td><a href="http://jtrackgallery.net/demo" target="_blank">http://jtrackgallery.net/demo</a></td>
+                <td><a href="http://jtrackgallery.net" target="_blank">http://jtrackgallery.net/demo</a></td>
             </tr>
             <tr>
                 <td><?php echo(JText::_('COM_JTG_PROJECT_PAGE'));?>:</td>
