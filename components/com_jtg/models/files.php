@@ -371,7 +371,7 @@ class JtgModelFiles extends JModelLegacy
 		// }
 
 		$query = "INSERT INTO #__jtg_files SET" . "\n uid='" . $uid . "'," . "\n catid='" . $catid . "'," . "\n title='" . $title . "'," . "\n file='" .
-				 strtolower($filename) . "'," . "\n terrain='" . $terrain . "'," . "\n description=" . $desc . "," . "\n published='" . $published .
+				 strtolower($filename) . "'," . "\n terrain='" . $terrain . "'," . "\n description='" . $desc . "'," . "\n published='" . $published .
 				 "'," . "\n date='" . $date . "'," . "\n start_n='" . $start_n . "'," . "\n start_e='" . $start_e . "'," . "\n distance='" . $distance .
 				 "'," . "\n ele_asc='" . round($gpsData->totalAscent, 0) . "'," . "\n ele_desc='" . round($gpsData->totalDescent, 0) . "'," .
 				 "\n level='" . $level . "'," . "\n access='" . $access . "'," . "\n hidden='" . $hidden . "'," . "\n istrack='" . $isTrack . "'," .
@@ -695,7 +695,7 @@ class JtgModelFiles extends JModelLegacy
 			}
 		}
 		$query = "UPDATE #__jtg_files SET" . "\n catid='" . $catid . "'," . "\n title='" . $title . "'," . "\n terrain='" . $terrain . "'," .
-				 "\n description=" . $desc . "," . 				// $desc is quoted
+				 "\n description='" . $desc . "'," . 				
 				"\n level='" . $level . "'," . "\n hidden='" . $hidden . "'," . "\n published='" . $published . "'," . "\n access='" . $access . "'" .
 				 "\n WHERE id='" . $id . "'";
 
