@@ -221,7 +221,7 @@ class com_jtgInstallerScript
 		// check if com_jtg is installed,
 		$query = 'SELECT COUNT(*) FROM #__extensions WHERE name = "com_jtg"';
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 		$componentJtgIsInstalled = $db->loadResult();
 
 		if (( $type == 'install' ) and (! $componentJtgIsInstalled) )
@@ -242,7 +242,7 @@ class com_jtgInstallerScript
 		    {
 			$query = 'UPDATE #__jtg_files SET uid ='. $uid . ' WHERE uid =430';
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 		    }
 
 		    // save default params
@@ -277,7 +277,7 @@ class com_jtgInstallerScript
 			"jtg_param_vote_to":"10"}\'';
 		    $query.= ' WHERE name = "com_jtg" AND type = "Component"';
 		    $db->setQuery($query);
-		    $db->query();
+		    $db->execute();
 		 }
 		    return true;
 	}
@@ -353,7 +353,7 @@ class com_jtgInstallerScript
 			$db->setQuery('UPDATE #__extensions SET params = ' .
 				$db->quote( $paramsString ) .
 				' WHERE name = "com_jtg"' );
-				$db->query();
+				$db->execute();
 		}
 	}
 }

@@ -126,7 +126,7 @@ class JtgModelCat extends JModelLegacy
 			. ' AND ( checked_out = 0 OR ( checked_out = '.(int) $user->get('id').' ) )'
 			;
 			$this->_db->setQuery( $query );
-			if (!$this->_db->query()) {
+			if (!$this->_db->execute()) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
 			}
@@ -166,7 +166,7 @@ class JtgModelCat extends JModelLegacy
 			$this->_db->setQuery($query);
 			$rows = $this->_db->loadObjectList();
 
-			if(!$this->_db->query()) {
+			if(!$this->_db->execute()) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
 			}
@@ -179,7 +179,7 @@ class JtgModelCat extends JModelLegacy
 			$query = 'DELETE FROM #__jtg_cats'
 			. ' WHERE id IN ( '.$cids.' )';
 			$this->_db->setQuery( $query );
-			if(!$this->_db->query()) {
+			if(!$this->_db->execute()) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
 			}
@@ -227,7 +227,7 @@ class JtgModelCat extends JModelLegacy
 		;
 
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 
 		if ($db->getErrorNum()) {
 			echo $db->stderr();
@@ -307,7 +307,7 @@ class JtgModelCat extends JModelLegacy
 		. "\n WHERE id='" . $id . "'";
 
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 
 		if ($db->getErrorNum()) {
 			echo $db->stderr();

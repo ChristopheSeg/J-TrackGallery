@@ -37,7 +37,7 @@ class JtgControllerGeo extends JtgController
 			"jtgvisible='" . $visible . "' ";
 		$db = JFactory::getDBO();
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 		if ($db->getErrorNum())
 		{
 		    JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_DATABASE_ERROR_H'), 'Warning');

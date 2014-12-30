@@ -123,7 +123,7 @@ class JtgModelFiles extends JModelLegacy
 
 		$db = JFactory::getDBO();
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 
 		if ($db->getErrorNum()) {
 			echo $db->stderr();
@@ -375,7 +375,7 @@ class JtgModelFiles extends JModelLegacy
 			. ' AND ( checked_out = 0 OR ( checked_out = '.(int) $user->get('id').' ) )'
 			;
 			$this->_db->setQuery( $query );
-			if (!$this->_db->query()) {
+			if (!$this->_db->execute()) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
 			}
@@ -404,7 +404,7 @@ class JtgModelFiles extends JModelLegacy
 			. ' AND ( checked_out = 0 OR ( checked_out = '.(int) $user->get('id').' ) )'
 			;
 			$this->_db->setQuery( $query );
-			if (!$this->_db->query()) {
+			if (!$this->_db->execute()) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
 			}
@@ -434,7 +434,7 @@ class JtgModelFiles extends JModelLegacy
 			. ' AND ( checked_out = 0 OR ( checked_out = '.(int) $user->get('id').' ) )'
 			;
 			$this->_db->setQuery( $query );
-			if (!$this->_db->query()) {
+			if (!$this->_db->execute()) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
 			}
@@ -461,7 +461,7 @@ class JtgModelFiles extends JModelLegacy
 			$this->_db->setQuery($query);
 			$rows = $this->_db->loadObjectList();
 
-			if(!$this->_db->query()) {
+			if(!$this->_db->execute()) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
 			}
@@ -478,7 +478,7 @@ class JtgModelFiles extends JModelLegacy
 			// delete from DB
 			$query = 'DELETE FROM #__jtg_files WHERE id IN ( '.$cids.' )';
 			$this->_db->setQuery( $query );
-			if(!$this->_db->query()) {
+			if(!$this->_db->execute()) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
 			}
@@ -694,19 +694,19 @@ class JtgModelFiles extends JModelLegacy
 				$catid = JFactory::getApplication()->input->get('catid_'.$i, NULL,'array');
 				if ( $catid )
 
-				$catid = implode(",",$catid);
+				$catid = $catid ? implode(',',$catid) : '';
 				// $level = JRequest::getInt('level_'.$i);
 				$level = JFactory::getApplication()->input->get('level_'.$i, 0, 'array');
-				$level = implode(",",$level);
+				$level = $level ? implode(',',$level) : '';
 				$title = JFactory::getApplication()->input->get('title_'.$i);
 				$terrain = JFactory::getApplication()->input->get('terrain_'.$i, NULL,'array');
 				if ($terrain)
-				$terrain = implode(',', $terrain);
+				$terrain = $terrain ? implode(',',$terrain) : '';
 				else
 				$terrain = "";
 				// $desc = JFactory::getApplication()->input->get('desc_'.$i, '', 'raw');
-				$desc = $db->quote(implode(' ',JFactory::getApplication()->input->get('desc_'.$i, '', 'array') ) );
-				$desc = $this->parsedesc($desc);
+				
+				$desc = $db->getEscaped(implode(' ',JFactory::getApplication()->input->get('desc_'.$i, '', 'array') ) );
 				$file = JFactory::getApplication()->input->get('file_'.$i,'','raw');
 				$hidden = JFactory::getApplication()->input->get('hidden_'.$i);
 				$file_tmp = explode(DIRECTORY_SEPARATOR,$file);
@@ -822,7 +822,7 @@ class JtgModelFiles extends JModelLegacy
 					. "\n hidden='" . $hidden . "'";
 
 					$db->setQuery($query);
-					$db->query();
+					$db->execute();
 					if ($db->getErrorNum()) {
 						echo $db->stderr();
 						return false;
@@ -929,7 +929,7 @@ class JtgModelFiles extends JModelLegacy
 			. "\n iswp='" . $isWaypoint . "',"
 			. "\n isroute='" . $isRoute . "'";
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 			if ($db->getErrorNum()) {
 				echo $db->stderr();
 				return false;
@@ -969,18 +969,17 @@ class JtgModelFiles extends JModelLegacy
 		$user = JFactory::getUser();
 		// get the post data
 		$catid = JFactory::getApplication()->input->get('catid', NULL,'array');
-		$catid = implode(",",$catid);
+		$catid = $catid ? implode(',',$catid) : '';
 		// $level = JRequest::getInt('level');
 		$level = JFactory::getApplication()->input->get('level', 0, 'array');
-		$level = implode(",",$level);
+		$level = implode(',',$level);
 		$title = JFactory::getApplication()->input->get('title');
 		$terrain = JFactory::getApplication()->input->get('terrain', NULL, 'array');
 		if ($terrain)
-		$terrain = implode(',', $terrain);
+		$terrain = $terrain ? implode(',',$terrain) : '';
 		else
 		$terrain = "";
-		$desc = $db->quote(implode(' ',JFactory::getApplication()->input->get('description', '', 'array') ) );
-		$desc = $this->parsedesc($desc);
+		$desc = $db->getEscaped(implode(' ',JFactory::getApplication()->input->get('description', '', 'array') ) );
 		$file = JFactory::getApplication()->input->files->get('file');
 		$uid = JFactory::getApplication()->input->get('uid');
 		$date = date("Y-m-d");
@@ -1069,7 +1068,7 @@ class JtgModelFiles extends JModelLegacy
 		. "\n hidden='" . $hidden . "'"
 		;
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 		if ($db->getErrorNum()) {
 			JFile::delete($file);
 			return false;
@@ -1250,7 +1249,7 @@ class JtgModelFiles extends JModelLegacy
 			. "\n isroute='" . $isRoute . "'";
 
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 			if ($db->getErrorNum()) {
 				echo $db->stderr();
 				return false;
@@ -1301,10 +1300,10 @@ class JtgModelFiles extends JModelLegacy
 		// get the post data
 		$id = JRequest::getInt('id');
 		$catid = JFactory::getApplication()->input->get('catid', NULL,'array');
-		$catid = implode(",",$catid);
+		$catid = $catid ? implode(',',$catid) : '';
 		// TODOTODO $level = JRequest::getInt('level');
 		$level = JFactory::getApplication()->input->get('level', 0, 'array');
-		$level = implode(",",$level);
+		$level = implode(',',$level);
 
 		$title = JFactory::getApplication()->input->get('title');
 		$hidden = JFactory::getApplication()->input->get('hidden');
@@ -1329,10 +1328,8 @@ class JtgModelFiles extends JModelLegacy
 		$terrain = JFactory::getApplication()->input->get('terrain', NULL, 'array');
 		// ToDo: empty Terrain = bad
 		if ($terrain != "")
-		$terrain = implode(',', $terrain);
-		$desc = & $db->quote(implode(' ',JFactory::getApplication()->input->get('description', '', 'array') ) );
-		$desc = $this->parsedesc($desc);
-		//         $uid = $user->get('id');
+		$terrain = $terrain ? implode(',',$terrain) : '';
+		$desc = $db->getEscaped(implode(' ',JFactory::getApplication()->input->get('description', '', 'array') ) );
 		$uid = JFactory::getApplication()->input->get('uid');
 		if ( $date == "" )
 		$date = date("Y-m-d");
@@ -1375,7 +1372,7 @@ class JtgModelFiles extends JModelLegacy
 		. "\n WHERE id='" . $id . "'"
 		;
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 
 		if ($db->getErrorNum()) {
 			echo $db->stderr();
@@ -1384,10 +1381,5 @@ class JtgModelFiles extends JModelLegacy
 			return true;
 		}
 
-	}
-	function parsedesc($desc) {
-		$replace = array('"',"'");
-		$with = array('&#34;','&#39;');
-		return str_replace($replace,$with,$desc);
 	}
 }

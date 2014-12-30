@@ -110,7 +110,7 @@ class JtgModelMaps extends JModelLegacy
 			$cids = implode( ',', $cid );
 			$query = 'DELETE FROM #__jtg_maps WHERE id IN ( '.$cids.' )';
 			$this->_db->setQuery( $query );
-			if(!$this->_db->query()) {
+			if(!$this->_db->execute()) {
 				($this->_db->getErrorMsg());
 				return false;
 			}
@@ -253,7 +253,7 @@ class JtgModelMaps extends JModelLegacy
 			. ' WHERE id IN ( '.$cids.' )'
 			;
 			$this->_db->setQuery( $query );
-			if (!$this->_db->query()) {
+			if (!$this->_db->execute()) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
 			}
@@ -292,7 +292,7 @@ class JtgModelMaps extends JModelLegacy
 		. "\n code='" . $code . "'";
 		if($script) $query .= ",\n script='" . $script . "'";
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 
 		if ($db->getErrorNum())
 		die($db->_errorMsg);
@@ -346,7 +346,7 @@ class JtgModelMaps extends JModelLegacy
 		. "\n WHERE id IN (" . $id . ")";
 
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 
 		if ($db->getErrorNum())
 		die($db->_errorMsg);

@@ -136,7 +136,7 @@ Joomla.submitbutton = function(pressbutton)
 $max_images = $cfg->max_images;
 if(isset($this->id))
 {
-	$max_images = ( $this->max_images - $this->imgcount );
+	$max_images = ( $max_images - $this->imgcount );
 	if ( $max_images <= 0 ) $max_images = 0;
 }
 $accept = $this->cfg->type; // e.g. jpg,png,gif

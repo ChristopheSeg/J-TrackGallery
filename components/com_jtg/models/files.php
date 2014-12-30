@@ -291,18 +291,12 @@ class JtgModelFiles extends JModelLegacy
 		$cache = JFactory::getCache('com_jtg');
 		// get the post data
 		$catid = JFactory::getApplication()->input->get('catid', NULL, 'array');
-		if ($catid !== null)
-			$catid = implode(",", $catid);
-		else
-			$catid = "";
+		$catid = $catid ? implode(',', $catid) : '';
 		$level = JRequest::getInt('level', 4);
 		$title = JFactory::getApplication()->input->get('title');
 		$terrain = JFactory::getApplication()->input->get('terrain', NULL, 'array');
-		if ($terrain != NULL)
-			$terrain = implode(', ', $terrain);
-		else
-			$terrain = "";
-		$desc = $db->quote(implode(' ', JFactory::getApplication()->input->get('description', '', 'array')));
+		$terrain = $terrain ? implode(', ', $terrain) : '';
+		$desc = $db->getEscaped(implode(' ', JFactory::getApplication()->input->get('description', '', 'array')));
 		$file = JFactory::getApplication()->input->files->get('file');
 		$uid = $user->get('id');
 		$date = date("Y-m-d");
@@ -385,7 +379,7 @@ class JtgModelFiles extends JModelLegacy
 		;
 
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 
 		if ($db->getErrorNum())
 		{
@@ -515,7 +509,7 @@ class JtgModelFiles extends JModelLegacy
 					$newvote = (float) (round(($givenvotes / $count), 3));
 					$query = "UPDATE #__jtg_files SET" . " vote='" . $newvote . "'" . " WHERE id='" . $id . "'";
 					$db->setQuery($query);
-					if (! $db->query())
+					if (! $db->execute())
 					{
 						echo ($db->stderr());
 						return false;
@@ -527,7 +521,7 @@ class JtgModelFiles extends JModelLegacy
 		{ // save voting: 0
 			$query = "UPDATE #__jtg_files SET" . " vote='0'" . " WHERE id='" . $id . "'";
 			$db->setQuery($query);
-			if (! $db->query())
+			if (! $db->execute())
 			{
 				echo ($db->stderr());
 				return false;
@@ -562,7 +556,7 @@ class JtgModelFiles extends JModelLegacy
 
 			$query = "INSERT INTO #__jtg_votes SET" . "\n trackid='" . $id . "'," . "\n rating='" . $rate . "'";
 			$db->setQuery($query);
-			if (! $db->query())
+			if (! $db->execute())
 			{
 				echo ($db->stderr());
 				return false;
@@ -576,7 +570,7 @@ class JtgModelFiles extends JModelLegacy
 
 			$query = "UPDATE #__jtg_files SET" . " vote='" . $newvote . "'" . " WHERE id='" . $id . "'";
 			$db->setQuery($query);
-			if (! $db->query())
+			if (! $db->execute())
 			{
 				echo ($db->stderr());
 				return false;
@@ -609,7 +603,7 @@ class JtgModelFiles extends JModelLegacy
 			// delete from DB
 		$query = "DELETE FROM #__jtg_files" . "\n WHERE id='" . $id . "'";
 		$db->setQuery($query);
-		if ($db->query())
+		if ($db->execute())
 		{
 			return true;
 		}
@@ -640,10 +634,7 @@ class JtgModelFiles extends JModelLegacy
 
 		// get the post data
 		$catid = JFactory::getApplication()->input->get('catid', NULL, 'array');
-		if ($catid !== null)
-			$catid = implode(",", $catid);
-		else
-			$catid = "";
+		$catid = $catid ? implode(',', $catid) :  '';
 		$level = JRequest::getInt('level');
 		$title = JFactory::getApplication()->input->get('title');
 		$allimages = $this->getImages($id);
@@ -664,13 +655,13 @@ class JtgModelFiles extends JModelLegacy
 		}
 		$terrain = JFactory::getApplication()->input->get('terrain', NULL, 'array');
 		if ($terrain)
-			$terrain = implode(', ', $terrain);
+			$terrain = $terrain ? implode(', ', $terrain) : '';
 		else
-			$terrain = "";
+			$terrain = '';
 			// Joomla Jinput strips html tags!!
 			// Reference
 		// http://stackoverflow.com/questions/19426943/joomlas-jinput-strips-html-with-every-filter
-		$desc = $db->quote(implode(' ', JFactory::getApplication()->input->get('description', '', 'array')));
+		$desc = $db->getEscaped(implode(' ', JFactory::getApplication()->input->get('description', '', 'array')));
 		// $images = JFactory::getApplication()->input->files->get('images');
 		$jInput = JFactory::getApplication()->input;
 		$jFileInput = new jInput($_FILES);
@@ -709,7 +700,7 @@ class JtgModelFiles extends JModelLegacy
 				 "\n WHERE id='" . $id . "'";
 
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 
 		if ($db->getErrorNum())
 		{
@@ -781,6 +772,12 @@ class JtgModelFiles extends JModelLegacy
 		$editor_params = array(
 				'theme' => 'simple'
 		);
+		$params = array( 'smilies'=> '0' ,
+				'style'  => '1' ,
+				'layer'  => '0' ,
+				'table'  => '0' ,
+				'clear_entities'=>'0'
+		);
 		$user = JFactory::getUser();
 		$id = JRequest::getInt('id');
 		?>
@@ -831,7 +828,7 @@ class JtgModelFiles extends JModelLegacy
 			</tr>
 			<tr>
 				<td colspan='2'><label for='text'><?php echo JText::_('COM_JTG_TEXT'); ?>*</label>
-					<?php $editor->display( 'text', '', '400', '400', '80', '20', false, $params );?>
+					<?php $editor->display( 'text', '', '400', '400', '80', '20', false, 'text', $editor_params);?>
 				</td>
 			</tr>
 		<?php if($cfg->captcha == 1): ?>
@@ -880,7 +877,7 @@ class JtgModelFiles extends JModelLegacy
 				 "\n homepage='" . $homepage . "'," . "\n title='" . $title . "'," . "\n text='" . $text . "'," . "\n published='1'";
 
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 
 		// send autor email if set
 		if ($cfg->inform_autor == 1)

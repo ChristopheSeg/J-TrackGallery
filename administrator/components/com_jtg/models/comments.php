@@ -121,7 +121,7 @@ class JtgModelComments extends JModelLegacy
 				. ' WHERE id IN ( '.$cids.' )'
 			;
 			$this->_db->setQuery( $query );
-			if (!$this->_db->query()) {
+			if (!$this->_db->execute()) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
 			}
@@ -149,7 +149,7 @@ class JtgModelComments extends JModelLegacy
 			$query = 'DELETE FROM #__jtg_comments'
 				. ' WHERE id IN ( '.$cids.' )';
 			$this->_db->setQuery( $query );
-			if(!$this->_db->query()) {
+			if(!$this->_db->execute()) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
 			}
@@ -198,7 +198,7 @@ class JtgModelComments extends JModelLegacy
                     . "\n WHERE id='" . $id . "'"
                     ;
             $db->setQuery($query);
-            $db->query();
+            $db->execute();
 
             return true;
         }

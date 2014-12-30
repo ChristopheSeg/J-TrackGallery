@@ -149,7 +149,7 @@ class JtgModelConfig extends JModelLegacy
 		}
 		$db = JFactory::getDBO();
 		$db->setQuery($content);
-		$db->query();
+		$db->execute();
 
 		if ($db->getErrorNum())
 		return( ($db->stderr()));
