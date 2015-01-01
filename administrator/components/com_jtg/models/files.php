@@ -525,8 +525,7 @@ class JtgModelFiles extends JModelLegacy
 		$return = "\n";
 		$cfg = JtgHelper::getConfig();
 		$levels = explode("\n",$cfg->level);
-		array_unshift($levels,'dummy');
-		$levels[0] = JText::_('COM_JTG_SELECT');
+		array_unshift($levels, 'dummy');
 		$i = 0;
 		foreach($levels AS $level){
 			if ( trim($level) != "" ) 
@@ -541,7 +540,7 @@ class JtgModelFiles extends JModelLegacy
 		}
 		$size = count($levels);
 		if ( $size > 6) $size = 6;
-		return JHtml::_('select.genericlist', $levels, 'level[]', 'size="'.$size.'"', 'id', 'title', $selected);
+		return JHtml::_('select.genericlist', $levels, 'level', 'size="'.$size.'"', 'id', 'title', $selected);
 	}
 	/**
 	 *
@@ -692,12 +691,8 @@ class JtgModelFiles extends JModelLegacy
 			$import = JFactory::getApplication()->input->get('import_'.$i);
 			if ( $import !== null ) {
 				$catid = JFactory::getApplication()->input->get('catid_'.$i, NULL,'array');
-				if ( $catid )
-
 				$catid = $catid ? implode(',',$catid) : '';
-				// $level = JRequest::getInt('level_'.$i);
-				$level = JFactory::getApplication()->input->get('level_'.$i, 0, 'array');
-				$level = $level ? implode(',',$level) : '';
+				$level = JFactory::getApplication()->input->get('level_'.$i, 0, 'integer');
 				$title = JFactory::getApplication()->input->get('title_'.$i);
 				$terrain = JFactory::getApplication()->input->get('terrain_'.$i, NULL,'array');
 				if ($terrain)
@@ -970,9 +965,7 @@ class JtgModelFiles extends JModelLegacy
 		// get the post data
 		$catid = JFactory::getApplication()->input->get('catid', NULL,'array');
 		$catid = $catid ? implode(',',$catid) : '';
-		// $level = JRequest::getInt('level');
-		$level = JFactory::getApplication()->input->get('level', 0, 'array');
-		$level = implode(',',$level);
+		$level = JFactory::getApplication()->input->get('level', 0, 'integer');
 		$title = JFactory::getApplication()->input->get('title');
 		$terrain = JFactory::getApplication()->input->get('terrain', NULL, 'array');
 		if ($terrain)
@@ -1301,10 +1294,7 @@ class JtgModelFiles extends JModelLegacy
 		$id = JRequest::getInt('id');
 		$catid = JFactory::getApplication()->input->get('catid', NULL,'array');
 		$catid = $catid ? implode(',',$catid) : '';
-		// TODOTODO $level = JRequest::getInt('level');
-		$level = JFactory::getApplication()->input->get('level', 0, 'array');
-		$level = implode(',',$level);
-
+		$level = JFactory::getApplication()->input->get('level', 0, 'integer');
 		$title = JFactory::getApplication()->input->get('title');
 		$hidden = JFactory::getApplication()->input->get('hidden');
 		$published = JFactory::getApplication()->input->get('published');

@@ -142,7 +142,7 @@ if($this->id >= 1)
 			$trackdescription = $this->track->description;
 			else
 			$trackdescription = null;
-			echo $this->editor->display( 'description', $trackdescription, '100%', '200px', '15', '25', false ) ;
+			echo $this->editor->display( 'description', $trackdescription, '100%', '200px', '15', '25', false , NULL) ;
 			?>
 			</td>
 		</tr>

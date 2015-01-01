@@ -129,7 +129,7 @@ Joomla.submitbutton = function(pressbutton)
 		</tr>
 		<tr class="sectiontableentry<?php echo $k; $k=1-$k;?>">
 			<td><?php echo JText::_('COM_JTG_DESCRIPTION'); ?>* <?php echo JHtml::tooltip(JText::_('COM_JTG_TT_DESC'), JText::_('COM_JTG_TT_HEADER'),'tooltip.png'); ?></td>
-			<td><?php echo $this->editor->display( 'description', $description , '100%', '200', '15', '25', false ) ; ?></td>
+			<td><?php echo $this->editor->display( 'description', $description , '100%', '200', '15', '25', false , NULL) ; ?></td>
 		</tr>
 		<tr class="sectiontableentry<?php echo $k; $k=1-$k;?>">
 			<?php

@@ -81,14 +81,19 @@ if ( $userslistsize > 6 )
 {
 	$userslistsize = 6;
 }
-$toggle['level'] = ("<select name=\"level_all\" size=\"1\" onclick=\"setSelect('level');\">
-						<option value=\"0\">".JText::_('COM_JTG_SELECT') . "</option>
-						<option value=\"1\">1</option>
-						<option value=\"2\">2</option>
-						<option value=\"3\">3</option>
-						<option value=\"4\">4</option>
-						<option value=\"5\">5</option>
-					</select>\n");
+$cfg = JtgHelper::getConfig();
+$levels = explode("\n",$cfg->level);
+$toggle['level'] = "<select name=\"level_all\" size=\"6\" onclick=\"setSelect('level');\">
+						<option value=\"0\">".JText::_('COM_JTG_SELECT') . "</option>";
+$i = 1;
+foreach($levels AS $level){
+	if ( trim($level) != "" )
+	{
+		$toggle['level'] .= "						<option value=\"$i\">$i - " . JText::_(trim($level)) . "</option>";
+		$i++;
+	}
+}
+$toggle['level'] .= "					</select>\n";
 
 $table = ("		<tbody>\n
 			<tr class=\"row" . $row . "\">
@@ -120,13 +125,7 @@ foreach($files AS $file) {
 	$buttons = array(
 	"pagebreak",
 	"readmore");
-	$params = array(
-		'smilies'=> '1',
-		'style' => '1',
-		'layer' => '0',
-		'table' => '0',
-		'clear_entities'=>'0');
-	$lists['description'] = $editor->display( 'desc_'.$count, '', '100%', '200', '20', '20', $buttons, $params );
+	$lists['description'] = $editor->display( 'desc_'.$count, '', '100%', '200', '20', '20', $buttons, NULL, NULL );
 	$lists['access'] = $this->accesslevelForImport("access_" . $count);
 	$lists['uid'] = JHtml::_('select.genericlist', $userslist, 'uid_'.$count, ' size="'.$userslistsize.'"','id', 'title', $me->id);
 	// $me->id, 1, 'onclick="setSelect(\'uid\')"', 'name', 0 );
@@ -250,11 +249,11 @@ foreach($files AS $file) {
 					$tt = JText::_('COM_JTG_TT_ERR_MORETRACKS');
 					$color = "blue";
 				}
-				$table .= ($tt."<br><font color=\"" . $color . "\">" . $filename . "</font>: </span>\n");
+				$table .= ("<b><font color=\"red\">" . $tt . '</font></b><br>' . $filename . "\n");
 			}
 			else
 			{
-				$table .= ("<font color=\"black\">".JText::_('COM_JTG_TT_FILEOKAY') . ":</font> " . $filename . "\n");
+				$table .= ( JText::_('COM_JTG_TT_FILEOKAY') . '<br>' . $filename . "\n");
 			}
 
 			$table .= ("\n				<br><br><input id=\"title\" type=\"text\" name=\"title_" . $count . "\" value=\"" . $title . "\" size=\"30\" /></td>\n");
@@ -262,16 +261,19 @@ foreach($files AS $file) {
 
 		//Row: Schwierigkeitsgrad
 		{
-			$table .= ("				<td>
-					<select id=\"level_" . $count . "\" name=\"level_" . $count . "\" size=\"6\">
-						<option>".JText::_('COM_JTG_SELECT') . "</option>
-						<option value=\"1\">1</option>
-						<option value=\"2\">2</option>
-						<option value=\"3\">3</option>
-						<option value=\"4\">4</option>
-						<option value=\"5\">5</option>
-					</select>
-				</td>\n");
+			$table .= "				<td>\n";
+			$table .=  "					<select id=\"level_" . $count . "\" name=\"level_" . $count . "\" size=\"6\"\n>
+						<option>".JText::_('COM_JTG_SELECT') . "</option>\n";
+			$i = 1;
+			foreach($levels AS $level){
+				if ( trim($level) != "" )
+				{
+					$table .=  "<option value=\"$i\">$i - " . JText::_(trim($level)) . "</option>\n";
+					$i++;
+				}
+			}
+			$table .="					</select>
+				</td>\n";
 		}
 
 		//Row: Kategorien

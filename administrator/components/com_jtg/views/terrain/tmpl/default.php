@@ -28,13 +28,14 @@ JToolBarHelper::help( 'terrain',true );
     <table class="adminlist" cellpadding="1">
         <thead>
             <tr>
-                <th width="5%" class="title"><?php echo JText::_( 'COM_JTG_NUM' ); ?></th>
-                <th width="5%" class="title">
+                <th class="title"><?php echo JText::_( 'COM_JTG_NUM' ); ?></th>
+                <th class="title">
                     <input type="checkbox" name="toggle" value="" onclick="Joomla.checkAll(<?php echo count($this->rows); ?>);" />
                 </th>
-                <th width="60%" class="title"><?php echo JText::_( 'COM_JTG_TITLE'); ?></th>
-                <th width="21%" class="title"><?php echo JText::_( 'COM_JTG_PUBLISHED'); ?></th>
-                <th width="1%" class="title" nowrap="nowrap"><?php echo JText::_( 'COM_JTG_ID'); ?></th>
+                <th class="title"><?php echo JText::_( 'COM_JTG_TITLE'); ?></th>
+                <th class="title"><?php echo JText::_( 'COM_JTG_TRANSLATION'); ?></th>
+                <th class="title"><?php echo JText::_( 'COM_JTG_PUBLISHED'); ?></th>
+                <th class="title" nowrap="nowrap"><?php echo JText::_( 'COM_JTG_ID'); ?></th>
 	    </tr>
          </thead>
         <tfoot>
@@ -60,7 +61,8 @@ JToolBarHelper::help( 'terrain',true );
              <tr class="<?php echo "row$k "; echo($k? "row-odd":"row-even"); ?>">
                 <td align="center"><?php echo $this->pagination->getRowOffset( $i ); ?></td>
                 <td align="center"><?php echo $checked; ?></td>
-                <td align="center"><a href="javascript:void(0);" onclick="javascript:return listItemTask('cb<?php echo $i; ?>','editterrain')"><?php echo JText::_($row->title); ?></a></td>
+                <td align="center"><a href="javascript:void(0);" onclick="javascript:return listItemTask('cb<?php echo $i; ?>','editterrain')"><?php echo $row->title; ?></a></td>
+                <td align="center"><?php echo JText::_($row->title); ?></a></td>
                 <td align="center"><?php echo $published;?></td>
                 <td><?php echo $row->id; ?></td>
              </tr>
@@ -70,6 +72,9 @@ JToolBarHelper::help( 'terrain',true );
          ?>
          </tbody>
     </table>
+    <br>
+    <?php echo JText::_('COM_JTG_TERRAINS_HELP'); ?>
+    
     <input type="hidden" name="option" value="com_jtg" />
     <input type="hidden" name="task" value="" />
     <input type="hidden" name="boxchecked" value="0" />

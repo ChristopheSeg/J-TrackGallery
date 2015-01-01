@@ -49,7 +49,7 @@ JToolBarHelper::help( 'comments/form',true );
 		</tr>
 		<tr>
 			<td><?php echo JText::_('COM_JTG_COMMENT_TEXT'); ?></td>
-			<td><?php echo $this->editor->display( 'text', $this->comment->text , '500', '200', '100', '50', true ) ; ?></td>
+			<td><?php echo $this->editor->display( 'text', $this->comment->text , '500', '200', '100', '50', true , NULL) ; ?></td>
 		</tr>
 	</tbody>
 </table>

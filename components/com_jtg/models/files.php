@@ -292,7 +292,7 @@ class JtgModelFiles extends JModelLegacy
 		// get the post data
 		$catid = JFactory::getApplication()->input->get('catid', NULL, 'array');
 		$catid = $catid ? implode(',', $catid) : '';
-		$level = JRequest::getInt('level', 4);
+		$level = JFactory::getApplication()->input->get('level', 0, 'integer');
 		$title = JFactory::getApplication()->input->get('title');
 		$terrain = JFactory::getApplication()->input->get('terrain', NULL, 'array');
 		$terrain = $terrain ? implode(', ', $terrain) : '';
@@ -370,12 +370,27 @@ class JtgModelFiles extends JModelLegacy
 		// exit;
 		// }
 
-		$query = "INSERT INTO #__jtg_files SET" . "\n uid='" . $uid . "'," . "\n catid='" . $catid . "'," . "\n title='" . $title . "'," . "\n file='" .
-				 strtolower($filename) . "'," . "\n terrain='" . $terrain . "'," . "\n description='" . $desc . "'," . "\n published='" . $published .
-				 "'," . "\n date='" . $date . "'," . "\n start_n='" . $start_n . "'," . "\n start_e='" . $start_e . "'," . "\n distance='" . $distance .
-				 "'," . "\n ele_asc='" . round($gpsData->totalAscent, 0) . "'," . "\n ele_desc='" . round($gpsData->totalDescent, 0) . "'," .
-				 "\n level='" . $level . "'," . "\n access='" . $access . "'," . "\n hidden='" . $hidden . "'," . "\n istrack='" . $isTrack . "'," .
-				 "\n iswp='" . $isWaypoint . "'," . "\n isroute='" . $isRoute . "'," . "\n iscache='" . $isCache . "'";
+		$query = "INSERT INTO #__jtg_files SET" 
+		. "\n uid='" . $uid . "'," 
+		. "\n catid='" . $catid . "'," 
+		. "\n title='" . $title . "'," 
+		. "\n file='" .	strtolower($filename) . "'," 
+		. "\n terrain='" . $terrain . "'," 
+		. "\n description='" . $desc . "'," 
+		. "\n published='" . $published ."'," 
+		. "\n date='" . $date . "'," 
+		. "\n start_n='" . $start_n . "'," 		 
+		. "\n start_e='" . $start_e . "'," 
+		. "\n distance='" . $distance . "'," 
+		. "\n ele_asc='" . round($gpsData->totalAscent, 0) . "'," 
+		. "\n ele_desc='" . round($gpsData->totalDescent, 0) . "'," 
+		. "\n level='" . $level . "'," 
+		. "\n access='" . $access . "'," 
+		. "\n hidden='" . $hidden . "'," 
+		. "\n istrack='" . $isTrack . "'," 
+		. "\n iswp='" . $isWaypoint . "'," 
+		. "\n isroute='" . $isRoute . "'," 
+		. "\n iscache='" . $isCache . "'"
 		;
 
 		$db->setQuery($query);
@@ -635,7 +650,7 @@ class JtgModelFiles extends JModelLegacy
 		// get the post data
 		$catid = JFactory::getApplication()->input->get('catid', NULL, 'array');
 		$catid = $catid ? implode(',', $catid) :  '';
-		$level = JRequest::getInt('level');
+		$level = JFactory::getApplication()->input->get('level_'.$i, 0, 'integer');
 		$title = JFactory::getApplication()->input->get('title');
 		$allimages = $this->getImages($id);
 		$imgpath = JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'track_' . $id .
@@ -769,15 +784,6 @@ class JtgModelFiles extends JModelLegacy
 	{
 		JHtml::_('behavior.formvalidation');
 		$editor = JFactory::getEditor('tinymce');
-		$editor_params = array(
-				'theme' => 'simple'
-		);
-		$params = array( 'smilies'=> '0' ,
-				'style'  => '1' ,
-				'layer'  => '0' ,
-				'table'  => '0' ,
-				'clear_entities'=>'0'
-		);
 		$user = JFactory::getUser();
 		$id = JRequest::getInt('id');
 		?>
@@ -828,7 +834,7 @@ class JtgModelFiles extends JModelLegacy
 			</tr>
 			<tr>
 				<td colspan='2'><label for='text'><?php echo JText::_('COM_JTG_TEXT'); ?>*</label>
-					<?php $editor->display( 'text', '', '400', '400', '80', '20', false, 'text', $editor_params);?>
+					<?php $editor->display( 'text', '', '400', '400', '80', '20', false, NULL, NULL);?>
 				</td>
 			</tr>
 		<?php if($cfg->captcha == 1): ?>
