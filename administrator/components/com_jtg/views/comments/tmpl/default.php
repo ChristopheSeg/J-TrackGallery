@@ -38,8 +38,7 @@ else
 	<thead>
 		<tr>
 			<th width="5%" class="title"><?php echo JText::_( 'COM_JTG_NUM' ); ?></th>
-			<th width="5%" class="title"><input type="checkbox" name="toggle"
-				value="" onclick="Joomla.checkAll(<?php echo count($this->rows); ?>);" /></th>
+			<th width="5%" class="title"><input type="checkbox" onclick="Joomla.checkAll(this)" title="<?php echo JText::_( 'JGLOBAL_CHECK_ALL' ); ?>" value="" name="checkall-toggle"></th>
 			<th width="10%" class="title"><?php echo JText::_('COM_JTG_USER'); ?></th>
 			<th width="15%" class="title"><?php echo JText::_('COM_JTG_TRACK'); ?></th>
 			<th width="29%" class="title"><?php echo JText::_('COM_JTG_TITLE'); ?></th>

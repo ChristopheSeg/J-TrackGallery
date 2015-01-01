@@ -62,8 +62,8 @@ $link = JRoute::_('index.php?option=com_jtg&task=maps&controller=maps&layout=def
 				<th class="title" nowrap="nowrap"><?php
 //					echo JHtml::_('grid.sort', JText::_('COM_JTG_ID'), 'id', @$this->lists['order_Dir'], @$this->lists['order'], 'maps' );
 					echo JText::_('COM_JTG_ID');
-					?>:</th>
-				<th class="title"><input type="checkbox" name="toggle" value="" onclick="Joomla.checkAll(<?php echo $this->total; ?>);" /></th>
+					?></th>
+				<th class="title"><input type="checkbox" onclick="Joomla.checkAll(this)" title="<?php echo JText::_( 'JGLOBAL_CHECK_ALL' );?>" value="" name="checkall-toggle"></th>
 				<th class="title"><?php
 //					echo JHtml::_('grid.sort', JText::_('COM_JTG_NAME'), 'title', @$this->lists['order_Dir'], @$this->lists['order'], 'maps' );
 					echo JText::_('COM_JTG_NAME');

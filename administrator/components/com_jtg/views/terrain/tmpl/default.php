@@ -29,9 +29,7 @@ JToolBarHelper::help( 'terrain',true );
         <thead>
             <tr>
                 <th class="title"><?php echo JText::_( 'COM_JTG_NUM' ); ?></th>
-                <th class="title">
-                    <input type="checkbox" name="toggle" value="" onclick="Joomla.checkAll(<?php echo count($this->rows); ?>);" />
-                </th>
+                <th class="title"><input type="checkbox" onclick="Joomla.checkAll(this)" title="<?php echo JText::_( 'JGLOBAL_CHECK_ALL' ); ?>" value="" name="checkall-toggle"></th>
                 <th class="title"><?php echo JText::_( 'COM_JTG_TITLE'); ?></th>
                 <th class="title"><?php echo JText::_( 'COM_JTG_TRANSLATION'); ?></th>
                 <th class="title"><?php echo JText::_( 'COM_JTG_PUBLISHED'); ?></th>

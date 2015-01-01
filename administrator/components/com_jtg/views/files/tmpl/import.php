@@ -344,7 +344,7 @@ $toggle['level'] = ("<select name=\"level_all\" size=\"6\" onclick=\"setSelect('
 $table_header = ("	<table class=\"adminlist\" cellpadding=\"1\">
 		<thead>
 			<tr>
-				<th class=\"title\" width=\"1\"><input type=\"checkbox\" name=\"toggle\" value=\"\" onclick=\"Joomla.checkAll(" . $count . ");\" /><br>/ "
+				<th class=\"title\" width=\"1\"><input type=\"checkbox\" onclick=\"Joomla.checkAll(this)\" title=\"" . JText::_( 'JGLOBAL_CHECK_ALL' ) . "\" value=\"\" name=\"checkall-toggle\"><br>/ "
 					.JText::_('COM_JTG_DATE') . "</th>
 				<th class=\"title\" width=\"1\">".JText::_('COM_JTG_GPS_FILE') . "<br>/ ".JText::_('COM_JTG_TITLE') . "</th>
 				<th class=\"title\" width=\"1\">".JText::_('COM_JTG_LEVEL') . "</th>

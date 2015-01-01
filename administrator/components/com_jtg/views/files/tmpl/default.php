@@ -185,20 +185,8 @@ else
 {
 	$missingterrain = null;
 }
-/*
- * <input type="checkbox" name="toggle" value=""
-				onclick="Joomla.checkAll(<?php
-			echo count($this->rows); ?>);" />
- */
-if(JVERSION>=3.0) //Code support for joomla version greater than 3.0
-{
-	$checkall = JHtml::_('grid.checkall');
-}
-else 
-{
-	$checkall = "<input type=\"checkbox\" name=\"toggle\" value=\"\"
-				onclick=\"Joomla.checkAll(". count($this->rows) . ");\" />";
-}
+
+$checkall = "<input type=\"checkbox\" onclick=\"Joomla.checkAll(this)\" title=\"" . JText::_( 'JGLOBAL_CHECK_ALL' ) . "\" value=\"\" name=\"checkall-toggle\">";	
 
 ?>
 	<thead>
