@@ -828,13 +828,13 @@ class JtgModelFiles extends JModelLegacy
 					maxlength='50' /></td>
 			</tr>
 			<tr>
-				<td><label for='title'><?php echo JText::_('COM_JTG_TITLE'); ?>*</label></td>
+				<td><label for='title'><?php echo JText::_('COM_JTG_COMMENT_TITLE'); ?>*</label></td>
 				<td><input type='text' name='title' id='title' size='40' value=''
 					class='required' maxlength='80' /></td>
 			</tr>
 			<tr>
-				<td colspan='2'><label for='text'><?php echo JText::_('COM_JTG_TEXT'); ?>*</label>
-					<?php $editor->display( 'text', '', '400', '400', '80', '20', false, NULL, NULL);?>
+				<td colspan='2'><label for='text'><?php echo JText::_('COM_JTG_COMMENT_TEXT'); ?>*</label>
+					<?php echo $editor->display( 'text', '', '100%', '100', '80', '10', false, NULL, NULL);?>
 				</td>
 			</tr>
 		<?php if($cfg->captcha == 1): ?>

@@ -149,6 +149,7 @@ if($this->config->terms == "1") {
 			</tr>
 		</tbody>
 	</table>
+	&nbsp;
 	<?php
 
 // Configuration END
@@ -165,6 +166,7 @@ if($this->config->terms == "1") {
 			</tr>
 		</tbody>
 	</table>
+	&nbsp;
 <?php
 	echo '<br><br>' . JText::_('COM_JTG_LEVELCONF_HELP') . '<br>';
 
@@ -211,6 +213,7 @@ echo JHtml::_('tabs.panel', JText::_('COM_JTG_MAPS'), 'Maps');
 			</tr>			
 		</tbody>
 	</table>
+	&nbsp;
 	<?php
 // Viewing options BEGIN
 echo JHtml::_('tabs.panel', JText::_('COM_JTG_DISPLAY'), 'display');
@@ -252,6 +255,7 @@ echo JHtml::_('tabs.panel', JText::_('COM_JTG_DISPLAY'), 'display');
 			</tr>
 		</tbody>
 	</table>
+	&nbsp;
 	<?php
 
 // Viewing options END
@@ -282,6 +286,7 @@ echo JHtml::_('tabs.panel', JText::_('COM_JTG_COMMENTS'), 'display');
 		<td><?php echo $this->lists['order']; ?></td>
 	</tr>
 </table>
+&nbsp;
 <?php
 
 // Comments END
@@ -329,6 +334,7 @@ if ( ($this->config->approach == "cm") OR ($this->config->approach == "cmkey") )
 }
 ?>
 	</table>
+	&nbsp;
 	<?php
 	echo JHtml::_('tabs.end');
 }

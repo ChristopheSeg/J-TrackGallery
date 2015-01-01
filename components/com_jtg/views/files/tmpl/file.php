@@ -100,8 +100,8 @@ if ($maySeeSingleFile === true) {
 	    }
 	    else
 	    {
-		// TODO is this JQuery necessary (conflicting with 
-		// JHtml::script('jquery.js', 'components/com_jtg/assets/js/', false);
+		// TODO is this JQuery necessary (conflicting with )
+		JHtml::script('jquery.js', 'components/com_jtg/assets/js/', false);
 	    }
 	    ?>
 	    <!-- begin Charts -->

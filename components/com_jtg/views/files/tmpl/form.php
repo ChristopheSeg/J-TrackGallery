@@ -167,6 +167,7 @@ $tt= JText::sprintf('COM_JTG_ALLOWED_FILETYPES', implode(", ",$accept)) . '  ' .
 	if(isset($this->id)) echo '<input type="hidden" name="id" value="'.$this->id.'" />';
 	?> <input type="hidden" name="task" value="" />
 <div>
+<br>
 <button class="button" type="button" onclick="<?php echo $button; ?>"><?php echo $buttontext; ?>
 </button>
 <button class="button" type="button" onclick="submitbutton('reset')"><?php echo JText::_('COM_JTG_RESET') ?>

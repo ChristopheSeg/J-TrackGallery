@@ -559,7 +559,7 @@ class JtgModelFiles extends JModelLegacy
 			if ( ( ($nosubcats) AND ($v->parent_id == 0) ) OR (!$nosubcats) )
 			{
 				$v->title = JText::_($v->title);
-				$v->name = $v->title; // TODO  unnecessary
+				$v->name = $v->title; // TODO  unnecessary ?
 				$pt	= $v->parent_id;
 				$list	= @$children[$pt] ? $children[$pt] : array();
 				array_push( $list, $v );
@@ -584,8 +584,6 @@ class JtgModelFiles extends JModelLegacy
 		);
 		$nullcat = JArrayHelper::toObject($nullcat);
 		array_unshift($rows,$nullcat);
-		// print_r($rows);die();
-
 		return $rows;
 	}
 
@@ -699,8 +697,6 @@ class JtgModelFiles extends JModelLegacy
 				$terrain = $terrain ? implode(',',$terrain) : '';
 				else
 				$terrain = "";
-				// $desc = JFactory::getApplication()->input->get('desc_'.$i, '', 'raw');
-				
 				$desc = $db->getEscaped(implode(' ',JFactory::getApplication()->input->get('desc_'.$i, '', 'array') ) );
 				$file = JFactory::getApplication()->input->get('file_'.$i,'','raw');
 				$hidden = JFactory::getApplication()->input->get('hidden_'.$i);

@@ -37,14 +37,14 @@ else
 <table class="adminlist" cellpadding="1">
 	<thead>
 		<tr>
-			<th width="5%" class="title"><?php echo JText::_( 'COM_JTG_NUM' ); ?></th>
-			<th width="5%" class="title"><input type="checkbox" onclick="Joomla.checkAll(this)" title="<?php echo JText::_( 'JGLOBAL_CHECK_ALL' ); ?>" value="" name="checkall-toggle"></th>
-			<th width="10%" class="title"><?php echo JText::_('COM_JTG_USER'); ?></th>
-			<th width="15%" class="title"><?php echo JText::_('COM_JTG_TRACK'); ?></th>
-			<th width="29%" class="title"><?php echo JText::_('COM_JTG_TITLE'); ?></th>
-			<th width="10%" class="title"><?php echo JText::_('COM_JTG_DATE'); ?></th>
-			<th width="10%" class="title"><?php echo JText::_( 'COM_JTG_PUBLISHED'); ?></th>
-			<th width="2%" class="title" nowrap="nowrap"><?php echo JText::_( 'COM_JTG_ID'); ?></th>
+			<th class="title"><?php echo JText::_( 'COM_JTG_NUM' ); ?></th>
+			<th class="title"><input type="checkbox" onclick="Joomla.checkAll(this)" title="<?php echo JText::_( 'JGLOBAL_CHECK_ALL' ); ?>" value="" name="checkall-toggle"></th>
+			<th class="title"><?php echo JText::_('COM_JTG_USER'); ?></th>
+			<th class="title"><?php echo JText::_('COM_JTG_TRACK'); ?></th>
+			<th class="title"><?php echo JText::_('COM_JTG_COMMENT_TITLE'); ?></th>
+			<th class="title"><?php echo JText::_('COM_JTG_DATE'); ?></th>
+			<th class="title"><?php echo JText::_( 'COM_JTG_PUBLISHED'); ?></th>
+			<th class="title" nowrap="nowrap"><?php echo JText::_( 'COM_JTG_ID'); ?></th>
 		</tr>
 	</thead>
 	<tfoot>
@@ -92,4 +92,6 @@ if ($n==0)
 <input type="hidden" name="option" value="com_jtg" /> <input
 	type="hidden" name="task" value="" /> <input type="hidden"
 	name="boxchecked" value="0" /> <input type="hidden" name="controller"
-	value="comments" /> <?php echo JHtml::_( 'form.token' ); ?></form>
+	value="comments" /> <?php echo JHtml::_( 'form.token' ); ?>
+	&nbsp;
+	</form>

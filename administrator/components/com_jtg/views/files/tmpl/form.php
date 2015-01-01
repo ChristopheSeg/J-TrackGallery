@@ -30,7 +30,9 @@ endif;
 JToolBarHelper::help( 'files/form',true );
 $document = JFactory::getDocument();
 $document->addStyleSheet(JUri::base().'components/com_jtg/template.css');
-// add jtg_map stylesheet
+	$document->addStyleSheet('http://dev.openlayers.org/theme/default/style.css');
+
+	// add jtg_map stylesheet
 $cfg = JtgHelper::getConfig();
 $tmpl = ($cfg->template <> "") ? $cfg->template : 'default';
 $document->addStyleSheet(JUri::root().'components/com_jtg/assets/template/'.$tmpl.'/jtg_map_style.css');

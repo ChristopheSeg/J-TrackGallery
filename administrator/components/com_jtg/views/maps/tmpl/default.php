@@ -142,5 +142,5 @@ for ($i=0, $n=count( $this->maps ); $i < $n; $i++) {
 	<input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>" />
 	<input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>" />
 	    <?php echo JHtml::_( 'form.token' ); ?>
-	
+	&nbsp;
 </form>

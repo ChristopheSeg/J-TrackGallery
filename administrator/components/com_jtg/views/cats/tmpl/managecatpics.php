@@ -65,4 +65,6 @@ JToolBarHelper::help( 'cats/managecatpics',true );
 	<input type="hidden" name="boxchecked" value="0" />
 	<input type="hidden" name="controller" value="cats" />
 	<?php echo JHtml::_( 'form.token' ); ?>
+	&nbsp;
 </form>
+

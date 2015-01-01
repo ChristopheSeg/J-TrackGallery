@@ -73,4 +73,5 @@ $link = ".." . DIRECTORY_SEPARATOR . "components" . DIRECTORY_SEPARATOR . "com_j
     <input type="hidden" name="option" value="com_jtg" />
     <input type="hidden" name="id" value="1" />
     <input type="hidden" name="task" value="" />
+    &nbsp;
 </form>

@@ -42,7 +42,7 @@ JToolBarHelper::help( 'comments/form',true );
 			</td>
 		</tr>
 		<tr>
-			<td><?php echo JText::_('COM_JTG_TITLE'); ?></td>
+			<td><?php echo JText::_('COM_JTG_COMMENT_TITLE'); ?></td>
 			<td>
 				<input type="text" name="title" value="<?php echo $this->comment->title; ?>" size="30" />
 			</td>

@@ -31,17 +31,17 @@ $ordering = ($this->lists['order'] == 'ordering');
 <table class="adminlist" cellpadding="1">
 	<thead>
 		<tr>
-			<th width="5%" class="title"><?php echo JText::_( 'COM_JTG_NUM' ); ?></th>
-			<th width="5%" class="title" nowrap="nowrap"><?php echo JText::_( 'COM_JTG_ID'); ?></th>
-			<th width="5%" class="title"><input type="checkbox" onclick="Joomla.checkAll(this)" title="<?php echo JText::_( 'JGLOBAL_CHECK_ALL' );?>" value="" name="checkall-toggle"></th>
-			<th width="5%" class="title"><?php echo JText::_( 'COM_JTG_IMAGE' ); ?></th>
-			<th width="20%" class="title"><?php echo JText::_( 'COM_JTG_CAT' ); ?></th>
-			<th width="40%" class="title"><?php echo JText::_( 'COM_JTG_DESCRIPTION' ); ?></th>
+			<th class="title"><?php echo JText::_( 'COM_JTG_NUM' ); ?></th>
+			<th class="title" nowrap="nowrap"><?php echo JText::_( 'COM_JTG_ID'); ?></th>
+			<th class="title"><input type="checkbox" onclick="Joomla.checkAll(this)" title="<?php echo JText::_( 'JGLOBAL_CHECK_ALL' );?>" value="" name="checkall-toggle"></th>
+			<th class="title"><?php echo JText::_( 'COM_JTG_IMAGE' ); ?></th>
+			<th class="title"><?php echo JText::_( 'COM_JTG_CAT' ); ?></th>
+			<th class="title"><?php echo JText::_( 'COM_JTG_DESCRIPTION' ); ?></th>
 			<?php if ( $ordering !== false ) { ?>
-			<th width="10%" class="order"><?php echo JText::_( 'COM_JTG_ORDER'); ?> <?php if ($ordering) echo JHtml::_('grid.order', $this->rows ); ?>
+			<th class="order"><?php echo JText::_( 'COM_JTG_ORDER'); ?> <?php if ($ordering) echo JHtml::_('grid.order', $this->rows ); ?>
 			</th>
 			<?php } ?>
-			<th width="10%" class="title"><?php echo JText::_( 'COM_JTG_PUBLISHED'); ?></th>
+			<th class="title"><?php echo JText::_( 'COM_JTG_PUBLISHED'); ?></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -92,4 +92,5 @@ $ordering = ($this->lists['order'] == 'ordering');
 <input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>" />
 <input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>" />
  <?php echo JHtml::_( 'form.token' ); ?>
+ &nbsp;
 </form>

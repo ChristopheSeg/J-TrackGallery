@@ -427,9 +427,8 @@ class JtgViewFiles extends JViewLegacy
 		$cfg = JtgHelper::getConfig();
 		$editor = JFactory::getEditor();
 		$model = $this->getModel();
-		$cats = $model->getCats(true,'COM_JTG_SELECT',-1);
+		$cats = $cats = $model->getCats(0,'COM_JTG_SELECT',0,0);
 		$terrain = $model->getTerrain("*",true," WHERE published=1 ");
-		// $levels= ;
 		$user 	= JFactory::getUser();
 		$uid = $user->get('id');
 		$yesnolist = array(
@@ -445,7 +444,7 @@ class JtgViewFiles extends JViewLegacy
 			$access = $model->getAccess($id);
 			$size = count($cats);
 			if ( $size > 6) $size = 6;
-			$lists['cats']		= JHtml::_('select.genericlist', $cats, 'catid[]', 'size="'.$size.'" multiple="multiple"', 'id', 'treename', 0 );
+			$lists['cats']		= JHtml::_('select.genericlist', $cats, 'catid[]', 'size="'.$size.'" multiple="multiple"', 'id', 'treename');
 			$size = count($terrain);
 			if ( $size > 6) $size = 6;
 			$lists['terrain']	= JHtml::_('select.genericlist', $terrain, 'terrain[]', 'multiple="multiple" size="'.$size.'"', 'id', 'title', 0 );
@@ -477,7 +476,7 @@ class JtgViewFiles extends JViewLegacy
 //			if ( $error === true ) $error = "<font color=\"red\">" . JText::_('Error') . ": " . $track->terrain . "</font><br />";
 			$size = min( count($cats), 6);
 			$trackids = explode(",",$track->catid);
-			$lists['cats']		= JHtml::_('select.genericlist', $cats, 'catid[]', 'size="'.$size.'" multiple="multiple"', 'id', 'title', $trackids, '', true);
+			$lists['cats']		= JHtml::_('select.genericlist', $cats, 'catid[]', 'size="'.$size.'" multiple="multiple"', 'id', 'treename', $trackids, '', true);
 			$size = min( count($terrain), 6) ;
 			$lists['terrain']	= $error.JHtml::_('select.genericlist', $terrain, 'terrain[]', 'multiple="multiple" size="'.$size.'"', 'id', 'title', $terrainlist );
 			//			$row->access = $access;

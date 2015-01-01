@@ -332,15 +332,7 @@ foreach($files AS $file) {
  echo JText::_('COM_JTG_DESCRIPTION');
  echo JText::_('COM_JTG_IMAGES');
  echo JText::_('COM_JTG_TERMS');*/
-$toggle = array();
-$toggle['level'] = ("<select name=\"level_all\" size=\"6\" onclick=\"setSelect('level');\">
-						<option>".JText::_('COM_JTG_SELECT') . "</option>
-						<option value=\"1\">1</option>
-						<option value=\"2\">2</option>
-						<option value=\"3\">3</option>
-						<option value=\"4\">4</option>
-						<option value=\"5\">5</option>
-					</select>\n");
+
 $table_header = ("	<table class=\"adminlist\" cellpadding=\"1\">
 		<thead>
 			<tr>
