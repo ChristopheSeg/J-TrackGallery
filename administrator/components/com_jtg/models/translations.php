@@ -65,26 +65,25 @@ class JtgModelTranslations extends JModelLegacy
 			{
 				JFolder::create($path);
 			}
+			$written = false;
 			if (!JFile::exists($file))
 			{
 				$buffer="; These are additional translation strings added by users
 ; They may be used in Front-end AND Back-end";
 				$iswritable = JPath::getPermissions($path);
 				$iswritable = $iswritable[1];
-				if ( ( JPath::canChmod($path) ) AND  ( $iswritable == "w" ) )
+				if ($iswritable == "w" )
 				{
-					JFile::write( $file, $buffer );
+					$written = JFile::write( $file, $buffer );
 				}
 			}
-			if (JFile::exists($file)) // it should exist now
+			if (JFile::exists($file) or $written) // it should exist now
 			{
 				$iswritable = JPath::getPermissions($file);
 				$iswritable = $iswritable[1];
 				$content = file_get_contents($file);
 				$text = explode("\n",$content);
-				foreach ($text as $val)
-				{ 
-					if ($iswritable == "w" )
+				if ($iswritable == "w" )
 					{
 						$header_color = "green";
 						$header_desc = JText::_('COM_JTG_WRITABLE');
@@ -93,7 +92,6 @@ class JtgModelTranslations extends JModelLegacy
 						$header_color = "red";
 						$header_desc = JText::_('COM_JTG_UNWRITABLE');
 					}
-				}
 			} 
 			else 
 			{
