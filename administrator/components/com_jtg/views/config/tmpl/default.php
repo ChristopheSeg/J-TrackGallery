@@ -25,7 +25,6 @@ JHtml::_('behavior.tooltip');
 	<?php
 //	$tabs	= JPane::getInstance('tabs');
 	jimport( 'joomla.html.html.tabs' );
-	// add style for horizontal menu in Joomla 3.x
 	$document = JFactory::getDocument();
 	$style = '
 		dt.tabs h3 
@@ -262,7 +261,7 @@ echo JHtml::_('tabs.panel', JText::_('COM_JTG_DISPLAY'), 'display');
 
 // Comments BEGIN
 
-echo JHtml::_('tabs.panel', JText::_('COM_JTG_COMMENTS'), 'display');
+echo JHtml::_('tabs.panel', JText::_('COM_JTG_COMMENTS'), 'comments');
 ?>
 <table class="admintable">
 	<tr>
@@ -297,7 +296,7 @@ echo JHtml::_('tabs.panel', JText::_('COM_JTG_COMMENTS'), 'display');
 // Approach BEGIN
 if ($this->config->approach != "no") {
 //	die();
-echo JHtml::_('tabs.panel', JText::_('COM_JTG_APPROACH'), 'display');
+echo JHtml::_('tabs.panel', JText::_('COM_JTG_APPROACH'), 'approach');
 ?>
 	<table class="admintable">
 <?php

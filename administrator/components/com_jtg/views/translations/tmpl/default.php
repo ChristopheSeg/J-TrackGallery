@@ -17,40 +17,93 @@ defined('_JEXEC') or die('Restricted access');
 JToolBarHelper::title(JText::_('COM_JTG_TRANSLATIONS'), 'categories.png');
 JToolBarHelper::save('saveLanguages', $alt='COM_JTG_SAVE', 'save.png' );
 JToolBarHelper::help( 'translations',true );
+
+// TODO 
+jimport( 'joomla.html.html.tabs' );
+$document = JFactory::getDocument();
+$style = '
+dt.tabs h3
+{
+float:left;
+margin: 0;
+margin-right: 10px;
+}
+div.current {
+clear: both;
+}
+dl.tabs {
+float: left;
+margin: 10px 0 -1px 0;
+z-index: 50;
+}
+
+dl.tabs dt {
+float: left;
+padding: 4px 10px;
+border: 1px solid #ccc;
+margin-left: 3px;
+background: #e9e9e9;
+color: #666;
+}
+
+dl.tabs dt.open {
+background: #F9F9F9;
+border-bottom: 1px solid #f9f9f9;
+z-index: 100;
+color: #000;
+}
+
+div.current {
+clear: both;
+border: 1px solid #ccc;
+padding: 10px;
+}
+
+div.current dd {
+padding: 0;
+margin: 0;
+}
+dl.tabs h3{
+font-size:1.0em;
+}
+dl#content-pane.tabs {
+margin: 1px 0 0 0;
+}
+';
+$document->addStyleDeclaration( $style );
+$options = array(
+		'onActive' => 'function(title, description){
+		description.setStyle("display", "block");
+		title.addClass("open").removeClass("closed");
+}',
+		'onBackground' => 'function(title, description){
+		description.setStyle("display", "none");
+		title.addClass("closed").removeClass("open");
+}',
+		'startOffset' => 0,  // 0 starts on the first tab, 1 starts the second, etc...
+		'useCookie' => true, // this must not be a string. Don't use quotes.
+);
+
+
 ?>
 <form action="index.php" method="post" name="adminForm" id="adminForm">
-	<table class="adminlist" cellpadding="1">
-		<thead>
-			<tr>
 <?php
-foreach ($this->languages as $lang) {
-?>
-				<th width="1%" class="title"><?php echo $lang['header']; ?></th>
-<?php
+echo JHtml::_('tabs.start', 'tab_group_id', $options);
+foreach ($this->languages as $lang) 
+{
+	echo JHtml::_('tabs.panel', $lang['tag'], $lang['tag']);
+	// <table> is necessary in J!2.5 (not J!3) for proper tab vertical size
+	echo '<table><tr><td>' . $lang['header'].'<br>';
+	?>
+		<textarea name="<?php echo $lang['tag']; ?>" cols="150" rows="<?php echo $lang['rows']; ?>"><?php echo $lang['value']; ?></textarea>
+		<br>&nbsp;
+		</td></tr></table>
+	<?php
 }
+echo JHtml::_('tabs.end');
 ?>
-				<th class="title">
-<!--				blank-->
-				</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-<?php
-foreach ($this->languages as $lang) {
-?>
-				<td class="title" valign="top">
-					<textarea name="<?php echo $lang['tag']; ?>" cols="<?php echo $lang['cols']; ?>" rows="<?php echo $lang['rows']; ?>"><?php echo $lang['value']; ?></textarea>
-				</td>
-<?php
-}
-?>
-				<td class="title">
-<!--				blank-->
-				</td>
-			</tr>
-		</tbody>
-	</table>
+
+
     <input type="hidden" name="option" value="com_jtg" />
     <input type="hidden" name="task" value="" />
     <input type="hidden" name="boxchecked" value="0" />

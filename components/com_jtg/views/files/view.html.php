@@ -243,11 +243,9 @@ class JtgViewFiles extends JViewLegacy
 			}
 		}
 
-		$size = count($row);
-		if ( $size > 6 ) $size = 6;
+		$size =  min( count($row), 6);
 		$lists['content'] = JHtml::_('select.genericlist', $row, 'catid[]', 'multiple="multiple" size="'.$size.'"', 'id', 'title', $catid);
-		$size = count($terrain);
-		if ( $size > 6 ) $size = 6;
+		$size =  min( count($terrain), 6);
 		$lists['terrain'] = JHtml::_('select.genericlist', $terrain, 'terrain[]', 'multiple="multiple" size="'.$size.'"', 'id', 'title', $selterrain);
 		//			$lists['access'] = JHtml::_('select.genericlist', $access, 'access', 'size="4"', 'id', 'text', $track->access);
 		$lists['access'] = JtgHelper::getAccessList($track->access);

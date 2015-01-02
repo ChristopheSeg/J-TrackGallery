@@ -29,13 +29,17 @@ class JtgModelTranslations extends JModelLegacy
 		jimport('joomla.filesystem.file');
 		JSession::checkToken() or die( 'Invalid Token' );
 		$languages = $this->getRawLanguages();
+		$written = true;
 		foreach ($languages as $lang) {
-			$file = JPATH_SITE . '/images/jtrackgallery/language/' . $lang['tag'] . DIRECTORY_SEPARATOR . $lang['tag'] . DIRECTORY_SEPARATOR ."com_jtg_additional.ini";
-			$inhalt = JFactory::getApplication()->input->get( $lang['tag'] );
+			$file = JPATH_SITE . '/images/jtrackgallery/language/' . $lang['tag'] . DIRECTORY_SEPARATOR . $lang['tag'] . ".com_jtg_additional.ini";
+			$inhalt = JFactory::getApplication()->input->get( $lang['tag'], '', 'raw' );
+			$inhalt = str_replace('\"', '"', $inhalt);
 			if(!JFile::write( $file, $inhalt ))
-			return false;
+			{
+				$written = false;
+			}
 		}
-		return true;
+		return $written;
 	}
 
 	function getRawLanguages() {
@@ -46,22 +50,25 @@ class JtgModelTranslations extends JModelLegacy
 
 	function getLanguages() {
 		jimport('joomla.filesystem.file');
+		jimport('joomla.filesystem.folder');
 		$languages = $this->getRawLanguages();
 		$newlanguages = array();
 		foreach ($languages as $lang) {
 			$rows = 5;
-			$cols = 10;
 			$newlanguages[$lang['tag']] = array();
 			$newlanguages[$lang['tag']]['name'] = $lang['name'];
 			$newlanguages[$lang['tag']]['tag'] = $lang['tag'];
-			$path = JPATH_SITE . '/images/jtrackgallery/language/' . $lang['tag'] . DIRECTORY_SEPARATOR;
-			$file = $path . $lang['tag'] . DIRECTORY_SEPARATOR ."com_jtg_additional.ini";
+			$path = JPATH_SITE . '/images/jtrackgallery/language/' . $lang['tag'] . '/';
+			$file = $path . $lang['tag'] . ".com_jtg_additional.ini";
 			$newlanguages[$lang['tag']]['file'] = $file;
+			if (!JFolder::exists($path)) 
+			{
+				JFolder::create($path);
+			}
 			if (!JFile::exists($file))
 			{
 				$buffer="; These are additional translation strings added by users
-; They may be used in Front-end AND Back-end
-";
+; They may be used in Front-end AND Back-end";
 				$iswritable = JPath::getPermissions($path);
 				$iswritable = $iswritable[1];
 				if ( ( JPath::canChmod($path) ) AND  ( $iswritable == "w" ) )
@@ -69,38 +76,35 @@ class JtgModelTranslations extends JModelLegacy
 					JFile::write( $file, $buffer );
 				}
 			}
-			if (JFile::exists($file))
+			if (JFile::exists($file)) // it should exist now
 			{
+				$iswritable = JPath::getPermissions($file);
+				$iswritable = $iswritable[1];
 				$content = file_get_contents($file);
 				$text = explode("\n",$content);
-				foreach ($text as $val) { // find out max line lengh
-					if ( strlen($val) > $cols)
-					$cols = strlen($val);
+				foreach ($text as $val)
+				{ 
+					if ($iswritable == "w" )
+					{
+						$header_color = "green";
+						$header_desc = JText::_('COM_JTG_WRITABLE');
+					} else 
+					{
+						$header_color = "red";
+						$header_desc = JText::_('COM_JTG_UNWRITABLE');
+					}
 				}
-				if (1 == 1)// ( JPath::canChmod($file) )
-				{
-					$header_color = "green";
-					$header_desc = JText::_('COM_JTG_WRITABLE');
-				} else {
-					$header_color = "red";
-					$header_desc = JText::_('COM_JTG_UNWRITABLE');
-				}
-			} else {
-				if ( ( JPath::canChmod($path) ) AND  ( $iswritable == "w" ) )
-				{
-					$header_color = "green";
-					$header_desc = JText::_('COM_JTG_WRITABLE');
-				} else {
-					$header_color = "red";
-					$header_desc = JText::_('COM_JTG_UNWRITABLE');
-				}
+			} 
+			else 
+			{
+				$header_color = "red";
+				$header_desc = JText::_('COM_JTG_UNWRITABLE');
 				$content = JText::_('COM_JTG_UNWRITABLE');
 			}
 			$newlanguages[$lang['tag']]['header'] = $lang['name'] . "<br /><font color=\"" . $header_color . "\"><small>(" . $header_desc . ")</small></font>";
 			$size = substr_count($content,"\n");
 			$rows = $size + $rows;
 			$newlanguages[$lang['tag']]['rows'] = $rows;
-			$newlanguages[$lang['tag']]['cols'] = $cols + 2;
 			$newlanguages[$lang['tag']]['value'] = $content;
 		}
 		return $newlanguages;

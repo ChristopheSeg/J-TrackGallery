@@ -46,8 +46,7 @@ class JtgViewFiles extends JViewLegacy
 		$size = 1;
 		else
 		{
-			$size = count($groups);
-			if ( $size > 6 ) $size = 6;
+			$size =  min( count($groupss), 6);
 		}
 		$access = JHtml::_('select.genericlist', $groups, $name, 'class="inputbox" size="'.$size.'" '.$js, 'value', 'text', 0, '', 1 );
 
@@ -442,11 +441,9 @@ class JtgViewFiles extends JViewLegacy
 			$id = 0;
 			$track = $model->getFile($id);
 			$access = $model->getAccess($id);
-			$size = count($cats);
-			if ( $size > 6) $size = 6;
+			$size =  min( count($cats), 6);
 			$lists['cats']		= JHtml::_('select.genericlist', $cats, 'catid[]', 'size="'.$size.'" multiple="multiple"', 'id', 'treename');
-			$size = count($terrain);
-			if ( $size > 6) $size = 6;
+			$size =  min( count($terrain), 6);
 			$lists['terrain']	= JHtml::_('select.genericlist', $terrain, 'terrain[]', 'multiple="multiple" size="'.$size.'"', 'id', 'title', 0 );
 			$row->access = $access;
 			$lists['access']	= JHtml::_('list.accesslevel', $row );
