@@ -176,7 +176,6 @@ class com_jtgInstallerScript
 	    // You can have the backend jump directly to the newly installed component configuration page
 	    // $parent->getParent()->setRedirectURL('index.php?option=com_jtg');
 
-	    //TODO check if is this remains usefull ??
 	    echo '<tr><td colspan="3">';
 	    echo('<font color="red" size="+1">' . JText::_('COM_JTG_HINTS') . '</font>');
 	    echo(JText::_('COM_JTG_HINTS_DETAILS'));

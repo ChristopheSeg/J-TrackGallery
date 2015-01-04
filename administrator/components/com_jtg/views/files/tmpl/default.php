@@ -100,7 +100,6 @@ $document->addStyleSheet(JUri::base().'components/com_jtg/template.css');
 		else
 		{
 			$cats=""; 
-			//$cats = "<ul class=\"cattree\">";
 			$l = 0;
 			foreach ($catids AS $catid) 
 			{
@@ -113,10 +112,8 @@ $document->addStyleSheet(JUri::base().'components/com_jtg/template.css');
 					}
 				}
 				$cats .= $cattree["tree"] . ",<br/>";
-				// $cats .= "<li>" . $cattree["tree"] . "</li>";
 				$l++;
 			}
-			// $cats .= "</ul>";
 			//TODO improve next "if" ... parse not needed (use cattree !!!
 			if ( $l == 1 ) { // only List if more than 1 entry
 				$cats = $this->parseCatTree($this->cats,$catid);

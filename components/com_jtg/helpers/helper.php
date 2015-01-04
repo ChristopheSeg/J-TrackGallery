@@ -568,7 +568,7 @@ class JtgHelper
 		$maxsize = (int)$cfg->max_size;  // pixsize in pixel
 		$resized = false;
 		if ( ( $height > $maxsize ) OR ( $width > $maxsize ) )
-		// @ToDo http://www.php.net/manual/de/function.getimagesize.php#97564
+
 		{
 			if ( $height == $width ) // square
 			{

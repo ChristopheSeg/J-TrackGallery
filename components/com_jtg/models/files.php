@@ -655,7 +655,6 @@ class JtgModelFiles extends JModelLegacy
 		$allimages = $this->getImages($id);
 		$imgpath = JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'track_' . $id .
 				 DIRECTORY_SEPARATOR;
-		// TODO no images !!$allimages==??
 		foreach ($allimages as $key => $image)
 		{
 			$image = JFactory::getApplication()->input->get('deleteimage_' . str_replace('.', null, $image));

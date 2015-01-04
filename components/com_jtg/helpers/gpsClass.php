@@ -79,7 +79,6 @@ class gpsDataClass
 			$extract_result = $this->extractCoordsTCX($xml);
 			break;
 		    default:
-			// TODO Error
 			$extract_result = null;
 			$this->error = true;
 			$this->errorMessages[] = JText::_('COM_JTG_GPS_FILE_ERROR');
@@ -409,7 +408,6 @@ class gpsDataClass
 					}
 
 					$coords[] = array((string)$lon, (string)$lat,(string)$ele,(string)$time,0);
-					// var_dump($coords);die();
 				}
 
 			}
@@ -2169,7 +2167,6 @@ class gpsDataClass
 		}
 
 		$string .= "layer_startziel = new OpenLayers.Layer.Markers(";
-		// TODO $i there ????
 		$string .= "\"" . $i . ": " . $this->trackname . "\"";
 		$string .= ", { displayInLayerSwitcher: false }";
 		$string .= ");";

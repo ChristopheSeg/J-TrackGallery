@@ -18,6 +18,8 @@ JToolBarHelper::title(JText::_('COM_JTG_INFO'), 'generic.png');
 JToolBarHelper::back();
 
 $link = ".." . DIRECTORY_SEPARATOR . "components" . DIRECTORY_SEPARATOR . "com_jtg" . DIRECTORY_SEPARATOR . "assets" . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "logo_JTG.png";
+$xml = JFactory::getXML(JPATH_ADMINISTRATOR .'/components/com_jtg/com_jtg.xml');
+$version = (string)$xml->version;
 
 ?>
     <div style="margin: auto">
@@ -33,7 +35,7 @@ $link = ".." . DIRECTORY_SEPARATOR . "components" . DIRECTORY_SEPARATOR . "com_j
             </tr>
             <tr>
                 <td><?php echo(JText::_('COM_JTG_CURRENT_INSTALLED_VERSION'));?>:</td>
-                <td><?php echo ('TODO (display current version)');?></td>
+                <td><?php echo $version?></td>
             </tr>
             <tr>
                 <td><?php echo(JText::_('COM_JTG_LATEST_VERSION'));?>:</td>

@@ -295,7 +295,7 @@ echo JHtml::_('tabs.panel', JText::_('COM_JTG_COMMENTS'), 'comments');
 
 // Approach BEGIN
 if ($this->config->approach != "no") {
-//	die();
+
 echo JHtml::_('tabs.panel', JText::_('COM_JTG_APPROACH'), 'approach');
 ?>
 	<table class="admintable">
@@ -316,7 +316,7 @@ if ($this->config->approach == "ors") {
 				<td><?php echo $this->lists['routingiconset']; ?></td>
 			</tr>
 			<tr><td colspan="2">
-<?php echo JText::_('COM_JTG_POWEREDBY') . ": <a href=\"http://openrouteservice.org\">openrouteservice.org</a> (<a href=\"http://wiki.openstreetmap.org/wiki/OpenRouteService\">".JText::_('COM_JTG_HELP') . "</a>)\n";
+<?php echo JText::_('COM_JTG_POWERED_BY') . ": <a href=\"http://openrouteservice.org\">openrouteservice.org</a> (<a href=\"http://wiki.openstreetmap.org/wiki/OpenRouteService\">".JText::_('COM_JTG_HELP') . "</a>)\n";
 ?>
 			</td></tr><?php
 }

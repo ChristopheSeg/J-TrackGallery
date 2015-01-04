@@ -18,7 +18,6 @@ JToolBarHelper::title(JText::_('COM_JTG_TRANSLATIONS'), 'categories.png');
 JToolBarHelper::save('saveLanguages', $alt='COM_JTG_SAVE', 'save.png' );
 JToolBarHelper::help( 'translations',true );
 
-// TODO 
 jimport( 'joomla.html.html.tabs' );
 $document = JFactory::getDocument();
 $style = '

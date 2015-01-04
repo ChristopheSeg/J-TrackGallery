@@ -238,7 +238,6 @@ class JFormFieldOwnList extends JFormField
 	}
 
 	private function parseLevelSelect($value, $name,  $max, $std) {
-		//TODO check if default value taken into account 
 		if ($value === null) $value = $std;
 		global $parseLimitText;
 		$parseLimitText[(string) $name] = $value;
@@ -333,11 +332,6 @@ class JFormFieldOwnList extends JFormField
 		$db = JFactory::getDBO();
 
 		$and = '';
-		if ( $reg ) {
-		    // does not include registered users in the list
-		    // TODO IMPORTANT ACL modified in Joomla 2.5
-		    // $and = ' AND gid > 18'; This line is desactivated
-		}
 
 		$query = 'SELECT id AS value, name AS text'
 		. ' FROM #__users'

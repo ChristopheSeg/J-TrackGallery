@@ -833,7 +833,6 @@ class JtgModelFiles extends JModelLegacy
 		$db = JFactory::getDBO();
 		$fileokay = false;
 		$targetdir = JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'uploaded_tracks'. DIRECTORY_SEPARATOR;
-		// TODO What was this import for? Joogpstracks to Injooosm??
 		$sourcedir = JPATH_SITE . DIRECTORY_SEPARATOR . "components" . DIRECTORY_SEPARATOR . "com_joomgpstracks" . DIRECTORY_SEPARATOR . "uploaded_tracks". DIRECTORY_SEPARATOR;
 		$existingfiles = JFolder::files($targetdir);
 		$file = $sourcedir.$track['file'];
