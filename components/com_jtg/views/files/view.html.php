@@ -720,8 +720,10 @@ class JtgViewFiles extends JViewLegacy
 
 	function approach($service) {
 		//		$userparams = explode("\n", $this->user->params);
+		$lang = JFactory::getLanguage();
 		$user = JFactory :: getUser();
 
+		/* 
 		if ($user->id == 0) // user is public
 		{
 			$config = JFactory :: getConfig();
@@ -730,6 +732,8 @@ class JtgViewFiles extends JViewLegacy
 			$user = JFactory::getUser();
 			$lang = $user->getParam('language', 'the default');
 		}
+		*/
+		
 		$lang = explode("-", $lang);
 		$userlang = $lang[0];
 		$availablelang = array ( 'de', 'en', 'it', 'fr', 'es' ); // allowed from ORS

@@ -53,9 +53,9 @@ class JtgViewConfig extends JViewLegacy
 		);
 		// yes/no/registered users only array for download list
 		$download = array(
-		array('id' => 1, 'text' => JText::_('JYES')),
-		array('id' => 0, 'text' => JText::_('JNO')),
-		array('id' => 2, 'text' => JText::_('COM_JTG_REGISTERED'))
+		array('id' => 0, 'text' => JText::_('JNONE')),
+		array('id' => 2, 'text' => JText::_('COM_JTG_REGISTERED')),
+		array('id' => 1, 'text' => JText::_('JALL'))
 		);
 		// comments order aray for lists
 		$order =array(
@@ -65,8 +65,6 @@ class JtgViewConfig extends JViewLegacy
 		$comments = array(
 		array('id' => 0, 'text' => JText::_('COM_JTG_NO_COMMENTS')),
 		array('id' => 1, 'text' => JText::_('COM_JTG_INTERN_COMMENTS')),
-		// removed, no longer exists
-		// array('id' => 2, 'text' => JText::_('COM_JTG_JOMCOMMENTS')),
 		array('id' => 3, 'text' => JText::_('COM_JTG_JCOMMENTS'))
 		);
 		$approach = array(
@@ -170,13 +168,4 @@ class JtgViewConfig extends JViewLegacy
 		$this->captcha = $cactiv;
 		parent::display($tpl);
 	}
-/*
-	function createCheckbox($name,$value,$label,$checked=null){
-		if($checked===true) $checked = " checked=\"checked\"";
-		return "<input type=\"checkbox\" name=\"" . $name . "\" value=\"" . $value . "\"" . $checked . " />&nbsp;" . $label;
-	}
-	*/
-	
-
-
 }
