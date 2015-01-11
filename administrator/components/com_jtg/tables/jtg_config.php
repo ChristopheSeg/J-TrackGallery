@@ -21,7 +21,6 @@ class TableJTG_config extends JTable
 {
 	var $id				= NULL;
 	var $gid			= NULL;
-	var $apikey			= NULL;
 	var $unit			= NULL;
 	var $type			= NULL;
 	var $max_size		= NULL;
@@ -48,7 +47,6 @@ class TableJTG_config extends JTable
 	var $routingiconset	= NULL;
 	var $usevote		= NULL;
 	var $download		= NULL;
-	var $gpsstore		= NULL;
 	var $gallery		= NULL;
 	var $level			= NULL;
 	

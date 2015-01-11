@@ -39,6 +39,14 @@ if($id) {
 	$model = $this->getModel();
 	$document = JFactory::getDocument();
 }
+if(JVERSION>=3.0) //Code support for joomla version greater than 3.0
+{
+	$style= "
+	select, textarea, input{
+	width: auto !important;
+	}";	
+	$document->addStyleDeclaration( $style );
+}
 ?>
 <form action="" method="post" name="adminForm" id="adminForm" class="adminForm" enctype="multipart/form-data">
     <table class="adminlist" cellpadding="1">
@@ -55,7 +63,7 @@ if($id) {
             </tr><?php } ?>
             <tr>
                 <td><?php echo JText::_('COM_JTG_NAME'); ?>:*</td>
-                <td><input id="name" type="text" name="name" value="<?php if (($id) AND (isset($map->name))) echo $map->name; ?>" size="30" maxsize="30" /> (<?php  if (($id) AND (isset($map->name))) echo JText::_($map->name); ?>)</td>
+                <td><input id="name" type="text" name="name" value="<?php if (($id) AND (isset($map->name))) echo $map->name; ?>" size="50" maxsize="50" /> (<?php  if (($id) AND (isset($map->name))) echo JText::_($map->name); ?>)</td>
             </tr>
             <tr>
                 <td><?php echo JText::_('COM_JTG_PUBLISHED'); ?>:*</td>
@@ -63,7 +71,7 @@ if($id) {
             </tr>
             <tr>
                 <td><?php echo JText::_('COM_JTG_OL_PARAMETERS'); ?>:*</td>
-                <td><textarea id="param" type="text" name="param" value="" cols="100" maxsize="300" rows="8"><?php
+                <td><textarea id="param" type="text" name="param" value="" cols="100" maxsize="500" rows="8"><?php
 	$replace = array("'",'"');
 	$with = array("'","&quot;");
 if (($id) AND (isset($map->param)))

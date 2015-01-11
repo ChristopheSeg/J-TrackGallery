@@ -21,7 +21,7 @@ $bar= JToolBar::getInstance( 'toolbar' );
 $folder = JUri::base().'index.php?option=com_jtg&tmpl=component&controller=files&task=upload';
 jimport('joomla.filesystem.folder');
 // popup:
-	$bar->appendButton( 'Popup', 'upload', 'Upload', $folder, 550, 400 );
+$bar->appendButton( 'Popup', 'upload', 'Upload', $folder, 550, 400 );
 JToolBarHelper::addNew('newfiles', JText::_('COM_JTG_RELOAD'));
 // JToolBarHelper::media_manager('&folder=jtg/newfiles',"Upload");
 // $directory = "jtg/newfiles";
@@ -34,6 +34,8 @@ JToolBarHelper::addNew('newfiles', JText::_('COM_JTG_RELOAD'));
 JToolBarHelper::save('savefiles', JText::_('COM_JTG_SAVE_NEW_FILE'), 'save.png' );
 JToolBarHelper::deleteList('COM_JTG_VALIDATE_DELETE_ITEMS', 'removeFromImport');
 JToolBarHelper::help( 'files/import',true );
+$document = JFactory::getDocument();
+$document->addStyleDeclaration(".row00 {background-color: #FFFF99;}");
 ?>
 <form action="" method="post" name="adminForm" id="adminForm" class="adminForm" enctype="multipart/form-data">
 <?php
@@ -96,8 +98,9 @@ foreach($levels AS $level){
 $toggle['level'] .= "					</select>\n";
 
 $table = ("		<tbody>\n
-			<tr class=\"row" . $row . "\">
-				<td colspan=\"2\" align=\"right\"><b>" . JText::_('COM_JTG_PRESELECTION') . "==></b><br><br>"
+			<tr class=\"row00\">
+				<td ><input type=\"checkbox\" onclick=\"Joomla.checkAll(this)\" title=\"" . JText::_( 'JGLOBAL_CHECK_ALL' ) . "\" value=\"\" checked=\"checked\" name=\"checkall-toggle\"></td>
+				<td colspan=\"2\" align=\"right\">	<b>" . JText::_('COM_JTG_PRESELECTION') . "==></b><br><br>"
 				. JText::_('COM_JTG_PRESELECTION_DESCRIPTION') . "</td>
 				<td>" . $toggle['level'] . "</td>
 				<td>" . JHtml::_('select.genericlist', $cats, 'catid_all[]', 'size="'.$catssize.'" multiple="multiple" onclick="setSelectMultiple(\'catid\')"', 'id', 'treename')
@@ -107,7 +110,6 @@ $table = ("		<tbody>\n
 				<td>" . JHtml::_('select.genericlist', $userslist, 'uid_all', 'class="inputbox" size="'.$userslistsize.'" onclick="setSelect(\'uid\')"', 'id','title', $me->id) . "</td>
 				<td>" . $this->accesslevelForImport("access_all","onclick=\"setSelect('access')\"",false) . "</td>
 				<td>" . JHtml::_('select.genericlist', $yesnolist, 'hidden_all', 'class="inputbox" size="1" onclick="setSelect(\'hidden\')"', 'id', 'title') . "</td>
-				<td></td>
 				</tr>
 ");
 if ( $files !== false )
@@ -169,8 +171,54 @@ foreach($files AS $file) {
 			$errorposted = true;
 			JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_ERROR_FOUND'),'Notice' );
 		}
-
-		$table .= ("			<tr><td colspan=\"9\"><hr></td></tr><tr class=\"row" . $row . "\">\n");
+		/*
+		 1 = JText::_('COM_JTG_TT_ERR_FILEEXIST');		green
+		2 = JText::_('COM_JTG_TT_ERR_NODELETE');		red
+		3 = JText::_('COM_JTG_TT_ERR_MUCHLEN');		brown
+		4 = JText::_('COM_JTG_TT_ERR_BADFILENAME') . " (&)";	red
+		5 = JText::_('COM_JTG_TT_ERR_BADFILENAME') . " (#)";	red
+		6 = JText::_('COM_JTG_TT_ERR_NOTRACK');		grey
+		7 = JText::_('COM_JTG_TT_ERR_NOPOINTINTRACK');	grey
+		8 = JText::_('COM_JTG_TT_ERR_MORETRACKS');		blue
+		*/
+		// if ( ( $check === true ) OR ( $check == 8 ) )
+		
+		if ( $check !== true )
+		{
+			if ( $check == 1 ) {
+				$tt = JText::_('COM_JTG_TT_ERR_FILEEXIST');
+				$color = "green";
+			} elseif ( $check == 2 ) {
+				$tt = JText::_('COM_JTG_TT_ERR_NODELETE');
+				$color = "red";
+			} elseif ( $check == 3 ) {
+				$tt = JText::_('COM_JTG_TT_ERR_MUCHLEN');
+				$color = "brown";
+			} elseif ( $check == 4 ) {
+				$tt = JText::_('COM_JTG_TT_ERR_BADFILENAME') . " (&)";
+				$color = "red";
+			} elseif ( $check == 5 ) {
+				$tt = JText::_('COM_JTG_TT_ERR_BADFILENAME') . " (#)";
+				$color = "red";
+			} elseif ( $check == 6 ) {
+				$tt = JText::_('COM_JTG_TT_ERR_NOTRACK');
+				$color = "lightgrey";
+			} elseif ( $check == 7 ) {
+				$tt = JText::_('COM_JTG_TT_ERR_NOPOINTINTRACK');
+				$color = "lightgrey";
+			} elseif ( $check == 8 ) {
+				$tt = JText::_('COM_JTG_TT_ERR_MORETRACKS');
+				$color = "blue";
+			}
+			$table .= "			<tr class=\"row$row " . ($row? "row-odd":"row-even"). "\">\n<td colspan=\"9\">" . JText::_('COM_JTG_GPS_FILE') . ': ' .  $filename . ": <b><font color=\"red\">" . $tt . "</font></b><br></tr>\n";
+		}
+		else
+		{
+			$table .= "			<tr class=\"row$row " . ($row? "row-odd":"row-even"). "\">\n<td colspan=\"9\">" . JText::_('COM_JTG_GPS_FILE') . ': ' .  $filename . ': '. JText::_('COM_JTG_TT_FILEOKAY') . "</tr>\n";
+		}
+		
+		
+		$table .= ("		<tr class=\"row$row " . ($row? "row-odd":"row-even"). "\">\n");
 
 		// Row: Selector + Date
 		{
@@ -197,9 +245,9 @@ foreach($files AS $file) {
 				// Spur vorhanden, aber nicht an erster Stelle. Evtl. mehrere Spuren
 			)
 			{
-				$table .= ("<input type=\"checkbox\" checked=\"checked\" id=\"cb" . $count . "\" value=\"" . $file . "\" name=\"import_" . $count . "\" onclick=\"Joomla.isChecked(this.checked);\" /><br><br><br>\n");
+				$table .= ("<input type=\"checkbox\" checked=\"checked\" id=\"cb" . $count . "\" value=\"" . $file . "\" name=\"import_" . $count . "\" onclick=\"Joomla.isChecked(this.checked);\" /></td>\n");
 			}
-			$table .= ("				<input id=\"date_" . $count . "\" type=\"text\" name=\"date_" . $count . "\" size=\"10\" value=\"");
+			$table .= ("				<td><input id=\"date_" . $count . "\" type=\"text\" name=\"date_" . $count . "\" size=\"10\" value=\"");
 			if ($date === false)
 			$table .= (date('Y-m-d',time()) . "\" /><font color=\"orange\">&nbsp;</font></td>");
 			else
@@ -210,53 +258,7 @@ foreach($files AS $file) {
 		{
 			$table .= ("				<td>");
 			$table .= ("<input type=\"hidden\" name=\"file_" . $count . "\" value=\"" . $file . "\" />\n");
-			/*
-			 1 = JText::_('COM_JTG_TT_ERR_FILEEXIST');		green
-			 2 = JText::_('COM_JTG_TT_ERR_NODELETE');		red
-			 3 = JText::_('COM_JTG_TT_ERR_MUCHLEN');		brown
-			 4 = JText::_('COM_JTG_TT_ERR_BADFILENAME') . " (&)";	red
-			 5 = JText::_('COM_JTG_TT_ERR_BADFILENAME') . " (#)";	red
-			 6 = JText::_('COM_JTG_TT_ERR_NOTRACK');		grey
-			 7 = JText::_('COM_JTG_TT_ERR_NOPOINTINTRACK');	grey
-			 8 = JText::_('COM_JTG_TT_ERR_MORETRACKS');		blue
-			 */
-			// if ( ( $check === true ) OR ( $check == 8 ) )
-
-			if ( $check !== true )
-			{
-				if ( $check == 1 ) {
-					$tt = JText::_('COM_JTG_TT_ERR_FILEEXIST');
-					$color = "green";
-				} elseif ( $check == 2 ) {
-					$tt = JText::_('COM_JTG_TT_ERR_NODELETE');
-					$color = "red";
-				} elseif ( $check == 3 ) {
-					$tt = JText::_('COM_JTG_TT_ERR_MUCHLEN');
-					$color = "brown";
-				} elseif ( $check == 4 ) {
-					$tt = JText::_('COM_JTG_TT_ERR_BADFILENAME') . " (&)";
-					$color = "red";
-				} elseif ( $check == 5 ) {
-					$tt = JText::_('COM_JTG_TT_ERR_BADFILENAME') . " (#)";
-					$color = "red";
-				} elseif ( $check == 6 ) {
-					$tt = JText::_('COM_JTG_TT_ERR_NOTRACK');
-					$color = "lightgrey";
-				} elseif ( $check == 7 ) {
-					$tt = JText::_('COM_JTG_TT_ERR_NOPOINTINTRACK');
-					$color = "lightgrey";
-				} elseif ( $check == 8 ) {
-					$tt = JText::_('COM_JTG_TT_ERR_MORETRACKS');
-					$color = "blue";
-				}
-				$table .= ("<b><font color=\"red\">" . $tt . '</font></b><br>' . $filename . "\n");
-			}
-			else
-			{
-				$table .= ( JText::_('COM_JTG_TT_FILEOKAY') . '<br>' . $filename . "\n");
-			}
-
-			$table .= ("\n				<br><br><input id=\"title\" type=\"text\" name=\"title_" . $count . "\" value=\"" . $title . "\" size=\"30\" /></td>\n");
+			$table .= ("\n				<input id=\"title\" type=\"text\" name=\"title_" . $count . "\" value=\"" . $title . "\" size=\"30\" /></td>\n");
 		}
 
 		//Row: Schwierigkeitsgrad
@@ -303,15 +305,15 @@ foreach($files AS $file) {
 
 		//Row: NULL
 		{
-			$table .= ("				<td></td>\n");
+			$table .= ("				\n");
 		}
 
-		$table .= ("			</tr>\n<tr class=\"row" . $row . "\">\n");
+		$table .= ("			</tr>\n<tr class=\"row$row " . ($row? "row-odd":"row-even"). "\">\n");
 		//Row: Beschreibung
 		{
-			$table .= ("				<td colspan='8'>".JText::_('COM_JTG_DESCRIPTION') . ":<br />\n" . $lists['description'] . "</td>\n");
+			$table .= ("				<td>&nbsp;&nbsp;</td><td colspan='8'>".JText::_('COM_JTG_DESCRIPTION') . ":<br />\n" . $lists['description'] . "</td>\n");
 		}
-		$table .= ("				<td></td>\n");
+		$table .= ("				\n");
 		$table .= ("			</tr>\n");
 
 		$count++;
@@ -336,16 +338,16 @@ foreach($files AS $file) {
 $table_header = ("	<table class=\"adminlist\" cellpadding=\"1\">
 		<thead>
 			<tr>
-				<th class=\"title\" width=\"1\"><input type=\"checkbox\" onclick=\"Joomla.checkAll(this)\" title=\"" . JText::_( 'JGLOBAL_CHECK_ALL' ) . "\" value=\"\" name=\"checkall-toggle\"><br>/ "
+				<th class=\"title\" width=\"1\">&nbsp;</th>
+				<th class=\"title\" width=\"1\">"
 					.JText::_('COM_JTG_DATE') . "</th>
-				<th class=\"title\" width=\"1\">".JText::_('COM_JTG_GPS_FILE') . "<br>/ ".JText::_('COM_JTG_TITLE') . "</th>
+				<th class=\"title\" width=\"1\">".JText::_('COM_JTG_TITLE') . "</th>
 				<th class=\"title\" width=\"1\">".JText::_('COM_JTG_LEVEL') . "</th>
 				<th class=\"title\" width=\"1\">".JText::_('COM_JTG_CAT') . "</th>
 				<th class=\"title\" width=\"1\">".JText::_('COM_JTG_TERRAIN') . "</th>
 				<th class=\"title\" width=\"1\">".JText::_('COM_JTG_INFO_AUTHOR') . "</th>
 				<th class=\"title\" width=\"1\">".JText::_('COM_JTG_ACCESS_LEVEL') . "</th>
 				<th class=\"title\" width=\"1\">".JText::_('COM_JTG_HIDDEN') . "</th>
-				<th class=\"title\"></th>
 			</tr>
 		</thead>\n");
 

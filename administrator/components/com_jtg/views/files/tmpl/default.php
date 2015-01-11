@@ -16,15 +16,13 @@ defined('_JEXEC') or die('Restricted access');
 // toolbar
 JToolBarHelper::title(JText::_('COM_JTG_GPS_FILES'), 'categories.png');
 JToolBarHelper::back();
-// JToolBarHelper::back();
 JToolBarHelper::spacer();
 $bar = JToolBar::getInstance( 'toolbar' );
 $folder = JUri::base().'index.php?option=com_jtg&tmpl=component&controller=files&task=upload';
 // popup:
-$bar->appendButton( 'Popup', 'upload', 'COM_JTG_UPLOAD', $folder, 550, 400 );
+$bar->appendButton( 'Popup', 'upload', 'COM_JTG_UPLOAD_TRACKS', $folder, 550, 400 );
 // Normal Window:
-//JToolBarHelper::custom( 'upload', 'upload.png', 'upload.png', 'Upload', false);
-JToolBarHelper::addNew('newfiles',$alt='COM_JTG_NEW_FILES');
+JToolBarHelper::addNew('newfiles',$alt='COM_JTG_IMPORT_FILES');
 JToolBarHelper::editList('editfile');
 JToolBarHelper::publish();
 JToolBarHelper::unpublish();

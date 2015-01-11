@@ -46,7 +46,7 @@ class JtgViewFiles extends JViewLegacy
 		$size = 1;
 		else
 		{
-			$size =  min( count($groupss), 6);
+			$size =  min( count($groups), 6);
 		}
 		$access = JHtml::_('select.genericlist', $groups, $name, 'class="inputbox" size="'.$size.'" '.$js, 'value', 'text', 0, '', 1 );
 
@@ -386,16 +386,13 @@ class JtgViewFiles extends JViewLegacy
 		if(JVERSION>=3.0) //Code support for joomla version greater than 3.0
 		{
 		    JHtml::_('jquery.framework');
-		    JHtml::script(Juri::base() . 'components/com_jtg/assets/js/multifile.js');
+		    JHtml::script(Juri::root() . 'components/com_jtg/assets/js/multifile.js');
 		    JHTML::_('behavior.framework');
-		    // Quick'n'Dirty - Sonst funktioniert das Joomla-Menü nicht mehr: (!?)
-		    // JHtml::script('core-uncompressed.js', 'media/system/js/', false); //Joomla 2.5??
 		}
 		else
 		{
 		    JHtml::script('jquery.js', 'components/com_jtg/assets/js/', false);
 		    JHtml::script('multifile.js', 'components/com_jtg/assets/js/', false);
-		    // Quick'n'Dirty - Sonst funktioniert das Joomla-Menü nicht mehr: (!?)
 		    JHtml::script('mootools.js', '/media/system/js/', false);
 		    JHtml::script('core-uncompressed.js', 'media/system/js/', false);
 		}

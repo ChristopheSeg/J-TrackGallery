@@ -40,20 +40,14 @@ class JtgControllerFiles extends JtgController
 	function uploadfiles ()
 	{
 		JSession::checkToken() or jexit('Invalid Token');
-		// Joomla does not load $_FILES !!
-		// $files = JFactory::getApplication()->input->files->get('files');
-		// see http://stackoverflow.com/questions/13840624/joomla-custom-component-upload-form
 		$jInput = JFactory::getApplication()->input;
 		$jFileInput = new jInput($_FILES);
-    	$files = $jFileInput->get('files',array(),'array');
-		if (count($files["name"]) <= 1)
-		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_ERROR_NO_FILES_CHOOSEN'), 'Error');
-		}
+    	$files = $jFileInput->get('files',array(),'array');	
 
 		$model = $this->getModel('files');
 		$dest = JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'uploaded_tracks' .
 				 DIRECTORY_SEPARATOR . 'import' . DIRECTORY_SEPARATOR;
+		
 		if (! $model->uploadfiles($files, $dest))
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";

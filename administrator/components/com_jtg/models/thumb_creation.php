@@ -42,24 +42,34 @@ function com_jtg_refresh_Thumbnails()
 	    $thumb_dir = $base_dir . DIRECTORY_SEPARATOR . $folder . DIRECTORY_SEPARATOR. 'thumbs';
 	    if($imgs)
 	    {
-		if(JFolder::exists($thumb_dir)) 
-		{
-		    // remove old thumbnails 
-		    $filesToDelete = JFolder::files($thumb_dir, $regex_images);
-		    foreach($filesToDelete AS $fileToDelete)
-		    {
-			JFile::delete($thumb_dir . DIRECTORY_SEPARATOR . $fileToDelete); 
-		    }
-		}
-		foreach($imgs AS $image)
-		{
-			$thumb = com_jtg_create_Thumbnails ($base_dir . DIRECTORY_SEPARATOR . $folder . DIRECTORY_SEPARATOR, $image, $cfg->max_thumb_height, $cfg->max_geoim_height); 
-			if (! $thumb) 
+			if(JFolder::exists($thumb_dir)) 
 			{
-			    $success=false; 
-			}					    
-		}
+			    // remove old thumbnails 
+			    $filesToDelete = JFolder::files($thumb_dir, $regex_images);
+			    foreach($filesToDelete AS $fileToDelete)
+			    {
+				JFile::delete($thumb_dir . DIRECTORY_SEPARATOR . $fileToDelete); 
+			    }
+			}
+			foreach($imgs AS $image)
+			{
+				$thumb = com_jtg_create_Thumbnails ($base_dir . DIRECTORY_SEPARATOR . $folder . DIRECTORY_SEPARATOR, $image, $cfg->max_thumb_height, $cfg->max_geoim_height); 
+				if (! $thumb) 
+				{
+				    $success=false; 
+				}					    
+			}
 	    }
+	    else
+		{
+			// no imgs so delete possibly existing folder
+			if(JFolder::exists($thumb_dir))
+			{
+				JFolder::delete($thumb_dir);
+			}
+		}
+			
+
 	}
 	return $success; 		
 }

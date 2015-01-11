@@ -64,17 +64,17 @@ CREATE TABLE IF NOT EXISTS `#__jtg_config` (
 
 TRUNCATE `#__jtg_config`;
 
-INSERT  IGNORE INTO `#__jtg_config` (`id`, `gid`, `apikey`, `unit`, `type`, `max_size`, `max_thumb_height`,
+INSERT  IGNORE INTO `#__jtg_config` (`id`, `gid`, `unit`, `type`, `max_size`, `max_thumb_height`,
 `max_geoim_height`, `terms`, `terms_id`, `sort`, `map_height`, `map_width`, `charts_width`, 
 `charts_height`, `charts_linec`, `charts_bg`, `profile`, `template`, `comment_who`, 
 `inform_autor`, `captcha`, `ordering`, `comments`, `access`, `approach`, 
-`routingiconset`, `usevote`, `download`, `gpsstore`, `gallery`, `showcharts`, 
+`routingiconset`, `usevote`, `download`, `gallery`, `showcharts`, 
 `level`) VALUES
-(1, 'a:0:{}', NULL, 'Kilometer', 'jpg,jpeg,png,gif', 200, 220, 
+(1, 'a:0:{}', 'Kilometer', 'jpg,jpeg,png,gif', 200, 220, 
 400, 0, 0, 5, '500px', '100%', '100%', 
 '180px', 'FF0000', '0000CC', '0', 'default', 'a:0:{}', 
 1, 0, 'DESC', 0, 0, 'no', 
-'real', 0, 2, 'JPATH_SITE . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "jtrackgallery" . DIRECTORY_SEPARATOR . "uploads". DIRECTORY_SEPARATOR', 'straight', 2, 
+'real', 0, 2, 2, 
 'COM_JTG_LEVEL_1\nCOM_JTG_LEVEL_2\nCOM_JTG_LEVEL_3\nCOM_JTG_LEVEL_4\nCOM_JTG_LEVEL_5');
 
 CREATE TABLE IF NOT EXISTS `#__jtg_files` (
@@ -185,7 +185,7 @@ INSERT IGNORE INTO `#__jtg_terrains`
     (`id`,`title`,`published`,`checked_out`,`ordering`) 
 VALUES 
     ('1','COM_JTG_TERRAIN_STREET','1','0','0'),
-    ('2','COM_JTG_PUBLIC','1','0','0'),
+    ('2','COM_JTG_PUBLIC_ACCESS','1','0','0'),
     ('3','COM_JTG_TERRAIN_FARM_TRACK','1','0','0'),
     ('4','COM_JTG_PRIVATE','1','0','0');
 
@@ -194,7 +194,7 @@ INSERT IGNORE INTO `#__jtg_files` (`id`, `uid`, `catid`, `title`, `file`, `terra
 (2, 430, '15', '-sample- Circuit de Bavay', 'sample_bavay.gpx', '2', '<p>This tracks by has been provided by Arnaud  from the French Alpin Club:  Club Alpin de Lille <a href=&#34;http://clubalpinlille.fr/&#34;>http://clubalpinlille.fr/</a></p>\r\n<p><em>It its only intended to be used as a sample file for testing and demonstrating J!Track Gallery component.</em></p>', 1, '2013-09-23', 18, 0, '50.297820', '3.792730', 21.92, 254, 254, 1, 0, 1, 0, 0, 0, 0.000, 0),
 (3, 430, '15', '-sample- Circuit Honnelles-Belgique', 'sample_honnelles_belgique.gpx', '2', '<p>This tracks by has been provided by Arnaud  from the French Alpin Club:  Club Alpin de Lille <a href=&#34;http://clubalpinlille.fr/&#34;>http://clubalpinlille.fr/</a></p>\r\n<p><em>It its only intended to be used as a sample file for testing and demonstrating J!Track Gallery component.</em></p>', 1, '2013-09-23', 12, 0, '50.364941', '3.775907', 21.29, 256, 256, 1, 0, 1, 0, 0, 0, 0.000, 0),
 (4, 430, '15', '-sample- Circuit Vandegie sur Ecaillon', 'sample_vandegie_sur_ecaillon.gpx', '2', '<p>This tracks by has been provided by Arnaud  from the French Alpin Club:  Club Alpin de Lille <a href=&#34;http://clubalpinlille.fr/&#34;>http://clubalpinlille.fr/</a></p>\r\n<p><em>It its only intended to be used as a sample file for testing and demonstrating J!Track Gallery component.</em></p>', 1, '2013-09-23', 16, 0, '50.262709', '3.511753', 26.79, 829, 799, 2, 0, 1, 0, 0, 0, 0.000, 0),
-(5, 430, '15', '-sample- Via Alpina: Alzarej', 'sample_via_alpina_alzarej.gpx', '2', '', 1, '2013-10-02', 12, 0, '44.205368', '-1.269891', 1720.70, 2408, 1382, 1, 0, 1, 0, 0, NULL, 0.000, 0),
+(5, 430, '15', '-sample- Via Alpina: Alzarej', 'sample_via_alpina_alzarej.gpx', '2', '', 1, '2013-10-02', 12, 0, '46.412453', '13.846174', 1720.70, 2408, 1382, 1, 0, 1, 0, 0, NULL, 0.000, 0),
 (13, 430, '12', '-sample- Trek Valroc Secteur 3', 'sample_trek_valroc_3.gpx', '', '<p>This tracks by has been provided by Pascal from the French Alpin Club:  club alpin français de l\'ouest dijonnais <a href=&#34;http://valroc.net&#34;>http://valroc.net</a></p>\r\n<p><em>It its only intended to be used as a sample file for testing and demonstrating J!Track Gallery component.</em></p>', 1, '2013-10-03', 1, 0, '47.510856846', '4.529040931', 34.99, 915, 844, 0, 0, 1, 0, 0, NULL, 0.000, 0),
 (12, 430, '12', '-sample- Trek Valroc Secteur 2', 'sample_trek_valroc_2.gpx', '', '<p>This tracks by has been provided by Pascal from the French Alpin Club:  club alpin français de l\'ouest dijonnais <a href=&#34;http://valroc.net&#34;>http://valroc.net</a></p>\r\n<p><em>It its only intended to be used as a sample file for testing and demonstrating J!Track Gallery component.</em></p>', 1, '2013-10-03', 2, 0, '47.318670190', '4.598339923', 49.88, 1256, 1235, 0, 0, 1, 0, 0, NULL, 0.000, 0),
 (19, 430, '12', '-sample- Trek Valroc Secteur 1', 'sample_trek_valroc_1.gpx', '', '<p>This tracks by has been provided by Pascal from the French Alpin Club:  club alpin français de l\'ouest dijonnais <a href=&#34;http://valroc.net&#34;>http://valroc.net</a></p>\r\n<p><em>It its only intended to be used as a sample file for testing and demonstrating J!Track Gallery component.</em></p>', 1, '2013-10-08', 0, 0, '47.323145801', '5.028378814', 53.79, 2017, 1890, 0, 0, 1, 0, 0, NULL, 0.000, 0),
