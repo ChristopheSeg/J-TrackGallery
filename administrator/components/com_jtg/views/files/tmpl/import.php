@@ -21,21 +21,19 @@ $bar= JToolBar::getInstance( 'toolbar' );
 $folder = JUri::base().'index.php?option=com_jtg&tmpl=component&controller=files&task=upload';
 jimport('joomla.filesystem.folder');
 // popup:
-$bar->appendButton( 'Popup', 'upload', 'Upload', $folder, 550, 400 );
 JToolBarHelper::addNew('newfiles', JText::_('COM_JTG_RELOAD'));
-// JToolBarHelper::media_manager('&folder=jtg/newfiles',"Upload");
-// $directory = "jtg/newfiles";
-// $alt = "Upload";
-// 		$bar =  JToolBar::getInstance('toolbar');
-// 		// Add an upload button
-// 		$bar->appendButton( 'Popup', 'upload', $alt, "index.php?option=com_media&tmpl=component&task=popupUpload&folder=" . $directory, 800, 520 );
-
-// JToolBarHelper::cancel('jtg');
+//JToolBarHelper::cancel('jtg');
 JToolBarHelper::save('savefiles', JText::_('COM_JTG_SAVE_NEW_FILE'), 'save.png' );
 JToolBarHelper::deleteList('COM_JTG_VALIDATE_DELETE_ITEMS', 'removeFromImport');
 JToolBarHelper::help( 'files/import',true );
 $document = JFactory::getDocument();
 $document->addStyleDeclaration(".row00 {background-color: #FFFF99;}");
+if(JVERSION>=3.0) //Code support for joomla version greater than 3.0
+{
+	$style= "	select, textarea, input{
+	width: auto !important;}";
+	$document->addStyleDeclaration( $style );
+}
 ?>
 <form action="" method="post" name="adminForm" id="adminForm" class="adminForm" enctype="multipart/form-data">
 <?php

@@ -41,10 +41,8 @@ if($id) {
 }
 if(JVERSION>=3.0) //Code support for joomla version greater than 3.0
 {
-	$style= "
-	select, textarea, input{
-	width: auto !important;
-	}";	
+	$style= "	select, textarea, input{
+	width: auto !important;}";	
 	$document->addStyleDeclaration( $style );
 }
 ?>
