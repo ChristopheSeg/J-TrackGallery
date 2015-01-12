@@ -1,0 +1,1 @@
+ALTER TABLE `#__jtg_config` DROP `apikey`, DROP `gpsstore`;
