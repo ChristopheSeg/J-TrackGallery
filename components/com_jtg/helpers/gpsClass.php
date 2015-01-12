@@ -37,6 +37,10 @@ class gpsDataClass
 	var $isCache = false;
 	var $isWaypoint = false;
 	var $distance = 0;
+	var $Date = "";
+	var $Title = "";
+	var $checkFile = 1;
+	
 
 	public function __construct($unit)
 	{

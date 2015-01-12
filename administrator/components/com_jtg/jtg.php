@@ -38,6 +38,8 @@ $model = JPATH_COMPONENT . DIRECTORY_SEPARATOR . 'models' . DIRECTORY_SEPARATOR 
 require_once JPATH_COMPONENT_SITE . DIRECTORY_SEPARATOR . 'helpers' . DIRECTORY_SEPARATOR . 'helper.php';
 require_once JPATH_COMPONENT . DIRECTORY_SEPARATOR . 'controller.php';
 
+// load the gpsDataClass
+JLoader::import('components.com_jtg.helpers.gpsClass', JPATH_SITE, 'gpsClass');
 
 // Initialize the controller
 if ($controller = JRequest::getWord('controller'))

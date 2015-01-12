@@ -83,6 +83,12 @@ $options = array(
 		'useCookie' => true, // this must not be a string. Don't use quotes.
 );
 
+if(JVERSION>=3.0) //Code support for joomla version greater than 3.0
+{
+	$style= "	select, textarea, input{
+	width: auto !important;}";
+	$document->addStyleDeclaration( $style );
+}
 
 ?>
 <form action="index.php" method="post" name="adminForm" id="adminForm">
@@ -94,7 +100,7 @@ foreach ($this->languages as $lang)
 	// <table> is necessary in J!2.5 (not J!3) for proper tab vertical size
 	echo '<table><tr><td>' . $lang['header'].'<br>';
 	?>
-		<textarea name="<?php echo $lang['tag']; ?>" cols="150" rows="<?php echo $lang['rows']; ?>"><?php echo $lang['value']; ?></textarea>
+		<textarea name="<?php echo $lang['tag']; ?>" cols="100" rows="<?php echo $lang['rows']; ?>"><?php echo $lang['value']; ?></textarea>
 		<br>&nbsp;
 		</td></tr></table>
 	<?php

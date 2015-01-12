@@ -27,13 +27,14 @@ JToolBarHelper::save('savefiles', JText::_('COM_JTG_SAVE_NEW_FILE'), 'save.png' 
 JToolBarHelper::deleteList('COM_JTG_VALIDATE_DELETE_ITEMS', 'removeFromImport');
 JToolBarHelper::help( 'files/import',true );
 $document = JFactory::getDocument();
-$document->addStyleDeclaration(".row00 {background-color: #FFFF99;}");
+$style = "   .row00 {background-color: #FFFF99;}\n";
 if(JVERSION>=3.0) //Code support for joomla version greater than 3.0
 {
-	$style= "	select, textarea, input{
-	width: auto !important;}";
-	$document->addStyleDeclaration( $style );
-}
+	$style.= "	select, textarea, input{
+	width: auto !important;\n}";
+}	
+$document->addStyleDeclaration( $style );
+
 ?>
 <form action="" method="post" name="adminForm" id="adminForm" class="adminForm" enctype="multipart/form-data">
 <?php
@@ -150,18 +151,29 @@ foreach($files AS $file) {
 
 	// $filename = strtolower(JFile::getName($file));
 
-	$date = $this->giveDate($file);
-	$title = $this->giveTitle($file);
+
 	if (in_array(strtolower($filename_wof),$filesdir) ) {
-		$check = $this->checkFile($file,true);
+		$check = 1; //track already existing, not reloaded 
+		// TODO if file is reloaded after upgrade (new gps data, but same filename), 
+		// should delete cache, then load data with gpsDataClass  
 		$filename_exists = "<input type=\"hidden\" name=\"filenameexists_" . $count . "\" value=\"true\">\n";
 	}
 	else
 	{
-		$check = $this->checkFile($file);
+		$gpsData = new gpsDataClass("Kilometer"); // default unit
+		$cache = JFactory::getCache('com_jtg');
+		// New gps Data are cached
+		// TODOTODO
+		$gpsData = $cache->get(
+				array($gpsData, 'loadFileAndData'), 
+				array($file, strtolower($filename_wof)), // TODO strtolower or not??
+				"Kilometer");
+		$check = 3;// $gpsData->checkFile;
 		$filename_exists = "<input type=\"hidden\" name=\"filenameexists_" . $count . "\" value=\"false\">\n";
 	}
-
+	 
+	$date = $gpsData->Date;
+	$title = $gpsData->Title;
 	//if ( ( $errorposted == false ) AND ( $check !== true ) )
 	{
 		if ( ( $check != 8 ) AND ( $errorposted == false ) )
@@ -351,10 +363,12 @@ $table_header = ("	<table class=\"adminlist\" cellpadding=\"1\">
 
 $table_footer = ("		</tbody>\n	</table>\n");
 
-if ( $count == 0 ){
+if ( $count == 0 )
+{
 	$model = $this->getModel();
 	$rows = $model->_fetchJPTfiles();
 	if ( (JFolder::exists(JPATH_BASE . DIRECTORY_SEPARATOR . 'components' . DIRECTORY_SEPARATOR . 'com_joomgpstracks')) AND (count($rows) != 0 ) ) {
+		// DEPRECATED by default, import from joomgpstracks if no tracks uploaded in JTrackGallery folder
 		// Datenimport von joomgpstracks BEGIN
 		JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_FOUND_H'));
 		echo (JText::_('COM_JTG_FOUND_T') . "<br /><br />");
