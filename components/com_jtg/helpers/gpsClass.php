@@ -21,8 +21,7 @@ class gpsDataClass
 {
 	var $gpsFile = null;
 	var $sortedcats = null;
-	var $tracks; // array
-		// tracks[j]->coords; // array containing longitude latitude elevation time and heartbeat data
+	var $tracks; // array   tracks[j]->coords; // array containing longitude latitude elevation time and heartbeat data
 	var $speedDataExists = false;
 	var $elevationDataExists  = false;
 	var $beatDataExists = false;
@@ -39,7 +38,7 @@ class gpsDataClass
 	var $distance = 0;
 	var $Date = "";
 	var $Title = "";
-	var $checkFile = 1;
+	var $fileChecked = false;
 	
 
 	public function __construct($unit)
@@ -62,11 +61,13 @@ class gpsDataClass
 		$xml = $this->loadXmlFile($gpsFile);
 		if ($this->error)
 		{
+		    $this->fileChecked = 6;
 		    return $this;
 		}
 		if ($xml === false)
 		{
 		    $this->error = true;
+		    $this->fileChecked = 6;
 		    $this->errorMessages[] = JText::sprintf('COM_JTG_GPS_FILE_ERROR_0', $this->trackfilename);
 		    return $this;
 		}
@@ -91,6 +92,7 @@ class gpsDataClass
 
 		if ($this->trackCount == 0)
 		{
+			$this->fileChecked = 7;
 			$this->error = true;
 			$this->errorMessages[] = JText::sprintf('COM_JTG_GPS_FILE_ERROR_2',$this->trackfilename);
 			return $this;
@@ -109,6 +111,7 @@ class gpsDataClass
 
 		// extract WP
 		$this->extractWPs($xml);
+		$this->fileChecked = true;
 		return $this; // used for caching
 
 	}

@@ -181,7 +181,7 @@ class JtgViewFiles extends JViewLegacy
 	 * Überprüft die GPX-Datei für den Massenimport
 	 * @return true or Errorlevel | (string) errormessage
 	 */
-	public function checkFile($file,$exist=false) {
+	public function checkFilename($file,$exist=false) {
 		if ($exist !== false )
 		return 1;
 		$filename = explode(DIRECTORY_SEPARATOR,$file);
@@ -194,24 +194,8 @@ class JtgViewFiles extends JViewLegacy
 		return 4;
 		if ( preg_match('/\#/',$filename) )	// Wenn "#" im Dateinamen
 		return 5;
-		// TODO adapt for kml files????
-		$xml = simplexml_load_file($file);
-		if (empty($xml->trk))		// Keine Spur vorhanden
-		return 6;
-		$i = 0; // Zähler
-		$j = 0; // gefundene Spuren
-		while (true) {
-			if (!empty($xml->trk[$i])) { // Spur vorhanden
-				if (!empty($xml->trk[$i]->trkseg->trkpt)) // Punkt vorhanden
-				$j++;
-				$i++;
-			} elseif ( $j == 0 )
-			return 7; // Spur vorhanden, aber kein Punkt
-			elseif ( ( $j == 1 ) AND ( $i == 1 ) )
-			return true; // eine Spur mit Punkten an erster Stelle vorhanden
-			else
-			return 8; // Spur vorhanden, aber nicht an erster Stelle. Evtl. mehrere Spuren
-		}
+		return true;
+
 	}
 
 	/**

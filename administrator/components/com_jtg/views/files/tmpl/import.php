@@ -53,7 +53,7 @@ $level = array("access" => 0);
 $level = JArrayHelper::toObject($level);
 $row=0;
 $count = 0;
-$errorposted = false;
+$errorposted = false; // TODO no longer used!
 $importdir = JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'uploaded_tracks' . DIRECTORY_SEPARATOR . "import";
 $filesdir = JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'uploaded_tracks'. DIRECTORY_SEPARATOR;
 $filesdir = JFolder::files($filesdir);
@@ -154,45 +154,38 @@ foreach($files AS $file) {
 
 	if (in_array(strtolower($filename_wof),$filesdir) ) {
 		$check = 1; //track already existing, not reloaded 
+		$date = '';
+		$title = ''; // 
 		// TODO if file is reloaded after upgrade (new gps data, but same filename), 
 		// should delete cache, then load data with gpsDataClass  
 		$filename_exists = "<input type=\"hidden\" name=\"filenameexists_" . $count . "\" value=\"true\">\n";
 	}
 	else
 	{
-		$gpsData = new gpsDataClass("Kilometer"); // default unit
-		$cache = JFactory::getCache('com_jtg');
-		// New gps Data are cached
-		// TODOTODO
-		$gpsData = $cache->get(
-				array($gpsData, 'loadFileAndData'), 
-				array($file, strtolower($filename_wof)), // TODO strtolower or not??
-				"Kilometer");
-		$check = 3;// $gpsData->checkFile;
-		$filename_exists = "<input type=\"hidden\" name=\"filenameexists_" . $count . "\" value=\"false\">\n";
+		$check = $this->checkFilename($file,false);
+		if ($check === true) 
+		{
+			$gpsData = new gpsDataClass("Kilometer"); // default unit
+			$cache = JFactory::getCache('com_jtg');
+			// New gps Data are cached
+			// TODOTODO
+			$gpsData = $cache->get(
+					array($gpsData, 'loadFileAndData'), 
+					array($file, strtolower($filename_wof)), // TODO strtolower or not??
+					"Kilometer");
+			$check = $gpsData->fileChecked;
+			$filename_exists = "<input type=\"hidden\" name=\"filenameexists_" . $count . "\" value=\"false\">\n";
+		}
 	}
 	 
 	$date = $gpsData->Date;
 	$title = $gpsData->Title;
-	//if ( ( $errorposted == false ) AND ( $check !== true ) )
 	{
 		if ( ( $check != 8 ) AND ( $errorposted == false ) )
 		{
 			$errorposted = true;
 			JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_ERROR_FOUND'),'Notice' );
 		}
-		/*
-		 1 = JText::_('COM_JTG_TT_ERR_FILEEXIST');		green
-		2 = JText::_('COM_JTG_TT_ERR_NODELETE');		red
-		3 = JText::_('COM_JTG_TT_ERR_MUCHLEN');		brown
-		4 = JText::_('COM_JTG_TT_ERR_BADFILENAME') . " (&)";	red
-		5 = JText::_('COM_JTG_TT_ERR_BADFILENAME') . " (#)";	red
-		6 = JText::_('COM_JTG_TT_ERR_NOTRACK');		grey
-		7 = JText::_('COM_JTG_TT_ERR_NOPOINTINTRACK');	grey
-		8 = JText::_('COM_JTG_TT_ERR_MORETRACKS');		blue
-		*/
-		// if ( ( $check === true ) OR ( $check == 8 ) )
-		
 		if ( $check !== true )
 		{
 			if ( $check == 1 ) {
@@ -202,7 +195,7 @@ foreach($files AS $file) {
 				$tt = JText::_('COM_JTG_TT_ERR_NODELETE');
 				$color = "red";
 			} elseif ( $check == 3 ) {
-				$tt = JText::_('COM_JTG_TT_ERR_MUCHLEN');
+				$tt = JText::_('COM_JTG_TT_ERR_FILENAME_TOO_LONG');
 				$color = "brown";
 			} elseif ( $check == 4 ) {
 				$tt = JText::_('COM_JTG_TT_ERR_BADFILENAME') . " (&)";
@@ -214,10 +207,10 @@ foreach($files AS $file) {
 				$tt = JText::_('COM_JTG_TT_ERR_NOTRACK');
 				$color = "lightgrey";
 			} elseif ( $check == 7 ) {
-				$tt = JText::_('COM_JTG_TT_ERR_NOPOINTINTRACK');
+				$tt = JText::_('COM_JTG_TT_ERR_NOPOINTINTRACK');  // No longer used !!
 				$color = "lightgrey";
 			} elseif ( $check == 8 ) {
-				$tt = JText::_('COM_JTG_TT_ERR_MORETRACKS');
+				$tt = JText::_('COM_JTG_TT_ERR_MORETRACKS');  // No longer used !!
 				$color = "blue";
 			}
 			$table .= "			<tr class=\"row$row " . ($row? "row-odd":"row-even"). "\">\n<td colspan=\"9\">" . JText::_('COM_JTG_GPS_FILE') . ': ' .  $filename . ": <b><font color=\"red\">" . $tt . "</font></b><br></tr>\n";
@@ -271,7 +264,7 @@ foreach($files AS $file) {
 			$table .= ("\n				<input id=\"title\" type=\"text\" name=\"title_" . $count . "\" value=\"" . $title . "\" size=\"30\" /></td>\n");
 		}
 
-		//Row: Schwierigkeitsgrad
+		//Row: Difficulty level
 		{
 			$table .= "				<td>\n";
 			$table .=  "					<select id=\"level_" . $count . "\" name=\"level_" . $count . "\" size=\"6\"\n>
@@ -288,7 +281,7 @@ foreach($files AS $file) {
 				</td>\n";
 		}
 
-		//Row: Kategorien
+		//Row: Categorie
 		{
 			$table .= ("				<td>" . $lists['cats'] . "</td>\n");
 		}
@@ -298,12 +291,12 @@ foreach($files AS $file) {
 			$table .= ("				<td>" . $lists['terrain'] . "</td>\n");
 		}
 
-		//Row: Autor
+		//Row: Author
 		{
 			$table .= ("				<td>" . $lists['uid'] . "</td>\n");
 		}
 
-		//Row: Zugriffsebene
+		//Row: Acces level
 		{
 			$table .= ("				<td>" . $lists['access'] . "</td>\n");
 		}
@@ -319,7 +312,7 @@ foreach($files AS $file) {
 		}
 
 		$table .= ("			</tr>\n<tr class=\"row$row " . ($row? "row-odd":"row-even"). "\">\n");
-		//Row: Beschreibung
+		//Row: Decription
 		{
 			$table .= ("				<td>&nbsp;&nbsp;</td><td colspan='8'>".JText::_('COM_JTG_DESCRIPTION') . ":<br />\n" . $lists['description'] . "</td>\n");
 		}
@@ -333,31 +326,19 @@ foreach($files AS $file) {
 		}
 	}
 }
-/*
- echo JText::_('COM_JTG_INFO_AUTHOR');
- echo JText::_('COM_JTG_LEVEL');
- echo JText::_('COM_JTG_SELECT');
- echo JText::_('COM_JTG_CAT');
- echo JText::_('COM_JTG_ACCESS_LEVEL');
- echo JText::_('COM_JTG_GPS_FILE');
- echo JText::_('COM_JTG_TERRAIN');
- echo JText::_('COM_JTG_DESCRIPTION');
- echo JText::_('COM_JTG_IMAGES');
- echo JText::_('COM_JTG_TERMS');*/
 
 $table_header = ("	<table class=\"adminlist\" cellpadding=\"1\">
 		<thead>
 			<tr>
 				<th class=\"title\" width=\"1\">&nbsp;</th>
-				<th class=\"title\" width=\"1\">"
-					.JText::_('COM_JTG_DATE') . "</th>
-				<th class=\"title\" width=\"1\">".JText::_('COM_JTG_TITLE') . "</th>
-				<th class=\"title\" width=\"1\">".JText::_('COM_JTG_LEVEL') . "</th>
-				<th class=\"title\" width=\"1\">".JText::_('COM_JTG_CAT') . "</th>
-				<th class=\"title\" width=\"1\">".JText::_('COM_JTG_TERRAIN') . "</th>
-				<th class=\"title\" width=\"1\">".JText::_('COM_JTG_INFO_AUTHOR') . "</th>
-				<th class=\"title\" width=\"1\">".JText::_('COM_JTG_ACCESS_LEVEL') . "</th>
-				<th class=\"title\" width=\"1\">".JText::_('COM_JTG_HIDDEN') . "</th>
+				<th class=\"title\" width=\"1\">" . JText::_('COM_JTG_DATE') . "</th>
+				<th class=\"title\" width=\"1\">" . JText::_('COM_JTG_TITLE') . "</th>
+				<th class=\"title\" width=\"1\">" . JText::_('COM_JTG_LEVEL') . "</th>
+				<th class=\"title\" width=\"1\">" . JText::_('COM_JTG_CAT') . "</th>
+				<th class=\"title\" width=\"1\">" . JText::_('COM_JTG_TERRAIN') . "</th>
+				<th class=\"title\" width=\"1\">" . JText::_('COM_JTG_INFO_AUTHOR') . "</th>
+				<th class=\"title\" width=\"1\">" . JText::_('COM_JTG_ACCESS_LEVEL') . "</th>
+				<th class=\"title\" width=\"1\">" . JText::_('COM_JTG_HIDDEN') . "</th>
 			</tr>
 		</thead>\n");
 
@@ -368,7 +349,8 @@ if ( $count == 0 )
 	$model = $this->getModel();
 	$rows = $model->_fetchJPTfiles();
 	if ( (JFolder::exists(JPATH_BASE . DIRECTORY_SEPARATOR . 'components' . DIRECTORY_SEPARATOR . 'com_joomgpstracks')) AND (count($rows) != 0 ) ) {
-		// DEPRECATED by default, import from joomgpstracks if no tracks uploaded in JTrackGallery folder
+		// DEPRECATED to be replaced by import from injoosm
+		// by default, import from joomgpstracks if no tracks uploaded in JTrackGallery folder
 		// Datenimport von joomgpstracks BEGIN
 		JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_FOUND_H'));
 		echo (JText::_('COM_JTG_FOUND_T') . "<br /><br />");
