@@ -126,7 +126,6 @@ foreach($files AS $file) {
 	$buttons = array(
 	"pagebreak",
 	"readmore");
-	$lists['description'] = $editor->display( 'desc_'.$count, '', '100%', '200', '20', '20', $buttons, NULL, NULL );
 	$lists['access'] = $this->accesslevelForImport("access_" . $count);
 	$lists['uid'] = JHtml::_('select.genericlist', $userslist, 'uid_'.$count, ' size="'.$userslistsize.'"','id', 'title', $me->id);
 	// $me->id, 1, 'onclick="setSelect(\'uid\')"', 'name', 0 );
@@ -155,7 +154,8 @@ foreach($files AS $file) {
 	if (in_array(strtolower($filename_wof),$filesdir) ) {
 		$check = 1; //track already existing, not reloaded 
 		$date = '';
-		$title = ''; // 
+		$title = '';
+		$description = '';
 		// TODO if file is reloaded after upgrade (new gps data, but same filename), 
 		// should delete cache, then load data with gpsDataClass  
 		$filename_exists = "<input type=\"hidden\" name=\"filenameexists_" . $count . "\" value=\"true\">\n";
@@ -174,12 +174,15 @@ foreach($files AS $file) {
 					array($file, strtolower($filename_wof)), // TODO strtolower or not??
 					"Kilometer");
 			$check = $gpsData->fileChecked;
+			$title = $gpsData->trackname;
+			$date = $gpsData->Date;
+			$description = $gpsData->description
 			$filename_exists = "<input type=\"hidden\" name=\"filenameexists_" . $count . "\" value=\"false\">\n";
 		}
 	}
-	 
-	$date = $gpsData->Date;
-	$title = $gpsData->Title;
+
+	$lists['description'] = $editor->display( 'desc_'.$count, $description, '100%', '200', '20', '20', $buttons, NULL, NULL );
+		
 	{
 		if ( ( $check != 8 ) AND ( $errorposted == false ) )
 		{

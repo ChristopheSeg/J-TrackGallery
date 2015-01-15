@@ -37,8 +37,9 @@ class gpsDataClass
 	var $isWaypoint = false;
 	var $distance = 0;
 	var $Date = "";
-	var $Title = "";
+	var $trackname = "";
 	var $fileChecked = false;
+	var $description = "";
 	
 
 	public function __construct($unit)
@@ -195,7 +196,7 @@ class gpsDataClass
 					break;
 				case 'description':
 					$gps_file_description .= preg_replace('/<!\[CDATA\[(.*?)\]\]>/s','',$documentNode->nodeValue);
-					break;
+					break;	
 			}
 		}
 
@@ -276,6 +277,11 @@ class gpsDataClass
 						$this->trackname .=  $this->gpsFile;
 					}
 					$this->description = $gps_file_description .'<br>'.$tracks_description;
+					if (!$this->description) 
+					{
+						$this->description = $this->trackname;
+					}
+					
 					$this->isTrack = ($this->trackCount>0);
 					$this->isCache = $this->isThisCache($xml);
 
@@ -390,6 +396,19 @@ class gpsDataClass
 		{
 		    $this->trackname = (string) @$xml->trk[0]->name;
 		}
+		$this->description = @$xml->desc;
+		if  ( !$this->description)
+		{
+			$this->description = $this->trackname;
+		}
+		
+		$this->Date =  (string) @$xml->time;
+		if ($this->Date) 
+		{
+			$dt = new DateTime($this->Date);
+			$this->Date = $dt->format('Y-m-d');
+		}
+
 		$this->trackCount = 0;
 		for($t=0; $t < @count($xml->trk); $t++)
 		{
