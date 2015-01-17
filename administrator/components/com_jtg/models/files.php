@@ -699,6 +699,7 @@ class JtgModelFiles extends JModelLegacy
 				$terrain = "";
 				$desc = $db->getEscaped(implode(' ',JFactory::getApplication()->input->get('desc_'.$i, '', 'array') ) );
 				$file = JFactory::getApplication()->input->get('file_'.$i,'','raw');
+				$file_replace = JFactory::getApplication()->input->get('file_replace_'.$i);
 				$hidden = JFactory::getApplication()->input->get('hidden_'.$i);
 				$file_tmp = explode(DIRECTORY_SEPARATOR,$file);
 				$filename = strtolower($file_tmp[(count($file_tmp)-1)]);
@@ -712,7 +713,8 @@ class JtgModelFiles extends JModelLegacy
 				$file_tmp = str_replace('\&','',$file_tmp);
 				$target = $file_tmp . "." . $extension;
 				$target = JFile::makeSafe($target);
-				if ( in_array($target,$existingfiles) ) {
+				if ( (!$file_replace ) and (in_array($target,$existingfiles)) ) 
+				{
 					$randnumber = (50-strlen($target));
 					$fncount = 0;
 					while (true) {
@@ -993,6 +995,7 @@ class JtgModelFiles extends JModelLegacy
 			}
 			else
 			{
+				// TODOTODO add erase old file
 				$randname = $this->alphanumericPass($randnumber);
 				$filename = $randname.JFile::makeSafe($file['name']);
 				// Man weiß ja nie ;)

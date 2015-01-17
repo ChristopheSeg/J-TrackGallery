@@ -114,9 +114,6 @@ $table = ("		<tbody>\n
 if ( $files !== false )
 foreach($files AS $file) {
 		$row = (1 - $row);
-	// Formatierungen
-
-//	$lists['cats'] = JHtml::_('select.genericlist', $model->getCats(), 'catid_'.$count, 'size="'.$size.'"', 'id', 'title');
 	$lists['cats'] = JHtml::_('select.genericlist',
 		$cats,
 		'catid_'.$count.'[]',
@@ -176,7 +173,7 @@ foreach($files AS $file) {
 			$check = $gpsData->fileChecked;
 			$title = $gpsData->trackname;
 			$date = $gpsData->Date;
-			$description = $gpsData->description
+			$description = $gpsData->description;
 			$filename_exists = "<input type=\"hidden\" name=\"filenameexists_" . $count . "\" value=\"false\">\n";
 		}
 	}
@@ -189,10 +186,20 @@ foreach($files AS $file) {
 			$errorposted = true;
 			JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_ERROR_FOUND'),'Notice' );
 		}
+		if (($check==1) and ( $check !== true ))
+		{
+			$file_replace = ("<input type=\"checkbox\" id=\"fr" . $count . "\" value=\"1\" name=\"file_replace_" . $count . "\" onclick=\"Joomla.isChecked(this.checked);\" />\n");
+		}
+		else
+		{
+			// set hidden file_replace <input> to 0)
+			$file_replace = ("<input type=\"hidden\" name=\"file_replace_" . $count . "\" value=\"0\" />");
+			echo $file_replace;
+		}
 		if ( $check !== true )
 		{
 			if ( $check == 1 ) {
-				$tt = JText::_('COM_JTG_TT_ERR_FILEEXIST');
+				$tt = JTEXT::sprintf('COM_JTG_TT_ERR_FILEEXIST',$file_replace);
 				$color = "green";
 			} elseif ( $check == 2 ) {
 				$tt = JText::_('COM_JTG_TT_ERR_NODELETE');
@@ -216,11 +223,11 @@ foreach($files AS $file) {
 				$tt = JText::_('COM_JTG_TT_ERR_MORETRACKS');  // No longer used !!
 				$color = "blue";
 			}
-			$table .= "			<tr class=\"row$row " . ($row? "row-odd":"row-even"). "\">\n<td colspan=\"9\">" . JText::_('COM_JTG_GPS_FILE') . ': ' .  $filename . ": <b><font color=\"red\">" . $tt . "</font></b><br></tr>\n";
+			$table .= "			<tr class=\"row$row " . ($row? "row-odd":"row-even"). "\">\n<td colspan=\"9\">" . JText::_('COM_JTG_GPS_FILE') . ':<b> ' .  $filename . '</b>: <b><font color=\"red\">' . $tt . "</font></b><br></tr>\n";
 		}
 		else
 		{
-			$table .= "			<tr class=\"row$row " . ($row? "row-odd":"row-even"). "\">\n<td colspan=\"9\">" . JText::_('COM_JTG_GPS_FILE') . ': ' .  $filename . ': '. JText::_('COM_JTG_TT_FILEOKAY') . "</tr>\n";
+			$table .= "			<tr class=\"row$row " . ($row? "row-odd":"row-even"). "\">\n<td colspan=\"9\">" . JText::_('COM_JTG_GPS_FILE') . ':<b> ' .  $filename . '</b>: ' . JText::_('COM_JTG_TT_FILEOKAY') . "</tr>\n";
 		}
 		
 		
