@@ -330,7 +330,6 @@ class JtgModelFiles extends JModelLegacy
 		// get the start coordinates..
 
 		$gpsData = new gpsDataClass("Kilometer"); // default unit
-
 		$gpsData = $cache->get(array(
 				$gpsData,
 				'loadFileAndData'

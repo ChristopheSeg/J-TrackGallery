@@ -148,13 +148,9 @@ foreach($files AS $file) {
 	// $filename = strtolower(JFile::getName($file));
 
 
-	if (in_array(strtolower($filename_wof),$filesdir) ) {
-		$check = 1; //track already existing, not reloaded 
-		$date = '';
-		$title = '';
-		$description = '';
-		// TODO if file is reloaded after upgrade (new gps data, but same filename), 
-		// should delete cache, then load data with gpsDataClass  
+	if (in_array(strtolower($filename_wof),$filesdir) ) 
+	{
+		$check = 1; //track already existing
 		$filename_exists = "<input type=\"hidden\" name=\"filenameexists_" . $count . "\" value=\"true\">\n";
 	}
 	else
@@ -162,22 +158,26 @@ foreach($files AS $file) {
 		$check = $this->checkFilename($file,false);
 		if ($check === true) 
 		{
-			$gpsData = new gpsDataClass("Kilometer"); // default unit
-			$cache = JFactory::getCache('com_jtg');
-			// New gps Data are cached
-			// TODOTODO
-			$gpsData = $cache->get(
-					array($gpsData, 'loadFileAndData'), 
-					array($file, strtolower($filename_wof)), // TODO strtolower or not??
-					"Kilometer");
-			$check = $gpsData->fileChecked;
-			$title = $gpsData->trackname;
-			$date = $gpsData->Date;
-			$description = $gpsData->description;
 			$filename_exists = "<input type=\"hidden\" name=\"filenameexists_" . $count . "\" value=\"false\">\n";
 		}
 	}
-
+	$gpsData = new gpsDataClass("Kilometer"); // default unit
+	$cache = JFactory::getCache('com_jtg');
+	// New gps Data are cached
+	// TODOTODO
+	$cache->cleanCache; //TODO partial clean??
+	$gpsData = $cache->get(
+			array($gpsData, 'loadFileAndData'),
+			array($file, strtolower($filename_wof)), // TODO strtolower or not??
+			"Kilometer");
+	if ($check === true)
+	{
+		$check = $gpsData->fileChecked;
+	}	
+	$title = $gpsData->trackname;
+	$date = $gpsData->Date;
+	$description = $gpsData->description;
+	
 	$lists['description'] = $editor->display( 'desc_'.$count, $description, '100%', '200', '20', '20', $buttons, NULL, NULL );
 		
 	{

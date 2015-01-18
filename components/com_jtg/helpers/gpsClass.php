@@ -253,8 +253,8 @@ class gpsDataClass
 							else
 							{
 								// Use description and name for file
-								$gps_file_name .= $name;
-								$gps_file_description .= $description;
+								$gps_file_name .= ($gps_file_name? ' -' . $name: $name);
+								$gps_file_description .= ($gps_file_description? '<br />' . $description : $description);
 							}
 							break;
 					}

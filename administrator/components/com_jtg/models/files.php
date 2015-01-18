@@ -718,11 +718,12 @@ class JtgModelFiles extends JModelLegacy
 					$randnumber = (50-strlen($target));
 					$fncount = 0;
 					while (true) {
-						$randname = JtgHelper::alphanumericPass($randnumber);
-						$target = $file_tmp.$randname . "." . $extension;
+						$target = $file_tmp . '_' . $fncount . "." . $extension;
 						if (!in_array($target,$existingfiles) )
-						break;
-						// Man weiß ja nie ;)
+						{
+							break;
+						}
+						// Normally not usefull
 						if ( $fncount > 100 ) {
 							$randname = JtgHelper::alphanumericPass(45);
 							$target = $randname . "." . $extension;
@@ -733,10 +734,12 @@ class JtgModelFiles extends JModelLegacy
 					}
 				}
 				elseif (strlen($target) > 50)
-				{ // Wenn Dateiname über 50 Zeichen hat...
+				{ // If filename is more than 50 characters long...
+					// TODO change this to a more convenient filename truncation
 					for($j=0;$j<100;$j++) { // ... unternehme 100 Versuche...
 						$file_tmp = JtgHelper::alphanumericPass(45); // $this->alphanumericPass(45);
-						if ( !in_array($file_tmp . "." . $extension,$existingfiles) ) {
+						if ( !in_array($file_tmp . "." . $extension,$existingfiles) ) 
+						{
 							// ... einen neuen Namen zu finden, ...
 							$target = $file_tmp . "." . $extension;
 							$j=105; // ... und beende, andernfalls ...
@@ -753,6 +756,7 @@ class JtgModelFiles extends JModelLegacy
 				// 	get the start coordinates $target
 				$cache = JFactory::getCache();
 				$gpsData = new gpsDataClass("Kilometer");// default unit
+				//TODOTODO use $target below!! 
 				$gpsData = $cache->get(array ( $gpsData, 'loadFileAndData' ), array ($file, $filename ), "Kilometer");
 				$errors = $gpsData->displayErrors();
 				if ($errors)
@@ -762,8 +766,14 @@ class JtgModelFiles extends JModelLegacy
 				   $distance_float = 0;
 				   $distance = 0;
 				   echo "<script type='text/javascript'>alert('".JText::_('COM_JTG_NO_SUPPORT') . "\n" .$errors."');window.history.back(-1);</script>";
-				   //TODO before exit, remove downloaded file!!
-				   exit; //TODO chekch if exit is correct here ???
+					// remove file before exiting
+					if (!JFile::delete($file))
+					{
+						// TODO JTEXT
+						echo "Erasing failed (file: \"" . $file . "\") !\n";
+				   		exit; //TODO check if exit is correct here ???
+					}
+					
 				}
 				$fileokay = true; // TODO remove $fileokay
 
@@ -777,20 +787,27 @@ class JtgModelFiles extends JModelLegacy
 
 				$distance = $gpsData->distance;
 
-				if ($fileokay == true) {
-
+				if ($fileokay == true) 
+				{
 					// upload the file
 					// 				$upload_dir = JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'uploaded_tracks'. DIRECTORY_SEPARATOR;
 					// 				$filename = explode(DIRECTORY_SEPARATOR,$file);
 					// 				$filename = $filename[(count($filename)-1)];
 					// 				$filename = JFile::makeSafe($filename);
-					if (!JFile::copy($file, $targetdir.$target)) {
+					if (!JFile::copy($file, $targetdir.$target)) 
+					{
+						// TODO JTEXT 
 						echo "Upload failed (file: \"" . $file . "\") !\n";
-					} else {
+					} 
+					else 
+					{
 						chmod($targetdir.$target, 0664);
 					}
 					if (!JFile::delete($file))
-					echo "Erasing failed (file: \"" . $file . "\") !\n";
+					{
+						// TODO JTEXT
+						echo "Erasing failed (file: \"" . $file . "\") !\n";
+					}
 
 					// images upload part
 
@@ -816,7 +833,8 @@ class JtgModelFiles extends JModelLegacy
 
 					$db->setQuery($query);
 					$db->execute();
-					if ($db->getErrorNum()) {
+					if ($db->getErrorNum()) 
+					{
 						echo $db->stderr();
 						return false;
 					}
