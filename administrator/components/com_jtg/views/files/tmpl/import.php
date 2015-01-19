@@ -165,7 +165,7 @@ foreach($files AS $file) {
 	$cache = JFactory::getCache('com_jtg');
 	// New gps Data are cached
 	// TODOTODO
-	$cache->cleanCache; //TODO partial clean??
+	$cache->clean(); //TODO partial clean??
 	$gpsData = $cache->get(
 			array($gpsData, 'loadFileAndData'),
 			array($file, strtolower($filename_wof)), // TODO strtolower or not??

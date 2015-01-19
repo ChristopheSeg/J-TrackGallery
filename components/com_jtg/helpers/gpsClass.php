@@ -203,30 +203,28 @@ class gpsDataClass
 		// search for tracks (name (title), description and coordinates
 		$placemarkNodes = $xpath->query('//kml:Placemark');
 		$this->trackCount = 0;
-
+		$tracks_description='';
 		$track_name = '';
 		$track_description= '';
 		foreach ($placemarkNodes as $placemarkNode)
 		{
-			// echo "<br>-> {$placemarkNode->nodeName} ";
 			$nodes = $xpath->query('.//kml:name|.//kml:description|.//kml:LineString|.//kml:coordinates',$placemarkNode);
 			if ($nodes)
 			{
 				$found_linestring = false;
 				$name = '';
 				$description ='';
-				$tracks_description='';
 				$coordinates = NULL;
 				foreach ($nodes as $node)
 				{
-					// echo "<br>===> {$node->nodeName} ";// {$elementList->nodeValue}";
-
 					switch ($node->nodeName) {
 						case 'name':
-							$name = preg_replace('/<!\[CDATA\[(.*?)\]\]>/s','',$node->nodeValue);
+							$name = $node->nodeValue;
 							break;
 						case 'description':
-							$description = preg_replace('/<!\[CDATA\[(.*?)\]\]>/s','',$node->nodeValue);
+							$description = $node->nodeValue;
+							$tracks_description .= $description;
+							$description = ( ($description='&nbsp;')? '' : $description); 
 							break;
 						case 'LineString':
 							$found_linestring = true;
@@ -241,52 +239,55 @@ class gpsDataClass
 									$coordinatesCount = count($coordinates);
 									$this->trackCount++;
 									$this->track[$this->trackCount] = new stdClass();
-									$this->track[$this->trackCount]->trackname =  $name;
-									$this->track[$this->trackCount]->description =  $description;
-									$tracks_description .= $description;
 									$this->track[$this->trackCount]->coords= $coordinates;
 									$this->track[$this->trackCount]->start = ($coordinates[0][0] . "," . $coordinates[0][1]);
 									$this->track[$this->trackCount]->stop = ($coordinates[$coordinatesCount-1][0] . "," . $coordinates[$coordinatesCount-1][1]);
 								}
 
 							}
-							else
-							{
-								// Use description and name for file
-								$gps_file_name .= ($gps_file_name? ' -' . $name: $name);
-								$gps_file_description .= ($gps_file_description? '<br />' . $description : $description);
-							}
 							break;
 					}
-				}
-
-				if ($this->trackCount)
-				{
-					// GPS file name (title) and description
-					$this->trackname =  $gps_file_name;
-					if ( strlen($gps_file_name)>2 )
+					if ($this->trackCount) 
 					{
-						$this->trackname =  $gps_file_name;
+						$this->track[$this->trackCount]->trackname =  ($name? $name : $description);
+						$this->track[$this->trackCount]->description =  $description;						
 					}
-					if ( ( strlen($this->trackname) < 10 ) AND ($this->trackCount ==1) )
+					// Use description and name for file description 
+					if ($name OR $description)
 					{
-						$this->trackname .=  $this->track[1]->trackname;
-					}
-					if ( strlen($this->trackname) < 10 )
-					{
-						$this->trackname .=  $this->gpsFile;
-					}
-					$this->description = $gps_file_description .'<br>'.$tracks_description;
-					if (!$this->description) 
-					{
-						$this->description = $this->trackname;
+						$gps_file_description .= '<br />' . $name . ':' . $description;
 					}
 					
-					$this->isTrack = ($this->trackCount>0);
-					$this->isCache = $this->isThisCache($xml);
-
 				}
 			}
+
+		}
+		
+		if ($this->trackCount)
+		{
+			// GPS file name (title) and description
+			$this->trackname =  $gps_file_name;
+			if ( strlen($gps_file_name)>2 )
+			{
+				$this->trackname =  $gps_file_name;
+			}
+			if ( ( strlen($this->trackname) < 10 ) AND ($this->trackCount ==1) )
+			{
+				$this->trackname .=  $this->track[1]->trackname;
+			}
+			if ( strlen($this->trackname) < 10 )
+			{
+				$this->trackname .=  $this->gpsFile;
+			}
+			$this->description = $gps_file_description .'<br>'.$tracks_description;
+			if (!$this->description)
+			{
+				$this->description = $this->trackname;
+			}
+				
+			$this->isTrack = ($this->trackCount>0);
+			$this->isCache = $this->isThisCache($xml);
+		
 		}
 		return true ; // nothing to return
 	}
@@ -2127,12 +2128,11 @@ class gpsDataClass
 		$string = "// <!-- parseXMLlinesCOM_JTG BEGIN -->\n";
 		if($this->trackCount == 0) {return;}
 		$tracksColors = $this->calculateAllColors($this->trackCount);
-		//		$foundtracks = 0;
 		for($i=1; $i <= $this->trackCount; $i++)
 		{
 			$m = microtime(true);
 			$coords = $this->track[$i]->coords;
-
+			// echo"<br>$i==>".$this->track[$i]->trackname; 
 			$subid = $link . "&amp;subid=" . $i;
 			$string .= "layer_vectors = new OpenLayers.Layer.Vector(";
 			$string .= "\"". ($this->track[$i]->trackname? $this->track[$i]->trackname : JText::_('COM_JTG_TRACK').$i) . "\"";
@@ -2147,7 +2147,8 @@ class gpsDataClass
 			//$string .= "// fetchCoordsBegin\n";
 			$n = 0;
 			$coordscount = (count($coords)-1);
-			foreach($coords as $key => $fetch) {
+			foreach($coords as $key => $fetch) 
+			{
 				$string .= "[" . $coords[$key][0] . "," . $coords[$key][1] . "]";
 				if($n != $coordscount)
 				$string .= ",\n";
