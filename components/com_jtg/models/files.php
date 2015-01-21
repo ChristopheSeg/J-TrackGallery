@@ -314,13 +314,14 @@ class JtgModelFiles extends JModelLegacy
 		$newfile = $upload_dir . strtolower($filename);
 		if (JFile::exists($newfile))
 		{
+			$alert_text= json_encode(JText::sprintf("COM_JTG_FILE_ALREADY_EXISTS", $filename));
 			die(
-					"<script type='text/javascript'>alert('" . JText::sprintf("COM_JTG_FILE_ALREADY_EXISTS", $filename) .
-							 "');window.history.back(-1);</script>");
+					"<script type='text/javascript' charset='UTF-8'>alert($alert_text);window.history.back(-1);</script>");
 		}
 		if (! JFile::upload($file['tmp_name'], $newfile))
 		{
-			die("<script type='text/javascript'>alert('" . JText::_('COM_JTG_UPLOAD_FAILS') . "');window.history.back(-1);</script>");
+			$alert_text= json_encode(JText::_('COM_JTG_UPLOAD_FAILS'));
+			die("<script type='text/javascript'>alert($alert_text);window.history.back(-1);</script>");
 		}
 		else
 		{
@@ -349,7 +350,8 @@ class JtgModelFiles extends JModelLegacy
 			{
 				JFile::delete($upload_dir . strtolower($filename));
 			}
-			echo "<script type='text/javascript'>alert('" . JText::_('COM_JTG_NO_SUPPORT') . '\n' .$errors."');window.history.back(-1);</script>";
+			$alert_text= json_encode(JText::_('COM_JTG_NO_SUPPORT') . '\n' .$errors);
+			echo "<script type='text/javascript'>alert($alert_text);window.history.back(-1);</script>";
 			exit();
 		}
 
@@ -369,26 +371,26 @@ class JtgModelFiles extends JModelLegacy
 		// exit;
 		// }
 
-		$query = "INSERT INTO #__jtg_files SET" 
-		. "\n uid='" . $uid . "'," 
-		. "\n catid='" . $catid . "'," 
-		. "\n title='" . $title . "'," 
-		. "\n file='" .	strtolower($filename) . "'," 
-		. "\n terrain='" . $terrain . "'," 
-		. "\n description='" . $desc . "'," 
-		. "\n published='" . $published ."'," 
-		. "\n date='" . $date . "'," 
-		. "\n start_n='" . $start_n . "'," 		 
-		. "\n start_e='" . $start_e . "'," 
-		. "\n distance='" . $distance . "'," 
-		. "\n ele_asc='" . round($gpsData->totalAscent, 0) . "'," 
-		. "\n ele_desc='" . round($gpsData->totalDescent, 0) . "'," 
-		. "\n level='" . $level . "'," 
-		. "\n access='" . $access . "'," 
-		. "\n hidden='" . $hidden . "'," 
-		. "\n istrack='" . $isTrack . "'," 
-		. "\n iswp='" . $isWaypoint . "'," 
-		. "\n isroute='" . $isRoute . "'," 
+		$query = "INSERT INTO #__jtg_files SET"
+		. "\n uid='" . $uid . "',"
+		. "\n catid='" . $catid . "',"
+		. "\n title='" . $title . "',"
+		. "\n file='" .	strtolower($filename) . "',"
+		. "\n terrain='" . $terrain . "',"
+		. "\n description='" . $desc . "',"
+		. "\n published='" . $published ."',"
+		. "\n date='" . $date . "',"
+		. "\n start_n='" . $start_n . "',"
+		. "\n start_e='" . $start_e . "',"
+		. "\n distance='" . $distance . "',"
+		. "\n ele_asc='" . round($gpsData->totalAscent, 0) . "',"
+		. "\n ele_desc='" . round($gpsData->totalDescent, 0) . "',"
+		. "\n level='" . $level . "',"
+		. "\n access='" . $access . "',"
+		. "\n hidden='" . $hidden . "',"
+		. "\n istrack='" . $isTrack . "',"
+		. "\n iswp='" . $isWaypoint . "',"
+		. "\n isroute='" . $isRoute . "',"
 		. "\n iscache='" . $isCache . "'"
 		;
 
@@ -708,7 +710,7 @@ class JtgModelFiles extends JModelLegacy
 			}
 		}
 		$query = "UPDATE #__jtg_files SET" . "\n catid='" . $catid . "'," . "\n title='" . $title . "'," . "\n terrain='" . $terrain . "'," .
-				 "\n description='" . $desc . "'," . 				
+				 "\n description='" . $desc . "'," .
 				"\n level='" . $level . "'," . "\n hidden='" . $hidden . "'," . "\n published='" . $published . "'," . "\n access='" . $access . "'" .
 				 "\n WHERE id='" . $id . "'";
 

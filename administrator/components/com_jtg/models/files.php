@@ -765,7 +765,8 @@ class JtgModelFiles extends JModelLegacy
 				   $coords = "";
 				   $distance_float = 0;
 					$distance = 0;
-					echo "<script type='text/javascript'>alert('".JText::_('COM_JTG_NO_SUPPORT') . "\n" .$errors."');window.history.back(-1);</script>";
+					$alert_text= json_encode(JText::_('COM_JTG_NO_SUPPORT') . "\n" .$errors);
+					echo "<script type='text/javascript'>alert($alert_text);window.history.back(-1);</script>";
 					// remove file before exiting
 					if (!JFile::delete($file))
 					{
@@ -911,7 +912,8 @@ class JtgModelFiles extends JModelLegacy
 		} else
 		{
 			// TODO print an error message
-			echo "<script type='text/javascript'>alert('".JText::_('COM_JTG_NO_SUPPORT') . "(2): " . $target . "');window.history.back(-1);</script>";
+			$alert_text= json_encode(JText::_('COM_JTG_NO_SUPPORT') . "(2): " . $target);
+			echo "<script type='text/javascript'>alert($alert_text);window.history.back(-1);</script>";
 			// 				exit;
 		}
 		if ($fileokay == true) {
@@ -991,37 +993,49 @@ class JtgModelFiles extends JModelLegacy
 		$terrain = "";
 		$desc = $db->getEscaped(implode(' ',JFactory::getApplication()->input->get('description', '', 'array') ) );
 		$file = JFactory::getApplication()->input->files->get('file');
+		$$$$$$$$$$$
+		$file_tmp = explode(DIRECTORY_SEPARATOR,$file);
+		$filename = strtolower($file_tmp[(count($file_tmp)-1)]);
+		$file_tmp = str_replace(' ','_',$filename);
+		$file_tmp = explode('.',$file_tmp);
+		$extension = $file_tmp[(count($file_tmp)-1)];
+		unset($file_tmp[(count($file_tmp)-1)]);
+		$file_tmp = trim(implode('.',$file_tmp));
+		$file_tmp = str_replace('#','',$file_tmp);
+		$file_tmp = str_replace('\&amp;','',$file_tmp);
+		$file_tmp = str_replace('\&','',$file_tmp);
+		$target = $file_tmp . "." . $extension;
+		$$$$$$$$$$$$
+
 		$uid = JFactory::getApplication()->input->get('uid');
 		$date = date("Y-m-d");
 		$images = JFactory::getApplication()->input->files->get('images');
 		$access = JRequest::getInt('access');
 		$hidden = JFactory::getApplication()->input->get('hidden');
 
-		// @ToDo: => JtgHelper::uploadfile
 		// upload the file
 		$upload_dir = JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'uploaded_tracks' . DIRECTORY_SEPARATOR;
-		$filename = JFile::makeSafe($file['name']);
-		$randnumber = (50-strlen($filename));
-		$fncount = 0;
+		//
+		$fncount = 1;
 		while (true) {
-			if (!JFile::exists($upload_dir.$filename))
+			if (!JFile::exists($upload_dir.$target))
 			{
-				if (!JFile::upload($file['tmp_name'], $upload_dir.$filename)) {
+				if (!JFile::upload($file['tmp_name'], $upload_dir.$target)) {
+					// TODO JTEXT !
 					echo "Upload failed!";
 				} else {
-					chmod($upload_dir.strtolower($filename), 0664);
+					chmod($upload_dir.$target, 0664);
 				}
 				break;
 			}
 			else
 			{
-				// TODOTODO add erase old file
-				$randname = $this->alphanumericPass($randnumber);
-				$filename = $randname.JFile::makeSafe($file['name']);
+				$target = $file_tmp . '_' . $fncount . "." . $extension;
 				// Man weiß ja nie ;)
-				if ( $fncount > 10000 )
+				if ( $fncount > 100 )
 				{
 					//This would never happen !!
+					// TODOTODO add erase old file
 					die("<html>Booah! No free Filename available!<br>\"<i>".JFile::makeSafe($file['name']) . "</i>\"</html>");
 				}
 				$fncount++;
@@ -1030,20 +1044,20 @@ class JtgModelFiles extends JModelLegacy
 
 		// get the start coordinates
 		$gpsData = new gpsDataClass("Kilometer");// default unit
-		//TODO $track is not defined  here !!!!
-		$file = ".." . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "jtrackgallery" . DIRECTORY_SEPARATOR . "uploaded_tracks" . DIRECTORY_SEPARATOR . strtolower($filename);
+		$file = $upload_dir.$target;
 		$cache = JFactory::getCache();
-		$gpsData = $cache->get(array ( $gpsData, 'loadFileAndData' ), array ($file, strtolower($filename) ), "Kilometer");
+		$gpsData = $cache->get(array ( $gpsData, 'loadFileAndData' ), array ($file, $target), "Kilometer");
 		$errors = $gpsData->displayErrors();
 		if ($errors)
 		{
-		   $map = "";
-		   $coords = "";
-		   $distance_float = 0;
-		   $distance = 0;
-		   echo "<script type='text/javascript'>alert('".JText::_('COM_JTG_NO_SUPPORT') . "\n" . $errors . "');window.history.back(-1);</script>";
-		   //TODO before exit, remove downloaded file!!
-		   exit;
+			$map = "";
+			$coords = "";
+			$distance_float = 0;
+			$distance = 0;
+			$alert_text=json_encode(JText::_('COM_JTG_NO_SUPPORT') . "\n" . $errors);
+			echo "<script type='text/javascript'>alert($alert_text);window.history.back(-1);</script>";
+			//TODO before exit, remove downloaded file!!
+			exit;
 		}
 		$fileokay = true; // TODO remove $fileokay
 
@@ -1054,7 +1068,8 @@ class JtgModelFiles extends JModelLegacy
 		$isWaypoint = $gpsData->isWaypoint;
 		$isRoute = 0;
 		$isCache = 0;
-
+		$totalAscent = $gpsData->totalAscent;
+		$totalDescent = $gpsData->totalDescent;
 		$distance = $gpsData->distance;
 
 		$query = "INSERT INTO #__jtg_files SET"
@@ -1068,8 +1083,8 @@ class JtgModelFiles extends JModelLegacy
 		. "\n start_n='" . $start_n . "',"
 		. "\n start_e='" . $start_e . "',"
 		. "\n distance='" . $distance . "',"
-		. "\n ele_asc='" . $ele[0] . "',"
-		. "\n ele_desc='" . $ele[1] . "',"
+		. "\n ele_asc='" . $totalAscent . "',"
+		. "\n ele_desc='" . $totalDescent . "',"
 		. "\n level='" . $level . "',"
 		. "\n access='" . $access . "',"
 		. "\n istrack='" . $isTrack . "',"
@@ -1077,7 +1092,7 @@ class JtgModelFiles extends JModelLegacy
 		. "\n isroute='" . $isRoute . "',"
 		. "\n iscache='" . $isCache . "',"
 		. "\n hidden='" . $hidden . "'"
-		;
+
 		$db->setQuery($query);
 		$db->execute();
 		if ($db->getErrorNum()) {
@@ -1089,12 +1104,13 @@ class JtgModelFiles extends JModelLegacy
 		. "\n WHERE file='" . strtolower($filename) . "'";
 		$db->setQuery($query);
 		$result = $db->loadObject();
-		if ($db->getErrorNum()) {
+		if ($db->getErrorNum())
+		{
 			echo $db->stderr();
 			return false;
 		}
 		$id = $result->id;
-		//		images upload part
+		// images upload part
 		$imgpath = JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'track_' . $id . DIRECTORY_SEPARATOR;
 		$jInput = JFactory::getApplication()->input;
 		$jFileInput = new jInput($_FILES);
