@@ -520,7 +520,7 @@ class JtgModelFiles extends JModelLegacy
 	 * @return array
 	 */
 	function getLevelList($selected=0)  {
-		// 
+		//
 
 		$return = "\n";
 		$cfg = JtgHelper::getConfig();
@@ -528,7 +528,7 @@ class JtgModelFiles extends JModelLegacy
 		array_unshift($levels, 'dummy');
 		$i = 0;
 		foreach($levels AS $level){
-			if ( trim($level) != "" ) 
+			if ( trim($level) != "" )
 			{
 				if ( $i == 0 )
 					$levels[0] = JText::_('COM_JTG_SELECT');
@@ -713,10 +713,10 @@ class JtgModelFiles extends JModelLegacy
 				$file_tmp = str_replace('\&','',$file_tmp);
 				$target = $file_tmp . "." . $extension;
 				$target = JFile::makeSafe($target);
-				if ( (!$file_replace ) and (in_array($target,$existingfiles)) ) 
+				if ( (!$file_replace ) and (in_array($target,$existingfiles)) )
 				{
 					$randnumber = (50-strlen($target));
-					$fncount = 0;
+					$fncount = 1;
 					while (true) {
 						$target = $file_tmp . '_' . $fncount . "." . $extension;
 						if (!in_array($target,$existingfiles) )
@@ -738,7 +738,7 @@ class JtgModelFiles extends JModelLegacy
 					// TODO change this to a more convenient filename truncation
 					for($j=0;$j<100;$j++) { // ... unternehme 100 Versuche...
 						$file_tmp = JtgHelper::alphanumericPass(45); // $this->alphanumericPass(45);
-						if ( !in_array($file_tmp . "." . $extension,$existingfiles) ) 
+						if ( !in_array($file_tmp . "." . $extension,$existingfiles) )
 						{
 							// ... einen neuen Namen zu finden, ...
 							$target = $file_tmp . "." . $extension;
@@ -756,7 +756,7 @@ class JtgModelFiles extends JModelLegacy
 				// 	get the start coordinates $target
 				$cache = JFactory::getCache();
 				$gpsData = new gpsDataClass("Kilometer");// default unit
-				//TODOTODO use $target below!! 
+				//TODOTODO use $target below!!
 				$gpsData = $cache->get(array ( $gpsData, 'loadFileAndData' ), array ($file, $filename ), "Kilometer");
 				$errors = $gpsData->displayErrors();
 				if ($errors)
@@ -764,16 +764,16 @@ class JtgModelFiles extends JModelLegacy
 				   $map = "";
 				   $coords = "";
 				   $distance_float = 0;
-				   $distance = 0;
-				   echo "<script type='text/javascript'>alert('".JText::_('COM_JTG_NO_SUPPORT') . "\n" .$errors."');window.history.back(-1);</script>";
+					$distance = 0;
+					echo "<script type='text/javascript'>alert('".JText::_('COM_JTG_NO_SUPPORT') . "\n" .$errors."');window.history.back(-1);</script>";
 					// remove file before exiting
 					if (!JFile::delete($file))
 					{
-						// TODO JTEXT
+						// TODO JTEXT + warning
 						echo "Erasing failed (file: \"" . $file . "\") !\n";
-				   		exit; //TODO check if exit is correct here ???
+						exit; //TODO check if exit is correct here ???
 					}
-					
+
 				}
 				$fileokay = true; // TODO remove $fileokay
 
@@ -786,26 +786,28 @@ class JtgModelFiles extends JModelLegacy
 				$isCache = 0;
 
 				$distance = $gpsData->distance;
+				$totalAscent = $gpsData->totalAscent;
+				$totalDescent = $gpsData->totalDescent;
 
-				if ($fileokay == true) 
+				if ($fileokay == true)
 				{
 					// upload the file
 					// 				$upload_dir = JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'uploaded_tracks'. DIRECTORY_SEPARATOR;
 					// 				$filename = explode(DIRECTORY_SEPARATOR,$file);
 					// 				$filename = $filename[(count($filename)-1)];
 					// 				$filename = JFile::makeSafe($filename);
-					if (!JFile::copy($file, $targetdir.$target)) 
+					if (!JFile::copy($file, $targetdir.$target))
 					{
-						// TODO JTEXT 
+						// TODO JTEXT + warning
 						echo "Upload failed (file: \"" . $file . "\") !\n";
-					} 
-					else 
+					}
+					else
 					{
 						chmod($targetdir.$target, 0664);
 					}
 					if (!JFile::delete($file))
 					{
-						// TODO JTEXT
+						// TODO JTEXT + warning
 						echo "Erasing failed (file: \"" . $file . "\") !\n";
 					}
 
@@ -822,8 +824,8 @@ class JtgModelFiles extends JModelLegacy
 					. "\n start_n='" . $start_n . "',"
 					. "\n start_e='" . $start_e . "',"
 					. "\n distance='" . $distance . "',"
-					. "\n ele_asc='" . $ele[0] . "',"
-					. "\n ele_desc='" . $ele[1] . "',"
+					. "\n ele_asc='" . $totalAscent . "',"
+					. "\n ele_desc='" . $totalDescent . "',"
 					. "\n level='" . $level . "',"
 					. "\n access='" . $access . "',"
 					. "\n istrack='" . $isTrack . "',"
@@ -833,7 +835,7 @@ class JtgModelFiles extends JModelLegacy
 
 					$db->setQuery($query);
 					$db->execute();
-					if ($db->getErrorNum()) 
+					if ($db->getErrorNum())
 					{
 						echo $db->stderr();
 						return false;

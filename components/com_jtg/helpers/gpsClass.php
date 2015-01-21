@@ -40,11 +40,10 @@ class gpsDataClass
 	var $trackname = "";
 	var $fileChecked = false;
 	var $description = "";
-	
 
 	public function __construct($unit)
 	{
-	    $this->unit=$unit;
+		$this->unit=$unit;
 	}
 	/**
 	 * Load an xml gps file and extract datas
@@ -62,29 +61,29 @@ class gpsDataClass
 		$xml = $this->loadXmlFile($gpsFile);
 		if ($this->error)
 		{
-		    $this->fileChecked = 6;
-		    return $this;
+			$this->fileChecked = 6;
+			return $this;
 		}
 		if ($xml === false)
 		{
-		    $this->error = true;
-		    $this->fileChecked = 6;
-		    $this->errorMessages[] = JText::sprintf('COM_JTG_GPS_FILE_ERROR_0', $this->trackfilename);
-		    return $this;
+			$this->error = true;
+			$this->fileChecked = 6;
+			$this->errorMessages[] = JText::sprintf('COM_JTG_GPS_FILE_ERROR_0', $this->trackfilename);
+			return $this;
 		}
 		// extract datas from xml
 		switch ($this->ext)
 		{
-		    case "gpx":
+			case "gpx":
 			$extract_result = $this->extractCoordsGPX($xml);
 			break;
-		    case "kml":
+			case "kml":
 			$extract_result = $this->extractCoordsKML($xml);
 			break;
-		    case "tcx":
+			case "tcx":
 			$extract_result = $this->extractCoordsTCX($xml);
 			break;
-		    default:
+			default:
 			$extract_result = null;
 			$this->error = true;
 			$this->errorMessages[] = JText::_('COM_JTG_GPS_FILE_ERROR');
@@ -124,37 +123,37 @@ class gpsDataClass
 	 * @return <simplexmlelement> if file exists and is loaded , NULL otherwise
 	 */
 	public function loadXmlFile($gpsFile=false) {
-	    jimport('joomla.filesystem.file');
-	    $xml = false;
-	    if ( ($gpsFile) and (JFile::exists($gpsFile)) )
-	    {
-		    $this->ext = JFile::getExt($gpsFile);
-		    $xml = simplexml_load_file($this->gpsFile);
-	    }
-	    elseif  (JFile::exists($this->gpsFile))
-	    {
-		    $this->gpsFile = $gpsFile;
-		    $this->ext = JFile::getExt($this->gpsFile);
-		    $xml = simplexml_load_file($this->gpsFile);
-	    }
-	    else
-	    {
+		jimport('joomla.filesystem.file');
+		$xml = false;
+		if ( ($gpsFile) and (JFile::exists($gpsFile)) )
+		{
+			$this->ext = JFile::getExt($gpsFile);
+			$xml = simplexml_load_file($this->gpsFile);
+		}
+		elseif  (JFile::exists($this->gpsFile))
+		{
+			$this->gpsFile = $gpsFile;
+			$this->ext = JFile::getExt($this->gpsFile);
+			$xml = simplexml_load_file($this->gpsFile);
+		}
+		else
+		{
 
-		    $this->error = true;
-		    $this->errorMessages[] = JText::sprintf('COM_JTG_GPS_FILE_ERROR_1', ($this->trackfilename?  $this->trackfilename: $gpsFile) );
-		    return false;
-	    }
-	    $this->errorXml = false;
-	    if ($xml === false)
-	    {
-		    // "Failed loading XML\n";
+			$this->error = true;
+			$this->errorMessages[] = JText::sprintf('COM_JTG_GPS_FILE_ERROR_1', ($this->trackfilename?  $this->trackfilename: $gpsFile) );
+			return false;
+		}
+		$this->errorXml = false;
+		if ($xml === false)
+		{
+			// "Failed loading XML\n";
 
-		    foreach(libxml_get_errors() as $error)
-		    {
-			    $this->errorMessages[] = $error->message;
-		    }
-	    }
-	    return $xml;
+			foreach(libxml_get_errors() as $error)
+			{
+				$this->errorMessages[] = $error->message;
+			}
+		}
+		return $xml;
 	}
 
 	public function displayErrors()
@@ -162,8 +161,8 @@ class gpsDataClass
 		$error = "";
 		foreach ($this->errorMessages as $errorMessage)
 		{
-		    JFactory::getApplication()->enqueueMessage($errorMessage, 'Warning');
-		    $error .= '\n' . $errorMessage ;
+			JFactory::getApplication()->enqueueMessage($errorMessage, 'Warning');
+			$error .= '\n' . $errorMessage ;
 		}
 		return $error;
 	}
@@ -196,16 +195,15 @@ class gpsDataClass
 					break;
 				case 'description':
 					$gps_file_description .= preg_replace('/<!\[CDATA\[(.*?)\]\]>/s','',$documentNode->nodeValue);
-					break;	
+					break;
 			}
 		}
 
 		// search for tracks (name (title), description and coordinates
 		$placemarkNodes = $xpath->query('//kml:Placemark');
 		$this->trackCount = 0;
-		$tracks_description='';
+		$tracks_description ='';
 		$track_name = '';
-		$track_description= '';
 		foreach ($placemarkNodes as $placemarkNode)
 		{
 			$nodes = $xpath->query('.//kml:name|.//kml:description|.//kml:LineString|.//kml:coordinates',$placemarkNode);
@@ -224,7 +222,7 @@ class gpsDataClass
 						case 'description':
 							$description = $node->nodeValue;
 							$tracks_description .= $description;
-							$description = ( ($description='&nbsp;')? '' : $description); 
+							$description = ( ($description='&nbsp;')? '' : $description);
 							break;
 						case 'LineString':
 							$found_linestring = true;
@@ -243,26 +241,23 @@ class gpsDataClass
 									$this->track[$this->trackCount]->start = ($coordinates[0][0] . "," . $coordinates[0][1]);
 									$this->track[$this->trackCount]->stop = ($coordinates[$coordinatesCount-1][0] . "," . $coordinates[$coordinatesCount-1][1]);
 								}
-
 							}
 							break;
 					}
-					if ($this->trackCount) 
-					{
-						$this->track[$this->trackCount]->trackname =  ($name? $name : $description);
-						$this->track[$this->trackCount]->description =  $description;						
-					}
-					// Use description and name for file description 
-					if ($name OR $description)
-					{
-						$gps_file_description .= '<br />' . $name . ':' . $description;
-					}
-					
 				}
+			}
+			if ($this->trackCount AND $coordinates)
+			{
+				$this->track[$this->trackCount]->trackname =  ($name? $name : $description);
+				$this->track[$this->trackCount]->description =  $description;
+			}
+			// Use description and name for file description
+			if ($name OR $description)
+			{
+				$gps_file_description .= '<br />' . $name . ':' . $description;
 			}
 
 		}
-		
 		if ($this->trackCount)
 		{
 			// GPS file name (title) and description
@@ -284,68 +279,15 @@ class gpsDataClass
 			{
 				$this->description = $this->trackname;
 			}
-				
+
 			$this->isTrack = ($this->trackCount>0);
 			$this->isCache = $this->isThisCache($xml);
-		
+
 		}
 		return true ; // nothing to return
 	}
 
-	private function extractCoordsKML_old($xml)
-	{
-
-		$this->trackname =  (string) @$xml->Document->name;
-		if ( strlen($this->trackname)==0)
-		{
-		    $this->trackname =  (string) @$xml->Document->Folder->Placemark[0]->name;
-		}
-
-		$this->trackCount = 0;
-		for($trackid=0; $trackid < @count(@$xml->Document->Folder->Placemark); $trackid++)
-		{
-			$tracks = @$xml->Document->Folder->Placemark[$trackid]->MultiGeometry->LineString->coordinates;
-			if ( $tracks == null )
-			{
-			    $tracks = @$xml->Document->Folder->Placemark[$trackid]->Polygon->outerBoundaryIs->LinearRing->coordinates;
-			}
-			if ( $tracks !== null )
-			{
-			    foreach ($tracks as $track) // TODO check if there can be more than one track!!!
-			    {
-				    $coords = array();
-				    // catch different types coordinates are written in kml files
-				    $lines = str_replace("\n", '/',$track );
-				    $lines = str_replace(" ", '/',$lines );
-				    $lines = explode('/', $lines );
-				    foreach ($lines as $line)
-				    {
-					// split each line by /
-					$coord = explode(',', $line);
-					if (count($coord) ==3)
-						{
-						    array_push($coords, array($coord[0],$coord[1],$coord[2],0,0) );
-						}
-				    }
-				    // this is a track if more than 2 coordinates found
-				    $coordinatesCount = count($coords);
-				    if ($coordinatesCount >1)
-				    {
-					$this->trackCount++;
-					$this->track[$this->trackCount]->trackname =  (string) @$xml->Document->Folder->Placemark[$trackid]->name;
-					$this->track[$this->trackCount]->coords= $coords;
-					$this->track[$this->trackCount]->start = ($coords[0][0] . "," . $coords[0][1]);
-					$this->track[$this->trackCount]->stop = ($coords[$coordinatesCount-1][0] . "," . $coords[$coordinatesCount-1][1]);
-				    }
-			    }
-			}
-		}
-		$this->isTrack = ($this->trackCount>0);
-		$this->isCache = $this->isThisCache($xml);
-		return true ; // nothing to return
-	}
-
-		public function isThisCache($xml) {
+	public function isThisCache($xml) {
 		$pattern = "/groundspeak/";
 		if ( preg_match($pattern,$xml->attributes()->creator))
 		return true;
@@ -395,16 +337,16 @@ class gpsDataClass
 		$this->trackname =  (string) @$xml->name;
 		if  ( strlen($this->trackname)==0)
 		{
-		    $this->trackname = (string) @$xml->trk[0]->name;
+			$this->trackname = (string) @$xml->trk[0]->name;
 		}
 		$this->description = @$xml->desc;
 		if  ( !$this->description)
 		{
 			$this->description = $this->trackname;
 		}
-		
+
 		$this->Date =  (string) @$xml->time;
-		if ($this->Date) 
+		if ($this->Date)
 		{
 			$dt = new DateTime($this->Date);
 			$this->Date = $dt->format('Y-m-d');
@@ -413,8 +355,8 @@ class gpsDataClass
 		$this->trackCount = 0;
 		for($t=0; $t < @count($xml->trk); $t++)
 		{
-		    for($j=0; $j < @count($xml->trk[$t]->trkseg); $j++)
-		    {
+			for($j=0; $j < @count($xml->trk[$t]->trkseg); $j++)
+			{
 			$coords= array();
 			for($i=0; $i < count($xml->trk[$t]->trkseg[$j]->trkpt); $i++)
 			{
@@ -442,22 +384,22 @@ class gpsDataClass
 			$coordinatesCount = count($coords);
 			if ($coordinatesCount >1)
 			{
-			    $this->trackCount++;
-			    $this->track[$this->trackCount] = new stdClass();
-			    if (isset($xml->trk[$t]->name) )
-			    { 
-			    	 $this->track[$this->trackCount]->trackname = (string) $xml->trk[$t]->name;
-			    }
-			    else
-			    {
-			    	$this->track[$this->trackCount]->trackname = $this->trackname . '-' . (string) $this->trackCount;
-			    }
-			    $this->track[$this->trackCount]->coords = $coords;
-			    $this->track[$this->trackCount]->start = ($coords[0][0] . "," . $coords[0][1]);
-			    $this->track[$this->trackCount]->stop = ($coords[$coordinatesCount-1][0] . "," . $coords[$coordinatesCount-1][1]);
+				$this->trackCount++;
+				$this->track[$this->trackCount] = new stdClass();
+				if (isset($xml->trk[$t]->name) )
+				{
+					 $this->track[$this->trackCount]->trackname = (string) $xml->trk[$t]->name;
+				}
+				else
+				{
+					$this->track[$this->trackCount]->trackname = $this->trackname . '-' . (string) $this->trackCount;
+				}
+				$this->track[$this->trackCount]->coords = $coords;
+				$this->track[$this->trackCount]->start = ($coords[0][0] . "," . $coords[0][1]);
+				$this->track[$this->trackCount]->stop = ($coords[$coordinatesCount-1][0] . "," . $coords[$coordinatesCount-1][1]);
 			}
 
-		    }
+			}
 		}
 		$this->isTrack = ($this->trackCount>0);
 		return true; // nothing to return
@@ -469,12 +411,12 @@ class gpsDataClass
 	 * @return array
 	 */
 	private function getCoordsTCX($file,$trackid=0) {
-	    // TODO REWRITE
-	    $this->error = true;
-	    $this->errorMessages[] = " ERROR TCX file not yet supported";
-	    return false;
+		// TODO REWRITE
+		$this->error = true;
+		$this->errorMessages[] = " ERROR TCX file not yet supported";
+		return false;
 
-	    if (file_exists($file))
+		if (file_exists($file))
 		{
 		$xml = simplexml_load_file($file);
 		if(isset($xml->Activities->Activity->Lap->Track)) {
@@ -502,11 +444,11 @@ class gpsDataClass
 			}
 		}
 		return $coords;
-	    }
-	    else
-	    {
+		}
+		else
+		{
 		return false;
-	    }
+		}
 	}
 
 
@@ -524,11 +466,11 @@ class gpsDataClass
 		/*
 		if ( $this->unit == "Kilometer" )
 		{
-		    $earthRadius = 6378.137;
+			$earthRadius = 6378.137;
 		}
 		else
 		{
-		    $earthRadius = 6378.137/1.609344;
+			$earthRadius = 6378.137/1.609344;
 		}
 		*/
 		$earthRadius = 6378.137;
@@ -547,12 +489,12 @@ class gpsDataClass
 			if ( $next_coord[0] < $this->bbox_lon_min ) { $this->bbox_lon_min = $next_coord[0];}
 			if ($this->elevationDataExists)
 			{
-			    $next_elv = $next_coord[2]; //elevation
-			    $this->allElevation[$d] = (int)$next_elv;
+				$next_elv = $next_coord[2]; //elevation
+				$this->allElevation[$d] = (int)$next_elv;
 			}
 			if ($this->speedDataExists)
 			{
-			    $next_time = $this->giveTimestamp($next_coord[3]);
+				$next_time = $this->giveTimestamp($next_coord[3]);
 			}
 
 			for ($i=0; $i <(count($this->track[$t]->coords)-2); $i++)
@@ -578,52 +520,52 @@ class gpsDataClass
 
 					if(is_nan($dis))
 					{
-					    $dis=0;
+						$dis=0;
 					}
 					$this->allDistances[$d+1] = $this->allDistances[$d] + $dis;
 					if ($this->elevationDataExists)
 					{
-					    $current_elv = $next_elv; // current_elevation
-					    $next_elv = $next_coord[2]; //elevation
-					    $this->allElevation[$d+1] = (int)$next_elv; // current_elevation
-					    $ascent = $next_elv - $current_elv;
-					    if($ascent>=0)
-					    {
+						$current_elv = $next_elv; // current_elevation
+						$next_elv = $next_coord[2]; //elevation
+						$this->allElevation[$d+1] = (int)$next_elv; // current_elevation
+						$ascent = $next_elv - $current_elv;
+						if($ascent>=0)
+						{
 						$this->totalAscent = $this->totalAscent + $ascent;
-					    }
-					    else
-					    {
+						}
+						else
+						{
 						$this->totalDescent = $this->totalDescent - $ascent;
-					    }
+						}
 					}
 
 					// speed
 					if ($this->speedDataExists)
 					{
-					    $current_time  = $next_time ;
-					    $next_time = $this->giveTimestamp($next_coord[3]);
-					    if ($current_time and $next_time)
-					    {
+						$current_time  = $next_time ;
+						$next_time = $this->giveTimestamp($next_coord[3]);
+						if ($current_time and $next_time)
+						{
 						$elapsedTime = $next_time - $current_time;
 						if ($elapsedTime>0)
 						{
-						    $this->allSpeed[$d+1] = $dis/$elapsedTime*3600;
+							$this->allSpeed[$d+1] = $dis/$elapsedTime*3600;
 						}
 						else
 						{
-						    $this->allSpeed[$d+1] = 0;
+							$this->allSpeed[$d+1] = 0;
 						}
-					    }
-					    else
-					    {
+						}
+						else
+						{
 						$this->allSpeed[$d+1] = 0;
-					    }
+						}
 					}
 
 					//heart Beat
 					if ($this->beatDataExists)
 					{
-					    $this->allBeat[$d+1] = $next_coord[4];
+						$this->allBeat[$d+1] = $next_coord[4];
 					}
 					$d++;
 				}
@@ -633,12 +575,12 @@ class gpsDataClass
 
 		if ($this->elevationDataExists)
 		{
-		    $this->totalAscent = (int) $this->totalAscent;
-		    $this->totalDescent = (int) $this->totalDescent;
+			$this->totalAscent = (int) $this->totalAscent;
+			$this->totalDescent = (int) $this->totalDescent;
 		}
 		if  ( ( $this->totalAscent ==0 ) or ($this->totalDescent ==0) )
 		{
-		    $this->elevationDataExists=False;
+			$this->elevationDataExists=False;
 		}
 		return;
 	}
@@ -665,7 +607,7 @@ class gpsDataClass
 		$time_tmp_date_month,$time_tmp_date_day,$time_tmp_date_year);
 	}
 
-		public function transformTtRGB($t) {
+	public function transformTtRGB($t) {
 		if ($t <= 60) {
 			$r = dechex(255);
 			$g = dechex(round($t*4.25));
@@ -739,9 +681,9 @@ class gpsDataClass
 		}
 		else
 		{
-		    $this->wp = null;
-		    $this->isWaypoint = false;
-		    return false;
+			$this->wp = null;
+			$this->isWaypoint = false;
+			return false;
 		}
 
 		$center = "// <!-- parseOLMapCenterSingleTrack BEGIN -->\n";
@@ -780,36 +722,36 @@ class gpsDataClass
 			$i3 = min($i+$width, $n-1);
 			if ($this->speedDataExists)
 			{
-			    // $speedChartData .= '[' . $distance  . ',' . round($this->allSpeed[$i2],1) . '],' ;
-			    // calculate average speed (smoothing)
-			    $speed = 0;
-			    for($j=$i2; $j<=$i3; $j = $j+1)
-			    {
+				// $speedChartData .= '[' . $distance  . ',' . round($this->allSpeed[$i2],1) . '],' ;
+				// calculate average speed (smoothing)
+				$speed = 0;
+				for($j=$i2; $j<=$i3; $j = $j+1)
+				{
 				$speed = $speed + $this->allSpeed[$j];
-			    }
-			    $speed = $speed / ($i3-$i2+1);
-			    $speedChartData .= '[' . $distance  . ',' . round($speed,1) . '],' ;
+				}
+				$speed = $speed / ($i3-$i2+1);
+				$speedChartData .= '[' . $distance  . ',' . round($speed,1) . '],' ;
 			}
 			if ($this->elevationDataExists)
 			{
-			    $elevationChartData .= '[' . $distance  . ',' . round($this->allElevation[$i],0) . '],' ;
+				$elevationChartData .= '[' . $distance  . ',' . round($this->allElevation[$i],0) . '],' ;
 			}
 			if ($this->beatDataExists)
 			{
-			    $beatChartData .= '[' . $distance  . ',' . round($this->allBeat[$i2],0) . '],' ;
+				$beatChartData .= '[' . $distance  . ',' . round($this->allBeat[$i2],0) . '],' ;
 			}
 		}
 		if ($this->speedDataExists)
 		{
-		    $this->speedData = '[' . substr($speedChartData, 0, -1) . ']';
+			$this->speedData = '[' . substr($speedChartData, 0, -1) . ']';
 		}
 		if ($this->elevationDataExists)
 		{
-		    $this->elevationData = '[' . substr($elevationChartData, 0, -1) . ']';
+			$this->elevationData = '[' . substr($elevationChartData, 0, -1) . ']';
 		}
 		if ($this->beatDataExists)
 		{
-		    $this->beatData = '[' . substr($beatChartData, 0, -1) . ']';
+			$this->beatData = '[' . substr($beatChartData, 0, -1) . ']';
 		}
 		return;
 	}
@@ -837,7 +779,7 @@ class gpsDataClass
 		}
 		$marker = "";
 		if (! $catimage )
-		    {
+			{
 			$catimage = 'symbol_inter.png';
 		}
 		if ( $catimage !== false ) {
@@ -1718,11 +1660,11 @@ class gpsDataClass
 					// retrieve thumbnail path
 					if ( JFile::exists($folder . 'thumbs'. DIRECTORY_SEPARATOR . '/thumb1_' . $image) )
 					{
-					    $imagepath=$httppath.  'thumbs/thumb1_' . $image;
+						$imagepath=$httppath.  'thumbs/thumb1_' . $image;
 					}
 					else
 					{
-					    $imagepath=$httppath.$image;
+						$imagepath=$httppath.$image;
 					}
 					//TODO does thumbnail have original image exif data??
 					// TODO CACHE THIS
@@ -1824,7 +1766,7 @@ class gpsDataClass
 		$map .= $this->parseOLMap();
 		$zeiten .= (int) round( ( microtime(true) - $jtg_microtime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " parseOLMap<br />\n";
 
-	    $map .= $this->parseOLMapControl(false,$params);
+		$map .= $this->parseOLMapControl(false,$params);
 		$zeiten .= (int) round( ( microtime(true) - $jtg_microtime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " parseOLMapControl<br />\n";
 		$map .= $this->parseOLLayer();
 
@@ -1847,11 +1789,11 @@ class gpsDataClass
 //		$file = $file_tmp;
 		if ( $this->allCoords !== null )
 		{
-		    $map .= $coords['center'];
+			$map .= $coords['center'];
 		}
 		else
 		{
-		    $map .= $this->wp['center'];
+			$map .= $this->wp['center'];
 		}
 		//	$map .= $this->parseOLMapCenterSingleTrack($file);
 		$zeiten .= (int) round( ( microtime(true) - $jtg_microtime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " parseOLMapCenterSingleTrack<br />\n";
@@ -1886,11 +1828,11 @@ class gpsDataClass
 		// 	$file = $file_tmp;
 		if ( $coords !== null )
 		{
-		    $map .= $coords['center'];
+			$map .= $coords['center'];
 		}
 		else
 		{
-		    $map .= $wp['center'];
+			$map .= $wp['center'];
 		}
 
 		$map .= $this->parseOLMapFunctions();
@@ -1912,7 +1854,7 @@ class gpsDataClass
 		$imgpath = '/templates/' . $template . '/css/ol_images';
 		if ( ! JFolder::exists(JPATH_SITE . $imgpath))
 		{
-		    $imgpath = '/components/com_jtg/assets/template/default/ol_images/';
+			$imgpath = '/components/com_jtg/assets/template/default/ol_images/';
 		}
 
 		$map = "\n<!-- parseScriptOLHead BEGIN -->\n";
@@ -1921,14 +1863,14 @@ class gpsDataClass
 		$map .= "	var AutoSizeFramedCloud = OpenLayers.Class(OpenLayers.Popup.FramedCloud, {\n	'autoSize': true\n	});\n";
 		$map .= "	var AutoSizeAnchored = OpenLayers.Class(OpenLayers.Popup.Anchored, {\n	'autoSize': true\n		});\n";
 		$map .= "	function slippymap_init() {\n";
-		$map .= "		   // control images folder : remember the trailing slash\n";
+		$map .= "			// control images folder : remember the trailing slash\n";
 		//TODO ACCOUNT FOR TEMPLATES
-		$map .= "		   OpenLayers.ImgPath = \"$imgpath\" \n";
-// Doesn't works !! http://www.stoimen.com/blog/2009/06/20/openlayers-disable-mouse-wheel-on-zoom/		
-//		$map .= "		   var nav = new OpenLayers.Control.Navigation() \n";
-//		$map .= "		   nav.zoomWheelEnabled = false \n";
-//		$map .= "		   olmap = new OpenLayers.Map ( {controls: [Nav,], theme: null, div: \"jtg_map\",\n";
-		$map .= "		   olmap = new OpenLayers.Map ( {theme: null, div: \"jtg_map\",\n";
+		$map .= "			OpenLayers.ImgPath = \"$imgpath\" \n";
+// Doesn't works !! http://www.stoimen.com/blog/2009/06/20/openlayers-disable-mouse-wheel-on-zoom/
+//		$map .= "			var nav = new OpenLayers.Control.Navigation() \n";
+//		$map .= "			nav.zoomWheelEnabled = false \n";
+//		$map .= "			olmap = new OpenLayers.Map ( {controls: [Nav,], theme: null, div: \"jtg_map\",\n";
+		$map .= "			olmap = new OpenLayers.Map ( {theme: null, div: \"jtg_map\",\n";
 		$map .= "// <!-- parseScriptOLHead END -->\n";
 
 		return $map;
@@ -1938,8 +1880,8 @@ class gpsDataClass
 	 *
 	 * @return string
 	 */
-	private function parseScriptOLFooter() {
-
+	private function parseScriptOLFooter()
+	{
 		$map = "// <!-- parseScriptOLFooter BEGIN -->\n";
 		$map .= "}\n"; //  close slippymap_s_init script
 		$map .= "</script>\n";
@@ -1982,7 +1924,7 @@ class gpsDataClass
 		$control .= "				new OpenLayers.Control.MousePosition(),		// Koordinate des Mauszeigers (lat, lon)\n";
 		if ( ( $params === false ) OR ( $params->get('jtg_param_show_layerswitcher') != "0" ) )
 		{
-		    $control .= "				new OpenLayers.Control.LayerSwitcher(),		// Menue zum ein/aus-Schalten der Layer\n";
+			$control .= "				new OpenLayers.Control.LayerSwitcher(),		// Menue zum ein/aus-Schalten der Layer\n";
 		}
 		if ( $adminonly === false){
 			if ( ( $params === false ) OR ( $params->get('jtg_param_show_panzoombar') != "0" ) )
@@ -2020,18 +1962,18 @@ class gpsDataClass
 		if ( ( $params === false ) OR ( $params->get('jtg_param_allow_mousemove') != "0" ) )
 		{
 			$control .= "				var mousewheelcontrol = new OpenLayers.Control.Navigation();		// with mouse Zoom/move\n";
-	  		$control .= "				olmap.addControl(mousewheelcontrol);\n";		}
+			$control .= "				olmap.addControl(mousewheelcontrol);\n";		}
 		else
 		{
-	  		// See http://www.stoimen.com/blog/2009/06/20/openlayers-disable-mouse-wheel-on-zoom/
+			// See http://www.stoimen.com/blog/2009/06/20/openlayers-disable-mouse-wheel-on-zoom/
 
-	  		$control .= "				var controls = olmap.getControlsByClass('OpenLayers.Control.Navigation'); \n";
-	  		$control .= "				for(var i = 0; i < controls.length; ++i) \n";
-	  		$control .= "				controls[i].disableZoomWheel(); \n";
+			$control .= "				var controls = olmap.getControlsByClass('OpenLayers.Control.Navigation'); \n";
+			$control .= "				for(var i = 0; i < controls.length; ++i) \n";
+			$control .= "				controls[i].disableZoomWheel(); \n";
 		}
-  		
+
   		$control .= "		// <!-- parseOLMapmouse wheel (this must stay after NavToolbar) END -->\n";
-		
+
 		if ( $adminonly === false) {
 			//	$control .= "				var layer_overviewmap = new OpenLayers.Layer.OSM.Mapnik(\"Mapnik\");\n";
 			//	$control .= "				olmap.addControl(new OpenLayers.Control.OverviewMap({layers: [layer_overviewmap]}));\n";
@@ -2132,7 +2074,7 @@ class gpsDataClass
 		{
 			$m = microtime(true);
 			$coords = $this->track[$i]->coords;
-			// echo"<br>$i==>".$this->track[$i]->trackname; 
+			// echo"<br>$i==>".$this->track[$i]->trackname;
 			$subid = $link . "&amp;subid=" . $i;
 			$string .= "layer_vectors = new OpenLayers.Layer.Vector(";
 			$string .= "\"". ($this->track[$i]->trackname? $this->track[$i]->trackname : JText::_('COM_JTG_TRACK').$i) . "\"";
@@ -2147,7 +2089,7 @@ class gpsDataClass
 			//$string .= "// fetchCoordsBegin\n";
 			$n = 0;
 			$coordscount = (count($coords)-1);
-			foreach($coords as $key => $fetch) 
+			foreach($coords as $key => $fetch)
 			{
 				$string .= "[" . $coords[$key][0] . "," . $coords[$key][1] . "]";
 				if($n != $coordscount)
@@ -2254,19 +2196,19 @@ class gpsDataClass
 
 if ($ext == 'tcx')
 		{
-		    if ($trackid <0) // search for file name
-		    {
+			if ($trackid <0) // search for file name
+		{
 			$trackname = 'filename';
-			if  ( strlen($trackname)==0)
+			if ( strlen($trackname)==0)
 			{
-			    $trackname = @$xml->trk[0]->name;
+				$trackname = @$xml->trk[0]->name;
 			}
-		    }
-		    else // search for track name
-		    {
+			}
+			else // search for track name
+			{
 			$trackname = "track_$trackid";
-		    }
-		    return $trackname;
+			}
+			return $trackname;
 		}
 		else
 		{
@@ -2319,7 +2261,7 @@ class gpsCoordsClass
 
 				if(!is_nan($dis))
 				{
-				    $temp = $temp + $dis;
+					$temp = $temp + $dis;
 				}
 			}
 		}

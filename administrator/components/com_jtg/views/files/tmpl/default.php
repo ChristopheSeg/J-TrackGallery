@@ -2,7 +2,7 @@
 /**
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
- * 
+ *
  * @package    Comjtg
  * @author     Christophe Seguinot <christophe@jtrackgallery.net>
  * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
@@ -88,7 +88,7 @@ $document->addStyleSheet(JUri::base().'components/com_jtg/template.css');
 		$published 	= JHtml::_('grid.published', $row, $i );
 		$user		= JFactory::getUser($row->uid);
 		$imagelink	= $this->buildImageFiletypes($row->istrack,$row->iswp,$row->isroute,$row->iscache);
-		
+
 		$title		= $this->buildEditKlicks(($row->title? $row->title:JText::_('COM_JTG_NO_TITLE')),$i);
 		$hidden		= $row->hidden;
 		$hiddenlink	= $this->buildHiddenImage($iconpath,$hidden,$i);
@@ -97,9 +97,9 @@ $document->addStyleSheet(JUri::base().'components/com_jtg/template.css');
 		$cats = "<font class=\"emptyEntry\">".JText::_('COM_JTG_NOTHING') . "</font>";
 		else
 		{
-			$cats=""; 
+			$cats="";
 			$l = 0;
-			foreach ($catids AS $catid) 
+			foreach ($catids AS $catid)
 			{
 				$cattree = $this->parseCatTree($this->cats,$catid);
 				if ( count($cattree["missing"]) != 0 )
@@ -181,7 +181,7 @@ else
 	$missingterrain = null;
 }
 
-$checkall = "<input type=\"checkbox\" onclick=\"Joomla.checkAll(this)\" title=\"" . JText::_( 'JGLOBAL_CHECK_ALL' ) . "\" value=\"\" name=\"checkall-toggle\">";	
+$checkall = "<input type=\"checkbox\" onclick=\"Joomla.checkAll(this)\" title=\"" . JText::_( 'JGLOBAL_CHECK_ALL' ) . "\" value=\"\" name=\"checkall-toggle\">";
 
 ?>
 	<thead>
@@ -234,11 +234,11 @@ $checkall = "<input type=\"checkbox\" onclick=\"Joomla.checkAll(this)\" title=\"
 </table>
 <input type="hidden" name="option" value="com_jtg" /> <input
 	type="hidden" name="task" value="files" /> <input type="hidden"
-	name="boxchecked" value="0" /> 
-	<input type="hidden" name="controller" value="files" /> 
+	name="boxchecked" value="0" />
+	<input type="hidden" name="controller" value="files" />
 	<input type="hidden" name="filter_order"
 	value="<?php echo $this->lists['order']; ?>" /> <input type="hidden" 	name="filter_order_Dir"
-	value="<?php echo $this->lists['order_Dir']; ?>" /> 
+	value="<?php echo $this->lists['order_Dir']; ?>" />
 	<?php echo JHtml::_( 'form.token' ); ?>
 	&nbsp;
 </form>
