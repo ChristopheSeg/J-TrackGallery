@@ -914,7 +914,7 @@ class JtgModelFiles extends JModelLegacy
 			// TODO print an error message
 			$alert_text= json_encode(JText::_('COM_JTG_NO_SUPPORT') . "(2): " . $target);
 			echo "<script type='text/javascript'>alert($alert_text);window.history.back(-1);</script>";
-			// 				exit;
+			// exit;
 		}
 		if ($fileokay == true) {
 			if (!JFile::copy($file, $targetdir.$target)) {
@@ -1091,7 +1091,7 @@ class JtgModelFiles extends JModelLegacy
 		. "\n iswp='" . $isWaypoint . "',"
 		. "\n isroute='" . $isRoute . "',"
 		. "\n iscache='" . $isCache . "',"
-		. "\n hidden='" . $hidden . "'"
+		. "\n hidden='" . $hidden . "'";
 
 		$db->setQuery($query);
 		$db->execute();
