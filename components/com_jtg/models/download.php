@@ -6,7 +6,7 @@
  * @package    Comjtg
  * @author     Christophe Seguinot <christophe@jtrackgallery.net>
  * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
- * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL2
+ * @license    http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3
  * @link       http://jtrackgallery.net/
  *
  */
@@ -96,6 +96,7 @@ class JtgModelDownload extends JModelLegacy
 				$metadata .= "<link href=\"".JUri::base() . "index.php?option=com_jtg&amp;view=track&amp;layout=track&amp;id=" . $id . "\">";
 				$metadata .= "<text>" . $track->title . " on " . $mainframe->getCfg('sitename') . "</text>";
 				$metadata .= "</link>";
+				// Coordinated Universal Time (UTC)
 				$date = gmdate("Y-m-d");
 				$time = gmdate("H:i:s");
 				$metadata .= "<time>" . $date . "T" . $time . "Z</time>";

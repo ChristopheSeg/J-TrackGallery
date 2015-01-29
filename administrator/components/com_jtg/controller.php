@@ -7,7 +7,7 @@
  * @subpackage  Backend
  * @author      J!Track Gallery, InJooosm and joomGPStracks teams <christophe@jtrackgallery.net>
  * @copyright   test
- * @license     http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL2 *
+ * @license     http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3 *
  * @link        http://jtrackgallery.net/
  */
 
