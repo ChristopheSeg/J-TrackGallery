@@ -21,17 +21,16 @@ jimport('joomla.application.component.controller');
  */
 class JtgController extends JControllerLegacy
 {
-
 	function display ($cachable = false, $urlparams = false)
 	{
 		// Make sure we have a default view
-		// if( !JRequest::getCmd( 'view' ))
+		// if ( !JRequest::getCmd( 'view' ))
 		if (! JFactory::getApplication()->input->get('view'))
 		{
 			JRequest::setVar('view', 'jtg');
 		}
 
-		// update the hit count for the file
+		// Update the hit count for the file
 		if (JFactory::getApplication()->input->get('view') == 'files')
 		{
 			$model = $this->getModel('files');
@@ -55,9 +54,7 @@ class JtgController extends JControllerLegacy
 		// Swap the objects
 		$document = $doc;
 		$ok = null;
-		$mainframe->triggerEvent('onCaptcha_Display', array(
-				$ok
-		));
+		$mainframe->triggerEvent('onCaptcha_Display', array($ok));
 
 		if (! $ok)
 		{

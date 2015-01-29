@@ -29,7 +29,9 @@ gallery.Transitions.extend({
 				opacity: 1
 			});
 			oldFx.start({opacity: [1,0]});
-		} else {
+		}
+else
+{
 			newFx.start({opacity: [0,1]});
 			oldFx.start({
 				left: [0, this.galleryElement.offsetWidth],

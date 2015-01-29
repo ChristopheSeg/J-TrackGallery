@@ -2,7 +2,7 @@
 /**
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
- * 
+ *
  * @package    Comjtg
  * @author     Christophe Seguinot <christophe@jtrackgallery.net>
  * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
@@ -23,9 +23,8 @@ class JtgControllerInstall extends JtgController
 	/**
 	 *
 	 */
-	function display($cachable = false, $urlparams = false) 
+	function display($cachable = false, $urlparams = false)
 	{
 		parent::display();
 	}
-
 }

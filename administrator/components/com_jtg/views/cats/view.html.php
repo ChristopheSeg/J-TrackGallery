@@ -59,8 +59,8 @@ class JtgViewCats extends JViewLegacy
 		$model =$this->getModel();
 		$rows =$this->get('Pics');
 		$children = array();
-		$imagedir = JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'cats' . DIRECTORY_SEPARATOR;
-		$imageurl = JUri::root().'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'cats' . DIRECTORY_SEPARATOR;
+		$imagedir = JPATH_SITE . '/images/jtrackgallery/cats/';
+		$imageurl = JUri::root().'images/jtrackgallery/cats/';
 		jimport('joomla.filesystem.file');
 		$images = array();
 		foreach ($rows as $k => $v ) {
@@ -96,13 +96,13 @@ class JtgViewCats extends JViewLegacy
 		// $order = JFactory::getApplication()->input->get('order', 'order', 'post', 'string' );
 
 		$filter_order		= $mainframe->getUserStateFromRequest( $option . "filter_order",
-		'filter_order',
-		'ordering',
-		'cmd' );
+				'filter_order',
+				'ordering',
+				'cmd' );
 		$filter_order_Dir	= $mainframe->getUserStateFromRequest( $option . "filter_order_Dir",
-		'filter_order_Dir',
-		'',
-		'word' );
+				'filter_order_Dir',
+				'',
+				'word' );
 
 		$lists['order']		= $filter_order;
 		$lists['order_Dir']	= $filter_order_Dir;
@@ -118,8 +118,8 @@ class JtgViewCats extends JViewLegacy
 			$list = @$children[$pt] ? $children[$pt] : array();
 			array_push( $list, $v );
 			$children[$pt] = $list;
-			if($v->image)
-			$image[$v->id] = " <image src='" . $imagedir.$v->image . "' title='".JText::_($v->title) . "' alt='".JText::_($v->title) . "' />";
+			if ($v->image)
+				$image[$v->id] = " <image src='" . $imagedir.$v->image . "' title='".JText::_($v->title) . "' alt='".JText::_($v->title) . "' />";
 		}
 		$levellimit = 50;
 		$list = JHtml::_('menu.treerecurse', 0, '', array(), $children, max( 0, $levellimit-1 ) );
@@ -143,7 +143,7 @@ class JtgViewCats extends JViewLegacy
 	 * @param object $tpl
 	 */
 	function _displayForm($tpl) {
-//		$mainframe = JFactory::getApplication(); $option = JFactory::getApplication()->input->get('option');
+		//		$mainframe = JFactory::getApplication(); $option = JFactory::getApplication()->input->get('option');
 
 		$model = $this->getModel();
 		$parent = $model->getParent();
@@ -169,7 +169,7 @@ class JtgViewCats extends JViewLegacy
 	 * @param object $tpl
 	 */
 	function _displayEditcat($tpl) {
-//		$mainframe = JFactory::getApplication();
+		//		$mainframe = JFactory::getApplication();
 		$cid = JFactory::getApplication()->input->get('cid', array(), 'array' );
 		$id =$cid[0];
 
@@ -192,5 +192,4 @@ class JtgViewCats extends JViewLegacy
 
 		parent::display($tpl);
 	}
-
 }

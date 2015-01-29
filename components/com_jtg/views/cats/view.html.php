@@ -21,19 +21,19 @@ jimport( 'joomla.application.component.view');
  */
 class JtgViewCats extends JViewLegacy
 {
-    function display($tpl = null)
-    {
-	$mainframe = JFactory::getApplication();
-	$this->lh = layoutHelper::navigation();
-	$this->footer = layoutHelper::footer();
-	$pathway = $mainframe->getPathway();
-	$pathway->addItem(JText::_('COM_JTG_CATS'), '');
-	$sitename = $mainframe->getCfg('sitename');
-	$document = JFactory::getDocument();
-	$document->setTitle(JText::_('COM_JTG_CATS') . " - " . $sitename);
-	$model = $this->getModel();
-	$this->cats = $model->getCats();
+	function display($tpl = null)
+	{
+		$mainframe = JFactory::getApplication();
+		$this->lh = layoutHelper::navigation();
+		$this->footer = layoutHelper::footer();
+		$pathway = $mainframe->getPathway();
+		$pathway->addItem(JText::_('COM_JTG_CATS'), '');
+		$sitename = $mainframe->getCfg('sitename');
+		$document = JFactory::getDocument();
+		$document->setTitle(JText::_('COM_JTG_CATS') . " - " . $sitename);
+		$model = $this->getModel();
+		$this->cats = $model->getCats();
 
-	    parent::display($tpl);
-    }
+		parent::display($tpl);
+	}
 }

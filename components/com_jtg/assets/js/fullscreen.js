@@ -18,7 +18,9 @@ function switch_fullscreen2(){
 	OpenLayers.Element.removeClass(ol_buttonFullScreen.panel_div,"buttonFullScreenItemInactive");	
         jtg_map.className = "fullscreen";  
  	// new_zoom = olmap.getZoom()+1;
-   } else { // map is already in fullscreen mode
+   }
+else
+{ // map is already in fullscreen mode
 	OpenLayers.Element.addClass(ol_buttonFullScreen.panel_div,"buttonFullScreenItemInactive");
 	OpenLayers.Element.removeClass(ol_buttonFullScreen.panel_div,"buttonFullScreenItemActive");	
         jtg_map.className = "olMap"; 
@@ -27,7 +29,7 @@ function switch_fullscreen2(){
 
 	olmap.updateSize();
 		
-	// setTimeout("olmap.zoomTo(new_zoom);	", 1000);
+	// SetTimeout("olmap.zoomTo(new_zoom);	", 1000);
 	// TODO improve Zoom calculation accounting for screen size
 }  
 function switch_fullscreen()
@@ -35,12 +37,12 @@ function switch_fullscreen()
 	var obj_map = document.getElementById("jtg_map");
 	var ol_buttonFullScreen = olmap.getControlsBy("displayClass","buttonFullScreen")[0];
 	//map_center = olmap.center;
-	if(obj_map.style.position == "fixed")			// if map is already in fullscreen mode
+	if (obj_map.style.position == "fixed")			// If map is already in fullscreen mode
 	{
 		OpenLayers.Element.addClass(ol_buttonFullScreen.panel_div,"buttonFullScreenItemInactive");
 		OpenLayers.Element.removeClass(ol_buttonFullScreen.panel_div,"buttonFullScreenItemActive");	
 
-		// reset normal olmap style from saved data	
+		// Reset normal olmap style from saved data	
 		obj_map.style.backgroundColor = obj_map.style.backgroundColor;
 
 		obj_map.style.position = obj_map_style_position;
@@ -61,7 +63,7 @@ function switch_fullscreen()
 		OpenLayers.Element.addClass(ol_buttonFullScreen.panel_div,"buttonFullScreenItemActive");
 		OpenLayers.Element.removeClass(ol_buttonFullScreen.panel_div,"buttonFullScreenItemInactive");
 
-		// save normal olmap div style 	
+		// Save normal olmap div style 	
 		obj_map_style_backgroundColor = obj_map.style.backgroundColor ;
 		obj_map_style_position = obj_map.style.position;
 		obj_map_style_height = obj_map.style.height;
@@ -71,7 +73,7 @@ function switch_fullscreen()
 		obj_map.style.backgroundColor = "#D1D6BE";
 					
 		obj_map.style.position = "fixed";
-		if(isIE)
+		if (isIE)
 		{
 			var hY = document.documentElement.clientHeight
 			obj_map.style.height = hY + "px";

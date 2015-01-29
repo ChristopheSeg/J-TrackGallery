@@ -12,12 +12,12 @@
  */
 
 {
-//jimport('joomla.filesystem.file');
-//$path = ("components/com_jtg/install.jtg.php");
-//echo "<html><body>";
-//require $path;
-//echo "</body></html>";
-//die();
+	//jimport('joomla.filesystem.file');
+	//$path = ("components/com_jtg/install.jtg.php");
+	//echo "<html><body>";
+	//require $path;
+	//echo "</body></html>";
+	//die();
 }
 
 
@@ -42,9 +42,9 @@ class JtgViewMaps extends JViewLegacy
 		$option = JFactory::getApplication()->input->get('option');
 		//		$order = JFactory::getApplication()->input->get('order',true);
 
-		if($this->getLayout() == 'form'):
+		if ($this->getLayout() == 'form'):
 		$this->_displayForm($tpl);
-		// return;
+		// Return;
 		endif;
 		jimport('joomla.filesystem.file');
 		$config = JtgHelper::getConfig();
@@ -54,23 +54,23 @@ class JtgViewMaps extends JViewLegacy
 		//	$tmpl = $model->getTemplates();
 
 		$lists['block']	= JHtml::_('select.booleanlist', 'publish', 'class="inputbox" size="1"', 1 );
-//		$order = JFactory::getApplication()->input->get('order', 'order', 'string' );
+		//		$order = JFactory::getApplication()->input->get('order', 'order', 'string' );
 
 		$filter_order		= $mainframe->getUserStateFromRequest( $option . "filter_order",
- 	'filter_order',
- 	'ordering',
- 	'cmd' );
+				'filter_order',
+				'ordering',
+				'cmd' );
 		$filter_order_Dir	= $mainframe->getUserStateFromRequest( $option . "filter_order_Dir",
- 	'filter_order_Dir',
- 	'',
- 	'word' );
+				'filter_order_Dir',
+				'',
+				'word' );
 		$lists['order']		= $filter_order;
 		$lists['order_Dir']	= $filter_order_Dir;
 
 		$search = $mainframe->getUserStateFromRequest( $option . "search",
-		'search',
-		'',
-		'string' );
+				'search',
+				'',
+				'string' );
 		$search = JString::strtolower( $search );
 		$lists['search'] = $search;
 		$state = $search;
@@ -92,14 +92,14 @@ class JtgViewMaps extends JViewLegacy
 	 */
 	function buildEditKlicks($map,$count){
 		return "<a href=\"javascript:void(0);\" onclick=\"javascript:return listItemTask('cb" . $count.
-			"','editmap')\">" . $map . "</a>";
+		"','editmap')\">" . $map . "</a>";
 	}
 
 	function _displayForm($tpl) {
 		$model = $this->getModel();
 		$id = $this->_models["maps"]->_id;
 		$map = $model->getMap($id);
-		if($map){
+		if ($map){
 			$published = $map->published;
 			$this->map = $map;
 		}else{
@@ -107,6 +107,6 @@ class JtgViewMaps extends JViewLegacy
 		}
 		$list['published']	= JHtml::_('select.booleanlist', 'publish', 'class="inputbox" size="1"', $published );
 		$this->list = $list;
-		// parent::display($tpl);
+		// Parent::display($tpl);
 	}
 }

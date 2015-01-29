@@ -92,7 +92,7 @@ class TableJTG_Cats extends JTable
 	 *
 	 * @return      string
 	 * @since       2.5
-	*/
+	 */
 	protected function _getAssetTitle()
 	{
 		return 'J!TrackGallery'; // $this->greeting;

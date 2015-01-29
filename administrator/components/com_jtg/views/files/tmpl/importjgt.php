@@ -2,7 +2,7 @@
 /**
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
- * 
+ *
  * @package    Comjtg
  * @author     Christophe Seguinot <christophe@jtrackgallery.net>
  * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
@@ -10,28 +10,30 @@
  * @link       http://jtrackgallery.net/
  *
  */
- 
+
 defined('_JEXEC') or die('Restricted access');
 JToolBarHelper::title(JText::_('COM_JTG_ADD_FILES'), 'categories.png');
 JToolBarHelper::back();
 $model = $this->getModel();
 $rows = $model->_fetchJPTfiles();
-if($rows == false) 
+if ($rows == false)
 {
 	JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_ERROR_NOJGTFOUND'),'Error' );
-} 
-else 
+}
+else
 {
 	$i=0;
 	$importdone = false;
 	foreach ( $rows AS $track ) {
-		if($model->importFromJPT($track) == true) {
+		if ($model->importFromJPT($track) == true) {
 			$color = "green";
 			$importdone = true;
-		} else {
+		}
+		else
+		{
 			$color = "red";
 		}
-			echo("<font color=\"" . $color . "\">" . $track["file"] . "</font><br />\n");
+		echo "<font color=\"" . $color . "\">" . $track["file"] . "</font><br />\n";
 	}
 	if ($importdone == true)
 	{

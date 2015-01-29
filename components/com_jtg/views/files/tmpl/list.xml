@@ -8,12 +8,16 @@
 	<state>
 		<name>COM_JTG_MENU_FILE_LIST</name>
 		<description>COM_JTG_GPS_FILE_LIST_LAYOUT_DESCRIPTION</description>
-        <url>
+		<url>
 
-        </url>
-		<config><fields name="params"><fieldset name="basic" label="basic">
+		</url>
+		<config>
+			<fields name="params">
+				<fieldset name="basic" label="basic">
 
-		</fieldset></fields></config>
+				</fieldset>
+			</fields>
+		</config>
 		<advanced>
 
 		</advanced>

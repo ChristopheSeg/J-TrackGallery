@@ -4,7 +4,6 @@
     Last edit  : 12.02.2011
     Author     : J!Track Gallery, InJooosm and joomGPStracks teams
 */
-
 .emptyEntry {
 	font-style: italic;
 	color: grey;
@@ -397,9 +396,8 @@ h3 {
 	text-decoration: none;
 	color: inherit;
 	margin: 0;
-    padding: 0;
+	padding: 0;
 }
-
 
 .jdGallery a.right,.jdGallery a.left {
 	position: absolute;
@@ -407,18 +405,18 @@ h3 {
 	width: 25%;
 	cursor: pointer;
 	z-index: 10;
-	filter: alpha(opacity =                         20);
+	filter: alpha(opacity =                                     20);
 	-moz-opacity: 0.2;
 	-khtml-opacity: 0.2;
 	opacity: 0.2;
 }
 
 * html .jdGallery a.right,* html .jdGallery a.left {
-	filter: alpha(opacity =                         50);
+	filter: alpha(opacity =                                     50);
 }
 
 .jdGallery a.right:hover,.jdGallery a.left:hover {
-	filter: alpha(opacity =                         80);
+	filter: alpha(opacity =                                     80);
 	-moz-opacity: 0.8;
 	-khtml-opacity: 0.8;
 	opacity: 0.8;
@@ -471,7 +469,7 @@ h3 {
 
 * html .withArrows a.open:hover {
 	background: url('images/open.gif') no-repeat center center;
-	filter: alpha(opacity =                         80);
+	filter: alpha(opacity =                                     80);
 }
 
 /* Gallery Sets */
@@ -491,7 +489,7 @@ h3 {
 	opacity: .4;
 	-moz-opacity: .4;
 	-khtml-opacity: 0.4;
-	filter: alpha(opacity =                         40);
+	filter: alpha(opacity =                                     40);
 }
 
 .jdGallery .gallerySelector {
@@ -719,27 +717,25 @@ span label {
 	{
 	list-style-image: url(images/list.png);
 }
-.toptracks_1_entry, .toptracks_2_entry , .toptracks_3_entry , .toptracks_4_entry ,
-.toptracks_1_title ul, .toptracks_2_title ul , .toptracks_3_title ul , .toptracks_4_title ul
+
+.toptracks_1_entry,.toptracks_2_entry,.toptracks_3_entry,.toptracks_4_entry,.toptracks_1_title ul,.toptracks_2_title ul,.toptracks_3_title ul,.toptracks_4_title ul
 	{
-	padding-left:30px;
+	padding-left: 30px;
 }
 
-
-
-.toptracks_1_title ul.entry, .toptracks_1_entry ul.entry {
+.toptracks_1_title ul.entry,.toptracks_1_entry ul.entry {
 	margin-left: 0px;
 }
 
-.toptracks_2_title ul.entry, .toptracks_2_entry ul.entry {
+.toptracks_2_title ul.entry,.toptracks_2_entry ul.entry {
 	margin-left: -2px;
 }
 
-.toptracks_3_title ul.entry, .toptracks_3_entry ul.entry {
+.toptracks_3_title ul.entry,.toptracks_3_entry ul.entry {
 	margin-left: -5px;
 }
 
-.toptracks_4_title ul.entry, .toptracks_4_entry ul.entry {
+.toptracks_4_title ul.entry,.toptracks_4_entry ul.entry {
 	margin-left: -10px;
 }
 

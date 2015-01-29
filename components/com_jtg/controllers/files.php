@@ -38,8 +38,8 @@ class JtgControllerFiles extends JtgController
 		$model = $this->getModel('files');
 
 		$ext = JFile::getExt($file['name']);
-		if($ext == 'kml' || $ext == 'gpx' || $ext == 'tcx') {
-			if(!$model->saveFile())
+		if ($ext == 'kml' || $ext == 'gpx' || $ext == 'tcx') {
+			if (!$model->saveFile())
 			{
 				echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 			}
@@ -66,16 +66,18 @@ class JtgControllerFiles extends JtgController
 	function delete() {
 		$user		= JFactory::getUser();
 
-		if(!$user->get('id')):
+		if (!$user->get('id')):
 		$this->setRedirect( JRoute::_('index.php?option=com_jtg',false), false );
 		endif;
 
 		$id = JRequest::getInt('id');
 		$model = $this->getModel('files');
 
-		if(!$model->deleteFile($id)) {
+		if (!$model->deleteFile($id)) {
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
-		} else {
+		}
+		else
+		{
 			$this->setRedirect( JRoute::_('index.php?option=com_jtg&view=files&layout=user',false), false);
 		}
 	}
@@ -84,7 +86,7 @@ class JtgControllerFiles extends JtgController
 		jimport('joomla.filesystem.file');
 		$user		= JFactory::getUser();
 
-		if(!$user->get('id')):
+		if (!$user->get('id')):
 		$this->setRedirect( JRoute::_('index.php?option=com_jtg',false), false );
 		endif;
 
@@ -93,50 +95,50 @@ class JtgControllerFiles extends JtgController
 		$id = JRequest::getInt('id');
 		$model = $this->getModel('files');
 		$errormsg = $model->updateFile($id);
-		if($errormsg !== true) {
+		if ($errormsg !== true) {
 			echo "<script> alert('Error: \"" . $errormsg . "\"'); window.history.go(-1); </script>\n";
 		}else
-		$this->setRedirect( JRoute::_('index.php?option=com_jtg&view=files&layout=file&id='.$id, false), false );
+			$this->setRedirect( JRoute::_('index.php?option=com_jtg&view=files&layout=file&id='.$id, false), false );
 
-	}
+		function addcomment() {
 
-	function addcomment() {
-
-		$model = $this->getModel('files');
-		$model->addcomment();
-	}
-
-	function savecomment() {
-		$mainframe = JFactory::getApplication();
-
-		// Check for request forgeries
-		JSession::checkToken() or jexit( 'Invalid Token' );
-		$cfg = JtgHelper::getConfig();
-		$id = JRequest::getInt('id');
-
-		if($cfg->captcha == 1) {
-			$return = false;
-			$word = JFactory::getApplication()->input->get('word', false, '', 'CMD');
-			$mainframe->triggerEvent('onCaptcha_confirm', array($word, &$return));
-			if (!$return) {
-				echo "<script> alert('".JText::_('COM_JTG_CAPTCHA_WRONG') . "'); window.history.go(-1); </script>\n";
-			} else {
-				$model = $this->getModel('files');
-				if(!$model->savecomment($id, $cfg))
-				$msg = JText::_('COM_JTG_COMMENT_NOT_SAVED');
-				else
-				$msg = JText::_('COM_JTG_COMMENT_SAVED');
-				$this->setRedirect( JRoute::_('index.php?option=com_jtg&view=files&layout=file&id='.$id.'#jtg_param_header_comment',false), $msg );
-			}
-		} else {
 			$model = $this->getModel('files');
-			if(!$model->savecomment($id, $cfg))
-			$msg = JText::_('COM_JTG_COMMENT_NOT_SAVED');
-			else
-			$msg = JText::_('COM_JTG_COMMENT_SAVED');
-			$this->setRedirect( JRoute::_('index.php?option=com_jtg&view=files&layout=file&id='.$id.'#jtg_param_header_comment',false), $msg );
+			$model->addcomment();
 		}
 
-	}
+		function savecomment() {
+			$mainframe = JFactory::getApplication();
 
-}
+			// Check for request forgeries
+			JSession::checkToken() or jexit( 'Invalid Token' );
+			$cfg = JtgHelper::getConfig();
+			$id = JRequest::getInt('id');
+
+			if ($cfg->captcha == 1) {
+				$return = false;
+				$word = JFactory::getApplication()->input->get('word', false, '', 'CMD');
+				$mainframe->triggerEvent('onCaptcha_confirm', array($word, &$return));
+				if (!$return) {
+					echo "<script> alert('".JText::_('COM_JTG_CAPTCHA_WRONG') . "'); window.history.go(-1); </script>\n";
+				}
+				else
+				{
+					$model = $this->getModel('files');
+					if (!$model->savecomment($id, $cfg))
+						$msg = JText::_('COM_JTG_COMMENT_NOT_SAVED');
+					else
+						$msg = JText::_('COM_JTG_COMMENT_SAVED');
+					$this->setRedirect( JRoute::_('index.php?option=com_jtg&view=files&layout=file&id='.$id.'#jtg_param_header_comment',false), $msg );
+				}
+			}
+			else
+			{
+				$model = $this->getModel('files');
+				if (!$model->savecomment($id, $cfg))
+					$msg = JText::_('COM_JTG_COMMENT_NOT_SAVED');
+				else
+					$msg = JText::_('COM_JTG_COMMENT_SAVED');
+				$this->setRedirect( JRoute::_('index.php?option=com_jtg&view=files&layout=file&id='.$id.'#jtg_param_header_comment',false), $msg );
+			}
+		}
+	}

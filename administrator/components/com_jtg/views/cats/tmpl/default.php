@@ -28,69 +28,79 @@ $ordering = ($this->lists['order'] == 'ordering');
 ?>
 <form action="index.php" method="post" name="adminForm" id="adminForm">
 
-<table class="adminlist" cellpadding="1">
-	<thead>
-		<tr>
-			<th class="title"><?php echo JText::_( 'COM_JTG_NUM' ); ?></th>
-			<th class="title" nowrap="nowrap"><?php echo JText::_( 'COM_JTG_ID'); ?></th>
-			<th class="title"><input type="checkbox" onclick="Joomla.checkAll(this)" title="<?php echo JText::_( 'JGLOBAL_CHECK_ALL' );?>" value="" name="checkall-toggle"></th>
-			<th class="title"><?php echo JText::_( 'COM_JTG_IMAGE' ); ?></th>
-			<th class="title"><?php echo JText::_( 'COM_JTG_CAT' ); ?></th>
-			<th class="title"><?php echo JText::_( 'COM_JTG_DESCRIPTION' ); ?></th>
-			<?php if ( $ordering !== false ) { ?>
-			<th class="order"><?php echo JText::_( 'COM_JTG_ORDER'); ?> <?php if ($ordering) echo JHtml::_('grid.order', $this->rows ); ?>
-			</th>
-			<?php } ?>
-			<th class="title"><?php echo JText::_( 'COM_JTG_PUBLISHED'); ?></th>
-		</tr>
-	</thead>
-	<tbody>
-	<?php
-	$k = 0;
-	for ($i=0, $n=count( $this->list ); $i < $n; $i++)
-	{
-		$row = $this->list[$i];
-		$checked 	= JHtml::_('grid.checkedout', $row, $i );
-		$published 	= JHtml::_('grid.published', $row, $i );
+	<table class="adminlist" cellpadding="1">
+		<thead>
+			<tr>
+				<th class="title"><?php echo JText::_('COM_JTG_NUM'); ?></th>
+				<th class="title" nowrap="nowrap"><?php echo JText::_('COM_JTG_ID'); ?>
+				</th>
+				<th class="title"><input type="checkbox"
+					onclick="Joomla.checkAll(this)"
+					title="<?php echo JText::_('JGLOBAL_CHECK_ALL');?>" value=""
+					name="checkall-toggle"></th>
+				<th class="title"><?php echo JText::_('COM_JTG_IMAGE'); ?></th>
+				<th class="title"><?php echo JText::_('COM_JTG_CAT'); ?></th>
+				<th class="title"><?php echo JText::_('COM_JTG_DESCRIPTION'); ?></th>
+				<?php if ( $ordering !== false ) { ?>
+				<th class="order"><?php echo JText::_('COM_JTG_ORDER'); ?> <?php if ($ordering) echo JHtml::_('grid.order', $this->rows ); ?>
+				</th>
+				<?php
+}
+?>
+				<th class="title"><?php echo JText::_('COM_JTG_PUBLISHED'); ?></th>
+			</tr>
+		</thead>
+		<tbody>
+			<?php
+			$k = 0;
+			for ($i=0, $n=count( $this->list ); $i < $n; $i++)
+			{
+				$row = $this->list[$i];
+				$checked 	= JHtml::_('grid.checkedout', $row, $i);
+				$published 	= JHtml::_('grid.published', $row, $i);
 
-		?>
-		<tr class= "<?php echo "row$k "; echo($k? "row-odd":"row-even"); ?>">
-			<td align="center"><?php echo $this->pagination->getRowOffset( $i ); ?></td>
-			<td><?php echo $row->id; ?></td>
-			<td align="center"><?php echo $checked; ?></td>
-			<td align="center"><?php
-			if ((isset($this->catpic[$this->list[$i]->id])) AND ( $this->catpic[$this->list[$i]->id] != "" ))
-			echo $this->catpic[$this->list[$i]->id];
-			?></td>
-			<td align="left"><a href="javascript:void(0);"
-				onclick="javascript:return listItemTask('cb<?php echo $i; ?>','editcat')">
-				<?php echo JText::_($row->treename); ?> </a></td>
-			<td><?php echo JText::_($row->description); ?></td>
-			<?php if ( $ordering !== false ) { ?>
-			<td class="order"><span><?php echo $this->pagination->orderUpIcon( $i, true,'orderup', 'Move Up', $ordering );
-			?></span> <span><?php echo $this->pagination->orderDownIcon( $i, $n, true, 'orderdown', 'Move Down', $ordering );
-			?></span> <?php $disabled = $ordering ? '' : 'disabled="disabled"';
-			?> <input type="text" name="order[]" size="1"
-				value="<?php echo $row->ordering;
+				?>
+			<tr class="<?php echo "row$k "; echo $k? 'row-odd':'row-even'; ?>">
+				<td align="center"><?php echo $this->pagination->getRowOffset($i); ?>
+				</td>
+				<td><?php echo $row->id; ?></td>
+				<td align="center"><?php echo $checked; ?></td>
+				<td align="center"><?php
+				if ((isset($this->catpic[$this->list[$i]->id])) AND ( $this->catpic[$this->list[$i]->id] != "" ))
+					echo $this->catpic[$this->list[$i]->id];
+				?>
+				</td>
+				<td align="left"><a href="javascript:void(0);"
+					onclick="javascript:return listItemTask('cb<?php echo $i; ?>','editcat')">
+						<?php echo JText::_($row->treename); ?>
+				</a></td>
+				<td><?php echo JText::_($row->description); ?></td>
+				<?php if ( $ordering !== false ) { ?>
+				<td class="order"><span><?php echo $this->pagination->orderUpIcon( $i, true,'orderup', 'Move Up', $ordering );
+				?> </span> <span><?php echo $this->pagination->orderDownIcon( $i, $n, true, 'orderdown', 'Move Down', $ordering );
+				?> </span> <?php $disabled = $ordering ? '' : 'disabled="disabled"';
+				?> <input type="text" name="order[]" size="1"
+					value="<?php echo $row->ordering;
 				?>"
 				<?php echo $disabled;
 				?> class="text_area"
-				style="text-align: center; width: 3em; display: inline" /></td>
+					style="text-align: center; width: 3em; display: inline" /></td>
 				<?php } ?>
-			<td align="center"><?php echo $published;?></td>
-		</tr>
-		<?php
-		$k = 1 - $k;
-	}
-	?>
-	</tbody>
-</table>
-<input type="hidden" name="option" value="com_jtg" />
-<input type="hidden" name="task" value="cats" />
-<input type="hidden" name="boxchecked" value="0" />
-<input type="hidden" name="controller" value="cats" />
-<input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>" />
-<input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>" />
- <?php echo JHtml::_( 'form.token' ); ?>
- &nbsp;
+				<td align="center"><?php echo $published;?></td>
+			</tr>
+			<?php
+			$k = 1 - $k;
+			}
+			?>
+		</tbody>
+	</table>
+	<input type="hidden" name="option" value="com_jtg" /> <input
+		type="hidden" name="task" value="cats" /> <input type="hidden"
+		name="boxchecked" value="0" /> <input type="hidden" name="controller"
+		value="cats" /> <input type="hidden" name="filter_order"
+		value="<?php echo $this->lists['order']; ?>" /> <input type="hidden"
+		name="filter_order_Dir"
+		value="<?php echo $this->lists['order_Dir']; ?>" />
+	<?php echo JHtml::_('form.token'); ?>
+	&nbsp;
 </form>

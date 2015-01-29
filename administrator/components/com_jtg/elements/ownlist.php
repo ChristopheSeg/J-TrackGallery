@@ -2,7 +2,7 @@
 /**
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
- * 
+ *
  * @package    Comjtg
  * @author     Christophe Seguinot <christophe@jtrackgallery.net>
  * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
@@ -26,28 +26,28 @@ class JFormFieldOwnList extends JFormField
 	 * @var		string
 	 */
 	var	$_name = 'uid';
-	
-        //The field class must know its own type through the variable $type.
-        protected $type = 'ownlist';
- 
-        public function getInput() {
-                // code that returns HTML that will be shown as the form field
+
+	//The field class must know its own type through the variable $type.
+	protected $type = 'ownlist';
+
+	public function getInput() {
+		// Code that returns HTML that will be shown as the form field
 		$name = $this->element['name'];
 		$value = $this->value;
 
-		// first load languages that are not loaded by J! when Ownlist is called 
+		// first load languages that are not loaded by J! when Ownlist is called
 		// (ownlist.php is the first component code called when menu default settings is clicked)
 		// Where to put this code, so that it is executed once when multiple call to getInput?
-		// load english language file for 'com_jtg' component then override with current language file
+		// Load english language file for 'com_jtg' component then override with current language file
 		JFactory::getLanguage()->load('com_jtg.sys',   JPATH_ADMINISTRATOR . '/components/com_jtg', 'en-GB', false);
 		JFactory::getLanguage()->load('com_jtg.sys',   JPATH_ADMINISTRATOR . '/components/com_jtg',    null, false);
 		JFactory::getLanguage()->load('com_jtg',   JPATH_ADMINISTRATOR . '/components/com_jtg', 'en-GB', false);
 		JFactory::getLanguage()->load('com_jtg',   JPATH_ADMINISTRATOR . '/components/com_jtg',    null, false);
 		JFactory::getLanguage()->load('com_jtg_common', JPATH_SITE . '/components/com_jtg', 'en-GB', false);
 		JFactory::getLanguage()->load('com_jtg_common', JPATH_SITE . '/components/com_jtg',    null, false);
-		// com_jtg_additional language files are in /images/jtrackgallery/language folder
+		// Com_jtg_additional language files are in /images/jtrackgallery/language folder
 		JFactory::getLanguage()->load('com_jtg_additional', JPATH_SITE . '/images/jtrackgallery', 'en-GB', false);
-		JFactory::getLanguage()->load('com_jtg_additional', JPATH_SITE . '/images/jtrackgallery',    null, false);		
+		JFactory::getLanguage()->load('com_jtg_additional', JPATH_SITE . '/images/jtrackgallery',    null, false);
 
 		global $parseLimitText;
 		if (!is_array($parseLimitText)) $parseLimitText = array();
@@ -56,9 +56,9 @@ class JFormFieldOwnList extends JFormField
 			case "jtg_param_cats":
 				return $this->parseCatsSelect($value, $name,false);
 				break;
-//			case "jtg_param_subcats":
-//				return $this->parseCatsSelect($name,true);
-//				break;
+				//			case "jtg_param_subcats":
+				//				return $this->parseCatsSelect($name,true);
+				//				break;
 			case "jtg_param_user":
 				return $this->parseUserSelect($value, $name);
 				break;
@@ -107,7 +107,7 @@ class JFormFieldOwnList extends JFormField
 		$p = $parseLimitText;
 		$r = array();
 		if ( $p['jtg_param_cats'] != -1 )		$r[] = JText::_('COM_JTG_MENU_LIMIT_CONSTRUCT_CATS') . " " . $this->getCatName($p['jtg_param_cats']);
-//		if ( $p['jtg_param_subcats'] != -1 )	$r[] = JText::_('COM_JTG_MENU_LIMIT_CONSTRUCT_SUBCATS') . " " . $this->getCatName($p['jtg_param_subcats']);
+		//		if ( $p['jtg_param_subcats'] != -1 )	$r[] = JText::_('COM_JTG_MENU_LIMIT_CONSTRUCT_SUBCATS') . " " . $this->getCatName($p['jtg_param_subcats']);
 		if ( $p['jtg_param_user'] != 0 )		$r[] = JText::_('COM_JTG_MENU_LIMIT_CONSTRUCT_USER') . " " . $this->giveRealname($p['jtg_param_user']);
 		if ( $p['jtg_param_usergroup'] != -1 )	$r[] = JText::_('COM_JTG_MENU_LIMIT_CONSTRUCT_USERGROUP') . " " . $this->giveUsergroup($p['jtg_param_usergroup']);
 		if ( $p['jtg_param_terrain'] != -1 )	$r[] = JText::_('COM_JTG_MENU_LIMIT_CONSTRUCT_TERRAIN') . " " . $this->getTerrainname($p['jtg_param_terrain']);
@@ -115,11 +115,11 @@ class JFormFieldOwnList extends JFormField
 		if ( ( $p['jtg_param_level_from'] != 0 ) OR ( $p['jtg_param_level_to'] != 5 ) )
 		{
 			if ( $p['jtg_param_level_from'] == $p['jtg_param_level_to'] )
-			$r[] = JText::_('COM_JTG_MENU_LIMIT_CONSTRUCT_LEVEL') . " " . $p['jtg_param_level_from'];
+				$r[] = JText::_('COM_JTG_MENU_LIMIT_CONSTRUCT_LEVEL') . " " . $p['jtg_param_level_from'];
 			elseif ( $p['jtg_param_level_from'] > $p['jtg_param_level_to'] )
 			$r[] = "<font color=red>".
-				JText::sprintf('COM_JTG_MENU_LIMIT_CONSTRUCT_LEVEL_FROM_TO',$p['jtg_param_level_from'],$p['jtg_param_level_to']).
-				"</font>";
+			JText::sprintf('COM_JTG_MENU_LIMIT_CONSTRUCT_LEVEL_FROM_TO',$p['jtg_param_level_from'],$p['jtg_param_level_to']).
+			"</font>";
 			else
 				$r[] = JText::sprintf('COM_JTG_MENU_LIMIT_CONSTRUCT_LEVEL_FROM_TO',$p['jtg_param_level_from'],$p['jtg_param_level_to']);
 		}
@@ -129,13 +129,13 @@ class JFormFieldOwnList extends JFormField
 			if ( $p['jtg_param_vote_from'] == $p['jtg_param_vote_to'] )
 				$r[] = JText::sprintf('COM_JTG_MENU_LIMIT_CONSTRUCT_VOTE', $p['jtg_param_vote_from']);
 			elseif ( $p['jtg_param_vote_from'] > $p['jtg_param_vote_to'] )
-				$r[] = "<font color=red>".
-				JText::sprintf('COM_JTG_MENU_LIMIT_CONSTRUCT_VOTE_FROM_TO',$p['jtg_param_vote_from'],$p['jtg_param_vote_to']) . "</font>";
+			$r[] = "<font color=red>".
+			JText::sprintf('COM_JTG_MENU_LIMIT_CONSTRUCT_VOTE_FROM_TO',$p['jtg_param_vote_from'],$p['jtg_param_vote_to']) . "</font>";
 			else
 				$r[] = JText::sprintf('COM_JTG_MENU_LIMIT_CONSTRUCT_VOTE_FROM_TO',$p['jtg_param_vote_from'],$p['jtg_param_vote_to']);
 		}
 
-		if(count($r) == 0) return JText::_('COM_JTG_MENU_LIMIT_NO');
+		if (count($r) == 0) return JText::_('COM_JTG_MENU_LIMIT_NO');
 		$r = $this->implodeDesc($r,"and",", \n<b>" ,"</b> \n");
 		return  JText::_('COM_JTG_MENU_LIMIT_HEADER') . " " . $r.JText::_('COM_JTG_MENU_LIMIT_FOOTER');
 	}
@@ -160,7 +160,7 @@ class JFormFieldOwnList extends JFormField
 			echo $db->stderr();
 			return false;
 		}
-		if(!$result) return;
+		if (!$result) return;
 		return JText::_($result->title);
 	}
 
@@ -219,7 +219,7 @@ class JFormFieldOwnList extends JFormField
 			echo $db->stderr();
 			return false;
 		}
-		if(!$result) return;
+		if (!$result) return;
 		return JText::_($result->title);
 	}
 
@@ -246,14 +246,14 @@ class JFormFieldOwnList extends JFormField
 		$list = JHtml::_('select.genericlist', $level, $this->name, null, 'value', 'text', $this->value);
 		return $list;
 	}
-	
+
 	private function parseTerrainSelect($value, $name) {
 		$all = -1;
 		if (!$value) $value = $all;
 		global $parseLimitText;
 		$parseLimitText[(string) $name] = $value;
 		jimport('joomla.filesystem.file');
-		require_once("components" . DIRECTORY_SEPARATOR . "com_jtg" . DIRECTORY_SEPARATOR . "models" . DIRECTORY_SEPARATOR . "files.php");
+		require_once 'components/com_jtg/models/files.php';
 		$terrain = new JtgModelFiles;
 		$terrain = $terrain->getTerrain("title, id");
 		$nullterrain = array('title'=>JText::_('COM_JTG_ALL'), 'id'=>$all);
@@ -265,7 +265,7 @@ class JFormFieldOwnList extends JFormField
 	}
 
 	private function parseUsergroupSelect($value, $name) {
-		if($value === null) $value = -1;
+		if ($value === null) $value = -1;
 		global $parseLimitText;
 		$parseLimitText[(string) $name] = $value;
 		$gid = $this->giveUsergroupid($value);
@@ -286,11 +286,11 @@ class JFormFieldOwnList extends JFormField
 	}
 
 	private function parseCatsSelect($value, $name,$nosubcats) {
-		if($value === null) $value = -1;
+		if ($value === null) $value = -1;
 		global $parseLimitText;
 		$parseLimitText[(string) $name] = $value;
 		jimport('joomla.filesystem.file');
-		require_once("components" . DIRECTORY_SEPARATOR . "com_jtg" . DIRECTORY_SEPARATOR . "models" . DIRECTORY_SEPARATOR . "files.php");
+		require_once 'components/com_jtg/models/files.php';
 		$cats = new JtgModelFiles;
 		$cats = $cats->getCats($nosubcats,'COM_JTG_ALL',-1);
 		$size = $this->getSelectSize($cats);
@@ -309,17 +309,17 @@ class JFormFieldOwnList extends JFormField
 
 	private function giveUsergroupid($gid)
 	{
-		if(isset($gid))
-		return $gid;
+		if (isset($gid))
+			return $gid;
 		else
-		return 0;
+			return 0;
 	}
 
 	private function fetchParams()
 	{
 		$params = JComponentHelper::getParams( 'com_jtg' );
 		// doesn't work
-		//		if(!@$params = $this->_parent->_registry["_default"]["data"])
+		//		if (!@$params = $this->_parent->_registry["_default"]["data"])
 		//		$params = false;
 		return $params;
 	}
@@ -327,7 +327,7 @@ class JFormFieldOwnList extends JFormField
 	/**
 	 * Select list of active users
 	 */
-	private function JHTML_list_users( $name, $active, $nouser = 0, $javascript = NULL, $order = 'name', $reg = 1 )
+	private function JHTML_list_users( $name, $active, $nouser = 0, $javascript = null, $order = 'name', $reg = 1 )
 	{
 		$db = JFactory::getDBO();
 
@@ -341,9 +341,11 @@ class JFormFieldOwnList extends JFormField
 		;
 		$db->setQuery( $query );
 		if ( $nouser ) {
-			$users[] = JHtml::_('select.option',  '0', JText::_( 'COM_JTG_ALL' ) );
+			$users[] = JHtml::_('select.option',  '0', JText::_('COM_JTG_ALL' ) );
 			$users = array_merge( $users, $db->loadObjectList() );
-		} else {
+		}
+		else
+		{
 			$users = $db->loadObjectList();
 		}
 		$size = $this->getSelectSize($users);
@@ -353,11 +355,9 @@ class JFormFieldOwnList extends JFormField
 	}
 
 	private function getSelectSize($array=null) {
-		if(!is_array($array)) return;
+		if (!is_array($array)) return;
 		$size = count($array);
-		if($size > 6) $size = 6;
+		if ($size > 6) $size = 6;
 		return $size;
 	}
-
-    
 }

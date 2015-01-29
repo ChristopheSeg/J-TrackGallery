@@ -29,7 +29,7 @@ class JtgModelTerrain extends JModelLegacy
 
 	function __construct() {
 		parent::__construct();
-		$mainframe = JFactory::getApplication(); // global _ $option;
+		$mainframe = JFactory::getApplication(); // Global _ $option;
 
 		// Get the pagination request variables
 		$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int' );
@@ -43,8 +43,8 @@ class JtgModelTerrain extends JModelLegacy
 
 		$array = JFactory::getApplication()->input->get('cid', array(0), 'array');
 		$edit	= JFactory::getApplication()->input->get('edit',true);
-		if($edit)
-		$this->setId((int)$array[0]);
+		if ($edit)
+			$this->setId((int) $array[0]);
 	}
 
 	/**
@@ -110,10 +110,10 @@ class JtgModelTerrain extends JModelLegacy
 		$query = "SELECT * FROM #__jtg_terrains"
 		. $orderby;
 		if ( $terrain !== null )
-		$query .= " WHERE id=" . $terrain
-		;
+			$query .= " WHERE id=" . $terrain
+			;
 
-		return $query;
+			return $query;
 	}
 
 	/**
@@ -125,14 +125,14 @@ class JtgModelTerrain extends JModelLegacy
 	function _buildContentOrderBy()
 	{
 		return;
-		$mainframe = JFactory::getApplication(); // global _ $option;
+		$mainframe = JFactory::getApplication(); // Global _ $option;
 
 		$filter_order		= $mainframe->getUserStateFromRequest( $this->option.'filter_order',		'filter_order',		'title',	'cmd' );
 		$filter_order_Dir	= $mainframe->getUserStateFromRequest( $this->option.'filter_order_Dir',	'filter_order_Dir',	'',		'word' );
 
 		$orderby 	= ' ORDER BY '.$filter_order.' '.$filter_order_Dir.' , title ';
 		// Problems if sorted in "Files"-Menu and switched to "Terrain"
-		// return $orderby;
+		// Return $orderby;
 	}
 
 	/**
@@ -147,7 +147,7 @@ class JtgModelTerrain extends JModelLegacy
 	}
 
 	function save() {
-		// get post data
+		// Get post data
 		$row = JRequest::get('post' );
 		$table = $this->getTable( 'jtg_terrain' );
 		$table->bind( $row );
@@ -208,7 +208,7 @@ class JtgModelTerrain extends JModelLegacy
 			$query = 'DELETE FROM #__jtg_terrains'
 			. ' WHERE id IN ( '.$cids.' )';
 			$this->_db->setQuery( $query );
-			if(!$this->_db->execute()) {
+			if (!$this->_db->execute()) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
 			}
@@ -216,5 +216,4 @@ class JtgModelTerrain extends JModelLegacy
 
 		return true;
 	}
-
 }

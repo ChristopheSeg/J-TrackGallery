@@ -37,8 +37,8 @@ class JtgModelCats extends JModelLegacy
 			array_push( $list, $v );
 			$children[$pt] = $list;
 		}
-		$list = JHtml::_('menu.treerecurse', 0, '', array(), $children );
-		$list = array_slice($list,0,$limit);
+		$list = JHtml::_('menu.treerecurse', 0, '', array(), $children);
+		$list = array_slice($list, 0, $limit);
 		return $list;
 	}
 }

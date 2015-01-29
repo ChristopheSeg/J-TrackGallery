@@ -13,7 +13,9 @@
 
         if (y < 0 || y >= limit) {
           return OpenLayers.Util.getImagesLocation() + "404.png";
-          } else {
+          }
+else
+{
           x = ((x % limit) + limit) % limit;
           return this.url + z + "/" + x + "/" + y + "." + this.type;
         }

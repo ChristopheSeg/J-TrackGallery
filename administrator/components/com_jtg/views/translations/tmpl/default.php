@@ -2,7 +2,7 @@
 /**
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
- * 
+ *
  * @package    Comjtg
  * @author     Christophe Seguinot <christophe@jtrackgallery.net>
  * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
@@ -80,10 +80,10 @@ $options = array(
 		title.addClass("closed").removeClass("open");
 }',
 		'startOffset' => 0,  // 0 starts on the first tab, 1 starts the second, etc...
-		'useCookie' => true, // this must not be a string. Don't use quotes.
+		'useCookie' => true, // This must not be a string. Don't use quotes.
 );
 
-if(JVERSION>=3.0) //Code support for joomla version greater than 3.0
+if (JVERSION>=3.0) //Code support for joomla version greater than 3.0
 {
 	$style= "	select, textarea, input{
 	width: auto !important;}";
@@ -92,26 +92,31 @@ if(JVERSION>=3.0) //Code support for joomla version greater than 3.0
 
 ?>
 <form action="index.php" method="post" name="adminForm" id="adminForm">
-<?php
-echo JHtml::_('tabs.start', 'tab_group_id', $options);
-foreach ($this->languages as $lang) 
-{
-	echo JHtml::_('tabs.panel', $lang['tag'], $lang['tag']);
-	// <table> is necessary in J!2.5 (not J!3) for proper tab vertical size
-	echo '<table><tr><td>' . $lang['header'].'<br>';
-	?>
-		<textarea name="<?php echo $lang['tag']; ?>" cols="100" rows="<?php echo $lang['rows']; ?>"><?php echo $lang['value']; ?></textarea>
-		<br>&nbsp;
-		</td></tr></table>
 	<?php
-}
-echo JHtml::_('tabs.end');
-?>
+	echo JHtml::_('tabs.start', 'tab_group_id', $options);
+	foreach ($this->languages as $lang)
+	{
+		echo JHtml::_('tabs.panel', $lang['tag'], $lang['tag']);
+		// <table> is necessary in J!2.5 (not J!3) for proper tab vertical size
+		echo '<table><tr><td>' . $lang['header'].'<br>';
+		?>
+	<textarea name="<?php echo $lang['tag']; ?>" cols="100"
+		rows="<?php echo $lang['rows']; ?>">
+		<?php echo $lang['value']; ?>
+	</textarea>
+	<br>&nbsp;
+	</td>
+	</tr>
+	</table>
+	<?php
+	}
+	echo JHtml::_('tabs.end');
+	?>
 
 
-    <input type="hidden" name="option" value="com_jtg" />
-    <input type="hidden" name="task" value="" />
-    <input type="hidden" name="boxchecked" value="0" />
-    <input type="hidden" name="controller" value="translations" />
-    <?php echo JHtml::_( 'form.token' ); ?>
+	<input type="hidden" name="option" value="com_jtg" /> <input
+		type="hidden" name="task" value="" /> <input type="hidden"
+		name="boxchecked" value="0" /> <input type="hidden" name="controller"
+		value="translations" />
+	<?php echo JHtml::_( 'form.token' ); ?>
 </form>

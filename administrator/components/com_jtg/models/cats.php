@@ -2,7 +2,7 @@
 /**
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
- * 
+ *
  * @package    Comjtg
  * @author     Christophe Seguinot <christophe@jtrackgallery.net>
  * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams/model
@@ -56,7 +56,7 @@ class JtgModelCats extends JModelLegacy
 	 */
 	function __construct() {
 		parent::__construct();
-		$mainframe = JFactory::getApplication(); // global _ $option;
+		$mainframe = JFactory::getApplication(); // Global _ $option;
 
 		// Get the pagination request variables
 		$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int' );
@@ -95,14 +95,14 @@ class JtgModelCats extends JModelLegacy
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_pics))
 		{
-			$folder = JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'cats' . DIRECTORY_SEPARATOR;
+			$folder = JPATH_SITE . '/images/jtrackgallery/cats/';
 			jimport('joomla.filesystem.folder');
 			$files = JFolder::files($folder);
 			$this->_pics = $files;
 		}
 		return $this->_pics;
 	}
-	
+
 	/**
 	 *
 	 * @return array $pagination
@@ -178,7 +178,7 @@ class JtgModelCats extends JModelLegacy
 		$query = "SELECT * FROM #__jtg_cats"
 		. "\n WHERE published=1";
 		if ( $exclusion !== null )
-		$query .= " AND id != " . $exclusion;
+			$query .= " AND id != " . $exclusion;
 		$query .= "\n ORDER BY title ASC";
 
 		$db->setQuery($query);

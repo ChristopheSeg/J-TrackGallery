@@ -58,13 +58,11 @@ table.fileis td.icon span.track1 {
 }
 
 table.fileis td.icon span.wp0 {
-	background-image:
-		url(../../../components/com_jtg/assets/images/wp0.png);
+	background-image: url(../../../components/com_jtg/assets/images/wp0.png);
 }
 
 table.fileis td.icon span.wp1 {
-	background-image:
-		url(../../../components/com_jtg/assets/images/wp1.png);
+	background-image: url(../../../components/com_jtg/assets/images/wp1.png);
 }
 
 table.fileis td.icon span.route0 {

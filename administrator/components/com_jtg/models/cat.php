@@ -25,8 +25,8 @@ class JtgModelCat extends JModelLegacy
 
 		$array = JFactory::getApplication()->input->get('cid', array(), 'array');
 		$edit	= JFactory::getApplication()->input->get('edit',true);
-		if($edit)
-		$this->setId((int)$array[0]);
+		if ($edit)
+			$this->setId((int) $array[0]);
 	}
 
 	function saveCatImage() {
@@ -79,11 +79,11 @@ class JtgModelCat extends JModelLegacy
 		$row =$this->getTable('jtg_cats');
 		$groupings = array();
 
-		// update ordering values
-		for( $i=0; $i < count($cid); $i++ )
+		// Update ordering values
+		for ( $i=0; $i < count($cid); $i++ )
 		{
 			$row->load( (int) $cid[$i] );
-			// track categories
+			// Track categories
 			$groupings[] = $row->catid;
 
 			if ($row->ordering != $order[$i])
@@ -137,8 +137,8 @@ class JtgModelCat extends JModelLegacy
 
 	function deleteCatImage($files) {
 		jimport('joomla.filesystem.file');
-		$path = JPATH_SITE . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "jtrackgallery" . DIRECTORY_SEPARATOR . "cats". DIRECTORY_SEPARATOR;
-		foreach($files as $file) {
+		$path = JPATH_SITE . "/images/jtrackgallery/cats/";
+		foreach ($files as $file) {
 			if (!JFile::delete($path.$file)) return false;
 		}
 		return true;
@@ -166,20 +166,20 @@ class JtgModelCat extends JModelLegacy
 			$this->_db->setQuery($query);
 			$rows = $this->_db->loadObjectList();
 
-			if(!$this->_db->execute()) {
+			if (!$this->_db->execute()) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
 			}
 
-			foreach($rows as $row) {
-				JFile::delete(JPATH_SITE . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "jtrackgallery" . DIRECTORY_SEPARATOR . "cats" . DIRECTORY_SEPARATOR . $row->image);
+			foreach ($rows as $row) {
+				JFile::delete(JPATH_SITE . "/images/jtrackgallery/cats/" . $row->image);
 			}
 
 			//delete from DB
 			$query = 'DELETE FROM #__jtg_cats'
 			. ' WHERE id IN ( '.$cids.' )';
 			$this->_db->setQuery( $query );
-			if(!$this->_db->execute()) {
+			if (!$this->_db->execute()) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
 			}
@@ -196,7 +196,7 @@ class JtgModelCat extends JModelLegacy
 	function saveCat() {
 		$mainframe = JFactory::getApplication();
 
-		// check the token
+		// Check the token
 		JSession::checkToken() or die( 'Invalid Token' );
 		jimport('joomla.filesystem.file');
 
@@ -212,8 +212,8 @@ class JtgModelCat extends JModelLegacy
 		$desc = JFactory::getApplication()->input->get('desc', '', 'raw');
 		// allow for JTEXT in category description
 		if ( (substr($desc,0,3)=='<p>') AND (substr($desc,-4,4)=='</p>') ) {
-		    //remove enclosing <p> tags,try translating text, add <p> tags
-		    $desc = substr($desc,3,-4);
+			//remove enclosing <p> tags,try translating text, add <p> tags
+			$desc = substr($desc,3,-4);
 		}
 		$parent = JRequest::getInt('parent');
 		$image = JFactory::getApplication()->input->get('catpic' );
@@ -248,22 +248,30 @@ class JtgModelCat extends JModelLegacy
 				JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_JTG_NOTALLOWED_FILETYPE',$file['ext']), 'Warning');
 				return false;
 			}
-			$upload_dir = JPATH_SITE . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "jtrackgallery" . DIRECTORY_SEPARATOR . "cats". DIRECTORY_SEPARATOR;
+			$upload_dir = JPATH_SITE . "/images/jtrackgallery/cats/";
 			$filename = JFile::makeSafe(strtolower($file['name']));
 
 			if (JFile::exists($upload_dir.$filename)) {
 				JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_CATPIC_ALLREADYEXIST'), 'Warning');
 				return false;
-			} else {
+			}
+			else
+			{
 				$upload = JFile::upload($file['tmp_name'], $upload_dir.$filename);
 				if (!$upload)
 				{
 					return false;
-				} else {
+				}
+				else
+				{
 					return true;
 				}
 			}
-		} else return true;
+		}
+		else
+		{
+			return true;
+		}
 	}
 
 	/**
@@ -274,7 +282,7 @@ class JtgModelCat extends JModelLegacy
 	function updateCat() {
 		$mainframe = JFactory::getApplication();
 
-		// check the token
+		// Check the token
 		JSession::checkToken() or die( 'Invalid Token' );
 		jimport('joomla.filesystem.file');
 
@@ -293,8 +301,8 @@ class JtgModelCat extends JModelLegacy
 		$desc = JFactory::getApplication()->input->get('desc', '', 'raw');
 		// allow for JTEXT in category description
 		if ( (substr($desc,0,3)=='<p>') AND (substr($desc,-4,4)=='</p>') ) {
-		    //remove enclosing <p> tags,try translating text, add <p> tags
-		    $desc = substr($desc,3,-4);
+			//remove enclosing <p> tags,try translating text, add <p> tags
+			$desc = substr($desc,3,-4);
 		}
 		$parent = JRequest::getInt('parent');
 
@@ -315,5 +323,4 @@ class JtgModelCat extends JModelLegacy
 		}
 		return true;
 	}
-
 }

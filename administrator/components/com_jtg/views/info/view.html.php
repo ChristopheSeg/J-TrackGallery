@@ -2,7 +2,7 @@
 /**
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
- * 
+ *
  * @package    Comjtg
  * @author     Christophe Seguinot <christophe@jtrackgallery.net>
  * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
@@ -22,13 +22,12 @@ jimport( 'joomla.application.component.view');
  */
 class JtgViewInfo extends JViewLegacy
 {
-    /**
-     *
-     * @param object $tpl
-     */
-    function display($tpl = null) {
+	/**
+	 *
+	 * @param object $tpl
+	 */
+	function display($tpl = null) {
 
-        parent::display($tpl);
-    }
-
+		parent::display($tpl);
+	}
 }

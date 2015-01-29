@@ -13,7 +13,9 @@ function addlayer_geotaggedImgs(ll, popupClass, popupContentHTML, closeBox, over
 			this.popup = this.createPopup(this.closeBox);
 			map.addPopup(this.popup);
 			this.popup.show();
-		} else {
+		}
+else
+{
 			this.popup.toggle();
 		}
 		currentPopup = this.popup;
@@ -36,7 +38,9 @@ function addlayer_startziel(ll, popupClass, popupContentHTML, closeBox, overflow
 			this.popup = this.createPopup(this.closeBox);
 			map.addPopup(this.popup);
 			this.popup.show();
-		} else {
+		}
+else
+{
 			this.popup.toggle();
 		}
 		currentPopup = this.popup;
@@ -59,7 +63,7 @@ function getAvgTime(speed_str, length, decimal_separator)  {
         var time = length / speed;
         var timestring = time.toString();
         var parts = timestring.split(".");
-        if(!parts[1]) parts[1] = 0;
+        if (!parts[1]) parts[1] = 0;
         var m1 = 0+"."+parts[1].toString();
         var m2 = m1 / 10 * 6;
         m2 = runde(m2,2);
@@ -179,12 +183,14 @@ function addMarker(layer, lon, lat, popupContentHTML, showPopupOnLoad, iconId) {
     map.addPopup(feature.createPopup(feature.closeBox));
 
     if (showPopupOnLoad != true) {
-	    // Wenn das Popup nicht angezeigt werden soll, verstecken und auf 'nicht angeklickt' setzen
-	    feature.popup.hide();
-	    feature.popup.clicked = false;
-    } else {
-	    // Das Popup wird direkt angezeigt und zwar solange bis man es explizit schließt
-	    feature.popup.clicked = true;
+		// Wenn das Popup nicht angezeigt werden soll, verstecken und auf 'nicht angeklickt' setzen
+		feature.popup.hide();
+		feature.popup.clicked = false;
+    }
+else
+{
+		// Das Popup wird direkt angezeigt und zwar solange bis man es explizit schließt
+		feature.popup.clicked = true;
     }
 
     return marker;
@@ -280,9 +286,11 @@ function checkForPermalink() {
  * Debugging Funktion
  */
 function var_dump(obj) {
-   if(typeof obj == "object") {
+   if (typeof obj == "object") {
       return "Type: "+typeof(obj)+((obj.constructor) ? "\nConstructor: "+obj.constructor : "")+"\nValue: " + obj;
-   } else {
+   }
+else
+{
       return "Type: "+typeof(obj)+"\nValue: "+obj;
    }
 }//end function var_dump

@@ -2,7 +2,7 @@
 /**
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
- * 
+ *
  * @package    Comjtg
  * @author     Christophe Seguinot <christophe@jtrackgallery.net>
  * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
@@ -42,13 +42,13 @@ class JtgModeljtg extends JModelLegacy
 		$db->setQuery($query);
 		$result = $db->loadObject();
 		if (!$result)
-		return JTable::getInstance('jtg_files', 'table');
+			return JTable::getInstance('jtg_files', 'table');
 		return $result;
 	}
 
 	static function getTracksData($order, $limit,$where="",$access=null) {
 		if ( $where != "" ) $where = " AND ( " . $where . " )";
-//		if ( $access !== null ) $where .= " AND a.access <= " . $access;
+		//		if ( $access !== null ) $where .= " AND a.access <= " . $access;
 		$mainframe = JFactory::getApplication();
 		$db = JFactory::getDBO();
 		$query = "SELECT a.*, b.title AS cat FROM #__jtg_files AS a"
@@ -77,21 +77,21 @@ class JtgModeljtg extends JModelLegacy
 		else
 		{
 			$nullcat = array(
-				"id"			=> 0,
-				"parent"		=> 0,
-				"title"			=> "<label title=\"".JText::_('COM_JTG_CAT_NONE') . "\">-</label>",
-				"description"	=> null,
-				"image"			=> null,
-				"ordering"		=> 0,
-				"published"		=> 1,
-				"checked_out"	=> 0
+					"id"			=> 0,
+					"parent"		=> 0,
+					"title"			=> "<label title=\"".JText::_('COM_JTG_CAT_NONE') . "\">-</label>",
+					"description"	=> null,
+					"image"			=> null,
+					"ordering"		=> 0,
+					"published"		=> 1,
+					"checked_out"	=> 0
 			);
 			$nullcat = JArrayHelper::toObject($nullcat);
 			$sortedrow = array();
 			foreach ( $rows AS $cat )
 				$sortedrow[$cat->id] = $cat;
 			$sortedrow[0] = $nullcat;
-//			ksort($sortedrow);
+			//			ksort($sortedrow);
 			return $sortedrow;
 		}
 	}
@@ -112,18 +112,18 @@ class JtgModeljtg extends JModelLegacy
 		else
 		{
 			$nullter = array(
-				"id"			=> 0,
-				"title"			=> "<label title=\"".JText::_('COM_JTG_TERRAIN_NONE') . "\">-</label>",
-				"ordering"		=> 0,
-				"published"		=> 1,
-				"checked_out"	=> 0
+					"id"			=> 0,
+					"title"			=> "<label title=\"".JText::_('COM_JTG_TERRAIN_NONE') . "\">-</label>",
+					"ordering"		=> 0,
+					"published"		=> 1,
+					"checked_out"	=> 0
 			);
 			$nullter = JArrayHelper::toObject($nullter);
 			$sortedrow = array();
 			foreach ( $rows AS $ter )
 				$sortedrow[$ter->id] = $ter;
 			$sortedrow[0] = $nullter;
-//			ksort($sortedrow);
+			//			ksort($sortedrow);
 			return $sortedrow;
 		}
 	}

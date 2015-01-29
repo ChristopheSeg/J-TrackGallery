@@ -2,7 +2,7 @@
 /**
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
- * 
+ *
  * @package    Comjtg
  * @author     Christophe Seguinot <christophe@jtrackgallery.net>
  * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
@@ -16,7 +16,7 @@ defined('_JEXEC') or die('Restricted access');
 
 /*
  * Function to convert a system URL to a SEF URL
- */
+*/
 function jtgBuildRoute(&$query) {
 	$segments = array();
 	$app = JFactory::getApplication();
@@ -24,7 +24,9 @@ function jtgBuildRoute(&$query) {
 
 	if (empty($query['Itemid'])) {
 		$menuItem = $menu->getActive();
-	} else {
+	}
+	else
+	{
 		$menuItem = $menu->getItem($query['Itemid']);
 	}
 	//	$menuid = $menuItem->id;
@@ -54,7 +56,7 @@ function jtgBuildRoute(&$query) {
 }
 
 function _jtgParseRouteFile($segments) {
-	switch($segments[1]) {
+	switch ($segments[1]) {
 		case 'file':
 			$vars['view'] = 'files';
 			$vars['layout'] = 'file';
@@ -84,7 +86,7 @@ function _jtgParseRouteFile($segments) {
 }
 
 function _jtgParseRouteCategory($segments) {
-	switch($segments[0]) {
+	switch ($segments[0]) {
 		case 'files':
 			$vars['view'] = 'files';
 			$vars['layout'] = 'list';
@@ -99,9 +101,9 @@ function _jtgParseRouteCategory($segments) {
 }
 
 function _jtgParseRouteSubCategory($segments) {
-	switch($segments[0]) {
+	switch ($segments[0]) {
 		case 'files':
-			switch($segments[1]) {
+			switch ($segments[1]) {
 				case 'form':
 					$vars['view'] = 'files';
 					$vars['layout'] = 'form';
@@ -127,7 +129,7 @@ function _jtgParseRouteSubCategory($segments) {
 
 /*
  * Function to convert a SEF URL back to a system URL
- */
+*/
 function jtgParseRoute($segments) {
 
 	$vars = array();
@@ -145,9 +147,9 @@ function jtgParseRoute($segments) {
 	}
 	elseif ( $count == 2 ) {
 		if ( isset( $segments[1] ) AND
-		( $segments[1] == "default" ) // cats/default
-		OR
-		( ( $segments[0] == "files" ) AND ( $segments[1] == "list" ) )
+				( $segments[1] == "default" ) // Cats/default
+				OR
+				( ( $segments[0] == "files" ) AND ( $segments[1] == "list" ) )
 		) {
 			$vars = _jtgParseRouteCategory($segments);
 		}
@@ -167,9 +169,9 @@ function jtgParseRoute($segments) {
 
 	if ( ( $vars === false ) OR ( count($vars) == 0 ) )
 	{
-//		$errmsg = implode("/",$segments);
-//		$errmsg = "Route " . $errmsg . " does not exists!";
-//		JFactory::getApplication()->enqueueMessage($errmsg, 'Warning');
+		//		$errmsg = implode("/",$segments);
+		//		$errmsg = "Route " . $errmsg . " does not exists!";
+		//		JFactory::getApplication()->enqueueMessage($errmsg, 'Warning');
 		$vars['view'] = 'files';
 		$vars['layout'] = 'list';
 		return $vars;

@@ -8,7 +8,7 @@
 	<authorUrl>http://jtrackgallery.net/</authorUrl>
 	<version>0.9.6</version>
 	<description>COM_JTG_DESCRIPTION</description>
-	
+
 	<install folder="administrator/components/com_jtg">
 		<sql>
 			<file driver="mysql" charset="utf8">sql/install.sql</file>
@@ -27,11 +27,15 @@
 	</uninstall>
 
 	<scriptfile>installuninstallscript.php</scriptfile>
-
+	<files folder="">
+		>
+		<file>gpl-3.0.txt</file>
+	</files>
 	<files folder="components/com_jtg">
 		<file>controller.php</file>
 		<file>index.html</file>
 		<file>jtg.php</file>
+		<file>gpl-2.0.txt</file>
 		<file>router.php</file>
 		<folder>assets</folder>
 		<folder>controllers</folder>
@@ -72,11 +76,11 @@
 			<folder>views</folder>
 		</files>
 	</administration>
-        <!-- UPDATESERVERS DEFINITION -->
+	<!-- UPDATESERVERS DEFINITION -->
 	<!-- Note: No spaces or linebreaks allowed between the server tags -->
-    <updateservers>
-            <server type="extension" priority="1" name="J!Track Gallery Update Site">http://jtrackgallery.net/downloads/J-TrackGallery-updates.xml</server>
-    </updateservers>
-    <params/>
-	<modules/>
+	<updateservers>
+		<server type="extension" priority="1" name="J!Track Gallery Update Site">http://jtrackgallery.net/downloads/J-TrackGallery-updates.xml</server>
+	</updateservers>
+	<params />
+	<modules />
 </extension>

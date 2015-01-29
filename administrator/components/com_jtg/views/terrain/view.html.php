@@ -2,7 +2,7 @@
 /**
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
- * 
+ *
  * @package    Comjtg
  * @author     Christophe Seguinot <christophe@jtrackgallery.net>
  * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
@@ -29,10 +29,10 @@ class JtgViewTerrain extends JViewLegacy
 	 * @param object $tpl
 	 */
 	function display($tpl = null) {
-		$mainframe = JFactory::getApplication(); 
+		$mainframe = JFactory::getApplication();
 		$option = JFactory::getApplication()->input->get('option');
 
-		if($this->getLayout() == 'form'):
+		if ($this->getLayout() == 'form'):
 		$this->_displayForm($tpl);
 		return;
 		endif;
@@ -42,7 +42,9 @@ class JtgViewTerrain extends JViewLegacy
 		$rows =$this->get('Data');
 		$total	=$this->get('Total');
 		$pagination =$this->get('Pagination' );
-		if (!isset($lists)) {$lists=false;}
+		if (!isset($lists)) {
+			$lists=false;
+		}
 		$this->lists = $lists;
 		$this->rows = $rows;
 		$this->pagination = $pagination;
@@ -68,7 +70,7 @@ class JtgViewTerrain extends JViewLegacy
 			$published = 1;
 		}
 		$lists['block'] 	= JHtml::_('select.booleanlist', 'published', 'class="inputbox" size="1"', $published );
-		
+
 		$this->id = $id;
 		$this->lists = $lists;
 		$this->terrain = $terrain;

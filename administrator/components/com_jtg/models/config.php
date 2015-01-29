@@ -41,7 +41,7 @@ class JtgModelConfig extends JModelLegacy
 		$cfg = JtgHelper::getConfig();
 		$createColumns = $this->createColumns($row, "config");
 		if ($createColumns !== true)
-		return $createColumns;
+			return $createColumns;
 		//	Bereinige $row um OSM-Available Map
 		$table = $this->getTable( 'jtg_config' );
 
@@ -53,15 +53,15 @@ class JtgModelConfig extends JModelLegacy
 		$table->bind( $row );
 		if (!$table->store())
 		{
-		    return $table->getError();
+			return $table->getError();
 		}
 		// Config saved,
 		if ( ($row['max_geoim_height']<>$cfg->max_geoim_height)
-			OR ($row['max_thumb_height']<>$cfg->max_thumb_height) )
+				OR ($row['max_thumb_height']<>$cfg->max_thumb_height) )
 		{
-		    // recreate thumbnails if max_height changed
-		    require_once(JPATH_SITE . DIRECTORY_SEPARATOR . "administrator" . DIRECTORY_SEPARATOR . "components" . DIRECTORY_SEPARATOR . "com_jtg" . DIRECTORY_SEPARATOR . "models" . DIRECTORY_SEPARATOR . "thumb_creation.php");
-		    com_jtg_refresh_Thumbnails();
+			// Recreate thumbnails if max_height changed
+			require_once JPATH_SITE . '/administrator/components/com_jtg/models/thumb_creation.php';
+			com_jtg_refresh_Thumbnails();
 		}
 		return true;
 	}
@@ -81,19 +81,19 @@ class JtgModelConfig extends JModelLegacy
 		$existarr = array();
 
 		//	object to array conversion
-		foreach($existobj AS $table => $value)
-		$existarr[$table] = $value;
+		foreach ($existobj AS $table => $value)
+			$existarr[$table] = $value;
 		//	exclude unnecessary columns
 		$ignore = array();
 		if ($tablekey == "config")
 		{
 			$ignore = array('map','option','task','jtg_param_default_map');
-			for($i=0;$i<10;$i++)
-			$ignore[] = 'jtg_param_allow_map_'.$i;
+			for ($i=0;$i<10;$i++)
+				$ignore[] = 'jtg_param_allow_map_'.$i;
 		}
 		//	find out missing columns
 		$missingcolumns = array();
-		foreach($row AS $key => $value)
+		foreach ($row AS $key => $value)
 		{
 			//		$istoken = ((strlen($key) == 32) AND ($value == "1")); // quick'n'dirty to find token -> ugly and unsafe
 			$istoken = JSession::checkToken();
@@ -103,15 +103,15 @@ class JtgModelConfig extends JModelLegacy
 			}
 		}
 		if ( count($missingcolumns) == 0 )
-		//		all necessary colums exists
-		return true;
+			//		all necessary colums exists
+			return true;
 
 		//	load install.sql
-		$file = JPath::clean(JPATH_ADMINISTRATOR . DIRECTORY_SEPARATOR . 'components' . DIRECTORY_SEPARATOR . 'com_jtg' . DIRECTORY_SEPARATOR . 'sql' . DIRECTORY_SEPARATOR . 'install.sql');
+		$file = JPath::clean(JPATH_ADMINISTRATOR . '/components/com_jtg/sql/install.sql');
 		if (!is_file($file))
-		return ('File "'.$file.'" not found');
+			return ('File "'.$file.'" not found');
 		if (jimport('joomla.filesystem.file'))
-		$sqlcontent = file_get_contents($file);
+			$sqlcontent = file_get_contents($file);
 		$sqlcontent = explode("\n", $sqlcontent);
 		$content = null;
 		$content_switch = false;
@@ -128,8 +128,8 @@ class JtgModelConfig extends JModelLegacy
 					$zeile = str_replace(",",null, $zeile);
 					if (in_array($tempcontent, $missingcolumns)) {
 						$content .= $comma . "ADD COLUMN " . $zeile;
-						if($comma == "")
-						$comma = ",\n";
+						if ($comma == "")
+							$comma = ",\n";
 					}
 				}
 			}
@@ -152,7 +152,7 @@ class JtgModelConfig extends JModelLegacy
 		$db->execute();
 
 		if ($db->getErrorNum())
-		return( ($db->stderr()));
+			return( ($db->stderr()));
 		return true;
 	}
 
@@ -168,7 +168,7 @@ class JtgModelConfig extends JModelLegacy
 		$db->setQuery($sql);
 		$secid = $db->loadResult();
 		if (($catid==null)OR($secid==null))
-		return false;
+			return false;
 		$mainframe = JFactory::getApplication();
 		$query = "SELECT id, title FROM #__content WHERE"
 		. "\n sectionid='" . $secid . "'"
@@ -189,7 +189,7 @@ class JtgModelConfig extends JModelLegacy
 	function getTemplates()  {
 		jimport('joomla.filesystem.folder');
 
-		$templates = JFolder::listFolderTree('..' . DIRECTORY_SEPARATOR . 'components' . DIRECTORY_SEPARATOR . 'com_jtg' . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'template','',1);
+		$templates = JFolder::listFolderTree('../components/com_jtg/assets/template','',1);
 		return $templates;
 	}
 }

@@ -2,7 +2,7 @@
 /**
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
- * 
+ *
  * @package    Comjtg
  * @author     Christophe Seguinot <christophe@jtrackgallery.net>
  * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
@@ -18,41 +18,40 @@ defined('_JEXEC') or die('Restricted access');
 jimport('joomla.filter.input');
 
 /**
-* Table class
-*
-*/
+ * Table class
+ *
+ */
 class TableJTG_terrain extends JTable
 {
-        var $id             = null;
-        var $title          = null;
-        var $published      = null;
-        var $checked_out    = null;
-        var $ordering       = null;
+	var $id             = null;
+	var $title          = null;
+	var $published      = null;
+	var $checked_out    = null;
+	var $ordering       = null;
 
-        /**
-         *
-         * @param object $db
-         */
-        function __construct(& $db) {
-            parent::__construct('#__jtg_terrains', 'id', $db);
-        }
+	/**
+	 *
+	 * @param object $db
+	 */
+	function __construct(& $db) {
+		parent::__construct('#__jtg_terrains', 'id', $db);
+	}
 
-        /**
-         *
-         * @param   array  $array
-         * @param   string  $ignore
-         * @return string
-         */
-        function bind($array, $ignore = '')
-        {
-            if (key_exists( 'params', $array ) && is_array( $array['params'] ))
-            {
-                $registry = new JRegistry;
-                $registry->loadArray($array['params']);
-                $array['params'] = $registry->toString();
-            }
+	/**
+	 *
+	 * @param   array  $array
+	 * @param   string  $ignore
+	 * @return string
+	 */
+	function bind($array, $ignore = '')
+	{
+		if (key_exists( 'params', $array ) && is_array( $array['params'] ))
+		{
+			$registry = new JRegistry;
+			$registry->loadArray($array['params']);
+			$array['params'] = $registry->toString();
+		}
 
-            return parent::bind($array, $ignore);
-        }
-        
+		return parent::bind($array, $ignore);
+	}
 }

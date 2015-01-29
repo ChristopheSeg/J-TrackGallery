@@ -15,7 +15,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.controller');
-JTable::addIncludePath(JPATH_ADMINISTRATOR . DIRECTORY_SEPARATOR . 'components' . DIRECTORY_SEPARATOR . 'com_jtg' . DIRECTORY_SEPARATOR . 'tables');
+JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_jtg/tables');
 
 /**
  * Controller Class Files
@@ -42,12 +42,12 @@ class JtgControllerFiles extends JtgController
 		JSession::checkToken() or jexit('Invalid Token');
 		$jInput = JFactory::getApplication()->input;
 		$jFileInput = new jInput($_FILES);
-    	$files = $jFileInput->get('files',array(),'array');	
+		$files = $jFileInput->get('files',array(),'array');
 
 		$model = $this->getModel('files');
-		$dest = JPATH_SITE . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'jtrackgallery' . DIRECTORY_SEPARATOR . 'uploaded_tracks' .
-				 DIRECTORY_SEPARATOR . 'import' . DIRECTORY_SEPARATOR;
-		
+		$dest = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks' .
+				'/import/';
+
 		if (! $model->uploadfiles($files, $dest))
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
@@ -349,6 +349,6 @@ class JtgControllerFiles extends JtgController
 	{
 		JSession::checkToken() or jexit('Invalid Token');
 		$model = $this->getModel('files');
-		echo ($model->_fetchJPTfiles());
+		echo $model->_fetchJPTfiles();
 	}
 }

@@ -2,7 +2,7 @@
 /**
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
- * 
+ *
  * @package    Comjtg
  * @author     Christophe Seguinot <christophe@jtrackgallery.net>
  * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
@@ -26,20 +26,20 @@ class JtgModelDownload extends JModelLegacy
 	 */
 	function download($id, $format, $track)  {
 		$mainframe = JFactory::getApplication();
-		$cache = JFactory :: getCache('com_jtg');
+		$cache = JFactory::getCache('com_jtg');
 		jimport('joomla.filesystem.file');
-		$file = "." . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "jtrackgallery" . DIRECTORY_SEPARATOR . "uploaded_tracks" . DIRECTORY_SEPARATOR . $track->file;
+		$file = "./images/jtrackgallery/uploaded_tracks/" . $track->file;
 		$ext = JFile::getExt($file['name']);
 		$gpsData = new gpsDataClass("Kilometer");// default unit
 		$gpsData = $cache->get(array ( $gpsData, 'loadFileAndData' ), array ($file, $track->file ), "Kilometer");
 		if ($gpsData->displayErrors())
 		{
-		   return NULL;
+			return NULL;
 		}
-		$coords = $gpsData->allCoords;  ; 
-	
+		$coords = $gpsData->allCoords;  ;
 
-		switch($format){
+
+		switch ($format){
 			case "kml":
 				$file = "";
 				$file .= "<?xml version='1.0' encoding='UTF-8'?>";
@@ -61,11 +61,13 @@ class JtgModelDownload extends JModelLegacy
 				$file .= "<MultiGeometry>";
 				$file .= "<LineString>";
 				$file .= "<coordinates>";
-				for($i=0, $n=count($coords); $i<$n; $i++){
+				for ($i=0, $n=count($coords); $i<$n; $i++){
 					$coord = $coords[$i];
-					if($i != $n-1) {
+					if ($i != $n-1) {
 						$file .= $coord[0] . "," . $coord[1] . "," . $coord[2] . "";
-					} else {
+					}
+					else
+					{
 						$file .= $coord[0] . "," . $coord[1] . "," . $coord[2] . "</coordinates>";
 					}
 				}
@@ -105,7 +107,7 @@ class JtgModelDownload extends JModelLegacy
 				$maxlat = -180;
 				$minlon = 90;
 				$maxlon = -90;
-				for($i=0, $n=count($coords); $i<$n; $i++)  {
+				for ($i=0, $n=count($coords); $i<$n; $i++)  {
 					$coord = $coords[$i];
 					if ( $coord[0] < $minlat )	$minlat = $coord[0];
 					if ( $coord[1] < $minlon )	$minlon = $coord[1];
@@ -113,10 +115,10 @@ class JtgModelDownload extends JModelLegacy
 					if ( $coord[1] > $maxlon )	$maxlon = $coord[1];
 
 					$trk .= "<trkpt lat=\"" . $coord[1] . "\" lon=\"" . $coord[0] . "\">";
-					if($coord[2] != NULL)
-					$trk .= "<ele>" . $coord[2] . "</ele>";
-					if($coord[3] != NULL)
-					$trk .= "<time>" . $coord[3] . "</time>";
+					if ($coord[2] != null)
+						$trk .= "<ele>" . $coord[2] . "</ele>";
+					if ($coord[3] != null)
+						$trk .= "<time>" . $coord[3] . "</time>";
 					$trk .= "</trkpt>";
 				}
 				$metadata .= "<bounds minlat=\"" . $minlat . "\" minlon=\"" . $minlon . "\" maxlat=\"" . $maxlat . "\" maxlon=\"" . $maxlon . "\"/>";
@@ -156,7 +158,7 @@ class JtgModelDownload extends JModelLegacy
 				$file .= "              <Intensity>Active</Intensity>\n";
 				$file .= "         </Lap>\n";
 				$file .= "         <Track>\n";
-				for($i=0, $n=count($coords); $i<$n; $i++)  {
+				for ($i=0, $n=count($coords); $i<$n; $i++)  {
 					$coord = $coords[$i];
 					$file .= "              <Trackpoint>\n";
 					$file .= "                  <Time>" . $coord[3] . "</Time>\n";
@@ -196,7 +198,6 @@ class JtgModelDownload extends JModelLegacy
 				return $file;
 				break;
 		}
-
 	}
 
 	/**
@@ -221,5 +222,4 @@ class JtgModelDownload extends JModelLegacy
 
 		return $track;
 	}
-
 }

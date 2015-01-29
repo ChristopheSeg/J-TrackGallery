@@ -15,14 +15,13 @@
 defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.controller');
-JTable::addIncludePath(JPATH_ADMINISTRATOR . DIRECTORY_SEPARATOR . 'components' . DIRECTORY_SEPARATOR . 'com_jtg' . DIRECTORY_SEPARATOR . 'tables');
+JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_jtg/tables');
 
 /**
  * Controller Class Categories
  */
 class JtgControllerCats extends JtgController
 {
-
 	/**
 	 */
 	function display($cachable = false, $urlparams = false)
@@ -38,7 +37,7 @@ class JtgControllerCats extends JtgController
 		$model = $this->getModel('cat');
 		$success = $model->saveCatImage();
 
-		// redirect to cats overview
+		// Redirect to cats overview
 		$link = JRoute::_("index.php?option=com_jtg&task=cats&controller=cats&task=managecatpics", false);
 		if ($success)
 			$this->setRedirect($link, JText::_('COM_JTG_CATPIC_SAVED'));
@@ -58,19 +57,22 @@ class JtgControllerCats extends JtgController
 	 */
 	function savecat ()
 	{
-
 		// Check for request forgeries
 		JSession::checkToken() or jexit('Invalid Token');
 
 		$model = $this->getModel('cat');
 		$success = $model->saveCat();
 
-		// redirect to cats overview
+		// Redirect to cats overview
 		$link = JRoute::_("index.php?option=com_jtg&task=cats&controller=cats", false);
 		if ($success)
+		{
 			$this->setRedirect($link, JText::_('COM_JTG_CAT_SAVED'));
+		}
 		else
+		{
 			$this->setRedirect($link, JText::_('COM_JTG_CAT_NOT_SAVED'));
+		}
 	}
 
 	/**
@@ -80,7 +82,6 @@ class JtgControllerCats extends JtgController
 	 */
 	function orderup ()
 	{
-
 		// Check for request forgeries
 		JSession::checkToken() or jexit('Invalid Token');
 
@@ -97,7 +98,6 @@ class JtgControllerCats extends JtgController
 	 */
 	function orderdown ()
 	{
-
 		// Check for request forgeries
 		JSession::checkToken() or jexit('Invalid Token');
 
@@ -200,6 +200,7 @@ class JtgControllerCats extends JtgController
 			JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_SELECT_AN_ITEM_TO_DELETE'), 'Error');
 		}
 		$model = $this->getModel('cat');
+
 		if (! $model->deleteCatImage($cid))
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
@@ -227,6 +228,7 @@ class JtgControllerCats extends JtgController
 		}
 
 		$model = $this->getModel('cat');
+
 		if (! $model->delete($cid))
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
@@ -242,14 +244,15 @@ class JtgControllerCats extends JtgController
 	 */
 	function updatecat ()
 	{
-		// check the token
+		// Check the token
 		JSession::checkToken() or die('Invalid Token');
 
 		$model = $this->getModel('cat');
 		$success = $model->updateCat();
 
-		// redirect to cats overview
+		// Redirect to cats overview
 		$link = JRoute::_("index.php?option=com_jtg&task=cats&controller=cats", false);
+
 		if ($success)
 			$this->setRedirect($link, JText::_('COM_JTG_CAT_SAVED'));
 		else

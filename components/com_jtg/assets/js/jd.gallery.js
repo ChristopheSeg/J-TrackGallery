@@ -114,20 +114,20 @@ var gallery = {
 		this.galleryElements = Array();
 		this.thumbnailElements = Array();
 		this.galleryElement.addClass(this.options.baseClass);
-		
+
 		if (this.options.useReMooz&&(this.options.defaultTransition=="fade"))
 			this.options.defaultTransition="crossfade";
-		
+
 		this.populateFrom = element;
 		if (this.options.populateFrom)
-			this.populateFrom = this.options.populateFrom;		
+			this.populateFrom = this.options.populateFrom;
 		if (this.options.populateData)
 			this.populateData();
 		element.style.display="block";
-		
+
 		if (this.options.useHistoryManager)
 			this.initHistory();
-		
+
 		if ((this.options.embedLinks)|(this.options.useReMooz))
 		{
 			this.currentLink = new Element('a').addClass('open').setProperties({
@@ -139,7 +139,7 @@ var gallery = {
 			else
 				this.currentLink.setStyle('display', 'none');
 		}
-		
+
 		this.constructElements();
 		if ((this.galleryData.length>1)&&(this.options.showArrows))
 		{
@@ -195,7 +195,7 @@ var gallery = {
 				elementDict.extend({
 					thumbnail: options.thumbGenerator + '?imgfile=' + elementDict.image + '&max_width=' + options.thumbWidth + '&max_height=' + options.thumbHeight
 				});
-			
+
 			data.extend([elementDict]);
 			currentArrayPlace++;
 			if (this.options.destroyAfterPopulate)
@@ -209,7 +209,7 @@ var gallery = {
 			el = this.currentLink;
 		this.maxIter = this.galleryData.length;
 		var currentImg;
-		for(i=0;i<this.galleryData.length;i++)
+		for (i=0;i<this.galleryData.length;i++)
 		{
 			var currentImg = new Fx.Morph(
 				new Element('div').addClass('slideElement').setStyles({
@@ -230,7 +230,7 @@ var gallery = {
 				currentImg.load = function(imageStyle, i) {
 					if (!imageStyle.loaded)	{
 						this.galleryData[i].imgloader = new Asset.image(imageStyle.source, {
-		                            'onload'  : function(img, i){
+													'onload'  : function(img, i){
 													img.element.setStyle(
 													'backgroundImage',
 													"url('" + img.source + "')")
@@ -241,7 +241,9 @@ var gallery = {
 						});
 					}
 				}.pass([currentImg, i], this);
-			} else {
+			}
+else
+{
 				currentImg.element.setStyle('backgroundImage',
 									"url('" + this.galleryData[i].image + "')");
 			}
@@ -289,7 +291,7 @@ var gallery = {
 	},
 	goTo: function(num) {
 		this.clearTimer();
-		if(this.options.preloader)
+		if (this.options.preloader)
 		{
 			this.galleryElements[num].load();
 			if (num==0)
@@ -300,7 +302,7 @@ var gallery = {
 				this.galleryElements[0].load();
 			else
 				this.galleryElements[num + 1].load();
-				
+
 		}
 		if (this.options.embedLinks)
 			this.clearLink();
@@ -321,7 +323,7 @@ var gallery = {
 		this.galleryInit = 0;
 		if (this.currentIter != num)
 		{
-			for(i=0;i<this.maxIter;i++)
+			for (i=0;i<this.maxIter;i++)
 			{
 				if ((i != this.currentIter)) this.galleryElements[i].set({opacity: 0});
 			}
@@ -356,9 +358,11 @@ var gallery = {
 				this.startSlideShow.delay(10, this);
 			}.bind(this);
 			imgPreloader.src = this.galleryData[0].image;
-			if(this.options.preloader)
+			if (this.options.preloader)
 				this.galleryElements[0].load();
-		} else {
+		}
+else
+{
 			if (this.options.showInfopane)
 			{
 				if (this.options.showInfopane)
@@ -381,7 +385,7 @@ var gallery = {
 			this.carouselBtn = new Element('a').addClass('carouselBtn').setProperties({
 				title: this.options.textShowCarousel
 			}).injectInside(carouselContainerElement);
-			if(this.options.carouselPreloader)
+			if (this.options.carouselPreloader)
 				this.carouselBtn.set('html', this.options.textPreloadingCarousel);
 			else
 				this.carouselBtn.set('html', this.options.textShowCarousel);
@@ -393,10 +397,12 @@ var gallery = {
 				}.bind(this)
 			);
 			this.carouselActive = false;
-	
+
 			carouselElement = new Element('div').addClass('carousel').injectInside(carouselContainerElement);
 			this.carousel = new Fx.Morph(carouselElement);
-		} else {
+		}
+else
+{
 			carouselElement = $(this.options.carouselElement).addClass('jdExtCarousel');
 		}
 		this.carouselElement = new Fx.Morph(carouselElement, {transition: Fx.Transitions.Expo.easeOut});
@@ -413,7 +419,7 @@ var gallery = {
 				area: 100,
 				velocity: 0.2
 			})
-			
+
 			this.carouselWrapper.elementScroller = new Fx.Scroll(carouselWrapper, {
 				duration: 400,
 				onStart: this.carouselWrapper.scroller.stop.bind(this.carouselWrapper.scroller),
@@ -473,7 +479,7 @@ var gallery = {
 	},
 	constructThumbnails: function () {
 		element = this.carouselInner;
-		for(i=0;i<this.galleryData.length;i++)
+		for (i=0;i<this.galleryData.length;i++)
 		{
 			var currentImg = new Fx.Morph(new Element ('div').addClass("thumbnail").setStyles({
 					backgroundImage: "url('" + this.galleryData[i].thumbnail + "')",
@@ -502,18 +508,18 @@ var gallery = {
 						this.hideCarousel();
 				}.pass(currentImg, this)
 			});
-			
+
 			currentImg.relatedImage = this.galleryData[i];
 			this.thumbnailElements[parseInt(i)] = currentImg;
 		}
 	},
 	log: function(value) {
-		if(console.log)
+		if (console.log)
 			console.log(value);
 	},
 	preloadThumbnails: function() {
 		var thumbnails = [];
-		for(i=0;i<this.galleryData.length;i++)
+		for (i=0;i<this.galleryData.length;i++)
 		{
 			thumbnails[parseInt(i)] = this.galleryData[i].thumbnail;
 		}
@@ -527,7 +533,7 @@ var gallery = {
 	},
 	clearThumbnailsHighlights: function()
 	{
-		for(i=0;i<this.galleryData.length;i++)
+		for (i=0;i<this.galleryData.length;i++)
 		{
 			this.thumbnailElements[i].cancel();
 			this.thumbnailElements[i].start(0.2);
@@ -535,7 +541,7 @@ var gallery = {
 	},
 	changeThumbnailsSize: function(width, height)
 	{
-		for(i=0;i<this.galleryData.length;i++)
+		for (i=0;i<this.galleryData.length;i++)
 		{
 			this.thumbnailElements[i].cancel();
 			this.thumbnailElements[i].element.setStyles({
@@ -576,7 +582,7 @@ var gallery = {
 		element = this.slideInfoZone.element;
 		element.getElement('h2').set('html', this.galleryData[this.currentIter].title);
 		element.getElement('p').set('html', this.galleryData[this.currentIter].description);
-		if(this.options.slideInfoZoneSlide)
+		if (this.options.slideInfoZoneSlide)
 			this.slideInfoZone.start({'opacity': [0, this.options.slideInfoZoneOpacity], 'height': [0, this.slideInfoZone.normalHeight]});
 		else
 			this.slideInfoZone.start({'opacity': [0, this.options.slideInfoZoneOpacity]});
@@ -587,7 +593,7 @@ var gallery = {
 	hideInfoSlideShow: function() {
 		this.fireEvent('onHideInfopane');
 		this.slideInfoZone.cancel();
-		if(this.options.slideInfoZoneSlide)
+		if (this.options.slideInfoZoneSlide)
 			this.slideInfoZone.start({'opacity': 0, 'height': 0});
 		else
 			this.slideInfoZone.start({'opacity': 0});
@@ -613,7 +619,7 @@ var gallery = {
 		this.currentLink.setStyles({
 			'display': 'block'
 		});
-		
+
 		this.galleryElements[this.currentIter].element.set('title', this.galleryData[this.currentIter].title + ' :: ' + this.galleryData[this.currentIter].description);
 		this.ReMooz = new ReMooz(this.galleryElements[this.currentIter].element, {
 			link: this.galleryData[this.currentIter].link,
@@ -626,16 +632,16 @@ var gallery = {
 		var coords = img.element.getCoordinates();
 		delete coords.right;
 		delete coords.bottom;
-		
+
 		widthDiff = coords.width - img.width;
 		heightDiff = coords.height - img.height;
-		
+
 		coords.width = img.width;
 		coords.height = img.height;
-		
+
 		coords.left += Math.ceil(widthDiff/2)+1;
 		coords.top += Math.ceil(heightDiff/2)+1;
-		
+
 		this.ReMooz.getOriginCoordinates = function(coords) {
 			return coords;
 		}.bind(this, coords);
@@ -671,7 +677,7 @@ var gallery = {
 		this.historyKey = this.galleryElement.id + '-picture';
 		if (this.options.customHistoryKey)
 			this.historyKey = this.options.customHistoryKey;
-		
+
 		this.history = new History.Route({
 			defaults: [1],
 			pattern: this.historyKey + '\\((\\d+)\\)',
@@ -725,50 +731,50 @@ gallery.Transitions = new Hash ({
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 var Preloader = new Class({
-  
+
   Implements: [Events, Options],
 
   options: {
     root        : '',
     period      : 100
   },
-  
+
   initialize: function(options){
     this.setOptions(options);
   },
-  
+
   load: function(sources) {
     this.index = 0;
     this.images = [];
     this.sources = this.temps = sources;
     this.total = this. sources.length;
-    
+
     this.fireEvent('onStart', [this.index, this.total]);
     this.timer = this.progress.periodical(this.options.period, this);
-    
+
     this.sources.each(function(source, index){
       this.images[index] = new Asset.image(this.options.root + source, {
-        'onload'  : function(){ this.index++; if(this.images[index]) this.fireEvent('onLoad', [this.images[index], index, source]); }.bind(this),
+        'onload'  : function(){ this.index++; if (this.images[index]) this.fireEvent('onLoad', [this.images[index], index, source]); }.bind(this),
         'onerror' : function(){ this.index++; this.fireEvent('onError', [this.images.splice(index, 1), index, source]); }.bind(this),
         'onabort' : function(){ this.index++; this.fireEvent('onError', [this.images.splice(index, 1), index, source]); }.bind(this)
       });
     }, this);
   },
-  
+
   progress: function() {
     this.fireEvent('onProgress', [Math.min(this.index, this.total), this.total]);
-    if(this.index >= this.total) this.complete();
+    if (this.index >= this.total) this.complete();
   },
-  
+
   complete: function(){
     $clear(this.timer);
     this.fireEvent('onComplete', [this.images]);
   },
-  
+
   cancel: function(){
     $clear(this.timer);
   }
-  
+
 });
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -781,9 +787,9 @@ function formatString() {
 	var num = arguments.length;
 	var oStr = arguments[0];
 	for (var i = 1; i < num; i++) {
-		var pattern = "\\{" + (i-1) + "\\}"; 
+		var pattern = "\\{" + (i-1) + "\\}";
 		var re = new RegExp(pattern, "g");
 		oStr = oStr.replace(re, arguments[i]);
 	}
-	return oStr; 
+	return oStr;
 }

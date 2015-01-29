@@ -2,7 +2,7 @@
 /**
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
- * 
+ *
  * @package    Comjtg
  * @author     Christophe Seguinot <christophe@jtrackgallery.net>
  * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
@@ -37,17 +37,16 @@ class JtgControllerConfig extends JtgController
 	function saveconfig()
 	{
 		$mainframe = JFactory::getApplication();
-//		check the token
+		//		check the token
 		JSession::checkToken() or die( 'Invalid Token' );
 		$model = $this->getModel('config');
 		$error = $model->saveConfig();
 		if ($error !== true)
 		{
-		    JFactory::getApplication()->enqueueMessage($error, 'Warning');
+			JFactory::getApplication()->enqueueMessage($error, 'Warning');
 		}
 
 		$link = JRoute::_( "index.php?option=com_jtg&task=config&controller=config",false);
 		$this->setRedirect($link, JText::_('COM_JTG_CONFIG_SAVED'));
 	}
-
 }

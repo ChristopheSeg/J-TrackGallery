@@ -2,7 +2,7 @@
 /**
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
- * 
+ *
  * @package    Comjtg
  * @author     Christophe Seguinot <christophe@jtrackgallery.net>
  * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
@@ -33,12 +33,14 @@ class JtgControllertranslations extends JtgController
 		$model = $this->getModel('translations');
 		$success = $model->saveLanguage();
 
-		// redirect to translations
+		// Redirect to translations
 		$link = JRoute::_( "index.php?option=com_jtg&task=translations&controller=translations",false);
 		if ($success)
 		{
 			$this->setRedirect($link, JText::_('COM_JTG_TRANSLATIONS_SAVED'));
-		} else {
+		}
+		else
+		{
 			JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_TRANSLATIONS_NOTSAVED'), 'Warning');
 			$this->setRedirect($link);
 		}

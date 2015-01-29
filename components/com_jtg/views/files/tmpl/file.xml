@@ -9,10 +9,15 @@
 		<name>COM_JTG_MENU_FILE_LAYOUT</name>
 		<description>COM_JTG_GPS_FILE_LAYOUT_DESCRIPTION</description>
 		<url addpath="/administrator/components/com_jtg/elements">
-			<field name="id" type="article" default="0" label="COM_JTG_SELECT_FILE" description="COM_JTG_TT_SELECT_FILE" />
+			<field name="id" type="article" default="0" label="COM_JTG_SELECT_FILE"
+				description="COM_JTG_TT_SELECT_FILE" />
 		</url>
-		<config><fields name="params"><fieldset name="basic" label="basic">
-		</fieldset></fields></config>
+		<config>
+			<fields name="params">
+				<fieldset name="basic" label="basic">
+				</fieldset>
+			</fields>
+		</config>
 		<advanced>
 
 		</advanced>

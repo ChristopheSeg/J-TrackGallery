@@ -2,7 +2,7 @@
 /**
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
- * 
+ *
  * @package    Comjtg
  * @author     Christophe Seguinot <christophe@jtrackgallery.net>
  * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
@@ -15,19 +15,19 @@
 defined('_JEXEC') or die('Restricted access');
 /**
  * Table class
- * 
+ *
  */
 class TableJTG_maps extends JTable
 {
-	var $id				= NULL;
-	var $name			= NULL;
-	var $order			= NULL;
-	var $param			= NULL;
-	var $published		= NULL;
-	var $script			= NULL;
-	var $code			= NULL;
-	var $checked_out	= NULL;
-	//	var $			= NULL;
+	var $id				= null;
+	var $name			= null;
+	var $order			= null;
+	var $param			= null;
+	var $published		= null;
+	var $script			= null;
+	var $code			= null;
+	var $checked_out	= null;
+	//	var $			= null;
 
 	/**
 	 *

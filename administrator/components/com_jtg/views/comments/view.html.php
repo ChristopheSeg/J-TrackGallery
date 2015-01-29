@@ -2,7 +2,7 @@
 /**
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
- * 
+ *
  * @package    Comjtg
  * @author     Christophe Seguinot <christophe@jtrackgallery.net>
  * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
@@ -27,10 +27,10 @@ class JtgViewComments extends JViewLegacy
 	 * @param object $tpl
 	 */
 	function display($tpl = null) {
-		$mainframe = JFactory::getApplication(); 
+		$mainframe = JFactory::getApplication();
 		$option = JFactory::getApplication()->input->get('option');
 
-		if($this->getLayout() == 'form'):
+		if ($this->getLayout() == 'form'):
 		$this->_displayForm($tpl);
 		return;
 		endif;
@@ -39,7 +39,9 @@ class JtgViewComments extends JViewLegacy
 		$rows =$this->get('Data');
 		$total =$this->get('Total');
 		$pagination = $this->get('Pagination' );
-		if (!isset($lists)) {$lists=false;}
+		if (!isset($lists)) {
+			$lists=false;
+		}
 		$this->lists = $lists;
 		$this->rows = $rows;
 		$this->pagination = $pagination;

@@ -8,12 +8,16 @@
 	<state>
 		<name>COM_JTG_MENU_NEW_FILE</name>
 		<description>COM_JTG_NEW_FILE_LAYOUT_DESCRIPTION</description>
-        <url>
-            
-        </url>
-		<config><fields name="params"><fieldset name="basic" label="basic">
+		<url>
 
-		</fieldset></fields></config>
+		</url>
+		<config>
+			<fields name="params">
+				<fieldset name="basic" label="basic">
+
+				</fieldset>
+			</fields>
+		</config>
 		<advanced>
 
 		</advanced>

@@ -4,8 +4,6 @@
 	<offsetx>-2</offsetx>
 	<offsety>-17</offsety>
 </xml>
-<!--
-"offsetx" beschreibt die Anzahl der Pixel von links bis zum Punkt (negativ) und
-"offsety" beschreibt die Anzahl der Pixel von oben bis zum Punkt (ebenfalls negativ).
-Mit "Punkt" ist der Punkt gemeint, der auf der Koordinate sitzt.
--->
+<!-- "offsetx" beschreibt die Anzahl der Pixel von links bis zum Punkt (negativ) 
+	und "offsety" beschreibt die Anzahl der Pixel von oben bis zum Punkt (ebenfalls 
+	negativ). Mit "Punkt" ist der Punkt gemeint, der auf der Koordinate sitzt. -->

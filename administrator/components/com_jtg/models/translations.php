@@ -2,7 +2,7 @@
 /**
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
- * 
+ *
  * @package    Comjtg
  * @author     Christophe Seguinot <christophe@jtrackgallery.net>
  * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
@@ -31,10 +31,10 @@ class JtgModelTranslations extends JModelLegacy
 		$languages = $this->getRawLanguages();
 		$written = true;
 		foreach ($languages as $lang) {
-			$file = JPATH_SITE . '/images/jtrackgallery/language/' . $lang['tag'] . DIRECTORY_SEPARATOR . $lang['tag'] . ".com_jtg_additional.ini";
+			$file = JPATH_SITE . '/images/jtrackgallery/language/' . $lang['tag'] . '/' . $lang['tag'] . '.com_jtg_additional.ini';
 			$inhalt = JFactory::getApplication()->input->get( $lang['tag'], '', 'raw' );
 			$inhalt = str_replace('\"', '"', $inhalt);
-			if(!JFile::write( $file, $inhalt ))
+			if (!JFile::write( $file, $inhalt ))
 			{
 				$written = false;
 			}
@@ -61,7 +61,7 @@ class JtgModelTranslations extends JModelLegacy
 			$path = JPATH_SITE . '/images/jtrackgallery/language/' . $lang['tag'] . '/';
 			$file = $path . $lang['tag'] . ".com_jtg_additional.ini";
 			$newlanguages[$lang['tag']]['file'] = $file;
-			if (!JFolder::exists($path)) 
+			if (!JFolder::exists($path))
 			{
 				JFolder::create($path);
 			}
@@ -69,7 +69,7 @@ class JtgModelTranslations extends JModelLegacy
 			if (!JFile::exists($file))
 			{
 				$buffer="; These are additional translation strings added by users
-; They may be used in Front-end AND Back-end";
+				; They may be used in Front-end AND Back-end";
 				$iswritable = JPath::getPermissions($path);
 				$iswritable = $iswritable[1];
 				if ($iswritable == "w" )
@@ -77,23 +77,23 @@ class JtgModelTranslations extends JModelLegacy
 					$written = JFile::write( $file, $buffer );
 				}
 			}
-			if (JFile::exists($file) or $written) // it should exist now
+			if (JFile::exists($file) or $written) // It should exist now
 			{
 				$iswritable = JPath::getPermissions($file);
 				$iswritable = $iswritable[1];
 				$content = file_get_contents($file);
 				$text = explode("\n",$content);
 				if ($iswritable == "w" )
-					{
-						$header_color = "green";
-						$header_desc = JText::_('COM_JTG_WRITABLE');
-					} else 
-					{
-						$header_color = "red";
-						$header_desc = JText::_('COM_JTG_UNWRITABLE');
-					}
-			} 
-			else 
+				{
+					$header_color = "green";
+					$header_desc = JText::_('COM_JTG_WRITABLE');
+				} else
+				{
+					$header_color = "red";
+					$header_desc = JText::_('COM_JTG_UNWRITABLE');
+				}
+			}
+			else
 			{
 				$header_color = "red";
 				$header_desc = JText::_('COM_JTG_UNWRITABLE');

@@ -61,7 +61,7 @@ class JtgModelMaps extends JModelLegacy
 	 */
 	function __construct() {
 		parent::__construct();
-		$mainframe = JFactory::getApplication(); // global _ $option;
+		$mainframe = JFactory::getApplication(); // Global _ $option;
 
 		//	Get the pagination request variables
 		$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int' );
@@ -76,8 +76,8 @@ class JtgModelMaps extends JModelLegacy
 
 		$array = JFactory::getApplication()->input->get('cid', array(0), 'array');
 		$edit	= JFactory::getApplication()->input->get('edit',true);
-		if($edit)
-		$this->setId((int)$array[0]);
+		if ($edit)
+			$this->setId((int) $array[0]);
 	}
 
 	/**
@@ -110,7 +110,7 @@ class JtgModelMaps extends JModelLegacy
 			$cids = implode( ',', $cid );
 			$query = 'DELETE FROM #__jtg_maps WHERE id IN ( '.$cids.' )';
 			$this->_db->setQuery( $query );
-			if(!$this->_db->execute()) {
+			if (!$this->_db->execute()) {
 				($this->_db->getErrorMsg());
 				return false;
 			}
@@ -148,7 +148,7 @@ class JtgModelMaps extends JModelLegacy
 	 */
 	function _buildContentOrderBy()
 	{
-		$mainframe = JFactory::getApplication(); // global _ $option;
+		$mainframe = JFactory::getApplication(); // Global _ $option;
 
 		$filter_order		= $mainframe->getUserStateFromRequest
 		( $this->option.'filter_order','filter_order','ordering','cmd' );
@@ -157,7 +157,9 @@ class JtgModelMaps extends JModelLegacy
 
 		if ($filter_order == 'ordering'){
 			$orderby 	= ' ORDER BY ordering '.$filter_order_Dir;
-		} else {
+		}
+		else
+		{
 			$orderby 	= ' ORDER BY '.$filter_order.' '.$filter_order_Dir.' , id ';
 		}
 
@@ -173,13 +175,13 @@ class JtgModelMaps extends JModelLegacy
 	 */
 	function _buildContentWhere()  {
 
-		$mainframe = JFactory::getApplication(); // global _ $option;
+		$mainframe = JFactory::getApplication(); // Global _ $option;
 
 		$search = JFactory::getApplication()->input->get('search');
 		$where = array();
 		$db = JFactory::getDBO();
 
-		if($search)  {
+		if ($search)  {
 			$where[] = 'LOWER(a.name) LIKE '.$db->Quote( '%'.$db->getEscaped( $search, true ).'%', false );
 			$where[] = 'LOWER(b.name) LIKE '.$db->Quote( '%'.$db->getEscaped( $search, true ).'%', false );
 		}
@@ -210,10 +212,10 @@ class JtgModelMaps extends JModelLegacy
 	function getMaps($order=false) {
 		$db = JFactory::getDBO();
 		$sql='Select * from #__jtg_maps ';
-		if($order)
-		$sql .= 'ORDER BY '.$order;
+		if ($order)
+			$sql .= 'ORDER BY '.$order;
 		else
-		$sql .= 'ORDER BY ordering asc';
+			$sql .= 'ORDER BY ordering asc';
 		$db->setQuery($sql);
 		$maps = $db->loadObjectlist();
 		return $maps;
@@ -290,12 +292,12 @@ class JtgModelMaps extends JModelLegacy
 		. "\n param='" . $param . "',"
 		. "\n checked_out='" . $checked_out . "',"
 		. "\n code='" . $code . "'";
-		if($script) $query .= ",\n script='" . $script . "'";
+		if ($script) $query .= ",\n script='" . $script . "'";
 		$db->setQuery($query);
 		$db->execute();
 
 		if ($db->getErrorNum())
-		die($db->_errorMsg);
+			die($db->_errorMsg);
 		return true;
 	}
 
@@ -349,7 +351,7 @@ class JtgModelMaps extends JModelLegacy
 		$db->execute();
 
 		if ($db->getErrorNum())
-		die($db->_errorMsg);
+			die($db->_errorMsg);
 		return true;
 	}
 }

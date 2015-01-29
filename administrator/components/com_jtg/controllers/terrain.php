@@ -2,7 +2,7 @@
 /**
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
- * 
+ *
  * @package    Comjtg
  * @author     Christophe Seguinot <christophe@jtrackgallery.net>
  * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
@@ -15,96 +15,46 @@
 defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.appliterrainion.component.controller');
-JTable::addIncludePath(JPATH_ADMINISTRATOR . DIRECTORY_SEPARATOR . 'components' . DIRECTORY_SEPARATOR . 'com_jtg' . DIRECTORY_SEPARATOR . 'tables');
+JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_jtg/tables');
 
 /**
  * Controller Class terrainegories
  */
 class JtgControllerTerrain extends JtgController
 {
-    function save()  {
-        $mainframe = JFactory::getApplication();
-        
-        // Check for request forgeries
-        JSession::checkToken() or jexit( 'Invalid Token' );
+	function save()  {
+		$mainframe = JFactory::getApplication();
 
-        $model = $this->getModel('terrain');
-        $model->save();
+		// Check for request forgeries
+		JSession::checkToken() or jexit('Invalid Token');
 
-        // redirect to terrains overview
-        $link = JRoute::_( "index.php?option=com_jtg&task=terrain&controller=terrain",false);
-        $this->setRedirect($link, JText::_('COM_JTG_TERRAIN_SAVED'));
-    }
+		$model = $this->getModel('terrain');
+		$model->save();
 
-    function update()  {
-        $mainframe = JFactory::getApplication();
-        
-        // Check for request forgeries
-        JSession::checkToken() or jexit( 'Invalid Token' );
+		// Redirect to terrains overview
+		$link = JRoute::_( "index.php?option=com_jtg&task=terrain&controller=terrain",false);
+		$this->setRedirect($link, JText::_('COM_JTG_TERRAIN_SAVED'));
+	}
 
-        $model = $this->getModel('terrain');
-        $model->save();
+	function update()  {
+		$mainframe = JFactory::getApplication();
 
-        // redirect to terrains overview
-        $link = JRoute::_( "index.php?option=com_jtg&task=terrain&controller=terrain",false);
-        $this->setRedirect($link, JText::_('COM_JTG_TERRAIN_UPDATED'));
-    }
+		// Check for request forgeries
+		JSession::checkToken() or jexit( 'Invalid Token' );
 
-    /**
-         * @uses JtgModelterrain::publish
-         * @return redirect
-         */
+		$model = $this->getModel('terrain');
+		$model->save();
+
+		// Redirect to terrains overview
+		$link = JRoute::_( "index.php?option=com_jtg&task=terrain&controller=terrain",false);
+		$this->setRedirect($link, JText::_('COM_JTG_TERRAIN_UPDATED'));
+	}
+
+	/**
+	 * @uses JtgModelterrain::publish
+	 * @return redirect
+	 */
 	function publish()
-	{
-		// Check for request forgeries
-		JSession::checkToken() or jexit( 'Invalid Token' );
-
-		$cid = JFactory::getApplication()->input->get('cid', array(), 'array' );
-		JArrayHelper::toInteger($cid);
-
-		if (count( $cid ) < 1) 
-		{
-			JFactory::getApplication()->enqueueMessage(JText::_( 'COM_JTG_SELECT_AN_ITEM_TO_PUBLISH'),'Error' );
-		}
-
-		$model = $this->getModel('terrain');
-		if(!$model->publish($cid, 1)) {
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
-		}
-
-		$this->setRedirect( JRoute::_('index.php?option=com_jtg&task=terrain&controller=terrain', false ));
-	}
-
-        /**
-         * @uses JtgModelterrain::publish
-         * @return redirect
-         */
-	function unpublish()
-	{
-		// Check for request forgeries
-		JSession::checkToken() or jexit( 'Invalid Token' );
-
-		$cid = JFactory::getApplication()->input->get('cid', array(), 'array' );
-		JArrayHelper::toInteger($cid);
-
-		if (count( $cid ) < 1) 
-		{
-			JFactory::getApplication()->enqueueMessage(JText::_( 'COM_JTG_SELECT_AN_ITEM_TO_UNPUBLISH'),'Error' );
-		}
-
-		$model = $this->getModel('terrain');
-		if(!$model->publish($cid, 0)) {
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
-		}
-
-		$this->setRedirect( JRoute::_('index.php?option=com_jtg&task=terrain&controller=terrain', false ));
-	}
-
-        /**
-         * @uses JtgModelterrain::delete
-         * @return redirect
-         */
-	function remove()
 	{
 		// Check for request forgeries
 		JSession::checkToken() or jexit( 'Invalid Token' );
@@ -114,11 +64,61 @@ class JtgControllerTerrain extends JtgController
 
 		if (count( $cid ) < 1)
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_( 'COM_JTG_SELECT_AN_ITEM_TO_DELETE'),'Error' );
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_SELECT_AN_ITEM_TO_PUBLISH'),'Error' );
 		}
 
 		$model = $this->getModel('terrain');
-		
+		if (!$model->publish($cid, 1)) {
+			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+		}
+
+		$this->setRedirect( JRoute::_('index.php?option=com_jtg&task=terrain&controller=terrain', false ));
+	}
+
+	/**
+	 * @uses JtgModelterrain::publish
+	 * @return redirect
+	 */
+	function unpublish()
+	{
+		// Check for request forgeries
+		JSession::checkToken() or jexit( 'Invalid Token' );
+
+		$cid = JFactory::getApplication()->input->get('cid', array(), 'array' );
+		JArrayHelper::toInteger($cid);
+
+		if (count( $cid ) < 1)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_SELECT_AN_ITEM_TO_UNPUBLISH'),'Error' );
+		}
+
+		$model = $this->getModel('terrain');
+		if (!$model->publish($cid, 0)) {
+			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+		}
+
+		$this->setRedirect( JRoute::_('index.php?option=com_jtg&task=terrain&controller=terrain', false ));
+	}
+
+	/**
+	 * @uses JtgModelterrain::delete
+	 * @return redirect
+	 */
+	function remove()
+	{
+		// Check for request forgeries
+		JSession::checkToken() or jexit( 'Invalid Token' );
+
+		$cid = JFactory::getApplication()->input->get('cid', array(), 'array' );
+		JArrayHelper::toInteger($cid);
+
+		if (count($cid) < 1)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_SELECT_AN_ITEM_TO_DELETE'),'Error' );
+		}
+
+		$model = $this->getModel('terrain');
+
 		if (!$model->delete($cid))
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
@@ -126,5 +126,4 @@ class JtgControllerTerrain extends JtgController
 
 		$this->setRedirect( JRoute::_('index.php?option=com_jtg&task=terrain&controller=terrain', false ));
 	}
-
 }

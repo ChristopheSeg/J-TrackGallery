@@ -2,7 +2,7 @@
 /**
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
- * 
+ *
  * @package    Comjtg
  * @author     Christophe Seguinot <christophe@jtrackgallery.net>
  * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
@@ -22,29 +22,29 @@ jimport('joomla.filter.input');
  *
  */
 class TableJTG_files extends JTable{
-	var $id				= NULL;
-	var $uid			= NULL;
-	var $catid			= NULL;
-	var $title			= NULL;
-	var $file			= NULL;
-	var $terrain		= NULL;
-	var $description	= NULL;
-	var $published		= NULL;
-	var $date			= NULL;
-	var $hits			= NULL;
-	var $checked_out	= NULL;
-	var $start_n		= NULL;
-	var $start_e		= NULL;
-	var $distance		= NULL;
-	var $ele_asc		= NULL;
-	var $ele_desc		= NULL;
-	var $level			= NULL;
-	var $access			= NULL;
-	var $istrack		= NULL;
-	var $iswp			= NULL;
-	var $isroute		= NULL;
-	var $vote			= NULL;
-	var $hidden			= NULL;
+	var $id				= null;
+	var $uid			= null;
+	var $catid			= null;
+	var $title			= null;
+	var $file			= null;
+	var $terrain		= null;
+	var $description	= null;
+	var $published		= null;
+	var $date			= null;
+	var $hits			= null;
+	var $checked_out	= null;
+	var $start_n		= null;
+	var $start_e		= null;
+	var $distance		= null;
+	var $ele_asc		= null;
+	var $ele_desc		= null;
+	var $level			= null;
+	var $access			= null;
+	var $istrack		= null;
+	var $iswp			= null;
+	var $isroute		= null;
+	var $vote			= null;
+	var $hidden			= null;
 
 
 	/**
@@ -79,7 +79,7 @@ class TableJTG_files extends JTable{
 	function check()
 	{
 		jimport('joomla.filter.output');
-		if(empty($this->alias)) {
+		if (empty($this->alias)) {
 			$this->alias = $this->title;
 		}
 		$this->alias = JFilterOutput::stringURLSafe($this->alias);
@@ -87,5 +87,4 @@ class TableJTG_files extends JTable{
 		/* All your other checks */
 		return true;
 	}
-
 }

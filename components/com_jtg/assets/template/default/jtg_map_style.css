@@ -7,12 +7,13 @@
 
 /* 
  svg, label,input  used by joomla 3.x css must be redefined for olMpa	
-*/ 
-#jtg_map svg { max-width: none; }
+*/
+#jtg_map svg {
+	max-width: none;
+}
 
- 
 .olControlLayerSwitcher {
-	opacity : 0.8!important;
+	opacity: 0.8 !important;
 	margin: 5px;
 	top: 40px;
 	right: 0px;
@@ -20,48 +21,54 @@
 	width: 20em;
 	font-family: sans-serif;
 	font-weight: bold;
-	text-align: left; 
+	text-align: left;
 	font-size: 100%;
 	color: #4D553D;
 	background-color: #D1D6BE;
 	border-radius: 4px;
 	box-shadow: 0 3px 3px #111;
 }
+
 .olControlLayerSwitcher .layersDiv {
-	background-color: transparent!important;
-	opacity : 1!important;
+	background-color: transparent !important;
+	opacity: 1 !important;
 }
-.olControlLayerSwitcher div{
-	background-color: transparent!important;
+
+.olControlLayerSwitcher div {
+	background-color: transparent !important;
 }
+
 .olControlLayerSwitcher .minimizeDiv {
 	right: 0px;
 	top: 0px;
-	left : auto;
+	left: auto;
 }
+
 .olControlLayerSwitcher .maximizeDiv {
 	right: 0px;
 	top: 0px;
-	left : auto;
+	left: auto;
 }
+
 .olControlLayerSwitcher .baseLbl {
 	font-size: small;
 }
 
-#jtg_map label, .olMap input, .olMap button, #jtg_map.olButton, .olMap select, .olMap textarea {
-    font-family: Roboto, Arial,​sans-serif;
-    /* Roboto used by Google Maps , added to avoid font resizing when GoogleMaps selected*/
-    font-size: 11px;
-    font-weight: inherit;
-    line-height: inherit;
-    display: inline;
-    margin-bottom: 0px;
-    margin-top: 0px;
+#jtg_map label,.olMap input,.olMap button,#jtg_map.olButton,.olMap select,.olMap textarea
+	{
+	font-family: Roboto, Arial, ​sans-serif;
+	/* Roboto used by Google Maps , added to avoid font resizing when GoogleMaps selected*/
+	font-size: 11px;
+	font-weight: inherit;
+	line-height: inherit;
+	display: inline;
+	margin-bottom: 0px;
+	margin-top: 0px;
 }
 
 .olControlZoom {
-	top : auto;
-	bottom: 45px!important;
+	top: auto;
+	bottom: 45px !important;
 	height: 25px;
 	left: 10px;
 	box-shadow: 0 3px 3px #888;
@@ -69,64 +76,67 @@
 /* Style for FullScreen*/
 .olControlNavToolbar {
 	text-align: center;
-	top : 5px!important;
-	left : auto!important;
-	right: 5px;	
-	margin : 0;
+	top: 5px !important;
+	left: auto !important;
+	right: 5px;
+	margin: 0;
 	background-color: #D1D6BE;
 	border-radius: 4px;
 	box-shadow: 0 3px 3px #888;
 }
-.olControlNavigationItemActive, .olControlNavigationItemInactive,
-.olControlZoomBoxItemActive, .olControlZoomBoxItemInactive {
-    float: left !important;
-    margin: 2px !important;
-    /* display: none;   desactivated*/
+
+.olControlNavigationItemActive,.olControlNavigationItemInactive,.olControlZoomBoxItemActive,.olControlZoomBoxItemInactive
+	{
+	float: left !important;
+	margin: 2px !important;
+	/* display: none;   desactivated*/
 }
 
-.olControlNavToolbar div, .olControlEditingToolbar div {
-    margin: 2px;
-    width: 24px;
-    height: 22px;
-    cursor: pointer;
+.olControlNavToolbar div,.olControlEditingToolbar div {
+	margin: 2px;
+	width: 24px;
+	height: 22px;
+	cursor: pointer;
 }
+
 .olControlNavToolbar 
-.olControlNavigationItemActive, 
-.olControlEditingToolbar 
+.olControlNavigationItemActive,.olControlEditingToolbar 
 .olControlNavigationItemActive {
-    background-position: -103px -24px;
+	background-position: -103px -24px;
 }
+
 .olControlNavToolbar 
 .olControlZoomBoxItemInactive {
-    background-position: -128px -1px;
+	background-position: -128px -1px;
 }
 
 .olControlAttribution {
-    bottom: 0.2em;
-}
-div.olControlMousePosition  {
-    bottom: 1.5em;
+	bottom: 0.2em;
 }
 
+div.olControlMousePosition {
+	bottom: 1.5em;
+}
 
-.buttonFullScreenItemInactive
-{
-	float : left!important;
-	margin : 2px!important;
+.buttonFullScreenItemInactive {
+	float: left !important;
+	margin: 2px !important;
 	cursor: pointer;
-	background-image:url("ol_images/view_fullscreen.png")!important;	
+	background-image: url("ol_images/view_fullscreen.png") !important;
 }
-.buttonFullScreenItemActive
-{
-	float : left!important;
-	margin : 2px!important;
+
+.buttonFullScreenItemActive {
+	float: left !important;
+	margin: 2px !important;
 	cursor: pointer;
-	background-image:url("ol_images/leave_fullscreen.png")!important;	
+	background-image: url("ol_images/leave_fullscreen.png") !important;
 }
+
 #jtg_map.olMap { /* this is for normal size map */
 	z-index: 0;
 }
-#jtg_map.fullscreen {/* this is for fullscreen map */
+
+#jtg_map.fullscreen { /* this is for fullscreen map */
 	position: fixed;
 	padding: 0 !important;
 	margin: 0 !important;
@@ -138,6 +148,7 @@ div.olControlMousePosition  {
 	margin: 0;
 	z-index: 20;
 }
+
 #charts_container {
 	height: 250px;
 	width: 500px;

@@ -85,7 +85,9 @@ function addMarker(ll, popupClass, popupContentHTML, closeBox, overflow, icon) {
 			this.popup = this.createPopup(this.closeBox);
 			map.addPopup(this.popup);
 			this.popup.show();
-		} else {
+		}
+else
+{
 			this.popup.toggle();
 		}
 	currentPopup = this.popup;
@@ -114,7 +116,7 @@ function showOtherUserInfo(ll, userhtml) {
 
 function parseOtherUsers() {
 	if ( otherusers ) {
-		for(i=0;i<otherusers;i++) {
+		for (i=0;i<otherusers;i++) {
 		layerOUsers = new OpenLayers.Layer.Markers(name[i]);
 		map.addLayer(layerOUsers);
 			var lonlat = lonLatToMercator(new OpenLayers.LonLat(lon[i],lat[i]));
@@ -214,7 +216,9 @@ function showOtherUserInfo(ll, popupClass, popupContentHTML, closeBox, overflow,
 //			map.addPopup(this.popup);
 //			this.popup.show();
 			document.getElementById("otheruser").setHTML(userhtml);
-		} else {
+		}
+else
+{
 //			this.popup.toggle();
 			document.getElementById("otheruser").setHTML(userhtml);
 		}
