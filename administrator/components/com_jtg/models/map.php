@@ -24,9 +24,12 @@ class JtgModelMAp extends JModelLegacy
 		parent::__construct();
 
 		$array = JFactory::getApplication()->input->get('cid', array(0), 'array');
-		$edit	= JFactory::getApplication()->input->get('edit',true);
+		$edit	= JFactory::getApplication()->input->get('edit', true);
+
 		if ($edit)
+		{
 			$this->setId((int) $array[0]);
+		}
 	}
 
 	/**
@@ -48,7 +51,7 @@ class JtgModelMAp extends JModelLegacy
 	 */
 	function saveorder($cid = array(), $order)
 	{
-		$row =$this->getTable('jtg_maps');
+		$row = $this->getTable('jtg_maps');
 		$groupings = array();
 
 		// Update ordering values

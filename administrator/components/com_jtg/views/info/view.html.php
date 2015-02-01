@@ -15,7 +15,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 // Import Joomla! libraries
-jimport( 'joomla.application.component.view');
+jimport('joomla.application.component.view');
 
 /**
  *
@@ -26,8 +26,8 @@ class JtgViewInfo extends JViewLegacy
 	 *
 	 * @param object $tpl
 	 */
-	function display($tpl = null) {
-
+	function display($tpl = null)
+	{
 		parent::display($tpl);
 	}
 }

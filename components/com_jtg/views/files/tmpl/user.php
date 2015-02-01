@@ -64,7 +64,7 @@ if ($user->id != 0) {
 			$edit = "title=\"" . $edit . "\" alt=\"" . $edit . "\"";
 			$delete = "title=\"" . $delete . "\" alt=\"" . $delete . "\"";
 			$k = 0;
-			for ($i=0, $n=count( $this->rows ); $i < $n; $i++)
+			for ($i = 0, $n = count($this->rows); $i < $n; $i++)
 			{
 				$row = $this->rows[$i];
 				$terrain = JtgHelper::parseMoreTerrains($this->sortedter,$row->terrain,"array");

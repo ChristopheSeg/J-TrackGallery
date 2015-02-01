@@ -22,16 +22,16 @@ JToolBarHelper::editList('editterrain');
 JToolBarHelper::publish();
 JToolBarHelper::unpublish();
 JToolBarHelper::deleteList();
-JToolBarHelper::help( 'terrain',true );
+JToolBarHelper::help('terrain', true);
 ?>
 <form action="index.php" method="post" name="adminForm" id="adminForm">
 	<table class="adminlist" cellpadding="1">
 		<thead>
 			<tr>
-				<th class="title"><?php echo JText::_('COM_JTG_NUM' ); ?></th>
+				<th class="title"><?php echo JText::_('COM_JTG_NUM'); ?></th>
 				<th class="title"><input type="checkbox"
 					onclick="Joomla.checkAll(this)"
-					title="<?php echo JText::_('JGLOBAL_CHECK_ALL' ); ?>" value=""
+					title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" value=""
 					name="checkall-toggle"></th>
 				<th class="title"><?php echo JText::_('COM_JTG_TITLE'); ?></th>
 				<th class="title"><?php echo JText::_('COM_JTG_TRANSLATION'); ?></th>
@@ -49,18 +49,19 @@ JToolBarHelper::help( 'terrain',true );
 		<tbody>
 			<?php
 			$k = 0;
-			for ($i=0, $n=count( $this->rows ); $i < $n; $i++)
+
+			for ($i = 0, $n = count($this->rows); $i < $n; $i++)
 			{
 				$row = $this->rows[$i];
 
-				$link 	= JRoute::_( 'index.php?option=com_jtg&task=editterrain&controller=terrain&id='. $row->id );
+				$link 	= JRoute::_('index.php?option=com_jtg&task=editterrain&controller=terrain&id=' . $row->id);
 
-				$checked 	= JHtml::_('grid.checkedout',   $row, $i );
-				$published 	= JHtml::_('grid.published', $row, $i );
+				$checked 	= JHtml::_('grid.checkedout', $row, $i);
+				$published 	= JHtml::_('grid.published', $row, $i);
 
 				?>
 			<tr class="<?php echo "row$k "; echo $k? 'row-odd':'row-even'; ?>">
-				<td align="center"><?php echo $this->pagination->getRowOffset( $i ); ?>
+				<td align="center"><?php echo $this->pagination->getRowOffset($i); ?>
 				</td>
 				<td align="center"><?php echo $checked; ?></td>
 				<td align="center"><a href="javascript:void(0);"
@@ -83,5 +84,5 @@ JToolBarHelper::help( 'terrain',true );
 		type="hidden" name="task" value="" /> <input type="hidden"
 		name="boxchecked" value="0" /> <input type="hidden" name="controller"
 		value="terrain" />
-	<?php echo JHtml::_( 'form.token' ); ?>
+	<?php echo JHtml::_('form.token'); ?>
 </form>

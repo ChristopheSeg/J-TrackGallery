@@ -30,7 +30,7 @@ class JtgModelDownload extends JModelLegacy
 		jimport('joomla.filesystem.file');
 		$file = "./images/jtrackgallery/uploaded_tracks/" . $track->file;
 		$ext = JFile::getExt($file['name']);
-		$gpsData = new gpsDataClass("Kilometer");// default unit
+		$gpsData = new gpsDataClass("Kilometer");// Default unit
 		$gpsData = $cache->get(array ( $gpsData, 'loadFileAndData' ), array ($file, $track->file ), "Kilometer");
 		if ($gpsData->displayErrors())
 		{

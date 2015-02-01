@@ -16,6 +16,11 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
+/**
+ * function jtgdebug($val, $die=false)
+ *
+ * @return void
+ */
 function jtgdebug($val, $die=false)
 {
 	$r = "<pre>";
@@ -40,7 +45,7 @@ function jtgdebug($val, $die=false)
 	}
 
 	echo $r;
-	// If ( JDEBUG )
+
 }
 
 class JtgHelper
@@ -114,7 +119,7 @@ class JtgHelper
 		return (int) $db->loadResult();
 	}
 
-	public static function giveGeneratedValues($surface,$filetypes,$track)
+	public static function giveGeneratedValues($surface, $filetypes, $track)
 	{
 		switch ($surface) {
 			case 'backend':
@@ -148,9 +153,9 @@ class JtgHelper
 
 		if ( $distance != 0 )
 		{
-			$km = JtgHelper::getLocatedFloat($distance);
-			$miles = JtgHelper::getMiles($distance);
-			$miles = JtgHelper::getLocatedFloat($miles);
+			$km = self::getLocatedFloat($distance);
+			$miles = self::getMiles($distance);
+			$miles = self::getLocatedFloat($miles);
 			$distance = $km . " Km (" . $miles . " Miles)";
 		}
 		else
@@ -160,7 +165,7 @@ class JtgHelper
 		$distance = JText::_('COM_JTG_DISTANCE') . ": " . $distance;
 		$ele_asc = JText::_('COM_JTG_ELEVATION_UP') . ": " . (float) $track->ele_asc;
 		$ele_desc = JText::_('COM_JTG_ELEVATION_DOWN') . ": " . (float) $track->ele_desc;
-		$voted = JtgHelper::howMuchVote($track->id);
+		$voted = self::howMuchVote($track->id);
 		if ( ( $voted != 0 ) AND ( (float) $track->vote == 0 ) )
 		{
 			// Wenn gevoted wurde aber Voting gleich 0
@@ -174,7 +179,7 @@ class JtgHelper
 
 		$voted = JText::sprintf('COM_JTG_MENU_LIMIT_CONSTRUCT_VOTED', $voted) . $error;
 		$vote = (float) $track->vote;
-		$vote = JtgHelper::getLocatedFloat($vote);
+		$vote = self::getLocatedFloat($vote);
 		$vote = JText::sprintf('COM_JTG_MENU_LIMIT_CONSTRUCT_VOTE', $vote) . $error;
 		$button = "<button class=\"button\" type=\"button\" onclick=\"submitbutton('updateGeneratedValues')\">" . JText::_('COM_JTG_REFRESH_DATAS') . "</button>";
 
@@ -254,8 +259,8 @@ class JtgHelper
 			}
 			else
 			{
-				$randname = JtgHelper::alphanumericPass($randnumber);
-				$filename = $randname.JFile::makeSafe($file['name']);
+				$randname = self::alphanumericPass($randnumber);
+				$filename = $randname . JFile::makeSafe($file['name']);
 				// Man weiß ja nie ;)
 				if ( $fncount > 10000 )
 				{
@@ -293,7 +298,7 @@ class JtgHelper
 						if ( isset($allcats[$catid]->id) )
 						{
 							$url = JRoute::_($baseurl . $allcats[$catid]->id, true);
-							$return[] = "<a href=\"" . $url  . "\">" .
+							$return[] = "<a href=\"" . $url . "\">" .
 									JText::_($allcats[$catid]->title) .
 									"</a>";
 						}
@@ -325,7 +330,7 @@ class JtgHelper
 							if ( $allcats[$catid]->image != "")
 							{
 								$return[] = "<a href=\"" . $url . "\">".
-										"<img title=\"".JText::_($allcats[$catid]->title) . "\" alt=\"".JText::_($allcats[$catid]->title) . "\" src=\"" . $image.$allcats[$catid]->image . "\" />&nbsp;".
+										"<img title=\"" . JText::_($allcats[$catid]->title) . "\" alt=\"" . JText::_($allcats[$catid]->title) . "\" src=\"" . $image.$allcats[$catid]->image . "\" />&nbsp;".
 										"</a>";
 							}
 							else
@@ -422,7 +427,7 @@ class JtgHelper
 		return $return;
 	}
 
-	static function parseMoreTerrains($allterrains, v$terrainid, $format="array", $link=false)
+	static function parseMoreTerrains($allterrains, $terrainid, $format="array", $link=false)
 	{
 		$baseurl = "index.php?option=com_jtg&view=files&layout=list&terrain=";
 		$image = JUri::base() . 'images/jtrackgallery/terrain/';
@@ -486,7 +491,7 @@ class JtgHelper
 			return false;
 		}
 		// Seems $user_groups is never empty !!
-		$cfg_id = unserialize(JtgHelper::getConfig()->comment_who);
+		$cfg_id = unserialize(self::getConfig()->comment_who);
 
 		if (!$cfg_id )
 		{
@@ -515,7 +520,7 @@ class JtgHelper
 			return false;
 		}
 		// Seems $user_groups is never empty !!
-		$cfg_id = unserialize(JtgHelper::getConfig()->gid);
+		$cfg_id = unserialize(self::getConfig()->gid);
 
 		if (!$cfg_id )
 		{
@@ -678,11 +683,10 @@ class JtgHelper
 			case 'gif':
 				$src = ImageCreateFromGif($file_tmp_name);
 				break;
-
 		}
 
 		list($width, $height) = getimagesize($file_tmp_name);
-		$cfg = JtgHelper::getConfig();
+		$cfg = self::getConfig();
 
 		// Pixsize in pixel
 		$maxsize = (int) $cfg->max_size;
@@ -787,7 +791,7 @@ class JtgHelper
 	 */
 	static function getProfileLink($uid, $username)
 	{
-		$cfg = JtgHelper::getConfig();
+		$cfg = self::getConfig();
 
 		switch ($cfg->profile)
 		{
@@ -800,7 +804,6 @@ class JtgHelper
 			case "js":
 				$jspath = JPATH_BASE . '/components/com_community';
 				include_once $jspath . '/libraries/core.php';
-
 				$link = "<a href=" . CRoute::_('index.php?option=com_community&view=profile&userid=' . $uid) . " >" . $username . "</a>";
 
 				return $link;
@@ -866,7 +869,7 @@ class JtgHelper
 
 		if ( strtolower($unit) == "miles" )
 		{
-			$float = JtgHelper::getMiles($float);
+			$float = self::getMiles($float);
 			$unit = JText::_('COM_JTG_MILES');
 		}
 		$float = (float) $float;

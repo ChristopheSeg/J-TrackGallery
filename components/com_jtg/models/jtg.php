@@ -48,7 +48,7 @@ class JtgModeljtg extends JModelLegacy
 
 	static function getTracksData($order, $limit,$where="",$access=null) {
 		if ( $where != "" ) $where = " AND ( " . $where . " )";
-		//		if ( $access !== null ) $where .= " AND a.access <= " . $access;
+		// 	if ( $access !== null ) $where .= " AND a.access <= " . $access;
 		$mainframe = JFactory::getApplication();
 		$db = JFactory::getDBO();
 		$query = "SELECT a.*, b.title AS cat FROM #__jtg_files AS a"
@@ -79,7 +79,7 @@ class JtgModeljtg extends JModelLegacy
 			$nullcat = array(
 					"id"			=> 0,
 					"parent"		=> 0,
-					"title"			=> "<label title=\"".JText::_('COM_JTG_CAT_NONE') . "\">-</label>",
+					"title"			=> "<label title=\"" . JText::_('COM_JTG_CAT_NONE') . "\">-</label>",
 					"description"	=> null,
 					"image"			=> null,
 					"ordering"		=> 0,
@@ -91,7 +91,7 @@ class JtgModeljtg extends JModelLegacy
 			foreach ( $rows AS $cat )
 				$sortedrow[$cat->id] = $cat;
 			$sortedrow[0] = $nullcat;
-			//			ksort($sortedrow);
+			// 		ksort($sortedrow);
 			return $sortedrow;
 		}
 	}
@@ -113,7 +113,7 @@ class JtgModeljtg extends JModelLegacy
 		{
 			$nullter = array(
 					"id"			=> 0,
-					"title"			=> "<label title=\"".JText::_('COM_JTG_TERRAIN_NONE') . "\">-</label>",
+					"title"			=> "<label title=\"" . JText::_('COM_JTG_TERRAIN_NONE') . "\">-</label>",
 					"ordering"		=> 0,
 					"published"		=> 1,
 					"checked_out"	=> 0
@@ -123,7 +123,7 @@ class JtgModeljtg extends JModelLegacy
 			foreach ( $rows AS $ter )
 				$sortedrow[$ter->id] = $ter;
 			$sortedrow[0] = $nullter;
-			//			ksort($sortedrow);
+			// 		ksort($sortedrow);
 			return $sortedrow;
 		}
 	}

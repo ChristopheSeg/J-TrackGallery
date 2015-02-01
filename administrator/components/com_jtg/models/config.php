@@ -16,6 +16,7 @@ defined('_JEXEC') or die('Restricted access');
 
 // Import Joomla! libraries
 jimport('joomla.application.component.model');
+
 /**
  * Model Class Configuration
  */
@@ -24,10 +25,10 @@ class JtgModelConfig extends JModelLegacy
 	/**
 	 *
 	 */
-	function __construct() {
+	function __construct()
+	{
 		parent::__construct();
 	}
-
 
 	/**
 	 *
@@ -35,34 +36,41 @@ class JtgModelConfig extends JModelLegacy
 	 */
 	function saveConfig()
 	{
-		//	get post data
-		$row = JRequest::get('post' );
-		//	Store tables if they not exists
+		// Get post data
+		$row = JRequest::get('post');
+
+		// Store tables if they not exists
 		$cfg = JtgHelper::getConfig();
 		$createColumns = $this->createColumns($row, "config");
+
 		if ($createColumns !== true)
+		{
 			return $createColumns;
-		//	Bereinige $row um OSM-Available Map
-		$table = $this->getTable( 'jtg_config' );
+		}
+		// Bereinige $row um OSM-Available Map
+		$table = $this->getTable('jtg_config');
 
-		// for gid multiple select Normally done in bind  (/models/config.php but does not work!)
-		$row['gid'] = serialize($row['gid']) ;
+		// For gid multiple select Normally done in bind  (/models/config.php but does not work!)
+		$row['gid'] = serialize($row['gid']);
 
-		// for comment_who multiple select Normally done in bind  (/models/config.php but does not work!)
-		$row['comment_who'] = serialize($row['comment_who']) ;
-		$table->bind( $row );
+		// Or comment_who multiple select Normally done in bind  (/models/config.php but does not work!)
+		$row['comment_who'] = serialize($row['comment_who']);
+		$table->bind($row);
+
 		if (!$table->store())
 		{
 			return $table->getError();
 		}
 		// Config saved,
-		if ( ($row['max_geoim_height']<>$cfg->max_geoim_height)
-				OR ($row['max_thumb_height']<>$cfg->max_thumb_height) )
+
+		if ( ($row['max_geoim_height'] <> $cfg->max_geoim_height)
+			OR ($row['max_thumb_height'] <> $cfg->max_thumb_height) )
 		{
 			// Recreate thumbnails if max_height changed
 			require_once JPATH_SITE . '/administrator/components/com_jtg/models/thumb_creation.php';
 			com_jtg_refresh_Thumbnails();
 		}
+
 		return true;
 	}
 
@@ -73,67 +81,94 @@ class JtgModelConfig extends JModelLegacy
 	function createColumns($row, $tablekey)
 	{
 		echo "deprecated: JtgModelConfig::createColumns";
-		//	find out exists columns
+
+		// Find out exists columns
 		$db = JFactory::getDBO();
-		$sql='Select * from #__jtg_'.$tablekey;
+		$sql = 'Select * from #__jtg_' . $tablekey;
 		$db->setQuery($sql);
 		$existobj = $db->loadObject();
 		$existarr = array();
 
-		//	object to array conversion
+		// Object to array conversion
+
 		foreach ($existobj AS $table => $value)
+		{
 			$existarr[$table] = $value;
-		//	exclude unnecessary columns
+		}
+		// Exclude unnecessary columns
 		$ignore = array();
+
 		if ($tablekey == "config")
 		{
 			$ignore = array('map','option','task','jtg_param_default_map');
-			for ($i=0;$i<10;$i++)
-				$ignore[] = 'jtg_param_allow_map_'.$i;
+			for ($i = 0;$i < 10;$i++)
+			{
+				$ignore[] = 'jtg_param_allow_map_' . $i;
+			}
 		}
-		//	find out missing columns
+		// Find out missing columns
 		$missingcolumns = array();
+
 		foreach ($row AS $key => $value)
 		{
-			//		$istoken = ((strlen($key) == 32) AND ($value == "1")); // quick'n'dirty to find token -> ugly and unsafe
 			$istoken = JSession::checkToken();
+
 			if ((!in_array($key, $ignore)) AND (!array_key_exists($key, $existarr)) AND (!$istoken))
 			{
 				$missingcolumns[] = $key;
 			}
 		}
-		if ( count($missingcolumns) == 0 )
-			//		all necessary colums exists
-			return true;
 
-		//	load install.sql
+		if ( count($missingcolumns) == 0 )
+		{
+			// All necessary colums exists
+			return true;
+		}
+
+		// Load install.sql
 		$file = JPath::clean(JPATH_ADMINISTRATOR . '/components/com_jtg/sql/install.sql');
+
 		if (!is_file($file))
-			return ('File "'.$file.'" not found');
+		{
+			return ('File "' . $file . '" not found');
+		}
+
 		if (jimport('joomla.filesystem.file'))
+		{
 			$sqlcontent = file_get_contents($file);
+		}
+
 		$sqlcontent = explode("\n", $sqlcontent);
 		$content = null;
 		$content_switch = false;
 		$comma = "";
-		//	convert sql-statement from CREATE to ALTER ADD
+
+		// Convert sql-statement from CREATE to ALTER ADD
 		foreach ($sqlcontent AS $zeile)
 		{
 			if ($content_switch)
 			{
 				$tempcontent = explode('`', $zeile);
+
 				if (count($tempcontent) == 3)
 				{
 					$tempcontent = $tempcontent[1];
-					$zeile = str_replace(",",null, $zeile);
-					if (in_array($tempcontent, $missingcolumns)) {
+					$zeile = str_replace(",", null, $zeile);
+
+					if (in_array($tempcontent, $missingcolumns))
+					{
 						$content .= $comma . "ADD COLUMN " . $zeile;
+
 						if ($comma == "")
+						{
 							$comma = ",\n";
+						}
 					}
 				}
 			}
-			if ((preg_match("/#__jtg_" . $tablekey . "/", $zeile)) AND (preg_match("/CREATE/",$zeile)) AND (!$content_switch))
+
+			if ((preg_match("/#__jtg_" . $tablekey . "/", $zeile))
+				AND (preg_match("/CREATE/", $zeile)) AND (!$content_switch))
 			{
 				$zeile = str_replace("(", "", $zeile);
 				$zeile = str_replace("CREATE", "ALTER IGNORE", $zeile);
@@ -141,34 +176,44 @@ class JtgModelConfig extends JModelLegacy
 				$content .= $zeile . "\n";
 				$content_switch = true;
 			}
+
 			if ((preg_match("/\;/", $zeile)) AND ($content_switch))
 			{
 				$content .= ";";
 				break;
 			}
 		}
+
 		$db = JFactory::getDBO();
 		$db->setQuery($content);
 		$db->execute();
 
 		if ($db->getErrorNum())
+		{
 			return( ($db->stderr()));
+		}
+
 		return true;
 	}
 
 	/**
 	 * @return Object
 	 */
-	function getContent() {
+	function getContent()
+	{
 		$db = JFactory::getDBO();
-		$sql='Select id from #__categories where title=\'term\'';
+		$sql = 'Select id from #__categories where title=\'term\'';
 		$db->setQuery($sql);
 		$catid = $db->loadResult();
-		$sql='Select id from #__categories where title=\'jtg\'';
+		$sql = 'Select id from #__categories where title=\'jtg\'';
 		$db->setQuery($sql);
 		$secid = $db->loadResult();
-		if (($catid==null)OR($secid==null))
+
+		if (($catid == null) OR ($secid == null))
+		{
 			return false;
+		}
+
 		$mainframe = JFactory::getApplication();
 		$query = "SELECT id, title FROM #__content WHERE"
 		. "\n sectionid='" . $secid . "'"
@@ -178,18 +223,22 @@ class JtgModelConfig extends JModelLegacy
 		$db->setQuery($query);
 		$result = $db->loadObjectList();
 
-		if ($db->getErrorNum()) {
+		if ($db->getErrorNum())
+		{
 			echo $db->stderr();
+
 			return false;
 		}
+
 		return $result;
 	}
 
 
-	function getTemplates()  {
+	function getTemplates()
+	{
 		jimport('joomla.filesystem.folder');
+		$templates = JFolder::listFolderTree('../components/com_jtg/assets/template', '', 1);
 
-		$templates = JFolder::listFolderTree('../components/com_jtg/assets/template','',1);
 		return $templates;
 	}
 }

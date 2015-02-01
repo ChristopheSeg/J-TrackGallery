@@ -33,10 +33,10 @@ else
 	JHtml::_('behavior.tooltip');
 }
 
-$n = count( $this->rows );
-if ($n>0)
+$n = count($this->rows);
+if ($n > 0)
 {
-	//diplay comments
+	// Display comments
 	?>
 <form action="index.php" method="post" name="adminForm" id="adminForm">
 	<table class="adminlist" cellpadding="1">
@@ -64,25 +64,26 @@ if ($n>0)
 		<tbody>
 			<?php
 			$k = 0;
-			for ($i=0, $n=count( $this->rows ); $i < $n; $i++)
+
+			for ($i = 0, $n = count( $this->rows ); $i < $n; $i++)
 			{
 				$row = $this->rows[$i];
 
-				$link 	= JRoute::_( 'index.php?option=com_jtg&task=editComment&controller=comments&id='. $row->id, false );
-				// eh?? terrain??
-				$row->checked_out=null;
-				$checked 	= JHtml::_('grid.checkedout', $row, $i );
-				$published 	= JHtml::_('grid.published', $row, $i );
+				$link 	= JRoute::_('index.php?option=com_jtg&task=editComment&controller=comments&id='. $row->id, false);
+				// Eh?? terrain??
+				$row->checked_out = null;
+				$checked 	= JHtml::_('grid.checkedout', $row, $i);
+				$published 	= JHtml::_('grid.published', $row, $i);
 
 				?>
 			<tr class="<?php echo "row$k"; ?>">
-				<td align="center"><?php echo $this->pagination->getRowOffset( $i ); ?>
+				<td align="center"><?php echo $this->pagination->getRowOffset($i); ?>
 				</td>
 				<td align="center"><?php echo $checked; ?></td>
 				<td align="center"><?php echo $row->user; ?></td>
 				<td align="center"><?php echo $row->track; ?></td>
 				<td align="center"><span class="hasTip"
-					title="<?php echo JText::_('COM_JTG_COMMENT_TEXT'); ?>::<?php echo htmlentities($row->text,ENT_QUOTES,'UTF-8'); ?>"><?php echo htmlentities($row->title,ENT_QUOTES,'UTF-8'); ?>
+					title="<?php echo JText::_('COM_JTG_COMMENT_TEXT'); ?>::<?php echo htmlentities($row->text, ENT_QUOTES, 'UTF-8'); ?>"><?php echo htmlentities($row->title, ENT_QUOTES, 'UTF-8'); ?>
 				</span></td>
 				<td align="center"><?php echo $row->date; ?></td>
 				<td align="center"><?php echo $published;?></td>
@@ -99,7 +100,7 @@ if ($n>0)
 		type="hidden" name="task" value="" /> <input type="hidden"
 		name="boxchecked" value="0" /> <input type="hidden" name="controller"
 		value="comments" />
-	<?php echo JHtml::_( 'form.token' ); ?>
+	<?php echo JHtml::_('form.token'); ?>
 	&nbsp;
 </form>
 <?php

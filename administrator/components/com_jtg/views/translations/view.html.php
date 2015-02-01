@@ -15,18 +15,19 @@
 defined('_JEXEC') or die('Restricted access');
 
 // Import Joomla! libraries
-jimport( 'joomla.application.component.view');
+jimport('joomla.application.component.view');
 
 /**
  *
  */
 class JtgViewTranslations extends JViewLegacy
 {
-	function display($tpl = null) {
+	function display($tpl = null)
+	{
 		$mainframe = JFactory::getApplication();
 		$option = JFactory::getApplication()->input->get('option');
 
-		$model =$this->getModel();
+		$model = $this->getModel();
 		$languages = $model->getLanguages();
 		$this->languages = $languages;
 

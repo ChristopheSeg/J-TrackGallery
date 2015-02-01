@@ -15,34 +15,44 @@ defined('_JEXEC') or die('Restricted access');
 
 // Toolbar
 if ($this->id < 1)
-	$title = JText::_('COM_JTG_ADD_FILE');
+{
+$title = JText::_('COM_JTG_ADD_FILE');
+}
 else
-	$title = JText::_('COM_JTG_EDIT_FILE');
+{
+$title = JText::_('COM_JTG_EDIT_FILE');
+}
 JToolBarHelper::title($title, 'categories.png');
 JToolBarHelper::back();
 JToolBarHelper::spacer();
-if ($this->id < 1):
-JToolBarHelper::save('savefile',$alt= 'COM_JTG_SAVE', 'save.png' );
-else:
-JToolBarHelper::save('updatefile', $alt= 'COM_JTG_SAVE');
-JToolBarHelper::custom('updateGeneratedValues', 'apply', 'apply', 'COM_JTG_REFRESH_DATAS', false );
-endif;
-JToolBarHelper::help( 'files/form',true );
+
+if ($this->id < 1)
+{
+	JToolBarHelper::save('savefile', $alt = 'COM_JTG_SAVE', 'save.png');
+}
+else
+{
+	JToolBarHelper::save('updatefile', $alt = 'COM_JTG_SAVE');
+	JToolBarHelper::custom('updateGeneratedValues', 'apply', 'apply', 'COM_JTG_REFRESH_DATAS', false);
+}
+
+JToolBarHelper::help('files/form', true);
 $document = JFactory::getDocument();
-$document->addStyleSheet(JUri::base().'components/com_jtg/template.css');
+$document->addStyleSheet(JUri::base() . 'components/com_jtg/template.css');
 $document->addStyleSheet('http://dev.openlayers.org/theme/default/style.css');
 
-// add jtg_map stylesheet
+// Add jtg_map stylesheet
 $cfg = JtgHelper::getConfig();
 $tmpl = ($cfg->template <> "") ? $cfg->template : 'default';
-$document->addStyleSheet(JUri::root().'components/com_jtg/assets/template/'.$tmpl.'/jtg_map_style.css');
+$document->addStyleSheet(JUri::root() . 'components/com_jtg/assets/template/' . $tmpl . '/jtg_map_style.css');
 $map = "";
+
 if ($this->id >= 1)
 {
-	//	edit file
+	// Edit file
 	$cache = JFactory::getCache('com_jtg');
 	$cfg = JtgHelper::getConfig();
-	$params = JComponentHelper::getParams( 'com_jtg' );
+	$params = JComponentHelper::getParams('com_jtg');
 	$model = $this->getModel();
 	$track = $cache->get(array($model, 'getFile'), array($this->id));
 	$document = JFactory::getDocument();
@@ -54,6 +64,7 @@ if ($this->id >= 1)
 	$file = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks/' . $this->track->file;
 	$gpsData = new gpsDataClass($cfg->unit);
 	$gpsData = $cache->get(array ( $gpsData, 'loadFileAndData' ), array ($file, $track->file ), $cfg->unit);
+
 	if ($gpsData->displayErrors())
 	{
 		$map = "";
@@ -79,7 +90,8 @@ if ($this->id >= 1)
 		</thead>
 		<tbody>
 			<tr class="row1 row-odd">
-				<td><?php echo JText::_('COM_JTG_GPS_FILE') . ":"; if ($this->id < 1) echo "*";?>
+				<td><?php echo JText::_('COM_JTG_GPS_FILE') . ":";
+				if ($this->id < 1) {echo "*";}?>
 				</td>
 				<td><?php if ($this->id < 1) { ?><input type="file" name="file"
 					value="" size="30" /> <?php } else echo $this->track->file; ?></td>
@@ -114,14 +126,6 @@ if ($this->id >= 1)
 			</tr>
 			<tr class="row1 row-odd">
 				<td><?php echo JText::_('COM_JTG_LEVEL'); ?>* <?php echo JHtml::tooltip(JText::_('COM_JTG_TT_LEVEL')); ?>:
-
-
-
-
-
-
-				
-				
 				<td><?php echo $this->lists['level']; ?></td>
 			</tr>
 			<tr class="row0 row-even">
@@ -145,7 +149,8 @@ if ($this->id >= 1)
 				<td><?php echo $this->lists['values']; ?></td>
 			</tr>
 			<tr class="row1 row-odd">
-				<td colspan="3"><?php echo JText::_('COM_JTG_DESCRIPTION'); ?>:* <?php
+				<td colspan="3"><?php echo JText::_('COM_JTG_DESCRIPTION'); ?>:*
+				<?php
 				if ( isset($this->track->description) )
 				{
 					$trackdescription = $this->track->description;
@@ -154,6 +159,7 @@ if ($this->id >= 1)
 				{
 					$trackdescription = null;
 				}
+
 				echo $this->editor->display('description', $trackdescription, '100%', '200px', '15', '25', false, null);
 				?>
 				</td>
@@ -161,11 +167,11 @@ if ($this->id >= 1)
 			<?php
 			/*
 			 echo "	<tr>
-			<td>".JText::_('COM_JTG_WPS') . ":</td>
+			<td>" . JText::_('COM_JTG_WPS') . ":</td>
 			<td colspan=\"2\"></td>
 			</tr>
 			<tr>
-			<td>".JText::_('COM_JTG_TRACKS') . ":</td>
+			<td>" . JText::_('COM_JTG_TRACKS') . ":</td>
 			<td colspan=\"2\"></td>
 			</tr>
 			";
@@ -179,8 +185,9 @@ if ($this->id >= 1)
 				</td>
 			</tr>
 			<?php
-			if ($cfg->terms == 1):
-		 ?>
+			if ($cfg->terms == 1)
+			{
+			?>
 			<tr>
 				<td><?php echo JText::_('COM_JTG_TERMS'); ?></td>
 				<td><input id="terms" type="checkbox" name="terms" value="" /> <?php echo JText::_('COM_JTG_AGREE'); ?>
@@ -189,16 +196,17 @@ if ($this->id >= 1)
 					target="_blank"><?php echo JText::_('COM_JTG_TERMS'); ?> </a></td>
 			</tr>
 			<?php
-		 endif;
-		 ?>
+			}
+			?>
 		</tbody>
 	</table>
-	<?php echo JHtml::_( 'form.token' ); ?>
+	<?php echo JHtml::_('form.token'); ?>
 	<input type="hidden" name="option" value="com_jtg" /> <input
 		type="hidden" name="controller" value="files" /> <input type="hidden"
 		name="task" value="" />
 	<?php
-	if ($this->id) {
+	if ($this->id)
+	{
 		echo "<input type=\"hidden\" name=\"id\" value=\"" . $this->id . "\" />";
 		echo "<input type=\"hidden\" name=\"file\" value=\"" . $this->track->file . "\" />";
 	}

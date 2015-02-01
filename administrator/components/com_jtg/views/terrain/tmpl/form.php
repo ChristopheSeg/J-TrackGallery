@@ -32,11 +32,12 @@ else
 	$id = $this->id;
 	$terrain = $this->terrain;
 }
+
 JToolBarHelper::title($title, 'categories.png');
 JToolBarHelper::back();
 JToolBarHelper::spacer();
-JToolBarHelper::save($save["func"], $save["name"], 'save.png' );
-JToolBarHelper::help( 'terrain/form',true );
+JToolBarHelper::save($save["func"], $save["name"], 'save.png');
+JToolBarHelper::help('terrain/form', true);
 ?>
 <form action="" method="post" name="adminForm" id="adminForm"
 	class="adminForm">
@@ -64,7 +65,7 @@ JToolBarHelper::help( 'terrain/form',true );
 			</tr>
 		</tbody>
 	</table>
-	<?php echo JHtml::_( 'form.token' ); ?>
+	<?php echo JHtml::_('form.token'); ?>
 	<input type="hidden" name="option" value="com_jtg" /> <input
 		type="hidden" name="controller" value="terrain" /> <input
 		type="hidden" name="task" value="" />

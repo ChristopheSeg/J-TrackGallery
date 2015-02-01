@@ -17,7 +17,6 @@ jimport('joomla.application.component.controller');
 
 class JtgControllerComments extends JtgController
 {
-
 	/**
 	 */
 

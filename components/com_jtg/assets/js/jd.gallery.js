@@ -45,7 +45,7 @@ Element.implement({
 	}
 });
 
-// declaring the class
+// Declaring the class
 var gallery = {
 	Implements: [Events, Options],
 	options: {

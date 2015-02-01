@@ -18,8 +18,8 @@ JToolBarHelper::title(JText::_('COM_JTG_INFO'), 'generic.png');
 JToolBarHelper::back();
 
 $link = "../components/com_jtg/assets/images/logo_JTG.png";
-$xml = JFactory::getXML(JPATH_ADMINISTRATOR .'/components/com_jtg/com_jtg.xml');
-$version = (string)$xml->version;
+$xml = JFactory::getXML(JPATH_ADMINISTRATOR . '/components/com_jtg/com_jtg.xml');
+$version = (string) $xml->version;
 
 ?>
 <div style="margin: auto">
@@ -75,8 +75,7 @@ $version = (string)$xml->version;
 	<div style="clear: both"></div>
 </div>
 <?php
-
-echo JHtml::_( 'form.token' );
+echo JHtml::_('form.token');
 ?>
 <input type="hidden"
 	name="option" value="com_jtg" />

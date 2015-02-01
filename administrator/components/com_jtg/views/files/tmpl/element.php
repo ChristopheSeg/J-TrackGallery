@@ -16,22 +16,22 @@ defined('_JEXEC') or die('Restricted access');
 // Toolbar
 $ordering = ($this->lists['order'] == 'ordering');
 $document = JFactory::getDocument();
-$document->addStyleSheet(JUri::base().'components/com_jtg/template.css');
+$document->addStyleSheet(JUri::base() . 'components/com_jtg/template.css');
 
 ?>
 <form action="" method="post" name="adminForm" id="adminForm">
 	<table>
 		<tr>
-			<td align="left" width="100%"><?php echo JText::_('COM_JTG_FILTER' ); ?>:
+			<td align="left" width="100%"><?php echo JText::_('COM_JTG_FILTER'); ?>:
 				<input type="text" name="search" id="search"
 				value="<?php echo $this->lists['search'];?>" class="text_area"
 				onchange="document.adminForm.submit();" />
 				<button onclick="this.form.submit();">
-					<?php echo JText::_('COM_JTG_APPLY' ); ?>
+					<?php echo JText::_('COM_JTG_APPLY'); ?>
 				</button>
 				<button
 					onclick="document.getElementById('search').value='';this.form.getElementById('filter_state').value='';this.form.submit();">
-					<?php echo JText::_('COM_JTG_RESET' ); ?>
+					<?php echo JText::_('COM_JTG_RESET'); ?>
 				</button>
 			</td>
 			<td nowrap="nowrap"></td>
@@ -40,7 +40,7 @@ $document->addStyleSheet(JUri::base().'components/com_jtg/template.css');
 	<table class="adminlist" cellpadding="1">
 		<thead>
 			<tr>
-				<th class="title"><?php echo JText::_('COM_JTG_NUM' ); ?></th>
+				<th class="title"><?php echo JText::_('COM_JTG_NUM'); ?></th>
 				<th class="title" nowrap="nowrap"><?php
 				echo JHtml::_('grid.sort',
 						JText::_('COM_JTG_ID'), 'id', @$this->lists['order_Dir'], @$this->lists['order'], 'element' ); ?>:</th>
@@ -85,28 +85,42 @@ $document->addStyleSheet(JUri::base().'components/com_jtg/template.css');
 		<tbody>
 			<?php
 			$k = 0;
-			for ($i=0, $n=count( $this->rows ); $i < $n; $i++)
+
+			for ($i = 0, $n = count($this->rows); $i < $n; $i++)
 			{
 				$row = $this->rows[$i];
-				$row->groupname = $this->buildRowGroupname($row->access); // wird für die Zugriffsebene benötigt
-				$access 	= $this->buildRowGroupname($row->access,true);
+				$row->groupname = $this->buildRowGroupname($row->access);
+				$access 	= $this->buildRowGroupname($row->access, true);
 				$published	= $row->published;
+
 				if ($published == 0)
-					$published = "<font color=red>".JText::_('JNO') . "</font>";
+				{
+					$published = "<font color=red>" . JText::_('JNO') . "</font>";
+				}
 				else
-					$published = "<font color=green>".JText::_('JYES') . "</font>";
+				{
+					$published = "<font color=green>" . JText::_('JYES') . "</font>";
+				}
+
 				$user		= JFactory::getUser($row->uid);
-				$imagelink	= $this->buildImageFiletypes($row->istrack,$row->iswp,$row->isroute);
-				$file		= $this->buildChooseKlicks($row->id,$row->title);
+				$imagelink	= $this->buildImageFiletypes($row->istrack, $row->iswp, $row->isroute);
+				$file		= $this->buildChooseKlicks($row->id, $row->title);
 				$parent		= $this->giveParentCat($row->catid);
+
 				if ( $parent !== null )
+				{
 					$row->cat = $parent . "<br />&nbsp;&nbsp;&nbsp;|_&nbsp;&nbsp;&nbsp;" . $row->cat;
+				}
+
 				if ($row->cat === null)
-					$row->cat = "<i>".JText::_('COM_JTG_NOTHING') . "</i>";
+				{
+					$row->cat = "<i>" . JText::_('COM_JTG_NOTHING') . "</i>";
+				}
 
 				?>
-			<tr class="<?php echo "row$k "; echo $k? 'row-odd':'row-even'; ?>">
-				<td align="center"><?php echo $this->pagination->getRowOffset( $i ); ?>
+			<tr class="<?php echo "row$k ";
+				echo $k? 'row-odd':'row-even'; ?>">
+				<td align="center"><?php echo $this->pagination->getRowOffset($i); ?>
 				</td>
 				<td align="center"><?php echo $row->id; ?></td>
 				<td align="center"><?php echo $file; ?></td>
@@ -122,7 +136,8 @@ $document->addStyleSheet(JUri::base().'components/com_jtg/template.css');
 			</tr>
 			<?php
 			$k = 1 - $k;
-    }        ?>
+			}
+			?>
 		</tbody>
 	</table>
 	<input type="hidden" name="option" value="com_jtg" /> <input
@@ -132,5 +147,5 @@ $document->addStyleSheet(JUri::base().'components/com_jtg/template.css');
 		value="<?php echo $this->lists['order']; ?>" /> <input type="hidden"
 		name="filter_order_Dir"
 		value="<?php echo $this->lists['order_Dir']; ?>" />
-	<?php echo JHtml::_( 'form.token' ); ?>
+	<?php echo JHtml::_('form.token'); ?>
 </form>

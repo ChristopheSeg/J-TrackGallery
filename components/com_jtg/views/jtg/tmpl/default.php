@@ -196,9 +196,9 @@ if ($this->best != 0) {
 					if ( $stars_float == 0 )
 						$title = JText::_('COM_JTG_NOT_VOTED');
 					elseif ( $best->vote == 1 )
-					$title = "1 ".JText::_('COM_JTG_STAR');
+					$title = "1 " . JText::_('COM_JTG_STAR');
 					else
-						$title = $stars_float2 . " ".JText::_('COM_JTG_STARS');
+						$title = $stars_float2 . " " . JText::_('COM_JTG_STARS');
 					if ($this->best[0])
 					{
 						// Picture
@@ -263,7 +263,7 @@ if ($this->rand != 0) {
 				</div>
 				<div class="list-right">
 					<?php
-					//	Echo $rand->cat;
+					// Echo $rand->cat;
 					echo JtgHelper::parseMoreCats($this->sortedcats,$rand->catid,"box",true);
 					?>
 				</div>

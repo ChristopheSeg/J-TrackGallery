@@ -83,7 +83,8 @@ class TableJTG_config extends JTable
 	 *
 	 * @param object $db
 	 */
-	function __construct(& $db) {
+	function __construct(& $db)
+	{
 		parent::__construct('#__jtg_config', 'id', $db);
 	}
 

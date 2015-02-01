@@ -15,27 +15,27 @@ defined('_JEXEC') or die('Restricted access');
 
 // Toolbar
 JToolBarHelper::title(JText::_('COM_JTG_MANAGE_PICS'), 'categories.png');
-JToolBarHelper::back(); //($alt= 'COM_JTG_BACK', $href= 'javascript:history.back();');
+JToolBarHelper::back();
 JToolBarHelper::spacer();
-JToolBarHelper::addNew( 'newcatpic', 'COM_JTG_NEW_CATEGORY_ICON');
-JToolBarHelper::deleteList('COM_JTG_DELETE_IMAGES','removepic');
-JToolBarHelper::help( 'cats/managecatpics',true );
+JToolBarHelper::addNew('newcatpic', 'COM_JTG_NEW_CATEGORY_ICON');
+JToolBarHelper::deleteList('COM_JTG_DELETE_IMAGES', 'removepic');
+JToolBarHelper::help('cats/managecatpics', true);
 
 ?>
 <form action="" method="post" name="adminForm" id="adminForm">
 	<table class="adminlist" cellpadding="1">
 		<thead>
 			<tr>
-				<th width="5%" class="title"><?php echo JText::_('COM_JTG_NUM' ); ?>
+				<th width="5%" class="title"><?php echo JText::_('COM_JTG_NUM'); ?>
 				</th>
 				<th width="5%" class="title"><input type="checkbox"
 					onclick="Joomla.checkAll(this)"
 					title="<?php echo JText::_('JGLOBAL_CHECK_ALL' );?>" value=""
 					name="checkall-toggle"></th>
-				<th width="10%" class="title"><?php echo JText::_('COM_JTG_NAME' ); ?>
+				<th width="10%" class="title"><?php echo JText::_('COM_JTG_NAME'); ?>
 				</th>
 				<!--			<th width="10%" class="title"><?php echo JText::_('COM_JTG_EXTENSION' ); ?></th>-->
-				<th width="5%" class="title"><?php echo JText::_('COM_JTG_IMAGE' ); ?>
+				<th width="5%" class="title"><?php echo JText::_('COM_JTG_IMAGE'); ?>
 				</th>
 				<th class="title"></th>
 			</tr>
@@ -43,10 +43,10 @@ JToolBarHelper::help( 'cats/managecatpics',true );
 		<tbody>
 			<?php
 			$k = 0;
-			for ($i=0, $n=count( $this->rows ); $i < $n; $i++)
+			for ($i = 0, $n = count($this->rows); $i < $n; $i++)
 			{
 				$row = $this->rows[$i];
-				$checked 	= JHtml::_('grid.checkedout', $row, $i );
+				$checked 	= JHtml::_('grid.checkedout', $row, $i);
 				?>
 			<tr class="<?php echo "row$k"; ?>">
 				<td align="center"><?php echo $i; ?></td>
@@ -70,7 +70,7 @@ JToolBarHelper::help( 'cats/managecatpics',true );
 		value="<?php echo JFactory::getApplication()->input->get('task'); ?>" />
 	<input type="hidden" name="boxchecked" value="0" /> <input
 		type="hidden" name="controller" value="cats" />
-	<?php echo JHtml::_( 'form.token' ); ?>
+	<?php echo JHtml::_('form.token'); ?>
 	&nbsp;
 </form>
 

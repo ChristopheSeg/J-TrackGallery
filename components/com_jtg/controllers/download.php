@@ -23,7 +23,7 @@ class JtgControllerDownload extends JtgController
 		JSession::checkToken() or jexit('Invalid Token');
 
 		// if ( headers_sent() )
-		// die('Headers Sent');
+		// Die('Headers Sent');
 		$format = JFactory::getApplication()->input->get('format');
 		$model = $this->getModel('download');
 		$id = JRequest::getInt('id');

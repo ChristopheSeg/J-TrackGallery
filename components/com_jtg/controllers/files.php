@@ -31,7 +31,7 @@ class JtgControllerFiles extends JtgController
 		$file = JFactory::getApplication()->input->files->get('file');
 		if (!$file['name'])
 		{
-			echo "<script> alert('".JText::_('COM_JTG_FILE_UPLOAD_NO_FILE') . "'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . JText::_('COM_JTG_FILE_UPLOAD_NO_FILE') . "'); window.history.go(-1); </script>\n";
 			exit;
 		}
 		$images =& $_FILES['images'];
@@ -52,8 +52,8 @@ class JtgControllerFiles extends JtgController
 		}
 	}
 
-	function vote() {
-
+	function vote()
+	{
 		$id = JRequest::getInt('id');
 		$rate = JRequest::getInt('rate');
 		$model = $this->getModel('files');
@@ -101,7 +101,6 @@ class JtgControllerFiles extends JtgController
 			$this->setRedirect( JRoute::_('index.php?option=com_jtg&view=files&layout=file&id='.$id, false), false );
 
 		function addcomment() {
-
 			$model = $this->getModel('files');
 			$model->addcomment();
 		}
@@ -119,7 +118,7 @@ class JtgControllerFiles extends JtgController
 				$word = JFactory::getApplication()->input->get('word', false, '', 'CMD');
 				$mainframe->triggerEvent('onCaptcha_confirm', array($word, &$return));
 				if (!$return) {
-					echo "<script> alert('".JText::_('COM_JTG_CAPTCHA_WRONG') . "'); window.history.go(-1); </script>\n";
+					echo "<script> alert('" . JText::_('COM_JTG_CAPTCHA_WRONG') . "'); window.history.go(-1); </script>\n";
 				}
 				else
 				{

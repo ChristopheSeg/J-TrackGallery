@@ -17,8 +17,6 @@ JToolBarHelper::title(JText::_('COM_JTG_MAPS'), 'generic.png');
 JToolBarHelper::back();
 JToolBarHelper::addNew('newmap', 'COM_JTG_NEW_MAP');
 JToolBarHelper::editList('editmap');
-//$mapsxml = 'administrator/components/com_jtg/views/maps/maps.xml';
-//JToolBarHelper::preferences( 'com_jtg', 400, 500, 'Preferences', $mapsxml );
 JToolBarHelper::spacer();
 JToolBarHelper::publish();
 JToolBarHelper::unpublish();
@@ -27,7 +25,8 @@ JToolBarHelper::spacer();
 JToolBarHelper::help("maps", true);
 
 jimport('joomla.html.pane');
-if (JVERSION>=3.0) //Code support for joomla version greater than 3.0
+
+if (JVERSION >= 3.0)
 {
 	JHtml::_('bootstrap.tooltip');
 }
@@ -45,10 +44,10 @@ $link = JRoute::_('index.php?option=com_jtg&task=maps&controller=maps&layout=def
 	<!-- <table>
 	<tr>
 		<td align="left" width="100%">
-			<?php echo JText::_('COM_JTG_FILTER' ); ?>:
+			<?php echo JText::_('COM_JTG_FILTER'); ?>:
 			<input type="text" name="search" id="search" value="<?php echo $this->lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
-			<button onclick="this.form.submit();"><?php echo JText::_('COM_JTG_APPLY' ); ?></button>
-			<button onclick="document.getElementById('search').value='';this.form.getElementById('filter_state').value='';this.form.submit();"><?php echo JText::_('COM_JTG_RESET' ); ?></button>
+			<button onclick="this.form.submit();"><?php echo JText::_('COM_JTG_APPLY'); ?></button>
+			<button onclick="document.getElementById('search').value='';this.form.getElementById('filter_state').value='';this.form.submit();"><?php echo JText::_('COM_JTG_RESET'); ?></button>
 		</td>
 		<td nowrap="nowrap">
 			<?php
@@ -61,28 +60,28 @@ $link = JRoute::_('index.php?option=com_jtg&task=maps&controller=maps&layout=def
 		<thead>
 			<tr>
 				<th class="title" nowrap="nowrap"><?php
-				//					echo JHtml::_('grid.sort', JText::_('COM_JTG_ID'), 'id', @$this->lists['order_Dir'], @$this->lists['order'], 'maps' );
+				// 				echo JHtml::_('grid.sort', JText::_('COM_JTG_ID'), 'id', @$this->lists['order_Dir'], @$this->lists['order'], 'maps' );
 				echo JText::_('COM_JTG_ID');
 				?>
 				</th>
 				<th class="title"><input type="checkbox"
 					onclick="Joomla.checkAll(this)"
-					title="<?php echo JText::_('JGLOBAL_CHECK_ALL' );?>" value=""
+					title="<?php echo JText::_('JGLOBAL_CHECK_ALL');?>" value=""
 					name="checkall-toggle"></th>
 				<th class="title"><?php
-				//					echo JHtml::_('grid.sort', JText::_('COM_JTG_NAME'), 'title', @$this->lists['order_Dir'], @$this->lists['order'], 'maps' );
+				// 				echo JHtml::_('grid.sort', JText::_('COM_JTG_NAME'), 'title', @$this->lists['order_Dir'], @$this->lists['order'], 'maps' );
 				echo JText::_('COM_JTG_NAME');
 				?>:</th>
 				<?php if ($ordering) { ?>
 				<th class="order"><?php echo JText::_('COM_JTG_ORDER'); ?>: <?php
-				//					echo JHtml::_('grid.sort', JText::_('COM_JTG_ORDER'), 'order', @$this->lists['order_Dir'], @$this->lists['order'], 'maps' ); ? >:</th>
+				// 				echo JHtml::_('grid.sort', JText::_('COM_JTG_ORDER'), 'order', @$this->lists['order_Dir'], @$this->lists['order'], 'maps' ); ? >:</th>
 				?>
 				</th>
 				<th class="order"><?php echo JHtml::_('grid.order',  $this->maps ); ?>
 				</th>
 				<?php } ?>
 				<th class="title"><?php
-				//					echo JHtml::_('grid.sort', JText::_('COM_JTG_PUBLISHED'), 'published', @$this->lists['order_Dir'], @$this->lists['order'], 'maps' ); ? >:</th>
+				// 				echo JHtml::_('grid.sort', JText::_('COM_JTG_PUBLISHED'), 'published', @$this->lists['order_Dir'], @$this->lists['order'], 'maps' ); ? >:</th>
 				echo JText::_('COM_JTG_PUBLISHED'); ?>:</th>
 				<th class="title"><?php
 				echo JText::_('COM_JTG_OL_PARAMETERS');
@@ -99,12 +98,14 @@ $link = JRoute::_('index.php?option=com_jtg&task=maps&controller=maps&layout=def
 			<?php
 			$k = 0;
 			$user = JFactory::getUser();
-			for ($i=0, $n=count( $this->maps ); $i < $n; $i++) {
-				//	$map->published
+
+			for ($i = 0, $n = count($this->maps); $i < $n; $i++)
+			{
+				// $map->published
 				$map = $this->maps[$i];
-				$published 	= JHtml::_('grid.published', $map, $i );
-				$checked 	= JHtml::_('grid.checkedout', $map, $i );
-				$name		= $this->buildEditKlicks(JText::_($map->name),$i);
+				$published 	= JHtml::_('grid.published', $map, $i);
+				$checked 	= JHtml::_('grid.checkedout', $map, $i);
+				$name		= $this->buildEditKlicks(JText::_($map->name), $i);
 				$map_parameters = JHtml::tooltip($map->param, JText::_('COM_JTG_OL_PARAMETERS'), 'tooltip.png', JText::_('COM_JTG_OL_PARAMETERS'));
 				$map_script = ($map->script? JHtml::tooltip($map->script, JText::_('COM_JTG_NEEDSCRIPT'), 'tooltip.png', JText::_('COM_JTG_NEEDSCRIPT')) : '<i>' . JText::_('JNONE') . '</i>' );
 				$map_code = ($map->code? JHtml::tooltip($map->code, JText::_('COM_JTG_CODE'), 'tooltip.png', JText::_('COM_JTG_CODE'))  : '<i>' . JText::_('JNONE') . '</i>' );
@@ -149,6 +150,6 @@ $link = JRoute::_('index.php?option=com_jtg&task=maps&controller=maps&layout=def
 		value="<?php echo $this->lists['order']; ?>" /> <input type="hidden"
 		name="filter_order_Dir"
 		value="<?php echo $this->lists['order_Dir']; ?>" />
-	<?php echo JHtml::_( 'form.token' ); ?>
+	<?php echo JHtml::_('form.token'); ?>
 	&nbsp;
 </form>

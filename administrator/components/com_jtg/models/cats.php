@@ -54,17 +54,18 @@ class JtgModelCats extends JModelLegacy
 	 * @global object $mainframe
 	 * @global string $option
 	 */
-	function __construct() {
+	function __construct()
+	{
 		parent::__construct();
-		$mainframe = JFactory::getApplication(); // Global _ $option;
+		$mainframe = JFactory::getApplication();
 
 		// Get the pagination request variables
-		$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int' );
-		$limitstart	= $mainframe->getUserStateFromRequest( $this->option.'.limitstart', 'limitstart', 0, 'int' );
+		$limit		= $mainframe->getUserStateFromRequest('global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
+		$limitstart	= $mainframe->getUserStateFromRequest($this->option . '.limitstart', 'limitstart', 0, 'int');
 
 		// In case limit has been changed, adjust limitstart accordingly
-		//		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
-		$limitstart = JFactory::getApplication()->input->get('limitstart',0);
+		// 	$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
+		$limitstart = JFactory::getApplication()->input->get('limitstart', 0);
 
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
@@ -100,6 +101,7 @@ class JtgModelCats extends JModelLegacy
 			$files = JFolder::files($folder);
 			$this->_pics = $files;
 		}
+
 		return $this->_pics;
 	}
 
@@ -113,7 +115,7 @@ class JtgModelCats extends JModelLegacy
 		if (empty($this->_pagination))
 		{
 			jimport('joomla.html.pagination');
-			$this->_pagination = new JPagination( $this->getTotal(), $this->getState('limitstart'), $this->getState('limit') );
+			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
 		}
 
 		return $this->_pagination;
@@ -123,8 +125,8 @@ class JtgModelCats extends JModelLegacy
 	 *
 	 * @return int
 	 */
-	function getTotal()  {
-
+	function getTotal()
+	{
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_total))
 		{
@@ -140,10 +142,12 @@ class JtgModelCats extends JModelLegacy
 	 * @global object $mainframe
 	 * @return string
 	 */
-	function _buildQuery()  {
+	function _buildQuery()
+	{
 		$mainframe = JFactory::getApplication();
 		$db = JFactory::getDBO();
 		$query = "SELECT * FROM #__jtg_cats ORDER BY ordering";
+
 		return $query;
 	}
 
@@ -153,9 +157,9 @@ class JtgModelCats extends JModelLegacy
 	 * @param int $id
 	 * @return object
 	 */
-	function getCat($id)  {
+	function getCat($id)
+	{
 		$mainframe = JFactory::getApplication();
-
 		$db = JFactory::getDBO();
 
 		$query = "SELECT * FROM #__jtg_cats"
@@ -164,30 +168,40 @@ class JtgModelCats extends JModelLegacy
 		$db->setQuery($query);
 		$result = $db->loadObject();
 
-		if ($db->getErrorNum()) {
+		if ($db->getErrorNum())
+		{
 			echo $db->stderr();
+
 			return false;
 		}
+
 		return $result;
 	}
 
-	function getParent($exclusion=null)  {
+	function getParent($exclusion=null)
+	{
 		$mainframe = JFactory::getApplication();
 		$db = JFactory::getDBO();
 
-		$query = "SELECT * FROM #__jtg_cats"
-		. "\n WHERE published=1";
+		$query = "SELECT * FROM #__jtg_cats WHERE published=1";
+
 		if ( $exclusion !== null )
+		{
 			$query .= " AND id != " . $exclusion;
+		}
+
 		$query .= "\n ORDER BY title ASC";
 
 		$db->setQuery($query);
 		$result = $db->loadObjectList();
 		$newresult = array();
-		foreach ($result as $k => $v) {
+
+		foreach ($result as $k => $v)
+		{
 			$newresult[$k] = $v;
 			$newresult[$k]->name = JText::_($newresult[$k]->title);
 		}
+
 		return $result;
 	}
 }

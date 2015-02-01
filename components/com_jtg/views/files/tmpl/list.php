@@ -83,10 +83,10 @@ echo $this->lh;
 		<tbody>
 			<?php
 			$k = 0;
-			for ($i=0, $n=count( $this->rows ); $i < $n; $i++)
+			for ($i = 0, $n = count($this->rows); $i < $n; $i++)
 			{
 				$row = $this->rows[$i];
-				if (!$row->title) $row->title = "<font class=\"emptyEntry\">".JText::_('COM_JTG_NO_TITLE') . "</font>";
+				if (!$row->title) $row->title = "<font class=\"emptyEntry\">" . JText::_('COM_JTG_NO_TITLE') . "</font>";
 				$link = JRoute::_('index.php?option=com_jtg&view=files&layout=file&id='.$row->id,false);
 				$profile = JtgHelper::getProfileLink($row->uid, $row->user);
 				$cat = JtgHelper::parseMoreCats($this->sortedcats,$row->catid,"list",true);
@@ -117,10 +117,10 @@ echo $this->lh;
 					$deletelink = JRoute::_('index.php?option=com_jtg&controller=files&task=delete&id='.$row->id,false);
 					$links =
 					" <a href=\"" . $editlink . "\">".
-					"<img title=\"".JText::_('Edit') . "\" alt=\"".JText::_('Edit') . "\" src=\"/components/com_jtg/assets/images/edit_f2.png\" width=\"16px\" />".
+					"<img title=\"" . JText::_('Edit') . "\" alt=\"" . JText::_('Edit') . "\" src=\"/components/com_jtg/assets/images/edit_f2.png\" width=\"16px\" />".
 					"</a> ".
 					"<a href=\"" . $deletelink . "\">".
-					"<img title=\"".JText::_('Delete') . "\" alt=\"".JText::_('Delete') . "\" src=\"/components/com_jtg/assets/images/cancel_f2.png\" width=\"16px\" />".
+					"<img title=\"" . JText::_('Delete') . "\" alt=\"" . JText::_('Delete') . "\" src=\"/components/com_jtg/assets/images/cancel_f2.png\" width=\"16px\" />".
 					"</a>";
 				}
 				?>

@@ -16,8 +16,8 @@ defined('_JEXEC') or die('Restricted access');
 echo $this->lh;
 
 $maySeeSingleFile = $this->maySeeSingleFile($this);
-if ($maySeeSingleFile === true) {
-
+if ($maySeeSingleFile === true)
+{
 	$durationbox = (bool)$this->params->get("jtg_param_show_durationcalc");
 	echo $this->map;
 	if ( ( $this->cfg->gallery == "jd2" ) OR ( $this->cfg->gallery == "jd21" )  OR ( $this->cfg->gallery == "highslide" ) ) {
@@ -335,7 +335,7 @@ if ($this->map)
 if ( $this->clicklist !== false ) {
 	$return = ("<div><ul>\n");
 	foreach ($this->clicklist AS $value => $key ) {
-		$return .= ("<li><a href=\"" . $key['link'] . "\">".JText::_('COM_JTG_TRACK').$value . ": " . $key['name'] . "</a></li>\n");
+		$return .= ("<li><a href=\"" . $key['link'] . "\">" . JText::_('COM_JTG_TRACK').$value . ": " . $key['name'] . "</a></li>\n");
 	}
 	$return .= ("</ul></div>\n");
 	echo $return;
@@ -631,7 +631,7 @@ if ( $this->cfg->approach != 'no' )
 
 	$description .= "		</tr>
 	</table>\n";
-	// $description .= "<a rel=\"width[1000];height[700];\" class=\"jcebox\" href=\"http://maps.google.com/maps?daddr=".JText::_($this->track->start_n) . ",".JText::_($this->track->start_e) . "\" target=\"_blank\" >Google</a>";
+	// $description .= "<a rel=\"width[1000];height[700];\" class=\"jcebox\" href=\"http://maps.google.com/maps?daddr=" . JText::_($this->track->start_n) . "," . JText::_($this->track->start_e) . "\" target=\"_blank\" >Google</a>";
 	echo $this->parseTemplate("description", $description);
 }
 else
@@ -645,7 +645,7 @@ if ($this->cfg->comments == 1)
 {
 	echo $this->parseTemplate("headline",JText::_('COM_JTG_COMMENTS'), "jtg_param_header_comment");
 	if (!$this->comments) {
-		echo "<div>".JText::_('COM_JTG_NO_COMMENTS_DESC') . "</div>";
+		echo "<div>" . JText::_('COM_JTG_NO_COMMENTS_DESC') . "</div>";
 	}
 	else
 	{
@@ -698,7 +698,7 @@ elseif ($this->cfg->comments == 3)
 	$jcommentsfile = 'components/com_jcomments/jcomments.php' ;
 	if ((JFile::exists(JPATH_SITE . '/' . $jcommentsfile)))
 	{
-		//		global $mosConfig_absolute_path;
+		// 	global $mosConfig_absolute_path;
 		require_once 'components/com_jcomments/jcomments.php';
 		echo JComments::showComments($this->track->id, "com_jtg");
 	}

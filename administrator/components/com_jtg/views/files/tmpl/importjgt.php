@@ -16,16 +16,20 @@ JToolBarHelper::title(JText::_('COM_JTG_ADD_FILES'), 'categories.png');
 JToolBarHelper::back();
 $model = $this->getModel();
 $rows = $model->_fetchJPTfiles();
+
 if ($rows == false)
 {
-	JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_ERROR_NOJGTFOUND'),'Error' );
+	JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_ERROR_NOJGTFOUND'), 'Error');
 }
 else
 {
-	$i=0;
+	$i = 0;
 	$importdone = false;
-	foreach ( $rows AS $track ) {
-		if ($model->importFromJPT($track) == true) {
+
+	foreach ( $rows AS $track )
+	{
+		if ($model->importFromJPT($track) == true)
+		{
 			$color = "green";
 			$importdone = true;
 		}
@@ -33,14 +37,16 @@ else
 		{
 			$color = "red";
 		}
+
 		echo "<font color=\"" . $color . "\">" . $track["file"] . "</font><br />\n";
 	}
+
 	if ($importdone == true)
 	{
 		JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_IMPORT_DONE'));
 	}
 	else
 	{
-		JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_IMPORT_FAILURE'),'Warning' );
+		JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_IMPORT_FAILURE'), 'Warning');
 	}
 }

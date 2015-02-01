@@ -16,7 +16,6 @@ jimport('joomla.application.component.model');
 
 class JtgModelFiles extends JModelLegacy
 {
-
 	/**
 	 * files data array
 	 *
@@ -110,7 +109,6 @@ class JtgModelFiles extends JModelLegacy
 	 */
 	function getTotal ()
 	{
-
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_total))
 		{
@@ -146,8 +144,8 @@ class JtgModelFiles extends JModelLegacy
 
 		$query = "SELECT a.*, b.title AS cat, b.image AS image, c.username AS user" . "\n FROM #__jtg_files AS a" .
 				"\n LEFT JOIN #__jtg_cats AS b ON a.catid=b.id"
-				//		. "\n LEFT JOIN #__jtg_cats AS b ON a.catid"
-		//		. "\n LEFT JOIN #__users AS c ON a.uid\n"
+				// 	. "\n LEFT JOIN #__jtg_cats AS b ON a.catid"
+		// 	. "\n LEFT JOIN #__users AS c ON a.uid\n"
 		. "\n LEFT JOIN #__users AS c ON a.uid=c.id\n"
 		. $where . $userwhere . $orderby;
 		return $query;
@@ -161,7 +159,7 @@ class JtgModelFiles extends JModelLegacy
 	 */
 	function _buildContentOrderBy ()
 	{
-		$mainframe = JFactory::getApplication(); // Global _ $option;
+		$mainframe = JFactory::getApplication();
 
 		$filter_order = $mainframe->getUserStateFromRequest($this->option . 'filter_order', 'filter_order', 'ordering', 'cmd');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest($this->option . 'filter_order_Dir', 'filter_order_Dir', '', 'word');
@@ -186,7 +184,7 @@ class JtgModelFiles extends JModelLegacy
 	 */
 	function _buildContentWhere ()
 	{
-		$mainframe = JFactory::getApplication(); // Global _ $option;
+		$mainframe = JFactory::getApplication();
 
 		$search = JFactory::getApplication()->input->get('search');
 		$cat = JFactory::getApplication()->input->get('cat');
@@ -329,7 +327,7 @@ class JtgModelFiles extends JModelLegacy
 
 		// Get the start coordinates..
 
-		$gpsData = new gpsDataClass("Kilometer"); // default unit
+		$gpsData = new gpsDataClass("Kilometer"); // Default unit
 		$gpsData = $cache->get(array(
 				$gpsData,
 				'loadFileAndData'
@@ -613,7 +611,7 @@ class JtgModelFiles extends JModelLegacy
 		$filename = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks/' . $file->file;
 		if (JFile::exists($filename))
 			JFile::delete($filename);
-		// delete from DB
+		// Delete from DB
 		$query = "DELETE FROM #__jtg_files" . "\n WHERE id='" . $id . "'";
 		$db->setQuery($query);
 		if ($db->execute())
@@ -658,7 +656,7 @@ class JtgModelFiles extends JModelLegacy
 			if ($image !== null)
 			{
 				JFile::delete($imgpath . $image);
-				// delete thumbnails too
+				// Delete thumbnails too
 				JFile::delete($imgpath . 'thumbs/thumb0_' . $image);
 				JFile::delete($imgpath . 'thumbs/thumb1_' . $image);
 				JFile::delete($imgpath . 'thumbs/thumb2_' . $image);
@@ -694,7 +692,6 @@ class JtgModelFiles extends JModelLegacy
 			}
 			foreach ($images['name'] as $key => $value)
 			{
-
 				if ($value)
 				{
 					$ext = JFile::getExt($images['name'][$key]);
@@ -855,7 +852,7 @@ class JtgModelFiles extends JModelLegacy
 			</tr>
 		</tbody>
 	</table>
-	<?php echo JHtml::_( 'form.token' ) . "\n"; ?>
+	<?php echo JHtml::_('form.token') . "\n"; ?>
 	<input type='hidden' name='controller' value='files' /> <input
 		type='hidden' name='task' value='savecomment' /> <input type='hidden'
 		name='id' value='<?php echo $id; ?>' />

@@ -21,19 +21,19 @@ class JtgControllerMaps extends JtgController
 {
 	function bak__construct() {
 		parent::__construct();
-		$mainframe = JFactory::getApplication(); // Global _ $option;
+		$mainframe = JFactory::getApplication();
 		$where = array();
 		//
-		//		// Get the pagination request variables
-		//		$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int' );
-		//		$limitstart	= $mainframe->getUserStateFromRequest( $option.'.limitstart', 'limitstart', 0, 'int' );
+		// 	// Get the pagination request variables
+		// 	$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int' );
+		// 	$limitstart	= $mainframe->getUserStateFromRequest( $option.'.limitstart', 'limitstart', 0, 'int' );
 		//
-		//		// In case limit has been changed, adjust limitstart accordingly
-		//		//		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
-		//		$limitstart = JFactory::getApplication()->input->get('limitstart',0);
+		// 	// In case limit has been changed, adjust limitstart accordingly
+		// 	// 	$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
+		// 	$limitstart = JFactory::getApplication()->input->get('limitstart',0);
 		//
-		//		$this->setState('limit', $limit);
-		//		$this->setState('limitstart', $limitstart);
+		// 	$this->setState('limit', $limit);
+		// 	$this->setState('limitstart', $limitstart);
 		$filter_state = $mainframe->getUserStateFromRequest( $this->option.'filter_state', 'filter_state', '', 'word' );
 		if ( $filter_state ) {
 			if ( $filter_state == 'P' ) {
@@ -111,7 +111,7 @@ class JtgControllerMaps extends JtgController
 		$cid = JFactory::getApplication()->input->get('cid', array(), 'array' );
 		JArrayHelper::toInteger($cid);
 
-		if (count( $cid ) < 1)
+		if (count($cid) < 1)
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_SELECT_AN_ITEM_TO_PUBLISH'),'Error' );
 		}
@@ -134,7 +134,7 @@ class JtgControllerMaps extends JtgController
 
 		$cid = JFactory::getApplication()->input->get('cid', array(), 'array' );
 		JArrayHelper::toInteger($cid);
-		if (count( $cid ) < 1)
+		if (count($cid) < 1)
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_SELECT_AN_ITEM_TO_UNPUBLISH'),'Error' );
 		}
@@ -159,7 +159,7 @@ class JtgControllerMaps extends JtgController
 		$cid = JFactory::getApplication()->input->get('cid', array(), 'array' );
 		JArrayHelper::toInteger($cid);
 
-		if (count( $cid ) < 1)
+		if (count($cid) < 1)
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_SELECT_AN_ITEM_TO_DELETE'),'Error' );
 		}

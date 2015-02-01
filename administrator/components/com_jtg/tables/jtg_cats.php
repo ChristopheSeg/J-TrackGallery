@@ -84,7 +84,8 @@ class TableJTG_Cats extends JTable
 	protected function _getAssetName()
 	{
 		$k = $this->_tbl_key;
-		return 'com_jtg.cat.'.(int) $this->$k;
+
+		return 'com_jtg.cat.' . (int) $this->$k;
 	}
 
 	/**
@@ -95,7 +96,7 @@ class TableJTG_Cats extends JTable
 	 */
 	protected function _getAssetTitle()
 	{
-		return 'J!TrackGallery'; // $this->greeting;
+		return 'J!TrackGallery';
 	}
 
 	/**
@@ -107,8 +108,10 @@ class TableJTG_Cats extends JTable
 	{
 		// We will retrieve the parent-asset from the Asset-table
 		$assetParent = JTable::getInstance('Asset');
+
 		// Default: if no asset-parent can be found we take the global asset
 		$assetParentId = $assetParent->getRootId();
+
 		// Find the parent-asset
 		if (($this->catid)&& !empty($this->catid))
 		{
@@ -123,8 +126,9 @@ class TableJTG_Cats extends JTable
 		// Return the found asset-parent-id
 		if ($assetParent->id)
 		{
-			$assetParentId=$assetParent->id;
+			$assetParentId = $assetParent->id;
 		}
+
 		return $assetParentId;
 	}
 }

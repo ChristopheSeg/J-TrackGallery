@@ -24,16 +24,21 @@ jimport('joomla.filter.input');
 class TableJTG_terrain extends JTable
 {
 	var $id             = null;
+
 	var $title          = null;
+
 	var $published      = null;
+
 	var $checked_out    = null;
+
 	var $ordering       = null;
 
 	/**
 	 *
 	 * @param object $db
 	 */
-	function __construct(& $db) {
+	function __construct(& $db)
+	{
 		parent::__construct('#__jtg_terrains', 'id', $db);
 	}
 
@@ -45,7 +50,7 @@ class TableJTG_terrain extends JTable
 	 */
 	function bind($array, $ignore = '')
 	{
-		if (key_exists( 'params', $array ) && is_array( $array['params'] ))
+		if (key_exists('params', $array) && is_array($array['params']))
 		{
 			$registry = new JRegistry;
 			$registry->loadArray($array['params']);

@@ -27,22 +27,23 @@ class JtgModelTerrain extends JModelLegacy
 
 	var $_pagination = null;
 
-	function __construct() {
+	function __construct()
+	{
 		parent::__construct();
-		$mainframe = JFactory::getApplication(); // Global _ $option;
+		$mainframe = JFactory::getApplication();
 
 		// Get the pagination request variables
-		$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int' );
-		$limitstart	= $mainframe->getUserStateFromRequest( $this->option.'.limitstart', 'limitstart', 0, 'int' );
+		$limit		= $mainframe->getUserStateFromRequest('global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
+		$limitstart	= $mainframe->getUserStateFromRequest($this->option . '.limitstart', 'limitstart', 0, 'int');
 
 		// In case limit has been changed, adjust limitstart accordingly
-		$limitstart = JFactory::getApplication()->input->get('limitstart',0);
+		$limitstart = JFactory::getApplication()->input->get('limitstart', 0);
 
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
 
 		$array = JFactory::getApplication()->input->get('cid', array(0), 'array');
-		$edit	= JFactory::getApplication()->input->get('edit',true);
+		$edit	= JFactory::getApplication()->input->get('edit', true);
 		if ($edit)
 			$this->setId((int) $array[0]);
 	}
@@ -61,8 +62,7 @@ class JtgModelTerrain extends JModelLegacy
 		}
 
 		return $this->_data;
-	}
-	/**
+	}	/**
 	 *
 	 * @return array $pagination
 	 */
@@ -72,7 +72,7 @@ class JtgModelTerrain extends JModelLegacy
 		if (empty($this->_pagination))
 		{
 			jimport('joomla.html.pagination');
-			$this->_pagination = new JPagination( $this->getTotal(), $this->getState('limitstart'), $this->getState('limit') );
+			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
 		}
 
 		return $this->_pagination;
@@ -82,7 +82,8 @@ class JtgModelTerrain extends JModelLegacy
 	 *
 	 * @return int
 	 */
-	function getTotal() {
+	function getTotal()
+	{
 
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_total))
@@ -100,18 +101,18 @@ class JtgModelTerrain extends JModelLegacy
 	 * @return string
 	 */
 
-	function _buildQuery($terrain=null) {
+	function _buildQuery($terrain=null)
+	{
 		$mainframe = JFactory::getApplication();
-
 		$orderby	= $this->_buildContentOrderBy();
-
 		$db = JFactory::getDBO();
-
 		$query = "SELECT * FROM #__jtg_terrains"
 		. $orderby;
+
 		if ( $terrain !== null )
-			$query .= " WHERE id=" . $terrain
-			;
+		{
+			$query .= " WHERE id=" . $terrain;
+		}
 
 			return $query;
 	}
@@ -125,14 +126,15 @@ class JtgModelTerrain extends JModelLegacy
 	function _buildContentOrderBy()
 	{
 		return;
-		$mainframe = JFactory::getApplication(); // Global _ $option;
+		$mainframe = JFactory::getApplication();
 
-		$filter_order		= $mainframe->getUserStateFromRequest( $this->option.'filter_order',		'filter_order',		'title',	'cmd' );
-		$filter_order_Dir	= $mainframe->getUserStateFromRequest( $this->option.'filter_order_Dir',	'filter_order_Dir',	'',		'word' );
+		$filter_order = $mainframe->getUserStateFromRequest($this->option . 'filter_order', 'filter_order', 'title', 'cmd');
+		$filter_order_Dir = $mainframe->getUserStateFromRequest($this->option . 'filter_order_Dir', 'filter_order_Dir', '', 'word');
 
-		$orderby 	= ' ORDER BY '.$filter_order.' '.$filter_order_Dir.' , title ';
+		$orderby = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir . ' , title ';
 		// Problems if sorted in "Files"-Menu and switched to "Terrain"
 		// Return $orderby;
+		// TODO: Why is that return commented!!
 	}
 
 	/**
@@ -146,17 +148,20 @@ class JtgModelTerrain extends JModelLegacy
 		$this->_data	= null;
 	}
 
-	function save() {
+	function save()
+	{
 		// Get post data
-		$row = JRequest::get('post' );
-		$table = $this->getTable( 'jtg_terrain' );
-		$table->bind( $row );
+		$row = JRequest::get('post');
+		$table = $this->getTable('jtg_terrain');
+		$table->bind($row);
 
-		if (!$table->store()) {
-			JFactory::getApplication()->enqueueMessage($table->getError() , 'Warning');
+		if (!$table->store())
+		{
+			JFactory::getApplication()->enqueueMessage($table->getError(), 'Warning');
+
 			return false;
 		}
-		return TRUE;
+		return true;
 	}
 
 	/**
@@ -169,19 +174,21 @@ class JtgModelTerrain extends JModelLegacy
 	{
 		$user 	= JFactory::getUser();
 
-		if (count( $cid ))
+		if (count($cid))
 		{
 			JArrayHelper::toInteger($cid);
-			$cids = implode( ',', $cid );
+			$cids = implode(',', $cid);
 
 			$query = 'UPDATE #__jtg_terrains'
-			. ' SET published = '.(int) $publish
-			. ' WHERE id IN ( '.$cids.' )'
-			. ' AND ( checked_out = 0 OR ( checked_out = '.(int) $user->get('id').' ) )'
-			;
-			$this->_db->setQuery( $query );
-			if (!$this->_db->execute()) {
+			. ' SET published = ' . (int) $publish
+			. ' WHERE id IN ( ' . $cids . ' )'
+			. ' AND ( checked_out = 0 OR ( checked_out = ' . (int) $user->get('id').' ) )';
+			$this->_db->setQuery($query);
+
+			if (!$this->_db->execute())
+			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
@@ -196,20 +203,22 @@ class JtgModelTerrain extends JModelLegacy
 	 */
 	function delete($cid = array())
 	{
-
 		$result = false;
 
-		if (count( $cid ))
+		if (count($cid))
 		{
 			JArrayHelper::toInteger($cid);
-			$cids = implode( ',', $cid );
+			$cids = implode(',', $cid);
 
-			//delete from DB
+			// Delete from DB
 			$query = 'DELETE FROM #__jtg_terrains'
-			. ' WHERE id IN ( '.$cids.' )';
-			$this->_db->setQuery( $query );
-			if (!$this->_db->execute()) {
+			. ' WHERE id IN ( ' . $cids . ' )';
+			$this->_db->setQuery($query);
+
+			if (!$this->_db->execute())
+			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}

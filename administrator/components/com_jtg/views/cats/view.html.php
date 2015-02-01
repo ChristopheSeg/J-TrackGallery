@@ -119,7 +119,7 @@ class JtgViewCats extends JViewLegacy
 			array_push( $list, $v );
 			$children[$pt] = $list;
 			if ($v->image)
-				$image[$v->id] = " <image src='" . $imagedir.$v->image . "' title='".JText::_($v->title) . "' alt='".JText::_($v->title) . "' />";
+				$image[$v->id] = " <image src='" . $imagedir.$v->image . "' title='" . JText::_($v->title) . "' alt='" . JText::_($v->title) . "' />";
 		}
 		$levellimit = 50;
 		$list = JHtml::_('menu.treerecurse', 0, '', array(), $children, max( 0, $levellimit-1 ) );
@@ -143,7 +143,7 @@ class JtgViewCats extends JViewLegacy
 	 * @param object $tpl
 	 */
 	function _displayForm($tpl) {
-		//		$mainframe = JFactory::getApplication(); $option = JFactory::getApplication()->input->get('option');
+		// 	$mainframe = JFactory::getApplication(); $option = JFactory::getApplication()->input->get('option');
 
 		$model = $this->getModel();
 		$parent = $model->getParent();
@@ -169,7 +169,7 @@ class JtgViewCats extends JViewLegacy
 	 * @param object $tpl
 	 */
 	function _displayEditcat($tpl) {
-		//		$mainframe = JFactory::getApplication();
+		// 	$mainframe = JFactory::getApplication();
 		$cid = JFactory::getApplication()->input->get('cid', array(), 'array' );
 		$id =$cid[0];
 

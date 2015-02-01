@@ -15,7 +15,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 // Import Joomla! libraries
-jimport( 'joomla.application.component.view');
+jimport('joomla.application.component.view');
 
 /**
  *
@@ -28,23 +28,28 @@ class JtgViewTerrain extends JViewLegacy
 	 * @global string $option
 	 * @param object $tpl
 	 */
-	function display($tpl = null) {
+	function display($tpl = null)
+	{
 		$mainframe = JFactory::getApplication();
 		$option = JFactory::getApplication()->input->get('option');
 
-		if ($this->getLayout() == 'form'):
-		$this->_displayForm($tpl);
-		return;
-		endif;
+		if ($this->getLayout() == 'form')
+		{
+			$this->_displayForm($tpl);
 
-		$model =$this->getModel();
-
-		$rows =$this->get('Data');
-		$total	=$this->get('Total');
-		$pagination =$this->get('Pagination' );
-		if (!isset($lists)) {
-			$lists=false;
+			return;
 		}
+
+		$model = $this->getModel();
+		$rows = $this->get('Data');
+		$total = $this->get('Total');
+		$pagination = $this->get('Pagination');
+
+		if (!isset($lists))
+		{
+			$lists = false;
+		}
+
 		$this->lists = $lists;
 		$this->rows = $rows;
 		$this->pagination = $pagination;
@@ -52,11 +57,12 @@ class JtgViewTerrain extends JViewLegacy
 		parent::display($tpl);
 	}
 
-	function _displayForm($tpl) {
-
+	function _displayForm($tpl)
+	{
 		$model = $this->getModel();
-		$cid = JFactory::getApplication()->input->get('cid', array(), 'array' );
-		if ( count($cid) != 0 )
+		$cid = JFactory::getApplication()->input->get('cid', array(), 'array');
+
+		if (count($cid) != 0)
 		{
 			$id = $cid[0];
 			$terrain = $model->getData($id);
@@ -65,12 +71,12 @@ class JtgViewTerrain extends JViewLegacy
 		}
 		else
 		{
-			$id=0;
+			$id = 0;
 			$terrain = $model->getData();
 			$published = 1;
 		}
-		$lists['block'] 	= JHtml::_('select.booleanlist', 'published', 'class="inputbox" size="1"', $published );
 
+		$lists['block'] = JHtml::_('select.booleanlist', 'published', 'class="inputbox" size="1"', $published);
 		$this->id = $id;
 		$this->lists = $lists;
 		$this->terrain = $terrain;

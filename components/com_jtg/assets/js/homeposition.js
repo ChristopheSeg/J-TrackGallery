@@ -93,7 +93,7 @@ else
 	currentPopup = this.popup;
 	OpenLayers.Event.stop(evt);
 	};
-//	layerOUsers.events.register("mouseover", feature, markerClick);
+// layerOUsers.events.register("mouseover", feature, markerClick);
 	layerOUsers.events.register("mousedown", feature, markerClick);
 	layerOUsers.addMarker(marker);
 }
@@ -125,7 +125,7 @@ function parseOtherUsers() {
 					new OpenLayers.Projection("EPSG:4326"),
 					map.getProjectionObject());
 					popupContentHTML = inittext + '<b>' + name[i] + '</b> <small>(' + link[i] + ')</small>  ' + distancetext + distance[i] + '<br />';
-//					popupContentHTML = link[i];
+// 				popupContentHTML = link[i];
 					showOtherUserInfo(ll, popupContentHTML );
 		}
 	}
@@ -139,7 +139,7 @@ function init() {
 				new OpenLayers.Control.PanZoomBar(),		// Zoombalken
 				new OpenLayers.Control.Navigation(),		// mit Maus verschieb- und zoombar
 				new OpenLayers.Control.Attribution()		// Lizenz
-//				new OpenLayers.Control.LayerSwitcher(),		// Menü zum ein/aus-Schalten der Layer
+// 			new OpenLayers.Control.LayerSwitcher(),		// Menü zum ein/aus-Schalten der Layer
 			],
 			theme: null ,
 			maxExtent: new OpenLayers.Bounds(-20037508.34,-20037508.34,20037508.34,20037508.34),
@@ -208,18 +208,18 @@ function showOtherUserInfo(ll, popupClass, popupContentHTML, closeBox, overflow,
 	feature.data.popupContentHTML = popupContentHTML;
 	feature.data.overflow = (overflow) ? "auto" : "hidden";
 	var marker = new OpenLayers.Marker(ll, IconOtherUser);
-//	var marker = new OpenLayers.Marker(ll);
+// var marker = new OpenLayers.Marker(ll);
 	marker.feature = feature;
 	var markerClick = function (evt) {
 		if (this.popup == null) {
-//			this.popup = this.createPopup(this.closeBox);
-//			map.addPopup(this.popup);
-//			this.popup.show();
+// 		this.popup = this.createPopup(this.closeBox);
+// 		map.addPopup(this.popup);
+// 		this.popup.show();
 			document.getElementById("otheruser").setHTML(userhtml);
 		}
 else
 {
-//			this.popup.toggle();
+// 		this.popup.toggle();
 			document.getElementById("otheruser").setHTML(userhtml);
 		}
 	currentPopup = this.popup;

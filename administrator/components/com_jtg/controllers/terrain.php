@@ -62,7 +62,7 @@ class JtgControllerTerrain extends JtgController
 		$cid = JFactory::getApplication()->input->get('cid', array(), 'array' );
 		JArrayHelper::toInteger($cid);
 
-		if (count( $cid ) < 1)
+		if (count($cid) < 1)
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_SELECT_AN_ITEM_TO_PUBLISH'),'Error' );
 		}
@@ -87,7 +87,7 @@ class JtgControllerTerrain extends JtgController
 		$cid = JFactory::getApplication()->input->get('cid', array(), 'array' );
 		JArrayHelper::toInteger($cid);
 
-		if (count( $cid ) < 1)
+		if (count($cid) < 1)
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_SELECT_AN_ITEM_TO_UNPUBLISH'),'Error' );
 		}

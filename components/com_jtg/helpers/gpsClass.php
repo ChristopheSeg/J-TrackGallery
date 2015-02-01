@@ -917,7 +917,7 @@ class gpsDataClass
 	public function parseWPs($wps) {
 		if ( $wps == false) return false;
 		$wp = "// <!-- parseWPs BEGIN -->\n";
-		$wp .= "wps = new OpenLayers.Layer.Markers(\"".JText::_('COM_JTG_WAYPOINTS') . "\");";
+		$wp .= "wps = new OpenLayers.Layer.Markers(\"" . JText::_('COM_JTG_WAYPOINTS') . "\");";
 		$wp .= "olmap.addLayer(wps);";
 		$wp .= "addWPs();";
 		$wp .= "function addWPs() {\n";
@@ -946,29 +946,29 @@ class gpsDataClass
 			$wp .= "llwp = new OpenLayers.LonLat(" . $lon . "," . $lat . ").transform(new OpenLayers . ";
 			$wp .= "Projection(\"EPSG:4326\"), olmap.getProjectionObject());\n";
 			$wp .= "popupClasswp = AutoSizeAnchored;\n";
-			$wp .= "popupContentHTMLwp = '<b>".JText::_('COM_JTG_NAME') . ":</b> " . $name.$URL . "<br /><small>";
-			if ($desc) $wp .= "<b>".JText::_('COM_JTG_DESCRIPTION') . ":</b> " . $desc;
-			if ( ($cmt) AND ($desc != $cmt) ) $wp .= "<br /><b>".JText::_('COM_JTG_COMMENT') . ":</b> " . $cmt;
-			if ($ele) $wp .= "<br /><b>".JText::_('COM_JTG_ELEVATION') . " :</b> ca. ".round($ele,1) . "m<small>";
+			$wp .= "popupContentHTMLwp = '<b>" . JText::_('COM_JTG_NAME') . ":</b> " . $name.$URL . "<br /><small>";
+			if ($desc) $wp .= "<b>" . JText::_('COM_JTG_DESCRIPTION') . ":</b> " . $desc;
+			if ( ($cmt) AND ($desc != $cmt) ) $wp .= "<br /><b>" . JText::_('COM_JTG_COMMENT') . ":</b> " . $cmt;
+			if ($ele) $wp .= "<br /><b>" . JText::_('COM_JTG_ELEVATION') . " :</b> ca. ".round($ele,1) . "m<small>";
 			$wp .= "';\n";
 			$wp .= $this->parseOwnIcon($sym);
 			$wp .= "addWP(llwp, popupClasswp, popupContentHTMLwp, true, true, icon);\n";
 		}
 		$wp .= "	}\n";
-		//	$wp .= "	//
-		//	* Function: addWP
-		//	* Add a new marker to the markers layer given the following lonlat,
-		//	*	 popupClass, and popup contents HTML. Also allow specifying
-		//	*	 whether or not to give the popup a close box.
-		//	*
-		//	* Parameters:
-		//	* ll - {<OpenLayers.LonLat>} Where to place the marker
-		//	* popupClass - {<OpenLayers.Class>} Which class of popup to bring up
-		//	*	 when the marker is clicked.
-		//	* popupContentHTML - {String} What to put in the popup
-		//	* closeBox - {Boolean} Should popup have a close box?
-		//	* overflow - {Boolean} Let the popup overflow scrollbars?
-		//	*/
+		// $wp .= "	//
+		// * Function: addWP
+		// * Add a new marker to the markers layer given the following lonlat,
+		// *	 popupClass, and popup contents HTML. Also allow specifying
+		// *	 whether or not to give the popup a close box.
+		// *
+		// * Parameters:
+		// * ll - {<OpenLayers.LonLat>} Where to place the marker
+		// * popupClass - {<OpenLayers.Class>} Which class of popup to bring up
+		// *	 when the marker is clicked.
+		// * popupContentHTML - {String} What to put in the popup
+		// * closeBox - {Boolean} Should popup have a close box?
+		// * overflow - {Boolean} Let the popup overflow scrollbars?
+		// */
 
 		$wp .= "	function addWP(ll, popupClass, popupContentHTML, closeBox, overflow, icon) {
 		var feature = new OpenLayers.Feature(wps, ll);
@@ -1231,7 +1231,7 @@ class gpsDataClass
 		$rows = $this->getTracks($where);
 		// 	$user = JFactory::getUser();
 		// 	$userid = $user->id;
-		//		$rows = $this->maySee($rows);
+		// 	$rows = $this->maySee($rows);
 		$map = false;
 		$map .= $this->parseScriptOLHead();
 		$map .= $this->parseOLMapControl(false, $params);
@@ -1239,9 +1239,9 @@ class gpsDataClass
 		// 	$map .= $this->parseOLPOIs(); // Currently not active
 		if ($tracks)
 		{
-			//			die();
+			// 		die();
 			$map .= $this->parseOLTracks($rows); // Schlecht bei vielen verfügbaren Tracks
-			//			$map .= $this->parseXMLlinesOL($rows,"/" . $file);
+			// 		$map .= $this->parseXMLlinesOL($rows,"/" . $file);
 		}
 		$file = JPATH_SITE . "/components/com_jtg/models/jtg.php";
 		require_once $file;
@@ -1252,7 +1252,7 @@ class gpsDataClass
 		$map .= $this->parseOLMapFunctions();
 		$map .= $this->parseScriptOLFooter();
 		// Return $this->buildColorBalken();
-		// die();
+		// Die();
 		return $map;
 	}
 
@@ -1289,7 +1289,7 @@ class gpsDataClass
 	private function parseOLMapCenter($rows) {
 		if (!$rows)
 		{
-			//			Worldview without southpole
+			// 		Worldview without southpole
 			$bbox_lat_max = 47;
 			$bbox_lat_min = 47;
 			$bbox_lon_max = 180;
@@ -1354,7 +1354,7 @@ class gpsDataClass
 	 *
 	 * @return string
 	 */
-	//	 private function parseOLStartZiel() {
+	//  private function parseOLStartZiel() {
 	// 	$startziel = "// <!-- parseOLStartZiel BEGIN -->\n";
 	// 	$startziel .= "// <!-- parseOLStartZiel END -->\n";
 	// 	return $startziel;
@@ -1369,9 +1369,9 @@ class gpsDataClass
 		if (!$track_array) return false;
 		$marker = "// <!-- parseOLMarker BEGIN -->\n";
 		if ( $visibility != true )
-			$marker .= "	markers = new OpenLayers.Layer.Markers(\"".JText::_('COM_JTG_OTHER_STARTPOINTS') . "\");\n";
+			$marker .= "	markers = new OpenLayers.Layer.Markers(\"" . JText::_('COM_JTG_OTHER_STARTPOINTS') . "\");\n";
 		else
-			$marker .= "	markers = new OpenLayers.Layer.Markers(\"".JText::_('COM_JTG_STARTPOINTS') . "\");\n";
+			$marker .= "	markers = new OpenLayers.Layer.Markers(\"" . JText::_('COM_JTG_STARTPOINTS') . "\");\n";
 		$marker .= "	olmap.addLayer(markers);\n";
 		$marker .= "	addMarkers();\n";
 		if ( $visibility != true )
@@ -1379,8 +1379,8 @@ class gpsDataClass
 		$marker .= "	function addMarkers() {\n";
 		$i = 0;
 		foreach ( $track_array AS $row ) {
-			//			if ( $i < 100 ) break;
-			//			$i++;
+			// 		if ( $i < 100 ) break;
+			// 		$i++;
 			$link = JROUTE::_("index.php?option=com_jtg&view=files&layout=file&id=" . $row->id);
 
 			$lon = $row->start_e;
@@ -1389,19 +1389,19 @@ class gpsDataClass
 				$marker .= "ll = new OpenLayers.LonLat(" . $lon . "," . $lat . ") . ";
 				$marker .= "transform(new OpenLayers.Projection(\"EPSG:4326\"), olmap.getProjectionObject()); ";
 				$marker .= "popupClass = AutoSizeFramedCloud; ";
-				$marker .= "popupContentHTML = '<b>".JText::_('COM_JTG_TITLE') . ": <a href=\"" . $link . "\"";
+				$marker .= "popupContentHTML = '<b>" . JText::_('COM_JTG_TITLE') . ": <a href=\"" . $link . "\"";
 				switch ($row->access) {
 					case 0: // Public
 						$marker .= ">";
 						break;
 					case 9: // Private
-						$marker .= " title=\\\"".JText::_('COM_JTG_PRIVATE') . "\">";
+						$marker .= " title=\\\"" . JText::_('COM_JTG_PRIVATE') . "\">";
 						break;
 					case 1: // Registered
-						$marker .= " title=\\\"".JText::_('COM_JTG_REGISTERED') . "\">";
+						$marker .= " title=\\\"" . JText::_('COM_JTG_REGISTERED') . "\">";
 						break;
 					case 2: // Admin
-						$marker .= " title=\\\"".JText::_('COM_JTG_ADMINISTRATORS') . "\">";
+						$marker .= " title=\\\"" . JText::_('COM_JTG_ADMINISTRATORS') . "\">";
 						break;
 				}
 				if ($row->title)
@@ -1414,21 +1414,21 @@ class gpsDataClass
 				}
 				switch ($row->access) {
 					case 1:
-						$marker .= "&nbsp;<img alt=\\\"".JText::_('COM_JTG_REGISTERED') . "\" src=\\\"" . $iconpath . "registered_only.png\\\" />";
+						$marker .= "&nbsp;<img alt=\\\"" . JText::_('COM_JTG_REGISTERED') . "\" src=\\\"" . $iconpath . "registered_only.png\\\" />";
 						break;
 					case 2:
-						$marker .= "&nbsp;<img alt=\\\"".JText::_('COM_JTG_ADMINISTRATORS') . "\" src=\\\"" . $iconpath . "special_only.png\\\" />";
+						$marker .= "&nbsp;<img alt=\\\"" . JText::_('COM_JTG_ADMINISTRATORS') . "\" src=\\\"" . $iconpath . "special_only.png\\\" />";
 						break;
 					case 9:
-						$marker .= "&nbsp;<img alt=\\\"".JText::_('COM_JTG_PRIVATE') . "\" src=\\\"" . $iconpath . "private_only.png\\\" />";
+						$marker .= "&nbsp;<img alt=\\\"" . JText::_('COM_JTG_PRIVATE') . "\" src=\\\"" . $iconpath . "private_only.png\\\" />";
 						break;
 				}
 				$marker .= "</a></b>";
 				if ( $row->cat != "" ) {
 					$marker .= "<br />" . str_replace(array("'"), array("\'"), JText::_('COM_JTG_CAT') ) . ": ";
 					$marker .= JtgHelper::parseMoreCats($this->sortedcats,$row->catid,"box",true);
-					//					"<a href=\"index.php?option=com_jtg&amp;view=files&amp;layout=list&amp;search=" . $row->cat . "\">" . $row->cat . "</a><br />";
-					//					$marker .= "<a href=\"index.php?option=com_jtg&amp;view=files&amp;layout=list&amp;search=" . $row->cat . "\">" . $row->cat . "</a><br />";
+					// 				"<a href=\"index.php?option=com_jtg&amp;view=files&amp;layout=list&amp;search=" . $row->cat . "\">" . $row->cat . "</a><br />";
+					// 				$marker .= "<a href=\"index.php?option=com_jtg&amp;view=files&amp;layout=list&amp;search=" . $row->cat . "\">" . $row->cat . "</a><br />";
 				} else
 					$marker .= "<br /><i>".str_replace(array("'"), array("\'"), JText::_('COM_JTG_CAT_NONE') ) . "</i>";
 				// Add track description, after striping HTML tags
@@ -1441,20 +1441,20 @@ class gpsDataClass
 			}
 		}
 		$marker .= "	}\n";
-		//	$marker .= "	//
-		//	* Function: addMarker
-		//	* Add a new marker to the markers layer given the following lonlat,
-		//	*	 popupClass, and popup contents HTML. Also allow specifying
-		//	*	 whether or not to give the popup a close box.
-		//	*
-		//	* Parameters:
-		//	* ll - {<OpenLayers.LonLat>} Where to place the marker
-		//	* popupClass - {<OpenLayers.Class>} Which class of popup to bring up
-		//	*	 when the marker is clicked.
-		//	* popupContentHTML - {String} What to put in the popup
-		//	* closeBox - {Boolean} Should popup have a close box?
-		//	* overflow - {Boolean} Let the popup overflow scrollbars?
-		//	*/
+		// $marker .= "	//
+		// * Function: addMarker
+		// * Add a new marker to the markers layer given the following lonlat,
+		// *	 popupClass, and popup contents HTML. Also allow specifying
+		// *	 whether or not to give the popup a close box.
+		// *
+		// * Parameters:
+		// * ll - {<OpenLayers.LonLat>} Where to place the marker
+		// * popupClass - {<OpenLayers.Class>} Which class of popup to bring up
+		// *	 when the marker is clicked.
+		// * popupContentHTML - {String} What to put in the popup
+		// * closeBox - {Boolean} Should popup have a close box?
+		// * overflow - {Boolean} Let the popup overflow scrollbars?
+		// */
 
 		$marker .= "function addMarker(ll, popupClass, popupContentHTML, closeBox, overflow, icon) {
 		var feature = new OpenLayers.Feature(markers, ll);
@@ -1525,7 +1525,7 @@ class gpsDataClass
 		if ( $rows === null ) return false;
 		$color = $this->calculateAllColors(count($rows));
 		$string = "// <!-- parseOLTracks BEGIN -->\n";
-		$string .= "layer_vectors = new OpenLayers.Layer.Vector(\"".JText::_('COM_JTG_TRACKS') . "\", { displayInLayerSwitcher: true } );\n";
+		$string .= "layer_vectors = new OpenLayers.Layer.Vector(\"" . JText::_('COM_JTG_TRACKS') . "\", { displayInLayerSwitcher: true } );\n";
 		$string .= "olmap.addLayer(layer_vectors);\n";
 		$i=0;
 		foreach ($rows AS $row) {
@@ -1602,7 +1602,7 @@ class gpsDataClass
 
 		//TODO move this to overlays
 		// "Hillshade of Europe" http://www.osm-wms.de/
-		$return .= "hs_name = \"".JText::_('COM_JTG_HILL_SHADE_EUROPE') . "\";\n";
+		$return .= "hs_name = \"" . JText::_('COM_JTG_HILL_SHADE_EUROPE') . "\";\n";
 		$return .= "hs_url = \"http://129.206.228.72/cached/hillshade?\";\n";
 		$return .= "hs_options = {layers: 'europe_wms:hs_srtm_europa',srs: 'EPSG:900913', format: 'image/jpeg', transparent: 'true',numZoomLevels: 19};\n";
 		$return .= "hs2_1_options = {layers: 'europe_wms:hs_srtm_europa',srs: 'EPSG:900913', format: 'image/jpeg',numZoomLevels: 19};\n";
@@ -1614,7 +1614,7 @@ class gpsDataClass
 
 		// TODO osm_getTileURL see http://wiki.openstreetmap.org/wiki/Talk:Openlayers_POI_layer_example
 		$document->addScript('/components/com_jtg/assets/js/jtg_getTileURL.js');
-		$return .= "hill = new OpenLayers.Layer.TMS(\"".JText::_('COM_JTG_HILL_SHADE_NASA') . "\"\n,
+		$return .= "hill = new OpenLayers.Layer.TMS(\"" . JText::_('COM_JTG_HILL_SHADE_NASA') . "\"\n,
 		\"http://toolserver.org/~cmarqu/hill/\",
 		{
 		type: 'png', getURL: osm_getTileURL,
@@ -1635,7 +1635,7 @@ class gpsDataClass
 	 *
 	 * @return string
 	 */
-	//	private function parseOLLayer() {
+	// private function parseOLLayer() {
 	private function parseOLLayer() {
 		$maps = $this->buildMaps();
 		$layer = "// <!-- parseOLLayer BEGIN -->\n";
@@ -1663,7 +1663,7 @@ class gpsDataClass
 		$seconds = count($exifCoord) > 2 ? $this->gps2Num($exifCoord[2]) : 0;
 		$flip = ($hemi == 'W' or $hemi == 'S') ? -1 : 1;
 
-		//	return $flip * ($degrees + $minutes / 60);
+		// return $flip * ($degrees + $minutes / 60);
 		return $flip * ($degrees + $minutes / 60 + $seconds / 3600);
 	}
 
@@ -1685,7 +1685,7 @@ class gpsDataClass
 		$map = "// <!-- parseOLGeotaggedImgs BEGIN -->\n";
 		$httppath = JUri::base() . "images/jtrackgallery/track_" . $id . "/";
 		$folder = JPATH_SITE . "/images/jtrackgallery/" . 'track_' . $id . '/';
-		$map .= "layer_geotaggedImgs = new OpenLayers.Layer.Markers(\"".JText::_('COM_JTG_GEOTAGGED_IMAGES') . "\",".
+		$map .= "layer_geotaggedImgs = new OpenLayers.Layer.Markers(\"" . JText::_('COM_JTG_GEOTAGGED_IMAGES') . "\",".
 				" { displayInLayerSwitcher: true });".
 				"\n	olmap.addLayer(layer_geotaggedImgs);".
 				"\n	layer_geotaggedImgs.setVisibility(true);\n";
@@ -1739,8 +1739,8 @@ class gpsDataClass
 						}
 						$lon = $this->getGps($exif['GPSLongitude'], $exif['GPSLongitudeRef']);
 						$lat = $this->getGps($exif['GPSLatitude'], $exif['GPSLatitudeRef']);
-						//	$lon = 6.18+(float)(rand(1000,2000)-1000)/100000;
-						//	$lat = 50.99+(float)(rand(1000,2000)-1000)/100000;
+						// $lon = 6.18+(float)(rand(1000,2000)-1000)/100000;
+						// $lat = 50.99+(float)(rand(1000,2000)-1000)/100000;
 						$size = "width=\"".(int) $width . "\" height=\"".(int) $height . "\"";
 						$image = "<img " . $size . " src=\"" . $imagepath . "\" alt=\"" . $image . "\" title=\"" . $image . "\">";
 						$xml = simplexml_load_file($httpiconpath . "foto.xml");
@@ -1793,39 +1793,39 @@ class gpsDataClass
 		$httpiconpath = JPATH_SITE . "/components/com_jtg/assets/template/" . $cfg->template . "/images/";
 		jimport('joomla.filesystem.file');
 		// $rows = $this->getTracks(" WHERE a.id != " . $track->id);
-		$zeiten .= (int) round( ( microtime(true) - $jtg_microtime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " getTracks<br />\n";
-		//		$file = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks/' . $track->file;
-		//		$this->gpsFile = $file;
-		//		$xml = $this->loadFile();
+		$zeiten .= (int) round( ( microtime(true) - $jtg_microtime ),0 ) . " " . JText::_('COM_JTG_DEBUG_TIMES') . " getTracks<br />\n";
+		// 	$file = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks/' . $track->file;
+		// 	$this->gpsFile = $file;
+		// 	$xml = $this->loadFile();
 		$map = "\n<!-- writeTrackCOM_JTG BEGIN -->\n";
-		//		$rows = $this->maySee($rows);		// Berechtigung Okay?
+		// 	$rows = $this->maySee($rows);		// Berechtigung Okay?
 		// ToDo: Berechtigungen vorher schon checken?
 		$map .= $this->parseScriptOLHead();
-		$zeiten .= (int) round( ( microtime(true) - $jtg_microtime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " parseScriptOLHead<br />\n";
+		$zeiten .= (int) round( ( microtime(true) - $jtg_microtime ),0 ) . " " . JText::_('COM_JTG_DEBUG_TIMES') . " parseScriptOLHead<br />\n";
 		$map .= $this->parseOLMap();
-		$zeiten .= (int) round( ( microtime(true) - $jtg_microtime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " parseOLMap<br />\n";
+		$zeiten .= (int) round( ( microtime(true) - $jtg_microtime ),0 ) . " " . JText::_('COM_JTG_DEBUG_TIMES') . " parseOLMap<br />\n";
 
 		$map .= $this->parseOLMapControl(false,$params);
-		$zeiten .= (int) round( ( microtime(true) - $jtg_microtime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " parseOLMapControl<br />\n";
+		$zeiten .= (int) round( ( microtime(true) - $jtg_microtime ),0 ) . " " . JText::_('COM_JTG_DEBUG_TIMES') . " parseOLMapControl<br />\n";
 		$map .= $this->parseOLLayer();
 
-		$zeiten .= (int) round( ( microtime(true) - $jtg_microtime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " parseOLLayer<br />\n";
+		$zeiten .= (int) round( ( microtime(true) - $jtg_microtime ),0 ) . " " . JText::_('COM_JTG_DEBUG_TIMES') . " parseOLLayer<br />\n";
 		$coords = $this->parseXMLlinesOL();
-		$zeiten .= (int) round( ( microtime(true) - $jtg_microtime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " parseXMLlinesOL<br />\n";
+		$zeiten .= (int) round( ( microtime(true) - $jtg_microtime ),0 ) . " " . JText::_('COM_JTG_DEBUG_TIMES') . " parseXMLlinesOL<br />\n";
 		if ( $coords !== null )
 			$map .= $coords['coords'];
-		//	if ( isset($rows) )
-		//	$map .= $this->parseOLMarker($rows,false); // Andere Tracks standardmäßig ausblenden
-		$zeiten .= (int) round( ( microtime(true) - $jtg_microtime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " parseOLMarker<br />\n";
+		// if ( isset($rows) )
+		// $map .= $this->parseOLMarker($rows,false); // Andere Tracks standardmäßig ausblenden
+		$zeiten .= (int) round( ( microtime(true) - $jtg_microtime ),0 ) . " " . JText::_('COM_JTG_DEBUG_TIMES') . " parseOLMarker<br />\n";
 		$map .= $this->parseOLGeotaggedImgs($track->id,$cfg->max_geoim_height,$iconpath,$httpiconpath);
-		$zeiten .= (int) round( ( microtime(true) - $jtg_microtime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " parseOLGeotaggedImgs<br />\n";
+		$zeiten .= (int) round( ( microtime(true) - $jtg_microtime ),0 ) . " " . JText::_('COM_JTG_DEBUG_TIMES') . " parseOLGeotaggedImgs<br />\n";
 		// 	$map .= $this->parseStartPointOL($coords); // Ist jetzt für jede einzelne Spur definiert
-		//		$file_tmp = $file;
-		$zeiten .= (int) round( ( microtime(true) - $jtg_microtime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " extractWPs<br />\n";
+		// 	$file_tmp = $file;
+		$zeiten .= (int) round( ( microtime(true) - $jtg_microtime ),0 ) . " " . JText::_('COM_JTG_DEBUG_TIMES') . " extractWPs<br />\n";
 		if ($this->wp !== false);
 		$map .= $this->parseWPs($this->wp['wps'] );
 		// 	$map .= $this->parseOLStartZiel();
-		//		$file = $file_tmp;
+		// 	$file = $file_tmp;
 		if ( $this->allCoords !== null )
 		{
 			$map .= $coords['center'];
@@ -1834,13 +1834,13 @@ class gpsDataClass
 		{
 			$map .= $this->wp['center'];
 		}
-		//	$map .= $this->parseOLMapCenterSingleTrack($file);
-		$zeiten .= (int) round( ( microtime(true) - $jtg_microtime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " parseOLMapCenterSingleTrack<br />\n";
+		// $map .= $this->parseOLMapCenterSingleTrack($file);
+		$zeiten .= (int) round( ( microtime(true) - $jtg_microtime ),0 ) . " " . JText::_('COM_JTG_DEBUG_TIMES') . " parseOLMapCenterSingleTrack<br />\n";
 		$map .= $this->parseOLMapFunctions();
-		$zeiten .= (int) round( ( microtime(true) - $jtg_microtime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " parseOLMapFunctions<br />\n";
+		$zeiten .= (int) round( ( microtime(true) - $jtg_microtime ),0 ) . " " . JText::_('COM_JTG_DEBUG_TIMES') . " parseOLMapFunctions<br />\n";
 
 		$map .= $this->parseScriptOLFooter();
-		$zeiten .= (int) round( ( microtime(true) - $jtg_microtime ),0 ) . " ".JText::_('COM_JTG_DEBUG_TIMES') . " parseScriptOLFooter<br />\n";
+		$zeiten .= (int) round( ( microtime(true) - $jtg_microtime ),0 ) . " " . JText::_('COM_JTG_DEBUG_TIMES') . " parseScriptOLFooter<br />\n";
 		$map .= "\n<!-- writeTrackCOM_JTG END -->\n";
 		return $map;
 	}
@@ -1906,9 +1906,9 @@ class gpsDataClass
 		//TODO ACCOUNT FOR TEMPLATES
 		$map .= "			OpenLayers.ImgPath = \"$imgpath\" \n";
 		// Doesn't works !! http://www.stoimen.com/blog/2009/06/20/openlayers-disable-mouse-wheel-on-zoom/
-		//		$map .= "			var nav = new OpenLayers.Control.Navigation() \n";
-		//		$map .= "			nav.zoomWheelEnabled = false \n";
-		//		$map .= "			olmap = new OpenLayers.Map ( {controls: [Nav,], theme: null, div: \"jtg_map\",\n";
+		// 	$map .= "			var nav = new OpenLayers.Control.Navigation() \n";
+		// 	$map .= "			nav.zoomWheelEnabled = false \n";
+		// 	$map .= "			olmap = new OpenLayers.Map ( {controls: [Nav,], theme: null, div: \"jtg_map\",\n";
 		$map .= "			olmap = new OpenLayers.Map ( {theme: null, div: \"jtg_map\",\n";
 		$map .= "// <!-- parseScriptOLHead END -->\n";
 
@@ -1956,7 +1956,7 @@ class gpsDataClass
 
 		$control = "// <!-- parseOLMapControl BEGIN -->\n";
 		$control .= "		controls:[\n";
-		$control .= "//		Don't forget to remove comma in last line.\n//		Otherwise it doesn't work with IE.\n";
+		$control .= "// 	Don't forget to remove comma in last line.\n// 	Otherwise it doesn't work with IE.\n";
 		// $control .= "				new OpenLayers.Control.ArgParser(),	// ?\n";
 		if ( ( $params === false ) OR ( $params->get('jtg_param_allow_keymove') != "0" ) )
 			$control .= "				new OpenLayers.Control.KeyboardDefaults(),	// Tastatur: hoch, runter, links, rechts, +, -\n";
@@ -1971,11 +1971,11 @@ class gpsDataClass
 				$control .= "				new OpenLayers.Control.PanZoomBar(),		// Zoombalken\n";
 			if ( ( $params === false ) OR ( $params->get('jtg_param_show_attribution') != "0" ) )
 				$control .= "				new OpenLayers.Control.Attribution(),		// CC-By-SA ... \n";
-			//	$control .= "				new OpenLayers.Control.ScaleLine(),		// Maszstab (nur am Aequator genau?)\n";
+			// $control .= "				new OpenLayers.Control.ScaleLine(),		// Maszstab (nur am Aequator genau?)\n";
 			if ( ( $params === false ) OR ( $params->get('jtg_param_show_scale') != "0" ) )
 				$control .= "				new OpenLayers.Control.ScaleLine({\n					topOutUnits: '" . $topOutUnits . "',\n					topInUnits: '" . $topInUnits . "',\n					bottomOutUnits: '" . $bottomOutUnits . "',\n					bottomInUnits: '" . $bottomInUnits . "'\n				}),					// Maßstab (nur an Äquator genau?)\n";
-			//	$control .= "				new OpenLayers.Control.Permalink(null,'t', permalinkOptions),\n";
-			//	$control .= "				new OpenLayers.Control.Permalink(),		// Permalink\n";
+			// $control .= "				new OpenLayers.Control.Permalink(null,'t', permalinkOptions),\n";
+			// $control .= "				new OpenLayers.Control.Permalink(),		// Permalink\n";
 		}
 
 		$control .= "			],\n";
@@ -2016,9 +2016,9 @@ class gpsDataClass
 		$control .= "		// <!-- parseOLMapmouse wheel (this must stay after NavToolbar) END -->\n";
 
 		if ( $adminonly === false) {
-			//	$control .= "				var layer_overviewmap = new OpenLayers.Layer.OSM.Mapnik(\"Mapnik\");\n";
-			//	$control .= "				olmap.addControl(new OpenLayers.Control.OverviewMap({layers: [layer_overviewmap]}));\n";
-			//	$control .= "			// Uebersicht\n";
+			// $control .= "				var layer_overviewmap = new OpenLayers.Layer.OSM.Mapnik(\"Mapnik\");\n";
+			// $control .= "				olmap.addControl(new OpenLayers.Control.OverviewMap({layers: [layer_overviewmap]}));\n";
+			// $control .= "			// Uebersicht\n";
 		}
 		$control .= "// <!-- parseOLMapControl END -->\n";
 		return $control;
@@ -2059,7 +2059,7 @@ class gpsDataClass
 	 * @return string
 	 */
 	private function parseStartPointOL($coords) {
-		//		deprecated
+		// 	deprecated
 		$map = "// <!-- parseStartPointCOM_JTG BEGIN -->\n";
 		$rows = explode("\n",$coords);
 		$fetch = false;
@@ -2100,7 +2100,7 @@ class gpsDataClass
 	 * @return array
 	 */
 	private function parseXMLlinesOL() {
-		//		global $jtg_microtime;
+		// 	global $jtg_microtime;
 
 		$cfg = JtgHelper::getConfig();
 		$iconpath = JUri::root() . "components/com_jtg/assets/template/" . $cfg->template . "/images/";
@@ -2141,7 +2141,7 @@ class gpsDataClass
 					$string .= "\n";
 				$n++;
 			}
-			//			$string .= "// fetchCoordsEnd\n";
+			// 		$string .= "// fetchCoordsEnd\n";
 			$string .= "],\n{";
 			$color = "#" . $tracksColors[$i-1];
 			$string .= "strokeColor:\"" . $color . "\",\n";
@@ -2170,7 +2170,7 @@ class gpsDataClass
 			// 			$name[$i] = $trackname;
 			// 			$string_se .= "popupContentHTMLStart = '<span style=\"background-color:#000\"<a href=\"" . $subid . "\"><b>";
 			$string_se .= "popupContentHTMLStart = '";
-			//				$string_se .= "<b>";
+			// 			$string_se .= "<b>";
 			$string_se .= "<font style=\"font-weight: bold;\" color=\"" . $color . "\">";
 			$string_se .= ($this->track[$i]->trackname? $this->track[$i]->trackname : JText::_('COM_JTG_TRACK').$i);
 			$string_se .= "</font>";

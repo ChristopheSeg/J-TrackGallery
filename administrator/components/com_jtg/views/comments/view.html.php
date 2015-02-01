@@ -15,7 +15,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 // Import Joomla! libraries
-jimport( 'joomla.application.component.view');
+jimport('joomla.application.component.view');
 
 /**
  *
@@ -26,22 +26,28 @@ class JtgViewComments extends JViewLegacy
 	 *
 	 * @param object $tpl
 	 */
-	function display($tpl = null) {
+	function display($tpl = null)
+	{
 		$mainframe = JFactory::getApplication();
 		$option = JFactory::getApplication()->input->get('option');
 
-		if ($this->getLayout() == 'form'):
-		$this->_displayForm($tpl);
-		return;
-		endif;
+		if ($this->getLayout() == 'form')
+		{
+			$this->_displayForm($tpl);
 
-		$model =$this->getModel();
-		$rows =$this->get('Data');
-		$total =$this->get('Total');
-		$pagination = $this->get('Pagination' );
-		if (!isset($lists)) {
-			$lists=false;
+			return;
 		}
+
+		$model = $this->getModel();
+		$rows = $this->get('Data');
+		$total = $this->get('Total');
+		$pagination = $this->get('Pagination');
+
+		if (!isset($lists))
+		{
+			$lists = false;
+		}
+
 		$this->lists = $lists;
 		$this->rows = $rows;
 		$this->pagination = $pagination;
@@ -49,9 +55,10 @@ class JtgViewComments extends JViewLegacy
 		parent::display($tpl);
 	}
 
-	function _displayForm($tpl) {
+	function _displayForm($tpl)
+	{
 
-		$cid = JFactory::getApplication()->input->get('cid', array(), 'array' );
+		$cid = JFactory::getApplication()->input->get('cid', array(), 'array');
 		JArrayHelper::toInteger($cid);
 
 		$model = $this->getModel();

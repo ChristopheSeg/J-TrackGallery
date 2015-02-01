@@ -47,7 +47,7 @@ class ContentViewElement extends JViewLegacy
 
 		$lists = $this->_getLists();
 
-		//Ordering allowed ?
+		// Ordering allowed ?
 		$ordering = ($lists['order'] == 'section_name' && $lists['order_Dir'] == 'ASC');
 
 		$rows = $this->get('List');
@@ -60,16 +60,16 @@ class ContentViewElement extends JViewLegacy
 
 	<table>
 		<tr>
-			<td width="100%"><?php echo JText::_('COM_JTG_FILTER' ); ?>: <input
+			<td width="100%"><?php echo JText::_('COM_JTG_FILTER'); ?>: <input
 				type="text" name="search" id="search"
 				value="<?php echo htmlspecialchars($lists['search']);?>"
 				class="text_area" onchange="document.adminForm.submit();" />
 				<button onclick="this.form.submit();">
-					<?php echo JText::_('COM_JTG_APPLY' ); ?>
+					<?php echo JText::_('COM_JTG_APPLY'); ?>
 				</button>
 				<button
 					onclick="document.getElementById('search').value='';this.form.submit();">
-					<?php echo JText::_('COM_JTG_RESET' ); ?>
+					<?php echo JText::_('COM_JTG_RESET'); ?>
 				</button>
 			</td>
 			<td nowrap="nowrap"><?php
@@ -83,19 +83,19 @@ class ContentViewElement extends JViewLegacy
 	<table class="adminlist" cellspacing="1">
 		<thead>
 			<tr>
-				<th width="5"><?php echo JText::_('COM_JTG_NUM' ); ?>
+				<th width="5"><?php echo JText::_('COM_JTG_NUM'); ?>
 				</th>
-				<th class="title"><?php echo JHtml::_('grid.sort',   'Title', 'c.title', @$lists['order_Dir'], @$lists['order'] ); ?>
+				<th class="title"><?php echo JHtml::_('grid.sort',   'Title', 'c.title', @$lists['order_Dir'], @$lists['order']); ?>
 				</th>
-				<th width="7%"><?php echo JHtml::_('grid.sort',   'Access', 'groupname', @$lists['order_Dir'], @$lists['order'] ); ?>
+				<th width="7%"><?php echo JHtml::_('grid.sort',   'Access', 'groupname', @$lists['order_Dir'], @$lists['order']); ?>
 				</th>
-				<th width="2%" class="title"><?php echo JHtml::_('grid.sort',   'ID', 'c.id', @$lists['order_Dir'], @$lists['order'] ); ?>
+				<th width="2%" class="title"><?php echo JHtml::_('grid.sort',   'ID', 'c.id', @$lists['order_Dir'], @$lists['order']); ?>
 				</th>
-				<th class="title" width="15%" nowrap="nowrap"><?php echo JHtml::_('grid.sort',   'Section', 'section_name', @$lists['order_Dir'], @$lists['order'] ); ?>
+				<th class="title" width="15%" nowrap="nowrap"><?php echo JHtml::_('grid.sort',   'Section', 'section_name', @$lists['order_Dir'], @$lists['order']); ?>
 				</th>
-				<th class="title" width="15%" nowrap="nowrap"><?php echo JHtml::_('grid.sort',   'Category', 'cc.title', @$lists['order_Dir'], @$lists['order'] ); ?>
+				<th class="title" width="15%" nowrap="nowrap"><?php echo JHtml::_('grid.sort',   'Category', 'cc.title', @$lists['order_Dir'], @$lists['order']); ?>
 				</th>
-				<th align="center" width="10"><?php echo JHtml::_('grid.sort',   'Date', 'c.created', @$lists['order_Dir'], @$lists['order'] ); ?>
+				<th align="center" width="10"><?php echo JHtml::_('grid.sort',   'Date', 'c.created', @$lists['order_Dir'], @$lists['order']); ?>
 				</th>
 			</tr>
 		</thead>
@@ -108,20 +108,20 @@ class ContentViewElement extends JViewLegacy
 		<tbody>
 			<?php
 			$k = 0;
-			for ($i=0, $n=count( $rows ); $i < $n; $i++)
+
+			for ($i = 0, $n = count($rows); $i < $n; $i++)
 			{
 				$row = $rows[$i];
-
 				$link 	= '';
-				$date	= JHtml::_('date',  $row->created, JText::_('COM_JTG_DATE_FORMAT_LC4') );
-				$access	= JHtml::_('grid.access',   $row, $i, $row->state );
+				$date	= JHtml::_('date',  $row->created, JText::_('COM_JTG_DATE_FORMAT_LC4'));
+				$access	= JHtml::_('grid.access',   $row, $i, $row->state);
 				?>
 			<tr class="<?php echo "row$k"; ?>">
-				<td><?php echo $page->getRowOffset( $i ); ?>
+				<td><?php echo $page->getRowOffset($i); ?>
 				</td>
 				<td><a style="cursor: pointer;"
-					onclick="window.parent.jSelectArticle('<?php echo $row->id; ?>', '<?php echo str_replace(array("'", "\""), array("\\'", ""),$row->title); ?>', '<?php echo JFactory::getApplication()->input->get('object'); ?>');">
-						<?php echo htmlspecialchars($row->title, ENT_QUOTES, 'UTF-8'); ?>
+					onclick="window.parent.jSelectArticle('<?php echo $row->id; ?>', '<?php echo str_replace(array("'", "\""), array("\\'", ""), $row->title); ?>', '<?php echo JFactory::getApplication()->input->get('object'); ?>');">
+				<?php echo htmlspecialchars($row->title, ENT_QUOTES, 'UTF-8'); ?>
 				</a>
 				</td>
 				<td align="center"><?php echo $row->groupname;?>
@@ -158,7 +158,7 @@ class ContentViewElement extends JViewLegacy
 		$db		= JFactory::getDBO();
 
 		// Get some variables from the request
-		$sectionid			= JFactory::getApplication()->input->get('sectionid', -1, '', 'int' );
+		$sectionid			= JFactory::getApplication()->input->get('sectionid', -1, '', 'int');
 		$redirect			= $sectionid;
 		$option = JFactory::getApplication()->input->get('option');
 		$filter_order		= $mainframe->getUserStateFromRequest('articleelement.filter_order',		'filter_order',		'',	'cmd');
@@ -171,20 +171,16 @@ class ContentViewElement extends JViewLegacy
 		$limitstart			= $mainframe->getUserStateFromRequest('articleelement.limitstart',			'limitstart',		0,	'int');
 		$search				= $mainframe->getUserStateFromRequest('articleelement.search',				'search',			'',	'string');
 
-		if (strpos($search, '"') !== false) {
+		if (strpos($search, '"') !== false)
+		{
 			$search = str_replace(array('=', '<'), '', $search);
 		}
+
 		$search = JString::strtolower($search);
 
 		// Get list of categories for dropdown filter
-		$filter = ($filter_sectionid >= 0) ? ' WHERE cc.section = '.$db->Quote($filter_sectionid) : '';
+		$filter = ($filter_sectionid >= 0) ? ' WHERE cc.section = ' . $db->Quote($filter_sectionid) : '';
 
-		// Get list of categories for dropdown filter
-		//		$query = 'SELECT cc.id AS value, cc.title AS text, section' .
-		//				' FROM #__categories AS cc' .
-		//				' INNER JOIN #__sections AS s ON s.id = cc.section' .
-		//				$filter .
-		//				' ORDER BY s.ordering, cc.ordering';
 		$query = 'SELECT cc.id AS value, cc.title AS text, section' .
 				' FROM #__categories AS cc' .
 				' INNER JOIN #__sections AS s ON s.id = cc.section' .

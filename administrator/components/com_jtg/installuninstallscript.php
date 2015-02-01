@@ -29,21 +29,23 @@ class com_jtgInstallerScript
 	*/
 	function preflight ($type, $parent)
 	{
+		// Try to increment some limits: execution time 5 minutes
+		@set_time_limit(240);
 
-		// Try to increment some limits
-		@set_time_limit(240); // execution time 5 minutes
-		ignore_user_abort(true); // Continue execution if client disconnects
-		//
+		// Continue execution if client disconnects
+		ignore_user_abort(true);
+
 		// Load english language file for 'com_jtg'
 		// Component then override with current language
-		// file
 		JFactory::getLanguage()->load('com_jtg',
 				JPATH_ADMINISTRATOR . '/components/com_jtg/language', 'en-GB',
-				true);
+				true
+				);
 		JFactory::getLanguage()->load('com_jtg',
 				JPATH_ADMINISTRATOR . '/components/com_jtg/language', null,
-				true);
-		$jversion = new JVersion();
+				true
+				);
+		$jversion = new JVersion;
 
 		// Installing component manifest file version
 		$this->release = $parent->get("manifest")->version;
@@ -66,15 +68,16 @@ class com_jtgInstallerScript
 
 		echo '<br /> &nbsp; ' . JText::sprintf('COM_JTG_PREFLIGHT_MIN_JOOMLA', $this->minimum_joomla_release, $jversion->getShortVersion());
 
-		// abort if the current Joomla release is older
+		// Abort if the current Joomla release is older
 
 		if (version_compare($jversion->getShortVersion(), $this->minimum_joomla_release, 'lt'))
 		{
 			JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_JTG_PREFLIGHT_MIN_JOOMLA_ABORT', $this->minimum_joomla_release), 'Warning');
+
 			return false;
 		}
 
-		// abort if the component being installed is not newer than the
+		// Abort if the component being installed is not newer than the
 		// Currently installed version
 
 		if ($type == 'update')
@@ -83,14 +86,16 @@ class com_jtgInstallerScript
 
 			if (version_compare($this->release, $oldRelease, 'le'))
 			{
-				JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_JTG_PREFLIGHT_JTG_WRONG_VERSION', $oldRelease, $this->release),
+				JFactory::getApplication()->enqueueMessage(
+						JText::sprintf('COM_JTG_PREFLIGHT_JTG_WRONG_VERSION', $oldRelease, $this->release),
 						'Warning');
+
 				return false;
 
-				// TODO this aborts the install process but generates and error
-				// In Joomla !!!
+				// TODO this aborts the install process but generates and error in Joomla !!!
 			}
 		}
+
 		return true;
 	}
 
@@ -145,8 +150,10 @@ echo '<tr><td>' . JText::_('COM_JTG_FILE') . '/' . JText::_('COM_JTG_FOLDER') . 
 foreach ($folders_to_create as $folder)
 {
 	if (JFolder::exists(JPATH_SITE . '/' . $folder))
+	{
 		echo '<tr><td>' . JText::_('COM_JTG_FOLDER') . '</td><td>' . $folder . '</td><td><font color="green">' .
 		JText::_('COM_JTG_ALREADY_EXISTS') . '</font></td></tr>';
+	}
 	elseif (JFolder::create(JPATH_SITE . '/' . $folder))
 	{
 		echo '<tr><td>' . JText::_('COM_JTG_FOLDER') . '</td><td>' . $folder . '</td><td><font color="green">' . JText::_('COM_JTG_CREATED') .
@@ -161,7 +168,7 @@ foreach ($folders_to_create as $folder)
 
 foreach ($folders_to_chmod as $folder)
 {
-	;
+
 	if (JPath::canChmod(JPATH_SITE . '/' . $folder) and (chmod(JPATH_SITE . '/' . $folder, 0777)))
 	{
 		echo '<tr><td>' . JText::_('COM_JTG_FOLDER') . '</td><td>' . $folder . '</td><td><font color="green">' . JText::_('COM_JTG_CHMODDED') .
@@ -212,6 +219,7 @@ foreach ($files as $file)
 }
 
 echo '<tr><td colspan="3">' . JText::sprintf('COM_JTG_INSTALLED_VERSION', $this->release) . '</td></tr>';
+
 // You can have the backend jump directly to the newly installed
 // Component configuration page
 // $parent->getParent()->setRedirectURL('index.php?option=com_jtg');
@@ -222,6 +230,7 @@ echo '<font color="red" size="+1">' . JText::_('COM_JTG_HINTS') . '</font>';
 echo JText::_('COM_JTG_HINTS_DETAILS');
 echo '</td></tr>';
 echo '</table>';
+
 return true;
 	}
 
@@ -236,10 +245,12 @@ return true;
 		// This is executed after upgrade.sql
 		// Upgrading from $oldRelease to $this->release
 		$oldRelease = $this->getParam('version');
+
 		if (version_compare($oldRelease, '0.7.0', '<'))
 		{
 			// Installed version is lower then 0.7.0 ==> do some stuff
 		}
+
 		echo '<p>' . JText::sprintf('COM_JTG_UPDATED', $this->release) . '</p>';
 
 		// You can have the backend jump directly to the newly updated component
@@ -269,10 +280,8 @@ return true;
 			// This a NON successfull install:
 			// TODO truncate all com_jtg tables
 			$application->enqueueMessage('SHOULD TRUNCATE ALL TABLES');
-			// DROP TABLE `crl05_jtg_cats`, `crl05_jtg_cats2`,
-			// `crl05_jtg_comments`, `crl05_jtg_config`, `crl05_jtg_files`,
-			// `crl05_jtg_files2`, `crl05_jtg_maps`, `crl05_jtg_terrains`,
-			// `crl05_jtg_users`, `crl05_jtg_votes`;
+
+			// DROP TABLES
 		}
 
 		if (($type == 'install') and ($componentJtgIsInstalled !== null))
@@ -281,6 +290,7 @@ return true;
 			// affect sample tracks to this admin user
 			$user = JFactory::getUser();
 			$uid = $user->get('id');
+
 			if ($uid !== 430)
 			{
 				$query = 'UPDATE #__jtg_files SET uid =' . $uid . ' WHERE uid =430';
@@ -288,6 +298,7 @@ return true;
 				$db->execute();
 			}
 
+			// TODO: replace by sql table default?
 			// Save default params
 			$query = 'UPDATE #__extensions SET params = ';
 			$query .= '\' {
@@ -350,6 +361,7 @@ return true;
 		echo '<table><tr><td colspan="3"><b>' . JText::_('COM_JTG_FILES_FOLDERS_TO_DELETE') . '</td></tr>';
 		echo '<tr><td>' . JText::_('COM_JTG_FILE') . '/' . JText::_('COM_JTG_FOLDER') . '</td><td>' . JText::_('COM_JTG_NAME') . '</td><td>' .
 				JText::_('COM_JTG_STATE') . '</td></tr>';
+
 		foreach ($files_to_delete as $file)
 		{
 			if (! JFile::exists($file))
@@ -368,6 +380,7 @@ return true;
 						JText::_('COM_JTG_NOT_DELETED') . '</font> </td></tr>';
 			}
 		}
+
 		foreach ($folders_to_delete as $folder)
 		{
 			if (! JFolder::exists(JPATH_SITE . '/' . $folder))
@@ -386,6 +399,7 @@ return true;
 				JText::_('COM_JTG_NOT_DELETED') . '</font> </td></tr>';
 			}
 		}
+
 		echo '</table>';
 
 		return true;
@@ -400,6 +414,7 @@ return true;
 		$db = JFactory::getDbo();
 		$db->setQuery('SELECT manifest_cache FROM #__extensions WHERE name = "com_jtg"');
 		$manifest = json_decode($db->loadResult(), true);
+
 		return $manifest[$name];
 	}
 
@@ -414,7 +429,8 @@ return true;
 			$db = JFactory::getDbo();
 			$db->setQuery('SELECT params FROM #__extensions WHERE name = "com_jtg"');
 			$params = json_decode($db->loadResult(), true);
-			// add the new variable(s) to the existing one(s)
+
+			// Add the new variable(s) to the existing one(s)
 			foreach ($param_array as $name => $value)
 			{
 				$params[(string) $name] = (string) $value;

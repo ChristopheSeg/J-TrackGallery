@@ -25,14 +25,15 @@ class com_jtgInstallerScript
 	 * preflight runs before anything else and while the extracted files are in the uploaded temp folder.
 	 * If preflight returns false, Joomla will abort the update and undo everything already done.
 	 */
-	function preflight( $type, $parent )
+	function preflight($type, $parent)
 	{
 		// Try to increment some limits
 		// Execution time 5 minutes
 		@set_time_limit(240);
+
 		// Continue execution if client disconnects
 		ignore_user_abort(true);
-		//
+
 		// Load english language file for 'com_jtg' component then override with current language file
 		JFactory::getLanguage()->load('com_jtg', JPATH_ADMINISTRATOR . '/components/com_jtg/language', 'en-GB', true);
 		JFactory::getLanguage()->load('com_jtg', JPATH_ADMINISTRATOR . '/components/com_jtg/language', null, true);
@@ -133,7 +134,7 @@ echo '<tr><td>' . JText::_('COM_JTG_FILE') . '/' . JText::_('COM_JTG_FOLDER') . 
 
 foreach ( $folders_to_create AS $folder )
 {
-	if (JFolder::exists(JPATH_SITE .'/' . $folder))
+	if (JFolder::exists(JPATH_SITE . '/' . $folder))
 	{
 		echo '<tr><td>' . JText::_('COM_JTG_FOLDER') . '</td><td>' .
 				$folder . '</td><td><font color="green">' .
@@ -232,6 +233,7 @@ return true;
 		{
 			// Installed version is lower then 0.7.0 ==> do some stuff
 		}
+
 		echo '<p>' . JText::sprintf('COM_JTG_UPDATED', $this->release) . '</p>';
 
 		// You can have the backend jump directly to the newly updated component configuration page
@@ -247,7 +249,6 @@ return true;
 	*/
 	function postflight( $type, $parent )
 	{
-
 		$db = JFactory::getDBO();
 		$application = JFactory::getApplication();
 
@@ -261,7 +262,7 @@ return true;
 		{
 			// This a NON successfull install:
 			// TODO truncate all com_jtg tables
-			$application->enqueueMessage( 'SHOULD TRUNCATE ALL TABLES' ) ;
+			$application->enqueueMessage('SHOULD TRUNCATE ALL TABLES');
 			// DROP TABLE `crl05_jtg_cats`, `crl05_jtg_cats2`, `crl05_jtg_comments`, `crl05_jtg_config`, `crl05_jtg_files`, `crl05_jtg_files2`, `crl05_jtg_maps`, `crl05_jtg_terrains`, `crl05_jtg_users`, `crl05_jtg_votes`;
 		}
 

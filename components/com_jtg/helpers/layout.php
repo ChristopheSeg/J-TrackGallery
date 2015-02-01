@@ -20,7 +20,7 @@ class layoutHelper
 		if ( ( $float === null ) OR ( $float == 0 ) )
 		{
 			if ( $expressive )
-				return "<font class=\"emptyEntry\">".JText::_('COM_JTG_NOT_VOTED') . "</font>";
+				return "<font class=\"emptyEntry\">" . JText::_('COM_JTG_NOT_VOTED') . "</font>";
 			else
 				return 0;
 		}
@@ -189,7 +189,7 @@ class layoutHelper
 	break;
 	}
 	if ( ( $mayisee ) AND ( (int) $track->published == 1 ) )
-		//			if ( (int) $track->published == 1 )
+		// 		if ( (int) $track->published == 1 )
 		{
 	$stars = "<ul class=\"rating " . $file['class'] . "\"><li></li></ul>";
 	$obj = array();
@@ -198,9 +198,9 @@ class layoutHelper
 	$obj['voting'] = $file['voting'];
 	$obj['stars'] = $file['rate'];
 	if ($showstars)
-		$obj['html'] = "<div title='".str_replace(".",",",$obj['voting']) . " ".JText::_('COM_JTG_STARS')  . "'>" . $stars . "</div>";
+		$obj['html'] = "<div title='".str_replace(".",",",$obj['voting']) . " " . JText::_('COM_JTG_STARS')  . "'>" . $stars . "</div>";
 	else
-		$obj['html'] = "<a title='".str_replace(".",",",$obj['voting']) . " ".JText::_('COM_JTG_STARS')  . "'>" . $obj['stars'] . "</a>";
+		$obj['html'] = "<a title='".str_replace(".",",",$obj['voting']) . " " . JText::_('COM_JTG_STARS')  . "'>" . $obj['stars'] . "</a>";
 	$return[] = JArrayHelper::toObject($obj);
 	}
 	}
@@ -379,8 +379,8 @@ class layoutHelper
 		$layout = layoutHelper::parseParam_Cats($params->get('jtg_param_cats'));
 		if ($layout !== null) $catswhere[] = $layout;
 
-		//		$layout = layoutHelper::parseParam_Subcats($params->get('jtg_param_subcats'),$cats);
-		//		if ($layout !== null) $catswhere[] = $layout;
+		// 	$layout = layoutHelper::parseParam_Subcats($params->get('jtg_param_subcats'),$cats);
+		// 	if ($layout !== null) $catswhere[] = $layout;
 
 		$layout = layoutHelper::parseParam_Usergroup($params->get('jtg_param_usergroup'));
 		if ($layout !== null) $where[] = $layout;

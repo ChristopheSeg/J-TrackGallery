@@ -29,7 +29,7 @@ function jtgBuildRoute(&$query) {
 	{
 		$menuItem = $menu->getItem($query['Itemid']);
 	}
-	//	$menuid = $menuItem->id;
+	// $menuid = $menuItem->id;
 
 	if (isset($query['view'])){
 		$segments[] = $query['view'];
@@ -169,9 +169,9 @@ function jtgParseRoute($segments) {
 
 	if ( ( $vars === false ) OR ( count($vars) == 0 ) )
 	{
-		//		$errmsg = implode("/",$segments);
-		//		$errmsg = "Route " . $errmsg . " does not exists!";
-		//		JFactory::getApplication()->enqueueMessage($errmsg, 'Warning');
+		// 	$errmsg = implode("/",$segments);
+		// 	$errmsg = "Route " . $errmsg . " does not exists!";
+		// 	JFactory::getApplication()->enqueueMessage($errmsg, 'Warning');
 		$vars['view'] = 'files';
 		$vars['layout'] = 'list';
 		return $vars;

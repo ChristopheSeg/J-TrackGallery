@@ -15,7 +15,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 // Import Joomla! libraries
-jimport( 'joomla.application.component.view');
+jimport('joomla.application.component.view');
 
 /**
  *
@@ -26,39 +26,47 @@ class JtgViewConfig extends JViewLegacy
 	 *
 	 * @param object $tpl
 	 */
-	function display($tpl = null) {
+	function display($tpl = null)
+	{
 
 		jimport('joomla.filesystem.file');
 		jimport('joomla.filesystem.folder');
 		$config = JtgHelper::getConfig();
 
 		$captcha = JtgHelper::checkCaptcha();
-		$cactiv = ($captcha > 0) ? '<font color="green">'.JText::_('COM_JTG_INSTALLED').'</font>' : '<font color="red">'.JText::_('COM_JTG_NOT_INSTALLED').'</font>';
+		$cactiv = ($captcha > 0) ? '<font color="green">'
+			. JText::_('COM_JTG_INSTALLED') . '</font>' : '<font color="red">'
+			. JText::_('COM_JTG_NOT_INSTALLED') . '</font>';
 		$model = $this->getModel();
 		$row = $model->getContent();
 		$tmpl = $model->getTemplates();
+
 		// Unit array for lists
 		$unit = array();
-		array_push($unit, array("unit"  =>  "Kilometer"));
-		array_push($unit, array("unit"  =>  "Miles"));
+		array_push($unit, array("unit" => "Kilometer"));
+		array_push($unit, array("unit" => "Miles"));
+
 		// Users array for lists
 		$users = array(
 				array('id' => 0, 'text' => JText::_('COM_JTG_PUBLIC')),
 				array('id' => 1, 'text' => JText::_('COM_JTG_REGISTERED'))
 		);
-		// yes/no array for lists
+
+		// Yes/no array for lists
 		$inform = array(
 				array('id' => 1, 'text' => JText::_('JYES')),
 				array('id' => 0, 'text' => JText::_('JNO'))
 		);
-		// yes/no/registered users only array for download list
+
+		// Yes/no/registered users only array for download list
 		$download = array(
 				array('id' => 0, 'text' => JText::_('JNONE')),
 				array('id' => 2, 'text' => JText::_('COM_JTG_REGISTERED')),
 				array('id' => 1, 'text' => JText::_('JALL'))
 		);
+
 		// Comments order aray for lists
-		$order =array(
+		$order = array(
 				array('order' => 'DESC', 'text' => JText::_('COM_JTG_FIRST_NEWEST')),
 				array('order' => 'ASC', 'text' => JText::_('COM_JTG_FIRST_OLDEST'))
 		);
@@ -71,9 +79,10 @@ class JtgViewConfig extends JViewLegacy
 				array('id' => 'no' , 'text' => JText::_('JNO')),
 				array('id' => 'ors' , 'text' => JText::_('COM_JTG_APPR_ORS')),
 				array('id' => 'cm' , 'text' => JText::_('COM_JTG_APPR_CM'))
-				//		array('id' => 'cmkey' , 'text' => JText::_('COM_JTG_APPR_CMK'))
+
+				// array('id' => 'cmkey' , 'text' => JText::_('COM_JTG_APPR_CMK'))
 				// Key muss noch gespeichert werden
-				//		array('id' => 'easy' , 'text' => JText::_('COM_JTG_APPR_EASY'))
+				// 	array('id' => 'easy' , 'text' => JText::_('COM_JTG_APPR_EASY'))
 				// Problem mit Datenbankspeicherung
 		);
 		$gallery = array(
@@ -87,28 +96,49 @@ class JtgViewConfig extends JViewLegacy
 		$imgdir = "../components/com_jtg/assets/images/approach/";
 		$importdir = JPATH_SITE . "/components/com_jtg/assets/images/approach/";
 		$files = JFolder::folders($importdir);
-		for ($i=0;$i<count($files);$i++) {
+
+		for ($i = 0;$i < count($files);$i++)
+		{
 			$nopic = "<font color=\"red\"><font size=\"+2\">X</font> (Icon missing) </font>";
-			$string = $files[$i] . "<br />".JText::_('COM_JTG_PREVIEW' ) . ":&nbsp;&nbsp;";
-			if (is_file($imgdir.$files[$i] . "/car.png"))
-				$string .= "<img src=\"" . $imgdir.$files[$i] . "/car.png\" alt=\"car.png\" title=\"car.png\" /> ";
+			$string = $files[$i] . "<br />" . JText::_('COM_JTG_PREVIEW') . ":&nbsp;&nbsp;";
+
+			if (is_file($imgdir . $files[$i] . "/car.png"))
+			{
+				$string .= "<img src=\"" . $imgdir . $files[$i] . "/car.png\" alt=\"car.png\" title=\"car.png\" /> ";
+			}
 			else
+			{
 				$string .= $nopic;
-			if (is_file($imgdir.$files[$i] . "/bike.png"))
-				$string .= "<img src=\"" . $imgdir.$files[$i] . "/bike.png\" alt=\"bike.png\" title=\"bike.png\" /> ";
+			}
+
+			if (is_file($imgdir . $files[$i] . "/bike.png"))
+			{
+				$string .= "<img src=\"" . $imgdir . $files[$i] . "/bike.png\" alt=\"bike.png\" title=\"bike.png\" /> ";
+			}
 			else
+			{
 				$string .= $nopic;
-			if (is_file($imgdir.$files[$i] . "/foot.png"))
-				$string .= "<img src=\"" . $imgdir.$files[$i] . "/foot.png\" alt=\"foot.png\" title=\"foot.png\" />";
+			}
+
+			if (is_file($imgdir . $files[$i] . "/foot.png"))
+			{
+				$string .= "<img src=\"" . $imgdir . $files[$i] . "/foot.png\" alt=\"foot.png\" title=\"foot.png\" />";
+			}
 			else
+			{
 				$string .= $nopic;
-			if ($i < count($files)-1)
+			}
+
+			if ($i < count($files) - 1)
+			{
 				$string .= "<br /><br /><br />";
+			}
+
 			$routingiconset[] = JHtml::_('select.option', $files[$i], $string);
 		}
 
-		// build the html select list
-		// first build the groups tree
+		// Build the html select list
+		// First build the groups tree
 		$query = 'SELECT CONCAT( REPEAT(\'..\', COUNT(parent.id) - 1), node.title) as text, node.id as value'
 		. ' FROM #__usergroups AS node, #__usergroups AS parent'
 		. ' WHERE node.lft BETWEEN parent.lft AND parent.rgt'
@@ -118,48 +148,56 @@ class JtgViewConfig extends JViewLegacy
 		$db = JFactory::getDbo();
 		$db->setQuery($query);
 		$gtree = $db->loadObjectList();
-		$lists['gid']				= JHtml::_('select.genericlist', $gtree,'gid[]', 'class="inputbox" multiple="true" size="8"' , 'value', 'text', unserialize($config->gid) );
-		if ($row) // If article(s) found in section jtg and category term
+		$lists['gid']				= JHtml::_('select.genericlist', $gtree, 'gid[]', 'class="inputbox" multiple="true" size="8"', 'value', 'text', unserialize($config->gid));
+
+		if ($row)
 		{
-			$lists['content']		= JHtml::_('select.genericlist', $row, 'terms_id', 'size="1"', 'id', 'title', $config->terms_id );
+			// If article(s) found in section jtg and category term
+			$lists['content']		= JHtml::_('select.genericlist', $row, 'terms_id', 'size="1"', 'id', 'title', $config->terms_id);
 		}
 		else
 		{
-			$lists['content']		= "<font color=red>".JText::_('COM_JTG_TT_TERMS_NOTFOUND') . "</font>";
+			$lists['content']		= "<font color=red>" . JText::_('COM_JTG_TT_TERMS_NOTFOUND') . "</font>";
 		}
-		$lists['unit']				= JHtml::_('select.genericlist', $unit, 'unit', 'size="1"', 'unit', 'unit', $config->unit );
-		$lists['tmpl']				= JHtml::_('select.genericlist', $tmpl, 'template', 'size="1"', 'name', 'name', $config->template );
-		$lists['comment_who']		= JHtml::_('select.genericlist', $gtree,'comment_who[]', 'class="inputbox" multiple="true" size="8"' , 'value', 'text', unserialize($config->comment_who) );
-		$lists['inform']			= JHtml::_('select.genericlist', $inform, 'inform_autor', 'size="1"', 'id', 'text', $config->inform_autor );
-		$lists['captcha']			= JHtml::_('select.genericlist', $inform, 'captcha', 'size="1"', 'id', 'text', $config->captcha );
-		$lists['usevote']			= JHtml::_('select.genericlist', $inform, 'usevote', 'size="1"', 'id', 'text', $config->usevote );
-		$lists['download']			= JHtml::_('select.genericlist', $download, 'download', 'size="1"', 'id', 'text', $config->download );
-		$lists['order']				= JHtml::_('select.genericlist', $order, 'ordering', 'size="1"', 'order', 'text', $config->ordering );
-		$lists['comments']			= JHtml::_('select.genericlist', $comments, 'comments', 'size="1"', 'id', 'text', $config->comments );
-		$lists['access']			= JHtml::_('select.genericlist', $inform, 'access', 'size="1"', 'id', 'text', $config->access );
-		$lists['approach']			= JHtml::_('select.genericlist', $approach, 'approach', 'size="1"', 'id', 'text', $config->approach );
-		$lists['routingiconset']	= JHtml::_('select.radiolist', $routingiconset, 'routingiconset', null, 'value', 'text', $config->routingiconset );
-		$lists['gallery']			= JHtml::_('select.genericlist', $gallery, 'gallery', 'size="1"', 'id', 'text', $config->gallery );
+
+		$lists['unit']				= JHtml::_('select.genericlist', $unit, 'unit', 'size="1"', 'unit', 'unit', $config->unit);
+		$lists['tmpl']				= JHtml::_('select.genericlist', $tmpl, 'template', 'size="1"', 'name', 'name', $config->template);
+		$lists['comment_who']		= JHtml::_('select.genericlist', $gtree, 'comment_who[]', 'class="inputbox" multiple="true" size="8"', 'value', 'text', unserialize($config->comment_who));
+		$lists['inform']			= JHtml::_('select.genericlist', $inform, 'inform_autor', 'size="1"', 'id', 'text', $config->inform_autor);
+		$lists['captcha']			= JHtml::_('select.genericlist', $inform, 'captcha', 'size="1"', 'id', 'text', $config->captcha);
+		$lists['usevote']			= JHtml::_('select.genericlist', $inform, 'usevote', 'size="1"', 'id', 'text', $config->usevote);
+		$lists['download']			= JHtml::_('select.genericlist', $download, 'download', 'size="1"', 'id', 'text', $config->download);
+		$lists['order']				= JHtml::_('select.genericlist', $order, 'ordering', 'size="1"', 'order', 'text', $config->ordering);
+		$lists['comments']			= JHtml::_('select.genericlist', $comments, 'comments', 'size="1"', 'id', 'text', $config->comments);
+		$lists['access']			= JHtml::_('select.genericlist', $inform, 'access', 'size="1"', 'id', 'text', $config->access);
+		$lists['approach']			= JHtml::_('select.genericlist', $approach, 'approach', 'size="1"', 'id', 'text', $config->approach);
+		$lists['routingiconset']	= JHtml::_('select.radiolist', $routingiconset, 'routingiconset', null, 'value', 'text', $config->routingiconset);
+		$lists['gallery']			= JHtml::_('select.genericlist', $gallery, 'gallery', 'size="1"', 'id', 'text', $config->gallery);
+
 		if ( $config->level == "" )
 		{
 			$rows = 6;
 		}
 		else
 		{
-			$rows = explode("\n",$config->level);
-			$rows = (int)count($rows) + 2;
+			$rows = explode("\n", $config->level);
+			$rows = (int) count($rows) + 2;
 		}
+
 		$translevel = array();
 		$levels = $config->level;
-		$levels = explode("\n",$levels);
+		$levels = explode("\n", $levels);
 		$i = 1;
-		foreach ($levels as $level) {
+
+		foreach ($levels as $level)
+		{
 			if ( trim($level) != "" )
 			{
 				$translevel[] = $i . " - " . JText::_(trim($level));
 				$i++;
 			}
 		}
+
 		$lists['translevel']		= "<textarea disabled=\"disabled\" cols=\"50\" rows=\"" . $rows . "\" >" . implode("\n", $translevel) . "</textarea>";
 		$lists['level']				= "<textarea name=\"level\" cols=\"50\" rows=\"" . $rows . "\" >" . $config->level . "</textarea>";
 

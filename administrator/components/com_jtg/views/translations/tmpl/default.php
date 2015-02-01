@@ -15,10 +15,10 @@
 defined('_JEXEC') or die('Restricted access');
 
 JToolBarHelper::title(JText::_('COM_JTG_TRANSLATIONS'), 'categories.png');
-JToolBarHelper::save('saveLanguages', $alt='COM_JTG_SAVE', 'save.png' );
-JToolBarHelper::help( 'translations',true );
+JToolBarHelper::save('saveLanguages', $alt = 'COM_JTG_SAVE', 'save.png');
+JToolBarHelper::help('translations', true);
 
-jimport( 'joomla.html.html.tabs' );
+jimport('joomla.html.html.tabs');
 $document = JFactory::getDocument();
 $style = '
 dt.tabs h3
@@ -69,7 +69,7 @@ dl#content-pane.tabs {
 margin: 1px 0 0 0;
 }
 ';
-$document->addStyleDeclaration( $style );
+$document->addStyleDeclaration($style);
 $options = array(
 		'onActive' => 'function(title, description){
 		description.setStyle("display", "block");
@@ -79,26 +79,28 @@ $options = array(
 		description.setStyle("display", "none");
 		title.addClass("closed").removeClass("open");
 }',
-		'startOffset' => 0,  // 0 starts on the first tab, 1 starts the second, etc...
-		'useCookie' => true, // This must not be a string. Don't use quotes.
-);
+		// 0 starts on the first tab, 1 starts the second, etc...
+		'startOffset' => 0,
+		// This must not be a string. Don't use quotes.
+		'useCookie' => true,
+		);
 
-if (JVERSION>=3.0) //Code support for joomla version greater than 3.0
+if (JVERSION >= 3.0)
 {
-	$style= "	select, textarea, input{
+	$style = "	select, textarea, input{
 	width: auto !important;}";
-	$document->addStyleDeclaration( $style );
+	$document->addStyleDeclaration($style);
 }
 
 ?>
 <form action="index.php" method="post" name="adminForm" id="adminForm">
 	<?php
 	echo JHtml::_('tabs.start', 'tab_group_id', $options);
+
 	foreach ($this->languages as $lang)
 	{
 		echo JHtml::_('tabs.panel', $lang['tag'], $lang['tag']);
-		// <table> is necessary in J!2.5 (not J!3) for proper tab vertical size
-		echo '<table><tr><td>' . $lang['header'].'<br>';
+		echo '<table><tr><td>' . $lang['header'] . '<br>';
 		?>
 	<textarea name="<?php echo $lang['tag']; ?>" cols="100"
 		rows="<?php echo $lang['rows']; ?>">
@@ -110,6 +112,7 @@ if (JVERSION>=3.0) //Code support for joomla version greater than 3.0
 	</table>
 	<?php
 	}
+
 	echo JHtml::_('tabs.end');
 	?>
 
@@ -118,5 +121,5 @@ if (JVERSION>=3.0) //Code support for joomla version greater than 3.0
 		type="hidden" name="task" value="" /> <input type="hidden"
 		name="boxchecked" value="0" /> <input type="hidden" name="controller"
 		value="translations" />
-	<?php echo JHtml::_( 'form.token' ); ?>
+	<?php echo JHtml::_('form.token'); ?>
 </form>

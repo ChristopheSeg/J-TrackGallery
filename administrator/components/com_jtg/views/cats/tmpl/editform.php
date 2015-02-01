@@ -17,10 +17,10 @@ defined('_JEXEC') or die('Restricted access');
 JToolBarHelper::title(JText::_('COM_JTG_EDIT_CAT'), 'categories.png');
 JToolBarHelper::back();
 JToolBarHelper::spacer();
-JToolBarHelper::save('updatecat', $alt= 'COM_JTG_SAVE', 'save.png' );
-JToolBarHelper::help( 'cats/form',true );
+JToolBarHelper::save('updatecat', $alt = 'COM_JTG_SAVE', 'save.png');
+JToolBarHelper::help('cats/form', true);
 
-$image=$this->data->image;
+$image = $this->data->image;
 ?>
 <form action="" method="post" name="adminForm" id="adminForm"
 	class="adminForm" enctype="multipart/form-data">
@@ -52,18 +52,20 @@ $image=$this->data->image;
 					<?php if ( !$image ) echo " checked=\"checked\""; ?>> <?php echo JText::_('COM_JTG_NONE'); ?>
 					&nbsp; <?php
 
-
-					foreach ($this->images as $img) {
+					foreach ($this->images as $img)
+					{
 						$imageurl = JUri::root().'images/jtrackgallery/cats/';
 						$pic = "";
 						$pic .= "<input type=\"radio\" name=\"catpic\" value=\"" . $img . "\" title=\"" . $img . "\"";
-						if ( $image == $img ) $pic .= " checked=\"checked\"";
-						$pic .= ">".
-								"<img src=\"".
-								$imageurl.$img.
-								"\" title=\" . $img.\" />".
-								" \n";
-						echo $pic;
+
+						if ( $image == $img )
+						{
+							$pic .= " checked=\"checked\"";
+						}
+							$pic .= ">\n<img src=\"" .
+								$imageurl . $img .
+								"\" title=\" . $img . \" />\n";
+					echo $pic;
 					}
 					?></td>
 			</tr>
@@ -74,7 +76,7 @@ $image=$this->data->image;
 			</tr>
 		</tbody>
 	</table>
-	<?php echo JHtml::_( 'form.token' ); ?>
+	<?php echo JHtml::_('form.token'); ?>
 	<input type="hidden" name="id" value="<?php echo $this->data->id; ?>">
 	<input type="hidden" name="option" value="com_jtg" /> <input
 		type="hidden" name="controller" value="cats" /> <input type="hidden"

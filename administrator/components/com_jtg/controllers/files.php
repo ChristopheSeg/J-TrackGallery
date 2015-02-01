@@ -22,7 +22,6 @@ JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_jtg/tables');
  */
 class JtgControllerFiles extends JtgController
 {
-
 	function updateGeneratedValues ()
 	{
 		// Check for request forgeries
@@ -299,7 +298,6 @@ class JtgControllerFiles extends JtgController
 	 */
 	function savefile ()
 	{
-
 		// Check for request forgeries
 		JSession::checkToken() or jexit('Invalid Token');
 

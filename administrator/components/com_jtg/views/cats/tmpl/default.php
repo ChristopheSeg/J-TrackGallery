@@ -17,13 +17,13 @@ defined('_JEXEC') or die('Restricted access');
 JToolBarHelper::title(JText::_('COM_JTG_CATS'), 'categories.png');
 JToolBarHelper::back();
 JToolBarHelper::spacer();
-JToolBarHelper::addNew('newcat', $alt='COM_JTG_NEW_CATEGORY');
-JToolBarHelper::custom( 'managecatpics', 'new-style.png', 'new-style.png', 'COM_JTG_MANAGE_PICS', false);
+JToolBarHelper::addNew('newcat', $alt = 'COM_JTG_NEW_CATEGORY');
+JToolBarHelper::custom('managecatpics', 'new-style.png', 'new-style.png', 'COM_JTG_MANAGE_PICS', false);
 JToolBarHelper::editList('editcat');
 JToolBarHelper::publish();
 JToolBarHelper::unpublish();
 JToolBarHelper::deleteList('COM_JTG_DELETE_IMAGES');
-JToolBarHelper::help( 'cats',true );
+JToolBarHelper::help('cats', true);
 $ordering = ($this->lists['order'] == 'ordering');
 ?>
 <form action="index.php" method="post" name="adminForm" id="adminForm">
@@ -53,7 +53,7 @@ $ordering = ($this->lists['order'] == 'ordering');
 		<tbody>
 			<?php
 			$k = 0;
-			for ($i=0, $n=count( $this->list ); $i < $n; $i++)
+			for ($i = 0, $n=count($this->list); $i < $n; $i++)
 			{
 				$row = $this->list[$i];
 				$checked 	= JHtml::_('grid.checkedout', $row, $i);

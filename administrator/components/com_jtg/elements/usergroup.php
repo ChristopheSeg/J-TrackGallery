@@ -28,16 +28,17 @@ class JElementUsergroupList extends JFormField
 	 * @access       protected
 	 * @var          string
 	 */
-	var    $_name = 'MultiList';
+	var $_name = 'MultiList';
 
 	protected function getInput($name, $value, &$node, $control_name)
-	// TODO You still need to replace the references to $control_name
 	{
+		// TODO You still need to replace the references to $control_name
 		// Base name of the HTML control.
-		$ctrl  = $control_name .'['. $name .']';
+		$ctrl  = $control_name . '[' . $name . ']';
 
 		// Construct an array of the HTML OPTION statements.
 		$options = array ();
+
 		foreach ($node->children() as $option)
 		{
 			$val   = $option->attributes('value');
@@ -47,23 +48,28 @@ class JElementUsergroupList extends JFormField
 
 		// Construct the various argument calls that are supported.
 		$attribs       = ' ';
-		if ($v = $node->attributes( 'size' )) {
-			$attribs       .= 'size="'.$v.'"';
+
+		if ($v = $node->attributes('size'))
+		{
+			$attribs       .= 'size="' . $v . '"';
 		}
-		if ($v = $node->attributes( 'class' )) {
-			$attribs       .= 'class="'.$v.'"';
+
+		if ($v = $node->attributes('class'))
+		{
+			$attribs       .= 'class="' . $v . '"';
 		}
 		else
 		{
 			$attribs       .= 'class="inputbox"';
 		}
-		if ($m = $node->attributes( 'multiple' ))
+
+		if ($m = $node->attributes('multiple'))
 		{
 			$attribs       .= ' multiple="multiple"';
 			$ctrl          .= '[]';
 		}
 
 		// Render the HTML SELECT list.
-		return JHtml::_('select.genericlist', $options, $ctrl, $attribs, 'value', 'text', $value, $control_name.$name );
+		return JHtml::_('select.genericlist', $options, $ctrl, $attribs, 'value', 'text', $value, $control_name . $name);
 	}
 }

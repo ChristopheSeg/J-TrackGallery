@@ -18,8 +18,8 @@ defined('_JEXEC') or die('Restricted access');
 JToolBarHelper::title(JText::_('COM_JTG_EDIT_COMMENT'), 'addedit.png');
 JToolBarHelper::back();
 JToolBarHelper::spacer();
-JToolBarHelper::save('saveComment', $alt='COM_JTG_SAVE', 'save.png' );
-JToolBarHelper::help( 'comments/form',true );
+JToolBarHelper::save('saveComment', $alt = 'COM_JTG_SAVE', 'save.png');
+JToolBarHelper::help('comments/form', true);
 ?>
 <form class="adminForm" name="adminForm" id="adminForm" method="post"
 	action="">
@@ -52,13 +52,13 @@ JToolBarHelper::help( 'comments/form',true );
 			</tr>
 			<tr>
 				<td><?php echo JText::_('COM_JTG_COMMENT_TEXT'); ?></td>
-				<td><?php echo $this->editor->display( 'text', $this->comment->text , '500', '200', '100', '50', true , null) ; ?>
+				<td><?php echo $this->editor->display('text', $this->comment->text, '500', '200', '100', '50', true , null); ?>
 				</td>
 			</tr>
 		</tbody>
 	</table>
 	<?php
-echo JHtml::_( 'form.token' ); ?>
+echo JHtml::_('form.token'); ?>
 	<input type="hidden" name="option" value="com_jtg" /> <input
 		type="hidden" name="controller" value="comments" /> <input
 		type="hidden" name="task" value="" /> <input type="hidden" name="id"

@@ -296,7 +296,6 @@ class JtgViewFiles extends JViewLegacy
 						. $image . "\">" . JText::_('COM_JTG_DELETE_IMAGE') . " (" . $image . ")<br />" .
 						"<img src=\"" . $img_path . $image . "\" alt=\"" . $image . "\" title=\""
 						. $image . "\" /><br /><br />\n";
-
 					}
 					else
 					{
@@ -384,8 +383,8 @@ class JtgViewFiles extends JViewLegacy
 		 // $track = $cache->get(array($model, 'getTrack'), array($id));
 		 // If (!$id) die ("Schau mal in datei view.html.php Zeile 152 :-P");
 		 // If (!$id) $id = 1;
-		 //		$file = JPATH_SITE . "/components/com_jtg/models/jtg.php";
-		 //		require_once $file;
+		 // 	$file = JPATH_SITE . "/components/com_jtg/models/jtg.php";
+		 // 	require_once $file;
 		 */
 		$sortedcats = JtgModeljtg::getCatsData(true);
 		$track = $cache->get(array ( $model, 'getFile' ), array ( $id ));
@@ -402,12 +401,12 @@ class JtgViewFiles extends JViewLegacy
 
 		/**
 		 // $vote = $model->getVotes($id);
-		 //			$vote = $cache->get(array (
-		 //			$model,
-		 //			'getVotes'
-		 //			), array (
-		 //			$id
-		 //			));
+		 // 		$vote = $cache->get(array (
+		 // 		$model,
+		 // 		'getVotes'
+		 // 		), array (
+		 // 		$id
+		 // 		));
 		 */
 		$vote = $model->getVotes($id);
 		$pathway->addItem($track->title, '');
@@ -416,13 +415,13 @@ class JtgViewFiles extends JViewLegacy
 		$profile = JtgHelper::getProfileLink($track->uid, $track->user);
 		$comments = $model->getComments($id, $cfg->ordering);
 		/**
-		 //		$comments = $cache->get(array (
-		 //			$model,
-		 //			'getComments'
-		 //		), array (
-		 //			$id,
-		 //			$cfg->ordering
-		 //		));
+		 // 	$comments = $cache->get(array (
+		 // 		$model,
+		 // 		'getComments'
+		 // 	), array (
+		 // 		$id,
+		 // 		$cfg->ordering
+		 // 	));
 		 */
 		$user = JFactory::getUser();
 		$document = JFactory::getDocument();
@@ -450,11 +449,11 @@ class JtgViewFiles extends JViewLegacy
 		$document->addScript('components/com_jtg/assets/js/fullscreen.js');
 
 		/**
-		 //	TODO remove script from file.php and use method addscript
-		 //			if ( ($this->params->get("jtg_param_show_heightchart"))  AND $track ) {
-		 //			$document->addScript('http://code.highcharts.com/highcharts.js');
-		 //			$document->addScript('http://code.highcharts.com/modules/exporting.js');
-		 //		}
+		 // TODO remove script from file.php and use method addscript
+		 // 		if ( ($this->params->get("jtg_param_show_heightchart"))  AND $track ) {
+		 // 		$document->addScript('http://code.highcharts.com/highcharts.js');
+		 // 		$document->addScript('http://code.highcharts.com/modules/exporting.js');
+		 // 	}
 		 */
 		$action = "index.php?option=com_jtg&amp;controller=download&amp;task=download";
 		$file = './images/jtrackgallery/uploaded_tracks/' . strtolower($track->file);
@@ -486,15 +485,15 @@ class JtgViewFiles extends JViewLegacy
 		/**
 		 // Klicklinks for every track in one file (at the moment not active)
 		 // function giveClickLinks is not performant!
-		 //			$clicklist = $cache->get(array (
-		 //			$gps,
-		 //			'giveClickLinks'
-		 //			), array (
-		 //			$file
-		 //			));
-		 //			if ((count($clicklist)) < 2) {
-		 //				$clicklist = false;
-		 //			}
+		 // 		$clicklist = $cache->get(array (
+		 // 		$gps,
+		 // 		'giveClickLinks'
+		 // 		), array (
+		 // 		$file
+		 // 		));
+		 // 		if ((count($clicklist)) < 2) {
+		 // 			$clicklist = false;
+		 // 		}
 		 */
 		// Load images if exists
 		$img_dir = JPATH_SITE . '/images/jtrackgallery/track_' . $id;
@@ -507,7 +506,7 @@ class JtgViewFiles extends JViewLegacy
 		$jscript = "<script language=\"javascript\" type=\"text/javascript\">
 		Joomla.submitbutton = function(pressbutton)  {
 		var form = document.adminForm;
-		// do field validation
+		// Do field validation
 		if (document.getElementById('format').value == \"\"){
 		alert( \"" . JText::_('COM_JTG_NEED_FORMAT', true) . "\" );
 	}
@@ -665,7 +664,6 @@ class JtgViewFiles extends JViewLegacy
 
 				default:
 					$galscript = "";
-
 			}
 		}
 		else {
@@ -756,7 +754,7 @@ class JtgViewFiles extends JViewLegacy
 		$lists['order_Dir'] = $filter_order_Dir;
 		$lists['search'] = $search;
 
-		//	$rows = $model->getData($limit, $limitstart );
+		// $rows = $model->getData($limit, $limitstart );
 		$rows = $cache->get(array ( $model, 'getData' ), array ( $limit, $limitstart ));
 		$total = $this->get('Total');
 		$pagination = new JPagination($total, $limitstart, $limit);
@@ -829,7 +827,7 @@ class JtgViewFiles extends JViewLegacy
 
 	function approach($service)
 	{
-		//		$userparams = explode("\n", $this->user->params);
+		// 	$userparams = explode("\n", $this->user->params);
 		$lang = JFactory::getLanguage();
 		$user = JFactory::getUser();
 

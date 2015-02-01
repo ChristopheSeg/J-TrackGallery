@@ -149,7 +149,7 @@ $script = $scriptheader . $defaultvars . $vars . $scriptbody . $scriptfooter;
 
 echo $script;
 echo "<div id=\"jtg_map\"  class=\"olMap\" style=\"width: " . $this->cfg->map_width . "px; height: " . $this->cfg->map_height . ";\" ></div>
-<div id=\"otheruser\" style=\"width: " . $this->cfg->map_width . ";\" >".JText::_('COM_JTG_HERE_LIVE_DESC') . "</div>\n";
+<div id=\"otheruser\" style=\"width: " . $this->cfg->map_width . ";\" >" . JText::_('COM_JTG_HERE_LIVE_DESC') . "</div>\n";
 
 if ( $userid )
 {

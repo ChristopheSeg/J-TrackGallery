@@ -20,14 +20,20 @@ defined('_JEXEC') or die('Restricted access');
 class TableJTG_maps extends JTable
 {
 	var $id				= null;
+
 	var $name			= null;
+
 	var $order			= null;
+
 	var $param			= null;
+
 	var $published		= null;
+
 	var $script			= null;
+
 	var $code			= null;
 	var $checked_out	= null;
-	//	var $			= null;
+
 
 	/**
 	 *
@@ -46,12 +52,13 @@ class TableJTG_maps extends JTable
 	 */
 	function bind($array, $ignore = '')
 	{
-		if (key_exists( 'params', $array ) && is_array( $array['params'] ))
+		if (key_exists('params', $array) && is_array($array['params']))
 		{
 			$registry = new JRegistry;
 			$registry->loadArray($array['params']);
 			$array['params'] = $registry->toString();
 		}
+
 		return parent::bind($array, $ignore);
 	}
 }

@@ -47,7 +47,7 @@ Joomla.submitbutton = function(pressbutton)
 		submitform( pressbutton );
 		return;
 	}
-    // do field validation
+    // Do field validation
 	if (document.getElementById('title').value == ""){
 		alert( "<?php echo JText::_('COM_JTG_NEED_TITLE', true ); ?>" );
     }
@@ -180,7 +180,7 @@ if ( (JtgHelper::userHasFrontendRights() ) OR (isset($this->id)) ){
 			</tbody>
 		</table>
 		<?php
-		echo JHtml::_( 'form.token' ) . "\n"; ?>
+		echo JHtml::_('form.token') . "\n"; ?>
 		<input type="hidden" name="option" value="com_jtg" /> <input
 			type="hidden" name="controller" value="files" />
 		<?php

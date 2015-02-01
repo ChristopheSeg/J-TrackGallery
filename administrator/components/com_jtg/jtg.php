@@ -23,17 +23,20 @@ define('COM_JTG_BASE', JPATH_ROOT . '/' . COM_JTG_DIR);
 define('COM_JTG_BASEURL', JUri::root() . '/' . COM_JTG_DIR);
 
 jimport('joomla.filesystem.file');
+
 // Load english language file for 'com_jtg' component then override with current language file
 JFactory::getLanguage()->load('com_jtg',   JPATH_ADMINISTRATOR . '/components/com_jtg', 'en-GB', true);
-JFactory::getLanguage()->load('com_jtg',   JPATH_ADMINISTRATOR . '/components/com_jtg',    null, true);
+JFactory::getLanguage()->load('com_jtg',   JPATH_ADMINISTRATOR . '/components/com_jtg', null, true);
 JFactory::getLanguage()->load('com_jtg_common', JPATH_SITE . '/components/com_jtg', 'en-GB', true);
-JFactory::getLanguage()->load('com_jtg_common', JPATH_SITE . '/components/com_jtg',    null, true);
+JFactory::getLanguage()->load('com_jtg_common', JPATH_SITE . '/components/com_jtg', null, true);
+
 // Com_jtg_additional language files are in /images/jtrackgallery/language folder
 JFactory::getLanguage()->load('com_jtg_additional', JPATH_SITE . '/images/jtrackgallery', 'en-GB', true);
 JFactory::getLanguage()->load('com_jtg_additional', JPATH_SITE . '/images/jtrackgallery',    null, true);
 
 $contr = JPATH_COMPONENT . '/controllers/install.php';
 $model = JPATH_COMPONENT . '/models/install.php';
+
 // Require the base controller
 require_once JPATH_COMPONENT_SITE . '/helpers/helper.php';
 require_once JPATH_COMPONENT . '/controller.php';
@@ -44,8 +47,8 @@ JLoader::import('components.com_jtg.helpers.gpsClass', JPATH_SITE, 'gpsClass');
 // Initialize the controller
 if ($controller = JRequest::getWord('controller'))
 {
-	$path = JPATH_COMPONENT . '/controllers/' . $controller.'.php';
-	$getCmdTask = JFactory::getApplication()->input->get('task' );
+	$path = JPATH_COMPONENT . '/controllers/' . $controller . '.php';
+	$getCmdTask = JFactory::getApplication()->input->get('task');
 
 	if (file_exists($path))
 	{
@@ -61,9 +64,9 @@ else
 	$getCmdTask = "info";
 }
 
-$classname = 'JtgController'.$controller;
-$controller = new $classname( );
-$controller->execute($getCmdTask );
+$classname = 'JtgController' . $controller;
+$controller = new $classname;
+$controller->execute($getCmdTask);
 
 // Access check: is this user allowed to access the backend of J!TrackGallery?
 if (!JFactory::getUser()->authorise('core.manage', 'com_jtg'))

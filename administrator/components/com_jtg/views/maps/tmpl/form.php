@@ -13,37 +13,56 @@
 
 defined('_JEXEC') or die('Restricted access');
 $id = $this->_models['maps']->_id;
+
 // Toolbar
 if ($id < 1)
+{
 	$title = JText::_('COM_JTG_ADD_MAP');
+}
 else
+{
 	$title = JText::_('COM_JTG_EDIT_MAP');
+}
 
 JToolBarHelper::title($title, 'categories.png');
 JToolBarHelper::back();
 JToolBarHelper::spacer();
-if ($id < 1):
-JToolBarHelper::save('savemap', $alt='COM_JTG_SAVE', 'save.png' );
-else:
-JToolBarHelper::save('updatemap', $alt='COM_JTG_SAVE', 'save.png' );
-// find correct map
-$maps = $this->maps;
-foreach ($maps AS $map)
-	if ($map->id == $id)
-	break;
-endif;
+
+if ($id < 1)
+{
+	JToolBarHelper::save('savemap', $alt = 'COM_JTG_SAVE', 'save.png');
+}
+else
+{
+	JToolBarHelper::save('updatemap', $alt = 'COM_JTG_SAVE', 'save.png');
+
+	// Find correct map
+	$maps = $this->maps;
+
+	foreach ($maps AS $map)
+	{
+		if ($map->id == $id)
+		{
+			break;
+		}
+	}
+}
+
 JToolBarHelper::help("maps/newmap", true);
-if ($id) {
+
+if ($id)
+{
 	$cache = JFactory::getCache('com_jtg');
 	$cfg = JtgHelper::getConfig();
 	$model = $this->getModel();
 	$document = JFactory::getDocument();
 }
-if (JVERSION>=3.0) //Code support for joomla version greater than 3.0
+
+if (JVERSION >= 3.0)
 {
-	$style= "	select, textarea, input{
+	$style = "	select, textarea, input{
 	width: auto !important;}";
-	$document->addStyleDeclaration( $style );
+	$document->addStyleDeclaration($style);
 }
 ?>
 <form action="" method="post" name="adminForm" id="adminForm"
@@ -78,9 +97,10 @@ if (JVERSION>=3.0) //Code support for joomla version greater than 3.0
 						<?php
 						$replace = array("'",'"');
 						$with = array("'","&quot;");
+
 						if (($id) AND (isset($map->param)))
 						{
-							$param = str_replace($replace,$with,$map->param);
+							$param = str_replace($replace, $with,$map->param);
 							echo $param;
 						}
 						?>
@@ -93,7 +113,7 @@ if (JVERSION>=3.0) //Code support for joomla version greater than 3.0
 					value="<?php
 if (($id) AND (isset($map->script)))
 {
-	$script = str_replace($replace,$with,$map->script);
+	$script = str_replace($replace, $with, $map->script);
 	echo $script;
 }
 ?>"
@@ -103,9 +123,10 @@ if (($id) AND (isset($map->script)))
 				<td><?php echo JText::_('COM_JTG_CODE'); ?>:</td>
 				<td><input id="code" type="text" name="code"
 					value="<?php
+
 if (($id) AND (isset($map->code)))
 {
-	$code = str_replace($replace,$with,$map->code);
+	$code = str_replace($replace, $with, $map->code);
 	echo $code;
 }
 ?>"
@@ -123,7 +144,7 @@ else
 		</tbody>
 	</table>
 	<?php
-    echo JHtml::_( 'form.token' ); ?>
+	echo JHtml::_('form.token'); ?>
 	<input type="hidden" name="option" value="com_jtg" /> <input
 		type="hidden" name="controller" value="maps" /> <input type="hidden"
 		name="checked_out" value="0" /> <input type="hidden" name="task"
