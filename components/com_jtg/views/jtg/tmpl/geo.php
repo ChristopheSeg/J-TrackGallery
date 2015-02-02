@@ -17,6 +17,7 @@ $user = JFactory::getUser();
 $userid = (int) $user->id;
 $tmpl = ($this->cfg->template = "") ? $this->cfg->template : 'default';
 $iconpath = JUri::root() . "components/com_jtg/assets/template/" . $tmpl . "/images/";
+
 if ( $userid )
 {
 	$document->addScriptDeclaration("var alerttext = '" . JText::_('COM_JTG_SET_HOMEPOSITION') . "';");
@@ -25,12 +26,12 @@ else
 {
 	$document->addScriptDeclaration("var alerttext = '" . JText::_('COM_JTG_HOMEPOSITION_GUESTS') . "';");
 }
+
 $document->addScript('media/system/js/mootools.js');
 $document->addScriptDeclaration('var iconpath = \'' . $iconpath . '\';');
-
-
 $document->addScript('components/com_jtg/assets/js/homeposition.js');
-//JHtml::_('behavior.tooltip'); // with this option IE8 doesn't work
+
+// JHtml::_('behavior.tooltip'); // with this option IE8 doesn't work
 $otherusers = 0;
 $scriptbody = "";
 $imgpath = '/templates/' . $template . '/css/ol_images';
@@ -67,14 +68,15 @@ else
 	$latlon = JtgHelper::getLatLon();
 	$homepos = "false";
 }
+
 $gpsCoords = new gpsCoordsClass;
 
 for ($x = 0;$x <= count($latlon);$x++)
 {
 	if ((isset($latlon[$x]))
-			AND ( (float) $latlon[$x]->jtglat != 0)
-			AND ( (float) $latlon[$x]->jtglon != 0)
-			AND ($latlon[$x]->id == $userid))
+		AND ( (float) $latlon[$x]->jtglat != 0)
+		AND ( (float) $latlon[$x]->jtglon != 0)
+		AND ($latlon[$x]->id == $userid))
 	{
 		$userlat = $latlon[$x]->jtglat;
 		$userlon = $latlon[$x]->jtglon;
@@ -104,7 +106,8 @@ for ($x = 0;$x <= count($latlon);$x++)
 				$distancetext = "<br />" . JText::_('COM_JTG_NO_DISTANCE_GUEST');
 			}
 
-			if (empty($vars)) {
+			if (empty($vars))
+			{
 				$vars = (
 						"	var SizeIconOtherUser = new OpenLayers.Size(22,22);
 						var OffsetIconOtherUser = new OpenLayers.Pixel(-11,-14);
@@ -143,6 +146,7 @@ if (empty($vars))
 {
 	$vars = '';
 }
+
 $scriptfooter = ("</script>\n");
 $scriptbody = "	var otherusers = '" . $otherusers . "';\n" . $scriptbody;
 $script = $scriptheader . $defaultvars . $vars . $scriptbody . $scriptfooter;
@@ -162,16 +166,19 @@ if ( $userid )
 			<td><?php
 
 			echo JText::_('COM_JTG_LAT');
+
 			if (isset($userlat))
 			{
-				$lat = round($userlat,15);
+				$lat = round($userlat, 15);
 			}
 			else
 			{
 				$lat = '';
 			}
-			if (isset($userlon)){
-				$lon = round($userlon,15);
+
+			if (isset($userlon))
+			{
+				$lon = round($userlon, 15);
 			}
 			else
 			{
@@ -230,7 +237,7 @@ if ( $userid )
 					</select>
 					";
 					?>
-			
+
 			</td>
 		</tr>
 	</table>
@@ -249,18 +256,22 @@ if ( $userid )
 		value="<?php echo JText::_('COM_JTG_SAVE') ?>"
 		onclick="submitbutton('save')" />
 </form>
-<?php }
+<?php
+}
 else
-{ ?>
+{
+?>
 <input type="hidden" name="lat" id="lat"
 	value=""></input>
 <input type="hidden" name="lon" id="lon"
 	value=""></input>
-<?php } ?>
+<?php
+}
+?>
 <script type="text/javascript">init();</script>
 <div class="no-float">
-	<?php
-	// Echo $this->disclaimericons;
-	echo $this->footer;
-	?>
+<?php
+// Echo $this->disclaimericons;
+echo $this->footer;
+?>
 </div>

@@ -22,7 +22,8 @@ class JtgModeljtg extends JModelLegacy
 	/**
 	 * Constructor
 	 */
-	function __construct() {
+	function __construct()
+	{
 		parent::__construct();
 	}
 
@@ -32,22 +33,32 @@ class JtgModeljtg extends JModelLegacy
 	 * @param <type> $id
 	 * @return <type>
 	 */
-	function getFile($id)  {
+	function getFile($id)
+	{
 		$mainframe = JFactory::getApplication();
 
 		$db = JFactory::getDBO();
 
-		$query = "SELECT * FROM #__jtg_files WHERE id='" .$id. "'";
+		$query = "SELECT * FROM #__jtg_files WHERE id='" . $id . "'";
 
 		$db->setQuery($query);
 		$result = $db->loadObject();
+
 		if (!$result)
+		{
 			return JTable::getInstance('jtg_files', 'table');
+		}
+
 		return $result;
 	}
 
-	static function getTracksData($order, $limit,$where="",$access=null) {
-		if ( $where != "" ) $where = " AND ( " . $where . " )";
+	static function getTracksData($order, $limit, $where = "",$access = null)
+	{
+		if ( $where != "" )
+		{
+			$where = " AND ( " . $where . " )";
+		}
+
 		// 	if ( $access !== null ) $where .= " AND a.access <= " . $access;
 		$mainframe = JFactory::getApplication();
 		$db = JFactory::getDBO();
@@ -58,13 +69,13 @@ class JtgModeljtg extends JModelLegacy
 		. "\n" . $limit;
 		$db->setQuery($query);
 		$rows = $db->loadObjectList();
+
 		return $rows;
 	}
 
-	static function getCatsData($sort=false) {
-
+	static function getCatsData($sort=false)
+	{
 		$mainframe = JFactory::getApplication();
-
 		$db = JFactory::getDBO();
 
 		$query = "SELECT * FROM #__jtg_cats WHERE published = 1"
@@ -72,8 +83,11 @@ class JtgModeljtg extends JModelLegacy
 
 		$db->setQuery($query);
 		$rows = $db->loadObjectList();
+
 		if ( $sort === false )
+		{
 			return $rows;
+		}
 		else
 		{
 			$nullcat = array(
@@ -88,18 +102,21 @@ class JtgModeljtg extends JModelLegacy
 			);
 			$nullcat = JArrayHelper::toObject($nullcat);
 			$sortedrow = array();
+
 			foreach ( $rows AS $cat )
+			{
 				$sortedrow[$cat->id] = $cat;
+			}
+
 			$sortedrow[0] = $nullcat;
-			// 		ksort($sortedrow);
+
 			return $sortedrow;
 		}
 	}
 
-	static function getTerrainData($sort=false) {
-
+	static function getTerrainData($sort=false)
+	{
 		$mainframe = JFactory::getApplication();
-
 		$db = JFactory::getDBO();
 
 		$query = "SELECT * FROM #__jtg_terrains"
@@ -108,7 +125,9 @@ class JtgModeljtg extends JModelLegacy
 		$db->setQuery($query);
 		$rows = $db->loadObjectList();
 		if ( $sort === false )
+		{
 			return $rows;
+		}
 		else
 		{
 			$nullter = array(
@@ -120,15 +139,20 @@ class JtgModeljtg extends JModelLegacy
 			);
 			$nullter = JArrayHelper::toObject($nullter);
 			$sortedrow = array();
+
 			foreach ( $rows AS $ter )
+			{
 				$sortedrow[$ter->id] = $ter;
+			}
+
 			$sortedrow[0] = $nullter;
-			// 		ksort($sortedrow);
+
 			return $sortedrow;
 		}
 	}
 
-	static function getVotesData() {
+	static function getVotesData()
+	{
 		$mainframe = JFactory::getApplication();
 
 		$db = JFactory::getDBO();

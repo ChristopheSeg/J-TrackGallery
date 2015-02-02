@@ -29,16 +29,19 @@ class JtgModelCats extends JModelLegacy
 		$rows = $db->loadObjectList();
 		$limit = count($rows);
 		$children = array();
+
 		foreach ($rows as $v )
 		{
 			$v->title = JText::_($v->title);
 			$pt 	= $v->parent_id;
 			$list 	= @$children[$pt] ? $children[$pt] : array();
-			array_push( $list, $v );
+			array_push($list, $v);
 			$children[$pt] = $list;
 		}
+
 		$list = JHtml::_('menu.treerecurse', 0, '', array(), $children);
 		$list = array_slice($list, 0, $limit);
+
 		return $list;
 	}
 }

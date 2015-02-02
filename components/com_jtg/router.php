@@ -17,12 +17,14 @@ defined('_JEXEC') or die('Restricted access');
 /*
  * Function to convert a system URL to a SEF URL
 */
-function jtgBuildRoute(&$query) {
+function jtgBuildRoute(&$query)
+{
 	$segments = array();
 	$app = JFactory::getApplication();
 	$menu = $app->getMenu();
 
-	if (empty($query['Itemid'])) {
+	if (empty($query['Itemid']))
+	{
 		$menuItem = $menu->getActive();
 	}
 	else
@@ -31,23 +33,32 @@ function jtgBuildRoute(&$query) {
 	}
 	// $menuid = $menuItem->id;
 
-	if (isset($query['view'])){
+	if (isset($query['view']))
+	{
 		$segments[] = $query['view'];
 		unset($query['view']);
 	}
-	if (isset($query['layout'])){
+
+	if (isset($query['layout']))
+	{
 		$segments[] = $query['layout'];
 		unset($query['layout']);
 	}
-	if (isset($query['controller'])) {
+
+	if (isset($query['controller']))
+	{
 		$segments[] = $query['controller'];
 		unset($query['controller']);
 	}
-	if (isset($query['task'])) {
+
+	if (isset($query['task']))
+	{
 		$segments[] = $query['task'];
 		unset($query['task']);
 	}
-	if (isset($query['id'])){
+
+	if (isset($query['id']))
+	{
 		$segments[] = $query['id'];
 		unset($query['id']);
 	}
@@ -55,8 +66,10 @@ function jtgBuildRoute(&$query) {
 	return $segments;
 }
 
-function _jtgParseRouteFile($segments) {
-	switch ($segments[1]) {
+function _jtgParseRouteFile($segments)
+{
+	switch ($segments[1])
+	{
 		case 'file':
 			$vars['view'] = 'files';
 			$vars['layout'] = 'file';
@@ -81,12 +94,19 @@ function _jtgParseRouteFile($segments) {
 			$vars['id'] = $segments[2];
 			break;
 	}
-	if (!isset($vars)) return false;
+
+	if (!isset($vars))
+	{
+		return false;
+	}
+
 	return $vars;
 }
 
-function _jtgParseRouteCategory($segments) {
-	switch ($segments[0]) {
+function _jtgParseRouteCategory($segments)
+{
+	switch ($segments[0])
+	{
 		case 'files':
 			$vars['view'] = 'files';
 			$vars['layout'] = 'list';
@@ -96,14 +116,22 @@ function _jtgParseRouteCategory($segments) {
 			$vars['layout'] = 'default';
 			break;
 	}
-	if (!isset($vars)) return false;
+
+	if (!isset($vars))
+	{
+		return false;
+	}
+
 	return $vars;
 }
 
-function _jtgParseRouteSubCategory($segments) {
-	switch ($segments[0]) {
+function _jtgParseRouteSubCategory($segments)
+{
+	switch ($segments[0])
+	{
 		case 'files':
-			switch ($segments[1]) {
+			switch ($segments[1])
+			{
 				case 'form':
 					$vars['view'] = 'files';
 					$vars['layout'] = 'form';
@@ -116,25 +144,32 @@ function _jtgParseRouteSubCategory($segments) {
 			}
 			break;
 		case 'jtg':
-			switch ($segments[1]) {
+			switch ($segments[1])
+			{
 				case 'geo':
 					$vars['view'] = 'jtg';
 					$vars['layout'] = 'geo';
 					break;
 			}
 	}
-	if (!isset($vars)) return false;
+
+	if (!isset($vars))
+	{
+		return false;
+	}
+
 	return $vars;
 }
 
 /*
  * Function to convert a SEF URL back to a system URL
 */
-function jtgParseRoute($segments) {
+function jtgParseRoute($segments)
+{
 
 	$vars = array();
 
-	//Get the active menu item
+	// Get the active menu item
 	$app = JFactory::getApplication();
 	$menu = $app->getMenu();
 	$item = $menu->getActive();
@@ -142,15 +177,16 @@ function jtgParseRoute($segments) {
 	// Count route segments
 	$count = count($segments);
 
-	if ( $count == 1 ) {
+	if ( $count == 1 )
+	{
 		$vars = _jtgParseRouteCategory($segments);
 	}
-	elseif ( $count == 2 ) {
-		if ( isset( $segments[1] ) AND
-				( $segments[1] == "default" ) // Cats/default
-				OR
-				( ( $segments[0] == "files" ) AND ( $segments[1] == "list" ) )
-		) {
+	elseif ( $count == 2 )
+	{
+		if ( isset( $segments[1] )
+			AND ( $segments[1] == "default" )
+			OR  ( ( $segments[0] == "files" ) AND ( $segments[1] == "list" ) ))
+		{
 			$vars = _jtgParseRouteCategory($segments);
 		}
 		else
@@ -160,7 +196,8 @@ function jtgParseRoute($segments) {
 	}
 	else
 	{
-		switch ($segments[0]) {
+		switch ($segments[0])
+		{
 			case 'files':
 				$vars = _jtgParseRouteFile($segments);
 				break;
@@ -169,12 +206,11 @@ function jtgParseRoute($segments) {
 
 	if ( ( $vars === false ) OR ( count($vars) == 0 ) )
 	{
-		// 	$errmsg = implode("/",$segments);
-		// 	$errmsg = "Route " . $errmsg . " does not exists!";
-		// 	JFactory::getApplication()->enqueueMessage($errmsg, 'Warning');
 		$vars['view'] = 'files';
 		$vars['layout'] = 'list';
+
 		return $vars;
 	}
+
 	return $vars;
 }

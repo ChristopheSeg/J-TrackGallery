@@ -14,10 +14,12 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 $user = JFactory::getUser();
-if ($user->id != 0) {
+
+if ($user->id != 0)
+{
 	echo $this->lh;
 	?>
-<script language="javascript" type="text/javascript">
+<script type="text/javascript">
 
 	 Joomla.tableOrdering = function( order, dir, task )
 	{
@@ -30,11 +32,11 @@ if ($user->id != 0) {
 </script>
 <form action="<?php echo $this->action; ?>" method="post"
 	name="adminForm" id="adminForm">
-	<table width="100%">
+	<table style="width:100%;">
 		<tr>
-			<td><?php echo JText::_('Display Num') .'&nbsp;' . $this->pagination->getLimitBox(); ?>
+			<td><?php echo JText::_('Display Num') . '&nbsp;' . $this->pagination->getLimitBox(); ?>
 			</td>
-			<td style="text-align: right"><?php echo $this->pagination->getResultsCounter( ); ?>
+			<td style="text-align: right"><?php echo $this->pagination->getResultsCounter(); ?>
 			</td>
 		</tr>
 	</table>
@@ -43,17 +45,17 @@ if ($user->id != 0) {
 			<tr
 				class="sectiontableheader<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
 				<th width="60px">#</th>
-				<th><?php echo JHtml::_('grid.sort', JText::_('COM_JTG_TITLE' ), 'title', @$this->lists['order_Dir'], @$this->lists['order'], 'files' ); ?>
+				<th><?php echo JHtml::_('grid.sort', JText::_('COM_JTG_TITLE'), 'title', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
 				</th>
-				<th width="80px"><?php echo JHtml::_('grid.sort', JText::_('COM_JTG_CAT' ), 'cat', @$this->lists['order_Dir'], @$this->lists['order'], 'files' ); ?>
+				<th width="80px"><?php echo JHtml::_('grid.sort', JText::_('COM_JTG_CAT'), 'cat', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
 				</th>
-				<th width="50px"><?php echo JHtml::_('grid.sort', JText::_('COM_JTG_HITS' ), 'hits', @$this->lists['order_Dir'], @$this->lists['order'], 'files' ); ?>
+				<th width="50px"><?php echo JHtml::_('grid.sort', JText::_('COM_JTG_HITS'), 'hits', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
 				</th>
-				<th width="80px"><?php echo JHtml::_('grid.sort', JText::_('COM_JTG_TERRAIN' ), 'terrain', @$this->lists['order_Dir'], @$this->lists['order'], 'files' ); ?>
+				<th width="80px"><?php echo JHtml::_('grid.sort', JText::_('COM_JTG_TERRAIN'), 'terrain', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
 				</th>
-				<th width="20px"><?php echo JHtml::_('grid.sort', JText::_('COM_JTG_VOTING' ), 'vote', @$this->lists['order_Dir'], @$this->lists['order'], 'files' ); ?>
+				<th width="20px"><?php echo JHtml::_('grid.sort', JText::_('COM_JTG_VOTING'), 'vote', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
 				</th>
-				<th width="20px"><?php echo JHtml::_('grid.sort', JText::_('COM_JTG_DISTANCE' ), 'distance', @$this->lists['order_Dir'], @$this->lists['order'], 'files' ); ?>
+				<th width="20px"><?php echo JHtml::_('grid.sort', JText::_('COM_JTG_DISTANCE'), 'distance', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
 				</th>
 			</tr>
 		</thead>
@@ -64,25 +66,29 @@ if ($user->id != 0) {
 			$edit = "title=\"" . $edit . "\" alt=\"" . $edit . "\"";
 			$delete = "title=\"" . $delete . "\" alt=\"" . $delete . "\"";
 			$k = 0;
+
 			for ($i = 0, $n = count($this->rows); $i < $n; $i++)
 			{
 				$row = $this->rows[$i];
-				$terrain = JtgHelper::parseMoreTerrains($this->sortedter,$row->terrain,"array");
-				$terrain = implode(", ",$terrain);
-				if ($this->cfg->unit == "Miles") {
-					$distance = JtgHelper::getLocatedFloat(JtgHelper::getMiles($row->distance,"-","Miles"));
+				$terrain = JtgHelper::parseMoreTerrains($this->sortedter, $row->terrain, "array");
+				$terrain = implode(", ", $terrain);
+
+				if ($this->cfg->unit == "Miles")
+				{
+					$distance = JtgHelper::getLocatedFloat(JtgHelper::getMiles($row->distance, "-", "Miles"));
 				}
 				else
 				{
-					$distance = JtgHelper::getLocatedFloat($row->distance,"-","km");
+					$distance = JtgHelper::getLocatedFloat($row->distance, "-", "km");
 				}
-				$votes = layoutHelper::parseVoteFloat($row->vote);
-				$link = JRoute::_('index.php?option=com_jtg&view=files&layout=file&id='.$row->id,false);
-				$cats = JtgHelper::parseMoreCats($this->cats,$row->catid,"array");
-				$cats = implode(", ",$cats);
+
+				$votes = LayoutHelper::parseVoteFloat($row->vote);
+				$link = JRoute::_('index.php?option=com_jtg&view=files&layout=file&id=' . $row->id, false);
+				$cats = JtgHelper::parseMoreCats($this->cats, $row->catid, "array");
+				$cats = implode(", ", $cats);
 				?>
 			<tr class="sectiontableentry<?php echo $k; ?>">
-				<td align="center"><?php echo $this->pagination->getRowOffset( $i ); ?>
+				<td align="center"><?php echo $this->pagination->getRowOffset($i); ?>
 					<a
 					href="index.php?option=com_jtg&view=files&layout=form&id=<?php echo $row->id; ?>">
 						<img <?php echo $edit ?>
@@ -107,8 +113,8 @@ if ($user->id != 0) {
 		</tbody>
 		<tfoot>
 			<tr class="sectiontablefooter">
-				<td colspan="7" align="center"><?php echo $this->pagination->getPagesLinks( $this->rows ); ?>
-					<?php echo $this->pagination->getResultsCounter( ); ?></td>
+				<td colspan="7" align="center"><?php echo $this->pagination->getPagesLinks($this->rows); ?>
+					<?php echo $this->pagination->getResultsCounter(); ?></td>
 			</tr>
 		</tfoot>
 	</table>
@@ -122,7 +128,8 @@ if ($user->id != 0) {
 }
 else
 {
-	JResponse::setHeader('HTTP/1.0 403',true);
+	JResponse::setHeader('HTTP/1.0 403', true);
 	JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_ALERT_NOT_AUTHORISED'), 'Error');
 }
+
 echo $this->footer;

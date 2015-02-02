@@ -62,7 +62,7 @@ if ($this->id >= 1)
 	$document->addScript('http://www.openstreetmap.org/openlayers/OpenStreetMap.js');
 	$document->addScript("../components/com_jtg/assets/js/jtg.js");
 	$file = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks/' . $this->track->file;
-	$gpsData = new gpsDataClass($cfg->unit);
+	$gpsData = new GpsDataClass($cfg->unit);
 	$gpsData = $cache->get(array ( $gpsData, 'loadFileAndData' ), array ($file, $track->file ), $cfg->unit);
 
 	if ($gpsData->displayErrors())

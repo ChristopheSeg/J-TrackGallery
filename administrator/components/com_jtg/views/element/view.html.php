@@ -60,7 +60,7 @@ class ContentViewElement extends JViewLegacy
 
 	<table>
 		<tr>
-			<td width="100%"><?php echo JText::_('COM_JTG_FILTER'); ?>: <input
+			<td style="width:100%;"><?php echo JText::_('COM_JTG_FILTER'); ?>: <input
 				type="text" name="search" id="search"
 				value="<?php echo htmlspecialchars($lists['search']);?>"
 				class="text_area" onchange="document.adminForm.submit();" />

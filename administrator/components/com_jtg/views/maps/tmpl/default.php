@@ -43,7 +43,7 @@ $link = JRoute::_('index.php?option=com_jtg&task=maps&controller=maps&layout=def
 	name="adminForm" id="adminForm" class="adminForm">
 	<!-- <table>
 	<tr>
-		<td align="left" width="100%">
+		<td align="left" style="width:100%;">
 			<?php echo JText::_('COM_JTG_FILTER'); ?>:
 			<input type="text" name="search" id="search" value="<?php echo $this->lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
 			<button onclick="this.form.submit();"><?php echo JText::_('COM_JTG_APPLY'); ?></button>

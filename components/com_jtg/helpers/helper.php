@@ -21,7 +21,7 @@ defined('_JEXEC') or die('Restricted access');
  *
  * @return void
  */
-function jtgdebug($val, $die=false)
+function jtgdebug($val, $die = false)
 {
 	$r = "<pre>";
 
@@ -45,7 +45,6 @@ function jtgdebug($val, $die=false)
 	}
 
 	echo $r;
-
 }
 
 class JtgHelper
@@ -107,8 +106,8 @@ class JtgHelper
 
 		// Groups and Levels are restricted to core.admin
 		// $canDo = self::getActions(); ...
-
 	}
+
 	public static function howMuchVote($tid)
 	{
 		$db = JFactory::getDBO();
@@ -121,7 +120,8 @@ class JtgHelper
 
 	public static function giveGeneratedValues($surface, $filetypes, $track)
 	{
-		switch ($surface) {
+		switch ($surface)
+		{
 			case 'backend':
 				break;
 
@@ -162,10 +162,12 @@ class JtgHelper
 		{
 			$distance = 0;
 		}
+
 		$distance = JText::_('COM_JTG_DISTANCE') . ": " . $distance;
 		$ele_asc = JText::_('COM_JTG_ELEVATION_UP') . ": " . (float) $track->ele_asc;
 		$ele_desc = JText::_('COM_JTG_ELEVATION_DOWN') . ": " . (float) $track->ele_desc;
 		$voted = self::howMuchVote($track->id);
+
 		if ( ( $voted != 0 ) AND ( (float) $track->vote == 0 ) )
 		{
 			// Wenn gevoted wurde aber Voting gleich 0
@@ -209,11 +211,11 @@ class JtgHelper
 	 */
 	static function alphanumericPass($length)
 	{
-		$p ="";
+		$p = "";
 
-		for ($i=0;$i<$length;$i++)
+		for ($i = 0;$i < $length;$i++)
 		{
-			$c = mt_rand(1,4);
+			$c = mt_rand(1, 4);
 
 			switch ($c)
 			{
@@ -228,14 +230,18 @@ class JtgHelper
 					break;
 			}
 		}
+
 		return $p;
 	}
 
 	static function uploadfile($file, $dest)
 	{
 		if ( ( $file["error"] != 0 )
-				OR ( $file["size"] == 0 ))
+			OR ( $file["size"] == 0 ))
+		{
 			return false;
+		}
+
 		jimport('joomla.filesystem.file');
 		$filename = JFile::makeSafe($file['name']);
 		$randnumber = (50 - strlen($filename));
@@ -243,7 +249,6 @@ class JtgHelper
 
 		while (true)
 		{
-
 			if (!JFile::exists($dest . $filename))
 			{
 				if (!JFile::upload($file['tmp_name'], $dest . $filename))
@@ -261,25 +266,29 @@ class JtgHelper
 			{
 				$randname = self::alphanumericPass($randnumber);
 				$filename = $randname . JFile::makeSafe($file['name']);
+
 				// Man weiß ja nie ;)
 				if ( $fncount > 10000 )
 				{
-					JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_ERROR_NO_FREE_FILENAMES' ) . "(".JFile::makeSafe($file['name']) . ")", 'Error');
+					JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_ERROR_NO_FREE_FILENAMES') . "(" . JFile::makeSafe($file['name']) . ")", 'Error');
 				}
+
 				$fncount++;
 			}
 		}
+
 		return true;
 	}
 
-	static function parseMoreCats($allcats,$catid,$format="array",$link=false)
+	static function parseMoreCats($allcats, $catid, $format = "array", $link = false)
 	{
 		$baseurl = "index.php?option=com_jtg&view=files&layout=list&cat=";
 		$image = JUri::base() . 'images/jtrackgallery/cats/';
 		$catids = explode(",", $catid);
 		$return = array();
 
-		switch ($format) {
+		switch ($format)
+		{
 			case "box":
 				if ( ( $link === false ) OR ( $catid == "0" ) )
 				{
@@ -304,13 +313,13 @@ class JtgHelper
 						}
 					}
 				}
+
 				$return = implode(", ", $return);
 				break;
 
 			case "TrackDetails":
 				if ( ( $link === false ) OR ( $catid == "0" ) )
 				{
-
 					foreach ($catids as $catid)
 					{
 						if ( isset($allcats[$catid]->title) )
@@ -325,12 +334,12 @@ class JtgHelper
 					{
 						if ( isset($allcats[$catid]->id) )
 						{
-							$url = JRoute::_($baseurl  . $allcats[$catid]->id, true);
+							$url = JRoute::_($baseurl . $allcats[$catid]->id, true);
 
 							if ( $allcats[$catid]->image != "")
 							{
-								$return[] = "<a href=\"" . $url . "\">".
-										"<img title=\"" . JText::_($allcats[$catid]->title) . "\" alt=\"" . JText::_($allcats[$catid]->title) . "\" src=\"" . $image.$allcats[$catid]->image . "\" />&nbsp;".
+								$return[] = "<a href=\"" . $url . "\">" .
+										"<img title=\"" . JText::_($allcats[$catid]->title) . "\" alt=\"" . JText::_($allcats[$catid]->title) . "\" src=\"" . $image . $allcats[$catid]->image . "\" />&nbsp;" .
 										"</a>";
 							}
 							else
@@ -342,6 +351,7 @@ class JtgHelper
 						}
 					}
 				}
+
 				$return = implode(", ", $return);
 				break;
 
@@ -351,7 +361,9 @@ class JtgHelper
 					foreach ($catids as $catid)
 					{
 						if ( isset($allcats[$catid]->title) )
+						{
 							$return[] = JText::_($allcats[$catid]->title);
+						}
 					}
 				}
 				else
@@ -375,6 +387,7 @@ class JtgHelper
 						}
 					}
 				}
+
 				$return = implode(", ", $return);
 				break;
 
@@ -396,6 +409,7 @@ class JtgHelper
 						if ( isset($allcats[$catid]))
 						{
 							$url = JRoute::_($baseurl . $allcats[$catid]->id, true);
+
 							if ( $allcats[$catid]->image == "" )
 							{
 								$return[] = "<a href=\"" . $url . "\">" . JText::_($allcats[$catid]->title) . "</a>";
@@ -409,6 +423,7 @@ class JtgHelper
 						}
 					}
 				}
+
 				$return = implode(" ", $return);
 				break;
 
@@ -427,7 +442,7 @@ class JtgHelper
 		return $return;
 	}
 
-	static function parseMoreTerrains($allterrains, $terrainid, $format="array", $link=false)
+	static function parseMoreTerrains($allterrains, $terrainid, $format = "array", $link = false)
 	{
 		$baseurl = "index.php?option=com_jtg&view=files&layout=list&terrain=";
 		$image = JUri::base() . 'images/jtrackgallery/terrain/';
@@ -512,8 +527,8 @@ class JtgHelper
 	static function userHasFrontendRights()
 	{
 		$user_groups = JFactory::getUser()->getAuthorisedGroups();
+
 		// Admin (root) is not allowed excepted if explicitly given the right to manage front-end.
-		// If ( JFactory::getUser()->get('isRoot') ) { return true;};
 
 		if (!$user_groups)
 		{
@@ -622,7 +637,7 @@ class JtgHelper
 	/**
 	 * Fetchs lat/lon from users given ID, otherwise from all users
 	 */
-	static function getLatLon($uid=false,$exclude=false)
+	static function getLatLon($uid = false, $exclude = false)
 	{
 		$mainframe = JFactory::getApplication();
 		$db = JFactory::getDBO();
@@ -724,7 +739,6 @@ class JtgHelper
 		}
 
 		$tmp = imagecreatetruecolor($newwidth, $newheight);
-		// Resample the image
 		imagecopyresampled($tmp, $src, 0, 0, 0, 0, $newwidth, $newheight, $width, $height);
 
 		switch (strtolower($ext))
@@ -748,7 +762,7 @@ class JtgHelper
 
 			case 'png':
 				$filename = explode('.', $filepath);
-				$extension = $filename[(count($filename)-1)];
+				$extension = $filename[(count($filename) - 1)];
 				$filename = str_replace('.' . $extension, '.jpg', $filepath);
 
 				// Upload the image
@@ -823,7 +837,7 @@ class JtgHelper
 		}
 	}
 
-	static function MayIsee($where,$access,$otherfiles)
+	static function MayIsee($where, $access, $otherfiles)
 	{
 		$otherfiles = (int) $otherfiles;
 
@@ -855,8 +869,8 @@ class JtgHelper
 		}
 	}
 
-	static function getLocatedFloat($float,$default=0,$unit=null) {
-
+	static function getLocatedFloat($float, $default = 0, $unit = null)
+	{
 		if ( $float == 0 )
 		{
 			return $default;
@@ -872,6 +886,7 @@ class JtgHelper
 			$float = self::getMiles($float);
 			$unit = JText::_('COM_JTG_MILES');
 		}
+
 		$float = (float) $float;
 
 		if ( ( $unit !== null ) AND ( $unit == JText::_('COM_JTG_KILOMETER') ) AND ( $float < 1 ) )
@@ -889,6 +904,7 @@ class JtgHelper
 		{
 			// Has decimal place
 			$digit = explode('.', $float);
+
 			// Count of digits after decimal place
 			$digits = strlen($digit[1]);
 		}

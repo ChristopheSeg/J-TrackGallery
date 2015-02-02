@@ -22,13 +22,12 @@ class JtgControllerDownload extends JtgController
 	{
 		JSession::checkToken() or jexit('Invalid Token');
 
-		// if ( headers_sent() )
-		// Die('Headers Sent');
 		$format = JFactory::getApplication()->input->get('format');
 		$model = $this->getModel('download');
 		$id = JRequest::getInt('id');
 		$track = $model->getFile($id);
 		$trackname = str_replace(' ', '_', $track->title);
+
 		if ($format == "kml")
 		{
 			$mime = "application/vnd.google-earth.kml+xml";

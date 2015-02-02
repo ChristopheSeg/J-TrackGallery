@@ -18,7 +18,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 // The name of the class must be the name of your component + InstallerScript
-class com_jtgInstallerScript
+class Com_JtgInstallerScript
 {
 	/*
 	 * $parent is the class calling this method. $type is the type of change
@@ -117,7 +117,7 @@ class com_jtgInstallerScript
 	src="<?php echo  '/components/com_jtg/assets/images/logo_JTG.png'; ?>"
 	alt="J!Track Gallery" />
 <br />
-<table class="adminlist" border="1" width="100%">
+<table class="adminlist" border="1" style="width:100%;">
 	<tbody>
 		<tr>
 			<td><?php JText::_('COM_JTG_INSTALL_LICENCE') ?></td>

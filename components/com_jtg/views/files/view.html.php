@@ -181,7 +181,7 @@ class JtgViewFiles extends JViewLegacy
 		jimport('joomla.filesystem.folder');
 
 		// Code support for joomla version greater than 3.0
-		if (JVERSION>=3.0)
+		if (JVERSION >= 3.0)
 		{
 			JHtml::_('jquery.framework');
 			JHtml::script(Juri::base() . 'components/com_jtg/assets/js/multifile.js');
@@ -214,8 +214,8 @@ class JtgViewFiles extends JViewLegacy
 
 		$editor = JFactory::getEditor();
 		$pathway = $mainframe->getPathway();
-		$lh = layoutHelper::navigation();
-		$footer = layoutHelper::footer();
+		$lh = LayoutHelper::navigation();
+		$footer = LayoutHelper::footer();
 		$model = $this->getModel();
 
 		$uri = "index.php?option=com_jtg&view=files&layout=form";
@@ -263,7 +263,7 @@ class JtgViewFiles extends JViewLegacy
 		$level = $model->getLevelSelect($sellevel);
 		$img_dir = JPATH_SITE . '/images/jtrackgallery/track_' . $id . '/';
 		$thumb_dir = $img_dir . 'thumbs/';
-		$img_path = JUri::root() .'images/jtrackgallery/track_'. $id . "/";
+		$img_path = JUri::root() . 'images/jtrackgallery/track_'. $id . "/";
 		$images = null;
 		$imgcount = 0;
 
@@ -329,12 +329,15 @@ class JtgViewFiles extends JViewLegacy
 		$this->cfg = $cfg;
 		$this->terms = $terms;
 		$this->level = $level;
-		// $this->comments = comments;
+		/*
+		 * $this->comments = comments;
+		 */
 
 		parent::display($tpl);
 	}
 
-	function _displayFile($tpl) {
+	function _displayFile($tpl)
+	{
 		$mainframe = JFactory::getApplication();
 		jimport('joomla.filesystem.file');
 		jimport('joomla.filesystem.folder');
@@ -357,6 +360,7 @@ class JtgViewFiles extends JViewLegacy
 		{
 			// Nothing
 		}
+
 		JHtml::_('behavior.combobox');
 		$cache = JFactory::getCache('com_jtg');
 
@@ -365,14 +369,14 @@ class JtgViewFiles extends JViewLegacy
 
 		if ( $params->get("jtg_param_lh") == 1 )
 		{
-			$lh = layoutHelper::navigation();
+			$lh = LayoutHelper::navigation();
 		}
 		else
 		{
 			$lh = null;
 		}
 
-		$footer = layoutHelper::footer();
+		$footer = LayoutHelper::footer();
 		$cfg = JtgHelper::getConfig();
 
 		$model = $this->getModel();
@@ -432,7 +436,7 @@ class JtgViewFiles extends JViewLegacy
 
 		// Then load jtg_map stylesheet
 		$tmpl = ($cfg->template = "") ? $cfg->template : 'default';
-		$document->addStyleSheet(JUri::base() .'components/com_jtg/assets/template/' . $tmpl . '/jtg_map_style.css');
+		$document->addStyleSheet(JUri::base() . 'components/com_jtg/assets/template/' . $tmpl . '/jtg_map_style.css');
 
 		// Then override style with user templates
 		$template = $mainframe->getTemplate();
@@ -457,7 +461,7 @@ class JtgViewFiles extends JViewLegacy
 		 */
 		$action = "index.php?option=com_jtg&amp;controller=download&amp;task=download";
 		$file = './images/jtrackgallery/uploaded_tracks/' . strtolower($track->file);
-		$gpsData = new gpsDataClass($cfg->unit);
+		$gpsData = new GpsDataClass($cfg->unit);
 
 		// Cache: $gpsData structure is cached, after LaodFileAndData
 		$gpsData = $cache->get(array ( $gpsData, 'loadFileAndData' ), array ($file, $track->file ), $cfg->unit);
@@ -476,7 +480,7 @@ class JtgViewFiles extends JViewLegacy
 
 			// Kartenauswahl END
 			$distance_float = (float) $track->distance;
-			$distance = JtgHelper::getLocatedFloat($distance_float,0,$cfg->unit);
+			$distance = JtgHelper::getLocatedFloat($distance_float, 0, $cfg->unit);
 
 			// Charts
 			$coords = $gpsData->allCoords;
@@ -497,13 +501,14 @@ class JtgViewFiles extends JViewLegacy
 		 */
 		// Load images if exists
 		$img_dir = JPATH_SITE . '/images/jtrackgallery/track_' . $id;
+
 		if (JFolder::exists($img_dir))
 		{
 			$exclude = array ( '.db', '.txt' );
 			$images = JFolder::files($img_dir, '', false, false, $exclude);
 		}
 
-		$jscript = "<script language=\"javascript\" type=\"text/javascript\">
+		$jscript = "<script type=\"text/javascript\">
 		Joomla.submitbutton = function(pressbutton)  {
 		var form = document.adminForm;
 		// Do field validation
@@ -526,7 +531,7 @@ class JtgViewFiles extends JViewLegacy
 			switch ($cfg->gallery)
 			{
 				case 'jd2' :
-					$galscript = "<script language=\"javascript\" type=\"text/javascript\">
+					$galscript = "<script type=\"text/javascript\">
 					startGallery = function()  {
 					var myGallery = new gallery($('myGallery'), {
 					timed: true,
@@ -620,10 +625,12 @@ class JtgViewFiles extends JViewLegacy
 							{
 								$thumb = 'thumbs/thumb2_' . $image;
 							}
+
 							if ( ! JFile::exists (JPATH_SITE . '/images/jtrackgallery/track_' . $id . '/' . $thumb) )
 							{
 								$thumb = $image;
 							}
+
 							$imageBlock .= "	<a class=\"highslide\" href='/images/jtrackgallery/track_" . $id . "/" . $image ."' title=\"" . $image ."\" onclick=\"return hs.expand(this)\">
 							<img src=\"" . JUri::base() . "images/jtrackgallery/track_" . $id . '/' . $thumb . "\" alt=\"$image\"  /></a>\n\n";
 						}
@@ -700,7 +707,9 @@ class JtgViewFiles extends JViewLegacy
 		$this->distance = $distance;
 		$this->distance_float = $distance_float;
 		$this->action = $action;
-		// $this->images = $images;
+		/*
+		 * $this->images = $images;
+		 */
 		$this->date = $date;
 		$this->profile = $profile;
 		$this->beatdata = $gpsData->beatData;
@@ -729,8 +738,8 @@ class JtgViewFiles extends JViewLegacy
 		$user = JFactory::getUser();
 		$uid = $user->get('id');
 		$gid = $user->get('gid');
-		$lh = layoutHelper::navigation();
-		$footer = layoutHelper::footer();
+		$lh = LayoutHelper::navigation();
+		$footer = LayoutHelper::footer();
 		$cfg = JtgHelper::getConfig();
 		$pathway = $mainframe->getPathway();
 		$pathway->addItem(JText::_('COM_JTG_GPS_FILES'), '');
@@ -780,8 +789,8 @@ class JtgViewFiles extends JViewLegacy
 		$mainframe = JFactory::getApplication();
 		$option = JFactory::getApplication()->input->get('option');
 		$cache = JFactory::getCache('com_jtg');
-		$lh = layoutHelper::navigation();
-		$footer = layoutHelper::footer();
+		$lh = LayoutHelper::navigation();
+		$footer = LayoutHelper::footer();
 		$model = $this->getModel();
 		$cfg = JtgHelper::getConfig();
 		$pathway = $mainframe->getPathway();
@@ -858,6 +867,7 @@ class JtgViewFiles extends JViewLegacy
 		{
 			$lang = "en";
 		}
+
 		$imgdir = JUri::base() . "components/com_jtg/assets/images/approach/" . $this->cfg->routingiconset . "/";
 		$routservices = array();
 		$return = "";
@@ -1019,6 +1029,7 @@ class JtgViewFiles extends JViewLegacy
 				<a href=\"" . $link . $service[0] . "\" target=\"_blank\">" . $service[1] . "</a>
 				</li>\n";
 			}
+
 			$return .= "				</ul>\n			</td>\n";
 		}
 

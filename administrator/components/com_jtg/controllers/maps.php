@@ -35,10 +35,14 @@ class JtgControllerMaps extends JtgController
 		// 	$this->setState('limit', $limit);
 		// 	$this->setState('limitstart', $limitstart);
 		$filter_state = $mainframe->getUserStateFromRequest( $this->option.'filter_state', 'filter_state', '', 'word' );
-		if ( $filter_state ) {
-			if ( $filter_state == 'P' ) {
+		if ( $filter_state )
+		{
+			if ( $filter_state == 'P' )
+			{
 				$where[] = 'a.published = 1';
-			} else if ($filter_state == 'U' ) {
+			}
+			elseif ($filter_state == 'U' )
+			{
 				$where[] = 'a.published = 0';
 			}
 		}

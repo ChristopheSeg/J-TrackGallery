@@ -23,31 +23,37 @@ class JtgControllerFiles extends JtgController
 		parent::__construct();
 	}
 
-	function save() {
+	function save()
+	{
 		jimport('joomla.filesystem.file');
 
 		// Check for request forgeries
-		JSession::checkToken() or jexit( 'Invalid Token' );
+		JSession::checkToken() or jexit('Invalid Token');
 		$file = JFactory::getApplication()->input->files->get('file');
+
 		if (!$file['name'])
 		{
 			echo "<script> alert('" . JText::_('COM_JTG_FILE_UPLOAD_NO_FILE') . "'); window.history.go(-1); </script>\n";
 			exit;
 		}
+
 		$images =& $_FILES['images'];
 		$model = $this->getModel('files');
 
 		$ext = JFile::getExt($file['name']);
-		if ($ext == 'kml' || $ext == 'gpx' || $ext == 'tcx') {
+
+		if ($ext == 'kml' || $ext == 'gpx' || $ext == 'tcx')
+		{
 			if (!$model->saveFile())
 			{
 				echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 			}
-			$this->setRedirect( JRoute::_('index.php', false), false );
+
+			$this->setRedirect(JRoute::_('index.php', false), false);
 		}
 		else
 		{
-			echo "<script> alert('".$file['name'].JText::_('COM_JTG_GPS_FILE_ERROR') . "'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . $file['name'] . JText::_('COM_JTG_GPS_FILE_ERROR') . "'); window.history.go(-1); </script>\n";
 			exit;
 		}
 	}
@@ -60,84 +66,112 @@ class JtgControllerFiles extends JtgController
 		$model->vote($id, $rate);
 
 		$msg = JText::_('COM_JTG_VOTED');
-		$this->setRedirect( JRoute::_('index.php?option=com_jtg&view=files&layout=file&id='.$id, false ), false);
+		$this->setRedirect(JRoute::_('index.php?option=com_jtg&view=files&layout=file&id=' . $id, false), false);
 	}
 
-	function delete() {
-		$user		= JFactory::getUser();
+	function delete()
+	{
+		$user = JFactory::getUser();
 
-		if (!$user->get('id')):
-		$this->setRedirect( JRoute::_('index.php?option=com_jtg',false), false );
-		endif;
+		if (!$user->get('id'))
+		{
+			$this->setRedirect(JRoute::_('index.php?option=com_jtg', false), false);
+		}
 
 		$id = JRequest::getInt('id');
 		$model = $this->getModel('files');
 
-		if (!$model->deleteFile($id)) {
+		if (!$model->deleteFile($id))
+		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
 		else
 		{
-			$this->setRedirect( JRoute::_('index.php?option=com_jtg&view=files&layout=user',false), false);
+			$this->setRedirect(JRoute::_('index.php?option=com_jtg&view=files&layout=user', false), false);
 		}
 	}
 
-	function update() {
+	function update()
+	{
 		jimport('joomla.filesystem.file');
 		$user		= JFactory::getUser();
 
-		if (!$user->get('id')):
-		$this->setRedirect( JRoute::_('index.php?option=com_jtg',false), false );
-		endif;
+		if (!$user->get('id'))
+		{
+			$this->setRedirect( JRoute::_('index.php?option=com_jtg', false), false);
+		}
 
 		// Check for request forgeries
-		JSession::checkToken() or jexit( 'Invalid Token' );
+		JSession::checkToken() or jexit('Invalid Token');
 		$id = JRequest::getInt('id');
 		$model = $this->getModel('files');
 		$errormsg = $model->updateFile($id);
-		if ($errormsg !== true) {
+
+		if ($errormsg !== true)
+		{
 			echo "<script> alert('Error: \"" . $errormsg . "\"'); window.history.go(-1); </script>\n";
-		}else
-			$this->setRedirect( JRoute::_('index.php?option=com_jtg&view=files&layout=file&id='.$id, false), false );
-
-		function addcomment() {
-			$model = $this->getModel('files');
-			$model->addcomment();
 		}
+		else
+		{
+			$this->setRedirect(JRoute::_('index.php?option=com_jtg&view=files&layout=file&id=' . $id, false), false);
+		}
+	}
 
-		function savecomment() {
-			$mainframe = JFactory::getApplication();
+	function addcomment()
+	{
+		$model = $this->getModel('files');
+		$model->addcomment();
+	}
 
-			// Check for request forgeries
-			JSession::checkToken() or jexit( 'Invalid Token' );
-			$cfg = JtgHelper::getConfig();
-			$id = JRequest::getInt('id');
+	function savecomment()
+	{
+		$mainframe = JFactory::getApplication();
 
-			if ($cfg->captcha == 1) {
-				$return = false;
-				$word = JFactory::getApplication()->input->get('word', false, '', 'CMD');
-				$mainframe->triggerEvent('onCaptcha_confirm', array($word, &$return));
-				if (!$return) {
-					echo "<script> alert('" . JText::_('COM_JTG_CAPTCHA_WRONG') . "'); window.history.go(-1); </script>\n";
-				}
-				else
-				{
-					$model = $this->getModel('files');
-					if (!$model->savecomment($id, $cfg))
-						$msg = JText::_('COM_JTG_COMMENT_NOT_SAVED');
-					else
-						$msg = JText::_('COM_JTG_COMMENT_SAVED');
-					$this->setRedirect( JRoute::_('index.php?option=com_jtg&view=files&layout=file&id='.$id.'#jtg_param_header_comment',false), $msg );
-				}
+		// Check for request forgeries
+		JSession::checkToken() or jexit('Invalid Token');
+		$cfg = JtgHelper::getConfig();
+		$id = JRequest::getInt('id');
+
+		if ($cfg->captcha == 1)
+		{
+			$return = false;
+			$word = JFactory::getApplication()->input->get('word', false, '', 'CMD');
+			$mainframe->triggerEvent('onCaptcha_confirm', array($word, &$return));
+
+			if (!$return)
+			{
+				echo "<script> alert('" . JText::_('COM_JTG_CAPTCHA_WRONG') . "'); window.history.go(-1); </script>\n";
 			}
 			else
 			{
 				$model = $this->getModel('files');
+
 				if (!$model->savecomment($id, $cfg))
+				{
 					$msg = JText::_('COM_JTG_COMMENT_NOT_SAVED');
+				}
 				else
+				{
 					$msg = JText::_('COM_JTG_COMMENT_SAVED');
-				$this->setRedirect( JRoute::_('index.php?option=com_jtg&view=files&layout=file&id='.$id.'#jtg_param_header_comment',false), $msg );
+				}
+
+				$this->setRedirect(JRoute::_('index.php?option=com_jtg&view=files&layout=file&id=' . $id . '#jtg_param_header_comment', false), $msg);
 			}
 		}
+		else
+		{
+			$model = $this->getModel('files');
+
+			if (!$model->savecomment($id, $cfg))
+			{
+				$msg = JText::_('COM_JTG_COMMENT_NOT_SAVED');
+			}
+			else
+			{
+				$msg = JText::_('COM_JTG_COMMENT_SAVED');
+			}
+
+			$this->setRedirect(JRoute::_('index.php?option=com_jtg&view=files&layout=file&id=' . $id . '#jtg_param_header_comment', false), $msg);
+		}
 	}
+}

@@ -39,7 +39,7 @@ $document->addStyleSheet(JUri::base() . 'components/com_jtg/template.css');
 <form action="" method="post" name="adminForm" id="adminForm">
 	<table>
 		<tr>
-			<td align="left" width="100%"><?php echo JText::_('COM_JTG_FILTER'); ?>:
+			<td align="left" style="width:100%;"><?php echo JText::_('COM_JTG_FILTER'); ?>:
 				<input type="text" name="search" id="search"
 				value="<?php echo $this->lists['search'];?>" class="text_area"
 				onchange="document.adminForm.submit();" />

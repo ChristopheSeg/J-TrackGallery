@@ -107,10 +107,8 @@ if (JVERSION >= 3.0)
 		<?php echo $lang['value']; ?>
 	</textarea>
 	<br>&nbsp;
-	</td>
-	</tr>
-	</table>
 	<?php
+	echo '</td></tr></table>';
 	}
 
 	echo JHtml::_('tabs.end');

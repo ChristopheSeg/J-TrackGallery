@@ -13,7 +13,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 echo $this->lh;
-echo $this->gpsData->writeOLMap($this->where,$this->tracks,$this->params);
+echo $this->gpsData->writeOLMap($this->where, $this->tracks, $this->params);
 ?>
 
 <style type="text/css">
@@ -40,12 +40,13 @@ echo $this->gpsData->writeOLMap($this->where,$this->tracks,$this->params);
 <?php
 
 // Karten-Auswahl END
-if ($this->newest != 0) {
+if ($this->newest != 0)
+{
 	?>
 
 <div class="<?php echo $this->toptracks; ?>">
 	<div class="<?php echo $this->toptracks; ?>_title">
-		<span class="headline"> <a href="#TT_newest" name="TT_newest"><?php
+		<span class="headline"> <a href="#TT_newest"><?php
 		echo JText::_('COM_JTG_NEWEST');
 		?> </a>
 		</span>
@@ -64,9 +65,14 @@ if ($this->newest != 0) {
 	<div class="<?php echo $this->toptracks; ?>_entry">
 		<ul class="entry">
 			<?php
-			if ( count ($this->newest) == 0 ) echo JText::_('COM_JTG_NOENTRY');
-			else {
-				foreach ($this->newest as $new)  {
+			if ( count($this->newest) == 0 )
+			{
+				echo JText::_('COM_JTG_NOENTRY');
+			}
+			else
+			{
+				foreach ($this->newest as $new)
+				{
 					$link = JRoute::_('index.php?option=com_jtg&view=files&layout=file&id=' . $new->id);
 					?>
 			<li>
@@ -74,14 +80,19 @@ if ($this->newest != 0) {
 					<a title="<?php echo $this->boxlinktext[$new->access]; ?>"
 						class="access_<?php echo $new->access; ?>"
 						href="<?php echo $link; ?>"><?php
+
 						if ($new->title != "")
-							echo htmlentities($new->title,ENT_QUOTES,"UTF-8");
+						{
+							echo htmlentities($new->title, ENT_QUOTES, "UTF-8");
+						}
 						else
+						{
 							echo '<i>' . JText::_('COM_JTG_NO_TITLE') . '</i>';
+						}
 						?> </a>
 				</div>
 				<div class="list-right">
-					<?php echo JtgHelper::parseMoreCats($this->sortedcats,$new->catid,"box",true); ?>
+					<?php echo JtgHelper::parseMoreCats($this->sortedcats, $new->catid, "box", true); ?>
 				</div>
 				<div class="no-float"></div>
 			</li>
@@ -94,11 +105,13 @@ if ($this->newest != 0) {
 </div>
 <?php
 }
-if ($this->hits != 0) {
+
+if ($this->hits != 0)
+{
 	?>
 <div class="<?php echo $this->toptracks; ?>">
 	<div class="<?php echo $this->toptracks; ?>_title">
-		<span class="headline"> <a href="#TT_hits" name="TT_hits"><?php
+		<span class="headline"> <a href="#TT_hits"><?php
 		echo JText::_('COM_JTG_MOSTHITS');
 		?> </a>
 		</span>
@@ -117,9 +130,15 @@ if ($this->hits != 0) {
 	<div class="<?php echo $this->toptracks; ?>_entry">
 		<ul class="entry">
 			<?php
-			if ( count ($this->hits) == 0 ) echo JText::_('COM_JTG_NOENTRY');
-			else {
-				foreach ($this->hits as $hits)  {
+
+			if ( count($this->hits) == 0 )
+			{
+				echo JText::_('COM_JTG_NOENTRY');
+			}
+			else
+			{
+				foreach ($this->hits as $hits)
+				{
 					$link = JRoute::_('index.php?option=com_jtg&view=files&layout=file&id=' . $hits->id);
 					?>
 			<li>
@@ -127,10 +146,15 @@ if ($this->hits != 0) {
 					<a title="<?php echo $this->boxlinktext[$hits->access]; ?>"
 						class="access_<?php echo $hits->access; ?>"
 						href="<?php echo $link; ?>"><?php
+
 						if ($hits->title != "")
+						{
 							echo htmlentities($hits->title, ENT_QUOTES, 'UTF-8');
+						}
 						else
+						{
 							echo '<i>' . JText::_('COM_JTG_NO_TITLE') . '</i>';
+						}
 						?> </a>
 				</div>
 				<div class="list-right">
@@ -149,11 +173,13 @@ if ($this->hits != 0) {
 </div>
 <?php
 }
-if ($this->best != 0) {
+
+if ($this->best != 0)
+{
 	?>
 <div class="<?php echo $this->toptracks; ?>">
 	<div class="<?php echo $this->toptracks; ?>_title">
-		<span class="headline"> <a href="#TT_best" name="TT_best"><?php
+		<span class="headline"> <a href="#TT_best"><?php
 		echo JText::_('COM_JTG_MOSTVOTES');
 		?> </a>
 		</span>
@@ -172,9 +198,15 @@ if ($this->best != 0) {
 	<div class="<?php echo $this->toptracks; ?>_entry">
 		<ul class="entry">
 			<?php
-			if ( count ($this->best[1]) == 0 ) echo JText::_('COM_JTG_NOENTRY');
-			else {
-				foreach ($this->best[1] as $best) {
+
+			if ( count($this->best[1]) == 0 )
+			{
+				echo JText::_('COM_JTG_NOENTRY');
+			}
+			else
+			{
+				foreach ($this->best[1] as $best)
+				{
 					$link = JRoute::_('index.php?option=com_jtg&view=files&layout=file&id=' . $best->id);
 					?>
 			<li>
@@ -182,23 +214,36 @@ if ($this->best != 0) {
 					<a title="<?php echo $this->boxlinktext[$best->access]; ?>"
 						class="access_<?php echo $best->access; ?>"
 						href="<?php echo $link; ?>"><?php
+
 						if ($best->title != "")
-							echo htmlentities($best->title,ENT_QUOTES,"UTF-8");
+						{
+							echo htmlentities($best->title, ENT_QUOTES, "UTF-8");
+						}
 						else
+						{
 							echo '<i>' . JText::_('COM_JTG_NO_TITLE') . '</i>';
+						}
 						?> </a>
 				</div>
 				<div class="list-right">
 					<?php
-					$stars_int = JtgHelper::getLocatedFloat((int)round($best->vote,0));
+					$stars_int = JtgHelper::getLocatedFloat((int) round($best->vote, 0));
 					$stars_float = JtgHelper::getLocatedFloat((float) $best->vote);
-					$stars_float2 = JtgHelper::getLocatedFloat((float)round($best->vote,2));
+					$stars_float2 = JtgHelper::getLocatedFloat((float) round($best->vote, 2));
+
 					if ( $stars_float == 0 )
+					{
 						$title = JText::_('COM_JTG_NOT_VOTED');
+					}
 					elseif ( $best->vote == 1 )
-					$title = "1 " . JText::_('COM_JTG_STAR');
+					{
+						$title = "1 " . JText::_('COM_JTG_STAR');
+					}
 					else
+					{
 						$title = $stars_float2 . " " . JText::_('COM_JTG_STARS');
+					}
+
 					if ($this->best[0])
 					{
 						// Picture
@@ -222,11 +267,13 @@ if ($this->best != 0) {
 </div>
 <?php
 }
-if ($this->rand != 0) {
+
+if ($this->rand != 0)
+{
 	?>
 <div class="<?php echo $this->toptracks; ?>">
 	<div class="<?php echo $this->toptracks; ?>_title">
-		<span class="headline"> <a href="#TT_rand" name="TT_rand"><?php
+		<span class="headline"> <a href="#TT_rand"><?php
 		echo JText::_('COM_JTG_RANDOM_TRACKS');
 		?> </a>
 		</span>
@@ -245,9 +292,15 @@ if ($this->rand != 0) {
 	<div class="<?php echo $this->toptracks; ?>_entry">
 		<ul class="entry">
 			<?php
-			if ( count ($this->rand) == 0 ) echo JText::_('COM_JTG_NOENTRY');
-			else {
-				foreach ($this->rand as $rand) {
+
+			if ( count($this->rand) == 0 )
+			{
+				echo JText::_('COM_JTG_NOENTRY');
+			}
+			else
+			{
+				foreach ($this->rand as $rand)
+				{
 					$link = JRoute::_('index.php?option=com_jtg&view=files&layout=file&id=' . $rand->id);
 					?>
 			<li>
@@ -255,16 +308,21 @@ if ($this->rand != 0) {
 					<a title="<?php echo $this->boxlinktext[$rand->access]; ?>"
 						class="access_<?php echo $rand->access; ?>"
 						href="<?php echo $link; ?>"><?php
+
 						if ($rand->title != "")
-							echo htmlentities($rand->title,ENT_QUOTES,"UTF-8");
+						{
+							echo htmlentities($rand->title, ENT_QUOTES, "UTF-8");
+						}
 						else
+						{
 							echo '<i>' . JText::_('COM_JTG_NO_TITLE') . '</i>';
+						}
 						?> </a>
 				</div>
 				<div class="list-right">
 					<?php
 					// Echo $rand->cat;
-					echo JtgHelper::parseMoreCats($this->sortedcats,$rand->catid,"box",true);
+					echo JtgHelper::parseMoreCats($this->sortedcats, $rand->catid, "box", true);
 					?>
 				</div>
 				<div class="no-float"></div>
@@ -278,7 +336,7 @@ if ($this->rand != 0) {
 </div>
 <?php
 }
-//width="0" height="0"
+
 ?>
 <div class="no-float">
 	<?php

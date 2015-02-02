@@ -184,7 +184,7 @@ $document->addStyleDeclaration($style);
 				}
 			}
 
-			$gpsData = new gpsDataClass("Kilometer");
+			$gpsData = new GpsDataClass("Kilometer");
 			$cache = JFactory::getCache('com_jtg');
 
 			// New gps Data are cached

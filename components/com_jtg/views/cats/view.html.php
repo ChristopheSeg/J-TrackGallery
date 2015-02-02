@@ -14,7 +14,7 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
-jimport( 'joomla.application.component.view');
+jimport('joomla.application.component.view');
 
 /**
  * HTML View class for the jtg component
@@ -24,8 +24,8 @@ class JtgViewCats extends JViewLegacy
 	function display($tpl = null)
 	{
 		$mainframe = JFactory::getApplication();
-		$this->lh = layoutHelper::navigation();
-		$this->footer = layoutHelper::footer();
+		$this->lh = LayoutHelper::navigation();
+		$this->footer = LayoutHelper::footer();
 		$pathway = $mainframe->getPathway();
 		$pathway->addItem(JText::_('COM_JTG_CATS'), '');
 		$sitename = $mainframe->getCfg('sitename');

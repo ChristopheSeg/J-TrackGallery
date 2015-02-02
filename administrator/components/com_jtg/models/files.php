@@ -53,7 +53,7 @@ class JtgModelFiles extends JModelLegacy
 		jimport('joomla.filesystem.file');
 		require_once '../components/com_jtg/helpers/gpsClass.php';
 		$file = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks/' . $file;
-		$gpsData = new gpsDataClass($cfg->unit);
+		$gpsData = new GpsDataClass($cfg->unit);
 
 		// Do not use cache here
 		$gpsData ->loadFileAndData($file, $file);
@@ -865,7 +865,7 @@ class JtgModelFiles extends JModelLegacy
 				$cache = JFactory::getCache();
 
 				//TODOTODO use $target below!!
-				$gpsData = new gpsDataClass("Kilometer");
+				$gpsData = new GpsDataClass("Kilometer");
 				$gpsData = $cache->get(array ( $gpsData, 'loadFileAndData' ), array ($file, $filename ), "Kilometer");
 				$errors = $gpsData->displayErrors();
 
@@ -1201,7 +1201,7 @@ class JtgModelFiles extends JModelLegacy
 		}
 
 		// Get the start coordinates
-		$gpsData = new gpsDataClass("Kilometer");// Default unit
+		$gpsData = new GpsDataClass("Kilometer");// Default unit
 		$file = $upload_dir . $target;
 		$cache = JFactory::getCache();
 		$gpsData = $cache->get(array ( $gpsData, 'loadFileAndData' ), array ($file, $target), "Kilometer");

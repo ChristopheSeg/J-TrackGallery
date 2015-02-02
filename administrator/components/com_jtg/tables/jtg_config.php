@@ -17,7 +17,7 @@ defined('_JEXEC') or die('Restricted access');
  * Table class
  *
  */
-class TableJTG_config extends JTable
+class TableJTG_Config extends JTable
 {
 	var $id				= null;
 

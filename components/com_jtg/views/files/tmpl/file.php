@@ -16,39 +16,42 @@ defined('_JEXEC') or die('Restricted access');
 echo $this->lh;
 
 $maySeeSingleFile = $this->maySeeSingleFile($this);
+
 if ($maySeeSingleFile === true)
 {
-	$durationbox = (bool)$this->params->get("jtg_param_show_durationcalc");
+	$durationbox = (bool) $this->params->get("jtg_param_show_durationcalc");
 	echo $this->map;
-	if ( ( $this->cfg->gallery == "jd2" ) OR ( $this->cfg->gallery == "jd21" )  OR ( $this->cfg->gallery == "highslide" ) ) {
+
+	if ( ( $this->cfg->gallery == "jd2" ) OR ( $this->cfg->gallery == "jd21" )  OR ( $this->cfg->gallery == "highslide" ) )
+	{
 		echo $this->galscript;
 	}
 
 	if ( $this->params->get("jtg_param_show_heightchart") AND $this->elevationDataExists)
 	{
-		$heightchart=true;
+		$heightchart = true;
 	}
 	else
 	{
-		$heightchart=false;
+		$heightchart = false;
 	}
 
 	if ( $this->params->get("jtg_param_show_speedchart") AND $this->speedDataExists )
 	{
-		$speedchart=true;
+		$speedchart = true;
 	}
 	else
 	{
-		$speedchart=false;
+		$speedchart = false;
 	}
 
 	if ($this->params->get("jtg_param_show_speedchart") AND $this->beatDataExists )
 	{
-		$beatchart=true;
+		$beatchart = true;
 	}
 	else
 	{
-		$beatchart=false;
+		$beatchart = false;
 	}
 
 	$havechart = ($heightchart or $speedchart) or $beatchart;
@@ -59,7 +62,7 @@ if ($maySeeSingleFile === true)
 
 		if ($heightchart)
 		{
-			// heightchart is always on left (first) axis
+			// Heightchart is always on left (first) axis
 			$heightchartaxis = 1;
 			$axisnumber ++;
 		}
@@ -72,7 +75,7 @@ if ($maySeeSingleFile === true)
 		{
 			// Speedchart is on left (first) axis or on right axis when there is a heighchart
 			$speedchartaxis = $heightchartaxis + 1;
-			$axisnumber += 1;
+			$axisnumber++;
 		}
 		else
 		{
@@ -82,7 +85,7 @@ if ($maySeeSingleFile === true)
 		if ($beatchart)
 		{
 			// Beatchart is on left (first) axis or on right axis when there is a heighchart or a speed chart
-			if ($axisnumber=1)
+			if ($axisnumber = 1)
 			{
 				$beatchartaxis = 2;
 				$axisnumber = 2;
@@ -98,7 +101,7 @@ if ($maySeeSingleFile === true)
 			$beatchartaxis = 0;
 		}
 		// Code support for joomla version greater than 3.0
-		if (JVERSION>=3.0)
+		if (JVERSION >= 3.0)
 		{
 			JHtml::_('jquery.framework');
 		}
@@ -256,7 +259,7 @@ if ($maySeeSingleFile === true)
 				name: '<?php echo JText::_('COM_JTG_ELEVATION'); ?>',
 				unit: 'm',
 				color: '#4572A7',
-				yAxis: <?php echo $heightchartaxis-1; ?>,
+				yAxis: <?php echo $heightchartaxis - 1; ?>,
 				data: <?php echo $this->heighdata; ?>,
 				marker: {
 				enabled: false
@@ -355,7 +358,7 @@ if ( $this->clicklist !== false ) {
 	}
 	?>
 	<div class="gps-info">
-		<table border="0" width="98%" align="center">
+		<table border="0" style="width:98%;" align="center">
 			<thead>
 				<tr>
 					<th colspan="3"><?php echo JText::_('COM_JTG_DETAILS'); ?></th>
@@ -460,18 +463,19 @@ if ( $this->clicklist !== false ) {
 <?php
 if ($this->cfg->usevote == 1)
 {
-	echo $this->parseTemplate("headline",JText::_('COM_JTG_VOTING'),"jtg_param_header_rating");
+	echo $this->parseTemplate("headline", JText::_('COM_JTG_VOTING'), "jtg_param_header_rating");
 	$template = "<div id=\"ratingbox\">
 	<ul id=\"1001\" class=\"rating " . $this->vote['class'] . "\">\n";
+
 	for ($i = 1; $i <= 10; $i++)
 	{
 		$link = "index.php?option=com_jtg&controller=files&id=" . $this->track->id . "&task=vote&rate=" . $i . "#jtg_param_header_rating";
-		$link = JRoute::_($link,false);
+		$link = JRoute::_($link, false);
 		$template .= "		<li id=\"" . $i . "\" class=\"rate " . $this->stars->$i . "\">\n"
-		. "			<a href=\"" . $link . "\" title=\"" . JText::_('COM_JTG_STARS_'.$i) . "\">" . $i . "</a>\n"
+		. "			<a href=\"" . $link . "\" title=\"" . JText::_('COM_JTG_STARS_' . $i) . "\">" . $i . "</a>\n"
 		. "		</li>\n";
-		//if ( $i == 1 )
 	}
+
 	$template .= "	</ul>\n";
 
 	if ( $this->vote['count'] == 0 )
@@ -590,8 +594,8 @@ if (! $this->params->get("jtg_param_disable_terrains"))
 
 if ($this->track->description)
 {
-	echo $this->parseTemplate("headline",JText::_('COM_JTG_DESCRIPTION'),"jtg_param_header_description");
-	echo $this->parseTemplate("description",$this->track->description);
+	echo $this->parseTemplate("headline", JText::_('COM_JTG_DESCRIPTION'), "jtg_param_header_description");
+	echo $this->parseTemplate("description", $this->track->description);
 }
 else
 {
@@ -607,6 +611,7 @@ else
 {
 	echo '<a name="jtg_param_header_gallery"></a>';
 }
+
 if ( $this->cfg->approach != 'no' )
 {
 	echo $this->parseTemplate("headline", JText::_('COM_JTG_APPROACH_SERVICE'), "jtg_param_header_approach");
@@ -631,7 +636,6 @@ if ( $this->cfg->approach != 'no' )
 
 	$description .= "		</tr>
 	</table>\n";
-	// $description .= "<a rel=\"width[1000];height[700];\" class=\"jcebox\" href=\"http://maps.google.com/maps?daddr=" . JText::_($this->track->start_n) . "," . JText::_($this->track->start_e) . "\" target=\"_blank\" >Google</a>";
 	echo $this->parseTemplate("description", $description);
 }
 else
@@ -643,13 +647,14 @@ else
 // Adding the comments
 if ($this->cfg->comments == 1)
 {
-	echo $this->parseTemplate("headline",JText::_('COM_JTG_COMMENTS'), "jtg_param_header_comment");
-	if (!$this->comments) {
+	echo $this->parseTemplate("headline", JText::_('COM_JTG_COMMENTS'), "jtg_param_header_comment");
+	if (!$this->comments)
+	{
 		echo "<div>" . JText::_('COM_JTG_NO_COMMENTS_DESC') . "</div>";
 	}
 	else
 	{
-		for ($i=0, $n=count($this->comments); $i<$n; $i++)
+		for ($i = 0, $n = count($this->comments); $i < $n; $i++)
 		{
 			$comment = $this->comments[$i];
 			?>
@@ -668,6 +673,7 @@ if ($this->cfg->comments == 1)
 		<br />
 		<?php
 		echo $this->model->parseEMailIcon($comment->email);
+
 		if ($comment->homepage)
 		{
 			echo ' ' . $this->model->parseHomepageIcon($comment->homepage);
@@ -696,13 +702,15 @@ if ($this->cfg->comments == 1)
 elseif ($this->cfg->comments == 3)
 {
 	$jcommentsfile = 'components/com_jcomments/jcomments.php' ;
+
 	if ((JFile::exists(JPATH_SITE . '/' . $jcommentsfile)))
 	{
 		// 	global $mosConfig_absolute_path;
 		require_once 'components/com_jcomments/jcomments.php';
 		echo JComments::showComments($this->track->id, "com_jtg");
 	}
-	else{
+	else
+	{
 		JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_ERROR_ACTIVATE_JCOMMENTS'), 'Error');
 	}
 }
@@ -723,18 +731,18 @@ else
 }
 elseif ($maySeeSingleFile === false)
 {
-	echo '<p class="error">'.JText::_('COM_JTG_NOT_AUTH').'</p>';
+	echo '<p class="error">' . JText::_('COM_JTG_NOT_AUTH') . '</p>';
 }
 else
 {
-	echo '<p class="error">'.$maySeeSingleFile.'</p>';
+	echo '<p class="error">' . $maySeeSingleFile . '</p>';
 }
 
 echo $this->footer;
 
 if ( isset($this->cfg) )
 {
-	echo "\n<script language=\"javascript\" type=\"text/javascript\">\n
+	echo "\n<script type=\"text/javascript\">\n
 	var olmap={ title: 'com_jtg_map_object' } \n
 	slippymap_init();</script>\n";
 }

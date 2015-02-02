@@ -17,7 +17,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 // The name of the class must be the name of your component + InstallerScript
-class com_jtgInstallerScript
+class Com_JtgInstallerScript
 {
 	/**
 	 * $parent is the class calling this method.
@@ -104,7 +104,7 @@ class com_jtgInstallerScript
 	src="<?php echo '/components/com_jtg/assets/images/logo_JTG.png'; ?>"
 	alt="J!Track Gallery" />
 <br />
-<table class="adminlist" border="1" width="100%">
+<table class="adminlist" border="1" style="width:100%;">
 	<tbody>
 		<tr>
 			<td><?php JText::_('COM_JTG_INSTALL_LICENCE') ?></td>
@@ -229,7 +229,8 @@ return true;
 		// This is executed after upgrade.sql
 		// Upgrading from $oldRelease to $this->release
 		$oldRelease = $this->getParam('version');
-		if ( version_compare( $oldRelease, '0.7.0', '<' ) )
+
+		if ( version_compare($oldRelease, '0.7.0', '<'))
 		{
 			// Installed version is lower then 0.7.0 ==> do some stuff
 		}
@@ -263,6 +264,7 @@ return true;
 			// This a NON successfull install:
 			// TODO truncate all com_jtg tables
 			$application->enqueueMessage('SHOULD TRUNCATE ALL TABLES');
+
 			// DROP TABLE `crl05_jtg_cats`, `crl05_jtg_cats2`, `crl05_jtg_comments`, `crl05_jtg_config`, `crl05_jtg_files`, `crl05_jtg_files2`, `crl05_jtg_maps`, `crl05_jtg_terrains`, `crl05_jtg_users`, `crl05_jtg_votes`;
 		}
 

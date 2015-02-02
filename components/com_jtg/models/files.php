@@ -46,6 +46,7 @@ class JtgModelFiles extends JModelLegacy
 			$query = $this->_buildQuery();
 			$this->_data = $this->_getList($query, $limitstart, $limit);
 		}
+
 		return $this->_data;
 	}
 
@@ -56,22 +57,34 @@ class JtgModelFiles extends JModelLegacy
 		$levels = explode("\n", $cfg->level);
 		array_unshift($levels, 'dummy');
 		$i = 0;
+
 		foreach ($levels as $level)
 		{
 			if (trim($level) != "")
 			{
 				$return .= ("					<option value=\"" . $i . "\"");
+
 				if ($i == $selected)
+				{
 					$return .= (" selected=\"selected\"");
+				}
+
 				$return .= (">");
+
 				if ($i == 0)
+				{
 					$return .= JText::_('COM_JTG_SELECT');
+				}
 				else
+				{
 					$return .= $i . " - " . JText::_(trim($level));
+				}
+
 				$return .= ("</option>\n");
 				$i ++;
 			}
 		}
+
 		return $return . "				</select>\n";
 	}
 
@@ -87,6 +100,7 @@ class JtgModelFiles extends JModelLegacy
 		$levels = explode("\n", $cfg->level);
 		array_unshift($levels, 'dummy');
 		$i = 0;
+
 		foreach ($levels as $level)
 		{
 			if (trim($level) != "")
@@ -96,10 +110,13 @@ class JtgModelFiles extends JModelLegacy
 					$selectedlevel = $i;
 					$selectedtext = $level;
 				}
+
 				$i ++;
 			}
 		}
+
 		$return .= $selectedlevel . "/" . ($i - 1) . " - " . JText::_(trim($selectedtext));
+
 		return $return;
 	}
 
@@ -115,6 +132,7 @@ class JtgModelFiles extends JModelLegacy
 			$query = $this->_buildQuery();
 			$this->_total = $this->_getListCount($query);
 		}
+
 		return $this->_total;
 	}
 
@@ -135,7 +153,7 @@ class JtgModelFiles extends JModelLegacy
 		{
 			$userwhere = " WHERE uid='" . $user->get('id') . "'";
 		}
-		else if (JFactory::getApplication()->input->get('layout') == 'user' && $where)
+		elseif (JFactory::getApplication()->input->get('layout') == 'user' && $where)
 		{
 			$userwhere = " AND uid='" . $user->get('id') . "'";
 		}
@@ -148,6 +166,7 @@ class JtgModelFiles extends JModelLegacy
 		// 	. "\n LEFT JOIN #__users AS c ON a.uid\n"
 		. "\n LEFT JOIN #__users AS c ON a.uid=c.id\n"
 		. $where . $userwhere . $orderby;
+
 		return $query;
 	}
 
@@ -200,22 +219,31 @@ class JtgModelFiles extends JModelLegacy
 			$where[] = 'LOWER(c.username) LIKE ' . $db->Quote('%' . $db->getEscaped($search, true) . '%', false);
 			$index = "d";
 		}
+
 		if ($cat)
 		{
 			$where[] = '(' . $index . '.catid) LIKE ' . $db->Quote('%' . $db->getEscaped($cat, true) . '%', false);
 		}
+
 		if ($terrain)
 		{
 			// $where[] = '('.$index.'.terrain) = '.$db->Quote( $db->getEscaped(
 			// $terrain, true ), false );
 			$where[] = '(' . $index . '.terrain) LIKE ' . $db->Quote('%' . $db->getEscaped($terrain, true) . '%', false);
 		}
+
 		$pubhid = "( a.published = '1' AND a.hidden = '0' )";
 		$where = (count($where) ? ' WHERE ' . implode(' OR ', $where) : '');
-		if ($where == "") // bad :(
+
+		if ($where == "")
+		{
 			$where = " WHERE " . $pubhid;
+		}
 		else
+		{
 			$where .= " AND " . $pubhid;
+		}
+
 		return $where;
 	}
 
@@ -227,7 +255,6 @@ class JtgModelFiles extends JModelLegacy
 	function getCats ()
 	{
 		$mainframe = JFactory::getApplication();
-
 		$db = JFactory::getDBO();
 
 		$query = "SELECT * FROM #__jtg_cats WHERE published=1 ORDER BY ordering ASC";
@@ -236,6 +263,7 @@ class JtgModelFiles extends JModelLegacy
 		$rows = $db->loadObjectList();
 		$limit = count($rows);
 		$children = array();
+
 		foreach ($rows as $v)
 		{
 			$v->title = JText::_($v->title);
@@ -244,7 +272,8 @@ class JtgModelFiles extends JModelLegacy
 			array_push($list, $v);
 			$children[$pt] = $list;
 		}
-		$list = JHtml::_('menu.treerecurse', 0, '', array(), $children, $maxlevel=9999, $level=0, $type=0);
+
+		$list = JHtml::_('menu.treerecurse', 0, '', array(), $children, $maxlevel = 9999, $level = 0, $type = 0);
 		$list = array_slice($list, 0, $limit);
 		$cats = array();
 		$nullcat = array(
@@ -254,12 +283,18 @@ class JtgModelFiles extends JModelLegacy
 				'image' => ""
 		);
 		$cats[0] = JArrayHelper::toObject($nullcat);
+
 		foreach ($list as $cat)
 		{
 			if ($cat->treename == $cat->title)
+			{
 				$title = $cat->title;
+			}
 			else
+			{
 				$title = $cat->treename;
+			}
+
 			$arr = array(
 					'id' => $cat->id,
 					'title' => $title,
@@ -287,6 +322,7 @@ class JtgModelFiles extends JModelLegacy
 		$db = JFactory::getDBO();
 		$user = JFactory::getUser();
 		$cache = JFactory::getCache('com_jtg');
+
 		// Get the post data
 		$catid = JFactory::getApplication()->input->get('catid', null, 'array');
 		$catid = $catid ? implode(',', $catid) : '';
@@ -300,7 +336,7 @@ class JtgModelFiles extends JModelLegacy
 		$date = date("Y-m-d");
 		$jInput = JFactory::getApplication()->input;
 		$jFileInput = new jInput($_FILES);
-		$images = $jFileInput->get('images',array(),'array');
+		$images = $jFileInput->get('images', array(), 'array');
 		$access = JRequest::getInt('access', 0);
 		$hidden = JRequest::getInt('hidden', 0);
 		$published = JRequest::getInt('published', 0);
@@ -309,15 +345,17 @@ class JtgModelFiles extends JModelLegacy
 		$upload_dir = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks/';
 		$filename = strtolower(JFile::makeSafe($file['name']));
 		$newfile = $upload_dir . strtolower($filename);
+
 		if (JFile::exists($newfile))
 		{
-			$alert_text= json_encode(JText::sprintf("COM_JTG_FILE_ALREADY_EXISTS", $filename));
+			$alert_text = json_encode(JText::sprintf("COM_JTG_FILE_ALREADY_EXISTS", $filename));
 			die(
 					"<script type='text/javascript' charset='UTF-8'>alert($alert_text);window.history.back(-1);</script>");
 		}
+
 		if (! JFile::upload($file['tmp_name'], $newfile))
 		{
-			$alert_text= json_encode(JText::_('COM_JTG_UPLOAD_FAILS'));
+			$alert_text = json_encode(JText::_('COM_JTG_UPLOAD_FAILS'));
 			die("<script type='text/javascript'>alert($alert_text);window.history.back(-1);</script>");
 		}
 		else
@@ -327,27 +365,31 @@ class JtgModelFiles extends JModelLegacy
 
 		// Get the start coordinates..
 
-		$gpsData = new gpsDataClass("Kilometer"); // Default unit
-		$gpsData = $cache->get(array(
-				$gpsData,
-				'loadFileAndData'
-		), array(
-				$newfile,
-				strtolower($filename)
-		), "Kilometer");
+		// Default unit
+		$gpsData = new GpsDataClass("Kilometer");
+		$gpsData = $cache->get(
+				array($gpsData,
+						'loadFileAndData'
+				), array(
+						$newfile,
+						strtolower($filename)
+				), "Kilometer");
 		$errors = $gpsData->displayErrors();
+
 		if ($errors)
 		{
 			$map = "";
 			$coords = "";
 			$distance_float = 0;
 			$distance = 0;
+
 			// Try to delete the file
 			if (JFile::exists($upload_dir . strtolower($filename)))
 			{
 				JFile::delete($upload_dir . strtolower($filename));
 			}
-			$alert_text= json_encode(JText::_('COM_JTG_NO_SUPPORT') . '\n' .$errors);
+
+			$alert_text = json_encode(JText::_('COM_JTG_NO_SUPPORT') . '\n' . $errors);
 			echo "<script type='text/javascript'>alert($alert_text);window.history.back(-1);</script>";
 			exit();
 		}
@@ -359,14 +401,7 @@ class JtgModelFiles extends JModelLegacy
 		$isWaypoint = $gpsData->isWaypoint;
 		$isRoute = 0;
 		$isCache = 0;
-
 		$distance = $gpsData->distance;
-		// Na und was ist mit Wegpunkten?
-		// if ($distance == null) {
-		// echo "<script type='text/javascript'>alert('" . $distance .
-		// "');window.history.back(-1);</script>";
-		// exit;
-		// }
 
 		$query = "INSERT INTO #__jtg_files SET"
 		. "\n uid='" . $uid . "',"
@@ -375,7 +410,7 @@ class JtgModelFiles extends JModelLegacy
 		. "\n file='" .	strtolower($filename) . "',"
 		. "\n terrain='" . $terrain . "',"
 		. "\n description='" . $desc . "',"
-		. "\n published='" . $published ."',"
+		. "\n published='" . $published . "',"
 		. "\n date='" . $date . "',"
 		. "\n start_n='" . $start_n . "',"
 		. "\n start_e='" . $start_e . "',"
@@ -388,8 +423,7 @@ class JtgModelFiles extends JModelLegacy
 		. "\n istrack='" . $isTrack . "',"
 		. "\n iswp='" . $isWaypoint . "',"
 		. "\n isroute='" . $isRoute . "',"
-		. "\n iscache='" . $isCache . "'"
-		;
+		. "\n iscache='" . $isCache . "'";
 
 		$db->setQuery($query);
 		$db->execute();
@@ -397,8 +431,10 @@ class JtgModelFiles extends JModelLegacy
 		if ($db->getErrorNum())
 		{
 			echo $db->stderr();
+
 			return false;
 		}
+
 		$query = "SELECT id FROM #__jtg_files WHERE file='" . strtolower($filename) . "'";
 
 		$db->setQuery($query);
@@ -407,16 +443,19 @@ class JtgModelFiles extends JModelLegacy
 		// Images upload part
 		$cfg = JtgHelper::getConfig();
 		$types = explode(',', $cfg->type);
+
 		if (count($images) > 0)
 		{
 			$img_dir = JPATH_SITE . '/images/jtrackgallery/track_' . $rows->id . '/';
 			JFolder::create($img_dir, 0777);
+
 			foreach ($images['name'] as $key => $value)
 			{
 				if ($value != "")
 				{
 					$imgfilename = JFile::makesafe($value);
 					$ext = JFile::getExt($images['name'][$key]);
+
 					if (in_array(strtolower($ext), $types))
 					{
 						JtgHelper::createimageandthumbs($images['tmp_name'][$key], $ext, $img_dir, $imgfilename);
@@ -424,6 +463,7 @@ class JtgModelFiles extends JModelLegacy
 				}
 			}
 		}
+
 		return true;
 	}
 
@@ -442,8 +482,10 @@ class JtgModelFiles extends JModelLegacy
 		{
 			$tracks = $this->getTable('jtg_files', 'Table');
 			$tracks->hit($id);
+
 			return true;
 		}
+
 		return false;
 	}
 
@@ -464,8 +506,12 @@ class JtgModelFiles extends JModelLegacy
 
 		$db->setQuery($query);
 		$result = $db->loadObject();
+
 		if (! $result)
+		{
 			return JTable::getInstance('jtg_files', 'table');
+		}
+
 		return $result;
 	}
 
@@ -506,8 +552,9 @@ class JtgModelFiles extends JModelLegacy
 		$db->setQuery($query);
 		$givenvotes = (int) $db->loadResult();
 
-		// fetch rating
+		// Fetch rating
 		$rate = null;
+
 		if ($count != 0)
 		{
 			while ($rate === null)
@@ -516,26 +563,32 @@ class JtgModelFiles extends JModelLegacy
 
 				$db->setQuery($query);
 				$rate = $db->loadResult();
+
 				if ($rate === null)
 				{
 					$newvote = (float) (round(($givenvotes / $count), 3));
 					$query = "UPDATE #__jtg_files SET" . " vote='" . $newvote . "'" . " WHERE id='" . $id . "'";
 					$db->setQuery($query);
+
 					if (! $db->execute())
 					{
 						echo $db->stderr();
+
 						return false;
 					}
 				}
 			}
 		}
 		else
-		{ // Save voting: 0
+		{
+			// Save voting: 0
 			$query = "UPDATE #__jtg_files SET" . " vote='0'" . " WHERE id='" . $id . "'";
 			$db->setQuery($query);
+
 			if (! $db->execute())
 			{
 				echo $db->stderr();
+
 				return false;
 			}
 		}
@@ -546,6 +599,7 @@ class JtgModelFiles extends JModelLegacy
 				"sum" => (int) $givenvotes,
 				"class" => $class[(int) round($rate, 0)]
 		);
+
 		return $object;
 	}
 
@@ -559,38 +613,42 @@ class JtgModelFiles extends JModelLegacy
 	function vote ($id, $rate)
 	{
 		if ($id && $rate)
-			:
+		{
 			$givevotes = $this->getVotes($id);
 
-		$mainframe = JFactory::getApplication();
+			$mainframe = JFactory::getApplication();
 
-		$db = JFactory::getDBO();
+			$db = JFactory::getDBO();
 
-		$query = "INSERT INTO #__jtg_votes SET" . "\n trackid='" . $id . "'," . "\n rating='" . $rate . "'";
-		$db->setQuery($query);
-		if (! $db->execute())
-		{
-			echo $db->stderr();
-			return false;
+			$query = "INSERT INTO #__jtg_votes SET" . "\n trackid='" . $id . "'," . "\n rating='" . $rate . "'";
+			$db->setQuery($query);
+
+			if (! $db->execute())
+			{
+				echo $db->stderr();
+
+				return false;
+			}
+
+			// Count
+			$count = (int) $givevotes['count'];
+			$sum = (int) $givevotes['sum'];
+
+			$newvote = (float) (round((($sum + $rate) / ($count + 1)), 3));
+
+			$query = "UPDATE #__jtg_files SET" . " vote='" . $newvote . "'" . " WHERE id='" . $id . "'";
+			$db->setQuery($query);
+
+			if (! $db->execute())
+			{
+				echo $db->stderr();
+
+				return false;
+			}
+
+			return true;
 		}
 
-		// Count
-		$count = (int) $givevotes['count'];
-		$sum = (int) $givevotes['sum'];
-
-		$newvote = (float) (round((($sum + $rate) / ($count + 1)), 3));
-
-		$query = "UPDATE #__jtg_files SET" . " vote='" . $newvote . "'" . " WHERE id='" . $id . "'";
-		$db->setQuery($query);
-		if (! $db->execute())
-		{
-			echo $db->stderr();
-			return false;
-		}
-
-		return true;
-
-		endif;
 		return false;
 	}
 
@@ -603,17 +661,26 @@ class JtgModelFiles extends JModelLegacy
 		$query = "SELECT * FROM #__jtg_files WHERE id='" . $id . "'";
 		$this->_db->setQuery($query);
 		$file = $this->_db->loadObject();
-		// folder and Pictures within delete
+
+		// Folder and Pictures within delete
 		$folder = JPATH_SITE . "/images/jtrackgallery/" . 'track_' . $id;
+
 		if (JFolder::exists($folder))
+		{
 			JFolder::delete($folder);
+		}
+
 		// File (gpx?) delete
 		$filename = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks/' . $file->file;
+
 		if (JFile::exists($filename))
+		{
 			JFile::delete($filename);
+		}
 		// Delete from DB
 		$query = "DELETE FROM #__jtg_files" . "\n WHERE id='" . $id . "'";
 		$db->setQuery($query);
+
 		if ($db->execute())
 		{
 			return true;
@@ -627,9 +694,14 @@ class JtgModelFiles extends JModelLegacy
 	function getImages ($id)
 	{
 		$img_dir = JPATH_SITE . '/images/jtrackgallery/track_' . $id;
+
 		if (! JFolder::exists($img_dir))
+		{
 			return null;
+		}
+
 		$images = JFolder::files($img_dir);
+
 		return $images;
 	}
 
@@ -646,39 +718,48 @@ class JtgModelFiles extends JModelLegacy
 		// Get the post data
 		$catid = JFactory::getApplication()->input->get('catid', null, 'array');
 		$catid = $catid ? implode(',', $catid) :  '';
-		$level = JFactory::getApplication()->input->get('level_'.$i, 0, 'integer');
+		$level = JFactory::getApplication()->input->get('level_' . $i, 0, 'integer');
 		$title = JFactory::getApplication()->input->get('title');
 		$allimages = $this->getImages($id);
 		$imgpath = JPATH_SITE . '/images/jtrackgallery/track_' . $id . '/';
+
 		foreach ($allimages as $key => $image)
 		{
 			$image = JFactory::getApplication()->input->get('deleteimage_' . str_replace('.', null, $image));
+
 			if ($image !== null)
 			{
 				JFile::delete($imgpath . $image);
+
 				// Delete thumbnails too
 				JFile::delete($imgpath . 'thumbs/thumb0_' . $image);
 				JFile::delete($imgpath . 'thumbs/thumb1_' . $image);
 				JFile::delete($imgpath . 'thumbs/thumb2_' . $image);
 			}
 		}
+
 		$terrain = JFactory::getApplication()->input->get('terrain', null, 'array');
+
 		if ($terrain)
+		{
 			$terrain = $terrain ? implode(', ', $terrain) : '';
+		}
 		else
+		{
 			$terrain = '';
-		// Joomla Jinput strips html tags!!
-		// Reference
-		// http://stackoverflow.com/questions/19426943/joomlas-jinput-strips-html-with-every-filter
+		}
+		/* Joomla Jinput strips html tags!!
+		 http://stackoverflow.com/questions/19426943/joomlas-jinput-strips-html-with-every-filter
+		*/
 		$desc = $db->getEscaped(implode(' ', JFactory::getApplication()->input->get('description', '', 'array')));
+
 		// $images = JFactory::getApplication()->input->files->get('images');
 		$jInput = JFactory::getApplication()->input;
 		$jFileInput = new jInput($_FILES);
-		$images = $jFileInput->get('images',array(),'array');
+		$images = $jFileInput->get('images', array(), 'array');
 		$access = JRequest::getInt('access', 0);
 		$hidden = JRequest::getInt('hidden', 0);
 		$published = JRequest::getInt('published', 0);
-		// if ($images["tmp_name"][0] == "") return "no tempname";
 
 		// Images upload part
 		$cfg = JtgHelper::getConfig();
@@ -690,11 +771,13 @@ class JtgModelFiles extends JModelLegacy
 			{
 				JFolder::create($imgpath, 0777);
 			}
+
 			foreach ($images['name'] as $key => $value)
 			{
 				if ($value)
 				{
 					$ext = JFile::getExt($images['name'][$key]);
+
 					if (in_array(strtolower($ext), $types))
 					{
 						JtgHelper::createimageandthumbs($images['tmp_name'][$key], $ext, $imgpath, $images['name'][$key]);
@@ -702,6 +785,7 @@ class JtgModelFiles extends JModelLegacy
 				}
 			}
 		}
+
 		$query = "UPDATE #__jtg_files SET" . "\n catid='" . $catid . "'," . "\n title='" . $title . "'," . "\n terrain='" . $terrain . "'," .
 				"\n description='" . $desc . "'," .
 				"\n level='" . $level . "'," . "\n hidden='" . $hidden . "'," . "\n published='" . $published . "'," . "\n access='" . $access . "'" .
@@ -713,6 +797,7 @@ class JtgModelFiles extends JModelLegacy
 		if ($db->getErrorNum())
 		{
 			echo $db->stderr();
+
 			return "database not saved";
 		}
 		else
@@ -729,7 +814,6 @@ class JtgModelFiles extends JModelLegacy
 	function getTerrain ($where = null)
 	{
 		$mainframe = JFactory::getApplication();
-
 		$db = JFactory::getDBO();
 
 		// $query = "SELECT * FROM #__jtg_terrains ORDER BY ordering,title ASC";
@@ -738,6 +822,7 @@ class JtgModelFiles extends JModelLegacy
 		$db->setQuery($query);
 		$row = $db->loadObjectList();
 		$terrain = array();
+
 		if ($row)
 		{
 			foreach ($row as $v)
@@ -780,7 +865,8 @@ class JtgModelFiles extends JModelLegacy
 		$user = JFactory::getUser();
 		$id = JRequest::getInt('id');
 		?>
-<script language="javascript">
+
+		<script type="text/javascript">
 		Joomla.myValidate = function(f) {
 				if (document.formvalidator.isValid(f)) {
 						f.check.value='<?php echo JSession::getFormToken(); ?>';//send token
@@ -832,13 +918,13 @@ class JtgModelFiles extends JModelLegacy
 			</tr>
 			<tr>
 				<td colspan='2'><label for='text'><?php echo JText::_('COM_JTG_COMMENT_TEXT'); ?>*</label>
-					<?php echo $editor->display( 'text', '', '100%', '100', '80', '10', false, null, null);?>
+					<?php echo $editor->display('text', '', '100%', '100', '80', '10', false, null, null);?>
 				</td>
 			</tr>
 			<?php if ($cfg->captcha == 1): ?>
 			<tr>
 				<td><img
-					src='<?php echo JRoute::_("index.php?option=com_jtg&task=displayimg",false); ?>'>
+					src='<?php echo JRoute::_("index.php?option=com_jtg&task=displayimg", false); ?>'>
 				</td>
 				<td><input type="text" name="word" value="" size="10"
 					class="required" /> <?php echo JText::_('COM_JTG_CAPTCHA_INFO'); ?>
@@ -875,8 +961,11 @@ class JtgModelFiles extends JModelLegacy
 		$homepage = JFactory::getApplication()->input->get('homepage');
 		$title = JFactory::getApplication()->input->get('title');
 		$text = JFactory::getApplication()->input->get('text', '', 'raw');
+
 		if ($text == "")
+		{
 			return false;
+		}
 
 		$db = JFactory::getDBO();
 		$query = "INSERT INTO #__jtg_comments SET" . "\n tid='" . $id . "'," . "\n user='" . $name . "'," . "\n email='" . $email . "'," .
@@ -903,6 +992,7 @@ class JtgModelFiles extends JModelLegacy
 			$body = sprintf($msg, $link);
 			$mailer->setSubject(JText::_('COM_JTG_CMAIL_SUBJECT'));
 			$mailer->setBody($body);
+
 			// Optional file attached
 			$mailer->addAttachment(JPATH_COMPONENT . '/assets/document.pdf');
 			/*
@@ -919,6 +1009,7 @@ class JtgModelFiles extends JModelLegacy
 					* $sender,$email,$subject,$body);
 			*/
 			$send = $mailer->Send();
+
 			if ($send !== true)
 			{
 				echo 'Error sending email: ' . $send->__toString();
@@ -928,6 +1019,7 @@ class JtgModelFiles extends JModelLegacy
 		if ($db->getErrorNum())
 		{
 			echo $db->stderr();
+
 			return false;
 		}
 		else
@@ -967,6 +1059,7 @@ class JtgModelFiles extends JModelLegacy
 		$user = JFactory::getUser();
 		$latlon = JtgHelper::getLatLon($user->id);
 		$link = "http://openrouteservice.org/?";
+
 		if (isset($latlon[0]))
 		{
 			$middle_lon = ((float) $to_lon + (float) $latlon[0]->jtglon) / 2;
@@ -975,7 +1068,10 @@ class JtgModelFiles extends JModelLegacy
 			"&amp;lon=" . $middle_lon;
 		}
 		else
+		{
 			$link .= "end=" . $to_lon . "," . $to_lat;
+		}
+
 		return $link . "&amp;lang=" . $lang . "&amp;pref=";
 	}
 
@@ -999,13 +1095,20 @@ class JtgModelFiles extends JModelLegacy
 		$link = "http://maps.cloudmade.com/?";
 		$user = JFactory::getUser();
 		$latlon = JtgHelper::getLatLon($user->id);
+
 		if (isset($latlon[0]))
 		{
 			if ($latlon[0]->jtglat)
+			{
 				$from_lat = $latlon[0]->jtglat;
+			}
+
 			if ($latlon[0]->jtglon)
+			{
 				$from_lon = $latlon[0]->jtglon;
+			}
 		}
+
 		if (isset($from_lon) && isset($from_lat))
 		{
 			$middle_lon = ((float) $to_lon + (float) $from_lon) / 2;
@@ -1022,6 +1125,7 @@ class JtgModelFiles extends JModelLegacy
 			$link .= "lng=" . $to_lon . "&amp;";
 			$link .= "zoom=15";
 		}
+
 		return $link . "&amp;styleId=1&amp;opened_tab=1&amp;travel=";
 	}
 
@@ -1046,13 +1150,20 @@ class JtgModelFiles extends JModelLegacy
 		$link = "http://navigation.cloudmade.com/" . $key . "/api/0.3/";
 		$user = JFactory::getUser();
 		$latlon = JtgHelper::getLatLon($user->id);
+
 		if (isset($latlon[0]))
 		{
 			if ($latlon[0]->jtglat)
+			{
 				$from_lat = $latlon[0]->jtglat;
+			}
+
 			if ($latlon[0]->jtglon)
+			{
 				$from_lon = $latlon[0]->jtglon;
+			}
 		}
+
 		if (isset($from_lon) && isset($from_lat))
 		{
 			$middle_lon = ((float) $to_lon + (float) $from_lon) / 2;
@@ -1064,16 +1175,21 @@ class JtgModelFiles extends JModelLegacy
 		{
 			$link .= "directions=" . $to_lat . "," . $to_lon . "lat=" . $to_lat . "&amp;" . "lng=" . $to_lon . "&amp;zoom=15";
 		}
+
 		return $link . "&amp;zoom=15&amp;travel=";
 	}
 
 	function parseHomepageIcon ($www)
 	{
 		if ((! preg_match('/http\:\/\//', $www)) and (! preg_match('/https\:\/\//', $www)))
+		{
 			$www = "http://" . $www;
+		}
+
 		$cfg = JtgHelper::getConfig();
 		$return = "<a target=\"_blank\" href=\"" . $www . "\"><img src=\"" . JUri::base() . "components/com_jtg/assets/template/" . $cfg->template .
 		"/images/weblink.png\" /></a>";
+
 		return $return;
 	}
 

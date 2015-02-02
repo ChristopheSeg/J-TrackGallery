@@ -21,7 +21,7 @@ jimport('joomla.filter.input');
  * Table class
  *
  */
-class TableJTG_terrain extends JTable
+class TableJTG_Terrain extends JTable
 {
 	var $id             = null;
 

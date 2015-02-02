@@ -14,138 +14,192 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
-class layoutHelper
+class LayoutHelper
 {
-	static function parseVoteFloat($float,$expressive = false) {
+	static function parseVoteFloat($float, $expressive = false)
+	{
 		if ( ( $float === null ) OR ( $float == 0 ) )
 		{
 			if ( $expressive )
+			{
 				return "<font class=\"emptyEntry\">" . JText::_('COM_JTG_NOT_VOTED') . "</font>";
+			}
 			else
+			{
 				return 0;
+			}
 		}
-		$int = (int)round($float,0);
-		$stars = JText::_('COM_JTG_STAR'.$int);
-		$return = "<font title=\"".JtgHelper::getLocatedFloat($float) . "\">";
+
+		$int = (int) round($float, 0);
+		$stars = JText::_('COM_JTG_STAR' . $int);
+		$return = "<font title=\"" . JtgHelper::getLocatedFloat($float) . "\">";
 		$return .= $int;
 		$return .= " ";
+
 		if ( $expressive )
+		{
 			$return .= $stars;
+		}
 		$return .= "</font>";
+
 		return $return;
 	}
 
-	static function navigation() {
+	static function navigation()
+	{
 		$user = JFactory::getUser();
 		$juser = new JUser($user->id);
 		$uri = JFactory::getApplication()->input->get('layout');
 		$navi = '';
 		$navi .= '<div class="gps-navi">';
-		$navi .= '<div class="navi-part"><a href="'.
-				JRoute::_("index.php?option=com_jtg").
-				'">'.JText::_('COM_JTG_OVERVIEW').'</a></div>';
-		$navi .= '<div class="navi-part"><a href="'.
-				JRoute::_("index.php?option=com_jtg&view=cats&layout=default").'">'.JText::_('COM_JTG_CATS').'</a></div>';
-		$navi .= '<div class="navi-part"><a href="'.
-				JRoute::_("index.php?option=com_jtg&view=files&layout=list").'">'.JText::_('COM_JTG_TRACKS').'</a></div>';
+		$navi .= '<div class="navi-part"><a href="' .
+				JRoute::_("index.php?option=com_jtg") .
+				'">' . JText::_('COM_JTG_OVERVIEW') . '</a></div>';
+		$navi .= '<div class="navi-part"><a href="' .
+				JRoute::_("index.php?option=com_jtg&view=cats&layout=default") . '">' . JText::_('COM_JTG_CATS') . '</a></div>';
+		$navi .= '<div class="navi-part"><a href="' .
+				JRoute::_("index.php?option=com_jtg&view=files&layout=list") . '">' . JText::_('COM_JTG_TRACKS') . '</a></div>';
 		$cfg = JtgHelper::getConfig();
-		// $navi .= "ich bin " . $juser->get('gid') . " und muss mindestens " . $cfg->gid . " sein";
-		if ($user->get('id')) {
+
+		if ($user->get('id'))
+		{
 			// Erscheint nur, wenn User kein Gast
-			if ( JtgHelper::userHasFrontendRights() ) {
-				// If ($juser->get('gid') >= $cfg->gid ) {
-				// Erscheint nur, wenn User Berechtigung zum erstellen hat
-				$navi .= '<div class="navi-part"><a href="'.
-						JRoute::_("index.php?option=com_jtg&view=files&layout=form").'">'.
-						JText::_('COM_JTG_ADD_FILE').'</a></div>';
+			if ( JtgHelper::userHasFrontendRights() )
+			{
+				$navi .= '<div class="navi-part"><a href="' .
+						JRoute::_("index.php?option=com_jtg&view=files&layout=form") . '">' .
+						JText::_('COM_JTG_ADD_FILE') . '</a></div>';
 			}
 			// Erscheint bei jedem Registrierten
-			$navi .= '<div class="navi-part"><a href="'.
-					JRoute::_("index.php?option=com_jtg&view=files&layout=user").'">'.
-					JText::_('COM_JTG_MY_FILES').'</a></div>';
-			if ( ($uri != null) AND ($uri == 'file') ) {
+			$navi .= '<div class="navi-part"><a href="' .
+					JRoute::_("index.php?option=com_jtg&view=files&layout=user") . '">' .
+					JText::_('COM_JTG_MY_FILES') . '</a></div>';
+
+			if ( ($uri != null) AND ($uri == 'file') )
+			{
 				$gpsfile = new JtgModelFiles;
 				$track = JFactory::getApplication()->input->get('id');
 				$track = $gpsfile->getFile($track);
 
-				if ( ($track !== null) AND (
-						( $user->get('id') == $track->uid ) ) )
-					// User can delete or, update its own tracks
+				if ( ($track !== null)
+					AND (( $user->get('id') == $track->uid ) ) )
 				{
-					$navi .= '<div class="navi-part"><a href="'.
-							JRoute::_("index.php?option=com_jtg&view=files&layout=form&id=".
-									JFactory::getApplication()->input->get('id')).'">'.JText::_('COM_JTG_UPDATE_GPS_FILE').'</a></div>';
-					$navi .= '<div class="navi-part"><a href="'.
-							JRoute::_("index.php?option=com_jtg&controller=files&task=delete&id=".
-									JFactory::getApplication()->input->get('id')).'">'.JText::_('COM_JTG_DELETE_FILE').'</a></div>';
+					// User can delete or, update its own tracks
+					$navi .= '<div class="navi-part"><a href="' .
+							JRoute::_("index.php?option=com_jtg&view=files&layout=form&id=" .
+									JFactory::getApplication()->input->get('id')
+									) . '">' . JText::_('COM_JTG_UPDATE_GPS_FILE') . '</a></div>';
+					$navi .= '<div class="navi-part"><a href="' .
+							JRoute::_("index.php?option=com_jtg&controller=files&task=delete&id=" .
+									JFactory::getApplication()->input->get('id')
+									) . '">' . JText::_('COM_JTG_DELETE_FILE') . '</a></div>';
 				}
 			}
 		}
+
 		$navi .= '<div class="no-float"></div>';
 		$navi .= '</div>';
+
 		return $navi;
 	}
 
-	static function footer() {
-		$footer = '<div class="gps-footer">'.JText::_('COM_JTG_POWERED_BY');
+	static function footer()
+	{
+		$footer = '<div class="gps-footer">' . JText::_('COM_JTG_POWERED_BY');
 		$footer .= ' <a href="http://jtrackgallery.net"';
 		$footer .= ' target="_blank">J!Track Gallery</a>';
 		$footer .= '</div>';
+
 		return $footer;
 	}
 
-	static function disclaimericons() {
-		$disclaimericons = '<div class="gps-footer">'.JText::_('COM_JTG_DISCLAIMER_ICONS');
-		$disclaimericons .= ' '.JText::_('COM_JTG_SUBMITTER').': <a href="" target="_blank"></a></div>';
+	static function disclaimericons()
+	{
+		$disclaimericons = '<div class="gps-footer">' . JText::_('COM_JTG_DISCLAIMER_ICONS');
+		$disclaimericons .= ' ' . JText::_('COM_JTG_SUBMITTER') . ': <a href="" target="_blank"></a></div>';
+
 		return $disclaimericons;
 	}
 
 	static function parseMap($document)
 	{
-		// $document->addScript('components/com_jtg/assets/js/OpenLayers/OpenLayers.js'); // Benötigt für Spuransich in Übersicht
 		$document->addScript('http://www.openlayers.org/api/OpenLayers.js');
 		$document->addScript('components/com_jtg/assets/js/fullscreen.js');
-		// $document->addScript('http://www.openstreetmap.org/openlayers/OpenLayers.js'); // Tuts nicht
 		$document->addScript('http://www.openstreetmap.org/openlayers/OpenStreetMap.js');
-		$document->addScript('components/com_jtg/assets/js/jtg.js'); // Benötigt für Spuransich in Übersicht
+		$document->addScript('components/com_jtg/assets/js/jtg.js');
 	}
 
 	/*
 	 * For CSS-Declaration
 	*/
-	static function parseToptracks($params) {
+	static function parseToptracks($params)
+	{
 		$i = 0;
-		if ($params->get('jtg_param_newest') != 0)		$i++;
-		if ($params->get('jtg_param_mostklicks') != 0)	$i++;
-		if ($params->get('jtg_param_best') != 0)			$i++;
-		if ($params->get('jtg_param_rand') != 0)			$i++;
+
+		if ($params->get('jtg_param_newest') != 0)
+		{
+			$i++;
+		}
+
+		if ($params->get('jtg_param_mostklicks') != 0)
+		{
+			$i++;
+		}
+
+		if ($params->get('jtg_param_best') != 0)
+		{
+			$i++;
+		}
+
+		if ($params->get('jtg_param_rand') != 0)
+		{
+			$i++;
+		}
+
 		return "toptracks_" . $i;
 	}
 
-	static function parseTopNewest($where,$access,$model,$newest) {
+	static function parseTopNewest($where, $access, $model, $newest)
+	{
 		if ($access === null)
+		{
 			$access = $where;
+		}
 		$limit = "LIMIT 0," . $newest;
+
 		return $model->getTracksData("ORDER BY a.id DESC", $limit, $access);
 	}
 
-	static function parseTopHits($where,$access,$model,$hits) {
+	static function parseTopHits($where, $access, $model, $hits)
+	{
 		if ($access === null)
+		{
 			$access = $where;
+		}
+
 		$limit = "LIMIT 0," . $hits;
+
 		return $model->getTracksData("ORDER BY a.hits DESC", $limit, $access);
 	}
 
-	static function parseTopRand($where,$access,$model,$limit) {
+	static function parseTopRand($where, $access, $model, $limit)
+	{
 		if ($access === null)
+		{
 			$access = $where;
+		}
+
 		$limit = "LIMIT 0," . $limit;
+
 		return $model->getTracksData("ORDER BY RAND()", $limit, $access);
 	}
 
-	static function parseTopBest($where,$access,$model,$best,$showstars) {
+	static function parseTopBest($where, $access, $model, $best, $showstars)
+	{
 		if ($access === null)
+		{
 			$access = $where;
+		}
 		$limit = "LIMIT 0," . $best;
 		$translate = array(
 				0 => "nostar",
@@ -172,7 +226,7 @@ class layoutHelper
 	static function _parseTopBest_old($otherfiles,$access,$model,$best,$showstars) {
 	echo "function giveBest: parseTopBest_old";
 	$alltracks = $model->getTracksData(null,null);
-	$allbest = layoutHelper::giveBest($model,$best,false);
+	$allbest = LayoutHelper::giveBest($model,$best,false);
 	$return = array();
 	foreach ($allbest as $file) {
 	$track = JtgModeljtg::getFile($file['id']);
@@ -189,7 +243,7 @@ class layoutHelper
 	break;
 	}
 	if ( ( $mayisee ) AND ( (int) $track->published == 1 ) )
-		// 		if ( (int) $track->published == 1 )
+	 		if ( (int) $track->published == 1 )
 		{
 	$stars = "<ul class=\"rating " . $file['class'] . "\"><li></li></ul>";
 	$obj = array();
@@ -272,162 +326,289 @@ class layoutHelper
 	return $limitreturn;
 	}
 	*/
-	static private function parseParam_User($val) {
+	static private function parseParam_User($val)
+	{
 		$where = null;
+
 		if (is_array($val))
 		{
 			if ($val[0] != 0)
 			{
 				$subwhere = array();
-				foreach ($val as $user) {
+
+				foreach ($val as $user)
+				{
 					$subwhere[] = "a.uid = " . $user;
 				}
-				$where .= "( ".implode(' OR ',$subwhere) . " )";
+
+				$where .= "( " . implode(' OR ', $subwhere) . " )";
 			}
 		}
-		elseif ($val != 0)	$where .= "a.uid = " . $val;
+		elseif ($val != 0)
+		{
+			$where .= "a.uid = " . $val;
+		}
+
 		return $where;
 	}
 
-	static private function parseParam_Cats($val) {
+	static private function parseParam_Cats($val)
+	{
 		$catswhere = null;
+
 		if (is_array($val))
 		{
 			$subwhere = array();
-			foreach ($val as $cat) {
-				if ($cat == -1) return null; //break 2;
+
+			foreach ($val as $cat)
+			{
+				if ($cat == -1)
+				{
+					return null;
+				}
+
 				$subwhere[] = "a.catid LIKE '%" . $cat . "%'";
 			}
-			$catswhere .= "( ".implode(' OR ',$subwhere) . " )";
+
+			$catswhere .= "( " . implode(' OR ', $subwhere) . " )";
 		}
-		elseif ($val != -1)	$catswhere .= "a.catid LIKE '%" . $val . "%'";
+		elseif ($val != -1)
+		{
+			$catswhere .= "a.catid LIKE '%" . $val . "%'";
+		}
+
 		return $catswhere;
 	}
 
-	static private function parseParam_Subcats($val,$cats) {
+	static private function parseParam_Subcats($val, $cats)
+	{
 		$catswhere = null;
+
 		if (is_array($val))
 		{
 			$subwhere = array();
-			foreach ($val as $cat) {
-				if ($cat == -1) return null; //break 2;
-				$subwhere[] = "( ".layoutHelper::getParentcats($cat,$cats,true) . " )";
+
+			foreach ($val as $cat)
+			{
+				if ($cat == -1)
+				{
+					return null;
+				}
+
+				$subwhere[] = "( " . self::getParentcats($cat, $cats, true) . " )";
 			}
-			$catswhere .= "( ".implode(' OR ',$subwhere) . " )";
+
+			$catswhere .= "( " . implode(' OR ', $subwhere) . " )";
 		}
-		elseif ($val != -1)	$catswhere .= "( ".layoutHelper::getParentcats($val,$cats,true) . " )";
+		elseif ($val != -1)
+		{
+			$catswhere .= "( ".self::getParentcats($val, $cats, true) . " )";
+		}
+
 		return $catswhere;
 	}
 
 	static private function parseParam_Usergroup($val) {
 		$where = null;
+
 		if (is_array($val))
 		{
 			$subwhere = array();
-			foreach ($val as $grp) {
-				if ($grp == -1) return null; //break 2;
+
+			foreach ($val as $grp)
+			{
+				if ($grp == -1)
+				{
+					return null;
+				}
+
 				$subwhere[] = "a.access = " . $grp;
 			}
-			$where .= "( ".implode(' OR ',$subwhere) . " )";
+
+			$where .= "( " . implode(' OR ', $subwhere) . " )";
 		}
-		elseif ( ($val != -1) AND (!is_null($val) ) ) $where .= "a.access = " . $val;
+		elseif ( ($val != -1) AND (!is_null($val) ) )
+		{
+			$where .= "a.access = " . $val;
+		}
+
 		return $where;
 	}
 
-	static private function parseParam_Terrain($val) {
+	static private function parseParam_Terrain($val)
+	{
 		$where = null;
+
 		if (is_array($val))
 		{
 			$subwhere = array();
-			foreach ($val as $terrain) {
-				if ($terrain == -1) return null; //break 2;
+
+			foreach ($val as $terrain)
+			{
+				if ($terrain == -1)
+				{
+					return null;
+				}
+
 				$subwhere[] = "a.terrain LIKE '%" . $terrain . "%'";
 			}
-			$where .= "( ".implode(' ) OR ( ',$subwhere) . " )";
+
+			$where .= "( " . implode(' ) OR ( ', $subwhere) . " )";
 		}
-		elseif ($val != -1)	$where = "a.terrain LIKE '%" . $val . "%'";
+		elseif ($val != -1)
+		{
+			$where = "a.terrain LIKE '%" . $val . "%'";
+		}
+
 		return $where;
 	}
 
-	static private function parseParam_LevelFrom($val) {
-		if ( ($val != 0) AND (!is_null($val) ) ) return "a.level >= " . $val;
+	static private function parseParam_LevelFrom($val)
+	{
+		if ( ($val != 0) AND (!is_null($val) ) )
+		{
+			return "a.level >= " . $val;
+		}
 	}
 
-	static private function parseParam_LevelTo($val) {
-		if ( ($val != 5) AND (!is_null($val) ) ) return "a.level <= " . $val;
+	static private function parseParam_LevelTo($val)
+	{
+		if ( ($val != 5) AND (!is_null($val) ) )
+		{
+			return "a.level <= " . $val;
+		}
 	}
 
-	static private function parseParam_VotingFrom($val) {
-		if ( ($val != 0) AND (!is_null($val) ) ) return "a.vote >= " . $val;
+	static private function parseParam_VotingFrom($val)
+	{
+		if ( ($val != 0) AND (!is_null($val) ) )
+		{
+			return "a.vote >= " . $val;
+		}
 	}
 
-	static private function parseParam_VotingTo($val) {
-		if ( ($val != 10) AND (!is_null($val) ) ) return "a.vote <= " . $val;
+	static private function parseParam_VotingTo($val)
+	{
+		if ( ($val != 10) AND (!is_null($val) ) )
+		{
+			return "a.vote <= " . $val;
+		}
 	}
 
 	static function filterTracks($cats)
 	{
-		$params = JComponentHelper::getParams( 'com_jtg' );
+		$params = JComponentHelper::getParams('com_jtg');
 
 		$access = $params->get('jtg_param_otherfiles');
 		$where = array();
 		$catswhere = array();
+		$layout = self::parseParam_User($params->get('jtg_param_user'));
 
-		$layout = layoutHelper::parseParam_User($params->get('jtg_param_user'));
-		if ($layout !== null) $where[] = $layout;
+		if ($layout !== null)
+		{
+			$where[] = $layout;
+		}
 
-		$layout = layoutHelper::parseParam_Cats($params->get('jtg_param_cats'));
-		if ($layout !== null) $catswhere[] = $layout;
+		$layout = self::parseParam_Cats($params->get('jtg_param_cats'));
 
-		// 	$layout = layoutHelper::parseParam_Subcats($params->get('jtg_param_subcats'),$cats);
-		// 	if ($layout !== null) $catswhere[] = $layout;
+		if ($layout !== null)
+		{
+			$catswhere[] = $layout;
+		}
 
-		$layout = layoutHelper::parseParam_Usergroup($params->get('jtg_param_usergroup'));
-		if ($layout !== null) $where[] = $layout;
+		$layout = self::parseParam_Usergroup($params->get('jtg_param_usergroup'));
 
-		$layout = layoutHelper::parseParam_Terrain($params->get('jtg_param_terrain'));
-		if ($layout !== null) $where[] = $layout;
+		if ($layout !== null)
+		{
+			$where[] = $layout;
+		}
 
-		$layout = layoutHelper::parseParam_LevelFrom($params->get('jtg_param_level_from'));
-		if ($layout !== null) $where[] = $layout;
+		$layout = self::parseParam_Terrain($params->get('jtg_param_terrain'));
 
-		$layout = layoutHelper::parseParam_LevelTo($params->get('jtg_param_level_to'));
-		if ($layout !== null) $where[] = $layout;
+		if ($layout !== null)
+		{
+			$where[] = $layout;
+		}
 
-		$layout = layoutHelper::parseParam_VotingFrom($params->get('jtg_param_vote_from'));
-		if ($layout !== null) $where[] = $layout;
+		$layout = self::parseParam_LevelFrom($params->get('jtg_param_level_from'));
 
-		$layout = layoutHelper::parseParam_VotingTo($params->get('jtg_param_vote_to'));
-		if ($layout !== null) $where[] = $layout;
+		if ($layout !== null)
+		{
+			$where[] = $layout;
+		}
+
+		$layout = self::parseParam_LevelTo($params->get('jtg_param_level_to'));
+
+		if ($layout !== null)
+		{
+			$where[] = $layout;
+		}
+
+		$layout = self::parseParam_VotingFrom($params->get('jtg_param_vote_from'));
+
+		if ($layout !== null)
+		{
+			$where[] = $layout;
+		}
+
+		$layout = self::parseParam_VotingTo($params->get('jtg_param_vote_to'));
+
+		if ($layout !== null)
+		{
+			$where[] = $layout;
+		}
+
 		if (count($where) == 0)
+		{
 			$where = "";
+		}
 		else
-			$where = "( ".implode(" AND \n",$where) . " )";
+		{
+			$where = "( " . implode(" AND \n", $where) . " )";
+		}
 
 		if (count($catswhere) == 0)
+		{
 			$catswhere = "";
+		}
 		else
-			$catswhere = "( ".implode(" OR \n",$catswhere) . " )";
+		{
+			$catswhere = "( " . implode(" OR \n", $catswhere) . " )";
+		}
 
 		if ( ( $catswhere != "") AND ( $where != "" ) )
+		{
 			$operand = " AND \n";
+		}
 		else
+		{
 			$operand = "";
+		}
 
-		$return = $where.$operand.$catswhere;
+		$return = $where . $operand . $catswhere;
+
 		return $return;
 	}
 
-	static private function getParentcats($catid,$cats,$lockage=false) {
+	static private function getParentcats($catid, $cats, $lockage = false)
+	{
 		$returncats = array();
+
 		if ( $lockage !== false )
+		{
 			$returncats[] = "a.catid LIKE '%" . $catid . "%'";
+		}
+
 		foreach ($cats AS $cat)
 		{
 			if ($cat->parent_id == $catid)
+			{
 				$returncats[] = "a.catid LIKE '%" . $cat->id . "%'";
+			}
 		}
-		$returncats = implode(" OR ",$returncats);
+
+		$returncats = implode(" OR ", $returncats);
+
 		return $returncats;
 	}
 }
