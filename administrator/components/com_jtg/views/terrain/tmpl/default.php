@@ -77,7 +77,7 @@ JToolBarHelper::help('terrain', true);
 			?>
 		</tbody>
 	</table>
-	<br>
+	<br />
 	<?php echo JText::_('COM_JTG_TERRAINS_HELP'); ?>
 
 	<input type="hidden" name="option" value="com_jtg" /> <input

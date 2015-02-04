@@ -107,5 +107,5 @@ if ($n > 0)
 }
 else
 {
-	echo '<br><br><b>' . JText::_('COM_JTG_NO_COMMENTS') . '</b>';
+	echo '<br /><br /><b>' . JText::_('COM_JTG_NO_COMMENTS') . '</b>';
 }

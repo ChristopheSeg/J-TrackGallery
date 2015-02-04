@@ -69,7 +69,7 @@ else
 	$homepos = "false";
 }
 
-$gpsCoords = new gpsCoordsClass;
+$gpsCoords = new GpsCoordsClass;
 
 for ($x = 0;$x <= count($latlon);$x++)
 {
@@ -160,7 +160,7 @@ if ( $userid )
 	?>
 <form action="<?php echo $this->geo; ?>" method="post" name="adminForm"
 	id="adminForm">
-	<?php echo '<br>' . JText::_('COM_JTG_LOCATION_DESCRIPTION') . '<br>';?>
+	<?php echo '<br />' . JText::_('COM_JTG_LOCATION_DESCRIPTION') . '<br />';?>
 	<table>
 		<tr>
 			<td><?php

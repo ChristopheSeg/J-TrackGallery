@@ -115,7 +115,7 @@ $document->addStyleDeclaration($style);
 			<tr class=\"row00\">
 			<td ><input type=\"checkbox\" onclick=\"Joomla.checkAll(this)\" title=\"" . JText::_('JGLOBAL_CHECK_ALL')
 			. "\" value=\"\" checked=\"checked\" name=\"checkall-toggle\"></td>
-			<td colspan=\"2\" align=\"right\">	<b>" . JText::_('COM_JTG_PRESELECTION') . "==></b><br><br>"
+			<td colspan=\"2\" align=\"right\">	<b>" . JText::_('COM_JTG_PRESELECTION') . "==></b><br /><br />"
 			. JText::_('COM_JTG_PRESELECTION_DESCRIPTION') . "</td>
 			<td>" . $toggle['level'] . "</td>
 			<td>" . JHtml::_('select.genericlist', $cats, 'catid_all[]', 'size="' . $catssize . '" multiple="multiple" onclick="setSelectMultiple(\'catid\')"', 'id', 'treename')
@@ -268,7 +268,7 @@ $document->addStyleDeclaration($style);
 						$color = "blue";
 					}
 
-					$table .= "			<tr class=\"row$row " . ($row? "row-odd":"row-even") . "\">\n<td colspan=\"9\">" . JText::_('COM_JTG_GPS_FILE') . ':<b> ' . $filename . '</b>: <b><font color=\"red\">' . $tt . "</font></b><br></tr>\n";
+					$table .= "			<tr class=\"row$row " . ($row? "row-odd":"row-even") . "\">\n<td colspan=\"9\">" . JText::_('COM_JTG_GPS_FILE') . ':<b> ' . $filename . '</b>: <b><font color=\"red\">' . $tt . "</font></b><br /></tr>\n";
 				}
 				else
 				{

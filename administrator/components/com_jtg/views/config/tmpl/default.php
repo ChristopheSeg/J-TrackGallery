@@ -199,7 +199,7 @@ margin: 1px 0 0 0;
 	</table>
 	&nbsp;
 	<?php
-	echo '<br><br>' . JText::_('COM_JTG_LEVELCONF_HELP') . '<br>';
+	echo '<br /><br />' . JText::_('COM_JTG_LEVELCONF_HELP') . '<br />';
 
 	// Level END
 	echo JHtml::_('tabs.panel', JText::_('COM_JTG_MAPS'), 'Maps');

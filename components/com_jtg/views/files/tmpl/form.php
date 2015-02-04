@@ -193,7 +193,7 @@ if ( (JtgHelper::userHasFrontendRights() ) OR (isset($this->id)) )
 		?>
 		<input type="hidden" name="task" value="" />
 		<div>
-			<br>
+			<br />
 			<button class="button" type="button" onclick="<?php echo $button; ?>">
 				<?php echo $buttontext; ?>
 			</button>

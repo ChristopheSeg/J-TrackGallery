@@ -100,13 +100,13 @@ if (JVERSION >= 3.0)
 	foreach ($this->languages as $lang)
 	{
 		echo JHtml::_('tabs.panel', $lang['tag'], $lang['tag']);
-		echo '<table><tr><td>' . $lang['header'] . '<br>';
+		echo '<table><tr><td>' . $lang['header'] . '<br />';
 		?>
 	<textarea name="<?php echo $lang['tag']; ?>" cols="100"
 		rows="<?php echo $lang['rows']; ?>">
 		<?php echo $lang['value']; ?>
 	</textarea>
-	<br>&nbsp;
+	<br />&nbsp;
 	<?php
 	echo '</td></tr></table>';
 	}

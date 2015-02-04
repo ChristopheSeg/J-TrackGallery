@@ -18,8 +18,15 @@ JToolBarHelper::title(JText::_('COM_JTG_INFO'), 'generic.png');
 JToolBarHelper::back();
 
 $link = "../components/com_jtg/assets/images/logo_JTG.png";
-$xml = JFactory::getXML(JPATH_ADMINISTRATOR . '/components/com_jtg/com_jtg.xml');
-$version = (string) $xml->version;
+$db = JFactory::getDbo();
+$query = $db->getQuery(true);
+$query->select('manifest_cache');
+$query->from($db->quoteName('#__extensions'));
+$query->where('element = "com_jtg"');
+$db->setQuery($query);
+
+$manifest = json_decode($db->loadResult(), true);
+$version = (string) $manifest['version'];
 
 ?>
 <div style="margin: auto">

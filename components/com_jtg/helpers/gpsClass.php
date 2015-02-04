@@ -321,7 +321,7 @@ class GpsDataClass
 				$this->trackname .= $this->gpsFile;
 			}
 
-			$this->description = $gps_file_description . '<br>' . $tracks_description;
+			$this->description = $gps_file_description . '<br />' . $tracks_description;
 
 			if (!$this->description)
 			{
@@ -897,16 +897,17 @@ class GpsDataClass
 
 		/*
 		 * $c is the step for scanning allDistances/speed and others datas
-		 * $width is the half the width over which speed data are smoothed
+		 * $width is half the width over which speed data are smoothed
 		 * Smoothed speed is average from $i-$witdh<=index<=$i+$width
 		 */
 		$n = count($this->allDistances);
 
-		if ($n > 600)
+		if ($n > 1200)
 		{
 			$c = $n / 600;
-			$width = round($c / 2, 0);
 			$c = round($c, 0);
+			$width = 2 * $c;
+
 		}
 		else
 		{
@@ -919,7 +920,6 @@ class GpsDataClass
 			$distance = (string) round($this->allDistances[$i], 2);
 			$i2 = max($i - $width, 1);
 			$i3 = min($i + $width, $n - 1);
-			echo "<br> i2 = $i2 i3 = $i3";
 
 			if ($this->speedDataExists)
 			{
@@ -927,7 +927,7 @@ class GpsDataClass
 				// Calculate average speed (smoothing)
 				$speed = 0;
 
-				for ($j = $i2; $j <= $i3; $j = $j++)
+				for ($j = $i2; $j <= $i3; $j++)
 				{
 					$speed = $speed + $this->allSpeed[$j];
 				}
@@ -2659,7 +2659,7 @@ class GpsDataClass
 	// Osm END
 }
 
-class gpsCoordsClass
+class GpsCoordsClass
 {
 	/**
 	 * counts the total distance of a track

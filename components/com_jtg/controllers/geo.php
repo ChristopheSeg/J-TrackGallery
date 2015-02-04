@@ -21,6 +21,9 @@ class JtgControllerGeo extends JtgController
 		parent::__construct();
 	}
 
+/**
+ *
+ */
 	function save()
 	{
 		$user = JFactory::getUser();
