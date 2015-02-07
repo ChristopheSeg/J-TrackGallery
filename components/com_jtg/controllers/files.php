@@ -3,26 +3,43 @@
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
  *
- * @package    Comjtg
- * @author     Christophe Seguinot <christophe@jtrackgallery.net>
- * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
- * @license    http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3
- * @link       http://jtrackgallery.net/
+ * @package     Comjtg
+ * @subpackage  Frontend
+ * @author      Christophe Seguinot <christophe@jtrackgallery.net>
+ * @author      Pfister Michael, JoomGPStracks <info@mp-development.de>
+ * @author      Christian Knorr, InJooOSM  <christianknorr@users.sourceforge.net>
+ * @copyright   2015 J!TrackGallery, InJooosm and joomGPStracks teams
+ *
+ * @license     http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3
+ * @link        http://jtrackgallery.net/
  *
  */
 
 // No direct access
 defined('_JEXEC') or die('Restricted access');
-
 jimport('joomla.application.component.controller');
-
+/**
+ *
+ *
+ *
+ */
 class JtgControllerFiles extends JtgController
 {
+	/**
+	 *
+	 *
+	 * @return return_description
+	 */
 	function __construct()
 	{
 		parent::__construct();
 	}
 
+	/**
+	 *
+	 *
+	 * @return return_description
+	 */
 	function save()
 	{
 		jimport('joomla.filesystem.file');
@@ -69,6 +86,11 @@ class JtgControllerFiles extends JtgController
 		$this->setRedirect(JRoute::_('index.php?option=com_jtg&view=files&layout=file&id=' . $id, false), false);
 	}
 
+	/**
+	 *
+	 *
+	 * @return return_description
+	 */
 	function delete()
 	{
 		$user = JFactory::getUser();
@@ -91,6 +113,11 @@ class JtgControllerFiles extends JtgController
 		}
 	}
 
+	/**
+	 *
+	 *
+	 * @return return_description
+	 */
 	function update()
 	{
 		jimport('joomla.filesystem.file');
@@ -98,7 +125,7 @@ class JtgControllerFiles extends JtgController
 
 		if (!$user->get('id'))
 		{
-			$this->setRedirect( JRoute::_('index.php?option=com_jtg', false), false);
+			$this->setRedirect(JRoute::_('index.php?option=com_jtg', false), false);
 		}
 
 		// Check for request forgeries
@@ -123,6 +150,11 @@ class JtgControllerFiles extends JtgController
 		$model->addcomment();
 	}
 
+	/**
+	 *
+	 *
+	 * @return return_description
+	 */
 	function savecomment()
 	{
 		$mainframe = JFactory::getApplication();

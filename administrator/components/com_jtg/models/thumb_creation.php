@@ -3,11 +3,15 @@
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
  *
- * @package    Comjtg
- * @author     Christophe Seguinot <christophe@jtrackgallery.net>
- * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
- * @license    http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3
- * @link       http://jtrackgallery.net/
+ * @package     Comjtg
+ * @subpackage  Backend
+ * @author      Christophe Seguinot <christophe@jtrackgallery.net>
+ * @author      Pfister Michael, JoomGPStracks <info@mp-development.de>
+ * @author      Christian Knorr, InJooOSM  <christianknorr@users.sourceforge.net>
+ * @copyright   2015 J!TrackGallery, InJooosm and joomGPStracks teams
+ *
+ * @license     http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3
+ * @link        http://jtrackgallery.net/
  *
  */
 
@@ -20,8 +24,8 @@ jimport('joomla.application.component.model');
 
 /**
  *
- * @param <integer> $max_thumb_height
- * @param <integer> $max_geoim_height
+ * @param   integer $max_thumb_height
+ * @param   integer $max_geoim_height
  * @return <boolean> true  if thumbnail creation was successful for all thumbnails
  */
 
@@ -74,27 +78,28 @@ function com_jtg_refresh_Thumbnails()
 			}
 		}
 	}
+
 	return $success;
 }
 
 
 /**
  * Returns thumbnail name (including extension)  if thumbnail creation was successful
- * @param <link> $image_path
- * @param <integer> $thumb_size
- * @param <link> $thumb_path
- * @param <string> $thumb_name (without extension)
+ *
+ * @param string   $image_dir
+ * @param string   $image_name
+ * @param integer  $max_thumb_height
+ * @param integer  $max_geoim_height
+ *
  * @return <string>
  */
-
-
 function com_jtg_create_Thumbnails($image_dir, $image_name, $max_thumb_height = 210, $max_geoim_height = 300)
 {
 	jimport('joomla.filesystem.folder');
 	jimport('joomla.filesystem.file');
 	$ext = JFile::getExt($image_name);
 	$image_path = $image_dir . $image_name;
-	$thumb_dir = $image_dir . 'thumbs/' ;
+	$thumb_dir = $image_dir . 'thumbs/';
 
 	if (! JFolder::exists($thumb_dir))
 	{
@@ -124,7 +129,7 @@ function com_jtg_create_Thumbnails($image_dir, $image_name, $max_thumb_height = 
 	if ($height > $max_geoim_height)
 	{
 		$thumb_height = (int) $max_geoim_height;
-		$thumb_width = (int) $width/2/$height*$max_geoim_height;
+		$thumb_width = (int) $width / 2 / $height * $max_geoim_height;
 	}
 	else
 	{
@@ -217,5 +222,6 @@ function com_jtg_create_Thumbnails($image_dir, $image_name, $max_thumb_height = 
 	{
 		return true;
 	}
+
 	return false;
 }

@@ -3,11 +3,15 @@
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
  *
- * @package    Comjtg
- * @author     Christophe Seguinot <christophe@jtrackgallery.net>
- * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
- * @license    http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3
- * @link       http://jtrackgallery.net/
+ * @package     Comjtg
+ * @subpackage  Backend
+ * @author      Christophe Seguinot <christophe@jtrackgallery.net>
+ * @author      Pfister Michael, JoomGPStracks <info@mp-development.de>
+ * @author      Christian Knorr, InJooOSM  <christianknorr@users.sourceforge.net>
+ * @copyright   2015 J!TrackGallery, InJooosm and joomGPStracks teams
+ *
+ * @license     http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3
+ * @link        http://jtrackgallery.net/
  *
  */
 
@@ -21,10 +25,21 @@ jimport('joomla.application.component.model');
  */
 class JtgModelTranslations extends JModelLegacy
 {
-	function __construct() {
+	/**
+	 *
+	 *
+	 * @return return_description
+	 */
+	function __construct()
+	{
 		parent::__construct();
 	}
 
+	/**
+	 *
+	 *
+	 * @return return_description
+	 */
 	function saveLanguage()
 	{
 		jimport('joomla.filesystem.file');
@@ -38,7 +53,7 @@ class JtgModelTranslations extends JModelLegacy
 			$inhalt = JFactory::getApplication()->input->get($lang['tag'], '', 'raw');
 			$inhalt = str_replace('\"', '"', $inhalt);
 
-			if (!JFile::write( $file, $inhalt ))
+			if (!JFile::write($file, $inhalt))
 			{
 				$written = false;
 			}
@@ -47,13 +62,24 @@ class JtgModelTranslations extends JModelLegacy
 		return $written;
 	}
 
+	/**
+	 *
+	 *
+	 * @return return_description
+	 */
 	function getRawLanguages()
 	{
 		$language = JFactory::getLanguage();
 		$languages = $language->getKnownLanguages();
+
 		return $languages;
 	}
 
+	/**
+	 *
+	 *
+	 * @return return_description
+	 */
 	function getLanguages()
 	{
 		jimport('joomla.filesystem.file');

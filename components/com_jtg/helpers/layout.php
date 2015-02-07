@@ -3,11 +3,15 @@
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
  *
- * @package    Comjtg
- * @author     Christophe Seguinot <christophe@jtrackgallery.net>
- * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
- * @license    http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3
- * @link       http://jtrackgallery.net/
+ * @package     Comjtg
+ * @subpackage  Frontend
+ * @author      Christophe Seguinot <christophe@jtrackgallery.net>
+ * @author      Pfister Michael, JoomGPStracks <info@mp-development.de>
+ * @author      Christian Knorr, InJooOSM  <christianknorr@users.sourceforge.net>
+ * @copyright   2015 J!TrackGallery, InJooosm and joomGPStracks teams
+ *
+ * @license     http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3
+ * @link        http://jtrackgallery.net/
  *
  */
 
@@ -16,6 +20,14 @@ defined('_JEXEC') or die('Restricted access');
 
 class LayoutHelper
 {
+	/**
+	 * function_description
+	 *
+	 * @param   unknown_type  $float
+	 * @param   unknown_type  $expressive
+	 *
+	 * @return return_description
+	 */
 	static function parseVoteFloat($float, $expressive = false)
 	{
 		if ( ( $float === null ) OR ( $float == 0 ) )
@@ -40,11 +52,17 @@ class LayoutHelper
 		{
 			$return .= $stars;
 		}
+
 		$return .= "</font>";
 
 		return $return;
 	}
 
+	/**
+	 *
+	 *
+	 * @return return_description
+	 */
 	static function navigation()
 	{
 		$user = JFactory::getUser();
@@ -113,6 +131,11 @@ class LayoutHelper
 		return $footer;
 	}
 
+	/**
+	 *
+	 *
+	 * @return return_description
+	 */
 	static function disclaimericons()
 	{
 		$disclaimericons = '<div class="gps-footer">' . JText::_('COM_JTG_DISCLAIMER_ICONS');
@@ -121,6 +144,13 @@ class LayoutHelper
 		return $disclaimericons;
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @param   unknown_type  $document
+	 *
+	 * @return return_description
+	 */
 	static function parseMap($document)
 	{
 		$document->addScript('http://www.openlayers.org/api/OpenLayers.js');
@@ -159,17 +189,38 @@ class LayoutHelper
 		return "toptracks_" . $i;
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @param   unknown_type  $where
+	 * @param   unknown_type  $access
+	 * @param   unknown_type  $model
+	 * @param   unknown_type  $newest
+	 *
+	 * @return return_description
+	 */
 	static function parseTopNewest($where, $access, $model, $newest)
 	{
 		if ($access === null)
 		{
 			$access = $where;
 		}
+
 		$limit = "LIMIT 0," . $newest;
 
 		return $model->getTracksData("ORDER BY a.id DESC", $limit, $access);
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @param   unknown_type  $where
+	 * @param   unknown_type  $access
+	 * @param   unknown_type  $model
+	 * @param   unknown_type  $hits
+	 *
+	 * @return return_description
+	 */
 	static function parseTopHits($where, $access, $model, $hits)
 	{
 		if ($access === null)
@@ -182,6 +233,16 @@ class LayoutHelper
 		return $model->getTracksData("ORDER BY a.hits DESC", $limit, $access);
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @param   unknown_type  $where
+	 * @param   unknown_type  $access
+	 * @param   unknown_type  $model
+	 * @param   unknown_type  $limit
+	 *
+	 * @return return_description
+	 */
 	static function parseTopRand($where, $access, $model, $limit)
 	{
 		if ($access === null)
@@ -194,12 +255,24 @@ class LayoutHelper
 		return $model->getTracksData("ORDER BY RAND()", $limit, $access);
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @param   unknown_type  $where
+	 * @param   unknown_type  $access
+	 * @param   unknown_type  $model
+	 * @param   unknown_type  $best
+	 * @param   unknown_type  $showstars
+	 *
+	 * @return return_description
+	 */
 	static function parseTopBest($where, $access, $model, $best, $showstars)
 	{
 		if ($access === null)
 		{
 			$access = $where;
 		}
+
 		$limit = "LIMIT 0," . $best;
 		$translate = array(
 				0 => "nostar",
@@ -352,6 +425,13 @@ class LayoutHelper
 		return $where;
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @param   unknown_type  $val
+	 *
+	 * @return return_description
+	 */
 	static private function parseParam_Cats($val)
 	{
 		$catswhere = null;
@@ -380,6 +460,14 @@ class LayoutHelper
 		return $catswhere;
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @param   unknown_type  $val
+	 * @param   unknown_type  $cats
+	 *
+	 * @return return_description
+	 */
 	static private function parseParam_Subcats($val, $cats)
 	{
 		$catswhere = null;
@@ -402,13 +490,21 @@ class LayoutHelper
 		}
 		elseif ($val != -1)
 		{
-			$catswhere .= "( ".self::getParentcats($val, $cats, true) . " )";
+			$catswhere .= "( " . self::getParentcats($val, $cats, true) . " )";
 		}
 
 		return $catswhere;
 	}
 
-	static private function parseParam_Usergroup($val) {
+	/**
+	 * function_description
+	 *
+	 * @param   unknown_type  $val
+	 *
+	 * @return return_description
+	 */
+	static private function parseParam_Usergroup($val)
+	{
 		$where = null;
 
 		if (is_array($val))
@@ -435,6 +531,13 @@ class LayoutHelper
 		return $where;
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @param   unknown_type  $val
+	 *
+	 * @return NULL|Ambigous <NULL, string>
+	 */
 	static private function parseParam_Terrain($val)
 	{
 		$where = null;
@@ -463,6 +566,13 @@ class LayoutHelper
 		return $where;
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @param   unknown_type  $val
+	 *
+	 * @return return_description
+	 */
 	static private function parseParam_LevelFrom($val)
 	{
 		if ( ($val != 0) AND (!is_null($val) ) )
@@ -471,6 +581,13 @@ class LayoutHelper
 		}
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @param   unknown_type  $val
+	 *
+	 * @return return_description
+	 */
 	static private function parseParam_LevelTo($val)
 	{
 		if ( ($val != 5) AND (!is_null($val) ) )
@@ -479,6 +596,13 @@ class LayoutHelper
 		}
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @param   unknown_type  $val
+	 *
+	 * @return return_description
+	 */
 	static private function parseParam_VotingFrom($val)
 	{
 		if ( ($val != 0) AND (!is_null($val) ) )
@@ -487,6 +611,13 @@ class LayoutHelper
 		}
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @param   unknown_type  $val
+	 *
+	 * @return return_description
+	 */
 	static private function parseParam_VotingTo($val)
 	{
 		if ( ($val != 10) AND (!is_null($val) ) )
@@ -495,6 +626,13 @@ class LayoutHelper
 		}
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @param   unknown_type  $cats
+	 *
+	 * @return string
+	 */
 	static function filterTracks($cats)
 	{
 		$params = JComponentHelper::getParams('com_jtg');
@@ -590,6 +728,15 @@ class LayoutHelper
 		return $return;
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @param   unknown_type  $catid
+	 * @param   unknown_type  $cats
+	 * @param   unknown_type  $lockage
+	 *
+	 * @return string
+	 */
 	static private function getParentcats($catid, $cats, $lockage = false)
 	{
 		$returncats = array();

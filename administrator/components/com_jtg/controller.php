@@ -5,8 +5,11 @@
  *
  * @package     Com_Jtg
  * @subpackage  Backend
- * @author      J!Track Gallery, InJooosm and joomGPStracks teams <christophe@jtrackgallery.net>
- * @copyright   test
+ * @author      Christophe Seguinot <christophe@jtrackgallery.net>
+ * @author      Pfister Michael, JoomGPStracks <info@mp-development.de>
+ * @author      Christian Knorr, InJooOSM  <christianknorr@users.sourceforge.net>
+ * @copyright   2015 J!TrackGallery, InJooosm and joomGPStracks teams
+ *
  * @license     http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3 *
  * @link        http://jtrackgallery.net/
  */
@@ -32,6 +35,11 @@ class JtgController extends JControllerLegacy
 
 	/**
 	 * @use get task form uri and set view and layout
+	 *
+* @param   unknown_type  $cachable
+* @param   unknown_type  $urlparams
+	 *
+	 * @return return_description
 	 */
 	function display($cachable = false, $urlparams = false)
 	{

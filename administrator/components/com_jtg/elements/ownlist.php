@@ -3,11 +3,15 @@
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
  *
- * @package    Comjtg
- * @author     Christophe Seguinot <christophe@jtrackgallery.net>
- * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
- * @license    http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3
- * @link       http://jtrackgallery.net/
+ * @package     Comjtg
+ * @subpackage  Backend
+ * @author      Christophe Seguinot <christophe@jtrackgallery.net>
+ * @author      Pfister Michael, JoomGPStracks <info@mp-development.de>
+ * @author      Christian Knorr, InJooOSM  <christianknorr@users.sourceforge.net>
+ * @copyright   2015 J!TrackGallery, InJooosm and joomGPStracks teams
+ *
+ * @license     http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3
+ * @link        http://jtrackgallery.net/
  *
  *
  */
@@ -120,12 +124,22 @@ class JFormFieldOwnList extends JFormField
 		. JText::_('COM_JTG_HELP') . "</a></td></tr></table>";
 	}
 
+	/**
+	 *
+	 *
+	 * @return return_description
+	 */
 	private function parseHelpText()
 	{
 		return "<a href=\"#\" onclick=\"Joomla.popupWindow('components/com_jtg/help/en-GB/menu/overviewmap.html', 'Hilfe', 640, 480, 1)\" >"
 		. JText::_('COM_JTG_HELP') . "</a>";
 	}
 
+	/**
+	 *
+	 *
+	 * @return return_description
+	 */
 	private function parseLimitText()
 	{
 		global $parseLimitText;
@@ -186,7 +200,8 @@ class JFormFieldOwnList extends JFormField
 		{
 			return JText::_('COM_JTG_MENU_LIMIT_NO');
 		}
-		$r = $this->implodeDesc($r, "and", ", \n<b>" , "</b> \n");
+
+		$r = $this->implodeDesc($r, "and", ", \n<b>", "</b> \n");
 
 		return JText::_('COM_JTG_MENU_LIMIT_HEADER') . " " . $r . JText::_('COM_JTG_MENU_LIMIT_FOOTER');
 	}
@@ -201,8 +216,10 @@ class JFormFieldOwnList extends JFormField
 			{
 				$return[] = $this->getTerrainname($terrain);
 			}
+
 			return $this->implodeDesc($return, 'or');
 		}
+
 		$db = JFactory::getDBO();
 
 		$query = "SELECT * FROM #__jtg_terrains WHERE id='" . $cids . "'";
@@ -221,20 +238,31 @@ class JFormFieldOwnList extends JFormField
 		{
 			return;
 		}
+
 		return JText::_($result->title);
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @param   unknown_type  $gid
+	 *
+	 * @return return_description
+	 */
 	private function giveUsergroup($gid)
 	{
 		if ( is_array($gid))
 		{
 			$return = array();
+
 			foreach ($gid as $group)
 			{
 				$return[] = $this->giveUsergroup($group);
 			}
+
 			return $this->implodeDesc($return, 'or');
 		}
+
 		switch ($gid)
 		{
 			case 0:
@@ -251,6 +279,16 @@ class JFormFieldOwnList extends JFormField
 		}
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @param   unknown_type  $desc    param_desc
+	 * @param   unknown_type  $main    param_desc
+	 * @param   unknown_type  $header  param_desc
+	 * @param   unknown_type  $footer  param_desc
+	 *
+	 * @return return_description
+	 */
 	private function implodeDesc($desc, $main, $header=" ", $footer=" ")
 	{
 		$desc = implode($header . JText::_($main) . $footer, $desc);
@@ -259,20 +297,25 @@ class JFormFieldOwnList extends JFormField
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @global object $mainframe
+	 * @param   unknown_type  $cids  param_desc
+	 *
 	 * @return object
 	 */
 	private function getCatName($cids)
 	{
 		global $parseLimitText;
+
 		if ( is_array($cids))
 		{
 			$return = array();
+
 			foreach ($cids as $cid)
 			{
 				$return[] = $this->getCatName($cid);
 			}
+
 			$return = $this->implodeDesc($return, 'or');
 			$parseLimitText['jtg_param_catname'] = $return;
 
@@ -287,15 +330,25 @@ class JFormFieldOwnList extends JFormField
 		if ($db->getErrorNum())
 		{
 			echo $db->stderr();
+
 			return false;
 		}
+
 		if (!$result)
 		{
 			return;
 		}
+
 		return JText::_($result->title);
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @param   unknown_type  $uid
+	 *
+	 * @return return_description
+	 */
 	private function giveRealname($uid)
 	{
 		if ( is_array($uid))
@@ -309,17 +362,29 @@ class JFormFieldOwnList extends JFormField
 
 			return $this->implodeDesc($return, 'or');
 		}
+
 		$user = JFactory::getUser($uid);
 
 		return $user->name;
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @param   unknown_type  $value
+	 * @param   unknown_type  $name
+	 * @param   unknown_type  $max
+	 * @param   unknown_type  $std
+	 *
+	 * @return return_description
+	 */
 	private function parseLevelSelect($value, $name, $max, $std)
 	{
 		if ($value === null)
 		{
 			$value = $std;
 		}
+
 		global $parseLimitText;
 		$parseLimitText[(string) $name] = $value;
 		$level = array();
@@ -328,11 +393,20 @@ class JFormFieldOwnList extends JFormField
 		{
 			$level[] = JHtml::_('select.option', $i, $i);
 		}
+
 		$list = JHtml::_('select.genericlist', $level, $this->name, null, 'value', 'text', $this->value);
 
 		return $list;
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @param   unknown_type  $value
+	 * @param   unknown_type  $name
+	 *
+	 * @return return_description
+	 */
 	private function parseTerrainSelect($value, $name)
 	{
 		$all = -1;
@@ -357,12 +431,21 @@ class JFormFieldOwnList extends JFormField
 		return $list;
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @param   unknown_type  $value
+	 * @param   unknown_type  $name
+	 *
+	 * @return return_description
+	 */
 	private function parseUsergroupSelect($value, $name)
 	{
 		if ($value === null)
 		{
 			$value = -1;
 		}
+
 		global $parseLimitText;
 		$parseLimitText[(string) $name] = $value;
 		$gid = $this->giveUsergroupid($value);
@@ -377,11 +460,20 @@ class JFormFieldOwnList extends JFormField
 		$nullgroup = JArrayHelper::toObject($nullgroup);
 		array_unshift($groups, $nullgroup);
 		$size = $this->getSelectSize($groups);
-		$list = JHtml::_('select.genericlist', $groups, $this->name . '[]', 'class="inputbox" multiple="multiple" size="' . $size . '"', 'value', 'text', $gid, '', 1 );
+		$list = JHtml::_('select.genericlist', $groups, $this->name . '[]', 'class="inputbox" multiple="multiple" size="' . $size . '"', 'value', 'text', $gid, '', 1);
 
 		return $list;
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @param   unknown_type  $value
+	 * @param   unknown_type  $name
+	 * @param   unknown_type  $nosubcats
+	 *
+	 * @return return_description
+	 */
 	private function parseCatsSelect($value, $name, $nosubcats)
 	{
 		if ($value === null)
@@ -398,9 +490,18 @@ class JFormFieldOwnList extends JFormField
 		$size = $this->getSelectSize($cats);
 		$list = JHtml::_('select.genericlist', $cats, $this->name . '[]', 'class="inputbox" multiple="multiple" size="' . $size .
 				'"', 'id', 'treename', $this->value, '', 1);
+
 		return $list;
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @param   unknown_type  $uid
+	 * @param   unknown_type  $name
+	 *
+	 * @return return_description
+	 */
 	private function parseUserSelect($uid, $name)
 	{
 		if ($uid === null)
@@ -410,11 +511,18 @@ class JFormFieldOwnList extends JFormField
 
 		global $parseLimitText;
 		$parseLimitText[(string) $name] = $uid;
-		$list = $this->JHTML_list_users($this->name . '[]', $uid, 1, 'multiple="multiple"', 'name', 0 );
+		$list = $this->JHTML_list_users($this->name . '[]', $uid, 1, 'multiple="multiple"', 'name', 0);
 
 		return $list;
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @param   unknown_type  $gid
+	 *
+	 * @return return_description
+	 */
 	private function giveUsergroupid($gid)
 	{
 		if (isset($gid))
@@ -427,6 +535,11 @@ class JFormFieldOwnList extends JFormField
 		}
 	}
 
+	/**
+	 *
+	 *
+	 * @return return_description
+	 */
 	private function fetchParams()
 	{
 		$params = JComponentHelper::getParams('com_jtg');
@@ -438,6 +551,15 @@ class JFormFieldOwnList extends JFormField
 
 	/**
 	 * Select list of active users
+	 *
+* @param   unknown_type  $name
+* @param   unknown_type  $active
+* @param   unknown_type  $nouser
+* @param   unknown_type  $javascript
+* @param   unknown_type  $order
+* @param   unknown_type  $reg
+	 *
+	 * @return return_description
 	 */
 	private function JHTML_list_users($name, $active, $nouser = 0, $javascript = null, $order = 'name', $reg = 1 )
 	{
@@ -451,27 +573,37 @@ class JFormFieldOwnList extends JFormField
 		. $and
 		. ' ORDER BY ' . $order;
 		$db->setQuery($query);
+
 		if ( $nouser )
 		{
-			$users[] = JHtml::_('select.option',  '0', JText::_('COM_JTG_ALL') );
+			$users[] = JHtml::_('select.option',  '0', JText::_('COM_JTG_ALL'));
 			$users = array_merge($users, $db->loadObjectList());
 		}
 		else
 		{
 			$users = $db->loadObjectList();
 		}
+
 		$size = $this->getSelectSize($users);
 		$users = JHtml::_('select.genericlist', $users, $name, 'class="inputbox" size="' . $size . '" ' . $javascript, 'value', 'text', $active);
 
 		return $users;
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @param   unknown_type  $array
+	 *
+	 * @return return_description
+	 */
 	private function getSelectSize($array=null)
 	{
 		if (!is_array($array))
 		{
 			return;
 		}
+
 		$size = count($array);
 
 		if ($size > 6)

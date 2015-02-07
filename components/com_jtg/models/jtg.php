@@ -3,11 +3,15 @@
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
  *
- * @package    Comjtg
- * @author     Christophe Seguinot <christophe@jtrackgallery.net>
- * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
- * @license    http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3
- * @link       http://jtrackgallery.net/
+ * @package     Comjtg
+ * @subpackage  Frontend
+ * @author      Christophe Seguinot <christophe@jtrackgallery.net>
+ * @author      Pfister Michael, JoomGPStracks <info@mp-development.de>
+ * @author      Christian Knorr, InJooOSM  <christianknorr@users.sourceforge.net>
+ * @copyright   2015 J!TrackGallery, InJooosm and joomGPStracks teams
+ *
+ * @license     http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3
+ * @link        http://jtrackgallery.net/
  *
  *
  */
@@ -52,6 +56,16 @@ class JtgModeljtg extends JModelLegacy
 		return $result;
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @param   unknown_type  $order
+	 * @param   unknown_type  $limit
+	 * @param   unknown_type  $where
+	 * @param   unknown_type  $access
+	 *
+	 * @return return_description
+	 */
 	static function getTracksData($order, $limit, $where = "",$access = null)
 	{
 		if ( $where != "" )
@@ -114,6 +128,13 @@ class JtgModeljtg extends JModelLegacy
 		}
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @param   unknown_type  $sort
+	 *
+	 * @return return_description
+	 */
 	static function getTerrainData($sort=false)
 	{
 		$mainframe = JFactory::getApplication();
@@ -124,6 +145,7 @@ class JtgModeljtg extends JModelLegacy
 
 		$db->setQuery($query);
 		$rows = $db->loadObjectList();
+
 		if ( $sort === false )
 		{
 			return $rows;
@@ -151,6 +173,11 @@ class JtgModeljtg extends JModelLegacy
 		}
 	}
 
+	/**
+	 *
+	 *
+	 * @return return_description
+*/
 	static function getVotesData()
 	{
 		$mainframe = JFactory::getApplication();

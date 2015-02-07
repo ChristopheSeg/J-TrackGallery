@@ -3,11 +3,15 @@
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
  *
- * @package    Comjtg
- * @author     Christophe Seguinot <christophe@jtrackgallery.net>
- * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
- * @license    http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3
- * @link       http://jtrackgallery.net/
+ * @package     Comjtg
+ * @subpackage  Backend
+ * @author      Christophe Seguinot <christophe@jtrackgallery.net>
+ * @author      Pfister Michael, JoomGPStracks <info@mp-development.de>
+ * @author      Christian Knorr, InJooOSM  <christianknorr@users.sourceforge.net>
+ * @copyright   2015 J!TrackGallery, InJooosm and joomGPStracks teams
+ *
+ * @license     http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3
+ * @link        http://jtrackgallery.net/
  *
  */
 
@@ -54,7 +58,7 @@ $image = $this->data->image;
 
 					foreach ($this->images as $img)
 					{
-						$imageurl = JUri::root().'images/jtrackgallery/cats/';
+						$imageurl = JUri::root() . 'images/jtrackgallery/cats/';
 						$pic = "";
 						$pic .= "<input type=\"radio\" name=\"catpic\" value=\"" . $img . "\" title=\"" . $img . "\"";
 
@@ -62,6 +66,7 @@ $image = $this->data->image;
 						{
 							$pic .= " checked=\"checked\"";
 						}
+
 							$pic .= ">\n<img src=\"" .
 								$imageurl . $img .
 								"\" title=\" . $img . \" />\n";
@@ -71,7 +76,7 @@ $image = $this->data->image;
 			</tr>
 			<tr>
 				<td><?php echo JText::_('COM_JTG_DESC_JTEXT_ALLOWED'); ?></td>
-				<td><?php echo $this->editor->display( 'desc', $this->data->description , '500', '200', '75', '10', false , null) ; ?>
+				<td><?php echo $this->editor->display('desc', $this->data->description, '500', '200', '75', '10', false, null); ?>
 				</td>
 			</tr>
 		</tbody>

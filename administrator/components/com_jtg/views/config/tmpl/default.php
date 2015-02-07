@@ -3,11 +3,15 @@
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
  *
- * @package    Comjtg
- * @author     Christophe Seguinot <christophe@jtrackgallery.net>
- * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
- * @license    http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3
- * @link       http://jtrackgallery.net/
+ * @package     Comjtg
+ * @subpackage  Backend
+ * @author      Christophe Seguinot <christophe@jtrackgallery.net>
+ * @author      Pfister Michael, JoomGPStracks <info@mp-development.de>
+ * @author      Christian Knorr, InJooOSM  <christianknorr@users.sourceforge.net>
+ * @copyright   2015 J!TrackGallery, InJooosm and joomGPStracks teams
+ *
+ * @license     http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3
+ * @link        http://jtrackgallery.net/
  *
  */
 defined('_JEXEC') or die('Restricted access');
@@ -15,9 +19,9 @@ defined('_JEXEC') or die('Restricted access');
 // Toolbar
 JToolBarHelper::title(JText::_('COM_JTG_CONFIG'), 'generic.png');
 JToolBarHelper::back();
-JToolBarHelper::save('saveconfig', $alt = 'COM_JTG_SAVE', 'save.png' );
-JToolBarHelper::preferences( 'com_jtg', 600, 800, $alt = 'COM_JTG_MENU_DEFAULT_SETTINGS');
-JToolBarHelper::help( 'config/default', true);
+JToolBarHelper::save('saveconfig', $alt = 'COM_JTG_SAVE', 'save.png');
+JToolBarHelper::preferences('com_jtg', 600, 800, $alt = 'COM_JTG_MENU_DEFAULT_SETTINGS');
+JToolBarHelper::help('config/default', true);
 JHtml::_('behavior.tooltip');
 ?>
 <form action="" method="post" name="adminForm" id="adminForm"
@@ -392,6 +396,7 @@ margin: 1px 0 0 0;
 
 		<?php
 		}
+
 		if ($this->config->approach == "ors")
 		{
 			?>

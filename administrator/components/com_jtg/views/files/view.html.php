@@ -3,11 +3,15 @@
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
  *
- * @package    Comjtg
- * @author     Christophe Seguinot <christophe@jtrackgallery.net>
- * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
- * @license    http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3
- * @link       http://jtrackgallery.net/
+ * @package     Comjtg
+ * @subpackage  Backend
+ * @author      Christophe Seguinot <christophe@jtrackgallery.net>
+ * @author      Pfister Michael, JoomGPStracks <info@mp-development.de>
+ * @author      Christian Knorr, InJooOSM  <christianknorr@users.sourceforge.net>
+ * @copyright   2015 J!TrackGallery, InJooosm and joomGPStracks teams
+ *
+ * @license     http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3
+ * @link        http://jtrackgallery.net/
  *
  */
 
@@ -26,8 +30,13 @@ class JtgViewFiles extends JViewLegacy
 {
 	/**
 	 * Build the select list for access level
+	 *
+* @param   unknown_type  $name
+* @param   unknown_type  $js
+* @param   unknown_type  $oneline
+	 *
+	 * @return return_description
 	 */
-
 	function accesslevelForImport($name , $js=null, $oneline=false)
 	{
 		$db = JFactory::getDBO();
@@ -60,9 +69,11 @@ class JtgViewFiles extends JViewLegacy
 	}
 
 	/**
-	 * Gibt den übersetzten Status zurück
-	 * @param status (int)
-	 * @param needcolor (bool)
+	 * function_description
+	 *
+	 * @param   integer  $rowaccess  access level
+	 * @param   bool     $needcolor  need color
+	 *
 	 * @return Status (string)
 	 */
 	public function buildRowGroupname($rowaccess, $needcolor = false)
@@ -102,8 +113,10 @@ class JtgViewFiles extends JViewLegacy
 
 	/**
 	 * Gibt den Klicklink zurück mit dem man Dateien für das Menü auswählen kann
-	 * @param id
-	 * @param filename
+	 *
+	 * @param   unknown_type  $id
+	 * @param   unknown_type  $title
+	 *
 	 * @return string
 	 */
 	public function buildChooseKlicks($id, $title)
@@ -114,9 +127,11 @@ class JtgViewFiles extends JViewLegacy
 	}
 
 	/**
-	 * Gibt den Klicklink zurück mit dem man Spuren direkt editieren kann
-	 * @param Filename
-	 * @param Zähler
+	 * function_description
+	 *
+* @param   unknown_type  $file
+* @param   unknown_type  $count
+	 *
 	 * @return string
 	 */
 	public function buildEditKlicks($file, $count)
@@ -125,6 +140,15 @@ class JtgViewFiles extends JViewLegacy
 		. "','editfile')\">" . $file . "</a>";
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @param   unknown_type  $iconpath
+	 * @param   unknown_type  $hidden
+	 * @param   unknown_type  $count
+	 *
+	 * @return return_description
+	 */
 	public function buildHiddenImage($iconpath, $hidden, $count)
 	{
 		switch ($hidden)
@@ -159,9 +183,12 @@ class JtgViewFiles extends JViewLegacy
 	}
 
 	/**
-	 * Gibt eine Bilderliste der Dateitypen zurück
-	 * @param status (int)
-	 * @return Status (string)
+	 * function_description
+	 *
+* @param   unknown_type  $track
+* @param   unknown_type  $wp
+* @param   unknown_type  $route
+* @param   unknown_type  $cache
 	 */
 	public function buildImageFiletypes($track, $wp, $route, $cache)
 	{
@@ -252,7 +279,11 @@ class JtgViewFiles extends JViewLegacy
 	}
 
 	/**
-	 * Überprüft die GPX-Datei für den Massenimport
+	 * function_description
+	 *
+* @param   unknown_type  $file
+* @param   unknown_type  $exist
+	 *
 	 * @return true or Errorlevel | (string) errormessage
 	 */
 	public function checkFilename($file, $exist=false)
@@ -293,7 +324,10 @@ class JtgViewFiles extends JViewLegacy
 	}
 
 	/**
-	 * Extrahiert das Datum aus der GPX-Datei
+	 * function_description
+	 *
+* @param   unknown_type  $file
+	 *
 	 * @return date
 	 */
 	public function giveDate($file)
@@ -332,7 +366,10 @@ class JtgViewFiles extends JViewLegacy
 	}
 
 	/**
-	 * Extrahiert den Titel aus der GPX-Datei
+	 * function_description
+	 *
+* @param   unknown_type  $file
+	 *
 	 * @return date
 	 */
 	public function giveTitle($file)
@@ -362,6 +399,13 @@ class JtgViewFiles extends JViewLegacy
 		return $desc;
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @param   unknown_type  $catid
+	 *
+	 * @return return_description
+	 */
 	function giveParentCat($catid)
 	{
 		$catid = (int) $catid;
@@ -405,6 +449,15 @@ class JtgViewFiles extends JViewLegacy
 		return null;
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @param   unknown_type  $cats
+	 * @param   unknown_type  $catid
+	 * @param   unknown_type  $separator
+	 *
+	 * @return return_description
+	 */
 	function parseCatTree($cats, $catid, $separator = "<br />")
 	{
 		$catid = (int) $catid;
@@ -473,6 +526,8 @@ class JtgViewFiles extends JViewLegacy
 	 * @global object $mainframe
 	 * @global string $option
 	 * @param object $tpl
+	 *
+	 * @return return_description
 	 */
 	function display($tpl = null)
 	{
@@ -532,6 +587,13 @@ class JtgViewFiles extends JViewLegacy
 		parent::display($tpl);
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @param   unknown_type  $tpl
+	 *
+	 * @return return_description
+	 */
 	function _displayUpload($tpl)
 	{
 		if (JVERSION >= 3.0)
@@ -551,6 +613,13 @@ class JtgViewFiles extends JViewLegacy
 		parent::display($tpl);
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @param   unknown_type  $tpl
+	 *
+	 * @return return_description
+	 */
 	function _displayForm($tpl)
 	{
 		if (JVERSION >= 3.0)
@@ -623,14 +692,14 @@ class JtgViewFiles extends JViewLegacy
 			$size = min(count($cats), 6);
 			$trackids = explode(",", $track->catid);
 			$lists['cats']		= JHtml::_('select.genericlist', $cats, 'catid[]', 'size="' . $size . '" multiple="multiple"', 'id', 'treename', $trackids, '', true);
-			$size = min( count($terrain), 6);
+			$size = min(count($terrain), 6);
 			$lists['terrain']	= $error . JHtml::_('select.genericlist', $terrain, 'terrain[]', 'multiple="multiple" size="' . $size . '"', 'id', 'title', $terrainlist);
 
 			// 		$row->access = $access;
 			$lists['access']	= JtgHelper::getAccessList($access);
 
 			// 		$lists['access']	= JHtml::_('list.accesslevel', $row );
-			$lists['hidden'] = JHtml::_('select.genericlist', $yesnolist, 'hidden', 'class="inputbox" size="2"', 'id', 'title',$track->hidden);
+			$lists['hidden'] = JHtml::_('select.genericlist', $yesnolist, 'hidden', 'class="inputbox" size="2"', 'id', 'title', $track->hidden);
 			$lists['uid'] = JHtml::_('list.users', 'uid', $track->uid, 1, null, 'name', 0);
 			$img_dir = JPATH_SITE . '/images/jtrackgallery/track_' . $id . '/';
 

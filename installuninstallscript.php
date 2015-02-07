@@ -3,11 +3,15 @@
 /**
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
- * @package    Com_Jtg
- * @subpackage Backend
- * @author     J!Track Gallery, InJooOSM and joomGPStracks teams <christophe@jtrackgallery.net>
- * @license    http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3
- * @link       http://jtrackgallery.net/
+ * @package     Com_Jtg
+ * @subpackage  Backend
+ * @author      Christophe Seguinot <christophe@jtrackgallery.net>
+ * @author      Pfister Michael, JoomGPStracks <info@mp-development.de>
+ * @author      Christian Knorr, InJooOSM  <christianknorr@users.sourceforge.net>
+ * @copyright   2015 J!TrackGallery, InJooosm and joomGPStracks teams
+ *
+ * @license     http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3
+ * @link        http://jtrackgallery.net/
  *
  */
 
@@ -24,6 +28,11 @@ class Com_JtgInstallerScript
 	 * $type is the type of change (install, update or discover_install, not uninstall).
 	 * preflight runs before anything else and while the extracted files are in the uploaded temp folder.
 	 * If preflight returns false, Joomla will abort the update and undo everything already done.
+	 *
+* @param   unknown_type  $type
+* @param   unknown_type  $parent
+	 *
+	 * @return return_description
 	 */
 	function preflight($type, $parent)
 	{
@@ -321,6 +330,7 @@ return true;
 	}
 
 	/*
+	 *
 	 * $parent is the class calling this method
 	* uninstall runs before any other action is taken (file removal or database processing).
 	*/
@@ -379,6 +389,10 @@ return true;
 
 	/**
 	 * get a variable from the manifest file (actually, from the manifest cache).
+	 *
+	 * @param   string  $name  parameter name
+	 *
+	 * @return parameter value
 	 */
 	function getParam( $name )
 	{

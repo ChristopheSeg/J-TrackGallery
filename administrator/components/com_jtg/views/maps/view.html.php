@@ -3,23 +3,17 @@
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
  *
- * @package    Comjtg
- * @author     Christophe Seguinot <christophe@jtrackgallery.net>
- * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
- * @license    http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3
- * @link       http://jtrackgallery.net/
+ * @package     Comjtg
+ * @subpackage  Backend
+ * @author      Christophe Seguinot <christophe@jtrackgallery.net>
+ * @author      Pfister Michael, JoomGPStracks <info@mp-development.de>
+ * @author      Christian Knorr, InJooOSM  <christianknorr@users.sourceforge.net>
+ * @copyright   2015 J!TrackGallery, InJooosm and joomGPStracks teams
+ *
+ * @license     http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3
+ * @link        http://jtrackgallery.net/
  *
  */
-
-{
-	//jimport('joomla.filesystem.file');
-	//$path = ("components/com_jtg/install.jtg.php");
-	//echo "<html><body>";
-	//require $path;
-	//echo "</body></html>";
-	//die();
-}
-
 
 // No direct access
 defined('_JEXEC') or die('Restricted access');
@@ -35,6 +29,8 @@ class JtgViewMaps extends JViewLegacy
 	/**
 	*
 	* @param object $tpl
+	 *
+	 * @return return_description
 	*/
 	function display($tpl = null)
 	{
@@ -93,17 +89,26 @@ class JtgViewMaps extends JViewLegacy
 	}
 
 	/**
-	 * Gibt den Klicklink zurück mit dem man Spuren direkt editieren kann
-	 * @param Map
-	 * @param count
+	 * function_description
+	 *
+	 * @param   object   $map
+	 * @param   integer  $count
+	 *
 	 * @return string
 	 */
 	function buildEditKlicks($map, $count)
 	{
-		return "<a href=\"javascript:void(0);\" onclick=\"javascript:return listItemTask('cb" . $count.
+		return "<a href=\"javascript:void(0);\" onclick=\"javascript:return listItemTask('cb" . $count .
 		"','editmap')\">" . $map . "</a>";
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @param   unknown_type  $tpl
+	 *
+	 * @return return_description
+	 */
 	function _displayForm($tpl)
 	{
 		$model = $this->getModel();
@@ -120,7 +125,7 @@ class JtgViewMaps extends JViewLegacy
 			$published = 0;
 		}
 
-		$list['published']	= JHtml::_('select.booleanlist', 'publish', 'class="inputbox" size="1"', $published );
+		$list['published']	= JHtml::_('select.booleanlist', 'publish', 'class="inputbox" size="1"', $published);
 		$this->list = $list;
 
 		// Parent::display($tpl);

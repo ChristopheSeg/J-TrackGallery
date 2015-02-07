@@ -3,11 +3,15 @@
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
  *
- * @package    Comjtg
- * @author     Christophe Seguinot <christophe@jtrackgallery.net>
- * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
- * @license    http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3
- * @link       http://jtrackgallery.net/
+ * @package     Comjtg
+ * @subpackage  Backend
+ * @author      Christophe Seguinot <christophe@jtrackgallery.net>
+ * @author      Pfister Michael, JoomGPStracks <info@mp-development.de>
+ * @author      Christian Knorr, InJooOSM  <christianknorr@users.sourceforge.net>
+ * @copyright   2015 J!TrackGallery, InJooosm and joomGPStracks teams
+ *
+ * @license     http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3
+ * @link        http://jtrackgallery.net/
  *
  */
 
@@ -22,12 +26,18 @@ JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_jtg/tables');
  */
 class JtgControllerFiles extends JtgController
 {
+	/**
+	 *
+	 *
+	 * @return return_description
+	 */
 	function updateGeneratedValues ()
 	{
 		// Check for request forgeries
 		JSession::checkToken() or jexit('Invalid Token');
 
 		$model = $this->getModel('files');
+
 		if (! $model->updateGeneratedValues())
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
@@ -41,7 +51,7 @@ class JtgControllerFiles extends JtgController
 		JSession::checkToken() or jexit('Invalid Token');
 		$jInput = JFactory::getApplication()->input;
 		$jFileInput = new jInput($_FILES);
-		$files = $jFileInput->get('files',array(),'array');
+		$files = $jFileInput->get('files', array(), 'array');
 
 		$model = $this->getModel('files');
 		$dest = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks' .
@@ -51,10 +61,15 @@ class JtgControllerFiles extends JtgController
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
+
 		if (JFactory::getApplication()->input->get('toimport'))
+		{
 			$this->setRedirect(JRoute::_('index.php?option=com_jtg&task=newfiles&controller=files', false));
+		}
 		else
+		{
 			$this->setRedirect(JRoute::_('index.php?option=com_jtg&task=files&controller=files', false));
+		}
 	}
 
 	/**
@@ -76,10 +91,12 @@ class JtgControllerFiles extends JtgController
 		}
 
 		$model = $this->getModel('files');
+
 		if (! $model->publish($cid, 1))
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
+
 		$this->setRedirect(JRoute::_('index.php?option=com_jtg&task=files&controller=files', false));
 	}
 
@@ -102,6 +119,7 @@ class JtgControllerFiles extends JtgController
 		}
 
 		$model = $this->getModel('files');
+
 		if (! $model->showhide($cid, 1))
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
@@ -129,6 +147,7 @@ class JtgControllerFiles extends JtgController
 		}
 
 		$model = $this->getModel('files');
+
 		if (! $model->showhide($cid, 0))
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
@@ -156,6 +175,7 @@ class JtgControllerFiles extends JtgController
 		}
 
 		$model = $this->getModel('files');
+
 		if (! $model->publish($cid, 0))
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
@@ -183,6 +203,7 @@ class JtgControllerFiles extends JtgController
 		}
 
 		$model = $this->getModel('files');
+
 		if (! $model->access($cid, 1))
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
@@ -210,6 +231,7 @@ class JtgControllerFiles extends JtgController
 		}
 
 		$model = $this->getModel('files');
+
 		if (! $model->access($cid, 2))
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
@@ -265,6 +287,7 @@ class JtgControllerFiles extends JtgController
 		}
 
 		$model = $this->getModel('files');
+
 		if (! $model->delete($cid))
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
@@ -286,6 +309,7 @@ class JtgControllerFiles extends JtgController
 		$found = JFactory::getApplication()->input->get('found');
 
 		$model = $this->getModel('files');
+
 		if (! $model->deleteFromImport($found))
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
@@ -302,17 +326,22 @@ class JtgControllerFiles extends JtgController
 		JSession::checkToken() or jexit('Invalid Token');
 
 		$model = $this->getModel('files');
+
 		if (! $model->saveFile())
 		{
 			// echo "<script> alert('" . $model->getError(true) . "');
 			// window.history.go(-1); </script>\n";
 			echo "<script> alert('Error');</script>";
-			// $this->setRedirect(
-			// JRoute::_('index.php?option=com_jtg&task=files&controller=files',
-			// false ));
+			/*
+			 * $this->setRedirect(
+			 * JRoute::_('index.php?option=com_jtg&task=files&controller=files',
+			 * false ));
+			*/
 		}
 		else
+		{
 			$this->setRedirect(JRoute::_('index.php?option=com_jtg&task=files&controller=files', false));
+		}
 	}
 
 	function savefiles ()
@@ -321,6 +350,7 @@ class JtgControllerFiles extends JtgController
 		JSession::checkToken() or jexit('Invalid Token');
 
 		$model = $this->getModel('files');
+
 		if (! $model->saveFiles())
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
@@ -335,6 +365,7 @@ class JtgControllerFiles extends JtgController
 		JSession::checkToken() or jexit('Invalid Token');
 
 		$model = $this->getModel('files');
+
 		if (! $model->updateFile())
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";

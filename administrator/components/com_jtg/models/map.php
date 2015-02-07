@@ -3,11 +3,15 @@
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
  *
- * @package    Comjtg
- * @author     Christophe Seguinot <christophe@jtrackgallery.net>
- * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
- * @license    http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3
- * @link       http://jtrackgallery.net/
+ * @package     Comjtg
+ * @subpackage  Backend
+ * @author      Christophe Seguinot <christophe@jtrackgallery.net>
+ * @author      Pfister Michael, JoomGPStracks <info@mp-development.de>
+ * @author      Christian Knorr, InJooOSM  <christianknorr@users.sourceforge.net>
+ * @copyright   2015 J!TrackGallery, InJooosm and joomGPStracks teams
+ *
+ * @license     http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3
+ * @link        http://jtrackgallery.net/
  *
  */
 
@@ -19,6 +23,11 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JtgModelMAp extends JModelLegacy
 {
+	/**
+	 *
+	 *
+	 * @return return_description
+	 */
 	function __construct()
 	{
 		parent::__construct();
@@ -33,8 +42,11 @@ class JtgModelMAp extends JModelLegacy
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @param int $id
+	 * @param   int $id
+	 *
+	 * @return return_description
 	 */
 	function setId($id)
 	{
@@ -44,12 +56,14 @@ class JtgModelMAp extends JModelLegacy
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @param   array  $cid
 	 * @param   string  $order
+	 * @param   array  $cid
+
 	 * @return boolean
 	 */
-	function saveorder($cid = array(), $order)
+	function saveorder($order, $cid = array())
 	{
 		$row = $this->getTable('jtg_maps');
 		$groupings = array();

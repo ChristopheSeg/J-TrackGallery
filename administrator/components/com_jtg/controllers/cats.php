@@ -3,11 +3,15 @@
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
  *
- * @package    Comjtg
- * @author     Christophe Seguinot <christophe@jtrackgallery.net>
- * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
- * @license    http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3
- * @link       http://jtrackgallery.net/
+ * @package     Comjtg
+ * @subpackage  Backend
+ * @author      Christophe Seguinot <christophe@jtrackgallery.net>
+ * @author      Pfister Michael, JoomGPStracks <info@mp-development.de>
+ * @author      Christian Knorr, InJooOSM  <christianknorr@users.sourceforge.net>
+ * @copyright   2015 J!TrackGallery, InJooosm and joomGPStracks teams
+ *
+ * @license     http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3
+ * @link        http://jtrackgallery.net/
  *
  */
 
@@ -29,6 +33,11 @@ class JtgControllerCats extends JtgController
 		parent::display();
 	}
 
+	/**
+	 *
+	 *
+	 * @return return_description
+	 */
 	function uploadcatimages ()
 	{
 		// Check for request forgeries
@@ -65,6 +74,7 @@ class JtgControllerCats extends JtgController
 
 		// Redirect to cats overview
 		$link = JRoute::_("index.php?option=com_jtg&task=cats&controller=cats", false);
+
 		if ($success)
 		{
 			$this->setRedirect($link, JText::_('COM_JTG_CAT_SAVED'));
@@ -123,7 +133,7 @@ class JtgControllerCats extends JtgController
 		JArrayHelper::toInteger($order);
 
 		$model = $this->getModel('cat');
-		$model->saveorder($cid, $order);
+		$model->saveorder($order, $cid);
 
 		$this->setRedirect(JRoute::_('index.php?option=com_jtg&task=cats&controller=cats', false));
 	}
@@ -175,6 +185,7 @@ class JtgControllerCats extends JtgController
 		}
 
 		$model = $this->getModel('cat');
+
 		if (! $model->publish($cid, 0))
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
@@ -199,6 +210,7 @@ class JtgControllerCats extends JtgController
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_SELECT_AN_ITEM_TO_DELETE'), 'Error');
 		}
+
 		$model = $this->getModel('cat');
 
 		if (! $model->deleteCatImage($cid))

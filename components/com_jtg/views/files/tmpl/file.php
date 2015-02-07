@@ -3,11 +3,15 @@
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
  *
- * @package    Comjtg
- * @author     Christophe Seguinot <christophe@jtrackgallery.net>
- * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
- * @license    http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3
- * @link       http://jtrackgallery.net/
+ * @package     Comjtg
+ * @subpackage  Frontend
+ * @author      Christophe Seguinot <christophe@jtrackgallery.net>
+ * @author      Pfister Michael, JoomGPStracks <info@mp-development.de>
+ * @author      Christian Knorr, InJooOSM  <christianknorr@users.sourceforge.net>
+ * @copyright   2015 J!TrackGallery, InJooosm and joomGPStracks teams
+ *
+ * @license     http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3
+ * @link        http://jtrackgallery.net/
  *
  */
 
@@ -275,7 +279,7 @@ if ($maySeeSingleFile === true)
 				name: '<?php echo JText::_('COM_JTG_SPEED'); ?>',
 				unit:'<?php echo JText::_('COM_JTG_SPEED_UNIT_' . strtoupper($this->cfg->unit)); ?>',
 				color: '#AA4643',
-				yAxis: <?php echo $speedchartaxis-1; ?>,
+				yAxis: <?php echo $speedchartaxis - 1; ?>,
 				data: <?php echo $this->speeddata; ?>,
 				marker: {
 				enabled: false
@@ -422,6 +426,7 @@ if ( $this->clicklist !== false ) {
 				</tr>
 				<?php
 		}
+
 		if ($this->track->ele_desc)
 		{ ?>
 				<tr>
@@ -648,6 +653,7 @@ else
 if ($this->cfg->comments == 1)
 {
 	echo $this->parseTemplate("headline", JText::_('COM_JTG_COMMENTS'), "jtg_param_header_comment");
+
 	if (!$this->comments)
 	{
 		echo "<div>" . JText::_('COM_JTG_NO_COMMENTS_DESC') . "</div>";
@@ -701,7 +707,7 @@ if ($this->cfg->comments == 1)
 }
 elseif ($this->cfg->comments == 3)
 {
-	$jcommentsfile = 'components/com_jcomments/jcomments.php' ;
+	$jcommentsfile = 'components/com_jcomments/jcomments.php';
 
 	if ((JFile::exists(JPATH_SITE . '/' . $jcommentsfile)))
 	{

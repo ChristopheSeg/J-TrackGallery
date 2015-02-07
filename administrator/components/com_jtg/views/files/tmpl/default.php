@@ -3,11 +3,15 @@
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
  *
- * @package    Comjtg
- * @author     Christophe Seguinot <christophe@jtrackgallery.net>
- * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
- * @license    http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3
- * @link       http://jtrackgallery.net/
+ * @package     Comjtg
+ * @subpackage  Backend
+ * @author      Christophe Seguinot <christophe@jtrackgallery.net>
+ * @author      Pfister Michael, JoomGPStracks <info@mp-development.de>
+ * @author      Christian Knorr, InJooOSM  <christianknorr@users.sourceforge.net>
+ * @copyright   2015 J!TrackGallery, InJooosm and joomGPStracks teams
+ *
+ * @license     http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3
+ * @link        http://jtrackgallery.net/
  *
  */
 
@@ -227,42 +231,42 @@ $document->addStyleSheet(JUri::base() . 'components/com_jtg/template.css');
 				<th class="title"><?php echo JText::_('COM_JTG_NUM'); ?></th>
 				<th class="title" nowrap="nowrap"><?php
 				echo JHtml::_('grid.sort',
-						JText::_('COM_JTG_ID'), 'id', @$this->lists['order_Dir'], @$this->lists['order'], 'files' ); ?>:</th>
+						JText::_('COM_JTG_ID'), 'id', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>:</th>
 				<th class="title"><?php echo $checkall; ?></th>
 				<th class="title"><?php
 				echo JHtml::_('grid.sort', JText::_('COM_JTG_TITLE') . "<small> (" . JText::_('COM_JTG_GPS_FILE') . ")</small> ",
-						'title', @$this->lists['order_Dir'], @$this->lists['order'], 'files' ); ?>:</th>
+						'title', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>:</th>
 				<th class="title"><?php
 				echo JText::_('COM_JTG_GPS_FILETYPE');
 				?>:</th>
 				<th class="title"><?php
 				echo JHtml::_('grid.sort', JText::_('COM_JTG_CAT'),
-	'cat', @$this->lists['order_Dir'], @$this->lists['order'], 'files' ); ?>:
+	'cat', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>:
 					<?php echo $missingcat; ?>
 				</th>
 				<th class="title"><?php
 				echo JHtml::_('grid.sort', JText::_('COM_JTG_TERRAIN'),
-	'terrain', @$this->lists['order_Dir'], @$this->lists['order'], 'files' ); ?>:
+	'terrain', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>:
 					<?php echo $missingterrain; ?>
 				</th>
 				<th class="title"><?php
 				echo JHtml::_('grid.sort', JText::_('COM_JTG_LEVEL'),
-						'level', @$this->lists['order_Dir'], @$this->lists['order'], 'files' ); ?>:</th>
+						'level', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>:</th>
 				<th class="title"><?php
 				echo JHtml::_('grid.sort', JText::_('COM_JTG_DATE'),
-						'date', @$this->lists['order_Dir'], @$this->lists['order'], 'files' ); ?>:</th>
+						'date', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>:</th>
 				<th class="title"><?php
 				echo JHtml::_('grid.sort', JText::_('COM_JTG_PUBLISHED'),
-						'published', @$this->lists['order_Dir'], @$this->lists['order'], 'files' ); ?>:</th>
+						'published', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>:</th>
 				<th class="title"><?php
 				echo JHtml::_('grid.sort', JText::_('COM_JTG_HIDDEN'),
-						'hidden', @$this->lists['order_Dir'], @$this->lists['order'], 'files' ); ?>:</th>
+						'hidden', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>:</th>
 				<th class="title"><?php
 				echo JHtml::_('grid.sort', JText::_('COM_JTG_ACCESS_LEVEL'),
-						'access', @$this->lists['order_Dir'], @$this->lists['order'], 'files' ); ?>:</th>
+						'access', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>:</th>
 				<th class="title"><?php
 				echo JHtml::_('grid.sort', JText::_('COM_JTG_INFO_AUTHOR'),
-						'uid', @$this->lists['order_Dir'], @$this->lists['order'], 'files' ); ?>:</th>
+						'uid', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>:</th>
 			</tr>
 		</thead>
 	</table>

@@ -4,11 +4,15 @@
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
  *
- * @package    Comjtg
- * @author     Christophe Seguinot <christophe@jtrackgallery.net>
- * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
- * @license    http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3
- * @link       http://jtrackgallery.net/
+ * @package     Comjtg
+ * @subpackage  Frontend
+ * @author      Christophe Seguinot <christophe@jtrackgallery.net>
+ * @author      Pfister Michael, JoomGPStracks <info@mp-development.de>
+ * @author      Christian Knorr, InJooOSM  <christianknorr@users.sourceforge.net>
+ * @copyright   2015 J!TrackGallery, InJooosm and joomGPStracks teams
+ *
+ * @license     http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3
+ * @link        http://jtrackgallery.net/
  *
  */
 
@@ -21,7 +25,6 @@ jimport('joomla.html.pagination');
 /**
  * JtgViewFiles class @ see JViewLegacy
  * HTML View class for the jtg component
- *
  *
  * Returns the specified model
  */
@@ -128,6 +131,7 @@ class JtgViewFiles extends JViewLegacy
 	}
 
 	/**
+	 * function_description
 	 *
 	 * @param <type> $tpl
 	 * @return <type>$gps
@@ -263,7 +267,7 @@ class JtgViewFiles extends JViewLegacy
 		$level = $model->getLevelSelect($sellevel);
 		$img_dir = JPATH_SITE . '/images/jtrackgallery/track_' . $id . '/';
 		$thumb_dir = $img_dir . 'thumbs/';
-		$img_path = JUri::root() . 'images/jtrackgallery/track_'. $id . "/";
+		$img_path = JUri::root() . 'images/jtrackgallery/track_' . $id . "/";
 		$images = null;
 		$imgcount = 0;
 
@@ -626,12 +630,12 @@ class JtgViewFiles extends JViewLegacy
 								$thumb = 'thumbs/thumb2_' . $image;
 							}
 
-							if ( ! JFile::exists (JPATH_SITE . '/images/jtrackgallery/track_' . $id . '/' . $thumb) )
+							if ( ! JFile::exists(JPATH_SITE . '/images/jtrackgallery/track_' . $id . '/' . $thumb) )
 							{
 								$thumb = $image;
 							}
 
-							$imageBlock .= "	<a class=\"highslide\" href='/images/jtrackgallery/track_" . $id . "/" . $image ."' title=\"" . $image ."\" onclick=\"return hs.expand(this)\">
+							$imageBlock .= "	<a class=\"highslide\" href='/images/jtrackgallery/track_" . $id . "/" . $image . "' title=\"" . $image . "\" onclick=\"return hs.expand(this)\">
 							<img src=\"" . JUri::base() . "images/jtrackgallery/track_" . $id . '/' . $thumb . "\" alt=\"$image\"  /></a>\n\n";
 						}
 					}
@@ -655,6 +659,7 @@ class JtgViewFiles extends JViewLegacy
 							{
 								$imageBlock .= "<br /><br />";
 							}
+
 							$imageBlock .= "<img src=\"" . JUri::base() . "images/jtrackgallery/track_" . $id . "/"
 							. $image . "\" alt=\"" . $track->title . " (" . $image . ")" . "\" title=\"" . $track->title
 							. " (" . $image . ")" . "\" />\n";
@@ -834,6 +839,13 @@ class JtgViewFiles extends JViewLegacy
 		parent::display($tpl);
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @param   unknown_type  $service
+	 *
+	 * @return return_description
+	 */
 	function approach($service)
 	{
 		// 	$userparams = explode("\n", $this->user->params);

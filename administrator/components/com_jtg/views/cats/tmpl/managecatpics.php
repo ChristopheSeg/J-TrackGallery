@@ -3,11 +3,15 @@
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
  *
- * @package    Comjtg
- * @author     Christophe Seguinot <christophe@jtrackgallery.net>
- * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
- * @license    http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3
- * @link       http://jtrackgallery.net/
+ * @package     Comjtg
+ * @subpackage  Backend
+ * @author      Christophe Seguinot <christophe@jtrackgallery.net>
+ * @author      Pfister Michael, JoomGPStracks <info@mp-development.de>
+ * @author      Christian Knorr, InJooOSM  <christianknorr@users.sourceforge.net>
+ * @copyright   2015 J!TrackGallery, InJooosm and joomGPStracks teams
+ *
+ * @license     http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3
+ * @link        http://jtrackgallery.net/
  *
  */
 
@@ -30,11 +34,11 @@ JToolBarHelper::help('cats/managecatpics', true);
 				</th>
 				<th width="5%" class="title"><input type="checkbox"
 					onclick="Joomla.checkAll(this)"
-					title="<?php echo JText::_('JGLOBAL_CHECK_ALL' );?>" value=""
+					title="<?php echo JText::_('JGLOBAL_CHECK_ALL');?>" value=""
 					name="checkall-toggle"></th>
 				<th width="10%" class="title"><?php echo JText::_('COM_JTG_NAME'); ?>
 				</th>
-				<!--			<th width="10%" class="title"><?php echo JText::_('COM_JTG_EXTENSION' ); ?></th>-->
+				<!--			<th width="10%" class="title"><?php echo JText::_('COM_JTG_EXTENSION'); ?></th>-->
 				<th width="5%" class="title"><?php echo JText::_('COM_JTG_IMAGE'); ?>
 				</th>
 				<th class="title"></th>
@@ -43,6 +47,7 @@ JToolBarHelper::help('cats/managecatpics', true);
 		<tbody>
 			<?php
 			$k = 0;
+
 			for ($i = 0, $n = count($this->rows); $i < $n; $i++)
 			{
 				$row = $this->rows[$i];

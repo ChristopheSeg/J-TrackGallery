@@ -5,11 +5,15 @@
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
  *
- * @package    Comjtg
- * @author     Christophe Seguinot <christophe@jtrackgallery.net>
- * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
- * @license    http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3
- * @link       http://jtrackgallery.net/
+ * @package     Comjtg
+ * @subpackage  Frontend
+ * @author      Christophe Seguinot <christophe@jtrackgallery.net>
+ * @author      Pfister Michael, JoomGPStracks <info@mp-development.de>
+ * @author      Christian Knorr, InJooOSM  <christianknorr@users.sourceforge.net>
+ * @copyright   2015 J!TrackGallery, InJooosm and joomGPStracks teams
+ *
+ * @license     http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3
+ * @link        http://jtrackgallery.net/
  *
  */
 
@@ -19,8 +23,12 @@ defined('_JEXEC') or die('Restricted access');
 /**
  * function jtgdebug($val, $die=false)
  *
+* @param   unknown_type  $val
+* @param   unknown_type  $die
+ *
  * @return void
  */
+
 function jtgdebug($val, $die = false)
 {
 	$r = "<pre>";
@@ -118,6 +126,15 @@ class JtgHelper
 		return (int) $db->loadResult();
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @param   unknown_type  $surface
+	 * @param   unknown_type  $filetypes
+	 * @param   unknown_type  $track
+	 *
+	 * @return return_description
+	 */
 	public static function giveGeneratedValues($surface, $filetypes, $track)
 	{
 		switch ($surface)
@@ -204,13 +221,16 @@ class JtgHelper
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @param int
+	 * @param   int  $length
+	 *
 	 * @return random string with given (int) lengh
 	 * http://www.php.net/manual/de/function.mt-rand.php#92711
 	 */
 	static function alphanumericPass($length)
 	{
+		// TODO deprecated
 		$p = "";
 
 		for ($i = 0;$i < $length;$i++)
@@ -442,6 +462,16 @@ class JtgHelper
 		return $return;
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @param   unknown_type  $allterrains
+	 * @param   unknown_type  $terrainid
+	 * @param   unknown_type  $format
+	 * @param   unknown_type  $link
+	 *
+	 * @return return_description
+	 */
 	static function parseMoreTerrains($allterrains, $terrainid, $format = "array", $link = false)
 	{
 		$baseurl = "index.php?option=com_jtg&view=files&layout=list&terrain=";
@@ -494,6 +524,11 @@ class JtgHelper
 		return $return;
 	}
 
+	/**
+	 *
+	 *
+	 * @return return_description
+	 */
 	static function userHasCommentsRights()
 	{
 		$user_groups = JFactory::getUser()->getAuthorisedGroups();
@@ -577,6 +612,11 @@ class JtgHelper
 		return JHtml::_('select.genericlist', $access, 'access', 'size="4"', 'id', 'text', $accesslevel);
 	}
 
+	/**
+	 *
+	 *
+	 * @return return_description
+	 */
 	static function giveAccessLevel()
 	{
 		$user = JFactory::getUser();
@@ -622,6 +662,11 @@ class JtgHelper
 		return $result;
 	}
 
+	/**
+	 *
+	 *
+	 * @return return_description
+	 */
 	static function checkCaptcha()
 	{
 		$mainframe = JFactory::getApplication();
@@ -636,6 +681,11 @@ class JtgHelper
 
 	/**
 	 * Fetchs lat/lon from users given ID, otherwise from all users
+	 *
+* @param   unknown_type  $uid
+* @param   unknown_type  $exclude
+	 *
+	 * @return return_description
 	 */
 	static function getLatLon($uid = false, $exclude = false)
 	{
@@ -659,6 +709,7 @@ class JtgHelper
 	}
 
 	/**
+	 * function_description
 	 *
 	 * @param   string  $distance
 	 * @return string
@@ -675,7 +726,10 @@ class JtgHelper
 	 *
 	 * @param   string  $file_tmp_name
 	 * @param   string  $ext
-	 * @param   string  $filepath
+	 * @param   string  $image_dir
+	 * @param   string  $image
+	 *
+	 * @return return_description
 	 */
 	static function createimageandthumbs($file_tmp_name, $ext, $image_dir, $image)
 	{
@@ -798,6 +852,7 @@ class JtgHelper
 	}
 
 	/**
+	 * function_description
 	 *
 	 * @param   string  $uid
 	 * @param   string  $username
@@ -837,6 +892,15 @@ class JtgHelper
 		}
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @param   unknown_type  $where
+	 * @param   unknown_type  $access
+	 * @param   unknown_type  $otherfiles
+	 *
+	 * @return return_description
+	 */
 	static function MayIsee($where, $access, $otherfiles)
 	{
 		$otherfiles = (int) $otherfiles;

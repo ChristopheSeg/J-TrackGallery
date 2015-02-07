@@ -3,11 +3,15 @@
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
  *
- * @package    Comjtg
- * @author     Christophe Seguinot <christophe@jtrackgallery.net>
- * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
- * @license    http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3
- * @link       http://jtrackgallery.net/
+ * @package     Comjtg
+ * @subpackage  Backend
+ * @author      Christophe Seguinot <christophe@jtrackgallery.net>
+ * @author      Pfister Michael, JoomGPStracks <info@mp-development.de>
+ * @author      Christian Knorr, InJooOSM  <christianknorr@users.sourceforge.net>
+ * @copyright   2015 J!TrackGallery, InJooosm and joomGPStracks teams
+ *
+ * @license     http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3
+ * @link        http://jtrackgallery.net/
  *
  */
 
@@ -34,6 +38,7 @@ class JtgModelMaps extends JModelLegacy
 	var $_total = null;
 
 	/**
+	 * function_description
 	 *
 	 * @param   string  $direction
 	 * @return boolean
@@ -106,6 +111,7 @@ class JtgModelMaps extends JModelLegacy
 	}
 
 	/**
+	 * function_description
 	 *
 	 * @param   array  $cid
 	 * @return boolean
@@ -126,6 +132,7 @@ class JtgModelMaps extends JModelLegacy
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -151,6 +158,7 @@ class JtgModelMaps extends JModelLegacy
 
 			return false;
 		}
+
 		return $result;
 	}
 
@@ -208,6 +216,7 @@ class JtgModelMaps extends JModelLegacy
 	}
 
 	/**
+	 * function_description
 	 *
 	 * @return string
 	 */
@@ -224,7 +233,12 @@ class JtgModelMaps extends JModelLegacy
 	}
 
 	/**
+	 * function_description
+	 *
+* @param   unknown_type  $order
+	 *
 	 * @return Object
+	 *
 	 */
 	function getMaps($order=false)
 	{
@@ -247,6 +261,7 @@ class JtgModelMaps extends JModelLegacy
 	}
 
 	/**
+	 * function_description
 	 *
 	 * @return array $pagination
 	 */
@@ -263,6 +278,7 @@ class JtgModelMaps extends JModelLegacy
 	}
 
 	/**
+	 * function_description
 	 *
 	 * @param   array  $cid
 	 * @param   string  $publish
@@ -288,9 +304,15 @@ class JtgModelMaps extends JModelLegacy
 				return false;
 			}
 		}
+
 		return true;
 	}
 
+	/**
+	 *
+	 *
+	 * @return return_description
+	 */
 	function saveMap()
 	{
 		$mainframe = JFactory::getApplication();
@@ -344,8 +366,11 @@ class JtgModelMaps extends JModelLegacy
 	}
 
 	/**
+	 * function_description
 	 *
 	 * @param   string  $id
+	 *
+	 * @return return_description
 	 */
 	function setId($id)
 	{

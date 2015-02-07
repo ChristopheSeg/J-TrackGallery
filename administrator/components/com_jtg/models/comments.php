@@ -3,11 +3,15 @@
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
  *
- * @package    Comjtg
- * @author     Christophe Seguinot <christophe@jtrackgallery.net>
- * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
- * @license    http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3
- * @link       http://jtrackgallery.net/
+ * @package     Comjtg
+ * @subpackage  Backend
+ * @author      Christophe Seguinot <christophe@jtrackgallery.net>
+ * @author      Pfister Michael, JoomGPStracks <info@mp-development.de>
+ * @author      Christian Knorr, InJooOSM  <christianknorr@users.sourceforge.net>
+ * @copyright   2015 J!TrackGallery, InJooosm and joomGPStracks teams
+ *
+ * @license     http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3
+ * @link        http://jtrackgallery.net/
  *
  */
 
@@ -19,6 +23,11 @@ jimport('joomla.application.component.model');
 
 class JtgModelComments extends JModelLegacy
 {
+	/**
+	 *
+	 *
+	 * @return return_description
+	 */
 	function __construct()
 	{
 		parent::__construct();
@@ -36,6 +45,7 @@ class JtgModelComments extends JModelLegacy
 	}
 
 	/**
+	 * function_description
 	 *
 	 * @return object
 	 */
@@ -52,6 +62,7 @@ class JtgModelComments extends JModelLegacy
 	}
 
 	/**
+	 * function_description
 	 *
 	 * @return array $pagination
 	 */
@@ -68,6 +79,7 @@ class JtgModelComments extends JModelLegacy
 	}
 
 	/**
+	 * function_description
 	 *
 	 * @return int
 	 */
@@ -104,9 +116,10 @@ class JtgModelComments extends JModelLegacy
 
 
 	/**
+	 * function_description
 	 *
 	 * @param   array  $cid
-	 * @param int $publish
+	 * @param   int $publish
 	 * @return boolean
 	 */
 	function publish($cid = array(), $publish = 1)
@@ -119,8 +132,8 @@ class JtgModelComments extends JModelLegacy
 			$cids = implode(',', $cid);
 
 			$query = 'UPDATE #__jtg_comments'
-			. ' SET published = '.(int) $publish
-			. ' WHERE id IN ( '.$cids.' )';
+			. ' SET published = ' . (int) $publish
+			. ' WHERE id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
 			if (!$this->_db->execute())
@@ -135,6 +148,7 @@ class JtgModelComments extends JModelLegacy
 	}
 
 	/**
+	 * function_description
 	 *
 	 * @param   array  $cid
 	 * @return boolean

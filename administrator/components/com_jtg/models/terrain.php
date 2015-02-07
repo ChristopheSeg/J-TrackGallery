@@ -3,11 +3,15 @@
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
  *
- * @package    Comjtg
- * @author     Christophe Seguinot <christophe@jtrackgallery.net>
- * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
- * @license    http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3
- * @link       http://jtrackgallery.net/
+ * @package     Comjtg
+ * @subpackage  Backend
+ * @author      Christophe Seguinot <christophe@jtrackgallery.net>
+ * @author      Pfister Michael, JoomGPStracks <info@mp-development.de>
+ * @author      Christian Knorr, InJooOSM  <christianknorr@users.sourceforge.net>
+ * @copyright   2015 J!TrackGallery, InJooosm and joomGPStracks teams
+ *
+ * @license     http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3
+ * @link        http://jtrackgallery.net/
  *
  */
 
@@ -27,6 +31,11 @@ class JtgModelTerrain extends JModelLegacy
 
 	var $_pagination = null;
 
+	/**
+	 *
+	 *
+	 * @return return_description
+	 */
 	function __construct()
 	{
 		parent::__construct();
@@ -49,6 +58,9 @@ class JtgModelTerrain extends JModelLegacy
 	}
 
 	/**
+	 * function_description
+	 *
+	 * @param   interger $tid terrain id
 	 *
 	 * @return object
 	 */
@@ -62,7 +74,10 @@ class JtgModelTerrain extends JModelLegacy
 		}
 
 		return $this->_data;
-	}	/**
+	}
+
+	/**
+	 * function_description
 	 *
 	 * @return array $pagination
 	 */
@@ -79,6 +94,7 @@ class JtgModelTerrain extends JModelLegacy
 	}
 
 	/**
+	 * function_description
 	 *
 	 * @return int
 	 */
@@ -97,7 +113,8 @@ class JtgModelTerrain extends JModelLegacy
 
 	/**
 	 *
-	 * @global object $mainframe
+	 * @param   integer  $terrain  terrain id
+	 *
 	 * @return string
 	 */
 
@@ -138,8 +155,11 @@ class JtgModelTerrain extends JModelLegacy
 	}
 
 	/**
+	 * function_description
 	 *
 	 * @param   string  $id
+	 *
+	 * @return return_description
 	 */
 	function setId($id)
 	{
@@ -161,13 +181,15 @@ class JtgModelTerrain extends JModelLegacy
 
 			return false;
 		}
+
 		return true;
 	}
 
 	/**
+	 * function_description
 	 *
 	 * @param   array  $cid
-	 * @param int $publish
+	 * @param   int $publish
 	 * @return boolean
 	 */
 	function publish($cid = array(), $publish = 1)
@@ -182,7 +204,7 @@ class JtgModelTerrain extends JModelLegacy
 			$query = 'UPDATE #__jtg_terrains'
 			. ' SET published = ' . (int) $publish
 			. ' WHERE id IN ( ' . $cids . ' )'
-			. ' AND ( checked_out = 0 OR ( checked_out = ' . (int) $user->get('id').' ) )';
+			. ' AND ( checked_out = 0 OR ( checked_out = ' . (int) $user->get('id') . ' ) )';
 			$this->_db->setQuery($query);
 
 			if (!$this->_db->execute())
@@ -197,6 +219,7 @@ class JtgModelTerrain extends JModelLegacy
 	}
 
 	/**
+	 * function_description
 	 *
 	 * @param   array  $cid
 	 * @return boolean

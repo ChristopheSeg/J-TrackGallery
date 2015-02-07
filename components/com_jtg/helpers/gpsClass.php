@@ -3,11 +3,15 @@
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
  *
- * @package    Comjtg
- * @author     Christophe Seguinot <christophe@jtrackgallery.net>
- * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
- * @license    http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3
- * @link       http://jtrackgallery.net/
+ * @package     Comjtg
+ * @subpackage  Frontend
+ * @author      Christophe Seguinot <christophe@jtrackgallery.net>
+ * @author      Pfister Michael, JoomGPStracks <info@mp-development.de>
+ * @author      Christian Knorr, InJooOSM  <christianknorr@users.sourceforge.net>
+ * @copyright   2015 J!TrackGallery, InJooosm and joomGPStracks teams
+ *
+ * @license     http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3
+ * @link        http://jtrackgallery.net/
  *
  */
 
@@ -40,7 +44,7 @@ class GpsDataClass
 
 	var $error = false;
 
-	var $errorMessages=array();
+	var $errorMessages = array();
 
 	var $trackCount = 0;
 
@@ -66,9 +70,13 @@ class GpsDataClass
 	{
 		$this->unit = $unit;
 	}
+
 	/**
-	 * Load an xml gps file and extract datas
-	 * @param <string> $gpsFile the gps file to load
+	 * function_description
+	 *
+	 * @param   string  $gpsFile        the gps file (path) to load
+	 * @param   string  $trackfilename  track filename
+	 *
 	 * @return <boolean> gpsclass object
 	 */
 	public function loadFileAndData($gpsFile, $trackfilename)
@@ -145,8 +153,9 @@ class GpsDataClass
 	}
 
 	/**
-	 * Load an xml gps file
-	 * @param <string> $gpsFile the gps file to load
+	 * function_description
+	 *
+	 * @param   string $gpsFile the gps file to load
 	 * @return <simplexmlelement> if file exists and is loaded , null otherwise
 	 */
 	public function loadXmlFile($gpsFile=false)
@@ -202,8 +211,10 @@ class GpsDataClass
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @param   string  $file
+	 * @param   string  $xml  track xml object
+	 *
 	 * @return array
 	 */
 	private function extractCoordsKML($xml)
@@ -338,6 +349,7 @@ class GpsDataClass
 	public function isThisCache($xml)
 	{
 		$pattern = "/groundspeak/";
+
 		if ( preg_match($pattern, $xml->attributes()->creator))
 		{
 			return true;
@@ -348,6 +360,13 @@ class GpsDataClass
 		}
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @param   unknown_type  $coord_sets
+	 *
+	 * @return return_description
+	 */
 	private function extractKmlCoordinates($coord_sets)
 	{
 		$coordinates = array();
@@ -481,8 +500,10 @@ class GpsDataClass
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @param   string  $file
+	 * @param   string   $file
+	 * @param   integer  $trackid  track id
 	 * @return array
 	 */
 	private function getCoordsTCX($file,$trackid=0)
@@ -700,6 +721,7 @@ class GpsDataClass
 					{
 						$this->allBeat[$d + 1] = $next_coord[4];
 					}
+
 					$d++;
 				}
 			}
@@ -722,6 +744,7 @@ class GpsDataClass
 	}
 
 	/**
+	 * function_description
 	 *
 	 * @param   string  $date
 	 * @return (int) timestamp
@@ -821,7 +844,10 @@ class GpsDataClass
 	}
 
 	/**
-	 * Checkt auf WPs
+	 * function_description
+	 *
+	 * @param   object  $xml  xml object to process
+	 *
 	 * @return (int) Anzahl
 	 */
 	public function extractWPs($xml)
@@ -907,7 +933,6 @@ class GpsDataClass
 			$c = $n / 600;
 			$c = round($c, 0);
 			$width = 2 * $c;
-
 		}
 		else
 		{
@@ -1062,7 +1087,10 @@ class GpsDataClass
 	}
 
 	/**
-	 * Checkt auf WPs
+	 * function_description
+	 *
+* @param   unknown_type  $ownicon
+	 *
 	 * @return (int) Anzahl
 	 */
 	public function parseOwnIcon($ownicon=false)
@@ -1114,6 +1142,13 @@ class GpsDataClass
 		return false;
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @param   unknown_type  $wp
+	 *
+	 * @return return_description
+	 */
 	public function hasURL($wp)
 	{
 		if ( ( isset($wp->url) ) AND ( isset($wp->urlname) ) )
@@ -1125,7 +1160,10 @@ class GpsDataClass
 	}
 
 	/**
-	 * Checkt auf WPs
+	 * function_description
+	 *
+	 * @param   array  $wps  waypoints to parse
+	 *
 	 * @return (int) Anzahl
 	 */
 	public function parseWPs($wps)
@@ -1248,7 +1286,10 @@ class GpsDataClass
 	}
 
 	/**
-	 * Formatiert die Beschreibung und kürzt bei Bedarf
+	 * function_description
+	 *
+	 * @param   string  $desc  track description
+	 *
 	 * @return string
 	 */
 	public function showDesc($desc)
@@ -1284,7 +1325,7 @@ class GpsDataClass
 					// Strip additionnal (non <p>) tags, quote and return "1" wegen der Leerstelle
 					$count_letters = ( $count_letters + strlen($word) + 1);
 
-					//Einfügung von Zeilensprung BEGIN
+					// Einfügung von Zeilensprung BEGIN
 					$rowlen = ( $rowlen + strlen($word) );
 
 					if ( $rowlen > $maxslperrow )
@@ -1301,6 +1342,7 @@ class GpsDataClass
 					// Einfügung von Zeilensprung END
 					$return .= $word . " ";
 				}
+
 				$return = trim($return) . "</p>";
 
 				// Trennung nach Wörter END
@@ -1318,6 +1360,9 @@ class GpsDataClass
 	}
 
 	/**
+	 * function_description
+	 *
+	 * @param   object  $rows  rows
 	 *
 	 * @return array()
 	 */
@@ -1349,6 +1394,9 @@ class GpsDataClass
 	/**
 	 * Löscht den aktuellen Track aus der
 	 * Gesamtansicht
+	 *
+* @param   unknown_type  $rows
+* @param   unknown_type  $track
 	 *
 	 * @return array()
 	 */
@@ -1394,6 +1442,9 @@ class GpsDataClass
 	 */
 
 	/**
+	 * function_description
+	 *
+	 * @param   string  $wish  optionnal expected color
 	 *
 	 * @return color (#000000 - #ffffff) or own wish
 	 */
@@ -1415,6 +1466,11 @@ class GpsDataClass
 		return ("#" . $color);
 	}
 
+	/**
+	 *
+	 *
+	 * @return return_description
+	 */
 	private function getStartTCX()
 	{
 		$xml = $this->loadFile();
@@ -1469,8 +1525,10 @@ class GpsDataClass
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @global object $mainframe
+	 * @param   sstring  $where  where query string
+	 *
 	 * @return array
 	 */
 	function getTracks($where="")
@@ -1509,6 +1567,7 @@ class GpsDataClass
 
 
 	/**
+	 * function_description
 	 *
 	 * @param   array  $coords
 	 * @return array
@@ -1532,7 +1591,7 @@ class GpsDataClass
 
 		$map = false;
 		$map .= $this->parseScriptOLHead();
-		$map .= $this->parseOLMapControl(false, $params);
+		$map .= $this->parseOLMapControl($params, false);
 		$map .= $this->parseOLLayer();
 		/*
 		$map .= $this->parseOLPOIs(); // Currently not active
@@ -1559,7 +1618,11 @@ class GpsDataClass
 	/**
 	 * counts the MapCenter and ZoomLevel of Boundingbox
 	 *
-	 * @param flow $lon_min,$lon_max,$lat_min,$lat_max
+* @param   unknown_type  $lon_min
+* @param   unknown_type  $lon_max
+* @param   unknown_type  $lat_min
+* @param   unknown_type  $lat_max
+	 *
 	 * @return array('lon'=>lon,'lat'=>lat)
 	 */
 	public function calcMapCenter($lon_min, $lon_max, $lat_min, $lat_max)
@@ -1587,6 +1650,9 @@ class GpsDataClass
 	}
 
 	/**
+	 * function_description
+	 *
+	 * @param   object $rows rows
 	 *
 	 * @return string
 	 */
@@ -1645,6 +1711,7 @@ class GpsDataClass
 	}
 
 	/**
+	 * function_description
 	 *
 	 * @return string
 	 */
@@ -1675,6 +1742,7 @@ class GpsDataClass
 	}
 
 	/**
+	 * function_description
 	 *
 	 * @return string
 	 */
@@ -1687,10 +1755,15 @@ class GpsDataClass
 	 */
 
 	/**
+	 * function_description
+	 *
+* @param   unknown_type  $track_array
+* @param   unknown_type  $visibility
 	 *
 	 * @return string
 	 */
-	private function parseOLMarker($track_array,$visibility=true) {
+	private function parseOLMarker($track_array, $visibility = true)
+	{
 		$cfg = JtgHelper::getConfig();
 
 		if (!$track_array)
@@ -1725,6 +1798,7 @@ class GpsDataClass
 			$link = JROUTE::_("index.php?option=com_jtg&view=files&layout=file&id=" . $row->id);
 			$lon = $row->start_e;
 			$lat = $row->start_n;
+
 			if ( ( $row->published == 1 ) AND ( ( $lon ) OR ( $lon ) ) )
 			{
 				$marker .= "ll = new OpenLayers.LonLat(" . $lon . "," . $lat . ") . ";
@@ -1758,7 +1832,7 @@ class GpsDataClass
 				}
 				else
 				{
-					$marker .= "<i>" . str_replace(array("'"), array("\'"), JText::_('COM_JTG_NO_TITLE') ) . "</i>";
+					$marker .= "<i>" . str_replace(array("'"), array("\'"), JText::_('COM_JTG_NO_TITLE')) . "</i>";
 				}
 
 				if ( $row->access != 0 )
@@ -1792,7 +1866,7 @@ class GpsDataClass
 				}
 				else
 				{
-					$marker .= "<br /><i>" . str_replace(array("'"), array("\'"), JText::_('COM_JTG_CAT_NONE') ) . "</i>";
+					$marker .= "<br /><i>" . str_replace(array("'"), array("\'"), JText::_('COM_JTG_CAT_NONE')) . "</i>";
 				}
 
 				// Add track description, after striping HTML tags
@@ -1867,6 +1941,9 @@ class GpsDataClass
 	}
 
 	/**
+	 * function_description
+	 *
+* @param   unknown_type  $rows
 	 *
 	 * @return string
 	 */
@@ -1907,6 +1984,7 @@ class GpsDataClass
 	}
 
 	/**
+	 * function_description
 	 *
 	 * @return string
 	 */
@@ -1920,16 +1998,22 @@ class GpsDataClass
 	}
 
 	/**
-	 * @return Object
+	 * function_description
+	 *
+	 * @param   string $desc query order
+	 *
+	 * @return maps Object
 	 */
 	private function getMaps($desc=false)
 	{
 		$db = JFactory::getDBO();
 		$sql = 'Select * from #__jtg_maps';
+
 		if ($desc)
 		{
-			$sql .= ' ORDER BY '. $desc;
+			$sql .= ' ORDER BY ' . $desc;
 		}
+
 		$db->setQuery($sql);
 		$maps = $db->loadObjectlist();
 
@@ -1953,9 +2037,8 @@ class GpsDataClass
 			$param = str_replace("{name}", $realname, html_entity_decode($map->param));
 			$script = html_entity_decode($map->script);
 
-			if ($map->published==1)
+			if ($map->published == 1)
 			{
-
 				if ($script)
 				{
 					if (!preg_match("/|/", $script))
@@ -1989,7 +2072,7 @@ class GpsDataClass
 			}
 		}
 
-		//TODO: move this to overlays
+		// TODO: move this to overlays
 		$return .= "hs_name = \"" . JText::_('COM_JTG_HILL_SHADE_EUROPE') . "\";\n";
 		$return .= "hs_url = \"http://129.206.228.72/cached/hillshade?\";\n";
 		$return .= "hs_options = {layers: 'europe_wms:hs_srtm_europa',srs: 'EPSG:900913', format: 'image/jpeg', transparent: 'true',numZoomLevels: 19};\n";
@@ -2019,12 +2102,14 @@ class GpsDataClass
 			// No map available
 			return false;
 		}
+
 		$return = $return . $baselayer;
 
 		return $return;
 	}
 
 	/**
+	 * function_description
 	 *
 	 * @return string
 	 */
@@ -2066,6 +2151,13 @@ class GpsDataClass
 		return $flip * ($degrees + $minutes / 60 + $seconds / 3600);
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @param   unknown_type  $coordPart
+	 *
+	 * @return return_description
+	 */
 	private function gps2Num($coordPart)
 	{
 		$parts = explode('/', $coordPart);
@@ -2083,6 +2175,16 @@ class GpsDataClass
 		return floatval($parts[0]) / floatval($parts[1]);
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @param   unknown_type  $id
+	 * @param   unknown_type  $max_geoim_height
+	 * @param   unknown_type  $iconfolder
+	 * @param   unknown_type  $httpiconpath
+	 *
+	 * @return return_description
+	 */
 	private function parseOLGeotaggedImgs($id, $max_geoim_height, $iconfolder, $httpiconpath)
 	{
 		jimport('joomla.filesystem.folder');
@@ -2114,8 +2216,8 @@ class GpsDataClass
 						$imagepath = $httppath . $image;
 					}
 
-					//TODO does thumbnail have original image exif data??
-					//TODO CACHE THIS
+					// TODO does thumbnail have original image exif data??
+					// TODO CACHE THIS
 					$exif = exif_read_data($folder . $image);
 
 					if ( isset($exif['GPSLatitude']))
@@ -2200,6 +2302,7 @@ class GpsDataClass
 		{
 			return false;
 		}
+
 		$map .= "// <!-- parseOLGeotaggedImgs END -->\n";
 
 		return $map;
@@ -2215,21 +2318,21 @@ class GpsDataClass
 		$iconpath = JUri::root() . "components/com_jtg/assets/template/" . $cfg->template . "/images/";
 		$httpiconpath = JPATH_SITE . "/components/com_jtg/assets/template/" . $cfg->template . "/images/";
 		jimport('joomla.filesystem.file');
-		$zeiten .= (int) round(( microtime(true) - $jtg_microtime ), 0 ) . " " . JText::_('COM_JTG_DEBUG_TIMES') . " getTracks<br />\n";
+		$zeiten .= (int) round(( microtime(true) - $jtg_microtime), 0) . " " . JText::_('COM_JTG_DEBUG_TIMES') . " getTracks<br />\n";
 
 		$map = "\n<!-- writeTrackCOM_JTG BEGIN -->\n";
 		$map .= $this->parseScriptOLHead();
-		$zeiten .= (int) round((microtime(true) - $jtg_microtime ), 0 ) . " " . JText::_('COM_JTG_DEBUG_TIMES') . " parseScriptOLHead<br />\n";
+		$zeiten .= (int) round((microtime(true) - $jtg_microtime), 0) . " " . JText::_('COM_JTG_DEBUG_TIMES') . " parseScriptOLHead<br />\n";
 		$map .= $this->parseOLMap();
-		$zeiten .= (int) round((microtime(true) - $jtg_microtime ), 0 ) . " " . JText::_('COM_JTG_DEBUG_TIMES') . " parseOLMap<br />\n";
+		$zeiten .= (int) round((microtime(true) - $jtg_microtime), 0) . " " . JText::_('COM_JTG_DEBUG_TIMES') . " parseOLMap<br />\n";
 
-		$map .= $this->parseOLMapControl(false,$params);
-		$zeiten .= (int) round((microtime(true) - $jtg_microtime ), 0 ) . " " . JText::_('COM_JTG_DEBUG_TIMES') . " parseOLMapControl<br />\n";
+		$map .= $this->parseOLMapControl($params, false);
+		$zeiten .= (int) round((microtime(true) - $jtg_microtime), 0) . " " . JText::_('COM_JTG_DEBUG_TIMES') . " parseOLMapControl<br />\n";
 		$map .= $this->parseOLLayer();
 
-		$zeiten .= (int) round((microtime(true) - $jtg_microtime ), 0 ) . " " . JText::_('COM_JTG_DEBUG_TIMES') . " parseOLLayer<br />\n";
+		$zeiten .= (int) round((microtime(true) - $jtg_microtime), 0) . " " . JText::_('COM_JTG_DEBUG_TIMES') . " parseOLLayer<br />\n";
 		$coords = $this->parseXMLlinesOL();
-		$zeiten .= (int) round((microtime(true) - $jtg_microtime ), 0 ) . " " . JText::_('COM_JTG_DEBUG_TIMES') . " parseXMLlinesOL<br />\n";
+		$zeiten .= (int) round((microtime(true) - $jtg_microtime), 0) . " " . JText::_('COM_JTG_DEBUG_TIMES') . " parseXMLlinesOL<br />\n";
 
 		if ( $coords !== null )
 		{
@@ -2265,6 +2368,14 @@ class GpsDataClass
 		return $map;
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @param   unknown_type  $file
+	 * @param   unknown_type  $params
+	 *
+	 * @return return_description
+	 */
 	public function writeSingleTrackOL($file,$params=false)
 	{
 		// For little Map in Administration
@@ -2275,7 +2386,7 @@ class GpsDataClass
 		$map .= $this->parseScriptOLHead();
 
 		$map .= $this->parseOLMap();
-		$map .= $this->parseOLMapControl(true, $params);
+		$map .= $this->parseOLMapControl($params, true);
 		$map .= $this->parseOLLayer();
 		$coords = $this->parseXMLlinesOL();
 		$map .= $coords['coords'];
@@ -2303,6 +2414,7 @@ class GpsDataClass
 	}
 
 	/**
+	 * function_description
 	 *
 	 * @return string
 	 */
@@ -2326,7 +2438,7 @@ class GpsDataClass
 		$map .= "	function slippymap_init() {\n";
 		$map .= "			// Control images folder : remember the trailing slash\n";
 
-		//TODO ACCOUNT FOR TEMPLATES
+		// TODO ACCOUNT FOR TEMPLATES
 		$map .= "			OpenLayers.ImgPath = \"$imgpath\" \n";
 		$map .= "			olmap = new OpenLayers.Map ( {theme: null, div: \"jtg_map\",\n";
 		$map .= "// <!-- parseScriptOLHead END -->\n";
@@ -2335,6 +2447,7 @@ class GpsDataClass
 	}
 
 	/**
+	 * function_description
 	 *
 	 * @return string
 	 */
@@ -2352,9 +2465,14 @@ class GpsDataClass
 
 	/**
 	 *
+	 *
+* @param   unknown_type  $params
+* @param   unknown_type  $adminonly
+
+	 *
 	 * @return string
 	 */
-	private function parseOLMapControl( $adminonly = false, $params )
+	private function parseOLMapControl($params, $adminonly = false)
 	{
 		if ( $this->unit == "Kilometer" )
 		{
@@ -2450,6 +2568,7 @@ class GpsDataClass
 	}
 
 	/**
+	 * function_description
 	 *
 	 * @return string
 	 */
@@ -2469,6 +2588,7 @@ class GpsDataClass
 	}
 
 	/**
+	 * function_description
 	 *
 	 * @return string
 	 */
@@ -2482,8 +2602,8 @@ class GpsDataClass
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @param   string  $file
 	 * @return array
 	 */
 	private function parseXMLlinesOL()
@@ -2511,7 +2631,7 @@ class GpsDataClass
 			$coords = $this->track[$i]->coords;
 			$subid = $link . "&amp;subid=" . $i;
 			$string .= "layer_vectors = new OpenLayers.Layer.Vector(";
-			$string .= "\"" . ($this->track[$i]->trackname? $this->track[$i]->trackname : JText::_('COM_JTG_TRACK').$i) . "\"";
+			$string .= "\"" . ($this->track[$i]->trackname? $this->track[$i]->trackname : JText::_('COM_JTG_TRACK') . $i) . "\"";
 			$string .= ", { displayInLayerSwitcher: true }";
 			$string .= ")";
 			$string .= ";olmap.addLayer(layer_vectors)";
@@ -2523,6 +2643,7 @@ class GpsDataClass
 			foreach ($coords as $key => $fetch)
 			{
 				$string .= "[" . $coords[$key][0] . "," . $coords[$key][1] . "]";
+
 				if ($n != $coordscount)
 				{
 					$string .= ",\n";
@@ -2531,6 +2652,7 @@ class GpsDataClass
 				{
 					$string .= "\n";
 				}
+
 				$n++;
 			}
 
@@ -2585,6 +2707,7 @@ class GpsDataClass
 	}
 
 	/**
+	 * function_description
 	 *
 	 * @param   string  $file
 	 * @return array
@@ -2623,8 +2746,10 @@ class GpsDataClass
 	/**
 	 * Return Filename (trackid=-1) or track name
 	 *
-	 * @param   string  $file GPS file name
-	 * @param object $xml parsed xml file
+	 * @param   string   $file     GPS file name
+	 * @param   object   $xml      parsed xml file
+	 * @param   integer  $trackid  trackid
+	 *
 	 * @return string
 	 */
 	public function getTrackName($file, $xml, $trackid = -1)
@@ -2668,12 +2793,16 @@ class GpsCoordsClass
 	 * @param   array  $koord
 	 * @return int kilometers
 	 */
-	public function getDistance($koord) {
+	public function getDistance($koord)
+	{
 		if (!is_array($koord))
 			return false;
 
 		$temp = 0;
-		$earthRadius = 6378.137; // Erdradius, ca. Angabe
+
+		// Erdradius, ca. Angabe
+		$earthRadius = 6378.137;
+
 		foreach ($koord as $key => $fetch)
 		{
 			if (isset($koord[$key + 1]))
@@ -2699,8 +2828,10 @@ class GpsCoordsClass
 				}
 			}
 		}
+
 		$distance = $temp;
 		$distance = round($distance, 2);
+
 		return $distance;
 	}
 }

@@ -3,11 +3,15 @@
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
  *
- * @package    Comjtg
- * @author     Christophe Seguinot <christophe@jtrackgallery.net>
- * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
- * @license    http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3
- * @link       http://jtrackgallery.net/
+ * @package     Comjtg
+ * @subpackage  Backend
+ * @author      Christophe Seguinot <christophe@jtrackgallery.net>
+ * @author      Pfister Michael, JoomGPStracks <info@mp-development.de>
+ * @author      Christian Knorr, InJooOSM  <christianknorr@users.sourceforge.net>
+ * @copyright   2015 J!TrackGallery, InJooosm and joomGPStracks teams
+ *
+ * @license     http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3
+ * @link        http://jtrackgallery.net/
  *
  */
 
@@ -31,6 +35,7 @@ class JtgModelConfig extends JModelLegacy
 	}
 
 	/**
+	 * function_description
 	 *
 	 * @return boolean
 	 */
@@ -75,7 +80,11 @@ class JtgModelConfig extends JModelLegacy
 	}
 
 	/**
-	 * Create Columns if they not exists, after upgrade for example
+	 * function_description
+	 *
+* @param   unknown_type  $row
+* @param   unknown_type  $tablekey
+	 *
 	 * @return true or errormessage
 	 */
 	function createColumns($row, $tablekey)
@@ -101,6 +110,7 @@ class JtgModelConfig extends JModelLegacy
 		if ($tablekey == "config")
 		{
 			$ignore = array('map','option','task','jtg_param_default_map');
+
 			for ($i = 0;$i < 10;$i++)
 			{
 				$ignore[] = 'jtg_param_allow_map_' . $i;
@@ -233,7 +243,11 @@ class JtgModelConfig extends JModelLegacy
 		return $result;
 	}
 
-
+	/**
+	 *
+	 *
+	 * @return return_description
+	 */
 	function getTemplates()
 	{
 		jimport('joomla.filesystem.folder');

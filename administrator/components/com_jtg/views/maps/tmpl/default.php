@@ -3,11 +3,15 @@
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
  *
- * @package    Comjtg
- * @author     Christophe Seguinot <christophe@jtrackgallery.net>
- * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
- * @license    http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3
- * @link       http://jtrackgallery.net/
+ * @package     Comjtg
+ * @subpackage  Backend
+ * @author      Christophe Seguinot <christophe@jtrackgallery.net>
+ * @author      Pfister Michael, JoomGPStracks <info@mp-development.de>
+ * @author      Christian Knorr, InJooOSM  <christianknorr@users.sourceforge.net>
+ * @copyright   2015 J!TrackGallery, InJooosm and joomGPStracks teams
+ *
+ * @license     http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3
+ * @link        http://jtrackgallery.net/
  *
  */
 defined('_JEXEC') or die('Restricted access');
@@ -74,10 +78,11 @@ $link = JRoute::_('index.php?option=com_jtg&task=maps&controller=maps&layout=def
 				?>:</th>
 				<?php if ($ordering) { ?>
 				<th class="order"><?php echo JText::_('COM_JTG_ORDER'); ?>: <?php
+
 				// 				echo JHtml::_('grid.sort', JText::_('COM_JTG_ORDER'), 'order', @$this->lists['order_Dir'], @$this->lists['order'], 'maps' ); ? >:</th>
 				?>
 				</th>
-				<th class="order"><?php echo JHtml::_('grid.order',  $this->maps ); ?>
+				<th class="order"><?php echo JHtml::_('grid.order',  $this->maps); ?>
 				</th>
 				<?php } ?>
 				<th class="title"><?php
@@ -112,13 +117,13 @@ $link = JRoute::_('index.php?option=com_jtg&task=maps&controller=maps&layout=def
 
 				?>
 			<tr
-				class="<?php echo "row$k "; echo $k? 'row-odd':'row-even'; $k=1-$k; ?>">
+				class="<?php echo "row$k "; echo $k? 'row-odd':'row-even'; $k = 1 - $k; ?>">
 				<td align="center"><?php echo $map->id;									?></td>
 				<td align="center"><?php echo $checked;									?></td>
 				<td align="center"><?php echo $name;	?></td>
 				<?php if ($ordering) { ?>
-				<td colspan="2" class="order"><span><?php echo $this->pagination->orderUpIcon( $i, true,'orderup', 'Move Up', $map->ordering );
-				?> </span> <span><?php echo $this->pagination->orderDownIcon( $i, $n, true, 'orderdown', 'Move Down', $map->ordering );
+				<td colspan="2" class="order"><span><?php echo $this->pagination->orderUpIcon($i, true, 'orderup', 'Move Up', $map->ordering);
+				?> </span> <span><?php echo $this->pagination->orderDownIcon($i, $n, true, 'orderdown', 'Move Down', $map->ordering);
 				?> </span> <input type="text" name="order[]" size="2" maxlength="2"
 					value="<?php echo $map->ordering;
 				?>" class="text_area"

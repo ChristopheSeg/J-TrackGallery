@@ -3,11 +3,15 @@
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
  *
- * @package    Comjtg
- * @author     Christophe Seguinot <christophe@jtrackgallery.net>
- * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
- * @license    http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3
- * @link       http://jtrackgallery.net/
+ * @package     Comjtg
+ * @subpackage  Backend
+ * @author      Christophe Seguinot <christophe@jtrackgallery.net>
+ * @author      Pfister Michael, JoomGPStracks <info@mp-development.de>
+ * @author      Christian Knorr, InJooOSM  <christianknorr@users.sourceforge.net>
+ * @copyright   2015 J!TrackGallery, InJooosm and joomGPStracks teams
+ *
+ * @license     http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3
+ * @link        http://jtrackgallery.net/
  *
  */
 
@@ -19,18 +23,29 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JtgModelCat extends JModelLegacy
 {
+	/**
+	 *
+	 *
+	 * @return return_description
+	 */
 	function __construct()
 	{
 		parent::__construct();
 
 		$array = JFactory::getApplication()->input->get('cid', array(), 'array');
 		$edit	= JFactory::getApplication()->input->get('edit', true);
+
 		if ($edit)
 		{
 			$this->setId((int) $array[0]);
 		}
 	}
 
+	/**
+	 *
+	 *
+	 * @return return_description
+	 */
 	function saveCatImage()
 	{
 		JSession::checkToken() or die( 'Invalid Token' );
@@ -41,8 +56,11 @@ class JtgModelCat extends JModelLegacy
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @param int $id
+	 * @param   int $id
+	 *
+	 * @return return_description
 	 */
 	function setId($id)
 	{
@@ -52,6 +70,7 @@ class JtgModelCat extends JModelLegacy
 	}
 
 	/**
+	 * function_description
 	 *
 	 * @param   string  $direction
 	 * @return boolean
@@ -78,12 +97,15 @@ class JtgModelCat extends JModelLegacy
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @param   array  $cid
 	 * @param   string  $order
+	 * @param   array   $cid
+
+	 *
 	 * @return boolean
 	 */
-	function saveorder($cid = array(), $order)
+	function saveorder($order, $cid = array())
 	{
 		$row = $this->getTable('jtg_cats');
 		$groupings = array();
@@ -121,9 +143,10 @@ class JtgModelCat extends JModelLegacy
 	}
 
 	/**
+	 * function_description
 	 *
 	 * @param   array  $cid
-	 * @param int $publish
+	 * @param   int $publish
 	 * @return boolean
 	 */
 	function publish($cid = array(), $publish = 1)
@@ -152,12 +175,20 @@ class JtgModelCat extends JModelLegacy
 		return true;
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @param   unknown_type  $files
+	 *
+	 * @return return_description
+	 */
 	function deleteCatImage($files)
 	{
 		jimport('joomla.filesystem.file');
 		$path = JPATH_SITE . "/images/jtrackgallery/cats/";
 
 		$return = true;
+
 		foreach ($files as $file)
 		{
 			if (!JFile::delete($path . $file))
@@ -165,10 +196,12 @@ class JtgModelCat extends JModelLegacy
 				$return = false;
 			}
 		}
+
 		return $return;
 	}
 
 	/**
+	 * function_description
 	 *
 	 * @param   array  $cid
 	 * @return boolean
@@ -182,6 +215,7 @@ class JtgModelCat extends JModelLegacy
 		{
 			JArrayHelper::toInteger($cid);
 			$cids = implode(',', $cid);
+
 			// Delete the images
 			$query = "SELECT * FROM #__jtg_cats"
 			. "\n WHERE id IN ( ' . $cids . ' )";
@@ -285,7 +319,7 @@ class JtgModelCat extends JModelLegacy
 
 			if ( !in_array($file['ext'], $allowedimages) )
 			{
-				JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_JTG_NOTALLOWED_FILETYPE',$file['ext']), 'Warning');
+				JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_JTG_NOTALLOWED_FILETYPE', $file['ext']), 'Warning');
 
 				return false;
 			}

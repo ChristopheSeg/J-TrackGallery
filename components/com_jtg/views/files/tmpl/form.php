@@ -3,11 +3,15 @@
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
  *
- * @package    Comjtg
- * @author     Christophe Seguinot <christophe@jtrackgallery.net>
- * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
- * @license    http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3
- * @link       http://jtrackgallery.net/
+ * @package     Comjtg
+ * @subpackage  Frontend
+ * @author      Christophe Seguinot <christophe@jtrackgallery.net>
+ * @author      Pfister Michael, JoomGPStracks <info@mp-development.de>
+ * @author      Christian Knorr, InJooOSM  <christianknorr@users.sourceforge.net>
+ * @copyright   2015 J!TrackGallery, InJooosm and joomGPStracks teams
+ *
+ * @license     http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3
+ * @link        http://jtrackgallery.net/
  *
  */
 
@@ -39,7 +43,8 @@ $k = 0;
 Joomla.submitbutton = function(pressbutton)
 {
 	var form = document.adminForm;
-	if (pressbutton == 'cancel') {
+	if (pressbutton == 'cancel')
+		{
 		submitform( pressbutton );
 		return;
 	}
@@ -50,16 +55,17 @@ Joomla.submitbutton = function(pressbutton)
 	// Do field validation
 	if (document.getElementById('title').value == ""){
 		alert( "<?php echo JText::_('COM_JTG_NEED_TITLE', true); ?>");
-	}
-	<?php if ($this->cfg->terms == 1)  { ?>
+}
+<?php if ($this->cfg->terms == 1)
+{ ?>
 		else if (document.getElementById('terms').checked == false) {
 			alert( "<?php echo JText::_('COM_JTG_NEED_TERMS', true); ?>");
 		}
-	else
-	{
-		submitform( pressbutton );
+		else
+		{
+			submitform( pressbutton );
 		}
-	<?php
+		<?php
 	}
 	else
 	{ ?>
@@ -88,7 +94,7 @@ if ( (JtgHelper::userHasFrontendRights() ) OR (isset($this->id)) )
 				if (!isset($this->id)) {
 					?>
 				<tr class="sectiontableentry<?php echo $k; $k = 1 - $k;?>">
-					<td><?php echo JText::_('COM_JTG_GPS_FILE'); ?>* <?php echo JHtml::tooltip(JText::_('COM_JTG_TT_FILES'), JText::_('COM_JTG_TT_HEADER'),'tooltip.png'); ?>
+					<td><?php echo JText::_('COM_JTG_GPS_FILE'); ?>* <?php echo JHtml::tooltip(JText::_('COM_JTG_TT_FILES'), JText::_('COM_JTG_TT_HEADER'), 'tooltip.png'); ?>
 					</td>
 					<td><input type="file" name="file" value="" size="30" /></td>
 				</tr>
@@ -101,7 +107,7 @@ if ( (JtgHelper::userHasFrontendRights() ) OR (isset($this->id)) )
 					<td><font color="grey"><?php echo $this->id; ?> </font></td>
 				</tr>
 				<?php
-		} ?>
+				} ?>
 				<tr class="sectiontableentry<?php echo $k; $k = 1 - $k;?>">
 					<td><?php echo JText::_('COM_JTG_HIDDEN'); ?>*</td>
 					<td><?php echo $this->lists['hidden']; ?></td>
@@ -117,7 +123,7 @@ if ( (JtgHelper::userHasFrontendRights() ) OR (isset($this->id)) )
 						size="30" /></td>
 				</tr>
 				<tr class="sectiontableentry<?php echo $k; $k = 1 - $k;?>">
-					<td><?php echo JText::_('COM_JTG_LEVEL'); ?>* <?php echo JHtml::tooltip(JText::_('COM_JTG_TT_LEVEL'), JText::_('COM_JTG_TT_HEADER'),'tooltip.png'); ?>
+					<td><?php echo JText::_('COM_JTG_LEVEL'); ?>* <?php echo JHtml::tooltip(JText::_('COM_JTG_TT_LEVEL'), JText::_('COM_JTG_TT_HEADER'), 'tooltip.png'); ?>
 					</td>
 					<td><?php echo $this->level; ?>
 					</td>
@@ -130,25 +136,26 @@ if ( (JtgHelper::userHasFrontendRights() ) OR (isset($this->id)) )
 				if ($this->cfg->access == 1) {
 					?>
 				<tr class="sectiontableentry<?php echo $k; $k = 1 - $k;?>">
-					<td><?php echo JText::_('COM_JTG_ACCESS_LEVEL'); ?>&nbsp;<?php echo JHtml::tooltip(JText::_('COM_JTG_TT_ACCESS'), JText::_('COM_JTG_TT_HEADER'),'tooltip.png'); ?>
+					<td><?php echo JText::_('COM_JTG_ACCESS_LEVEL'); ?>&nbsp;<?php echo JHtml::tooltip(JText::_('COM_JTG_TT_ACCESS'), JText::_('COM_JTG_TT_HEADER'), 'tooltip.png'); ?>
 					</td>
 					<td><?php echo $this->lists['access']; ?></td>
 				</tr>
 				<?php } ?>
 				<tr class="sectiontableentry<?php echo $k; $k = 1 - $k;?>">
-					<td><?php echo JText::_('COM_JTG_TERRAIN'); ?> <?php echo JHtml::tooltip(JText::_('COM_JTG_TT_TERRAIN'), JText::_('COM_JTG_TT_HEADER'),'tooltip.png'); ?>
+					<td><?php echo JText::_('COM_JTG_TERRAIN'); ?> <?php echo JHtml::tooltip(JText::_('COM_JTG_TT_TERRAIN'), JText::_('COM_JTG_TT_HEADER'), 'tooltip.png'); ?>
 					</td>
 					<td><?php echo $this->lists['terrain']; ?></td>
 				</tr>
 				<tr class="sectiontableentry<?php echo $k; $k = 1 - $k;?>">
-					<td><?php echo JText::_('COM_JTG_DESCRIPTION'); ?>* <?php echo JHtml::tooltip(JText::_('COM_JTG_TT_DESC'), JText::_('COM_JTG_TT_HEADER'),'tooltip.png'); ?>
+					<td><?php echo JText::_('COM_JTG_DESCRIPTION'); ?>* <?php echo JHtml::tooltip(JText::_('COM_JTG_TT_DESC'), JText::_('COM_JTG_TT_HEADER'), 'tooltip.png'); ?>
 					</td>
-					<td><?php echo $this->editor->display( 'description', $description , '100%', '200', '15', '25', false , null) ; ?>
+					<td><?php echo $this->editor->display('description', $description, '100%', '200', '15', '25', false, null); ?>
 					</td>
 				</tr>
 				<tr class="sectiontableentry<?php echo $k; $k = 1 - $k;?>">
 					<?php
 					$max_images = $cfg->max_images;
+
 					if (isset($this->id))
 					{
 						$max_images = ( $max_images - $this->imgcount );
@@ -189,7 +196,7 @@ if ( (JtgHelper::userHasFrontendRights() ) OR (isset($this->id)) )
 		<input type="hidden" name="option" value="com_jtg" /> <input
 			type="hidden" name="controller" value="files" />
 		<?php
-		if (isset($this->id)) echo '<input type="hidden" name="id" value="'.$this->id.'" />';
+		if (isset($this->id)) echo '<input type="hidden" name="id" value=" ' . $this->id . '" />';
 		?>
 		<input type="hidden" name="task" value="" />
 		<div>

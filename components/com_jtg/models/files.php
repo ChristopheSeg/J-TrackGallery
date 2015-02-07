@@ -3,11 +3,15 @@
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
  *
- * @package    Comjtg
- * @author     Christophe Seguinot <christophe@jtrackgallery.net>
- * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
- * @license    http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3
- * @link       http://jtrackgallery.net/
+ * @package     Comjtg
+ * @subpackage  Frontend
+ * @author      Christophe Seguinot <christophe@jtrackgallery.net>
+ * @author      Pfister Michael, JoomGPStracks <info@mp-development.de>
+ * @author      Christian Knorr, InJooOSM  <christianknorr@users.sourceforge.net>
+ * @copyright   2015 J!TrackGallery, InJooosm and joomGPStracks teams
+ *
+ * @license     http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3
+ * @link        http://jtrackgallery.net/
  *
  */
 defined('_JEXEC') or die('Restricted access');
@@ -38,6 +42,14 @@ class JtgModelFiles extends JModelLegacy
 		parent::__construct();
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @param   unknown_type  $limit
+	 * @param   unknown_type  $limitstart
+	 *
+	 * @return return_description
+	 */
 	function getData ($limit, $limitstart)
 	{
 		// Lets load the content if it doesn't already exist
@@ -90,7 +102,7 @@ class JtgModelFiles extends JModelLegacy
 
 	/**
 	 *
-	 * @global object $mainframe
+	 * @param   integer  $selected  selected level id
 	 * @return array
 	 */
 	function getLevel ($selected)
@@ -121,6 +133,7 @@ class JtgModelFiles extends JModelLegacy
 	}
 
 	/**
+	 * function_description
 	 *
 	 * @return string
 	 */
@@ -228,7 +241,7 @@ class JtgModelFiles extends JModelLegacy
 		if ($terrain)
 		{
 			// $where[] = '('.$index.'.terrain) = '.$db->Quote( $db->getEscaped(
-			// $terrain, true ), false );
+			// $terrain, true ), false);
 			$where[] = '(' . $index . '.terrain) LIKE ' . $db->Quote('%' . $db->getEscaped($terrain, true) . '%', false);
 		}
 
@@ -705,6 +718,13 @@ class JtgModelFiles extends JModelLegacy
 		return $images;
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @param   unknown_type  $id
+	 *
+	 * @return return_description
+	 */
 	function updateFile ($id)
 	{
 		$mainframe = JFactory::getApplication();
@@ -807,8 +827,10 @@ class JtgModelFiles extends JModelLegacy
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @global object $mainframe
+	 * @param   string  $where  where query string
+	 *
 	 * @return array
 	 */
 	function getTerrain ($where = null)
@@ -838,7 +860,7 @@ class JtgModelFiles extends JModelLegacy
 	/**
 	 *
 	 * @global object $mainframe
-	 * @param int $id
+	 * @param   int $id
 	 * @param string $order
 	 * @return array
 	 */
@@ -855,8 +877,11 @@ class JtgModelFiles extends JModelLegacy
 	}
 
 	/**
+	 * function_description
 	 *
 	 * @param object $cfg
+	 *
+	 * @return return_description
 	 */
 	function addcomment ($cfg)
 	{
@@ -947,9 +972,11 @@ class JtgModelFiles extends JModelLegacy
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @global object $mainframe
-	 * @param int $id
+	 * @param   integer  $id   comment id
+	 * @param   object   $cfg  jtg config
+	 *
 	 * @return boolean
 	 */
 	function savecomment ($id, $cfg)
@@ -1047,12 +1074,11 @@ class JtgModelFiles extends JModelLegacy
 	 * Homepage: http://openrouteservice.org/
 	 * WIKI: http://wiki.openstreetmap.org/wiki/OpenRouteService
 	 *
-	 * @param
-	 *        	lat
-	 * @param
-	 *        	lon
-	 * @return array
+* @param   unknown_type  $to_lat
+* @param   unknown_type  $to_lon
+* @param   unknown_type  $lang
 	 *
+	 * @return array
 	 */
 	function approachors ($to_lat, $to_lon, $lang)
 	{
@@ -1081,12 +1107,10 @@ class JtgModelFiles extends JModelLegacy
 	 * Homepage: http://maps.cloudmade.com/
 	 * WIKI: http://wiki.openstreetmap.org/wiki/CloudMade
 	 *
-	 * @param
-	 *        	string Absolute Link to ORS
-	 * @param
-	 *        	string lat
-	 * @param
-	 *        	string lon
+	 * @param   string  $to_lat
+	 * @param   string  $to_lon
+	 * @param   string  $lang
+	 *
 	 * @return array
 	 *
 	 */
@@ -1135,12 +1159,10 @@ class JtgModelFiles extends JModelLegacy
 	 * Homepage: http://maps.cloudmade.com/
 	 * WIKI: http://wiki.openstreetmap.org/wiki/CloudMade
 	 *
-	 * @param
-	 *        	string Absolute Link to ORS
-	 * @param
-	 *        	string lat
-	 * @param
-	 *        	string lon
+	 * @param   string  $to_lat  latitude
+	 * @param   string  $to_lon  longitudex
+	 * @param   string  $lang    user language tag
+	 *
 	 * @return array
 	 *
 	 */
@@ -1179,6 +1201,13 @@ class JtgModelFiles extends JModelLegacy
 		return $link . "&amp;zoom=15&amp;travel=";
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @param   unknown_type  $www
+	 *
+	 * @return return_description
+	 */
 	function parseHomepageIcon ($www)
 	{
 		if ((! preg_match('/http\:\/\//', $www)) and (! preg_match('/https\:\/\//', $www)))
@@ -1193,6 +1222,13 @@ class JtgModelFiles extends JModelLegacy
 		return $return;
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @param   unknown_type  $mail
+	 *
+	 * @return return_description
+	 */
 	function parseEMailIcon ($mail)
 	{
 		$cfg = JtgHelper::getConfig();

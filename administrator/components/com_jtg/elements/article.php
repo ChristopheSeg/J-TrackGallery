@@ -3,11 +3,15 @@
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
  *
- * @package    Comjtg
- * @author     Christophe Seguinot <christophe@jtrackgallery.net>
- * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams
- * @license    http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3
- * @link       http://jtrackgallery.net/
+ * @package     Comjtg
+ * @subpackage  Backend
+ * @author      Christophe Seguinot <christophe@jtrackgallery.net>
+ * @author      Pfister Michael, JoomGPStracks <info@mp-development.de>
+ * @author      Christian Knorr, InJooOSM  <christianknorr@users.sourceforge.net>
+ * @copyright   2015 J!TrackGallery, InJooosm and joomGPStracks teams
+ *
+ * @license     http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3
+ * @link        http://jtrackgallery.net/
  *
  *
  */
@@ -25,9 +29,18 @@ class JElementArticle extends JFormField
 	 */
 	var $_name = 'Article';
 
+	/**
+	 * function_description
+	 *
+	 * @param   unknown_type  $name
+	 * @param   unknown_type  $value
+	 * @param   unknown_type  &$node
+	 * @param   unknown_type  $control_name
+	 * @return string
+	 */
 	protected function getInput($name, $value, &$node, $control_name)
-	// TODO You still need to replace the references to $control_name
 	{
+		// TODO You still need to replace the references to $control_name
 		$mainframe = JFactory::getApplication();
 		$doc 		= JFactory::getDocument();
 		$fieldName	= $control_name . '[' . $name . ']';

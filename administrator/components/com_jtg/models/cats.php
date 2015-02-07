@@ -3,11 +3,14 @@
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
  *
- * @package    Comjtg
- * @author     Christophe Seguinot <christophe@jtrackgallery.net>
- * @copyright  2013 J!Track Gallery, InJooosm and joomGPStracks teams/model
- * @license    http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3
- * @link       http://jtrackgallery.net/
+ * @package     Comjtg
+ * @subpackage  Backend
+ * @author      Christophe Seguinot <christophe@jtrackgallery.net>
+ * @author      Pfister Michael, JoomGPStracks <info@mp-development.de>
+ * @author      Christian Knorr, InJooOSM  <christianknorr@users.sourceforge.net>
+ * @copyright   2015 J!TrackGallery, InJooosm and joomGPStracks teams/model
+ * @license     http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3
+ * @link        http://jtrackgallery.net/
  *
  *
  */
@@ -49,10 +52,11 @@ class JtgModelCats extends JModelLegacy
 	 * @var object
 	 */
 	var $_pagination = null;
+
 	/**
 	 *
-	 * @global object $mainframe
-	 * @global string $option
+	 *
+	 * @return return_description
 	 */
 	function __construct()
 	{
@@ -72,6 +76,7 @@ class JtgModelCats extends JModelLegacy
 	}
 
 	/**
+	 * function_description
 	 *
 	 * @return object
 	 */
@@ -88,6 +93,7 @@ class JtgModelCats extends JModelLegacy
 	}
 
 	/**
+	 * function_description
 	 *
 	 * @return object
 	 */
@@ -106,6 +112,7 @@ class JtgModelCats extends JModelLegacy
 	}
 
 	/**
+	 * function_description
 	 *
 	 * @return array $pagination
 	 */
@@ -122,6 +129,7 @@ class JtgModelCats extends JModelLegacy
 	}
 
 	/**
+	 * function_description
 	 *
 	 * @return int
 	 */
@@ -152,9 +160,10 @@ class JtgModelCats extends JModelLegacy
 	}
 
 	/**
+	 * function comment
 	 *
-	 * @global object $mainframe
-	 * @param int $id
+	 * @param   int  $id  category id
+	 *
 	 * @return object
 	 */
 	function getCat($id)
@@ -178,6 +187,13 @@ class JtgModelCats extends JModelLegacy
 		return $result;
 	}
 
+	/**
+	 * get a cat parent
+	 *
+	 * @param   unknown_type  $exclusion
+	 *
+	 * @return unknown
+	 */
 	function getParent($exclusion=null)
 	{
 		$mainframe = JFactory::getApplication();
