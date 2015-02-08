@@ -21,7 +21,7 @@ defined('_JEXEC') or die('Restricted access');
 class JtgControllerGeo extends JtgController
 {
 	/**
-	 *
+	 * function_description
 	 *
 	 * @return return_description
 	 */

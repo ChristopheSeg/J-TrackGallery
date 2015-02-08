@@ -27,7 +27,7 @@ JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_jtg/tables');
 class JtgControllerFiles extends JtgController
 {
 	/**
-	 *
+	 * function_description
 	 *
 	 * @return return_description
 	 */
@@ -46,6 +46,11 @@ class JtgControllerFiles extends JtgController
 		$this->setRedirect(JRoute::_('index.php?option=com_jtg&task=files&controller=files', false));
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @return void
+	 */
 	function uploadfiles ()
 	{
 		JSession::checkToken() or jexit('Invalid Token');
@@ -73,8 +78,8 @@ class JtgControllerFiles extends JtgController
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @uses JtgModelFiles::publish
 	 * @return redirect
 	 */
 	function publish ()
@@ -101,8 +106,8 @@ class JtgControllerFiles extends JtgController
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @uses JtgModelFiles::tohide
 	 * @return redirect
 	 */
 	function tohide ()
@@ -129,8 +134,8 @@ class JtgControllerFiles extends JtgController
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @uses JtgModelFiles::toshow
 	 * @return redirect
 	 */
 	function toshow ()
@@ -157,8 +162,8 @@ class JtgControllerFiles extends JtgController
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @uses JtgModelFiles::publish
 	 * @return redirect
 	 */
 	function unpublish ()
@@ -185,8 +190,8 @@ class JtgControllerFiles extends JtgController
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @uses JtgModelFiles::accessregistered
 	 * @return redirect
 	 */
 	function accessregistered ()
@@ -213,8 +218,8 @@ class JtgControllerFiles extends JtgController
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @uses JtgModelFiles::accessspecial
 	 * @return redirect
 	 */
 	function accessspecial ()
@@ -241,8 +246,8 @@ class JtgControllerFiles extends JtgController
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @uses JtgModelFiles::accesspublic
 	 * @return redirect
 	 */
 	function accesspublic ()
@@ -269,8 +274,8 @@ class JtgControllerFiles extends JtgController
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @uses JtgModelFiles::delete
 	 * @return redirect
 	 */
 	function remove ()
@@ -297,8 +302,8 @@ class JtgControllerFiles extends JtgController
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @uses JtgModelFiles::delete
 	 * @return redirect
 	 */
 	function removeFromImport ()
@@ -344,6 +349,11 @@ class JtgControllerFiles extends JtgController
 		}
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @return void
+	 */
 	function savefiles ()
 	{
 		// Check for request forgeries
@@ -359,6 +369,11 @@ class JtgControllerFiles extends JtgController
 		$this->setRedirect(JRoute::_('index.php?option=com_jtg&task=files&controller=files', false));
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @return void
+	 */
 	function updatefile ()
 	{
 		// Check for request forgeries
@@ -374,6 +389,11 @@ class JtgControllerFiles extends JtgController
 		$this->setRedirect(JRoute::_('index.php?option=com_jtg&task=files&controller=files', false));
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @return void
+	 */
 	function fetchJPTfiles ()
 	{
 		JSession::checkToken() or jexit('Invalid Token');

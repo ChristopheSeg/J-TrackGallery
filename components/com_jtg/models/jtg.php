@@ -32,8 +32,8 @@ class JtgModeljtg extends JModelLegacy
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @global <type> $mainframe
 	 * @param <type> $id
 	 * @return <type>
 	 */
@@ -174,7 +174,7 @@ class JtgModeljtg extends JModelLegacy
 	}
 
 	/**
-	 *
+	 * function_description
 	 *
 	 * @return return_description
 */

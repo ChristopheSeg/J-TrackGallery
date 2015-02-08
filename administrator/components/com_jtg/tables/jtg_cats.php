@@ -87,7 +87,7 @@ class TableJTG_Cats extends JTable
 	}
 
 	/**
-	 *
+	 * function_description
 	 *
 	 * @return return_description
 	 */
@@ -99,7 +99,7 @@ class TableJTG_Cats extends JTable
 	}
 
 	/**
-	 * Method to return the title to use for the asset table.
+	 * function_description
 	 *
 	 * @return      string
 	 *
@@ -111,7 +111,7 @@ class TableJTG_Cats extends JTable
 	}
 
 	/**
-	 * Method to get the asset-parent-id of the item
+	 * function_description
 	 *
 	 * @return      int
 	 */

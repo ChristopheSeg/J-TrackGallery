@@ -254,7 +254,7 @@ if ($maySeeSingleFile === true)
 				floating: true,
 				backgroundColor: '#FFFFFF',
 				labelFormatter: function() {
-				return this.name <?php echo ($axisnumber > 1)? "+ ' (" . JText::_('COM_JTG_CLICK_TO_HIDE') . ")'": ''; ?>;
+				return this.name <?php echo $axisnumber > 1? "+ ' (" . JText::_('COM_JTG_CLICK_TO_HIDE') . ")'": ''; ?>;
 				}
 			},
 			series: [

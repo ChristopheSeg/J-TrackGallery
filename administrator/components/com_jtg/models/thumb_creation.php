@@ -23,6 +23,7 @@ defined('_JEXEC') or die('Restricted access');
 jimport('joomla.application.component.model');
 
 /**
+ * function_description
  *
  * @param   integer $max_thumb_height
  * @param   integer $max_geoim_height

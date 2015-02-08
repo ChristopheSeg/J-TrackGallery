@@ -34,10 +34,10 @@ class JtgController extends JControllerLegacy
 	}
 
 	/**
-	 * @use get task form uri and set view and layout
+	 * get task form uri and set view and layout
 	 *
-* @param   unknown_type  $cachable
-* @param   unknown_type  $urlparams
+	 * @param   unknown_type  $cachable
+	 * @param   unknown_type  $urlparams
 	 *
 	 * @return return_description
 	 */

@@ -189,6 +189,8 @@ class JtgViewFiles extends JViewLegacy
 * @param   unknown_type  $wp
 * @param   unknown_type  $route
 * @param   unknown_type  $cache
+*
+* @return string html image section
 	 */
 	public function buildImageFiletypes($track, $wp, $route, $cache)
 	{
@@ -522,8 +524,8 @@ class JtgViewFiles extends JViewLegacy
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @global object $mainframe
 	 * @global string $option
 	 * @param object $tpl
 	 *

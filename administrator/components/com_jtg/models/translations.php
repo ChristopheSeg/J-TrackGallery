@@ -26,7 +26,7 @@ jimport('joomla.application.component.model');
 class JtgModelTranslations extends JModelLegacy
 {
 	/**
-	 *
+	 * function_description
 	 *
 	 * @return return_description
 	 */
@@ -36,7 +36,7 @@ class JtgModelTranslations extends JModelLegacy
 	}
 
 	/**
-	 *
+	 * function_description
 	 *
 	 * @return return_description
 	 */
@@ -63,7 +63,7 @@ class JtgModelTranslations extends JModelLegacy
 	}
 
 	/**
-	 *
+	 * function_description
 	 *
 	 * @return return_description
 	 */
@@ -76,7 +76,7 @@ class JtgModelTranslations extends JModelLegacy
 	}
 
 	/**
-	 *
+	 * function_description
 	 *
 	 * @return return_description
 	 */

@@ -27,8 +27,8 @@ jimport('joomla.application.component.view');
 class JtgViewTerrain extends JViewLegacy
 {
 	/**
+	 * function_description
 	 *
-	 * @global object $mainframe
 	 * @global string $option
 	 * @param object $tpl
 	 *

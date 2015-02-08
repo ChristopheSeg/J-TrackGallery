@@ -22,8 +22,8 @@ jimport('joomla.application.component.model');
 class JtgModelDownload extends JModelLegacy
 {
 	/**
+	 * function_description
 	 *
-	 * @global object $mainframe
 	 * @param   integer $id
 	 * @param   string  $format
 	 * @param   object  $track
@@ -248,8 +248,8 @@ class JtgModelDownload extends JModelLegacy
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @global object $mainframe
 	 * @param   integer $id
 	 * @return object
 	 */

@@ -27,7 +27,7 @@ JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_jtg/tables');
 class JtgControllerTerrain extends JtgController
 {
 	/**
-	 *
+	 * function_description
 	 *
 	 * @return return_description
 	 */

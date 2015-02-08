@@ -73,7 +73,7 @@ class JtgControllerComments extends JtgController
 	}
 
 	/**
-	 * remove comments
+	 * function_description
 	 *
 	 * @return return_description
 	 */
@@ -101,7 +101,7 @@ class JtgControllerComments extends JtgController
 	}
 
 	/**
-	 * update a comment
+	 * function_description
 	 *
 	 * @return return_description
 	 */

@@ -34,7 +34,7 @@ class JtgControllerCats extends JtgController
 	}
 
 	/**
-	 *
+	 * function_description
 	 *
 	 * @return return_description
 	 */
@@ -58,8 +58,8 @@ class JtgControllerCats extends JtgController
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @global object $mainframe
 	 * @uses JtgModelCat::saveCat
 	 * @return redirect
 	 *
@@ -86,8 +86,8 @@ class JtgControllerCats extends JtgController
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @uses JtgModelCat::move
 	 * @return redirect
 	 */
 	function orderup ()
@@ -102,8 +102,8 @@ class JtgControllerCats extends JtgController
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @uses JtgModelCat::move
 	 * @return redirect
 	 */
 	function orderdown ()
@@ -118,8 +118,8 @@ class JtgControllerCats extends JtgController
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @uses JtgModelCat::saveorder
 	 * @return redirect
 	 */
 	function saveorder ()
@@ -139,8 +139,8 @@ class JtgControllerCats extends JtgController
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @uses JtgModelCat::publish
 	 * @return redirect
 	 */
 	function publish ()
@@ -167,8 +167,8 @@ class JtgControllerCats extends JtgController
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @uses JtgModelCat::publish
 	 * @return redirect
 	 */
 	function unpublish ()
@@ -195,8 +195,8 @@ class JtgControllerCats extends JtgController
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @uses JtgModelCat::deleteCatImage
 	 * @return redirect
 	 */
 	function removepic ()
@@ -222,8 +222,8 @@ class JtgControllerCats extends JtgController
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @uses JtgModelCat::delete
 	 * @return redirect
 	 */
 	function remove ()
@@ -250,8 +250,8 @@ class JtgControllerCats extends JtgController
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @uses JtgModelCat::updateCat
 	 * @return redirect
 	 */
 	function updatecat ()

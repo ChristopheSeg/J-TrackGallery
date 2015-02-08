@@ -116,6 +116,12 @@ class JtgHelper
 		// $canDo = self::getActions(); ...
 	}
 
+	/**
+	 *
+	 * @param unknown_type $tid
+	 *
+	 * @return <type>
+	 */
 	public static function howMuchVote($tid)
 	{
 		$db = JFactory::getDBO();
@@ -254,6 +260,13 @@ class JtgHelper
 		return $p;
 	}
 
+	/**
+	 *
+	 * @param unknown_type $file
+	 * @param unknown_type $dest
+	 *
+	 * @return <type>
+	 */
 	static function uploadfile($file, $dest)
 	{
 		if ( ( $file["error"] != 0 )
@@ -300,6 +313,15 @@ class JtgHelper
 		return true;
 	}
 
+	/**
+	 *
+	 * @param unknown_type $allcats
+	 * @param unknown_type $catid
+	 * @param unknown_type $format
+	 * @param unknown_type $link
+	 *
+	 * @return <type>
+	 */
 	static function parseMoreCats($allcats, $catid, $format = "array", $link = false)
 	{
 		$baseurl = "index.php?option=com_jtg&view=files&layout=list&cat=";
@@ -525,7 +547,7 @@ class JtgHelper
 	}
 
 	/**
-	 *
+	 * function_description
 	 *
 	 * @return return_description
 	 */
@@ -559,6 +581,11 @@ class JtgHelper
 		return  false;
 	}
 
+	/**
+	 * function_description
+	 *
+	 * return bool true if user has FrontEnd rights
+	 */
 	static function userHasFrontendRights()
 	{
 		$user_groups = JFactory::getUser()->getAuthorisedGroups();
@@ -588,6 +615,13 @@ class JtgHelper
 		return false;
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @param unknown_type $accesslevel
+	 *
+	 * @return string accesslist select
+	 */
 	static function getAccessList($accesslevel)
 	{
 		$access = array (
@@ -613,7 +647,7 @@ class JtgHelper
 	}
 
 	/**
-	 *
+	 * function_description
 	 *
 	 * @return return_description
 	 */
@@ -639,8 +673,8 @@ class JtgHelper
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @global object $mainframe
 	 * @return object
 	 */
 	static function getConfig()
@@ -663,7 +697,7 @@ class JtgHelper
 	}
 
 	/**
-	 *
+	 * function_description
 	 *
 	 * @return return_description
 	 */
@@ -933,6 +967,14 @@ class JtgHelper
 		}
 	}
 
+	/**
+	 *
+	 * @param unknown_type $float
+	 * @param unknown_type $default
+	 * @param unknown_type $unit
+	 *
+	 * @return <type>
+	 */
 	static function getLocatedFloat($float, $default = 0, $unit = null)
 	{
 		if ( $float == 0 )
@@ -985,6 +1027,12 @@ class JtgHelper
 		) . $unit;
 	}
 
+	/**
+	 *
+	 * @param unknown_type $float
+	 *
+	 * @return <type>
+	 */
 	static function _getLocatedFloat_old($float)
 	{
 		$float = (float) $float;

@@ -24,7 +24,7 @@ jimport('joomla.application.component.model');
 class JtgModelComments extends JModelLegacy
 {
 	/**
-	 *
+	 * function_description
 	 *
 	 * @return return_description
 	 */
@@ -96,8 +96,8 @@ class JtgModelComments extends JModelLegacy
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @global object $mainframe
 	 * @return string
 	 */
 
@@ -180,8 +180,8 @@ class JtgModelComments extends JModelLegacy
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @global object $mainframe
 	 * @param   array  $cid
 	 * @return object
 	 */
@@ -200,8 +200,8 @@ class JtgModelComments extends JModelLegacy
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @global object $mainframe
 	 * @return boolean
 	 */
 	function saveComment()

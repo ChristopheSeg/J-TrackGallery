@@ -24,7 +24,7 @@ defined('_JEXEC') or die('Restricted access');
 class JtgModelCat extends JModelLegacy
 {
 	/**
-	 *
+	 * function_description
 	 *
 	 * @return return_description
 	 */
@@ -42,7 +42,7 @@ class JtgModelCat extends JModelLegacy
 	}
 
 	/**
-	 *
+	 * function_description
 	 *
 	 * @return return_description
 	 */
@@ -252,8 +252,8 @@ class JtgModelCat extends JModelLegacy
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @global obejct $mainframe
 	 * @return boolean
 	 */
 	function saveCat()
@@ -306,6 +306,13 @@ class JtgModelCat extends JModelLegacy
 		return true;
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @param unknown_type $file
+	 *
+	 * @return bool true on success
+	 */
 	function uploadCatImage($file)
 	{
 		jimport('joomla.filesystem.file');
@@ -354,8 +361,8 @@ class JtgModelCat extends JModelLegacy
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @global object $mainframe
 	 * @return boolean
 	 */
 	function updateCat()

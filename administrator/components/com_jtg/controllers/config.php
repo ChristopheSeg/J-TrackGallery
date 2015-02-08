@@ -33,8 +33,8 @@ class JtgControllerConfig extends JtgController
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @global object $mainframe
 	 * @uses JtgModelConfigat::saveConfig
 	 * @return  redirect
 	 */

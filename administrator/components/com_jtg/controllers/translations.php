@@ -31,7 +31,7 @@ class JtgControllertranslations extends JtgController
 	}
 
 	/**
-	 *
+	 * function_description
 	 *
 	 * @return return_description
 	 */

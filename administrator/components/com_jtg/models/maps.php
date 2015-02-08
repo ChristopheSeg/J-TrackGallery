@@ -65,8 +65,8 @@ class JtgModelMaps extends JModelLegacy
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @global array $mainframe
 	 * @global string $option
 	 */
 	function __construct()
@@ -95,8 +95,8 @@ class JtgModelMaps extends JModelLegacy
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @global array $mainframe
 	 * @return string
 	 */
 	function _buildQuery()
@@ -138,8 +138,8 @@ class JtgModelMaps extends JModelLegacy
 
 
 	/**
+	 * function_description
 	 *
-	 * @global object $mainframe
 	 * @param   string  $id
 	 * @return object
 	 */
@@ -163,8 +163,8 @@ class JtgModelMaps extends JModelLegacy
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @global object $mainframe
 	 * @global string $option
 	 * @return string
 	 */
@@ -191,8 +191,8 @@ class JtgModelMaps extends JModelLegacy
 
 
 	/**
+	 * function_description
 	 *
-	 * @global object $mainframe
 	 * @global string $option
 	 * @return string
 	 */
@@ -309,7 +309,7 @@ class JtgModelMaps extends JModelLegacy
 	}
 
 	/**
-	 *
+	 * function_description
 	 *
 	 * @return return_description
 	 */

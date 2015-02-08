@@ -27,6 +27,7 @@ jimport('joomla.application.component.view');
 class JtgViewMaps extends JViewLegacy
 {
 	/**
+	* function_description
 	*
 	* @param object $tpl
 	 *

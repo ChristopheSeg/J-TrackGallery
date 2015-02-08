@@ -18,6 +18,14 @@
 defined('_JEXEC') or die('Restricted access');
 
 define('_parseTemplate_headline_close', true);
+
+/**
+ * function_description
+ *
+ * @param unknown_type $linkname
+ *
+ * @return string
+ */
 function parseTemplate_headline_close($linkname)
 {
 	return "</a></div>";

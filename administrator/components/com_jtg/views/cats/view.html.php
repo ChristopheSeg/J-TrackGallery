@@ -95,8 +95,8 @@ class JtgViewCats extends JViewLegacy
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @global object $mainframe
 	 * @global string $option
 	 * @param object $tpl
 	 *
@@ -161,8 +161,8 @@ class JtgViewCats extends JViewLegacy
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @global object $mainframe
 	 * @global string $option
 	 * @param object $tpl
 	 *
@@ -191,8 +191,8 @@ class JtgViewCats extends JViewLegacy
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @global object $mainframe
 	 * @param object $tpl
 	 *
 	 * @return return_description

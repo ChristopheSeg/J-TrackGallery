@@ -19,6 +19,13 @@
 defined('_JEXEC') or die('Restricted access');
 
 define('_parseTemplate_description_open', true);
+/**
+ * function_description
+ *
+ * @param unknown_type $linkname
+ *
+ * @return string
+ */
 function parseTemplate_description_open($linkname)
 {
 	return "<div class=\"description\">";

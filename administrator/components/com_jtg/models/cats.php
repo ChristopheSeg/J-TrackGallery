@@ -54,7 +54,7 @@ class JtgModelCats extends JModelLegacy
 	var $_pagination = null;
 
 	/**
-	 *
+	 * function_description
 	 *
 	 * @return return_description
 	 */
@@ -146,8 +146,8 @@ class JtgModelCats extends JModelLegacy
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @global object $mainframe
 	 * @return string
 	 */
 	function _buildQuery()

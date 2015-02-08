@@ -62,6 +62,13 @@ class JtgModelFiles extends JModelLegacy
 		return $this->_data;
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @param   unknown_type  $selected
+	 *
+	 * @return return_description
+	 */
 	function getLevelSelect ($selected)
 	{
 		$return = "<select name=\"level\">\n";
@@ -101,8 +108,10 @@ class JtgModelFiles extends JModelLegacy
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @param   integer  $selected  selected level id
+	 * @param   unknown_type  $selected
+	 *
 	 * @return array
 	 */
 	function getLevel ($selected)
@@ -150,8 +159,8 @@ class JtgModelFiles extends JModelLegacy
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @global array $mainframe
 	 * @return string
 	 */
 	function _buildQuery ()
@@ -184,8 +193,8 @@ class JtgModelFiles extends JModelLegacy
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @global array $mainframe
 	 * @global string $option
 	 * @return string
 	 */
@@ -209,8 +218,8 @@ class JtgModelFiles extends JModelLegacy
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @global array $mainframe
 	 * @global string $option
 	 * @return string
 	 */
@@ -261,8 +270,8 @@ class JtgModelFiles extends JModelLegacy
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @global <type> $mainframe
 	 * @return <type>
 	 */
 	function getCats ()
@@ -321,8 +330,8 @@ class JtgModelFiles extends JModelLegacy
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @global object $mainframe
 	 * @return boolean
 	 */
 	function saveFile ()
@@ -481,8 +490,8 @@ class JtgModelFiles extends JModelLegacy
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @global <type> $mainframe
 	 * @return <type>
 	 */
 	function hit ()
@@ -503,8 +512,8 @@ class JtgModelFiles extends JModelLegacy
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @global <type> $mainframe
 	 * @param <type> $id
 	 * @return <type>
 	 */
@@ -529,8 +538,8 @@ class JtgModelFiles extends JModelLegacy
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @global <type> $mainframe
 	 * @param <type> $id
 	 * @return <type>
 	 */
@@ -617,10 +626,11 @@ class JtgModelFiles extends JModelLegacy
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @global <type> $mainframe
 	 * @param <type> $id
 	 * @param <type> $rate
+	 *
 	 * @return <type>
 	 */
 	function vote ($id, $rate)
@@ -665,6 +675,13 @@ class JtgModelFiles extends JModelLegacy
 		return false;
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @param <type> $id
+	 *
+	 * @return <type>
+	 */
 	function deleteFile ($id)
 	{
 		$mainframe = JFactory::getApplication();
@@ -704,6 +721,13 @@ class JtgModelFiles extends JModelLegacy
 		}
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @param <type> $id
+	 *
+	 * @return <type>
+	 */
 	function getImages ($id)
 	{
 		$img_dir = JPATH_SITE . '/images/jtrackgallery/track_' . $id;
@@ -858,8 +882,8 @@ class JtgModelFiles extends JModelLegacy
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @global object $mainframe
 	 * @param   int $id
 	 * @param string $order
 	 * @return array
@@ -1055,6 +1079,13 @@ class JtgModelFiles extends JModelLegacy
 		}
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @param unknown_type $id
+	 *
+	 * @return <type>
+	 */
 	function getAutorData ($id)
 	{
 		$mainframe = JFactory::getApplication();

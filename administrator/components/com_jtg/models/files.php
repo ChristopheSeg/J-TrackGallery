@@ -156,6 +156,15 @@ class JtgModelFiles extends JModelLegacy
 		}
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @param unknown_type $files
+	 * @param unknown_type $dest
+	 * @param unknown_type $types
+	 *
+	 * @return string
+	 */
 	function uploadfiles($files, $dest, $types = true)
 	{
 		jimport('joomla.filesystem.file');
@@ -192,8 +201,8 @@ class JtgModelFiles extends JModelLegacy
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @global array $mainframe
 	 * @global string $option
 	 */
 	function __construct()
@@ -273,8 +282,8 @@ class JtgModelFiles extends JModelLegacy
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @global array $mainframe
 	 * @return string
 	 */
 	function _fetchJPTfiles()
@@ -294,8 +303,8 @@ class JtgModelFiles extends JModelLegacy
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @global array $mainframe
 	 * @return string
 	 */
 	function _buildQuery()
@@ -318,8 +327,8 @@ class JtgModelFiles extends JModelLegacy
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @global object $mainframe
 	 * @global string $option
 	 * @return string
 	 */
@@ -345,8 +354,8 @@ class JtgModelFiles extends JModelLegacy
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @global object $mainframe
 	 * @global string $option
 	 * @return string
 	 */
@@ -371,8 +380,8 @@ class JtgModelFiles extends JModelLegacy
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @global object $mainframe
 	 * @param   string  $id
 	 * @return object
 	 */
@@ -608,8 +617,9 @@ class JtgModelFiles extends JModelLegacy
 	}
 
 	/**
+	 * function_description
 	 *
-* @param   unknown_type  $selected
+	 * @param   unknown_type  $selected
 	 *
 	 * @return array
 	 */
@@ -788,10 +798,9 @@ class JtgModelFiles extends JModelLegacy
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @global object $mainframe
-	 *
-* @param   unknown_type  $id
+	 * @param   unknown_type  $id
 	 *
 	 * @return array
 	 */
@@ -807,7 +816,7 @@ class JtgModelFiles extends JModelLegacy
 	}
 
 	/**
-	 *
+	 * function_description
 	 *
 	 * @return return_description
 	 */
@@ -1026,6 +1035,13 @@ class JtgModelFiles extends JModelLegacy
 		return true;
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @param   object  $track track object
+	 *
+	 * @return return_description
+	 */
 	function importFromJPT($track)
 	{
 		// TODO Deprecated, can be replacd by import from injooosm
@@ -1204,6 +1220,11 @@ class JtgModelFiles extends JModelLegacy
 		return true;
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @return return_description
+	 */
 	function saveFile()
 	{
 		$mainframe = JFactory::getApplication();
@@ -1394,11 +1415,13 @@ class JtgModelFiles extends JModelLegacy
 		return true;
 	}
 
-	/*
+	/**
 	 * description: Import tracks from JoomGPSTracks
-	*
-	* @param   string  $id
-	*/
+	 *
+	 * @param   string  $id
+	 *
+	 * @return void
+	 */
 	function importJPTtracks()
 	{
 		/* under construction */
@@ -1616,7 +1639,14 @@ class JtgModelFiles extends JModelLegacy
 		return false;
 	}
 
-	function getImages($id)
+	/**
+	 * function_description
+	 *
+	 * @param unknown_type $id
+	 *
+	 * @return return_description
+	 */
+	 function getImages($id)
 	{
 		jimport('joomla.filesystem.folder');
 		$img_dir = JPATH_SITE . '/images/jtrackgallery/track_' . $id;
@@ -1632,7 +1662,7 @@ class JtgModelFiles extends JModelLegacy
 	}
 
 	/**
-	 *
+	 * function_description
 	 *
 	 * @return return_description
 	 */

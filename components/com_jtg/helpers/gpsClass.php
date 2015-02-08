@@ -66,6 +66,11 @@ class GpsDataClass
 
 	var $description = "";
 
+	/**
+	 * function_description
+	 *
+	 * @param unknown_type $unit
+	 */
 	public function __construct($unit)
 	{
 		$this->unit = $unit;
@@ -197,6 +202,11 @@ class GpsDataClass
 		return $xml;
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @return void
+	 */
 	public function displayErrors()
 	{
 		$error = "";
@@ -346,6 +356,12 @@ class GpsDataClass
 		return true;
 	}
 
+	/**
+	 *
+	 * @param unknown_type $xml
+	 *
+	 * @return <type>
+	 */
 	public function isThisCache($xml)
 	{
 		$pattern = "/groundspeak/";
@@ -407,6 +423,12 @@ class GpsDataClass
 		return $coordinates;
 	}
 
+	/**
+	 *
+	 * @param unknown_type $xml
+	 *
+	 * @return <type>
+	 */
 	private function extractCoordsGPX($xml)
 	{
 		$this->trackname = (string) @$xml->name;
@@ -565,6 +587,11 @@ class GpsDataClass
 		}
 	}
 
+	/**
+	 *
+	 *
+	 * @return <type>
+	 */
 	private function extractAllTracksCoords()
 	{
 		$this->allCoords = array();
@@ -773,6 +800,12 @@ class GpsDataClass
 				);
 	}
 
+	/**
+	 *
+	 * @param unknown_type $t
+	 *
+	 * @return <type>
+	 */
 	public function transformTtRGB($t)
 	{
 		if ($t <= 60)
@@ -915,6 +948,11 @@ class GpsDataClass
 		$this->wp = array( "wps" => $wp, "center" => $center );
 	}
 
+	/**
+	 *
+	 *
+	 * @return <type>
+	 */
 	public function createChartData()
 	{
 		$elevationChartData = "";
@@ -990,8 +1028,16 @@ class GpsDataClass
 		return;
 	}
 
-	// function parseCatIcon not rewrittten
-
+	/**
+	 * Function parseCatIcon not rewrittten
+	 *
+	 * @param unknown_type $catid
+	 * @param unknown_type $istrack
+	 * @param unknown_type $iswp
+	 * @param unknown_type $isroute
+	 *
+	 * @return <type>
+	 */
 	public function parseCatIcon($catid, $istrack = 0, $iswp = 0, $isroute = 0)
 	{
 		$catid = explode(",", $catid);
@@ -1132,6 +1178,12 @@ class GpsDataClass
 		return $unknownicon . "var icon = new OpenLayers.Icon('" . $icon . "',\n			new OpenLayers.Size(" . $sizex . ", " . $sizey . "),\n			new OpenLayers.Pixel(" . $offsetx . ", " . $offsety . "));\n";
 	}
 
+	/**
+	 *
+	 * @param unknown_type $wp
+	 *
+	 * @return <type>
+	 */
 	public function isGeocache($wp)
 	{
 		if ( ( isset($wp->sym) ) AND ( preg_match('/Geocache/', $wp->sym) ) AND ( isset($wp->type) ) )
@@ -1467,7 +1519,7 @@ class GpsDataClass
 	}
 
 	/**
-	 *
+	 * function_description
 	 *
 	 * @return return_description
 	 */
@@ -1493,8 +1545,8 @@ class GpsDataClass
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @global object $mainframe
 	 * @return array
 	 */
 	function getMapNates()
@@ -1547,8 +1599,8 @@ class GpsDataClass
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @global object $mainframe
 	 * @return array
 	 */
 	function getCats()
@@ -1565,17 +1617,15 @@ class GpsDataClass
 		return $rows;
 	}
 
-
 	/**
-	 * function_description
+	 * Openlayers write maps
 	 *
-	 * @param   array  $coords
-	 * @return array
+	 * @param unknown_type $where
+	 * @param unknown_type $tracks
+	 * @param unknown_type $params
+	 *
+	 * @return <type>
 	 */
-
-
-
-	// Openlayers write maps BEGIN
 	public function writeOLMap($where,$tracks,$params)
 	{
 		$cfg = JtgHelper::getConfig();
@@ -2021,6 +2071,8 @@ class GpsDataClass
 	}
 
 	/**
+	 * function_description
+	 *
 	 * @return Object
 	 */
 	private function buildMaps()
@@ -2138,9 +2190,17 @@ class GpsDataClass
 		// Gib nur Mapnik aus, für den Fall der Fehlkonfiguration
 	}
 
-	// Pass in GPS.GPSLatitude or GPS.GPSLongitude or something in that format
-	// http://stackoverflow.com/questions/2526304/php-extract-gps-exif-data/2572991#2572991
-	// Thanks to Gerald Kaszuba http://geraldkaszuba.com/
+	/**
+	 * Pass in GPS.GPSLatitude or GPS.GPSLongitude or something in that format
+	 *
+	 * http://stackoverflow.com/questions/2526304/php-extract-gps-exif-data/2572991#2572991
+	 * Thanks to Gerald Kaszuba http://geraldkaszuba.com/
+	 *
+	 * @param unknown_type $exifCoord
+	 * @param unknown_type $hemi
+	 *
+	 * @return number
+	 */
 	private function getGps($exifCoord, $hemi)
 	{
 		$degrees = count($exifCoord) > 0 ? $this->gps2Num($exifCoord[0]) : 0;
@@ -2308,6 +2368,13 @@ class GpsDataClass
 		return $map;
 	}
 
+	/**
+	 *
+	 * @param unknown_type $track
+	 * @param unknown_type $params
+	 *
+	 * @return <type>
+	 */
 	public function writeTrackOL($track, $params)
 	{
 
@@ -2464,7 +2531,7 @@ class GpsDataClass
 	}
 
 	/**
-	 *
+	 * function_description
 	 *
 * @param   unknown_type  $params
 * @param   unknown_type  $adminonly
@@ -2820,7 +2887,8 @@ class GpsCoordsClass
 				$dis = acos(
 						(sin($erste_breite_rad) * sin($zweite_breite_rad)) +
 						(cos($erste_breite_rad) * cos($zweite_breite_rad) *
-								cos($zweite_laenge_rad - $erste_laenge_rad))) * $earthRadius;
+								cos($zweite_laenge_rad - $erste_laenge_rad))
+						) * $earthRadius;
 
 				if (!is_nan($dis))
 				{

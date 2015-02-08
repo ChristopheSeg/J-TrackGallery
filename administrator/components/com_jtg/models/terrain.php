@@ -32,7 +32,7 @@ class JtgModelTerrain extends JModelLegacy
 	var $_pagination = null;
 
 	/**
-	 *
+	 * function_description
 	 *
 	 * @return return_description
 	 */
@@ -112,6 +112,7 @@ class JtgModelTerrain extends JModelLegacy
 	}
 
 	/**
+	 * function_description
 	 *
 	 * @param   integer  $terrain  terrain id
 	 *
@@ -135,8 +136,8 @@ class JtgModelTerrain extends JModelLegacy
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @global object $mainframe
 	 * @global string $option
 	 * @return string
 	 */

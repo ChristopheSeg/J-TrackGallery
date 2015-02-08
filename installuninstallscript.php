@@ -95,12 +95,16 @@ class Com_JtgInstallerScript
 		return true;
 	}
 
-	/*
-	 * $parent is the class calling this method.
-	* install runs after the database scripts are executed.
-	* If the extension is new, the install method is run.
-	* If install returns false, Joomla will abort the install and undo everything already done.
-	*/
+	/**
+	 * install runs after the database scripts are executed.
+	 *
+	 * If the extension is new, the install method is run.
+	 * If install returns false, Joomla will abort the install and undo everything already done.
+	 *
+	 * @param   object  $parent  the class calling this method.
+	 *
+	 * @return <type>
+	 */
 	function install( $parent )
 	{
 		jimport('joomla.filesystem.folder');
@@ -226,12 +230,16 @@ echo '</table>';
 return true;
 	}
 
-	/*
-	 * $parent is the class calling this method.
-	* update runs after the database scripts are executed.
-	* If the extension exists, then the update method is run.
-	* If this returns false, Joomla will abort the update and undo everything already done.
-	*/
+	/**
+	 * update runs after the database scripts are executed.
+	 *
+	 * If the extension exists, then the update method is run.
+	 * If this returns false, Joomla will abort the update and undo everything already done.
+	 *
+	 * @param   object  $parent  the class calling this method.
+	 *
+	 * @return <type>
+	 */
 	function update( $parent )
 	{
 
@@ -252,11 +260,14 @@ return true;
 		return true;
 	}
 
-	/*
-	 * $parent is the class calling this method.
-	* $type is the type of change (install, update or discover_install, not uninstall).
-	* postflight is run after the extension is registered in the database.
-	*/
+	/**
+	 * postflight is run after the extension is registered in the database.
+	 *
+	 * @param   string  $type    the type of change (install, update or discover_install, not uninstall).
+	 * @param   object  $parent  the class calling this method.
+	 *
+	 * @return <type>
+	 */
 	function postflight( $type, $parent )
 	{
 		$db = JFactory::getDBO();

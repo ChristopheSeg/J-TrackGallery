@@ -207,6 +207,8 @@ class JtgModelConfig extends JModelLegacy
 	}
 
 	/**
+	 * function_description
+	 *
 	 * @return Object
 	 */
 	function getContent()
@@ -244,7 +246,7 @@ class JtgModelConfig extends JModelLegacy
 	}
 
 	/**
-	 *
+	 * function_description
 	 *
 	 * @return return_description
 	 */

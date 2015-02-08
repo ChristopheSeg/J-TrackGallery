@@ -23,7 +23,7 @@ jimport('joomla.application.component.model');
 class JtgModelCats extends JModelLegacy
 {
 	/**
-	 *
+	 * function_description
 	 *
 	 * @return return_description
 	 */

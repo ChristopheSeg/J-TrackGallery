@@ -23,7 +23,7 @@ jimport('joomla.application.component.controller');
 class JtgControllerMaps extends JtgController
 {
 	/**
-	 *
+	 * function_description
 	 *
 	 * @return return_description
 	 */

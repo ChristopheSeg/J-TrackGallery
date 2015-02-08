@@ -163,7 +163,7 @@ class ContentViewElement extends JViewLegacy
 	}
 
 	/**
-	 *
+	 * function_description
 	 *
 	 * @return return_description
 	 */

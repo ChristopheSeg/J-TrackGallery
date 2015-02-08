@@ -108,6 +108,7 @@ function _jtgParseRouteFile($segments)
 }
 
 /**
+ * function_description
  *
  * @param   unknown_type  $segments
  *
@@ -136,6 +137,7 @@ function _jtgParseRouteCategory($segments)
 }
 
 /**
+ * function_description
  *
  * @param   unknown_type  $segments
  *

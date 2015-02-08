@@ -173,8 +173,8 @@ class JtgViewFiles extends JViewLegacy
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @global <type> $mainframe
 	 * @param <type> $tpl
 	 * @return <type>
 	 */
@@ -731,6 +731,13 @@ class JtgViewFiles extends JViewLegacy
 		parent::display($tpl);
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @param unknown_type $tpl
+	 *
+	 * @return <type>
+	 */
 	function _displayList($tpl)
 	{
 		$mainframe = JFactory::getApplication();
@@ -789,6 +796,13 @@ class JtgViewFiles extends JViewLegacy
 		parent::display($tpl);
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @param unknown_type $tpl
+	 *
+	 * @return <type>
+	 */
 	function _displayUserTracks($tpl)
 	{
 		$mainframe = JFactory::getApplication();
@@ -1048,6 +1062,16 @@ class JtgViewFiles extends JViewLegacy
 		return $return;
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @param unknown_type $template
+	 * @param unknown_type $content
+	 * @param unknown_type $linkname
+	 * @param unknown_type $only
+	 *
+	 * @return <type>
+	 */
 	function parseTemplate($template, $content = null, $linkname = null, $only = null)
 	{
 		$tmpl = ($this->cfg->template = "") ? $this->cfg->template : 'default';

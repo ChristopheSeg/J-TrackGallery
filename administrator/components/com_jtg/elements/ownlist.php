@@ -125,7 +125,7 @@ class JFormFieldOwnList extends JFormField
 	}
 
 	/**
-	 *
+	 * function_description
 	 *
 	 * @return return_description
 	 */
@@ -136,7 +136,7 @@ class JFormFieldOwnList extends JFormField
 	}
 
 	/**
-	 *
+	 * function_description
 	 *
 	 * @return return_description
 	 */
@@ -489,7 +489,8 @@ class JFormFieldOwnList extends JFormField
 		$cats = $cats->getCats($nosubcats, 'COM_JTG_ALL', -1);
 		$size = $this->getSelectSize($cats);
 		$list = JHtml::_('select.genericlist', $cats, $this->name . '[]', 'class="inputbox" multiple="multiple" size="' . $size .
-				'"', 'id', 'treename', $this->value, '', 1);
+				'"', 'id', 'treename', $this->value, '', 1
+				);
 
 		return $list;
 	}
@@ -536,7 +537,7 @@ class JFormFieldOwnList extends JFormField
 	}
 
 	/**
-	 *
+	 * function_description
 	 *
 	 * @return return_description
 	 */

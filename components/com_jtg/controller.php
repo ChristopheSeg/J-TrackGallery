@@ -53,7 +53,7 @@ class JtgController extends JControllerLegacy
 	}
 
 	/**
-	 * calls the captcha image
+	 * function_description
 	 *
 	 * @return return_description
 	 */

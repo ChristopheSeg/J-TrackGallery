@@ -24,7 +24,7 @@ defined('_JEXEC') or die('Restricted access');
 class JtgModelMAp extends JModelLegacy
 {
 	/**
-	 *
+	 * function_description
 	 *
 	 * @return return_description
 	 */

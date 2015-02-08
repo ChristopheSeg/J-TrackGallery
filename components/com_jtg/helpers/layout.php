@@ -59,7 +59,7 @@ class LayoutHelper
 	}
 
 	/**
-	 *
+	 * function_description
 	 *
 	 * @return return_description
 	 */
@@ -132,7 +132,7 @@ class LayoutHelper
 	}
 
 	/**
-	 *
+	 * function_description
 	 *
 	 * @return return_description
 	 */

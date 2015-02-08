@@ -26,7 +26,7 @@ jimport('joomla.application.component.controller');
 class JtgControllerFiles extends JtgController
 {
 	/**
-	 *
+	 * function_description
 	 *
 	 * @return return_description
 	 */
@@ -36,7 +36,7 @@ class JtgControllerFiles extends JtgController
 	}
 
 	/**
-	 *
+	 * function_description
 	 *
 	 * @return return_description
 	 */
@@ -75,6 +75,11 @@ class JtgControllerFiles extends JtgController
 		}
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @return return_description
+	 */
 	function vote()
 	{
 		$id = JRequest::getInt('id');
@@ -87,7 +92,7 @@ class JtgControllerFiles extends JtgController
 	}
 
 	/**
-	 *
+	 * function_description
 	 *
 	 * @return return_description
 	 */
@@ -114,7 +119,7 @@ class JtgControllerFiles extends JtgController
 	}
 
 	/**
-	 *
+	 * function_description
 	 *
 	 * @return return_description
 	 */
@@ -144,6 +149,11 @@ class JtgControllerFiles extends JtgController
 		}
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @return return_description
+	 */
 	function addcomment()
 	{
 		$model = $this->getModel('files');
@@ -151,7 +161,7 @@ class JtgControllerFiles extends JtgController
 	}
 
 	/**
-	 *
+	 * function_description
 	 *
 	 * @return return_description
 	 */

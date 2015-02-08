@@ -17,8 +17,16 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
-define('_parseTemplate_description_close', true);
-function parseTemplate_description_close($linkname)
+define('_ParseTemplate_Description_close', true);
+
+/**
+ * function_description
+ *
+ * @param   unknown_type  $linkname
+ *
+ * @return string
+ */
+function ParseTemplate_Description_close($linkname)
 {
 	return "</div>";
 }
