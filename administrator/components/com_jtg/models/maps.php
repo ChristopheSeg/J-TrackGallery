@@ -20,6 +20,13 @@ defined('_JEXEC') or die('Restricted access');
 
 // Import Joomla! libraries
 jimport('joomla.application.component.model');
+/**
+ * JtgModelMaps class for the jtg component
+ *
+ * @package     Comjtg
+ * @subpackage  Frontend
+ * @since       0.8
+ */
 
 class JtgModelMaps extends JModelLegacy
 {
@@ -40,7 +47,8 @@ class JtgModelMaps extends JModelLegacy
 	/**
 	 * function_description
 	 *
-	 * @param   string  $direction
+	 * @param   string  $direction  param_description
+	 *
 	 * @return boolean
 	 */
 	function move($direction)
@@ -69,7 +77,7 @@ class JtgModelMaps extends JModelLegacy
 	 *
 	 * @global string $option
 	 */
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$mainframe = JFactory::getApplication();
@@ -99,7 +107,7 @@ class JtgModelMaps extends JModelLegacy
 	 *
 	 * @return string
 	 */
-	function _buildQuery()
+	protected function _buildQuery()
 	{
 		$mainframe = JFactory::getApplication();
 		$orderby = $this->_buildContentOrderBy();
@@ -113,7 +121,8 @@ class JtgModelMaps extends JModelLegacy
 	/**
 	 * function_description
 	 *
-	 * @param   array  $cid
+	 * @param   array  $cid  param_description
+	 *
 	 * @return boolean
 	 */
 	function delete($cid = array())
@@ -136,11 +145,11 @@ class JtgModelMaps extends JModelLegacy
 		return true;
 	}
 
-
 	/**
 	 * function_description
 	 *
-	 * @param   string  $id
+	 * @param   string  $id  param_description
+	 *
 	 * @return object
 	 */
 	function getMap($id)
@@ -168,7 +177,7 @@ class JtgModelMaps extends JModelLegacy
 	 * @global string $option
 	 * @return string
 	 */
-	function _buildContentOrderBy()
+	protected function _buildContentOrderBy()
 	{
 		$mainframe = JFactory::getApplication();
 
@@ -189,14 +198,12 @@ class JtgModelMaps extends JModelLegacy
 		return $orderby;
 	}
 
-
 	/**
 	 * function_description
 	 *
-	 * @global string $option
 	 * @return string
 	 */
-	function _buildContentWhere()
+	protected function _buildContentWhere()
 	{
 		$mainframe = JFactory::getApplication();
 
@@ -235,10 +242,9 @@ class JtgModelMaps extends JModelLegacy
 	/**
 	 * function_description
 	 *
-* @param   unknown_type  $order
+	 * @param   unknown_type  $order  param_description
 	 *
 	 * @return Object
-	 *
 	 */
 	function getMaps($order=false)
 	{
@@ -280,8 +286,9 @@ class JtgModelMaps extends JModelLegacy
 	/**
 	 * function_description
 	 *
-	 * @param   array  $cid
-	 * @param   string  $publish
+	 * @param   array  $cid  param_description
+	 * @param   string  $publish  param_description
+	 *
 	 * @return bool
 	 */
 	function publish($cid = array(), $publish = 1)
@@ -368,7 +375,7 @@ class JtgModelMaps extends JModelLegacy
 	/**
 	 * function_description
 	 *
-	 * @param   string  $id
+	 * @param   string  $id  param_description
 	 *
 	 * @return return_description
 	 */
@@ -380,11 +387,14 @@ class JtgModelMaps extends JModelLegacy
 	}
 
 	/**
+	 * function_description
 	 *
+	 * @return return_description
 	 */
 	function updateMap()
 	{
 		$db = JFactory::getDBO();
+
 		// Get the post data
 		$publish = JRequest::getInt('publish');
 		$order = JRequest::getInt('order');

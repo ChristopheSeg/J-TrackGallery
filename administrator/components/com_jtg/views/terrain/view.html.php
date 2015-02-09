@@ -20,21 +20,24 @@ defined('_JEXEC') or die('Restricted access');
 
 // Import Joomla! libraries
 jimport('joomla.application.component.view');
-
 /**
+ * JtgViewTerrain class for the jtg component
  *
+ * @package     Comjtg
+ * @subpackage  Frontend
+ * @since       0.8
  */
+
 class JtgViewTerrain extends JViewLegacy
 {
 	/**
 	 * function_description
 	 *
-	 * @global string $option
-	 * @param object $tpl
+	 * @param   object  $tpl  template
 	 *
 	 * @return return_description
 	 */
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		$mainframe = JFactory::getApplication();
 		$option = JFactory::getApplication()->input->get('option');
@@ -66,11 +69,11 @@ class JtgViewTerrain extends JViewLegacy
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $tpl
+	 * @param   object  $tpl  template
 	 *
 	 * @return return_description
-*/
-	function _displayForm($tpl)
+	 */
+	protected function _displayForm($tpl)
 	{
 		$model = $this->getModel();
 		$cid = JFactory::getApplication()->input->get('cid', array(), 'array');

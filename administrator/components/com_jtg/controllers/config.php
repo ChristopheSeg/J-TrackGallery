@@ -21,13 +21,22 @@ defined('_JEXEC') or die('Restricted access');
 jimport('joomla.application.component.controller');
 /**
  * Controller Class Configuration
+ *
+ * @package     Comjtg
+ * @subpackage  Frontend
+ * @since       0.8
  */
 class JtgControllerConfig extends JtgController
 {
 	/**
+	 * function_description
 	 *
+	 * @param   unknown_type  $cachable  param_description
+	 * @param   unknown_type  $urlparams  param_description
+	 *
+	 * @return return_description
 	 */
-	function display($cachable = false, $urlparams = false)
+	public function display($cachable = false, $urlparams = false)
 	{
 		parent::display();
 	}

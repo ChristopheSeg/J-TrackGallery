@@ -17,22 +17,30 @@
 
 // No direct access
 defined('_JEXEC') or die('Restricted access');
+/**
+ * JtgControllerGeo class for the jtg component
+ *
+ * @package     Comjtg
+ * @subpackage  Frontend
+ * @since       0.8
+ */
 
 class JtgControllerGeo extends JtgController
 {
 	/**
 	 * function_description
 	 *
-	 * @return return_description
 	 */
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 	}
 
-/**
- *
- */
+	/**
+	 * function_description
+	 *
+	 * @return return_description
+	 */
 	function save()
 	{
 		$user = JFactory::getUser();

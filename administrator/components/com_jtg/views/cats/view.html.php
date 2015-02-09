@@ -22,16 +22,24 @@ defined('_JEXEC') or die('Restricted access');
 
 // Import Joomla! libraries
 jimport('joomla.application.component.view');
+/**
+ * JtgViewCats class for the jtg component
+ *
+ * @package     Comjtg
+ * @subpackage  Frontend
+ * @since       0.8
+ */
 
 class JtgViewCats extends JViewLegacy
 {
 	/**
 	 * function_description
 	 *
-	 * @param object $tpl
+	 * @param   object  $tpl  template
+	 *
 	 * @return void
 	 */
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 
 		switch ($this->getLayout())
@@ -58,7 +66,7 @@ class JtgViewCats extends JViewLegacy
 	/**
 	 * function_description
 	 *
-	 * @param object $tpl
+	 * @param   object  $tpl  template
 	 *
 	 * @return return_description
 	 */
@@ -97,8 +105,7 @@ class JtgViewCats extends JViewLegacy
 	/**
 	 * function_description
 	 *
-	 * @global string $option
-	 * @param object $tpl
+	 * @param   object  $tpl  template
 	 *
 	 * @return return_description
 	 */
@@ -132,6 +139,7 @@ class JtgViewCats extends JViewLegacy
 		foreach ($rows as $v )
 		{
 			$v->title = JText::_($v->title);
+
 			// TODO  unnecessary
 			$v->name = $v->title;
 			$pt	= $v->parent_id;
@@ -163,12 +171,11 @@ class JtgViewCats extends JViewLegacy
 	/**
 	 * function_description
 	 *
-	 * @global string $option
-	 * @param object $tpl
+	 * @param   object  $tpl  template
 	 *
 	 * @return return_description
 	 */
-	function _displayForm($tpl)
+	protected function _displayForm($tpl)
 	{
 		// 	$mainframe = JFactory::getApplication(); $option = JFactory::getApplication()->input->get('option');
 
@@ -193,7 +200,7 @@ class JtgViewCats extends JViewLegacy
 	/**
 	 * function_description
 	 *
-	 * @param object $tpl
+	 * @param   object  $tpl  template
 	 *
 	 * @return return_description
 	 */

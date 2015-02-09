@@ -20,20 +20,24 @@ defined('_JEXEC') or die('Restricted access');
 
 // Import Joomla! libraries
 jimport('joomla.application.component.view');
-
 /**
+ * JtgViewConfig class for the jtg component
  *
+ * @package     Comjtg
+ * @subpackage  Frontend
+ * @since       0.8
  */
+
 class JtgViewConfig extends JViewLegacy
 {
 	/**
 	 * function_description
 	 *
-	 * @param object $tpl
+	 * @param   object  $tpl  template
 	 *
 	 * @return return_description
 	 */
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 
 		jimport('joomla.filesystem.file');
@@ -87,11 +91,14 @@ class JtgViewConfig extends JViewLegacy
 				array('id' => 'ors' , 'text' => JText::_('COM_JTG_APPR_ORS')),
 				array('id' => 'cm' , 'text' => JText::_('COM_JTG_APPR_CM'))
 
-				// array('id' => 'cmkey' , 'text' => JText::_('COM_JTG_APPR_CMK'))
-				// Key muss noch gespeichert werden
-				// 	array('id' => 'easy' , 'text' => JText::_('COM_JTG_APPR_EASY'))
-				// Problem mit Datenbankspeicherung
-		);
+				/*
+				array('id' => 'cmkey' , 'text' => JText::_('COM_JTG_APPR_CMK'))
+					Key muss noch gespeichert werden
+					array('id' => 'easy' , 'text' => JText::_('COM_JTG_APPR_EASY'))
+					Problem mit Datenbankspeicherung
+				*/
+				);
+
 		$gallery = array(
 				array('id' => 'none', 'text' => JText::_('JNONE')),
 				array('id' => 'straight', 'text' => JText::_('COM_JTG_GAL_STRAIGHT')),

@@ -21,6 +21,13 @@ defined('_JEXEC') or die('Restricted access');
 /*
  * Function to convert a system URL to a SEF URL
 */
+	/**
+	 * Function to convert a system URL to a SEF URL
+	 *
+	 * @param   array  &$query  segmented URL
+	 *
+	 * @return segmented URL (array)
+	 */
 function jtgBuildRoute(&$query)
 {
 	$segments = array();
@@ -70,6 +77,13 @@ function jtgBuildRoute(&$query)
 	return $segments;
 }
 
+/**
+ * function_description
+ *
+ * @param   array  $segments  segmented URL
+ *
+ * @return return_description
+ */
 function _jtgParseRouteFile($segments)
 {
 	switch ($segments[1])
@@ -110,7 +124,7 @@ function _jtgParseRouteFile($segments)
 /**
  * function_description
  *
- * @param   unknown_type  $segments
+ * @param   unknown_type  $segments  param_description
  *
  * @return return_description
  */
@@ -139,7 +153,7 @@ function _jtgParseRouteCategory($segments)
 /**
  * function_description
  *
- * @param   unknown_type  $segments
+ * @param   unknown_type  $segments  param_description
  *
  * @return return_description
  */
@@ -179,9 +193,13 @@ function _jtgParseRouteSubCategory($segments)
 	return $vars;
 }
 
-/*
+/**
  * Function to convert a SEF URL back to a system URL
-*/
+ *
+ * @param   array  $segments  segmented URL
+ *
+ * @return return_description
+ */
 function jtgParseRoute($segments)
 {
 

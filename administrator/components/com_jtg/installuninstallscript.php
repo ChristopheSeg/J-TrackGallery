@@ -21,16 +21,28 @@
 // No direct access to this file
 defined('_JEXEC') or die('Restricted access');
 
-// The name of the class must be the name of your component + InstallerScript
+/**
+ * Installer class for the jtg component
+ *
+ * @package     Comjtg
+ * @subpackage  Frontend
+ * @since       0.8
+ */
 class Com_JtgInstallerScript
 {
-	/*
-	 * $parent is the class calling this method. $type is the type of change
-	* (install, update or discover_install, not uninstall). preflight runs
-	* before anything else and while the extracted files are in the uploaded
-	* temp folder. If preflight returns false, Joomla will abort the update and
-	* undo everything already done.
-	*/
+
+	/**
+	 * preflight function
+	 *
+	 * preflight runs before anything else and while the extracted files are in the uploaded
+	 * temp folder. If preflight returns false, Joomla will abort the update and
+	 * undo everything already done.
+	 *
+	 * @param   unknown_type  $type    the type of change (install, update or discover_install, not uninstall)
+	 * @param   unknown_type  $parent  the class calling this method.
+	 *
+	 * @return boolean true if preflight success
+	 */
 	function preflight ($type, $parent)
 	{
 		// Try to increment some limits: execution time 5 minutes
@@ -44,11 +56,11 @@ class Com_JtgInstallerScript
 		JFactory::getLanguage()->load('com_jtg',
 				JPATH_ADMINISTRATOR . '/components/com_jtg/language', 'en-GB',
 				true
-				);
+		);
 		JFactory::getLanguage()->load('com_jtg',
 				JPATH_ADMINISTRATOR . '/components/com_jtg/language', null,
 				true
-				);
+		);
 		$jversion = new JVersion;
 
 		// Installing component manifest file version
@@ -103,12 +115,18 @@ class Com_JtgInstallerScript
 		return true;
 	}
 
-	/*
-	 * $parent is the class calling this method. install runs after the database
-	* scripts are executed. If the extension is new, the install method is run.
-	* If install returns false, Joomla will abort the install and undo
-	* everything already done.
-	*/
+	/**
+	 * install function
+	 *
+	 * install runs after the database scripts are executed.
+	 * If the extension is new, the install method is run.
+	 * If install returns false, Joomla will abort the install and undo
+	 * everything already done.
+	 *
+	 * @param   object  $parent  the class calling this method
+	 *
+	 * @return boolean true if install success
+	 */
 	function install ($parent)
 	{
 		jimport('joomla.filesystem.folder');
@@ -121,7 +139,7 @@ class Com_JtgInstallerScript
 	src="<?php echo  '/components/com_jtg/assets/images/logo_JTG.png'; ?>"
 	alt="J!Track Gallery" />
 <br />
-<table class="adminlist" border="1" style="width:100%;">
+<table class="adminlist" border="1" style="width: 100%;">
 	<tbody>
 		<tr>
 			<td><?php JText::_('COM_JTG_INSTALL_LICENCE') ?></td>
@@ -131,119 +149,126 @@ class Com_JtgInstallerScript
 		</tr>
 	</tbody>
 </table>
-<?php
-$folders_to_create = array(
-		"images/jtrackgallery",
-		"images/jtrackgallery/cats",
-		"images/jtrackgallery/terrain",
-		"images/jtrackgallery/uploaded_tracks",
-		"images/jtrackgallery/uploaded_tracks/import"
-);
+	<?php
+	$folders_to_create = array(
+			"images/jtrackgallery",
+			"images/jtrackgallery/cats",
+			"images/jtrackgallery/terrain",
+			"images/jtrackgallery/uploaded_tracks",
+			"images/jtrackgallery/uploaded_tracks/import"
+	);
 
-$folders_to_chmod = array(
-		"images/jtrackgallery/uploaded_tracks",
-		"images/jtrackgallery/uploaded_tracks/import",
-		"components/com_jtg/assets/images/" .
-		"symbols"
-);
+	$folders_to_chmod = array(
+			"images/jtrackgallery/uploaded_tracks",
+			"images/jtrackgallery/uploaded_tracks/import",
+			"components/com_jtg/assets/images/" .
+			"symbols"
+	);
 
-echo '<table><tr><td colspan="3"><b>' . JText::_('COM_JTG_FILES_FOLDERS_TO_CREATE') . '</td></tr>';
-echo '<tr><td>' . JText::_('COM_JTG_FILE') . '/' . JText::_('COM_JTG_FOLDER') . '</td><td>' . JText::_('COM_JTG_NAME') . '</td><td>' .
-		JText::_('COM_JTG_STATE') . '</td></tr>';
+	echo '<table><tr><td colspan="3"><b>' . JText::_('COM_JTG_FILES_FOLDERS_TO_CREATE') . '</td></tr>';
+	echo '<tr><td>' . JText::_('COM_JTG_FILE') . '/' . JText::_('COM_JTG_FOLDER') . '</td><td>' . JText::_('COM_JTG_NAME') . '</td><td>' .
+			JText::_('COM_JTG_STATE') . '</td></tr>';
 
-foreach ($folders_to_create as $folder)
-{
-	if (JFolder::exists(JPATH_SITE . '/' . $folder))
+	foreach ($folders_to_create as $folder)
 	{
-		echo '<tr><td>' . JText::_('COM_JTG_FOLDER') . '</td><td>' . $folder . '</td><td><font color="green">' .
-		JText::_('COM_JTG_ALREADY_EXISTS') . '</font></td></tr>';
+		if (JFolder::exists(JPATH_SITE . '/' . $folder))
+		{
+			echo '<tr><td>' . JText::_('COM_JTG_FOLDER') . '</td><td>' . $folder . '</td><td><font color="green">' .
+					JText::_('COM_JTG_ALREADY_EXISTS') . '</font></td></tr>';
+		}
+		elseif (JFolder::create(JPATH_SITE . '/' . $folder))
+		{
+			echo '<tr><td>' . JText::_('COM_JTG_FOLDER') . '</td><td>' . $folder . '</td><td><font color="green">' . JText::_('COM_JTG_CREATED') .
+			'</font></td></tr>';
+		}
+		else
+		{
+			echo '<tr><td>' . JText::_('COM_JTG_FOLDER') . '</td><td>' . $folder . '</td><td><font color="red">' . JText::_('COM_JTG_NOT_CREATED') .
+			'</font></td></tr>';
+		}
 	}
-	elseif (JFolder::create(JPATH_SITE . '/' . $folder))
+
+	foreach ($folders_to_chmod as $folder)
 	{
-		echo '<tr><td>' . JText::_('COM_JTG_FOLDER') . '</td><td>' . $folder . '</td><td><font color="green">' . JText::_('COM_JTG_CREATED') .
-		'</font></td></tr>';
+
+		if (JPath::canChmod(JPATH_SITE . '/' . $folder) and (chmod(JPATH_SITE . '/' . $folder, 0777)))
+		{
+			echo '<tr><td>' . JText::_('COM_JTG_FOLDER') . '</td><td>' . $folder . '</td><td><font color="green">' . JText::_('COM_JTG_CHMODDED') .
+			'</font></td></tr>';
+		}
+		else
+		{
+			echo '<tr><td>' . JText::_('COM_JTG_FOLDER') . '</td><td>' . $folder . '</td><td><font color="red">' . JText::_(
+					'COM_JTG_NOT_CHMODDED') . '</font></td></tr>';
+		}
 	}
-	else
+
+	// Copy Cats image
+	$src_folder_to_copy = JPATH_SITE . '/components/com_jtg/assets' .
+			'/images/cats';
+	$dest_folder_to_copy = JPATH_SITE . '/images/jtrackgallery/cats';
+	$files = JFolder::files($src_folder_to_copy);
+
+	// Copy file by file without erasing existing files
+	foreach ($files as $file)
 	{
-		echo '<tr><td>' . JText::_('COM_JTG_FOLDER') . '</td><td>' . $folder . '</td><td><font color="red">' . JText::_('COM_JTG_NOT_CREATED') .
-		'</font></td></tr>';
+		if (! JFile::exists($dest_folder_to_copy . '/' . $file))
+		{
+			JFile::copy($src_folder_to_copy . '/' . $file, $dest_folder_to_copy . '/' . $file);
+		}
 	}
-}
 
-foreach ($folders_to_chmod as $folder)
-{
+	// Copy additional.ini language files without erasing existing files
+	$src_folder_to_copy = JPATH_SITE . '/components/com_jtg/assets' .
+			'/language';
+	$dest_folder_to_copy = JPATH_SITE . '/images/jtrackgallery/language';
+	JFolder::copy($src_folder_to_copy, $dest_folder_to_copy, $force = false);
 
-	if (JPath::canChmod(JPATH_SITE . '/' . $folder) and (chmod(JPATH_SITE . '/' . $folder, 0777)))
+	// Copy example tracks
+	$src_folder_to_copy = JPATH_SITE . '/components/com_jtg/assets' .
+			'/sample_tracks';
+	$dest_folder_to_copy = JPATH_SITE . '/images/jtrackgallery/' .
+			'uploaded_tracks';
+	$files = JFolder::files($src_folder_to_copy);
+
+	// Copy file by file without erasing existing files
+	foreach ($files as $file)
 	{
-		echo '<tr><td>' . JText::_('COM_JTG_FOLDER') . '</td><td>' . $folder . '</td><td><font color="green">' . JText::_('COM_JTG_CHMODDED') .
-		'</font></td></tr>';
+		if (! JFile::exists($dest_folder_to_copy . '/' . $file))
+		{
+			JFile::copy($src_folder_to_copy . '/' . $file, $dest_folder_to_copy . '/' . $file);
+		}
 	}
-	else
-	{
-		echo '<tr><td>' . JText::_('COM_JTG_FOLDER') . '</td><td>' . $folder . '</td><td><font color="red">' . JText::_(
-				'COM_JTG_NOT_CHMODDED') . '</font></td></tr>';
-	}
-}
 
-// Copy Cats image
-$src_folder_to_copy = JPATH_SITE . '/components/com_jtg/assets' .
-		'/images/cats';
-$dest_folder_to_copy = JPATH_SITE . '/images/jtrackgallery/cats';
-$files = JFolder::files($src_folder_to_copy);
-
-// Copy file by file without erasing existing files
-foreach ($files as $file)
-{
-	if (! JFile::exists($dest_folder_to_copy . '/' . $file))
-	{
-		JFile::copy($src_folder_to_copy . '/' . $file, $dest_folder_to_copy . '/' . $file);
-	}
-}
-
-// Copy additional.ini language files without erasing existing files
-$src_folder_to_copy = JPATH_SITE . '/components/com_jtg/assets' .
-		'/language';
-$dest_folder_to_copy = JPATH_SITE . '/images/jtrackgallery/language';
-JFolder::copy($src_folder_to_copy, $dest_folder_to_copy, $force = false);
-
-// Copy example tracks
-$src_folder_to_copy = JPATH_SITE . '/components/com_jtg/assets' .
-		'/sample_tracks';
-$dest_folder_to_copy = JPATH_SITE . '/images/jtrackgallery/' .
-		'uploaded_tracks';
-$files = JFolder::files($src_folder_to_copy);
-
-// Copy file by file without erasing existing files
-foreach ($files as $file)
-{
-	if (! JFile::exists($dest_folder_to_copy . '/' . $file))
-	{
-		JFile::copy($src_folder_to_copy . '/' . $file, $dest_folder_to_copy . '/' . $file);
-	}
-}
-
-echo '<tr><td colspan="3">' . JText::sprintf('COM_JTG_INSTALLED_VERSION', $this->release) . '</td></tr>';
-
-// You can have the backend jump directly to the newly installed
-// Component configuration page
-// $parent->getParent()->setRedirectURL('index.php?option=com_jtg');
-
-// TODO check if is this remains usefull ??
-echo '<tr><td colspan="3">';
-echo '<font color="red" size="+1">' . JText::_('COM_JTG_HINTS') . '</font>';
-echo JText::_('COM_JTG_HINTS_DETAILS');
-echo '</td></tr>';
-echo '</table>';
-
-return true;
-	}
+	echo '<tr><td colspan="3">' . JText::sprintf('COM_JTG_INSTALLED_VERSION', $this->release) . '</td></tr>';
 
 	/*
-	 * $parent is the class calling this method. update runs after the database
-	* scripts are executed. If the extension exists, then the update method is
-	* run. If this returns false, Joomla will abort the update and undo
-	* everything already done.
+	You can have the backend jump directly to the newly installed
+	Component configuration page
+	$parent->getParent()->setRedirectURL('index.php?option=com_jtg');
 	*/
+
+	// TODO check if is this remains usefull ??
+	echo '<tr><td colspan="3">';
+	echo '<font color="red" size="+1">' . JText::_('COM_JTG_HINTS') . '</font>';
+	echo JText::_('COM_JTG_HINTS_DETAILS');
+	echo '</td></tr>';
+	echo '</table>';
+
+	return true;
+	}
+
+	/**
+	 * update function
+	 *
+	 * update runs after the database scripts are executed. If the extension exists, then the update method is
+	 * run. If this returns false, Joomla will abort the update and undo
+	 * everything already done.
+	 *
+	 * @param   object  $parent  the class calling this method.
+	 *
+	 * @return boolean true if preflight success
+	 */
 	function update ($parent)
 	{
 		// This is executed after upgrade.sql
@@ -257,17 +282,22 @@ return true;
 
 		echo '<p>' . JText::sprintf('COM_JTG_UPDATED', $this->release) . '</p>';
 
-		// You can have the backend jump directly to the newly updated component
-		// Configuration page
-		// $parent->getParent()->setRedirectURL('index.php?option=com_jtg');
+		/*
+		You can have the backend jump directly to the newly updated component
+		Configuration page
+		$parent->getParent()->setRedirectURL('index.php?option=com_jtg');
+		*/
 		return true;
 	}
 
-	/*
-	 * $parent is the class calling this method. $type is the type of change
-	* (install, update or discover_install, not uninstall). postflight is run
-	* after the extension is registered in the database.
-	*/
+	/**
+	 * postflight is run after the extension is registered in the database.
+	 *
+	 * @param   string  $type    the type of change (install, update or discover_install, not uninstall).
+	 * @param   object  $parent  the class calling this method.
+	 *
+	 * @return return_description
+	 */
 	function postflight ($type, $parent)
 	{
 		$db = JFactory::getDBO();
@@ -344,10 +374,15 @@ return true;
 		return true;
 	}
 
-	/*
-	 * $parent is the class calling this method uninstall runs before any other
-	* action is taken (file removal or database processing).
-	*/
+	/**
+	 * function_description
+	 *
+	 * uninstall runs before any other action is taken (file removal or database processing).
+	 *
+	 * @param   object  $parent  is the class calling this method
+	 *
+	 * @return always true
+	 */
 	function uninstall ($parent)
 	{
 		// Set a simple message
@@ -409,10 +444,13 @@ return true;
 		return true;
 	}
 
-	/*
-	 * get a variable from the manifest file (actually, from the manifest
-	 		* cache).
-	*/
+	/**
+	 * get a variable from the manifest file (actually, from the manifest cache).
+	 *
+	 * @param   string  $name  parameter name
+	 *
+	 * @return parameter value
+	 */
 	function getParam ($name)
 	{
 		$db = JFactory::getDbo();
@@ -422,9 +460,13 @@ return true;
 		return $manifest[$name];
 	}
 
-	/*
+	/**
 	 * sets parameter values in the component's row of the extension table
-	*/
+	 *
+	 * @param   array  $param_array  parameter array
+	 *
+	 * @return parameter value
+	 */
 	function setParams ($param_array)
 	{
 		if (count($param_array) > 0)

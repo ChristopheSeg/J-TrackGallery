@@ -22,13 +22,17 @@ defined('_JEXEC') or die('Restricted access');
 jimport('joomla.application.component.model');
 /**
  * Model Class Configuration
+ *
+ * @package     Comjtg
+ * @subpackage  Frontend
+ * @since       0.8
  */
 class JtgModelInstall extends JModelLegacy
 {
 	/**
-	 *
+	 * function_description
 	 */
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 	}

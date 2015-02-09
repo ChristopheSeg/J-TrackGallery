@@ -20,20 +20,24 @@ defined('_JEXEC') or die('Restricted access');
 
 // Import Joomla! libraries
 jimport('joomla.application.component.view');
-
 /**
+ * JtgViewInfo class for the jtg component
  *
+ * @package     Comjtg
+ * @subpackage  Frontend
+ * @since       0.8
  */
+
 class JtgViewInfo extends JViewLegacy
 {
 	/**
 	 * function_description
 	 *
-	 * @param object $tpl
+	 * @param   object  $tpl  template
 	 *
 	 * @return return_description
 	 */
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		parent::display($tpl);
 	}

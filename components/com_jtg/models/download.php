@@ -18,15 +18,22 @@
 defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.model');
+/**
+ * JtgModelDownload class for the jtg component
+ *
+ * @package     Comjtg
+ * @subpackage  Frontend
+ * @since       0.8
+ */
 
 class JtgModelDownload extends JModelLegacy
 {
 	/**
 	 * function_description
 	 *
-	 * @param   integer $id
-	 * @param   string  $format
-	 * @param   object  $track
+	 * @param   integer  $id      param_description
+	 * @param   string   $format  param_description
+	 * @param   object   $track   param_description
 	 *
 	 * @return string
 	 */
@@ -250,7 +257,8 @@ class JtgModelDownload extends JModelLegacy
 	/**
 	 * function_description
 	 *
-	 * @param   integer $id
+	 * @param   integer  $id  param_description
+	 *
 	 * @return object
 	 */
 	function getFile($id)

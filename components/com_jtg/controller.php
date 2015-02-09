@@ -22,18 +22,22 @@ jimport('joomla.application.component.controller');
 
 /**
  * jtg Component Controller
+ *
+ * @package     Comjtg
+ * @subpackage  Frontend
+ * @since       0.8
  */
 class JtgController extends JControllerLegacy
 {
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $cachable
-	 * @param   unknown_type  $urlparams
+	 * @param   unknown_type  $cachable  param_description
+	 * @param   unknown_type  $urlparams  param_description
 	 *
 	 * @return return_description
 	 */
-	function display ($cachable = false, $urlparams = false)
+	public function display ($cachable = false, $urlparams = false)
 	{
 		// Make sure we have a default view
 		// if ( !JRequest::getCmd( 'view' ))
@@ -57,7 +61,7 @@ class JtgController extends JControllerLegacy
 	 *
 	 * @return return_description
 	 */
-	function displayimg ()
+	public function displayimg ()
 	{
 		$mainframe = JFactory::getApplication();
 

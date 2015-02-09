@@ -18,17 +18,24 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
+/**
+ * LayoutHelper class for the jtg component
+ *
+ * @package     Comjtg
+ * @subpackage  Frontend
+ * @since       0.8
+ */
 class LayoutHelper
 {
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $float
-	 * @param   unknown_type  $expressive
+	 * @param   unknown_type  $float  param_description
+	 * @param   unknown_type  $expressive  param_description
 	 *
 	 * @return return_description
 	 */
-	static function parseVoteFloat($float, $expressive = false)
+	static public function parseVoteFloat($float, $expressive = false)
 	{
 		if ( ( $float === null ) OR ( $float == 0 ) )
 		{
@@ -63,7 +70,7 @@ class LayoutHelper
 	 *
 	 * @return return_description
 	 */
-	static function navigation()
+	static public function navigation()
 	{
 		$user = JFactory::getUser();
 		$juser = new JUser($user->id);
@@ -121,7 +128,12 @@ class LayoutHelper
 		return $navi;
 	}
 
-	static function footer()
+	/**
+	 * function_description
+	 *
+	 * @return return JTrackGallery footer
+	 */
+	static public function footer()
 	{
 		$footer = '<div class="gps-footer">' . JText::_('COM_JTG_POWERED_BY');
 		$footer .= ' <a href="http://jtrackgallery.net"';
@@ -136,7 +148,7 @@ class LayoutHelper
 	 *
 	 * @return return_description
 	 */
-	static function disclaimericons()
+	static public function disclaimericons()
 	{
 		$disclaimericons = '<div class="gps-footer">' . JText::_('COM_JTG_DISCLAIMER_ICONS');
 		$disclaimericons .= ' ' . JText::_('COM_JTG_SUBMITTER') . ': <a href="" target="_blank"></a></div>';
@@ -147,11 +159,11 @@ class LayoutHelper
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $document
+	 * @param   unknown_type  $document  param_description
 	 *
 	 * @return return_description
 	 */
-	static function parseMap($document)
+	static public function parseMap($document)
 	{
 		$document->addScript('http://www.openlayers.org/api/OpenLayers.js');
 		$document->addScript('components/com_jtg/assets/js/fullscreen.js');
@@ -159,10 +171,14 @@ class LayoutHelper
 		$document->addScript('components/com_jtg/assets/js/jtg.js');
 	}
 
-	/*
+	/**
 	 * For CSS-Declaration
-	*/
-	static function parseToptracks($params)
+	 *
+	 * @param   unknown_type  $params  param_description
+	 *
+	 * @return string toptrack + id
+	 */
+	static public function parseToptracks($params)
 	{
 		$i = 0;
 
@@ -192,14 +208,14 @@ class LayoutHelper
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $where
-	 * @param   unknown_type  $access
-	 * @param   unknown_type  $model
-	 * @param   unknown_type  $newest
+	 * @param   unknown_type  $where  param_description
+	 * @param   unknown_type  $access  param_description
+	 * @param   unknown_type  $model  param_description
+	 * @param   unknown_type  $newest  param_description
 	 *
 	 * @return return_description
 	 */
-	static function parseTopNewest($where, $access, $model, $newest)
+	static public function parseTopNewest($where, $access, $model, $newest)
 	{
 		if ($access === null)
 		{
@@ -214,14 +230,14 @@ class LayoutHelper
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $where
-	 * @param   unknown_type  $access
-	 * @param   unknown_type  $model
-	 * @param   unknown_type  $hits
+	 * @param   unknown_type  $where  param_description
+	 * @param   unknown_type  $access  param_description
+	 * @param   unknown_type  $model  param_description
+	 * @param   unknown_type  $hits  param_description
 	 *
 	 * @return return_description
 	 */
-	static function parseTopHits($where, $access, $model, $hits)
+	static public function parseTopHits($where, $access, $model, $hits)
 	{
 		if ($access === null)
 		{
@@ -236,14 +252,14 @@ class LayoutHelper
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $where
-	 * @param   unknown_type  $access
-	 * @param   unknown_type  $model
-	 * @param   unknown_type  $limit
+	 * @param   unknown_type  $where  param_description
+	 * @param   unknown_type  $access  param_description
+	 * @param   unknown_type  $model  param_description
+	 * @param   unknown_type  $limit  param_description
 	 *
 	 * @return return_description
 	 */
-	static function parseTopRand($where, $access, $model, $limit)
+	static public function parseTopRand($where, $access, $model, $limit)
 	{
 		if ($access === null)
 		{
@@ -258,15 +274,15 @@ class LayoutHelper
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $where
-	 * @param   unknown_type  $access
-	 * @param   unknown_type  $model
-	 * @param   unknown_type  $best
-	 * @param   unknown_type  $showstars
+	 * @param   unknown_type  $where  param_description
+	 * @param   unknown_type  $access  param_description
+	 * @param   unknown_type  $model  param_description
+	 * @param   unknown_type  $best  param_description
+	 * @param   unknown_type  $showstars  param_description
 	 *
 	 * @return return_description
 	 */
-	static function parseTopBest($where, $access, $model, $best, $showstars)
+	static public function parseTopBest($where, $access, $model, $best, $showstars)
 	{
 		if ($access === null)
 		{
@@ -296,7 +312,7 @@ class LayoutHelper
 
 	/*
 	 *
-	static function _parseTopBest_old($otherfiles,$access,$model,$best,$showstars) {
+	static public function _parseTopBest_old($otherfiles,$access,$model,$best,$showstars) {
 	echo "function giveBest: parseTopBest_old";
 	$alltracks = $model->getTracksData(null,null);
 	$allbest = LayoutHelper::giveBest($model,$best,false);
@@ -399,6 +415,14 @@ class LayoutHelper
 	return $limitreturn;
 	}
 	*/
+
+	/**
+	 *  parse Param of a user(s)
+	 *
+	 * @param   array  $val  array of user(s) ID
+	 *
+	 * @return sql where statement to select user(s)
+	 */
 	static private function parseParam_User($val)
 	{
 		$where = null;
@@ -428,7 +452,7 @@ class LayoutHelper
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $val
+	 * @param   unknown_type  $val  param_description
 	 *
 	 * @return return_description
 	 */
@@ -463,8 +487,8 @@ class LayoutHelper
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $val
-	 * @param   unknown_type  $cats
+	 * @param   unknown_type  $val  param_description
+	 * @param   unknown_type  $cats  param_description
 	 *
 	 * @return return_description
 	 */
@@ -499,7 +523,7 @@ class LayoutHelper
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $val
+	 * @param   unknown_type  $val  param_description
 	 *
 	 * @return return_description
 	 */
@@ -534,7 +558,7 @@ class LayoutHelper
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $val
+	 * @param   unknown_type  $val  param_description
 	 *
 	 * @return NULL|Ambigous <NULL, string>
 	 */
@@ -569,7 +593,7 @@ class LayoutHelper
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $val
+	 * @param   unknown_type  $val  param_description
 	 *
 	 * @return return_description
 	 */
@@ -584,7 +608,7 @@ class LayoutHelper
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $val
+	 * @param   unknown_type  $val  param_description
 	 *
 	 * @return return_description
 	 */
@@ -599,7 +623,7 @@ class LayoutHelper
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $val
+	 * @param   unknown_type  $val  param_description
 	 *
 	 * @return return_description
 	 */
@@ -614,7 +638,7 @@ class LayoutHelper
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $val
+	 * @param   unknown_type  $val  param_description
 	 *
 	 * @return return_description
 	 */
@@ -629,11 +653,11 @@ class LayoutHelper
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $cats
+	 * @param   unknown_type  $cats  param_description
 	 *
 	 * @return string
 	 */
-	static function filterTracks($cats)
+	static public function filterTracks($cats)
 	{
 		$params = JComponentHelper::getParams('com_jtg');
 
@@ -731,9 +755,9 @@ class LayoutHelper
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $catid
-	 * @param   unknown_type  $cats
-	 * @param   unknown_type  $lockage
+	 * @param   unknown_type  $catid  param_description
+	 * @param   unknown_type  $cats  param_description
+	 * @param   unknown_type  $lockage  param_description
 	 *
 	 * @return string
 	 */

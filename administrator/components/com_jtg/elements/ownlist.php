@@ -21,6 +21,13 @@ defined('_JEXEC') or die( 'Restricted access' );
 
 // Import Joomla! libraries
 jimport('joomla.form.formfield');
+/**
+ * JFormFieldOwnList class for the jtg component
+ *
+ * @package     Comjtg
+ * @subpackage  Frontend
+ * @since       0.8
+ */
 
 class JFormFieldOwnList extends JFormField
 {
@@ -35,6 +42,11 @@ class JFormFieldOwnList extends JFormField
 	// The field class must know its own type through the variable $type.
 	protected $type = 'ownlist';
 
+	/**
+	 * function_description
+	 *
+	 * @return return_description
+	 */
 	public function getInput()
 	{
 		// Code that returns HTML that will be shown as the form field
@@ -55,6 +67,7 @@ class JFormFieldOwnList extends JFormField
 		JFactory::getLanguage()->load('com_jtg',   JPATH_ADMINISTRATOR . '/components/com_jtg',    null, false);
 		JFactory::getLanguage()->load('com_jtg_common', JPATH_SITE . '/components/com_jtg', 'en-GB', false);
 		JFactory::getLanguage()->load('com_jtg_common', JPATH_SITE . '/components/com_jtg',    null, false);
+
 		// Com_jtg_additional language files are in /images/jtrackgallery/language folder
 		JFactory::getLanguage()->load('com_jtg_additional', JPATH_SITE . '/images/jtrackgallery', 'en-GB', false);
 		JFactory::getLanguage()->load('com_jtg_additional', JPATH_SITE . '/images/jtrackgallery',    null, false);
@@ -67,9 +80,11 @@ class JFormFieldOwnList extends JFormField
 				case "jtg_param_cats":
 					return $this->parseCatsSelect($value, $name, false);
 					break;
-					// 		case "jtg_param_subcats":
-					// 			return $this->parseCatsSelect($name, true);
-					// 			break;
+				/*
+				case "jtg_param_subcats":
+					return $this->parseCatsSelect($name, true);
+					break;
+				*/
 
 				case "jtg_param_user":
 					return $this->parseUserSelect($value, $name);
@@ -117,6 +132,11 @@ class JFormFieldOwnList extends JFormField
 		return;
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @return return_description
+	 */
 	private function parseHelpButton()
 	{
 		return "<table class=\"toolbar\"><tr><td class=\"button\" id=\"toolbar-help\"><a href=\"#\" onclick=\"Joomla.popupWindow('components/com_jtg/help/en-GB/menu/overviewmap.html', 'Hilfe', 640, 480, 1)\" class=\"toolbar\"><span class=\"icon-32-help\" title=\""
@@ -206,6 +226,13 @@ class JFormFieldOwnList extends JFormField
 		return JText::_('COM_JTG_MENU_LIMIT_HEADER') . " " . $r . JText::_('COM_JTG_MENU_LIMIT_FOOTER');
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @param   array  $cids  terrains IDs
+	 *
+	 * @return return_description
+	 */
 	private function getTerrainname($cids)
 	{
 		if ( is_array($cids))
@@ -245,7 +272,7 @@ class JFormFieldOwnList extends JFormField
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $gid
+	 * @param   unknown_type  $gid  param_description
 	 *
 	 * @return return_description
 	 */
@@ -345,7 +372,7 @@ class JFormFieldOwnList extends JFormField
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $uid
+	 * @param   unknown_type  $uid  param_description
 	 *
 	 * @return return_description
 	 */
@@ -371,10 +398,10 @@ class JFormFieldOwnList extends JFormField
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $value
-	 * @param   unknown_type  $name
-	 * @param   unknown_type  $max
-	 * @param   unknown_type  $std
+	 * @param   unknown_type  $value  param_description
+	 * @param   unknown_type  $name  param_description
+	 * @param   unknown_type  $max  param_description
+	 * @param   unknown_type  $std  param_description
 	 *
 	 * @return return_description
 	 */
@@ -402,8 +429,8 @@ class JFormFieldOwnList extends JFormField
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $value
-	 * @param   unknown_type  $name
+	 * @param   unknown_type  $value  param_description
+	 * @param   unknown_type  $name  param_description
 	 *
 	 * @return return_description
 	 */
@@ -434,8 +461,8 @@ class JFormFieldOwnList extends JFormField
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $value
-	 * @param   unknown_type  $name
+	 * @param   unknown_type  $value  param_description
+	 * @param   unknown_type  $name  param_description
 	 *
 	 * @return return_description
 	 */
@@ -468,9 +495,9 @@ class JFormFieldOwnList extends JFormField
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $value
-	 * @param   unknown_type  $name
-	 * @param   unknown_type  $nosubcats
+	 * @param   unknown_type  $value  param_description
+	 * @param   unknown_type  $name  param_description
+	 * @param   unknown_type  $nosubcats  param_description
 	 *
 	 * @return return_description
 	 */
@@ -498,8 +525,8 @@ class JFormFieldOwnList extends JFormField
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $uid
-	 * @param   unknown_type  $name
+	 * @param   unknown_type  $uid  param_description
+	 * @param   unknown_type  $name  param_description
 	 *
 	 * @return return_description
 	 */
@@ -520,7 +547,7 @@ class JFormFieldOwnList extends JFormField
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $gid
+	 * @param   unknown_type  $gid  param_description
 	 *
 	 * @return return_description
 	 */
@@ -544,21 +571,19 @@ class JFormFieldOwnList extends JFormField
 	private function fetchParams()
 	{
 		$params = JComponentHelper::getParams('com_jtg');
-		// Doesn't work
-		// 	if (!@$params = $this->_parent->_registry["_default"]["data"])
-		// 	$params = false;
+
 		return $params;
 	}
 
 	/**
 	 * Select list of active users
 	 *
-* @param   unknown_type  $name
-* @param   unknown_type  $active
-* @param   unknown_type  $nouser
-* @param   unknown_type  $javascript
-* @param   unknown_type  $order
-* @param   unknown_type  $reg
+	 * @param   unknown_type  $name  param_description
+	 * @param   unknown_type  $active  param_description
+	 * @param   unknown_type  $nouser  param_description
+	 * @param   unknown_type  $javascript  param_description
+	 * @param   unknown_type  $order  param_description
+	 * @param   unknown_type  $reg  param_description
 	 *
 	 * @return return_description
 	 */
@@ -594,7 +619,7 @@ class JFormFieldOwnList extends JFormField
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $array
+	 * @param   unknown_type  $array  param_description
 	 *
 	 * @return return_description
 	 */

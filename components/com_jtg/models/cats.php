@@ -19,6 +19,13 @@
 defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.model');
+/**
+ * JtgModelCats class for the jtg component
+ *
+ * @package     Comjtg
+ * @subpackage  Frontend
+ * @since       0.8
+ */
 
 class JtgModelCats extends JModelLegacy
 {

@@ -23,6 +23,10 @@ JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_jtg/tables');
 
 /**
  * Controller Class Files
+ *
+ * @package     Comjtg
+ * @subpackage  Frontend
+ * @since       0.8
  */
 class JtgControllerFiles extends JtgController
 {
@@ -324,6 +328,9 @@ class JtgControllerFiles extends JtgController
 	}
 
 	/**
+	 * function_description
+	 *
+	 * @return return_description
 	 */
 	function savefile ()
 	{

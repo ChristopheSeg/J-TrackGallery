@@ -21,19 +21,21 @@ defined('_JEXEC') or die('Restricted access');
 // Import Joomla! libraries
 jimport('joomla.application.component.view');
 
-// $lang = JFactory::getLanguage();
-
 /**
+ * HTML View tracks class for the jtg component
  *
+ * @package     Comjtg
+ * @subpackage  Frontend
+ * @since       0.8
  */
 class JtgViewFiles extends JViewLegacy
 {
 	/**
 	 * Build the select list for access level
 	 *
-* @param   unknown_type  $name
-* @param   unknown_type  $js
-* @param   unknown_type  $oneline
+	 * @param   unknown_type  $name  param_description
+	 * @param   unknown_type  $js  param_description
+	 * @param   unknown_type  $oneline  param_description
 	 *
 	 * @return return_description
 	 */
@@ -114,8 +116,8 @@ class JtgViewFiles extends JViewLegacy
 	/**
 	 * Gibt den Klicklink zurück mit dem man Dateien für das Menü auswählen kann
 	 *
-	 * @param   unknown_type  $id
-	 * @param   unknown_type  $title
+	 * @param   unknown_type  $id  param_description
+	 * @param   unknown_type  $title  param_description
 	 *
 	 * @return string
 	 */
@@ -129,8 +131,8 @@ class JtgViewFiles extends JViewLegacy
 	/**
 	 * function_description
 	 *
-* @param   unknown_type  $file
-* @param   unknown_type  $count
+	 * @param   unknown_type  $file  param_description
+	 * @param   unknown_type  $count  param_description
 	 *
 	 * @return string
 	 */
@@ -143,9 +145,9 @@ class JtgViewFiles extends JViewLegacy
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $iconpath
-	 * @param   unknown_type  $hidden
-	 * @param   unknown_type  $count
+	 * @param   unknown_type  $iconpath  param_description
+	 * @param   unknown_type  $hidden  param_description
+	 * @param   unknown_type  $count  param_description
 	 *
 	 * @return return_description
 	 */
@@ -185,12 +187,12 @@ class JtgViewFiles extends JViewLegacy
 	/**
 	 * function_description
 	 *
-* @param   unknown_type  $track
-* @param   unknown_type  $wp
-* @param   unknown_type  $route
-* @param   unknown_type  $cache
-*
-* @return string html image section
+	 * @param   unknown_type  $track  param_description
+	 * @param   unknown_type  $wp  param_description
+	 * @param   unknown_type  $route  param_description
+	 * @param   unknown_type  $cache  param_description
+	 *
+	 * @return string html image section
 	 */
 	public function buildImageFiletypes($track, $wp, $route, $cache)
 	{
@@ -283,8 +285,8 @@ class JtgViewFiles extends JViewLegacy
 	/**
 	 * function_description
 	 *
-* @param   unknown_type  $file
-* @param   unknown_type  $exist
+	 * @param   unknown_type  $file  param_description
+	 * @param   unknown_type  $exist  param_description
 	 *
 	 * @return true or Errorlevel | (string) errormessage
 	 */
@@ -328,7 +330,7 @@ class JtgViewFiles extends JViewLegacy
 	/**
 	 * function_description
 	 *
-* @param   unknown_type  $file
+	 * @param   unknown_type  $file  param_description
 	 *
 	 * @return date
 	 */
@@ -370,7 +372,7 @@ class JtgViewFiles extends JViewLegacy
 	/**
 	 * function_description
 	 *
-* @param   unknown_type  $file
+	 * @param   unknown_type  $file  param_description
 	 *
 	 * @return date
 	 */
@@ -404,7 +406,7 @@ class JtgViewFiles extends JViewLegacy
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $catid
+	 * @param   unknown_type  $catid  param_description
 	 *
 	 * @return return_description
 	 */
@@ -454,13 +456,13 @@ class JtgViewFiles extends JViewLegacy
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $cats
-	 * @param   unknown_type  $catid
-	 * @param   unknown_type  $separator
+	 * @param   unknown_type  $cats  param_description
+	 * @param   unknown_type  $catid  param_description
+	 * @param   unknown_type  $separator  param_description
 	 *
 	 * @return return_description
 	 */
-	function parseCatTree($cats, $catid, $separator = "<br />")
+	protected function parseCatTree($cats, $catid, $separator = "<br />")
 	{
 		$catid = (int) $catid;
 
@@ -526,12 +528,11 @@ class JtgViewFiles extends JViewLegacy
 	/**
 	 * function_description
 	 *
-	 * @global string $option
-	 * @param object $tpl
+	 * @param   object  $tpl  template
 	 *
 	 * @return return_description
 	 */
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		$mainframe = JFactory::getApplication();
 		$option = JFactory::getApplication()->input->get('option');
@@ -592,7 +593,7 @@ class JtgViewFiles extends JViewLegacy
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $tpl
+	 * @param   object  $tpl  template
 	 *
 	 * @return return_description
 	 */
@@ -618,11 +619,11 @@ class JtgViewFiles extends JViewLegacy
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $tpl
+	 * @param   object  $tpl  template
 	 *
 	 * @return return_description
 	 */
-	function _displayForm($tpl)
+	protected function _displayForm($tpl)
 	{
 		if (JVERSION >= 3.0)
 		{
@@ -732,7 +733,7 @@ class JtgViewFiles extends JViewLegacy
 					foreach ($imgs AS $image)
 					{
 						$thumb_name = 'thumb1_' . $image;
-						$thumb = com_jtg_create_Thumbnails($img_dir, $image, $cfg->max_thumb_height, $cfg->max_geoim_height);
+						$thumb = Com_Jtg_Create_thumbnails($img_dir, $image, $cfg->max_thumb_height, $cfg->max_geoim_height);
 
 						if (! $thumb)
 						{

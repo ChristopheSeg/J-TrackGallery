@@ -17,9 +17,13 @@
 
 // No direct access
 defined('_JEXEC') or die('Restricted access');
+
 /**
  * Table class
  *
+ * @package     Comjtg
+ * @subpackage  Frontend
+ * @since       0.8
  */
 class TableJTG_Maps extends JTable
 {
@@ -39,13 +43,12 @@ class TableJTG_Maps extends JTable
 
 	var $checked_out	= null;
 
-
 	/**
 	 * function_description
 	 *
-	 * @param object &$db
+	 * @param   object  &$db  database
 	 */
-	function __construct(& $db)
+	public function __construct(& $db)
 	{
 		parent::__construct('#__jtg_maps', 'id', $db);
 	}
@@ -53,8 +56,9 @@ class TableJTG_Maps extends JTable
 	/**
 	 * function_description
 	 *
-	 * @param arrray $array
-	 * @param   string  $ignore
+	 * @param   array   $array   param_description
+	 * @param   string  $ignore  param_description
+	 *
 	 * @return object
 	 */
 	function bind($array, $ignore = '')

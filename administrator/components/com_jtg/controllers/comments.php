@@ -18,12 +18,21 @@
 defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.controller');
+/**
+ * JtgControllerComments class for the jtg component
+ *
+ * @package     Comjtg
+ * @subpackage  Frontend
+ * @since       0.8
+ */
 
 class JtgControllerComments extends JtgController
 {
 	/**
+	 * function_description
+	 *
+	 * @return return_description
 	 */
-
 	function publish ()
 	{
 		// Check for request forgeries
@@ -48,6 +57,9 @@ class JtgControllerComments extends JtgController
 	}
 
 	/**
+	 * function_description
+	 *
+	 * @return return_description
 	 */
 	function unpublish ()
 	{

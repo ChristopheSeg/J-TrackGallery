@@ -18,6 +18,13 @@
 
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die( 'Restricted access' );
+/**
+ * JElementArticle class for the jtg component
+ *
+ * @package     Comjtg
+ * @subpackage  Frontend
+ * @since       0.8
+ */
 
 class JElementArticle extends JFormField
 {
@@ -32,10 +39,11 @@ class JElementArticle extends JFormField
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $name
-	 * @param   unknown_type  $value
-	 * @param   unknown_type  &$node
-	 * @param   unknown_type  $control_name
+	 * @param   unknown_type  $name  param_description
+	 * @param   unknown_type  $value  param_description
+	 * @param   unknown_type  &$node  param_description
+	 * @param   unknown_type  $control_name  param_description
+	 *
 	 * @return string
 	 */
 	protected function getInput($name, $value, &$node, $control_name)

@@ -22,17 +22,21 @@ jimport('joomla.application.component.view');
 
 /**
  * HTML View class for the jtg component
+ *
+ * @package     Comjtg
+ * @subpackage  Frontend
+ * @since       0.8
  */
 class JtgViewjtg extends JViewLegacy
 {
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $tpl
+	 * @param   object  $tpl  template
 	 *
 	 * @return return_description
 	 */
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		// ToDo split in jtg and geoposition
 		$mainframe = JFactory::getApplication();

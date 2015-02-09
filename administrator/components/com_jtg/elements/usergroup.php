@@ -22,6 +22,16 @@ defined('JPATH_BASE') or die();
 /**
  * Renders a multiple item select element
  *
+ * @package     Comjtg
+ * @subpackage  Frontend
+ * @since       0.8
+ */
+/**
+ * JElementUsergroupList class for the jtg component
+ *
+ * @package     Comjtg
+ * @subpackage  Frontend
+ * @since       0.8
  */
 
 class JElementUsergroupList extends JFormField
@@ -37,10 +47,10 @@ class JElementUsergroupList extends JFormField
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $name
-	 * @param   unknown_type  $value
-	 * @param   unknown_type  &$node
-	 * @param   unknown_type  $control_name
+	 * @param   unknown_type  $name  param_description
+	 * @param   unknown_type  $value  param_description
+	 * @param   unknown_type  &$node  param_description
+	 * @param   unknown_type  $control_name  param_description
 	 *
 	 * @return return_description
 	 */

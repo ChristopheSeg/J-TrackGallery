@@ -25,12 +25,9 @@ jimport('joomla.application.component.model');
 /**
  * function_description
  *
- * @param   integer $max_thumb_height
- * @param   integer $max_geoim_height
  * @return <boolean> true  if thumbnail creation was successful for all thumbnails
  */
-
-function com_jtg_refresh_Thumbnails()
+function Com_Jtg_Refresh_thumbnails()
 {
 	jimport('joomla.filesystem.folder');
 	jimport('joomla.filesystem.file');
@@ -62,7 +59,7 @@ function com_jtg_refresh_Thumbnails()
 
 			foreach ($imgs AS $image)
 			{
-				$thumb = com_jtg_create_Thumbnails($base_dir . '/' . $folder . '/', $image, $cfg->max_thumb_height, $cfg->max_geoim_height);
+				$thumb = Com_Jtg_Create_thumbnails($base_dir . '/' . $folder . '/', $image, $cfg->max_thumb_height, $cfg->max_geoim_height);
 
 				if (! $thumb)
 				{
@@ -87,14 +84,14 @@ function com_jtg_refresh_Thumbnails()
 /**
  * Returns thumbnail name (including extension)  if thumbnail creation was successful
  *
- * @param string   $image_dir
- * @param string   $image_name
- * @param integer  $max_thumb_height
- * @param integer  $max_geoim_height
+ * @param   string   $image_dir         param_description
+ * @param   string   $image_name        param_description
+ * @param   integer  $max_thumb_height  param_description
+ * @param   integer  $max_geoim_height  param_description
  *
  * @return <string>
  */
-function com_jtg_create_Thumbnails($image_dir, $image_name, $max_thumb_height = 210, $max_geoim_height = 300)
+function Com_Jtg_Create_thumbnails($image_dir, $image_name, $max_thumb_height = 210, $max_geoim_height = 300)
 {
 	jimport('joomla.filesystem.folder');
 	jimport('joomla.filesystem.file');

@@ -22,7 +22,7 @@ define('_ParseTemplate_Description_close', true);
 /**
  * function_description
  *
- * @param   unknown_type  $linkname
+ * @param   unknown_type  $linkname  param_description
  *
  * @return string
  */

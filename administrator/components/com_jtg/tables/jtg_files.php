@@ -24,6 +24,9 @@ jimport('joomla.filter.input');
 /**
  * Table class
  *
+ * @package     Comjtg
+ * @subpackage  Frontend
+ * @since       0.8
  */
 class TableJTG_Files extends JTable
 {
@@ -76,9 +79,9 @@ class TableJTG_Files extends JTable
 	/**
 	 * function_description
 	 *
-	 * @param object &$db
+	 * @param   object  &$db  database
 	 */
-	function __construct(& $db)
+	public function __construct(& $db)
 	{
 		parent::__construct('#__jtg_files', 'id', $db);
 	}
@@ -86,8 +89,9 @@ class TableJTG_Files extends JTable
 	/**
 	 * function_description
 	 *
-	 * @param   array  $array
-	 * @param string<type> $ignore
+	 * @param   array   $array   param_description
+	 * @param   string  $ignore  param_description
+	 *
 	 * @return object
 	 */
 	function bind($array, $ignore = '')

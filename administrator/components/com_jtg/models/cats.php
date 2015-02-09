@@ -22,6 +22,10 @@ defined('_JEXEC') or die('Restricted access');
 jimport('joomla.application.component.model');
 /**
  * Model Class Categories
+ *
+ * @package     Comjtg
+ * @subpackage  Frontend
+ * @since       0.8
  */
 class JtgModelCats extends JModelLegacy
 {
@@ -56,9 +60,8 @@ class JtgModelCats extends JModelLegacy
 	/**
 	 * function_description
 	 *
-	 * @return return_description
 	 */
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$mainframe = JFactory::getApplication();
@@ -150,7 +153,7 @@ class JtgModelCats extends JModelLegacy
 	 *
 	 * @return string
 	 */
-	function _buildQuery()
+	protected function _buildQuery()
 	{
 		$mainframe = JFactory::getApplication();
 		$db = JFactory::getDBO();
@@ -162,7 +165,7 @@ class JtgModelCats extends JModelLegacy
 	/**
 	 * function comment
 	 *
-	 * @param   int  $id  category id
+	 * @param   integer  $id  category id
 	 *
 	 * @return object
 	 */
@@ -190,7 +193,7 @@ class JtgModelCats extends JModelLegacy
 	/**
 	 * get a cat parent
 	 *
-	 * @param   unknown_type  $exclusion
+	 * @param   unknown_type  $exclusion  param_description
 	 *
 	 * @return unknown
 	 */

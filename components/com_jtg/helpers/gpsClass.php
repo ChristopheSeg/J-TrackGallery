@@ -20,6 +20,10 @@ defined('_JEXEC') or die('Restricted access');
 
 /**
  * Mainclass to write the map
+ *
+ * @package     Comjtg
+ * @subpackage  Frontend
+ * @since       0.8
  */
 class GpsDataClass
 {
@@ -69,7 +73,7 @@ class GpsDataClass
 	/**
 	 * function_description
 	 *
-	 * @param unknown_type $unit
+	 * @param   unknown_type  $unit  param_description
 	 */
 	public function __construct($unit)
 	{
@@ -160,7 +164,8 @@ class GpsDataClass
 	/**
 	 * function_description
 	 *
-	 * @param   string $gpsFile the gps file to load
+	 * @param   string  $gpsFile  the gps file to load
+	 *
 	 * @return <simplexmlelement> if file exists and is loaded , null otherwise
 	 */
 	public function loadXmlFile($gpsFile=false)
@@ -357,10 +362,11 @@ class GpsDataClass
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @param unknown_type $xml
+	 * @param   unknown_type  $xml  param_description
 	 *
-	 * @return <type>
+	 * @return return_description
 	 */
 	public function isThisCache($xml)
 	{
@@ -379,7 +385,7 @@ class GpsDataClass
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $coord_sets
+	 * @param   unknown_type  $coord_sets  param_description
 	 *
 	 * @return return_description
 	 */
@@ -424,10 +430,11 @@ class GpsDataClass
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @param unknown_type $xml
+	 * @param   unknown_type  $xml  param_description
 	 *
-	 * @return <type>
+	 * @return return_description
 	 */
 	private function extractCoordsGPX($xml)
 	{
@@ -524,8 +531,9 @@ class GpsDataClass
 	/**
 	 * function_description
 	 *
-	 * @param   string   $file
+	 * @param   string   $file  param_description
 	 * @param   integer  $trackid  track id
+	 *
 	 * @return array
 	 */
 	private function getCoordsTCX($file,$trackid=0)
@@ -588,9 +596,9 @@ class GpsDataClass
 	}
 
 	/**
+	 * function_description
 	 *
-	 *
-	 * @return <type>
+	 * @return return_description
 	 */
 	private function extractAllTracksCoords()
 	{
@@ -773,7 +781,8 @@ class GpsDataClass
 	/**
 	 * function_description
 	 *
-	 * @param   string  $date
+	 * @param   string  $date  param_description
+	 *
 	 * @return (int) timestamp
 	 */
 	public function giveTimestamp($date)
@@ -801,10 +810,11 @@ class GpsDataClass
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @param unknown_type $t
+	 * @param   unknown_type  $t  param_description
 	 *
-	 * @return <type>
+	 * @return return_description
 	 */
 	public function transformTtRGB($t)
 	{
@@ -862,7 +872,11 @@ class GpsDataClass
 	}
 
 	/**
+	 * function_description
 	 *
+	 * @param   integer  $count  color number
+	 *
+	 * @return array of count color in RGB format
 	 */
 	public function calculateAllColors($count)
 	{
@@ -949,9 +963,9 @@ class GpsDataClass
 	}
 
 	/**
+	 * function_description
 	 *
-	 *
-	 * @return <type>
+	 * @return return_description
 	 */
 	public function createChartData()
 	{
@@ -1031,12 +1045,12 @@ class GpsDataClass
 	/**
 	 * Function parseCatIcon not rewrittten
 	 *
-	 * @param unknown_type $catid
-	 * @param unknown_type $istrack
-	 * @param unknown_type $iswp
-	 * @param unknown_type $isroute
+	 * @param   unknown_type  $catid  param_description
+	 * @param   unknown_type  $istrack  param_description
+	 * @param   unknown_type  $iswp  param_description
+	 * @param   unknown_type  $isroute  param_description
 	 *
-	 * @return <type>
+	 * @return return_description
 	 */
 	public function parseCatIcon($catid, $istrack = 0, $iswp = 0, $isroute = 0)
 	{
@@ -1135,7 +1149,7 @@ class GpsDataClass
 	/**
 	 * function_description
 	 *
-* @param   unknown_type  $ownicon
+	 * @param   unknown_type  $ownicon  param_description
 	 *
 	 * @return (int) Anzahl
 	 */
@@ -1179,10 +1193,11 @@ class GpsDataClass
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @param unknown_type $wp
+	 * @param   unknown_type  $wp  param_description
 	 *
-	 * @return <type>
+	 * @return return_description
 	 */
 	public function isGeocache($wp)
 	{
@@ -1197,7 +1212,7 @@ class GpsDataClass
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $wp
+	 * @param   unknown_type  $wp  param_description
 	 *
 	 * @return return_description
 	 */
@@ -1367,7 +1382,7 @@ class GpsDataClass
 				$chapter = strip_tags($chapter);
 				$chapter = trim($chapter);
 
-				//Trennung nach Wörter BEGIN
+				// Trennung nach Wörter BEGIN
 				$words = explode(' ', $chapter);
 				$return .= "<p>";
 				$rowlen = 0;
@@ -1447,8 +1462,8 @@ class GpsDataClass
 	 * Löscht den aktuellen Track aus der
 	 * Gesamtansicht
 	 *
-* @param   unknown_type  $rows
-* @param   unknown_type  $track
+	 * @param   unknown_type  $rows  param_description
+	 * @param   unknown_type  $track  param_description
 	 *
 	 * @return array()
 	 */
@@ -1620,11 +1635,11 @@ class GpsDataClass
 	/**
 	 * Openlayers write maps
 	 *
-	 * @param unknown_type $where
-	 * @param unknown_type $tracks
-	 * @param unknown_type $params
+	 * @param   unknown_type  $where  param_description
+	 * @param   unknown_type  $tracks  param_description
+	 * @param   unknown_type  $params  param_description
 	 *
-	 * @return <type>
+	 * @return return_description
 	 */
 	public function writeOLMap($where,$tracks,$params)
 	{
@@ -1668,10 +1683,10 @@ class GpsDataClass
 	/**
 	 * counts the MapCenter and ZoomLevel of Boundingbox
 	 *
-* @param   unknown_type  $lon_min
-* @param   unknown_type  $lon_max
-* @param   unknown_type  $lat_min
-* @param   unknown_type  $lat_max
+	 * @param   unknown_type  $lon_min  param_description
+	 * @param   unknown_type  $lon_max  param_description
+	 * @param   unknown_type  $lat_min  param_description
+	 * @param   unknown_type  $lat_max  param_description
 	 *
 	 * @return array('lon'=>lon,'lat'=>lat)
 	 */
@@ -1702,7 +1717,7 @@ class GpsDataClass
 	/**
 	 * function_description
 	 *
-	 * @param   object $rows rows
+	 * @param   object  $rows  rows
 	 *
 	 * @return string
 	 */
@@ -1807,8 +1822,8 @@ class GpsDataClass
 	/**
 	 * function_description
 	 *
-* @param   unknown_type  $track_array
-* @param   unknown_type  $visibility
+	 * @param   unknown_type  $track_array  param_description
+	 * @param   unknown_type  $visibility  param_description
 	 *
 	 * @return string
 	 */
@@ -1993,7 +2008,7 @@ class GpsDataClass
 	/**
 	 * function_description
 	 *
-* @param   unknown_type  $rows
+	 * @param   unknown_type  $rows  param_description
 	 *
 	 * @return string
 	 */
@@ -2050,7 +2065,7 @@ class GpsDataClass
 	/**
 	 * function_description
 	 *
-	 * @param   string $desc query order
+	 * @param   string  $desc  query order
 	 *
 	 * @return maps Object
 	 */
@@ -2147,8 +2162,6 @@ class GpsDataClass
 	);
 	olmap.addLayer( hill );\n";
 
-
-
 		if ( !isset($baselayer))
 		{
 			// No map available
@@ -2196,8 +2209,8 @@ class GpsDataClass
 	 * http://stackoverflow.com/questions/2526304/php-extract-gps-exif-data/2572991#2572991
 	 * Thanks to Gerald Kaszuba http://geraldkaszuba.com/
 	 *
-	 * @param unknown_type $exifCoord
-	 * @param unknown_type $hemi
+	 * @param   unknown_type  $exifCoord  param_description
+	 * @param   unknown_type  $hemi  param_description
 	 *
 	 * @return number
 	 */
@@ -2214,7 +2227,7 @@ class GpsDataClass
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $coordPart
+	 * @param   unknown_type  $coordPart  param_description
 	 *
 	 * @return return_description
 	 */
@@ -2238,10 +2251,10 @@ class GpsDataClass
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $id
-	 * @param   unknown_type  $max_geoim_height
-	 * @param   unknown_type  $iconfolder
-	 * @param   unknown_type  $httpiconpath
+	 * @param   unknown_type  $id  param_description
+	 * @param   unknown_type  $max_geoim_height  param_description
+	 * @param   unknown_type  $iconfolder  param_description
+	 * @param   unknown_type  $httpiconpath  param_description
 	 *
 	 * @return return_description
 	 */
@@ -2335,25 +2348,6 @@ class GpsDataClass
 								"\n	popupClass_geotaggedImgs = AutoSizeAnchored;" .
 								"\n	addlayer_geotaggedImgs(lonLatlayer_geotaggedImgs, popupClass_geotaggedImgs, popupContentHTML_geotaggedImgs, true, false, iconlayer_geotaggedImgs, olmap);\n";
 					}
-					/*
-					elseif ( isset($DateTime))
-					 {
-					// I.e.: "2009:05:28 13:56:06"
-					$DateTime = $exif["DateTime"];
-					$DateTime = explode(' ',$DateTime);
-					$Date = $DateTime[0];
-					$Date = explode(':',$Date);
-					$Day = $Date[2];
-					$Mon = $Date[1];
-					$Year = $Date[0];
-					$Time = $DateTime[1];
-					$Time = explode(':',$Time);
-					$Hour = $Time[0];
-					$Min = $Time[1];
-					$Sec = $Time[2];
-					$timestamp = mktime($Hour,$Min,$Sec,$Mon,$Day,$Year);
-					}
-					*/
 				}
 			}
 		}
@@ -2369,11 +2363,12 @@ class GpsDataClass
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @param unknown_type $track
-	 * @param unknown_type $params
+	 * @param   unknown_type  $track  param_description
+	 * @param   unknown_type  $params  param_description
 	 *
-	 * @return <type>
+	 * @return return_description
 	 */
 	public function writeTrackOL($track, $params)
 	{
@@ -2438,8 +2433,8 @@ class GpsDataClass
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $file
-	 * @param   unknown_type  $params
+	 * @param   unknown_type  $file  param_description
+	 * @param   unknown_type  $params  param_description
 	 *
 	 * @return return_description
 	 */
@@ -2533,9 +2528,8 @@ class GpsDataClass
 	/**
 	 * function_description
 	 *
-* @param   unknown_type  $params
-* @param   unknown_type  $adminonly
-
+	 * @param   unknown_type  $params  param_description
+	 * @param   unknown_type  $adminonly  param_description
 	 *
 	 * @return string
 	 */
@@ -2642,13 +2636,15 @@ class GpsDataClass
 	private function markerFunctionOL()
 	{
 		$map = "// <!-- markerFunctionCOM_JTG BEGIN -->\n";
-		// $map .= "function createMarker(point,html) {\n";
-		// $map .= "var marker = new GMarker(point);\n";
-		// $map .= "GEvent.addListener(marker, 'click', function() {\n";
-		// $map .= "marker.openInfoWindowHtml(html);\n";
-		// $map .= "});\n";
-		// $map .= "return marker;\n";
-		// $map .= "}\n";
+		/*
+		$map .= "function createMarker(point,html) {\n";
+		$map .= "var marker = new GMarker(point);\n";
+		$map .= "GEvent.addListener(marker, 'click', function() {\n";
+		$map .= "marker.openInfoWindowHtml(html);\n";
+		$map .= "});\n";
+		$map .= "return marker;\n";
+		$map .= "}\n";
+		*/
 		$map .= "// <!-- markerFunctionCOM_JTG END -->\n";
 
 		return $map;
@@ -2776,7 +2772,8 @@ class GpsDataClass
 	/**
 	 * function_description
 	 *
-	 * @param   string  $file
+	 * @param   string  $file  param_description
+	 *
 	 * @return array
 	 */
 	public function giveClickLinks($file)
@@ -2807,8 +2804,6 @@ class GpsDataClass
 
 		return $links;
 	}
-
-
 
 	/**
 	 * Return Filename (trackid=-1) or track name
@@ -2851,13 +2846,21 @@ class GpsDataClass
 	// Osm END
 }
 
+/**
+ * GpsCoordsClass class for the jtg component
+ *
+ * @package     Comjtg
+ * @subpackage  Frontend
+ * @since       0.8
+ */
 class GpsCoordsClass
 {
 	/**
 	 * counts the total distance of a track
 	 * $koords look like this: $array($point1(array(lat,lon)),$point2(array(lat,lon)))...
 	 *
-	 * @param   array  $koord
+	 * @param   array  $koord  param_description
+	 *
 	 * @return int kilometers
 	 */
 	public function getDistance($koord)
@@ -2874,20 +2877,20 @@ class GpsCoordsClass
 		{
 			if (isset($koord[$key + 1]))
 			{
-				$erste_breite = $koord[$key][1]; // Lat
-				$erste_laenge = $koord[$key][0]; // Lon
-				$erste_breite_rad = deg2rad($erste_breite);
-				$erste_laenge_rad = deg2rad($erste_laenge);
+				$first_latitude = $koord[$key][1];
+				$first_longitude = $koord[$key][0];
+				$first_latitude_rad = deg2rad($first_latitude);
+				$first_longitude_rad = deg2rad($first_longitude);
 
-				$zweite_breite = $koord[$key + 1][1]; // Lat
-				$zweite_laenge = $koord[$key + 1][0]; // Lon
-				$zweite_breite_rad = deg2rad($zweite_breite);
-				$zweite_laenge_rad = deg2rad($zweite_laenge);
+				$second_latitude = $koord[$key + 1][1];
+				$second_longitude = $koord[$key + 1][0];
+				$second_latitude_rad = deg2rad($second_latitude);
+				$second_longitude_rad = deg2rad($second_longitude);
 
 				$dis = acos(
-						(sin($erste_breite_rad) * sin($zweite_breite_rad)) +
-						(cos($erste_breite_rad) * cos($zweite_breite_rad) *
-								cos($zweite_laenge_rad - $erste_laenge_rad))
+						(sin($first_latitude_rad) * sin($second_latitude_rad)) +
+						(cos($first_latitude_rad) * cos($second_latitude_rad) *
+								cos($second_longitude_rad - $first_longitude_rad))
 						) * $earthRadius;
 
 				if (!is_nan($dis))

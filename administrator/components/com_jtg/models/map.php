@@ -20,15 +20,18 @@ defined('_JEXEC') or die('Restricted access');
 
 /**
  * Model Class Categorie
+ *
+ * @package     Comjtg
+ * @subpackage  Frontend
+ * @since       0.8
  */
 class JtgModelMAp extends JModelLegacy
 {
 	/**
 	 * function_description
 	 *
-	 * @return return_description
 	 */
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 
@@ -44,7 +47,7 @@ class JtgModelMAp extends JModelLegacy
 	/**
 	 * function_description
 	 *
-	 * @param   int $id
+	 * @param   integer  $id  param_description
 	 *
 	 * @return return_description
 	 */
@@ -58,9 +61,9 @@ class JtgModelMAp extends JModelLegacy
 	/**
 	 * function_description
 	 *
-	 * @param   string  $order
-	 * @param   array  $cid
-
+	 * @param   string  $order  param_description
+	 * @param   array  $cid  param_description
+	 *
 	 * @return boolean
 	 */
 	function saveorder($order, $cid = array())

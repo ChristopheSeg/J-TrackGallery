@@ -20,20 +20,24 @@ defined('_JEXEC') or die('Restricted access');
 
 // Import Joomla! libraries
 jimport('joomla.application.component.view');
-
 /**
+ * JtgViewComments class for the jtg component
  *
+ * @package     Comjtg
+ * @subpackage  Frontend
+ * @since       0.8
  */
+
 class JtgViewComments extends JViewLegacy
 {
 	/**
 	 * function_description
 	 *
-	 * @param object $tpl
+	 * @param   object  $tpl  template
 	 *
 	 * @return return_description
 	 */
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		$mainframe = JFactory::getApplication();
 		$option = JFactory::getApplication()->input->get('option');
@@ -65,11 +69,11 @@ class JtgViewComments extends JViewLegacy
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $tpl
+	 * @param   object  $tpl  template
 	 *
 	 * @return return_description
 	 */
-	function _displayForm($tpl)
+	protected function _displayForm($tpl)
 	{
 		$cid = JFactory::getApplication()->input->get('cid', array(), 'array');
 		JArrayHelper::toInteger($cid);

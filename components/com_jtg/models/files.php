@@ -17,6 +17,13 @@
 defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.model');
+/**
+ * JtgModelFiles class for the jtg component
+ *
+ * @package     Comjtg
+ * @subpackage  Frontend
+ * @since       0.8
+ */
 
 class JtgModelFiles extends JModelLegacy
 {
@@ -37,7 +44,7 @@ class JtgModelFiles extends JModelLegacy
 	/**
 	 * Constructor
 	 */
-	function __construct ()
+	public function __construct()
 	{
 		parent::__construct();
 	}
@@ -45,8 +52,8 @@ class JtgModelFiles extends JModelLegacy
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $limit
-	 * @param   unknown_type  $limitstart
+	 * @param   unknown_type  $limit  param_description
+	 * @param   unknown_type  $limitstart  param_description
 	 *
 	 * @return return_description
 	 */
@@ -65,7 +72,7 @@ class JtgModelFiles extends JModelLegacy
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $selected
+	 * @param   unknown_type  $selected  param_description
 	 *
 	 * @return return_description
 	 */
@@ -110,7 +117,7 @@ class JtgModelFiles extends JModelLegacy
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $selected
+	 * @param   unknown_type  $selected  param_description
 	 *
 	 * @return array
 	 */
@@ -163,7 +170,7 @@ class JtgModelFiles extends JModelLegacy
 	 *
 	 * @return string
 	 */
-	function _buildQuery ()
+	protected function _buildQuery ()
 	{
 		$mainframe = JFactory::getApplication();
 		$user = JFactory::getUser();
@@ -198,7 +205,7 @@ class JtgModelFiles extends JModelLegacy
 	 * @global string $option
 	 * @return string
 	 */
-	function _buildContentOrderBy ()
+	protected function _buildContentOrderBy ()
 	{
 		$mainframe = JFactory::getApplication();
 
@@ -223,7 +230,7 @@ class JtgModelFiles extends JModelLegacy
 	 * @global string $option
 	 * @return string
 	 */
-	function _buildContentWhere ()
+	protected function _buildContentWhere()
 	{
 		$mainframe = JFactory::getApplication();
 
@@ -272,7 +279,7 @@ class JtgModelFiles extends JModelLegacy
 	/**
 	 * function_description
 	 *
-	 * @return <type>
+	 * @return return_description
 	 */
 	function getCats ()
 	{
@@ -492,7 +499,7 @@ class JtgModelFiles extends JModelLegacy
 	/**
 	 * function_description
 	 *
-	 * @return <type>
+	 * @return return_description
 	 */
 	function hit ()
 	{
@@ -514,8 +521,9 @@ class JtgModelFiles extends JModelLegacy
 	/**
 	 * function_description
 	 *
-	 * @param <type> $id
-	 * @return <type>
+	 * @param   integer  $id  file id
+	 *
+	 * @return return_description
 	 */
 	function getFile ($id)
 	{
@@ -540,8 +548,9 @@ class JtgModelFiles extends JModelLegacy
 	/**
 	 * function_description
 	 *
-	 * @param <type> $id
-	 * @return <type>
+	 * @param   integer  $id  track id
+	 *
+	 * @return return_description
 	 */
 	function getVotes ($id)
 	{
@@ -628,10 +637,10 @@ class JtgModelFiles extends JModelLegacy
 	/**
 	 * function_description
 	 *
-	 * @param <type> $id
-	 * @param <type> $rate
+	 * @param   unknown_type  $id    param_description
+	 * @param   unknown_type  $rate  param_description
 	 *
-	 * @return <type>
+	 * @return return_description
 	 */
 	function vote ($id, $rate)
 	{
@@ -678,9 +687,9 @@ class JtgModelFiles extends JModelLegacy
 	/**
 	 * function_description
 	 *
-	 * @param <type> $id
+	 * @param   unknown_type  $id  param_description
 	 *
-	 * @return <type>
+	 * @return return_description
 	 */
 	function deleteFile ($id)
 	{
@@ -724,9 +733,9 @@ class JtgModelFiles extends JModelLegacy
 	/**
 	 * function_description
 	 *
-	 * @param <type> $id
+	 * @param   unknown_type  $id  param_description
 	 *
-	 * @return <type>
+	 * @return return_description
 	 */
 	function getImages ($id)
 	{
@@ -745,7 +754,7 @@ class JtgModelFiles extends JModelLegacy
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $id
+	 * @param   unknown_type  $id  param_description
 	 *
 	 * @return return_description
 	 */
@@ -884,8 +893,9 @@ class JtgModelFiles extends JModelLegacy
 	/**
 	 * function_description
 	 *
-	 * @param   int $id
-	 * @param string $order
+	 * @param   integer  $id     param_description
+	 * @param   string   $order  param_description
+	 *
 	 * @return array
 	 */
 	function getComments ($id, $order)
@@ -903,7 +913,7 @@ class JtgModelFiles extends JModelLegacy
 	/**
 	 * function_description
 	 *
-	 * @param object $cfg
+	 * @param   object  $cfg  param_description
 	 *
 	 * @return return_description
 	 */
@@ -1082,9 +1092,9 @@ class JtgModelFiles extends JModelLegacy
 	/**
 	 * function_description
 	 *
-	 * @param unknown_type $id
+	 * @param   unknown_type  $id  param_description
 	 *
-	 * @return <type>
+	 * @return return_description
 	 */
 	function getAutorData ($id)
 	{
@@ -1105,9 +1115,9 @@ class JtgModelFiles extends JModelLegacy
 	 * Homepage: http://openrouteservice.org/
 	 * WIKI: http://wiki.openstreetmap.org/wiki/OpenRouteService
 	 *
-* @param   unknown_type  $to_lat
-* @param   unknown_type  $to_lon
-* @param   unknown_type  $lang
+	 * @param   unknown_type  $to_lat  param_description
+	 * @param   unknown_type  $to_lon  param_description
+	 * @param   unknown_type  $lang  param_description
 	 *
 	 * @return array
 	 */
@@ -1138,12 +1148,11 @@ class JtgModelFiles extends JModelLegacy
 	 * Homepage: http://maps.cloudmade.com/
 	 * WIKI: http://wiki.openstreetmap.org/wiki/CloudMade
 	 *
-	 * @param   string  $to_lat
-	 * @param   string  $to_lon
-	 * @param   string  $lang
+	 * @param   string  $to_lat  param_description
+	 * @param   string  $to_lon  param_description
+	 * @param   string  $lang    param_description
 	 *
 	 * @return array
-	 *
 	 */
 	function approachcm ($to_lat, $to_lon, $lang)
 	{
@@ -1195,7 +1204,6 @@ class JtgModelFiles extends JModelLegacy
 	 * @param   string  $lang    user language tag
 	 *
 	 * @return array
-	 *
 	 */
 	function approachcmkey ($to_lat, $to_lon, $lang)
 	{
@@ -1235,11 +1243,11 @@ class JtgModelFiles extends JModelLegacy
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $www
+	 * @param   unknown_type  $www  param_description
 	 *
 	 * @return return_description
 	 */
-	function parseHomepageIcon ($www)
+	protected function parseHomepageIcon ($www)
 	{
 		if ((! preg_match('/http\:\/\//', $www)) and (! preg_match('/https\:\/\//', $www)))
 		{
@@ -1256,11 +1264,11 @@ class JtgModelFiles extends JModelLegacy
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $mail
+	 * @param   unknown_type  $mail  param_description
 	 *
 	 * @return return_description
 	 */
-	function parseEMailIcon ($mail)
+	protected function parseEMailIcon ($mail)
 	{
 		$cfg = JtgHelper::getConfig();
 		$link = "<img src=\"" . JUri::base() . "components/com_jtg/assets/template/" . $cfg->template . "/images/emailButton.png\" />";

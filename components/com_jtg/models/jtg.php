@@ -20,13 +20,20 @@
 defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.model');
+/**
+ * JtgModeljtg class for the jtg component
+ *
+ * @package     Comjtg
+ * @subpackage  Frontend
+ * @since       0.8
+ */
 
 class JtgModeljtg extends JModelLegacy
 {
 	/**
 	 * Constructor
 	 */
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 	}
@@ -34,8 +41,9 @@ class JtgModeljtg extends JModelLegacy
 	/**
 	 * function_description
 	 *
-	 * @param <type> $id
-	 * @return <type>
+	 * @param   integer  $id  file id
+	 *
+	 * @return return_description
 	 */
 	function getFile($id)
 	{
@@ -59,14 +67,14 @@ class JtgModeljtg extends JModelLegacy
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $order
-	 * @param   unknown_type  $limit
-	 * @param   unknown_type  $where
-	 * @param   unknown_type  $access
+	 * @param   unknown_type  $order  param_description
+	 * @param   unknown_type  $limit  param_description
+	 * @param   unknown_type  $where  param_description
+	 * @param   unknown_type  $access  param_description
 	 *
 	 * @return return_description
 	 */
-	static function getTracksData($order, $limit, $where = "",$access = null)
+	static public function getTracksData($order, $limit, $where = "",$access = null)
 	{
 		if ( $where != "" )
 		{
@@ -87,7 +95,14 @@ class JtgModeljtg extends JModelLegacy
 		return $rows;
 	}
 
-	static function getCatsData($sort=false)
+	/**
+	 * sort categories
+	 *
+	 * @param   boolean  $sort  parameter array
+	 *
+	 * @return sorted rows
+	 */
+	static public function getCatsData($sort=false)
 	{
 		$mainframe = JFactory::getApplication();
 		$db = JFactory::getDBO();
@@ -131,11 +146,11 @@ class JtgModeljtg extends JModelLegacy
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $sort
+	 * @param   unknown_type  $sort  param_description
 	 *
 	 * @return return_description
 	 */
-	static function getTerrainData($sort=false)
+	static public function getTerrainData($sort=false)
 	{
 		$mainframe = JFactory::getApplication();
 		$db = JFactory::getDBO();
@@ -177,8 +192,8 @@ class JtgModeljtg extends JModelLegacy
 	 * function_description
 	 *
 	 * @return return_description
-*/
-	static function getVotesData()
+	 */
+	static public function getVotesData()
 	{
 		$mainframe = JFactory::getApplication();
 

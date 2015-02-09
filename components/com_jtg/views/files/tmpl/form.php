@@ -166,7 +166,7 @@ if ( (JtgHelper::userHasFrontendRights() ) OR (isset($this->id)) )
 					// Accept  jpg,png,gif
 					$accept = $this->cfg->type;
 					$accept = explode(",", $accept);
-					$tt= JText::sprintf('COM_JTG_ALLOWED_FILETYPES', implode(", ", $accept)) . '  ' . JText::_('COM_JTG_MAXIMAL') . ' ' . $max_images;
+					$tt = JText::sprintf('COM_JTG_ALLOWED_FILETYPES', implode(", ", $accept)) . '  ' . JText::_('COM_JTG_MAXIMAL') . ' ' . $max_images;
 					?>
 					<td><?php echo JText::_('COM_JTG_IMAGES'); ?> <?php echo JHtml::tooltip($tt, JText::_('COM_JTG_TT_HEADER'), 'tooltip.png'); ?>
 					</td>

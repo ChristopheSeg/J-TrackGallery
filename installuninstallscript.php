@@ -20,7 +20,13 @@
 // No direct access to this file
 defined('_JEXEC') or die('Restricted access');
 
-// The name of the class must be the name of your component + InstallerScript
+/**
+ * Installer class for the jtg component
+ *
+ * @package     Comjtg
+ * @subpackage  Frontend
+ * @since       0.8
+ */
 class Com_JtgInstallerScript
 {
 	/**
@@ -29,8 +35,8 @@ class Com_JtgInstallerScript
 	 * preflight runs before anything else and while the extracted files are in the uploaded temp folder.
 	 * If preflight returns false, Joomla will abort the update and undo everything already done.
 	 *
-* @param   unknown_type  $type
-* @param   unknown_type  $parent
+	 * @param   unknown_type  $type  param_description
+	 * @param   unknown_type  $parent  param_description
 	 *
 	 * @return return_description
 	 */
@@ -103,7 +109,7 @@ class Com_JtgInstallerScript
 	 *
 	 * @param   object  $parent  the class calling this method.
 	 *
-	 * @return <type>
+	 * @return return_description
 	 */
 	function install( $parent )
 	{
@@ -112,122 +118,122 @@ class Com_JtgInstallerScript
 		$doc = JFactory::getDocument();
 
 		?>
-<br />
-<img
-	src="<?php echo '/components/com_jtg/assets/images/logo_JTG.png'; ?>"
-	alt="J!Track Gallery" />
-<br />
-<table class="adminlist" border="1" style="width:100%;">
-	<tbody>
-		<tr>
-			<td><?php JText::_('COM_JTG_INSTALL_LICENCE') ?></td>
-		</tr>
-		<tr>
-			<td><?php JText::_('COM_JTG_CREATE_FOLDERS') ?></td>
-		</tr>
-	</tbody>
-</table>
-<?php
-$folders_to_create = array (
-		"images/jtrackgallery",
-		"images/jtrackgallery/cats",
-		"images/jtrackgallery/terrain",
-		"images/jtrackgallery/uploaded_tracks",
-		"images/jtrackgallery/uploaded_tracks/import"
-);
+	<br />
+	<img
+		src="<?php echo '/components/com_jtg/assets/images/logo_JTG.png'; ?>"
+		alt="J!Track Gallery" />
+	<br />
+	<table class="adminlist" border="1" style="width:100%;">
+		<tbody>
+			<tr>
+				<td><?php JText::_('COM_JTG_INSTALL_LICENCE') ?></td>
+			</tr>
+			<tr>
+				<td><?php JText::_('COM_JTG_CREATE_FOLDERS') ?></td>
+			</tr>
+		</tbody>
+	</table>
+	<?php
+	$folders_to_create = array (
+			"images/jtrackgallery",
+			"images/jtrackgallery/cats",
+			"images/jtrackgallery/terrain",
+			"images/jtrackgallery/uploaded_tracks",
+			"images/jtrackgallery/uploaded_tracks/import"
+	);
 
-$folders_to_chmod = array (
-		"images/jtrackgallery/uploaded_tracks",
-		"images/jtrackgallery/uploaded_tracks/import",
-		"components/com_jtg/assets/images/symbols",
-);
+	$folders_to_chmod = array (
+			"images/jtrackgallery/uploaded_tracks",
+			"images/jtrackgallery/uploaded_tracks/import",
+			"components/com_jtg/assets/images/symbols",
+	);
 
-echo '<table><tr><td colspan="3"><b>' . JText::_('COM_JTG_FILES_FOLDERS_TO_CREATE') . '</td></tr>';
-echo '<tr><td>' . JText::_('COM_JTG_FILE') . '/' . JText::_('COM_JTG_FOLDER') . '</td><td>' . JText::_('COM_JTG_NAME') . '</td><td>' . JText::_('COM_JTG_STATE') . '</td></tr>';
+	echo '<table><tr><td colspan="3"><b>' . JText::_('COM_JTG_FILES_FOLDERS_TO_CREATE') . '</td></tr>';
+	echo '<tr><td>' . JText::_('COM_JTG_FILE') . '/' . JText::_('COM_JTG_FOLDER') . '</td><td>' . JText::_('COM_JTG_NAME') . '</td><td>' . JText::_('COM_JTG_STATE') . '</td></tr>';
 
-foreach ( $folders_to_create AS $folder )
-{
-	if (JFolder::exists(JPATH_SITE . '/' . $folder))
+	foreach ( $folders_to_create AS $folder )
 	{
-		echo '<tr><td>' . JText::_('COM_JTG_FOLDER') . '</td><td>' .
-				$folder . '</td><td><font color="green">' .
-				JText::_('COM_JTG_ALREADY_EXISTS') . '</font></td></tr>';
+		if (JFolder::exists(JPATH_SITE . '/' . $folder))
+		{
+			echo '<tr><td>' . JText::_('COM_JTG_FOLDER') . '</td><td>' .
+					$folder . '</td><td><font color="green">' .
+					JText::_('COM_JTG_ALREADY_EXISTS') . '</font></td></tr>';
+		}
+		elseif (JFolder::create(JPATH_SITE . '/' . $folder))
+		{
+			echo '<tr><td>' . JText::_('COM_JTG_FOLDER') . '</td><td>' .
+					$folder . '</td><td><font color="green">' .
+					JText::_('COM_JTG_CREATED') . '</font></td></tr>';
+		}
+		else
+		{
+			echo '<tr><td>' . JText::_('COM_JTG_FOLDER') . '</td><td>' .
+					$folder . '</td><td><font color="red">' .
+					JText::_('COM_JTG_NOT_CREATED') . '</font></td></tr>';
+		}
 	}
-	elseif (JFolder::create(JPATH_SITE . '/' . $folder))
+
+	foreach ( $folders_to_chmod AS $folder )
 	{
-		echo '<tr><td>' . JText::_('COM_JTG_FOLDER') . '</td><td>' .
-				$folder . '</td><td><font color="green">' .
-				JText::_('COM_JTG_CREATED') . '</font></td></tr>';
+		if ( JPath::canChmod(JPATH_SITE . '/' . $folder) AND (chmod(JPATH_SITE . '/' . $folder, 0777)))
+		{
+			echo '<tr><td>' . JText::_('COM_JTG_FOLDER') . '</td><td>' .
+					$folder . '</td><td><font color="green">' .
+					JText::_('COM_JTG_CHMODDED') . '</font></td></tr>';
+		}
+		else
+		{
+			echo '<tr><td>' . JText::_('COM_JTG_FOLDER') . '</td><td>' .
+					$folder . '</td><td><font color="red">' .
+					JText::_('COM_JTG_NOT_CHMODDED') . '</font></td></tr>';
+		}
 	}
-	else
+
+	// Copy Cats image
+	$src_folder_to_copy = JPATH_SITE . '/components/com_jtg/assets/images/cats';
+	$dest_folder_to_copy = JPATH_SITE . '/images/jtrackgallery/cats';
+	$files = JFolder::files($src_folder_to_copy);
+
+	// Copy file by file without erasing existing files
+	foreach ($files as $file)
 	{
-		echo '<tr><td>' . JText::_('COM_JTG_FOLDER') . '</td><td>' .
-				$folder . '</td><td><font color="red">' .
-				JText::_('COM_JTG_NOT_CREATED') . '</font></td></tr>';
+		if (!JFile::exists($dest_folder_to_copy . '/' . $file) )
+		{
+			JFile::copy($src_folder_to_copy . '/' . $file, $dest_folder_to_copy . '/' . $file);
+		}
 	}
-}
 
-foreach ( $folders_to_chmod AS $folder )
-{
-	if ( JPath::canChmod(JPATH_SITE . '/' . $folder) AND (chmod(JPATH_SITE . '/' . $folder, 0777)))
+	// Copy additional.ini language files without erasing existing files
+	$src_folder_to_copy = JPATH_SITE . '/components/com_jtg/assets/language';
+	$dest_folder_to_copy = JPATH_SITE . '/images/jtrackgallery/language';
+	JFolder::copy($src_folder_to_copy, $dest_folder_to_copy, $force = false);
+
+	// Copy example tracks
+	$src_folder_to_copy = JPATH_SITE . '/components/com_jtg/assets/sample_tracks';
+	$dest_folder_to_copy = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks';
+	$files = JFolder::files($src_folder_to_copy);
+
+	// Copy file by file without erasing existing files
+	foreach ($files as $file)
 	{
-		echo '<tr><td>' . JText::_('COM_JTG_FOLDER') . '</td><td>' .
-				$folder . '</td><td><font color="green">' .
-				JText::_('COM_JTG_CHMODDED') . '</font></td></tr>';
+		if (!JFile::exists($dest_folder_to_copy . '/' . $file) )
+		{
+			JFile::copy($src_folder_to_copy . '/' . $file, $dest_folder_to_copy . '/' . $file);
+		}
 	}
-	else
-	{
-		echo '<tr><td>' . JText::_('COM_JTG_FOLDER') . '</td><td>' .
-				$folder . '</td><td><font color="red">' .
-				JText::_('COM_JTG_NOT_CHMODDED') . '</font></td></tr>';
-	}
-}
 
-// Copy Cats image
-$src_folder_to_copy = JPATH_SITE . '/components/com_jtg/assets/images/cats';
-$dest_folder_to_copy = JPATH_SITE . '/images/jtrackgallery/cats';
-$files = JFolder::files($src_folder_to_copy);
+	echo '<tr><td colspan="3">' . JText::sprintf('COM_JTG_INSTALLED_VERSION', $this->release) . '</td></tr>';
 
-// Copy file by file without erasing existing files
-foreach ($files as $file)
-{
-	if (!JFile::exists($dest_folder_to_copy . '/' . $file) )
-	{
-		JFile::copy($src_folder_to_copy . '/' . $file, $dest_folder_to_copy . '/' . $file);
-	}
-}
+	// You can have the backend jump directly to the newly installed component configuration page
+	// $parent->getParent()->setRedirectURL('index.php?option=com_jtg');
 
-// Copy additional.ini language files without erasing existing files
-$src_folder_to_copy = JPATH_SITE . '/components/com_jtg/assets/language';
-$dest_folder_to_copy = JPATH_SITE . '/images/jtrackgallery/language';
-JFolder::copy($src_folder_to_copy, $dest_folder_to_copy, $force = false);
+	echo '<tr><td colspan="3">';
+	echo '<font color="red" size="+1">' . JText::_('COM_JTG_HINTS') . '</font>';
+	echo JText::_('COM_JTG_HINTS_DETAILS');
+	echo '</td></tr>';
+	echo '</table>';
 
-// Copy example tracks
-$src_folder_to_copy = JPATH_SITE . '/components/com_jtg/assets/sample_tracks';
-$dest_folder_to_copy = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks';
-$files = JFolder::files($src_folder_to_copy);
-
-// Copy file by file without erasing existing files
-foreach ($files as $file)
-{
-	if (!JFile::exists($dest_folder_to_copy . '/' . $file) )
-	{
-		JFile::copy($src_folder_to_copy . '/' . $file, $dest_folder_to_copy . '/' . $file);
-	}
-}
-
-echo '<tr><td colspan="3">' . JText::sprintf('COM_JTG_INSTALLED_VERSION', $this->release) . '</td></tr>';
-
-// You can have the backend jump directly to the newly installed component configuration page
-// $parent->getParent()->setRedirectURL('index.php?option=com_jtg');
-
-echo '<tr><td colspan="3">';
-echo '<font color="red" size="+1">' . JText::_('COM_JTG_HINTS') . '</font>';
-echo JText::_('COM_JTG_HINTS_DETAILS');
-echo '</td></tr>';
-echo '</table>';
-
-return true;
+	return true;
 	}
 
 	/**
@@ -238,7 +244,7 @@ return true;
 	 *
 	 * @param   object  $parent  the class calling this method.
 	 *
-	 * @return <type>
+	 * @return return_description
 	 */
 	function update( $parent )
 	{
@@ -266,9 +272,9 @@ return true;
 	 * @param   string  $type    the type of change (install, update or discover_install, not uninstall).
 	 * @param   object  $parent  the class calling this method.
 	 *
-	 * @return <type>
+	 * @return return_description
 	 */
-	function postflight( $type, $parent )
+	function postflight($type, $parent)
 	{
 		$db = JFactory::getDBO();
 		$application = JFactory::getApplication();
@@ -340,11 +346,15 @@ return true;
 		return true;
 	}
 
-	/*
+	/**
+	 * function_description
 	 *
-	 * $parent is the class calling this method
-	* uninstall runs before any other action is taken (file removal or database processing).
-	*/
+	 * uninstall runs before any other action is taken (file removal or database processing).
+	 *
+	 * @param   object  $parent  is the class calling this method
+	 *
+	 * @return always true
+	 */
 	function uninstall( $parent )
 	{
 		// Set a simple message
@@ -414,9 +424,15 @@ return true;
 		return $manifest[ $name ];
 	}
 
-	/*
+	/**
+	 * function_description
+	 *
 	 * sets parameter values in the component's row of the extension table
-	*/
+	 *
+	 * @param   array  $param_array  parameters array
+	 *
+	 * @return void
+	 */
 	function setParams($param_array)
 	{
 		if ( count($param_array) > 0 )

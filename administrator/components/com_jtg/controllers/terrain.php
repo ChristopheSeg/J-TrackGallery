@@ -23,6 +23,10 @@ JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_jtg/tables');
 
 /**
  * Controller Class terrainegories
+ *
+ * @package     Comjtg
+ * @subpackage  Frontend
+ * @since       0.8
  */
 class JtgControllerTerrain extends JtgController
 {
@@ -46,6 +50,11 @@ class JtgControllerTerrain extends JtgController
 		$this->setRedirect($link, JText::_('COM_JTG_TERRAIN_SAVED'));
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @return return_description
+	 */
 	function update()
 	{
 		$mainframe = JFactory::getApplication();

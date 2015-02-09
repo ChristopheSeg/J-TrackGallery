@@ -22,6 +22,10 @@ defined('_JEXEC') or die('Restricted access');
 jimport('joomla.application.component.model');
 /**
  * Model Class Terrain
+ *
+ * @package     Comjtg
+ * @subpackage  Frontend
+ * @since       0.8
  */
 class JtgModelTerrain extends JModelLegacy
 {
@@ -34,9 +38,8 @@ class JtgModelTerrain extends JModelLegacy
 	/**
 	 * function_description
 	 *
-	 * @return return_description
 	 */
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$mainframe = JFactory::getApplication();
@@ -60,7 +63,7 @@ class JtgModelTerrain extends JModelLegacy
 	/**
 	 * function_description
 	 *
-	 * @param   interger $tid terrain id
+	 * @param   interger  $tid  terrain id
 	 *
 	 * @return object
 	 */
@@ -119,7 +122,7 @@ class JtgModelTerrain extends JModelLegacy
 	 * @return string
 	 */
 
-	function _buildQuery($terrain=null)
+	protected function _buildQuery($terrain=null)
 	{
 		$mainframe = JFactory::getApplication();
 		$orderby	= $this->_buildContentOrderBy();
@@ -141,7 +144,7 @@ class JtgModelTerrain extends JModelLegacy
 	 * @global string $option
 	 * @return string
 	 */
-	function _buildContentOrderBy()
+	protected function _buildContentOrderBy()
 	{
 		return;
 		$mainframe = JFactory::getApplication();
@@ -150,15 +153,20 @@ class JtgModelTerrain extends JModelLegacy
 		$filter_order_Dir = $mainframe->getUserStateFromRequest($this->option . 'filter_order_Dir', 'filter_order_Dir', '', 'word');
 
 		$orderby = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir . ' , title ';
+
 		// Problems if sorted in "Files"-Menu and switched to "Terrain"
-		// Return $orderby;
+
+		/*
+		Return $orderby;
+		*/
+
 		// TODO: Why is that return commented!!
 	}
 
 	/**
 	 * function_description
 	 *
-	 * @param   string  $id
+	 * @param   string  $id  param_description
 	 *
 	 * @return return_description
 	 */
@@ -169,6 +177,11 @@ class JtgModelTerrain extends JModelLegacy
 		$this->_data	= null;
 	}
 
+	/**
+	 * function_description
+	 *
+	 * @return return_description
+	 */
 	function save()
 	{
 		// Get post data
@@ -189,8 +202,9 @@ class JtgModelTerrain extends JModelLegacy
 	/**
 	 * function_description
 	 *
-	 * @param   array  $cid
-	 * @param   int $publish
+	 * @param   array    $cid      param_description
+	 * @param   integer  $publish  param_description
+	 *
 	 * @return boolean
 	 */
 	function publish($cid = array(), $publish = 1)
@@ -222,7 +236,8 @@ class JtgModelTerrain extends JModelLegacy
 	/**
 	 * function_description
 	 *
-	 * @param   array  $cid
+	 * @param   array  $cid  param_description
+	 *
 	 * @return boolean
 	 */
 	function delete($cid = array())

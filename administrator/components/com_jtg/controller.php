@@ -20,14 +20,18 @@ defined('_JEXEC') or die('Restricted access');
 jimport('joomla.application.component.controller');
 
 /**
- * maincontroller for backend
+ * class JtgControllerfor the jtg component
+ *
+ * @package     Comjtg
+ * @subpackage  Frontend
+ * @since       0.8
  */
 class JtgController extends JControllerLegacy
 {
 	/**
-	 *
+	 * function_description
 	 */
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->registerTask('savecat', 'savecat');
@@ -36,12 +40,12 @@ class JtgController extends JControllerLegacy
 	/**
 	 * get task form uri and set view and layout
 	 *
-	 * @param   unknown_type  $cachable
-	 * @param   unknown_type  $urlparams
+	 * @param   unknown_type  $cachable  param_description
+	 * @param   unknown_type  $urlparams  param_description
 	 *
 	 * @return return_description
 	 */
-	function display($cachable = false, $urlparams = false)
+	public function display($cachable = false, $urlparams = false)
 	{
 		require_once JPATH_COMPONENT . '/helpers/jtg.php';
 

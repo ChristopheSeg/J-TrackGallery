@@ -23,13 +23,17 @@ jimport('joomla.application.component.model');
 
 /**
  * Model Class Configuration
+ *
+ * @package     Comjtg
+ * @subpackage  Frontend
+ * @since       0.8
  */
 class JtgModelConfig extends JModelLegacy
 {
 	/**
-	 *
+	 * function_description
 	 */
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 	}
@@ -73,7 +77,7 @@ class JtgModelConfig extends JModelLegacy
 		{
 			// Recreate thumbnails if max_height changed
 			require_once JPATH_SITE . '/administrator/components/com_jtg/models/thumb_creation.php';
-			com_jtg_refresh_Thumbnails();
+			Com_Jtg_Refresh_thumbnails();
 		}
 
 		return true;
@@ -82,8 +86,8 @@ class JtgModelConfig extends JModelLegacy
 	/**
 	 * function_description
 	 *
-* @param   unknown_type  $row
-* @param   unknown_type  $tablekey
+	 * @param   unknown_type  $row  param_description
+	 * @param   unknown_type  $tablekey  param_description
 	 *
 	 * @return true or errormessage
 	 */

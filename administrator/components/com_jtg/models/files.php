@@ -24,7 +24,9 @@ jimport('joomla.application.component.model');
 /**
  * Model Class Files
  *
- * @since  0.5.0
+ * @package     Comjtg
+ * @subpackage  Frontend
+ * @since       0.8
  */
 class JtgModelFiles extends JModelLegacy
 {
@@ -52,7 +54,8 @@ class JtgModelFiles extends JModelLegacy
 	/**
 	 * function_description
 	 *
-	 * @return string The message to be displayed to the user
+	 * @return string The message to be displayed to the use
+	 *
 	 * @since   0.0.1
 	 * */
 	function updateGeneratedValues()
@@ -159,9 +162,9 @@ class JtgModelFiles extends JModelLegacy
 	/**
 	 * function_description
 	 *
-	 * @param unknown_type $files
-	 * @param unknown_type $dest
-	 * @param unknown_type $types
+	 * @param   unknown_type  $files  param_description
+	 * @param   unknown_type  $dest  param_description
+	 * @param   unknown_type  $types  param_description
 	 *
 	 * @return string
 	 */
@@ -205,7 +208,7 @@ class JtgModelFiles extends JModelLegacy
 	 *
 	 * @global string $option
 	 */
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$mainframe = JFactory::getApplication();
@@ -307,7 +310,7 @@ class JtgModelFiles extends JModelLegacy
 	 *
 	 * @return string
 	 */
-	function _buildQuery()
+	protected function _buildQuery()
 	{
 		$mainframe = JFactory::getApplication();
 
@@ -332,7 +335,7 @@ class JtgModelFiles extends JModelLegacy
 	 * @global string $option
 	 * @return string
 	 */
-	function _buildContentOrderBy()
+	protected function _buildContentOrderBy()
 	{
 		$mainframe = JFactory::getApplication();
 
@@ -359,7 +362,7 @@ class JtgModelFiles extends JModelLegacy
 	 * @global string $option
 	 * @return string
 	 */
-	function _buildContentWhere()
+	protected function _buildContentWhere()
 	{
 		$mainframe = JFactory::getApplication();
 
@@ -382,7 +385,8 @@ class JtgModelFiles extends JModelLegacy
 	/**
 	 * function_description
 	 *
-	 * @param   string  $id
+	 * @param   string  $id  param_description
+	 *
 	 * @return object
 	 */
 	function getFile($id)
@@ -413,7 +417,7 @@ class JtgModelFiles extends JModelLegacy
 	/**
 	 * function_description
 	 *
-	 * @param   string  $id
+	 * @param   string  $id  param_description
 	 *
 	 * @return return_description
 	 */
@@ -427,8 +431,9 @@ class JtgModelFiles extends JModelLegacy
 	/**
 	 * function_description
 	 *
-	 * @param   array  $cid
-	 * @param   string  $publish
+	 * @param   array  $cid  param_description
+	 * @param   string  $publish  param_description
+	 *
 	 * @return bool
 	 */
 	function publish($cid = array(), $publish = 1)
@@ -460,8 +465,9 @@ class JtgModelFiles extends JModelLegacy
 	/**
 	 * function_description
 	 *
-	 * @param   array  $cid
-	 * @param   string  $hide
+	 * @param   array  $cid  param_description
+	 * @param   string  $hide  param_description
+	 *
 	 * @return bool
 	 */
 	function showhide($cid = array(), $hide = 0)
@@ -493,8 +499,9 @@ class JtgModelFiles extends JModelLegacy
 	/**
 	 * function_description
 	 *
-	 * @param   array  $cid
-	 * @param   string  $access
+	 * @param   array  $cid  param_description
+	 * @param   string  $access  param_description
+	 *
 	 * @return bool
 	 */
 	function access($cid = array(), $access = 1)
@@ -526,7 +533,8 @@ class JtgModelFiles extends JModelLegacy
 	/**
 	 * function_description
 	 *
-	 * @param   array  $cid
+	 * @param   array  $cid  param_description
+	 *
 	 * @return boolean
 	 */
 	function delete($cid = array())
@@ -585,7 +593,7 @@ class JtgModelFiles extends JModelLegacy
 	/**
 	 * function_description
 	 *
-	 * @param   array  $found
+	 * @param   array  $found  param_description
 	 *
 	 * @return boolean
 	 */
@@ -619,7 +627,7 @@ class JtgModelFiles extends JModelLegacy
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $selected
+	 * @param   unknown_type  $selected  param_description
 	 *
 	 * @return array
 	 */
@@ -661,10 +669,10 @@ class JtgModelFiles extends JModelLegacy
 	/**
 	 * function_description
 	 *
-* @param   unknown_type  $nosubcats
-* @param   unknown_type  $stdtext
-* @param   unknown_type  $stdid
-* @param   unknown_type  $type
+	 * @param   unknown_type  $nosubcats  param_description
+	 * @param   unknown_type  $stdtext  param_description
+	 * @param   unknown_type  $stdid  param_description
+	 * @param   unknown_type  $type  param_description
 	 *
 	 * @return array
 	 */
@@ -717,8 +725,8 @@ class JtgModelFiles extends JModelLegacy
 	/**
 	 * function_description
 	 *
-* @param   unknown_type  $nullter
-* @param   unknown_type  $where
+	 * @param   unknown_type  $nullter  param_description
+	 * @param   unknown_type  $where  param_description
 	 *
 	 * @return array
 	 */
@@ -757,9 +765,10 @@ class JtgModelFiles extends JModelLegacy
 	/**
 	 * function_description
 	 *
-* @param   unknown_type  $select
-* @param   unknown_type  $nullter
-* @param   unknown_type  $where
+	 * @param   unknown_type  $select  param_description
+	 * @param   unknown_type  $nullter  param_description
+	 * @param   unknown_type  $where  param_description
+	 *
 	 * @return array
 	 */
 	function getTerrain($select = "*", $nullter = false, $where = null )
@@ -800,7 +809,7 @@ class JtgModelFiles extends JModelLegacy
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $id
+	 * @param   unknown_type  $id  param_description
 	 *
 	 * @return array
 	 */
@@ -1038,7 +1047,7 @@ class JtgModelFiles extends JModelLegacy
 	/**
 	 * function_description
 	 *
-	 * @param   object  $track track object
+	 * @param   object  $track  track object
 	 *
 	 * @return return_description
 	 */
@@ -1418,8 +1427,6 @@ class JtgModelFiles extends JModelLegacy
 	/**
 	 * description: Import tracks from JoomGPSTracks
 	 *
-	 * @param   string  $id
-	 *
 	 * @return void
 	 */
 	function importJPTtracks()
@@ -1532,24 +1539,7 @@ class JtgModelFiles extends JModelLegacy
 			$isRoute = "0";
 			$start_n = $importfile['start_n'];
 			$start_e = $importfile['start_e'];
-			/*
-			 * 			if ($start = $gps_old->getStartCoordinates())  {
-			 $fileokay = true;
-			}
-			else
-			{
-			echo "<script type='text/javascript'>alert('" . JText::_('COM_JTG_NO_SUPPORT') . ": " . $target . "');window.history.back(-1);</script>";
-			// 				exit;
-			}
 
-			// 		if ($fileokay == true) {
-
-			// Upload the file
-							$upload_dir = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks/';
-							$filename = explode('/',$file);
-							$filename = $filename[(count($filename)-1)];
-							$filename = JFile::makeSafe($filename);
-			*/
 			if (!JFile::copy($file, $targetdir . $target))
 			{
 				// TODO Jtext
@@ -1613,7 +1603,6 @@ class JtgModelFiles extends JModelLegacy
 				// Fehlt noch ...
 				$id = 0;
 				$images = 0;
-				// Fehlt noch ...
 
 				$sourcePath = JPATH_SITE . '/images/joomgpstracks/' . md5($title);
 				$destPath = JPATH_SITE . '/images/jtrackgallery/track_' . $id;
@@ -1621,7 +1610,9 @@ class JtgModelFiles extends JModelLegacy
 				if (count($images) > 0 )
 				{
 					JFolder::create($destPath, 0777);
-					// 					$img_dir = JPATH_SITE . '/images/jtrackgallery/' . md5($title);
+					/*
+					$img_dir = JPATH_SITE . '/images/jtrackgallery/' . md5($title);
+					*/
 
 					foreach ($images['name'] as $key => $value)
 					{
@@ -1642,11 +1633,11 @@ class JtgModelFiles extends JModelLegacy
 	/**
 	 * function_description
 	 *
-	 * @param unknown_type $id
+	 * @param   unknown_type  $id  param_description
 	 *
 	 * @return return_description
 	 */
-	 function getImages($id)
+	function getImages($id)
 	{
 		jimport('joomla.filesystem.folder');
 		$img_dir = JPATH_SITE . '/images/jtrackgallery/track_' . $id;

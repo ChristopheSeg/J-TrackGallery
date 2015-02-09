@@ -20,15 +20,21 @@ defined('_JEXEC') or die('Restricted access');
 
 // Import Joomla! libraries
 jimport('joomla.application.component.model');
+/**
+ * JtgModelComments class for the jtg component
+ *
+ * @package     Comjtg
+ * @subpackage  Frontend
+ * @since       0.8
+ */
 
 class JtgModelComments extends JModelLegacy
 {
 	/**
 	 * function_description
 	 *
-	 * @return return_description
 	 */
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$mainframe = JFactory::getApplication();
@@ -101,7 +107,7 @@ class JtgModelComments extends JModelLegacy
 	 * @return string
 	 */
 
-	function _buildQuery()
+	protected function _buildQuery()
 	{
 		$mainframe = JFactory::getApplication();
 
@@ -114,12 +120,12 @@ class JtgModelComments extends JModelLegacy
 		return $query;
 	}
 
-
 	/**
 	 * function_description
 	 *
-	 * @param   array  $cid
-	 * @param   int $publish
+	 * @param   array    $cid      param_description
+	 * @param   integer  $publish  param_description
+	 *
 	 * @return boolean
 	 */
 	function publish($cid = array(), $publish = 1)
@@ -150,7 +156,8 @@ class JtgModelComments extends JModelLegacy
 	/**
 	 * function_description
 	 *
-	 * @param   array  $cid
+	 * @param   array  $cid  param_description
+	 *
 	 * @return boolean
 	 */
 	function delete($cid = array())
@@ -182,7 +189,8 @@ class JtgModelComments extends JModelLegacy
 	/**
 	 * function_description
 	 *
-	 * @param   array  $cid
+	 * @param   array  $cid  param_description
+	 *
 	 * @return object
 	 */
 	function getComment($cid)

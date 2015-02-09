@@ -22,19 +22,24 @@ defined('_JEXEC') or die('Restricted access');
 jimport('joomla.application.component.view');
 require_once JPATH_ROOT . '/components/com_jtg/helpers/gpsClass.php';
 /**
+ * JtgViewDefault class for the jtg component
  *
+ * @package     Comjtg
+ * @subpackage  Frontend
+ * @since       0.8
  */
+
 class JtgViewDefault extends JViewLegacy
 {
 	/**
 	 * function_description
 	 *
-	 * @param object $tpl
-* @param   unknown_type  $map
+	 * @param   object  $tpl  param_description
+	 * @param   unknown_type  $map  param_description
 	 *
 	 * @return return_description
 	 */
-	function display($tpl = null,$map = false)
+	public function display($tpl = null,$map = false)
 	{
 		$cfg = JtgHelper::getConfig();
 		$gpsData = new GpsDataClass($cfg->unit);

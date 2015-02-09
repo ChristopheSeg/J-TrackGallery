@@ -19,18 +19,20 @@
 defined('_JEXEC') or die('Restricted access');
 jimport('joomla.application.component.controller');
 /**
+ * JtgControllerFiles class for the jtg component
  *
- *
- *
+ * @package     Comjtg
+ * @subpackage  Frontend
+ * @since       0.8
  */
+
 class JtgControllerFiles extends JtgController
 {
 	/**
 	 * function_description
 	 *
-	 * @return return_description
 	 */
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 	}

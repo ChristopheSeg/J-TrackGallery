@@ -23,8 +23,8 @@ defined('_JEXEC') or die('Restricted access');
 /**
  * function jtgdebug($val, $die=false)
  *
-* @param   unknown_type  $val
-* @param   unknown_type  $die
+ * @param   unknown_type  $val  param_description
+ * @param   unknown_type  $die  param_description
  *
  * @return void
  */
@@ -55,6 +55,13 @@ function jtgdebug($val, $die = false)
 	echo $r;
 }
 
+/**
+ * JtgHelper class for the jtg component
+ *
+ * @package     Comjtg
+ * @subpackage  Frontend
+ * @since       0.8
+ */
 class JtgHelper
 {
 	/**
@@ -67,7 +74,7 @@ class JtgHelper
 	 * @since   1.6
 	 */
 
-	public static function addSubmenu($vName)
+	static public function addSubmenu($vName)
 	{
 		// TODO move addSubmenu and GetConfig function to backend code
 		JSubMenuHelper::addEntry(
@@ -117,12 +124,13 @@ class JtgHelper
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @param unknown_type $tid
+	 * @param   unknown_type  $tid  param_description
 	 *
-	 * @return <type>
+	 * @return return_description
 	 */
-	public static function howMuchVote($tid)
+	static public function howMuchVote($tid)
 	{
 		$db = JFactory::getDBO();
 		$query = "SELECT COUNT(id) FROM #__jtg_votes"
@@ -135,13 +143,13 @@ class JtgHelper
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $surface
-	 * @param   unknown_type  $filetypes
-	 * @param   unknown_type  $track
+	 * @param   unknown_type  $surface  param_description
+	 * @param   unknown_type  $filetypes  param_description
+	 * @param   unknown_type  $track  param_description
 	 *
 	 * @return return_description
 	 */
-	public static function giveGeneratedValues($surface, $filetypes, $track)
+	static public function giveGeneratedValues($surface, $filetypes, $track)
 	{
 		switch ($surface)
 		{
@@ -229,12 +237,12 @@ class JtgHelper
 	/**
 	 * function_description
 	 *
-	 * @param   int  $length
+	 * @param   integer  $length  param_description
 	 *
 	 * @return random string with given (int) lengh
 	 * http://www.php.net/manual/de/function.mt-rand.php#92711
 	 */
-	static function alphanumericPass($length)
+	static public function alphanumericPass($length)
 	{
 		// TODO deprecated
 		$p = "";
@@ -261,13 +269,14 @@ class JtgHelper
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @param unknown_type $file
-	 * @param unknown_type $dest
+	 * @param   unknown_type  $file  param_description
+	 * @param   unknown_type  $dest  param_description
 	 *
-	 * @return <type>
+	 * @return return_description
 	 */
-	static function uploadfile($file, $dest)
+	static public function uploadfile($file, $dest)
 	{
 		if ( ( $file["error"] != 0 )
 			OR ( $file["size"] == 0 ))
@@ -314,15 +323,16 @@ class JtgHelper
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @param unknown_type $allcats
-	 * @param unknown_type $catid
-	 * @param unknown_type $format
-	 * @param unknown_type $link
+	 * @param   unknown_type  $allcats  param_description
+	 * @param   unknown_type  $catid  param_description
+	 * @param   unknown_type  $format  param_description
+	 * @param   unknown_type  $link  param_description
 	 *
-	 * @return <type>
+	 * @return return_description
 	 */
-	static function parseMoreCats($allcats, $catid, $format = "array", $link = false)
+	static public function parseMoreCats($allcats, $catid, $format = "array", $link = false)
 	{
 		$baseurl = "index.php?option=com_jtg&view=files&layout=list&cat=";
 		$image = JUri::base() . 'images/jtrackgallery/cats/';
@@ -487,14 +497,14 @@ class JtgHelper
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $allterrains
-	 * @param   unknown_type  $terrainid
-	 * @param   unknown_type  $format
-	 * @param   unknown_type  $link
+	 * @param   unknown_type  $allterrains  param_description
+	 * @param   unknown_type  $terrainid  param_description
+	 * @param   unknown_type  $format  param_description
+	 * @param   unknown_type  $link  param_description
 	 *
 	 * @return return_description
 	 */
-	static function parseMoreTerrains($allterrains, $terrainid, $format = "array", $link = false)
+	static public function parseMoreTerrains($allterrains, $terrainid, $format = "array", $link = false)
 	{
 		$baseurl = "index.php?option=com_jtg&view=files&layout=list&terrain=";
 		$image = JUri::base() . 'images/jtrackgallery/terrain/';
@@ -551,7 +561,7 @@ class JtgHelper
 	 *
 	 * @return return_description
 	 */
-	static function userHasCommentsRights()
+	static public function userHasCommentsRights()
 	{
 		$user_groups = JFactory::getUser()->getAuthorisedGroups();
 
@@ -584,9 +594,9 @@ class JtgHelper
 	/**
 	 * function_description
 	 *
-	 * return bool true if user has FrontEnd rights
+	 * @return bool true if user has FrontEnd rights
 	 */
-	static function userHasFrontendRights()
+	static public function userHasFrontendRights()
 	{
 		$user_groups = JFactory::getUser()->getAuthorisedGroups();
 
@@ -618,11 +628,11 @@ class JtgHelper
 	/**
 	 * function_description
 	 *
-	 * @param unknown_type $accesslevel
+	 * @param   unknown_type  $accesslevel  param_description
 	 *
 	 * @return string accesslist select
 	 */
-	static function getAccessList($accesslevel)
+	static public function getAccessList($accesslevel)
 	{
 		$access = array (
 				array (
@@ -651,7 +661,7 @@ class JtgHelper
 	 *
 	 * @return return_description
 	 */
-	static function giveAccessLevel()
+	static public function giveAccessLevel()
 	{
 		$user = JFactory::getUser();
 
@@ -677,7 +687,7 @@ class JtgHelper
 	 *
 	 * @return object
 	 */
-	static function getConfig()
+	static public function getConfig()
 	{
 		$mainframe = JFactory::getApplication();
 		$db = JFactory::getDBO();
@@ -701,7 +711,7 @@ class JtgHelper
 	 *
 	 * @return return_description
 	 */
-	static function checkCaptcha()
+	static public function checkCaptcha()
 	{
 		$mainframe = JFactory::getApplication();
 		$db = JFactory::getDBO();
@@ -716,12 +726,12 @@ class JtgHelper
 	/**
 	 * Fetchs lat/lon from users given ID, otherwise from all users
 	 *
-* @param   unknown_type  $uid
-* @param   unknown_type  $exclude
+	 * @param   unknown_type  $uid  param_description
+	 * @param   unknown_type  $exclude  param_description
 	 *
 	 * @return return_description
 	 */
-	static function getLatLon($uid = false, $exclude = false)
+	static public function getLatLon($uid = false, $exclude = false)
 	{
 		$mainframe = JFactory::getApplication();
 		$db = JFactory::getDBO();
@@ -745,10 +755,11 @@ class JtgHelper
 	/**
 	 * function_description
 	 *
-	 * @param   string  $distance
+	 * @param   string  $distance  param_description
+	 *
 	 * @return string
 	 */
-	static function getMiles($distance)
+	static public function getMiles($distance)
 	{
 		$miles = round($distance * 0.621, 2);
 
@@ -758,14 +769,14 @@ class JtgHelper
 	/**
 	 * creates the images
 	 *
-	 * @param   string  $file_tmp_name
-	 * @param   string  $ext
-	 * @param   string  $image_dir
-	 * @param   string  $image
+	 * @param   string  $file_tmp_name  param_description
+	 * @param   string  $ext  param_description
+	 * @param   string  $image_dir  param_description
+	 * @param   string  $image  param_description
 	 *
 	 * @return return_description
 	 */
-	static function createimageandthumbs($file_tmp_name, $ext, $image_dir, $image)
+	static public function createimageandthumbs($file_tmp_name, $ext, $image_dir, $image)
 	{
 		require_once JPATH_SITE . '/administrator/components/com_jtg/models/thumb_creation.php';
 		$filepath = $image_dir . $image;
@@ -871,7 +882,7 @@ class JtgHelper
 
 		if ($statusupload)
 		{
-			$statusthumbs = com_jtg_create_Thumbnails(
+			$statusthumbs = Com_Jtg_Create_thumbnails(
 					$image_dir, $image,
 					$cfg->max_thumb_height, $cfg->max_geoim_height
 			);
@@ -888,11 +899,12 @@ class JtgHelper
 	/**
 	 * function_description
 	 *
-	 * @param   string  $uid
-	 * @param   string  $username
+	 * @param   string  $uid  param_description
+	 * @param   string  $username  param_description
+	 *
 	 * @return string
 	 */
-	static function getProfileLink($uid, $username)
+	static public function getProfileLink($uid, $username)
 	{
 		$cfg = self::getConfig();
 
@@ -929,13 +941,13 @@ class JtgHelper
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $where
-	 * @param   unknown_type  $access
-	 * @param   unknown_type  $otherfiles
+	 * @param   unknown_type  $where  param_description
+	 * @param   unknown_type  $access  param_description
+	 * @param   unknown_type  $otherfiles  param_description
 	 *
 	 * @return return_description
 	 */
-	static function MayIsee($where, $access, $otherfiles)
+	static public function MayIsee($where, $access, $otherfiles)
 	{
 		$otherfiles = (int) $otherfiles;
 
@@ -968,14 +980,15 @@ class JtgHelper
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @param unknown_type $float
-	 * @param unknown_type $default
-	 * @param unknown_type $unit
+	 * @param   unknown_type  $float  param_description
+	 * @param   unknown_type  $default  param_description
+	 * @param   unknown_type  $unit  param_description
 	 *
-	 * @return <type>
+	 * @return return_description
 	 */
-	static function getLocatedFloat($float, $default = 0, $unit = null)
+	static public function getLocatedFloat($float, $default = 0, $unit = null)
 	{
 		if ( $float == 0 )
 		{
@@ -1028,12 +1041,13 @@ class JtgHelper
 	}
 
 	/**
+	 * function_description
 	 *
-	 * @param unknown_type $float
+	 * @param   unknown_type  $float  param_description
 	 *
-	 * @return <type>
+	 * @return return_description
 	 */
-	static function _getLocatedFloat_old($float)
+	static public function _getLocatedFloat_old($float)
 	{
 		$float = (float) $float;
 

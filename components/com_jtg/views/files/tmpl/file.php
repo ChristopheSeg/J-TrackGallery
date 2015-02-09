@@ -338,7 +338,7 @@ if ($this->map)
 <!--    <div>
 <?php
 /*
-// ToDo: inspect GET['subid'] to give the ability single tracks are shown
+ToDo: inspect GET['subid'] to give the ability single tracks are shown
 if ( $this->clicklist !== false ) {
 	$return = ("<div><ul>\n");
 	foreach ($this->clicklist AS $value => $key ) {

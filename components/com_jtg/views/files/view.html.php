@@ -27,14 +27,18 @@ jimport('joomla.html.pagination');
  * HTML View class for the jtg component
  *
  * Returns the specified model
+ *
+ * @package     Comjtg
+ * @subpackage  Frontend
+ * @since       0.8
  */
-
 class JtgViewFiles extends JViewLegacy
 {
 	/**
 	 * Returns true|false if user is allowed to see the file
 	 *
-	 * @param <obj> $param
+	 * @param   object  $param  param_description
+	 *
 	 * @return <bool>
 	 */
 	function maySeeSingleFile($param)
@@ -133,10 +137,11 @@ class JtgViewFiles extends JViewLegacy
 	/**
 	 * function_description
 	 *
-	 * @param <type> $tpl
-	 * @return <type>$gps
+	 * @param   object  $tpl  template
+	 *
+	 * @return return_description$gps
 	 */
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		$file = JPATH_SITE . "/components/com_jtg/models/jtg.php";
 		require_once $file;
@@ -175,10 +180,11 @@ class JtgViewFiles extends JViewLegacy
 	/**
 	 * function_description
 	 *
-	 * @param <type> $tpl
-	 * @return <type>
+	 * @param   object  $tpl  template
+	 *
+	 * @return return_description
 	 */
-	function _displayForm($tpl = null)
+	protected function _displayForm($tpl = null)
 	{
 		$mainframe = JFactory::getApplication();
 		jimport('joomla.filesystem.file');
@@ -292,7 +298,7 @@ class JtgViewFiles extends JViewLegacy
 					$thumb_name = 'thumb1_' . $image;
 
 					// TODO Remove {Update or New File} update should have been already made before??
-					$thumb = com_jtg_create_Thumbnails($img_dir, $image, $cfg->max_thumb_height, $cfg->max_geoim_height);
+					$thumb = Com_Jtg_Create_thumbnails($img_dir, $image, $cfg->max_thumb_height, $cfg->max_geoim_height);
 
 					if (! $thumb)
 					{
@@ -340,6 +346,13 @@ class JtgViewFiles extends JViewLegacy
 		parent::display($tpl);
 	}
 
+	/**
+	 * Display function
+	 *
+	 * @param   array  $tpl  template
+	 *
+	 * @return return_description
+	 */
 	function _displayFile($tpl)
 	{
 		$mainframe = JFactory::getApplication();
@@ -734,9 +747,9 @@ class JtgViewFiles extends JViewLegacy
 	/**
 	 * function_description
 	 *
-	 * @param unknown_type $tpl
+	 * @param   object  $tpl  template
 	 *
-	 * @return <type>
+	 * @return return_description
 	 */
 	function _displayList($tpl)
 	{
@@ -799,9 +812,9 @@ class JtgViewFiles extends JViewLegacy
 	/**
 	 * function_description
 	 *
-	 * @param unknown_type $tpl
+	 * @param   object  $tpl  template
 	 *
-	 * @return <type>
+	 * @return return_description
 	 */
 	function _displayUserTracks($tpl)
 	{
@@ -856,7 +869,7 @@ class JtgViewFiles extends JViewLegacy
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $service
+	 * @param   unknown_type  $service  param_description
 	 *
 	 * @return return_description
 	 */
@@ -1065,14 +1078,14 @@ class JtgViewFiles extends JViewLegacy
 	/**
 	 * function_description
 	 *
-	 * @param unknown_type $template
-	 * @param unknown_type $content
-	 * @param unknown_type $linkname
-	 * @param unknown_type $only
+	 * @param   unknown_type  $template  param_description
+	 * @param   unknown_type  $content  param_description
+	 * @param   unknown_type  $linkname  param_description
+	 * @param   unknown_type  $only  param_description
 	 *
-	 * @return <type>
+	 * @return return_description
 	 */
-	function parseTemplate($template, $content = null, $linkname = null, $only = null)
+	protected function parseTemplate($template, $content = null, $linkname = null, $only = null)
 	{
 		$tmpl = ($this->cfg->template = "") ? $this->cfg->template : 'default';
 		$templatepath = JPATH_BASE . "/components/com_jtg/assets/template/" . $tmpl . '/';

@@ -20,15 +20,18 @@ defined('_JEXEC') or die('Restricted access');
 
 /**
  * Model Class Categorie
+ *
+ * @package     Comjtg
+ * @subpackage  Frontend
+ * @since       0.8
  */
 class JtgModelCat extends JModelLegacy
 {
 	/**
 	 * function_description
 	 *
-	 * @return return_description
 	 */
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 
@@ -58,7 +61,7 @@ class JtgModelCat extends JModelLegacy
 	/**
 	 * function_description
 	 *
-	 * @param   int $id
+	 * @param   integer  $id  param_description
 	 *
 	 * @return return_description
 	 */
@@ -72,7 +75,8 @@ class JtgModelCat extends JModelLegacy
 	/**
 	 * function_description
 	 *
-	 * @param   string  $direction
+	 * @param   string  $direction  param_description
+	 *
 	 * @return boolean
 	 */
 	function move($direction)
@@ -99,9 +103,8 @@ class JtgModelCat extends JModelLegacy
 	/**
 	 * function_description
 	 *
-	 * @param   string  $order
-	 * @param   array   $cid
-
+	 * @param   string  $order  param_description
+	 * @param   array   $cid    param_description
 	 *
 	 * @return boolean
 	 */
@@ -145,8 +148,9 @@ class JtgModelCat extends JModelLegacy
 	/**
 	 * function_description
 	 *
-	 * @param   array  $cid
-	 * @param   int $publish
+	 * @param   array    $cid      param_description
+	 * @param   integer  $publish  param_description
+	 *
 	 * @return boolean
 	 */
 	function publish($cid = array(), $publish = 1)
@@ -178,7 +182,7 @@ class JtgModelCat extends JModelLegacy
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $files
+	 * @param   unknown_type  $files  param_description
 	 *
 	 * @return return_description
 	 */
@@ -203,7 +207,8 @@ class JtgModelCat extends JModelLegacy
 	/**
 	 * function_description
 	 *
-	 * @param   array  $cid
+	 * @param   array  $cid  param_description
+	 *
 	 * @return boolean
 	 */
 	function delete($cid = array())
@@ -309,7 +314,7 @@ class JtgModelCat extends JModelLegacy
 	/**
 	 * function_description
 	 *
-	 * @param unknown_type $file
+	 * @param   unknown_type  $file  param_description
 	 *
 	 * @return bool true on success
 	 */
