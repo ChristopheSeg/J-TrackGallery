@@ -83,7 +83,6 @@ class JtgControllerMaps extends JtgController
 	 */
 	function orderup()
 	{
-
 		// Check for request forgeries
 		JSession::checkToken() or jexit('Invalid Token');
 
@@ -100,7 +99,6 @@ class JtgControllerMaps extends JtgController
 	 */
 	function orderdown()
 	{
-
 		// Check for request forgeries
 		JSession::checkToken() or jexit('Invalid Token');
 
@@ -151,7 +149,8 @@ class JtgControllerMaps extends JtgController
 
 		$model = $this->getModel('maps');
 
-		if (!$model->publish($cid, 1)) {
+		if (!$model->publish($cid, 1))
+		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
 
@@ -178,7 +177,8 @@ class JtgControllerMaps extends JtgController
 
 		$model = $this->getModel('maps');
 
-		if (!$model->publish($cid, 0)) {
+		if (!$model->publish($cid, 0))
+		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
 
@@ -205,7 +205,8 @@ class JtgControllerMaps extends JtgController
 
 		$model = $this->getModel('maps');
 
-		if (!$model->delete($cid)) {
+		if (!$model->delete($cid))
+		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
 
@@ -219,7 +220,6 @@ class JtgControllerMaps extends JtgController
 	 */
 	function savemap()
 	{
-
 		// Check for request forgeries
 		JSession::checkToken() or jexit('Invalid Token');
 

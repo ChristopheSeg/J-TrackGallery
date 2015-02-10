@@ -30,7 +30,6 @@ defined('_JEXEC') or die('Restricted access');
  */
 class Com_JtgInstallerScript
 {
-
 	/**
 	 * preflight function
 	 *
@@ -190,7 +189,6 @@ class Com_JtgInstallerScript
 
 	foreach ($folders_to_chmod as $folder)
 	{
-
 		if (JPath::canChmod(JPATH_SITE . '/' . $folder) and (chmod(JPATH_SITE . '/' . $folder, 0777)))
 		{
 			echo '<tr><td>' . JText::_('COM_JTG_FOLDER') . '</td><td>' . $folder . '</td><td><font color="green">' . JText::_('COM_JTG_CHMODDED') .

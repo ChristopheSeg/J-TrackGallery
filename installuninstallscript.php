@@ -248,7 +248,6 @@ class Com_JtgInstallerScript
 	 */
 	function update( $parent )
 	{
-
 		// This is executed after upgrade.sql
 		// Upgrading from $oldRelease to $this->release
 		$oldRelease = $this->getParam('version');

@@ -60,21 +60,27 @@ echo $this->lh;
 				</th>
 				<th width="80px"><?php echo JHtml::_('grid.sort', JText::_('COM_JTG_CAT'), 'cat', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
 				</th>
-				<?php
-				if (! $this->params->get("jtg_param_disable_terrains"))
-			{?>
-				<th width="80px"><?php echo JHtml::_('grid.sort', JText::_('COM_JTG_TERRAIN'), 'terrain', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
+<?php
+if (! $this->params->get("jtg_param_disable_terrains"))
+{
+?>
+				<th width="80px">
+				<?php echo JHtml::_('grid.sort', JText::_('COM_JTG_TERRAIN'), 'terrain', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
 				</th>
-				<?php
-				}
-				?>
-				<th width="80px"><?php echo JHtml::_('grid.sort', JText::_('COM_JTG_USER'), 'user', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
+<?php
+}
+?>
+				<th width="80px">
+				<?php echo JHtml::_('grid.sort', JText::_('COM_JTG_USER'), 'user', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
 				</th>
-				<th width="20px"><?php echo JHtml::_('grid.sort', JText::_('COM_JTG_HITS'), 'hits', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
+				<th width="20px">
+				<?php echo JHtml::_('grid.sort', JText::_('COM_JTG_HITS'), 'hits', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
 				</th>
-				<th width="20px"><?php echo JHtml::_('grid.sort', JText::_('COM_JTG_VOTING'), 'vote', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
+				<th width="20px">
+				<?php echo JHtml::_('grid.sort', JText::_('COM_JTG_VOTING'), 'vote', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
 				</th>
-				<th width="80px"><?php echo JHtml::_('grid.sort', JText::_('COM_JTG_DISTANCE'), 'distance', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
+				<th width="80px">
+				<?php echo JHtml::_('grid.sort', JText::_('COM_JTG_DISTANCE'), 'distance', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
 				</th>
 			</tr>
 		</thead>
@@ -136,24 +142,28 @@ echo $this->lh;
 					$editlink = JRoute::_('index.php?option=com_jtg&view=files&layout=form&id=' . $row->id, false);
 					$deletelink = JRoute::_('index.php?option=com_jtg&controller=files&task=delete&id=' . $row->id, false);
 					$links = " <a href=\"" . $editlink . "\">" .
-					"<img title=\"" . JText::_('Edit') . "\" alt=\"" . JText::_('Edit') . "\" src=\"/components/com_jtg/assets/images/edit_f2.png\" width=\"16px\" />" .
+					"<img title=\"" . JText::_('Edit') . "\" alt=\"" .
+						JText::_('Edit') . "\" src=\"/components/com_jtg/assets/images/edit_f2.png\" width=\"16px\" />" .
 					"</a> " .
 					"<a href=\"" . $deletelink . "\">" .
-					"<img title=\"" . JText::_('Delete') . "\" alt=\"" . JText::_('Delete') . "\" src=\"/components/com_jtg/assets/images/cancel_f2.png\" width=\"16px\" />" .
+					"<img title=\"" . JText::_('Delete') . "\" alt=\"" .
+						JText::_('Delete') . "\" src=\"/components/com_jtg/assets/images/cancel_f2.png\" width=\"16px\" />" .
 					"</a>";
 				}
 				?>
 			<tr class="sectiontableentry<?php echo $k; ?>">
 				<td><?php echo $this->pagination->getRowOffset($i) . $links; ?></td>
-				<td><a href="<?php echo $link; ?>"><?php echo $row->title; ?> </a></td>
+				<td><a href="<?php echo $link; ?>">
+					<?php echo $row->title; ?> </a></td>
 				<td><?php echo $cat; ?></td>
-				<?php
-				if (! $this->params->get("jtg_param_disable_terrains"))
-				{?>
+<?php
+if (! $this->params->get("jtg_param_disable_terrains"))
+{
+?>
 				<td><?php echo $terrain; ?></td>
-				<?php
-				}
-				?>
+<?php
+}
+?>
 
 				<td><?php echo $profile; ?></td>
 				<td><?php echo $hits; ?></td>

@@ -17,7 +17,7 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
-define('_ParseTemplate_Description_close', true);
+define('_PARSETEMPLATE_DESCRIPTION_CLOSE', true);
 
 /**
  * function_description

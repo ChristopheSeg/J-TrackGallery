@@ -37,7 +37,7 @@ class JFormFieldOwnList extends JFormField
 	 * @access	protected
 	 * @var		string
 	 */
-	var	$_name = 'uid';
+	var $_name = 'uid';
 
 	// The field class must know its own type through the variable $type.
 	protected $type = 'ownlist';
@@ -73,62 +73,66 @@ class JFormFieldOwnList extends JFormField
 		JFactory::getLanguage()->load('com_jtg_additional', JPATH_SITE . '/images/jtrackgallery',    null, false);
 
 		global $parseLimitText;
-		if (!is_array($parseLimitText)) $parseLimitText = array();
+
+		if (!is_array($parseLimitText))
 		{
-			switch ($name)
-			{
-				case "jtg_param_cats":
-					return $this->parseCatsSelect($value, $name, false);
-					break;
-				/*
-				case "jtg_param_subcats":
-					return $this->parseCatsSelect($name, true);
-					break;
-				*/
-
-				case "jtg_param_user":
-					return $this->parseUserSelect($value, $name);
-					break;
-
-				case "jtg_param_usergroup":
-					return $this->parseUsergroupSelect($value, $name);
-					break;
-
-				case "jtg_param_terrain":
-					return $this->parseTerrainSelect($value, $name);
-					break;
-
-				case "jtg_param_level_from":
-					return $this->parseLevelSelect($value, $name,  5, 0);
-					break;
-
-				case "jtg_param_level_to":
-					return $this->parseLevelSelect($value, $name,  5, 5);
-					break;
-
-				case "jtg_param_vote_from":
-					return $this->parseLevelSelect($value, $name,  10, 0);
-					break;
-
-				case "jtg_param_vote_to":
-					return $this->parseLevelSelect($value, $name,  10, 10);
-					break;
-
-				case "jtg_param_limittext":
-					return $this->parseLimitText();
-					break;
-
-				case "jtg_param_helpbutton":
-					return $this->parseHelpButton();
-					break;
-
-				case "jtg_param_helptext":
-					die("jtg_param_helptext");
-
-					return $this->parseHelpText();
-					break;
-			}
+			$parseLimitText = array();
 		}
+
+		switch ($name)
+		{
+			case "jtg_param_cats":
+				return $this->parseCatsSelect($value, $name, false);
+				break;
+			/*
+			case "jtg_param_subcats":
+				return $this->parseCatsSelect($name, true);
+				break;
+			*/
+
+			case "jtg_param_user":
+				return $this->parseUserSelect($value, $name);
+				break;
+
+			case "jtg_param_usergroup":
+				return $this->parseUsergroupSelect($value, $name);
+				break;
+
+			case "jtg_param_terrain":
+				return $this->parseTerrainSelect($value, $name);
+				break;
+
+			case "jtg_param_level_from":
+				return $this->parseLevelSelect($value, $name,  5, 0);
+				break;
+
+			case "jtg_param_level_to":
+				return $this->parseLevelSelect($value, $name,  5, 5);
+				break;
+
+			case "jtg_param_vote_from":
+				return $this->parseLevelSelect($value, $name,  10, 0);
+				break;
+
+			case "jtg_param_vote_to":
+				return $this->parseLevelSelect($value, $name,  10, 10);
+				break;
+
+			case "jtg_param_limittext":
+				return $this->parseLimitText();
+				break;
+
+			case "jtg_param_helpbutton":
+				return $this->parseHelpButton();
+				break;
+
+			case "jtg_param_helptext":
+				die("jtg_param_helptext");
+
+				return $this->parseHelpText();
+				break;
+		}
+
 		return;
 	}
 
@@ -139,9 +143,12 @@ class JFormFieldOwnList extends JFormField
 	 */
 	private function parseHelpButton()
 	{
-		return "<table class=\"toolbar\"><tr><td class=\"button\" id=\"toolbar-help\"><a href=\"#\" onclick=\"Joomla.popupWindow('components/com_jtg/help/en-GB/menu/overviewmap.html', 'Hilfe', 640, 480, 1)\" class=\"toolbar\"><span class=\"icon-32-help\" title=\""
-		. JText::_('COM_JTG_HELP') . "\"></span>"
-		. JText::_('COM_JTG_HELP') . "</a></td></tr></table>";
+		return "<table class=\"toolbar\"><tr><td class=\"button\" id=\"toolbar-help\">
+			<a href=\"#\" onclick=\"Joomla.popupWindow('components/com_jtg/help/en-GB/menu/overviewmap.html', '" .
+			JText::_('COM_JTG_HELP') . "', 640, 480, 1)\" class=\"toolbar\">
+			<span class=\"icon-32-help\" title=\""
+			. JText::_('COM_JTG_HELP') . "\"></span>"
+			. JText::_('COM_JTG_HELP') . "</a></td></tr></table>";
 	}
 
 	/**
@@ -151,7 +158,7 @@ class JFormFieldOwnList extends JFormField
 	 */
 	private function parseHelpText()
 	{
-		return "<a href=\"#\" onclick=\"Joomla.popupWindow('components/com_jtg/help/en-GB/menu/overviewmap.html', 'Hilfe', 640, 480, 1)\" >"
+		return "<a href=\"#\" onclick=\"Joomla.popupWindow('components/com_jtg/help/en-GB/menu/overviewmap.html', 'Help', 640, 480, 1)\" >"
 		. JText::_('COM_JTG_HELP') . "</a>";
 	}
 
@@ -399,9 +406,9 @@ class JFormFieldOwnList extends JFormField
 	 * function_description
 	 *
 	 * @param   unknown_type  $value  param_description
-	 * @param   unknown_type  $name  param_description
-	 * @param   unknown_type  $max  param_description
-	 * @param   unknown_type  $std  param_description
+	 * @param   unknown_type  $name   param_description
+	 * @param   unknown_type  $max    param_description
+	 * @param   unknown_type  $std    param_description
 	 *
 	 * @return return_description
 	 */
@@ -430,7 +437,7 @@ class JFormFieldOwnList extends JFormField
 	 * function_description
 	 *
 	 * @param   unknown_type  $value  param_description
-	 * @param   unknown_type  $name  param_description
+	 * @param   unknown_type  $name   param_description
 	 *
 	 * @return return_description
 	 */
@@ -462,7 +469,7 @@ class JFormFieldOwnList extends JFormField
 	 * function_description
 	 *
 	 * @param   unknown_type  $value  param_description
-	 * @param   unknown_type  $name  param_description
+	 * @param   unknown_type  $name   param_description
 	 *
 	 * @return return_description
 	 */
@@ -487,7 +494,11 @@ class JFormFieldOwnList extends JFormField
 		$nullgroup = JArrayHelper::toObject($nullgroup);
 		array_unshift($groups, $nullgroup);
 		$size = $this->getSelectSize($groups);
-		$list = JHtml::_('select.genericlist', $groups, $this->name . '[]', 'class="inputbox" multiple="multiple" size="' . $size . '"', 'value', 'text', $gid, '', 1);
+		$list = JHtml::_(
+				'select.genericlist', $groups, $this->name . '[]',
+				'class="inputbox" multiple="multiple" size="' . $size . '"',
+				'value', 'text', $gid, '', 1
+				);
 
 		return $list;
 	}
@@ -495,8 +506,8 @@ class JFormFieldOwnList extends JFormField
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $value  param_description
-	 * @param   unknown_type  $name  param_description
+	 * @param   unknown_type  $value      param_description
+	 * @param   unknown_type  $name       param_description
 	 * @param   unknown_type  $nosubcats  param_description
 	 *
 	 * @return return_description
@@ -525,7 +536,7 @@ class JFormFieldOwnList extends JFormField
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $uid  param_description
+	 * @param   unknown_type  $uid   param_description
 	 * @param   unknown_type  $name  param_description
 	 *
 	 * @return return_description
@@ -578,12 +589,12 @@ class JFormFieldOwnList extends JFormField
 	/**
 	 * Select list of active users
 	 *
-	 * @param   unknown_type  $name  param_description
-	 * @param   unknown_type  $active  param_description
-	 * @param   unknown_type  $nouser  param_description
+	 * @param   unknown_type  $name        param_description
+	 * @param   unknown_type  $active      param_description
+	 * @param   unknown_type  $nouser      param_description
 	 * @param   unknown_type  $javascript  param_description
-	 * @param   unknown_type  $order  param_description
-	 * @param   unknown_type  $reg  param_description
+	 * @param   unknown_type  $order       param_description
+	 * @param   unknown_type  $reg         param_description
 	 *
 	 * @return return_description
 	 */

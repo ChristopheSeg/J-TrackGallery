@@ -18,7 +18,7 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
-define('_parseTemplate_description_open', true);
+define('_PARSETEMPLATE_DESCRIPTION_OPEN', true);
 /**
  * function_description
  *
@@ -26,7 +26,7 @@ define('_parseTemplate_description_open', true);
  *
  * @return string
  */
-function parseTemplate_description_open($linkname)
+function ParseTemplate_Description_open($linkname)
 {
 	return "<div class=\"description\">";
 }

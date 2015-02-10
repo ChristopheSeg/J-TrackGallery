@@ -103,7 +103,8 @@ if ($user->id != 0)
 						src="/components/com_jtg/assets/images/cancel_f2.png" width="16px" />
 				</a>
 				</td>
-				<td><a href="<?php echo $link; ?>"><?php echo $row->title; ?> </a></td>
+				<td><a href="<?php echo $link; ?>">
+					<?php echo $row->title; ?> </a></td>
 				<td><?php echo $cats; ?></td>
 				<td><?php echo $row->hits; ?></td>
 				<td><?php echo $terrain; ?></td>

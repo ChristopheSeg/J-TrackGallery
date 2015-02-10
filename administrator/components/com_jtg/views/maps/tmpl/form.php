@@ -78,17 +78,22 @@ if (JVERSION >= 3.0)
 			</tr>
 		</thead>
 		<tbody>
-			<?php if ($id) { ?>
+<?php if ($id)
+{
+?>
 			<tr>
 				<td>Id:</td>
 				<td><?php echo $id; ?></td>
 			</tr>
-			<?php } ?>
+<?php
+}
+?>
 			<tr>
 				<td><?php echo JText::_('COM_JTG_NAME'); ?>:*</td>
 				<td><input id="name" type="text" name="name"
-					value="<?php if (($id) AND (isset($map->name))) echo $map->name; ?>"
-					size="50" maxsize="50" /> (<?php  if (($id) AND (isset($map->name))) echo JText::_($map->name); ?>)</td>
+					value="<?php echo $id AND isset($map->name)? $map->name: ''; ?>"
+					size="50" maxsize="50" /> (<?php echo $id AND isset($map->name)? JText::_($map->name): ''; ?>)
+				</td>
 			</tr>
 			<tr>
 				<td><?php echo JText::_('COM_JTG_PUBLISHED'); ?>:*</td>
@@ -139,9 +144,7 @@ if (($id) AND (isset($map->code)))
 			<tr>
 				<td><?php echo JText::_('COM_JTG_ORDER'); ?>:*</td>
 				<td><input id="order" type="text" name="order"
-					value="<?php if (($id) AND (isset($map->ordering))) {echo $map->ordering;}
-else
-{echo 99;} ?>"
+					value="<?php echo $id AND isset($map->ordering)? $map->ordering: '99'; ?>"
 					size="2" maxsize="2">
 				</td>
 			</tr>
@@ -153,11 +156,13 @@ else
 		type="hidden" name="controller" value="maps" /> <input type="hidden"
 		name="checked_out" value="0" /> <input type="hidden" name="task"
 		value="maps" />
-	<?php
-	if ($id)
-{ ?>
+<?php
+if ($id)
+{
+?>
 	<input type="hidden" name="id" value="<?php echo $id; ?>" />
 
-	<?php }
-	?>
+<?php
+}
+?>
 </form>

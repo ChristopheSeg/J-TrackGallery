@@ -64,14 +64,18 @@ JToolBarHelper::help('terrain', true);
 				$published 	= JHtml::_('grid.published', $row, $i);
 
 				?>
-			<tr class="<?php echo "row$k "; echo $k? 'row-odd':'row-even'; ?>">
+			<tr class="<?php echo "row$k ";
+				echo $k? 'row-odd':'row-even'; ?>">
 				<td align="center"><?php echo $this->pagination->getRowOffset($i); ?>
 				</td>
 				<td align="center"><?php echo $checked; ?></td>
 				<td align="center"><a href="javascript:void(0);"
-					onclick="javascript:return listItemTask('cb<?php echo $i; ?>','editterrain')"><?php echo $row->title; ?>
+					onclick="javascript:return listItemTask('cb<?php echo $i; ?>','editterrain')">
+					<?php echo $row->title; ?>
 				</a></td>
-				<td align="center"><?php echo JText::_($row->title); ?></a></td>
+				<td align="center"><a href="javascript:void(0);"
+					onclick="javascript:return listItemTask('cb<?php echo $i; ?>','editterrain')">
+					<?php echo JText::_($row->title); ?></a></td>
 				<td align="center"><?php echo $published;?></td>
 				<td><?php echo $row->id; ?></td>
 			</tr>

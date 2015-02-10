@@ -41,7 +41,6 @@ class JtgViewCats extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-
 		switch ($this->getLayout())
 		{
 			case 'form':
@@ -72,7 +71,6 @@ class JtgViewCats extends JViewLegacy
 	 */
 	function _displayManageCatPics($tpl)
 	{
-
 		$model = $this->getModel();
 		$rows = $this->get('Pics');
 		$children = array();

@@ -980,7 +980,9 @@ class JtgModelFiles extends JModelLegacy
 					<?php echo $editor->display('text', '', '100%', '100', '80', '10', false, null, null);?>
 				</td>
 			</tr>
-			<?php if ($cfg->captcha == 1): ?>
+<?php if ($cfg->captcha == 1)
+{
+?>
 			<tr>
 				<td><img
 					src='<?php echo JRoute::_("index.php?option=com_jtg&task=displayimg", false); ?>'>
@@ -989,7 +991,9 @@ class JtgModelFiles extends JModelLegacy
 					class="required" /> <?php echo JText::_('COM_JTG_CAPTCHA_INFO'); ?>
 				</td>
 			</tr>
-			<?php endif; ?>
+<?php
+}
+?>
 			<tr>
 				<td colspan='2' align='right'><input type='submit'
 					value='<?php echo JText::_('COM_JTG_SEND')?>' name='submit'

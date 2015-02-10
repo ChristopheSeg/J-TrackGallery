@@ -39,7 +39,9 @@ $image = $this->data->image;
 			<tr>
 				<td width="150px"><?php echo JText::_('COM_JTG_TITLE'); ?></td>
 				<td><input type="text" name="title"
-					value="<?php echo $this->data->title; ?>" /> (<?php echo JText::_($this->data->title);?>)</td>
+					value="<?php echo $this->data->title; ?>" /> (
+					<?php echo JText::_($this->data->title);?>)
+				</td>
 			</tr>
 			<tr>
 				<td width="150px"><?php echo JText::_('COM_JTG_PARENT'); ?></td>
@@ -53,7 +55,8 @@ $image = $this->data->image;
 				<td width="150px"><?php echo JText::_('COM_JTG_IMAGE'); ?></td>
 				<td><input type="radio" name="catpic" value=""
 					title="<?php echo JText::_('COM_JTG_NONE'); ?>"
-					<?php if ( !$image ) echo " checked=\"checked\""; ?>> <?php echo JText::_('COM_JTG_NONE'); ?>
+					<?php echo !$image? ' checked="checked"': ''; ?>>
+					<?php echo JText::_('COM_JTG_NONE'); ?>
 					&nbsp; <?php
 
 					foreach ($this->images as $img)

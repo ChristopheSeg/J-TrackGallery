@@ -202,7 +202,6 @@ function _jtgParseRouteSubCategory($segments)
  */
 function jtgParseRoute($segments)
 {
-
 	$vars = array();
 
 	// Get the active menu item

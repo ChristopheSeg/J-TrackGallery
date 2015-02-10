@@ -17,7 +17,7 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
-define('_parseTemplate_headline_open', true);
+define('_PARSETEMPLATE_HEADLINE_OPEN', true);
 
 /**
  * function_description
@@ -26,7 +26,7 @@ define('_parseTemplate_headline_open', true);
  *
  * @return string
  */
-function parseTemplate_headline_open($linkname)
+function ParseTemplate_Headline_open($linkname)
 {
 	$link = JFactory::getURI()->toString() . "#" . $linkname;
 	$link = str_replace("&", "&amp;", $link);

@@ -33,7 +33,7 @@ class ContentViewElement extends JViewLegacy
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $cachable  param_description
+	 * @param   unknown_type  $cachable   param_description
 	 * @param   unknown_type  $urlparams  param_description
 	 *
 	 * @return return_description
@@ -132,7 +132,10 @@ class ContentViewElement extends JViewLegacy
 				<td><?php echo $page->getRowOffset($i); ?>
 				</td>
 				<td><a style="cursor: pointer;"
-					onclick="window.parent.jSelectArticle('<?php echo $row->id; ?>', '<?php echo str_replace(array("'", "\""), array("\\'", ""), $row->title); ?>', '<?php echo JFactory::getApplication()->input->get('object'); ?>');">
+					onclick="window.parent.jSelectArticle(
+						'<?php echo $row->id; ?>',
+						'<?php echo str_replace(array("'", "\""), array("\\'", ""), $row->title); ?>',
+						'<?php echo JFactory::getApplication()->input->get('object'); ?>');">
 				<?php echo htmlspecialchars($row->title, ENT_QUOTES, 'UTF-8'); ?>
 				</a>
 				</td>

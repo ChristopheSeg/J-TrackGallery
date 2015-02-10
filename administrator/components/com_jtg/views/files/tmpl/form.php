@@ -95,19 +95,38 @@ if ($this->id >= 1)
 		</thead>
 		<tbody>
 			<tr class="row1 row-odd">
-				<td><?php echo JText::_('COM_JTG_GPS_FILE') . ":";
-				if ($this->id < 1) {echo "*";}?>
+				<td>
+				<?php
+				echo JText::_('COM_JTG_GPS_FILE') . ":";
+				echo $this->id < 1? '*': '';
+				?>
 				</td>
-				<td><?php if ($this->id < 1) { ?><input type="file" name="file"
-					value="" size="30" /> <?php } else echo $this->track->file; ?></td>
+				<td>
+					<?php
+					if ($this->id < 1)
+					{
+					?><input type="file" name="file"
+						value="" size="30" /> <?php
+					}
+					else
+					{
+						echo $this->track->file;
+					}
+					?>
+				</td>
 				<td rowspan="12" width="1" valign="top"><?php echo $map; ?></td>
 			</tr>
-			<?php if ($this->id >= 1) { ?>
+<?php
+if ($this->id >= 1)
+{
+?>
 			<tr class="row0 row-even">
 				<td>Id:</td>
 				<td><?php echo $this->id; ?></td>
 			</tr>
-			<?php } ?>
+<?php
+}
+?>
 			<tr class="row1 row-odd">
 				<td><?php echo JText::_('COM_JTG_PUBLISHED'); ?>:*</td>
 				<td><?php echo $this->lists['published']; ?></td>
@@ -115,13 +134,13 @@ if ($this->id >= 1)
 			<tr class="row0 row-even">
 				<td><?php echo JText::_('COM_JTG_TITLE'); ?>:*</td>
 				<td><input id="title" type="text" name="title"
-					value="<?php if ( isset($this->id) AND ($this->id != 0) ) echo $this->track->title; ?>"
+					value="<?php echo isset($this->id) AND ($this->id != 0)? $this->track->title: ''; ?>"
 					size="30" /></td>
 			</tr>
 			<tr class="row1 row-odd">
 				<td><?php echo JText::_('COM_JTG_DATE'); ?>:*</td>
 				<td><input id="date" type="text" name="date"
-					value="<?php if ( isset($this->id) AND ($this->id != 0) ) echo $this->track->date; ?>"
+					value="<?php echo isset($this->id) AND ($this->id != 0)? $this->track->date: ''; ?>"
 					size="10" /></td>
 			</tr>
 			<tr class="row0 row-even">
@@ -130,7 +149,9 @@ if ($this->id >= 1)
 				<td><?php echo $this->lists['uid']; ?></td>
 			</tr>
 			<tr class="row1 row-odd">
-				<td><?php echo JText::_('COM_JTG_LEVEL'); ?>* <?php echo JHtml::tooltip(JText::_('COM_JTG_TT_LEVEL')); ?>:
+				<td><?php echo JText::_('COM_JTG_LEVEL'); ?>
+				*
+				<?php echo JHtml::tooltip(JText::_('COM_JTG_TT_LEVEL')); ?>:
 				<td><?php echo $this->lists['level']; ?></td>
 			</tr>
 			<tr class="row0 row-even">

@@ -162,7 +162,6 @@ class JtgModelComments extends JModelLegacy
 	 */
 	function delete($cid = array())
 	{
-
 		$result = false;
 
 		if (count($cid))

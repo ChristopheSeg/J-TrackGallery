@@ -341,8 +341,10 @@ class JtgControllerFiles extends JtgController
 
 		if (! $model->saveFile())
 		{
-			// echo "<script> alert('" . $model->getError(true) . "');
-			// window.history.go(-1); </script>\n";
+			/*
+			echo "<script> alert('" . $model->getError(true) . "');
+			window.history.go(-1); </script>\n";
+			*/
 			echo "<script> alert('Error');</script>";
 			/*
 			 * $this->setRedirect(

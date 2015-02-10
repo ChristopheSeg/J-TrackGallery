@@ -76,7 +76,9 @@ $link = JRoute::_('index.php?option=com_jtg&task=maps&controller=maps&layout=def
 				// 				echo JHtml::_('grid.sort', JText::_('COM_JTG_NAME'), 'title', @$this->lists['order_Dir'], @$this->lists['order'], 'maps' );
 				echo JText::_('COM_JTG_NAME');
 				?>:</th>
-				<?php if ($ordering) { ?>
+				<?php if ($ordering)
+				{
+				?>
 				<th class="order"><?php echo JText::_('COM_JTG_ORDER'); ?>: <?php
 
 				// 				echo JHtml::_('grid.sort', JText::_('COM_JTG_ORDER'), 'order', @$this->lists['order_Dir'], @$this->lists['order'], 'maps' ); ? >:</th>
@@ -84,7 +86,9 @@ $link = JRoute::_('index.php?option=com_jtg&task=maps&controller=maps&layout=def
 				</th>
 				<th class="order"><?php echo JHtml::_('grid.order',  $this->maps); ?>
 				</th>
-				<?php } ?>
+<?php
+}
+?>
 				<th class="title"><?php
 				// 				echo JHtml::_('grid.sort', JText::_('COM_JTG_PUBLISHED'), 'published', @$this->lists['order_Dir'], @$this->lists['order'], 'maps' ); ? >:</th>
 				echo JText::_('COM_JTG_PUBLISHED'); ?>:</th>
@@ -112,16 +116,32 @@ $link = JRoute::_('index.php?option=com_jtg&task=maps&controller=maps&layout=def
 				$checked 	= JHtml::_('grid.checkedout', $map, $i);
 				$name		= $this->buildEditKlicks(JText::_($map->name), $i);
 				$map_parameters = JHtml::tooltip($map->param, JText::_('COM_JTG_OL_PARAMETERS'), 'tooltip.png', JText::_('COM_JTG_OL_PARAMETERS'));
-				$map_script = ($map->script? JHtml::tooltip($map->script, JText::_('COM_JTG_NEEDSCRIPT'), 'tooltip.png', JText::_('COM_JTG_NEEDSCRIPT')) : '<i>' . JText::_('JNONE') . '</i>' );
-				$map_code = ($map->code? JHtml::tooltip($map->code, JText::_('COM_JTG_CODE'), 'tooltip.png', JText::_('COM_JTG_CODE'))  : '<i>' . JText::_('JNONE') . '</i>' );
+				$map_script = ($map->script? JHtml::tooltip(
+						$map->script, JText::_('COM_JTG_NEEDSCRIPT'), 'tooltip.png',
+						JText::_('COM_JTG_NEEDSCRIPT')
+						)
+						: '<i>' . JText::_('JNONE') . '</i>'
+						);
+				$map_code = ($map->code? JHtml::tooltip(
+						$map->code, JText::_('COM_JTG_CODE'), 'tooltip.png', JText::_('COM_JTG_CODE')
+						)
+						: '<i>' . JText::_('JNONE') . '</i>'
+						);
 
 				?>
 			<tr
-				class="<?php echo "row$k "; echo $k? 'row-odd':'row-even'; $k = 1 - $k; ?>">
+				class="<?php
+					echo "row$k ";
+					echo $k? 'row-odd':'row-even';
+					$k = 1 - $k;
+					?>">
 				<td align="center"><?php echo $map->id;									?></td>
 				<td align="center"><?php echo $checked;									?></td>
 				<td align="center"><?php echo $name;	?></td>
-				<?php if ($ordering) { ?>
+<?php
+if ($ordering)
+{
+?>
 				<td colspan="2" class="order"><span><?php echo $this->pagination->orderUpIcon($i, true, 'orderup', 'Move Up', $map->ordering);
 				?> </span> <span><?php echo $this->pagination->orderDownIcon($i, $n, true, 'orderdown', 'Move Down', $map->ordering);
 				?> </span> <input type="text" name="order[]" size="2" maxlength="2"
@@ -129,21 +149,25 @@ $link = JRoute::_('index.php?option=com_jtg&task=maps&controller=maps&layout=def
 				?>" class="text_area"
 					style="text-align: center; width: 3em; display: inline" />
 				</td>
-				<?php } ?>
+<?php
+}
+?>
 				<td align="center"><?php echo $published; ?></td>
 				<td align="center"><?php echo $map_parameters; ?></td>
 				<td align="center"><?php echo $map_script;?></td>
 				<td align="center"><?php echo $map_code;?></td>
 			</tr>
-			<?php } ?>
+			<?php
+			}
+			?>
 		</tbody>
-		<!--         <tfoot>
-            <tr>
-                <td colspan="9">
-                    <?php // echo $this->pagination->getListFooter(); ?>
-                </td>
-            </tr>
-        </tfoot>
+		<!--		<tfoot>
+			<tr>
+				<td colspan="9">
+
+				</td>
+			</tr>
+		</tfoot>
 -->
 	</table>
 

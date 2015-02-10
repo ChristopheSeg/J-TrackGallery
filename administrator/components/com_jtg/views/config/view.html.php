@@ -39,7 +39,6 @@ class JtgViewConfig extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-
 		jimport('joomla.filesystem.file');
 		jimport('joomla.filesystem.folder');
 		$config = JtgHelper::getConfig();

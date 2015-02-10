@@ -17,7 +17,7 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
-define('_parseTemplate_headline_close', true);
+define('_PARSETEMPLATE_HEADLINE_CLOSE', true);
 
 /**
  * function_description
@@ -26,7 +26,7 @@ define('_parseTemplate_headline_close', true);
  *
  * @return string
  */
-function parseTemplate_headline_close($linkname)
+function ParseTemplate_Headline_close($linkname)
 {
 	return "</a></div>";
 }

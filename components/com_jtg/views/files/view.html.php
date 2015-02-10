@@ -1099,12 +1099,12 @@ class JtgViewFiles extends JViewLegacy
 
 		$TLopen = $template . "_open";
 		$TLclose = $template . "_close";
-		$function = "parseTemplate_" . $TLopen;
-		defined('_parseTemplate_' . $template . '_open') or include_once $templatepath . $TLopen . ".php";
+		$function = "ParseTemplate_" . $TLopen;
+		defined(strtoupper('_ParseTemplate_' . $template . '_open')) or include_once $templatepath . $TLopen . ".php";
 		$return = $function ($linkname);
 		$return .= $content;
-		$function = "parseTemplate_" . $TLclose;
-		defined('parseTemplate_' . $template . '_close') or include_once $templatepath . $TLclose . ".php";
+		$function = "ParseTemplate_" . $TLclose;
+		defined(strtoupper('ParseTemplate_' . $template . '_close')) or include_once $templatepath . $TLclose . ".php";
 		$return .= $function ($linkname);
 
 		return $return;

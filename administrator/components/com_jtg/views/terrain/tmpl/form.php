@@ -52,12 +52,17 @@ JToolBarHelper::help('terrain/form', true);
 			</tr>
 		</thead>
 		<tbody>
-			<?php if ( $this->id ) { ?>
+<?php
+if ( $this->id )
+{
+?>
 			<tr>
 				<td><?php echo JText::_('COM_JTG_ID'); ?></td>
 				<td><?php echo $this->id ?></td>
 			</tr>
-			<?php } ?>
+<?php
+}
+?>
 			<tr>
 				<td width="150px"><?php echo JText::_('COM_JTG_TITLE'); ?></td>
 				<td><input type="text" name="title"

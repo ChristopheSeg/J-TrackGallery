@@ -169,7 +169,9 @@ if ($maySeeSingleFile === true)
 				}
 			}],
 			yAxis: [
-			<?php if ($heightchart) { ?>
+			<?php if ($heightchart)
+			{
+			?>
 			{ // Elevation data
 				labels: {
 				formatter: function() {
@@ -186,8 +188,12 @@ if ($maySeeSingleFile === true)
 				}
 				}
 			}
-			<?php } ?>
-			<?php if ($speedchart) { ?>
+<?php
+}
+
+if ($speedchart)
+{
+?>
 			, { // Speed data
 				gridLineWidth: 0,
 				title: {
@@ -204,13 +210,21 @@ if ($maySeeSingleFile === true)
 					color: '#4572A7'
 				}
 				}
-				<?php
-				if ($speedchartaxis == 2) { ?>
+<?php
+if ($speedchartaxis == 2)
+{
+?>
 					,opposite: true // Suppress this if only one axis
-				<?php } ?>
+<?php
+}
+?>
 			}
-			<?php } ?>
-			<?php if ($beatchart) { ?>
+<?php
+}
+
+if ($beatchart)
+{
+?>
 				,{ // Heart beat data
 				gridLineWidth: 0,
 				title: {
@@ -227,16 +241,26 @@ if ($maySeeSingleFile === true)
 					color: '#AA4643'
 				}
 				}
-				<?php if ($beatchartaxis == 2) { ?>
-					,opposite: true // Suppress this if only one axis
-				<?php } ?>
+	<?php
+	if ($beatchartaxis == 2)
+	{
+		// Suppress this if only one axis
+		?>
+					,opposite: true
+	<?php
+	}
+	?>
 			}
-			<?php } ?>
+<?php
+}
+?>
 			],
 			tooltip: {
 				valueDecimals: 2,
 				formatter: function() {
-				var s = '<b><?php echo JText::_('COM_JTG_DISTANCE'); ?>: '+ this.x +' <?php echo JText::_('COM_JTG_DISTANCE_UNIT_' . strtoupper($this->cfg->unit)); ?></b>';
+				var s = '<b><?php echo JText::_('COM_JTG_DISTANCE'); ?>: '
+					+ this.x
+					+' <?php echo JText::_('COM_JTG_DISTANCE_UNIT_' . strtoupper($this->cfg->unit)); ?></b>';
 				$.each(this.points, function(i, point) {
 					s += '<br/>'+ point.series.name +': '+
 					point.y + ' ' + point.series.options.unit;
@@ -258,7 +282,10 @@ if ($maySeeSingleFile === true)
 				}
 			},
 			series: [
-			<?php if ($heightchart) { ?>
+<?php
+if ($heightchart)
+{
+?>
 				{
 				name: '<?php echo JText::_('COM_JTG_ELEVATION'); ?>',
 				unit: 'm',
@@ -273,8 +300,12 @@ if ($maySeeSingleFile === true)
 				}
 
 			}
-			<?php } ?>
-			<?php if ($speedchart) { ?>
+<?php
+}
+
+if ($speedchart)
+{
+?>
 				, {
 				name: '<?php echo JText::_('COM_JTG_SPEED'); ?>',
 				unit:'<?php echo JText::_('COM_JTG_SPEED_UNIT_' . strtoupper($this->cfg->unit)); ?>',
@@ -290,8 +321,12 @@ if ($maySeeSingleFile === true)
 				}
 
 			}
-			<?php } ?>
-			<?php if ($beatchart) { ?>
+<?php
+}
+
+if ($beatchart)
+{
+?>
 				, {
 				name: '<?php echo JText::_('COM_JTG_HEARTFREQU'); ?>',
 				unit: '<?php echo JText::_('COM_JTG_HEARTFREQU_UNIT'); ?>',
@@ -301,7 +336,9 @@ if ($maySeeSingleFile === true)
 				valueSuffix: '<?php echo JText::_('COM_JTG_HEARTFREQU_UNIT'); ?>'
 				}
 			}
-			<?php } ?>
+<?php
+}
+?>
 			]
 			});
 		});
@@ -309,8 +346,7 @@ if ($maySeeSingleFile === true)
 		</script>
 <!-- end Charts -->
 
-<?php
-
+	<?php
 	}
 
 	echo $this->parseTemplate("headline", $this->track->title, "jtg_param_header_map");
@@ -353,11 +389,11 @@ if ( $this->clicklist !== false ) {
 -->
 <div id="profile" style="width:<?php echo (int) $this->cfg->charts_width; ?>" >
 	<?php
-
 	if ($havechart)
 	{
 		?>
-	<div class="profile-img" id="elevation" style="width:<?php echo $this->cfg->charts_width; ?>; height: <?php echo $this->cfg->charts_height; ?>;"></div>
+	<div class="profile-img" id="elevation" style="width:<?php echo $this->cfg->charts_width; ?>
+		; height: <?php echo $this->cfg->charts_height; ?>;"></div>
 	<?php
 	}
 	?>
@@ -395,46 +431,60 @@ if ( $this->clicklist !== false ) {
 									size="9" readonly="readonly" />
 								</span>
 							</div>
-						</div> <?php } ?></td>
+						</div> <?php
+					}
+				?></td>
 				</tr>
 				<tr>
 					<td><?php echo JText::_('COM_JTG_DATE'); ?>:</td>
 					<td><?php echo $this->date; ?></td>
 				</tr>
 				<?php if ( $this->track->level != "0" )
-		{ ?>
+		{
+		?>
 				<tr>
 					<td><?php echo JText::_('COM_JTG_LEVEL'); ?>:</td>
 					<td><?php echo $this->level; ?></td>
 				</tr>
-				<?php } ?>
-				<?php if ( ($this->track->distance != "") AND ((float) $this->track->distance != 0) )
+<?php
+}
 
-		{ ?>
+if ( ($this->track->distance != "") AND ((float) $this->track->distance != 0) )
+{
+?>
 				<tr>
 					<td><?php echo JText::_('COM_JTG_DISTANCE'); ?>:</td>
 					<td><?php echo $this->distance; ?></td>
 				</tr>
-				<?php }
+<?php
+}
 
-				if ($this->track->ele_asc)
-		{ ?>
+if ($this->track->ele_asc)
+{
+?>
 				<tr>
 					<td><?php echo JText::_('COM_JTG_ELEVATION_UP'); ?>:</td>
-					<td><?php echo $this->track->ele_asc; ?> <?php echo JText::_('COM_JTG_METERS'); ?>
+					<td><?php
+						echo $this->track->ele_asc;
+						echo JText::_('COM_JTG_METERS');
+						?>
 					</td>
 				</tr>
-				<?php
-		}
+<?php
+}
 
-		if ($this->track->ele_desc)
-		{ ?>
+if ($this->track->ele_desc)
+{
+?>
 				<tr>
 					<td><?php echo JText::_('COM_JTG_ELEVATION_DOWN'); ?>:</td>
-					<td><?php echo $this->track->ele_desc; ?> <?php echo JText::_('COM_JTG_METERS'); ?>
+					<td><?php echo $this->track->ele_desc; ?>
+						<?php echo JText::_('COM_JTG_METERS'); ?>
 					</td>
 				</tr>
-				<?php } ?>
+<?php
+}
+?>
 				<tr>
 					<td><?php echo JText::_('COM_JTG_HITS'); ?>:</td>
 					<td><?php echo $this->track->hits; ?></td>

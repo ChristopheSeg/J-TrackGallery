@@ -2372,7 +2372,6 @@ class GpsDataClass
 	 */
 	public function writeTrackOL($track, $params)
 	{
-
 		$mainframe = JFactory::getApplication();
 		$jtg_microtime = microtime(true);
 		$zeiten = "<br />\n";

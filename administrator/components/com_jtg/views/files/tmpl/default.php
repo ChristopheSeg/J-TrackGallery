@@ -183,8 +183,8 @@ $document->addStyleSheet(JUri::base() . 'components/com_jtg/template.css');
 				<td align="center"><?php echo $this->pagination->getRowOffset($i); ?></td>
 				<td align="center"><?php echo $row->id; ?></td>
 				<td align="center"><?php echo $checked; ?></td>
-				<td align="center"><span class="hasTip"
-					title="<?php echo $row->file ?>"><?php echo $title; ?> </span></td>
+				<td align="center">
+					<?php echo '<span class="hasTip" title="' . $row->file ?>"><?php echo $title; ?> </span></td>
 				<td align="center" nowrap><?php echo $imagelink; ?></td>
 				<td align="left"><?php echo $cats; ?></td>
 				<td align="center"><?php echo $terrain; ?></td>

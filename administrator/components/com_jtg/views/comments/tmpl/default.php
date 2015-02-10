@@ -88,8 +88,8 @@ if ($n > 0)
 				<td align="center"><?php echo $checked; ?></td>
 				<td align="center"><?php echo $row->user; ?></td>
 				<td align="center"><?php echo $row->track; ?></td>
-				<td align="center"><span class="hasTip"
-					title="<?php echo JText::_('COM_JTG_COMMENT_TEXT'); ?>::<?php echo htmlentities($row->text, ENT_QUOTES, 'UTF-8'); ?>"><?php echo htmlentities($row->title, ENT_QUOTES, 'UTF-8'); ?>
+				<td align="center">
+					<?php echo '<span class="hasTip" title="' . JText::_('COM_JTG_COMMENT_TEXT') . '::' . htmlentities($row->text, ENT_QUOTES, 'UTF-8') . '">' . htmlentities($row->title, ENT_QUOTES, 'UTF-8'); ?>
 				</span></td>
 				<td align="center"><?php echo $row->date; ?></td>
 				<td align="center"><?php echo $published;?></td>
