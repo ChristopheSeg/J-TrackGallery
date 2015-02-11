@@ -47,9 +47,9 @@ class JElementUsergroupList extends JFormField
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $name  param_description
-	 * @param   unknown_type  $value  param_description
-	 * @param   unknown_type  &$node  param_description
+	 * @param   unknown_type  $name          param_description
+	 * @param   unknown_type  $value         param_description
+	 * @param   unknown_type  &$node         param_description
 	 * @param   unknown_type  $control_name  param_description
 	 *
 	 * @return return_description

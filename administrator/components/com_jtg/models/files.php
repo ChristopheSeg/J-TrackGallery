@@ -429,12 +429,12 @@ class JtgModelFiles extends JModelLegacy
 	}
 
 	/**
-	 * function_description
+	 * publish or unpublish some tracks
 	 *
-	 * @param   array  $cid  param_description
-	 * @param   string  $publish  param_description
+	 * @param   array    $cid      array of track IDs
+	 * @param   boolean  $publish  1 to publish, 0 to unpublish
 	 *
-	 * @return bool
+	 * @return boolean true on success
 	 */
 	function publish($cid = array(), $publish = 1)
 	{
@@ -497,12 +497,13 @@ class JtgModelFiles extends JModelLegacy
 	}
 
 	/**
-	 * function_description
+	 * set some track(s) access level
 	 *
-	 * @param   array  $cid  param_description
-	 * @param   string  $access  param_description
+	 * @param   array   $cid     array of track IDs
+	 * @param   string  $access  track access level
 	 *
-	 * @return bool
+	 * @return bool true on success
+
 	 */
 	function access($cid = array(), $access = 1)
 	{
@@ -531,11 +532,11 @@ class JtgModelFiles extends JModelLegacy
 	}
 
 	/**
-	 * function_description
+	 * delete track(s) whose ID(s) belong to $cid
 	 *
 	 * @param   array  $cid  param_description
 	 *
-	 * @return boolean
+	 * @return boolean true on success
 	 */
 	function delete($cid = array())
 	{
@@ -723,18 +724,18 @@ class JtgModelFiles extends JModelLegacy
 	}
 
 	/**
-	 * function_description
+	 * Buiold select list for users
 	 *
-	 * @param   unknown_type  $nullter  param_description
-	 * @param   unknown_type  $where  param_description
+	 * Used to generate generic list of users
+	 * Joomla 2.5 JHtml::_('list.users'..); returns duplicate users
 	 *
-	 * @return array
+	 * @param   boolean  $nullter  if true, add a 'select' text before first user in array list
+	 * @param   string   $where    input sql where statement
+	 *
+	 * @return array list of users
 	 */
 	function getUsers($nullter = false, $where = "WHERE block = 0" )
 	{
-		// Used to generate generic list of users
-		// Joomla 2.5 JHtml::_('list.users'..); returns duplicate users
-
 		$db = JFactory::getDBO();
 		$rows = null;
 		$query = "SELECT id, name as title FROM #__users " . $where . " ORDER BY name";
@@ -766,10 +767,10 @@ class JtgModelFiles extends JModelLegacy
 	 * function_description
 	 *
 	 * @param   unknown_type  $select  param_description
-	 * @param   unknown_type  $nullter  param_description
-	 * @param   unknown_type  $where  param_description
+	 * @param   boolean  $nullter  if true, add a 'select' text before first terrain in array list
+	 * @param   string   $where    input sql where statement
 	 *
-	 * @return array
+	 * @return array list of terrains
 	 */
 	function getTerrain($select = "*", $nullter = false, $where = null )
 	{
@@ -807,11 +808,11 @@ class JtgModelFiles extends JModelLegacy
 	}
 
 	/**
-	 * function_description
+	 * retrieve a track access level
 	 *
-	 * @param   unknown_type  $id  param_description
+	 * @param   integer  $id  track id
 	 *
-	 * @return array
+	 * @return integer access level
 	 */
 	function getAccess($id)
 	{
@@ -1108,7 +1109,7 @@ class JtgModelFiles extends JModelLegacy
 		}
 		elseif (strlen($target) > 50)
 		{
-			// Wenn Dateiname über 50 Zeichen hat...
+			// When Dateiname über 50 Zeichen hat...
 			// ... Unternehme 100 Versuche...
 
 			for ($j = 0;$j < 100;$j++)
@@ -1503,7 +1504,7 @@ class JtgModelFiles extends JModelLegacy
 			}
 			elseif (strlen($target) > 50)
 			{
-				// Wenn Dateiname über 50 Zeichen hat...
+				// When Dateiname über 50 Zeichen hat...
 				for ($j = 0;$j < 100;$j++)
 				{
 					// ... unternehme 100 Versuche...

@@ -67,9 +67,9 @@ class JtgModeljtg extends JModelLegacy
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $order  param_description
-	 * @param   unknown_type  $limit  param_description
-	 * @param   unknown_type  $where  param_description
+	 * @param   unknown_type  $order   param_description
+	 * @param   unknown_type  $limit   param_description
+	 * @param   unknown_type  $where   param_description
 	 * @param   unknown_type  $access  param_description
 	 *
 	 * @return return_description

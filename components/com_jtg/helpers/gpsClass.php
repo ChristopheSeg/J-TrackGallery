@@ -699,8 +699,8 @@ class GpsDataClass
 					$dis = acos(
 							(sin($current_lat_rad) * sin($next_lat_rad)) +
 							(cos($current_lat_rad) * cos($next_lat_rad) *
-								cos($next_lon_rad - $current_lon_rad))
-							) * $earthRadius;
+									cos($next_lon_rad - $current_lon_rad))
+					) * $earthRadius;
 
 					if (is_nan($dis))
 					{
@@ -806,7 +806,7 @@ class GpsDataClass
 		return mktime(
 				$time_tmp_time_hour, $time_tmp_time_minute, $time_tmp_time_sec,
 				$time_tmp_date_month, $time_tmp_date_day, $time_tmp_date_year
-				);
+		);
 	}
 
 	/**
@@ -975,9 +975,9 @@ class GpsDataClass
 
 		/*
 		 * $c is the step for scanning allDistances/speed and others datas
-		 * $width is half the width over which speed data are smoothed
-		 * Smoothed speed is average from $i-$witdh<=index<=$i+$width
-		 */
+		* $width is half the width over which speed data are smoothed
+		* Smoothed speed is average from $i-$witdh<=index<=$i+$width
+		*/
 		$n = count($this->allDistances);
 
 		if ($n > 1200)
@@ -1045,10 +1045,10 @@ class GpsDataClass
 	/**
 	 * Function parseCatIcon not rewrittten
 	 *
-	 * @param   unknown_type  $catid  param_description
-	 * @param   unknown_type  $istrack  param_description
-	 * @param   unknown_type  $iswp  param_description
-	 * @param   unknown_type  $isroute  param_description
+	 * @param   integer  $catid    category ID
+	 * @param   boolean  $istrack  true if GPS file contains track(s)
+	 * @param   boolean  $iswp     true if GPS file contains waypoint(s)
+	 * @param   boolean  $isroute  true if GPS file contains route(s)
 	 *
 	 * @return return_description
 	 */
@@ -1260,7 +1260,7 @@ class GpsDataClass
 			if ($hasURL)
 			{
 				$URL = " <a href=\"" . $value->url . "\" target=\"_blank\">" .
-				trim(str_replace($replace, $with, $value->urlname)) . "</a>";
+						trim(str_replace($replace, $with, $value->urlname)) . "</a>";
 			}
 			else
 			{
@@ -1309,19 +1309,19 @@ class GpsDataClass
 		$wp .= "	}\n";
 		/*
 		 * $wp .= "	//
-		 * Function: addWP
-		 * Add a new marker to the markers layer given the following lonlat,
-		 *	 popupClass, and popup contents HTML. Also allow specifying
-		 *	 whether or not to give the popup a close box.
-		 *
-		 * Parameters:
-		 * ll - {<OpenLayers.LonLat>} Where to place the marker
-		 * popupClass - {<OpenLayers.Class>} Which class of popup to bring up
-		 *	 when the marker is clicked.
-		 * popupContentHTML - {String} What to put in the popup
-		 * closeBox - {Boolean} Should popup have a close box?
-		 * overflow - {Boolean} Let the popup overflow scrollbars?
-		 */
+		* Function: addWP
+		* Add a new marker to the markers layer given the following lonlat,
+		*	 popupClass, and popup contents HTML. Also allow specifying
+		*	 whether or not to give the popup a close box.
+		*
+		* Parameters:
+		* ll - {<OpenLayers.LonLat>} Where to place the marker
+		* popupClass - {<OpenLayers.Class>} Which class of popup to bring up
+		*	 when the marker is clicked.
+		* popupContentHTML - {String} What to put in the popup
+		* closeBox - {Boolean} Should popup have a close box?
+		* overflow - {Boolean} Let the popup overflow scrollbars?
+		*/
 
 		$wp .= "	function addWP(ll, popupClass, popupContentHTML, closeBox, overflow, icon) {
 		var feature = new OpenLayers.Feature(wps, ll);
@@ -1649,7 +1649,7 @@ class GpsDataClass
 		$rows = $this->getTracks($where);
 
 		/*
-		$user = JFactory::getUser();
+		 $user = JFactory::getUser();
 		$userid = $user->id;
 		$rows = $this->maySee($rows);
 		*/
@@ -1659,7 +1659,7 @@ class GpsDataClass
 		$map .= $this->parseOLMapControl($params, false);
 		$map .= $this->parseOLLayer();
 		/*
-		$map .= $this->parseOLPOIs(); // Currently not active
+		 $map .= $this->parseOLPOIs(); // Currently not active
 		*/
 
 		if ($tracks)
@@ -1763,7 +1763,7 @@ class GpsDataClass
 		}
 
 		/*
-		echo "\n<!--\n\$bbox_lat_max = " . $bbox_lat_max . "\n\$bbox_lat_min = " . $bbox_lat_min . "\n-->";
+		 echo "\n<!--\n\$bbox_lat_max = " . $bbox_lat_max . "\n\$bbox_lat_min = " . $bbox_lat_min . "\n-->";
 		*/
 		$center = "// <!-- parseOLMapCenter BEGIN -->\n";
 		$center .= "var min = lonLatToMercator(new OpenLayers.LonLat";
@@ -1816,8 +1816,8 @@ class GpsDataClass
 	.* $startziel = "// <!-- parseOLStartZiel BEGIN -->\n";
 	.* $startziel .= "// <!-- parseOLStartZiel END -->\n";
 	.* return $startziel;
-	 * }
-	 */
+	* }
+	*/
 
 	/**
 	 * function_description
@@ -1864,7 +1864,7 @@ class GpsDataClass
 			$lon = $row->start_e;
 			$lat = $row->start_n;
 
-			if ( ( $row->published == 1 ) AND ( ( $lon ) OR ( $lon ) ) )
+			if ($row->published == 1 AND ( ( $lon ) OR ( $lon ) ))
 			{
 				$marker .= "ll = new OpenLayers.LonLat(" . $lon . "," . $lat . ") . ";
 				$marker .= "transform(new OpenLayers.Projection(\"EPSG:4326\"), olmap.getProjectionObject()); ";
@@ -1925,9 +1925,11 @@ class GpsDataClass
 					$marker .= "<br />" . str_replace(array("'"), array("\'"), JText::_('COM_JTG_CAT')) . ": ";
 					$marker .= JtgHelper::parseMoreCats($this->sortedcats, $row->catid, "box", true);
 
-					/* 				"<a href=\"index.php?option=com_jtg&amp;view=files&amp;layout=list&amp;search=" . $row->cat . "\">" . $row->cat . "</a><br />";
-					.* 				$marker .= "<a href=\"index.php?option=com_jtg&amp;view=files&amp;layout=list&amp;search=" . $row->cat . "\">" . $row->cat . "</a><br />";
-					 */
+					/* 				"<a href=\"index.php?option=com_jtg&amp;view=files&amp;layout=list&amp;search=" .
+					 * 					$row->cat . "\">" . $row->cat . "</a><br />";
+					 .* 				$marker .= "<a href=\"index.php?option=com_jtg&amp;view=files&amp;layout=list&amp;search=" .
+					 					$row->cat . "\">" . $row->cat . "</a><br />";
+					*/
 				}
 				else
 				{
@@ -1942,6 +1944,10 @@ class GpsDataClass
 				$marker .= $this->parseCatIcon($row->catid, $row->istrack, $row->iswp, $row->isroute);
 
 				// End icon
+			}
+			else
+			{
+				// Dummy line for Coding standard
 			}
 		}
 
@@ -2014,9 +2020,13 @@ class GpsDataClass
 	 */
 	private function parseOLTracks($rows)
 	{
-		if ( $rows === null )
+		if ($rows === null)
 		{
 			return false;
+		}
+		else
+		{
+			// Dummy line for Coding standard
 		}
 
 		$color = $this->calculateAllColors(count($rows));
@@ -2037,6 +2047,10 @@ class GpsDataClass
 				{
 					$string .= "[" . $coords[$key][0] . "," . $coords[$key][1] . "],\n";
 				}
+			}
+			else
+			{
+				// Dummy line for Coding standard
 			}
 
 			$string .= "],\n{strokeColor:\"" . $this->getHexColor("#" . $color[$i]) . "\",\nstrokeWidth: 2,\nfillColor: \"" . $this->getHexColor("#" . $color[$i]) . "\",\nfillOpacity: 0.4}));\n";
@@ -2078,6 +2092,10 @@ class GpsDataClass
 		{
 			$sql .= ' ORDER BY ' . $desc;
 		}
+		else
+		{
+			// Dummy line for Coding standard
+		}
 
 		$db->setQuery($sql);
 		$maps = $db->loadObjectlist();
@@ -2112,7 +2130,8 @@ class GpsDataClass
 					{
 						$document->addScript($script);
 					}
-					else {
+					else
+					{
 						$scripts = explode("|", $script);
 
 						foreach ($scripts AS $eachscript)
@@ -2210,7 +2229,7 @@ class GpsDataClass
 	 * Thanks to Gerald Kaszuba http://geraldkaszuba.com/
 	 *
 	 * @param   unknown_type  $exifCoord  param_description
-	 * @param   unknown_type  $hemi  param_description
+	 * @param   unknown_type  $hemi       param_description
 	 *
 	 * @return number
 	 */
@@ -2251,12 +2270,12 @@ class GpsDataClass
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $id  param_description
-	 * @param   unknown_type  $max_geoim_height  param_description
-	 * @param   unknown_type  $iconfolder  param_description
-	 * @param   unknown_type  $httpiconpath  param_description
+	 * @param   integer  $id                track ID
+	 * @param   integer  $max_geoim_height  geotagged image height on maps
+	 * @param   string   $iconfolder        icons folder path
+	 * @param   string   $httpiconpath      icons folder URL
 	 *
-	 * @return return_description
+	 * @return string html code to display geotagged images
 	 */
 	private function parseOLGeotaggedImgs($id, $max_geoim_height, $iconfolder, $httpiconpath)
 	{
@@ -2582,7 +2601,12 @@ class GpsDataClass
 
 			if ( ( $params === false ) OR ( $params->get('jtg_param_show_scale') != "0" ) )
 			{
-				$control .= "				new OpenLayers.Control.ScaleLine({\n					topOutUnits: '" . $topOutUnits . "',\n					topInUnits: '" . $topInUnits . "',\n					bottomOutUnits: '" . $bottomOutUnits . "',\n					bottomInUnits: '" . $bottomInUnits . "'\n				}),					// Maßstab (nur an Äquator genau?)\n";
+				$control .= "				new OpenLayers.Control.ScaleLine({\n					topOutUnits: '" .
+					$topOutUnits . "',\n					topInUnits: '" .
+					$topInUnits . "',\n					bottomOutUnits: '" .
+					$bottomOutUnits . "',\n					bottomInUnits: '" .
+					$bottomInUnits . "'\n				}),
+									// Maßstab (nur an Äquator genau?)\n";
 			}
 		}
 
@@ -2636,11 +2660,11 @@ class GpsDataClass
 	{
 		$map = "// <!-- markerFunctionCOM_JTG BEGIN -->\n";
 		/*
-		$map .= "function createMarker(point,html) {\n";
+		 $map .= "function createMarker(point,html) {\n";
 		$map .= "var marker = new GMarker(point);\n";
 		$map .= "GEvent.addListener(marker, 'click', function() {\n";
-		$map .= "marker.openInfoWindowHtml(html);\n";
-		$map .= "});\n";
+				$map .= "marker.openInfoWindowHtml(html);\n";
+				$map .= "});\n";
 		$map .= "return marker;\n";
 		$map .= "}\n";
 		*/
@@ -2865,7 +2889,9 @@ class GpsCoordsClass
 	public function getDistance($koord)
 	{
 		if (!is_array($koord))
+		{
 			return false;
+		}
 
 		$temp = 0;
 
@@ -2890,7 +2916,7 @@ class GpsCoordsClass
 						(sin($first_latitude_rad) * sin($second_latitude_rad)) +
 						(cos($first_latitude_rad) * cos($second_latitude_rad) *
 								cos($second_longitude_rad - $first_longitude_rad))
-						) * $earthRadius;
+				) * $earthRadius;
 
 				if (!is_nan($dis))
 				{

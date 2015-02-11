@@ -33,9 +33,9 @@ class JtgViewFiles extends JViewLegacy
 	/**
 	 * Build the select list for access level
 	 *
-	 * @param   unknown_type  $name  param_description
-	 * @param   unknown_type  $js  param_description
-	 * @param   unknown_type  $oneline  param_description
+	 * @param   string   $name     Select list name
+	 * @param   string   $js       Javascript code
+	 * @param   boolean  $oneline  Build single line select if true,
 	 *
 	 * @return return_description
 	 */
@@ -249,7 +249,8 @@ class JtgViewFiles extends JViewLegacy
 		if ( isset($route) )
 			$imagelink .= "<span class=\"route" . $m . "\" title=\"" . JText::_('COM_JTG_ISROUTE'.$m ) . "\">";
 		else
-			$imagelink .= "<span class=\"route" . $m . "\" title=\"" . JText::_('COM_JTG_DKROUTE' ) . "\" style=\"text-align:center\"><font size=\"+2\">?</font>";
+			$imagelink .= "<span class=\"route" . $m . "\" title=\"" . JText::_('COM_JTG_DKROUTE' ) .
+			"\" style=\"text-align:center\"><font size=\"+2\">?</font>";
 		$imagelink .= "</span>";
 		$imagelink .= "</td>";
 		*/
@@ -285,10 +286,10 @@ class JtgViewFiles extends JViewLegacy
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $file  param_description
-	 * @param   unknown_type  $exist  param_description
+	 * @param   string   $file   file URI
+	 * @param   boolean  $exist  true if file exists
 	 *
-	 * @return true or Errorlevel | (string) errormessage
+	 * @return true or Errorlevel (1 to 5)
 	 */
 	public function checkFilename($file, $exist=false)
 	{
@@ -314,13 +315,13 @@ class JtgViewFiles extends JViewLegacy
 
 		if ( preg_match('/\&/', $filename) )
 		{
-			// Wenn "&" im Dateinamen
+			// When "&" in file name
 			return 4;
 		}
 
 		if ( preg_match('/\#/', $filename) )
 		{
-			// Wenn "#" im Dateinamen
+			// When "#" in file name
 			return 5;
 		}
 
@@ -406,7 +407,7 @@ class JtgViewFiles extends JViewLegacy
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $catid  param_description
+	 * @param   integer  $catid  category ID
 	 *
 	 * @return return_description
 	 */
@@ -457,7 +458,7 @@ class JtgViewFiles extends JViewLegacy
 	 * function_description
 	 *
 	 * @param   unknown_type  $cats  param_description
-	 * @param   unknown_type  $catid  param_description
+	 * @param   integer  $catid  category ID
 	 * @param   unknown_type  $separator  param_description
 	 *
 	 * @return return_description

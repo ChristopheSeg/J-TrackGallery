@@ -31,12 +31,15 @@ JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_jtg/tables');
 class JtgControllerCats extends JtgController
 {
 	/**
-	 * function_description
+	 * View method for JTG
 	 *
-	 * @param   unknown_type  $cachable  param_description
-	 * @param   unknown_type  $urlparams  param_description
+	 * This function override joomla.application.component.controller
+	 * View Cache not yet implemented in JTrackGallery
 	 *
-	 * @return return_description
+	 * @param   boolean  $cachable   If true, the view output will be cached
+	 * @param   array    $urlparams  An array of safe url parameters and their variable types
+	 *
+	 * @return void
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{

@@ -290,8 +290,8 @@ $document->addStyleDeclaration($style);
 					 * ( $check == 1 )Dateiname existiert
 					 * ( $check == 2 )// Kein Löschrecht
 					 * ( $check == 3 )// Dateinamenslänge überschritten
-					 * ( $check == 4 )// Wenn "&" im Dateinamen
-					 * ( $check == 5 )// Wenn "#" im Dateinamen
+					 * ( $check == 4 )// When "&" in file name
+					 * ( $check == 5 )// When "#" in file name
 					 * ( $check == 6 )// Keine Spur vorhanden
 					 * ( $check == 7 )// Spur vorhanden, aber kein Punkt
 					 * ( $check == 8 )// Spur vorhanden, aber nicht an erster Stelle. Evtl. mehrere Spuren

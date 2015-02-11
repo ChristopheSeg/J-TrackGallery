@@ -230,8 +230,8 @@ class LayoutHelper
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $where  param_description
-	 * @param   unknown_type  $access  param_description
+	 * @param   string   $where       input where statement
+	 * @param   string   $access      File access level
 	 * @param   unknown_type  $model  param_description
 	 * @param   unknown_type  $hits  param_description
 	 *
@@ -252,8 +252,8 @@ class LayoutHelper
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $where  param_description
-	 * @param   unknown_type  $access  param_description
+	 * @param   string   $where       input where statement
+	 * @param   string   $access      File access level
 	 * @param   unknown_type  $model  param_description
 	 * @param   unknown_type  $limit  param_description
 	 *
@@ -274,8 +274,8 @@ class LayoutHelper
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $where  param_description
-	 * @param   unknown_type  $access  param_description
+	 * @param   string   $where       input where statement
+	 * @param   string   $access      File access level
 	 * @param   unknown_type  $model  param_description
 	 * @param   unknown_type  $best  param_description
 	 * @param   unknown_type  $showstars  param_description
@@ -310,46 +310,6 @@ class LayoutHelper
 				$translate);
 	}
 
-	/*
-	 *
-	static public function _parseTopBest_old($otherfiles,$access,$model,$best,$showstars) {
-	echo "function giveBest: parseTopBest_old";
-	$alltracks = $model->getTracksData(null,null);
-	$allbest = LayoutHelper::giveBest($model,$best,false);
-	$return = array();
-	foreach ($allbest as $file) {
-	$track = JtgModeljtg::getFile($file['id']);
-	switch ($otherfiles) {
-	case 0: // no
-	if ((int) $track->access <= $access) $mayisee = 1; else $mayisee = 0;
-	break;
-	case 1: // Registered Users
-	if ( ( $access == 1) OR ( $access == 2 ) ) $mayisee = 1;
-	elseif ((int) $track->access <= 1) $mayisee = 1; else $mayisee = 0;
-	break;
-	case 2: // Specials too
-	$mayisee = 1;
-	break;
-	}
-	if ( ( $mayisee ) AND ( (int) $track->published == 1 ) )
-	 		if ( (int) $track->published == 1 )
-		{
-	$stars = "<ul class=\"rating " . $file['class'] . "\"><li></li></ul>";
-	$obj = array();
-	$obj['id'] = $file['id'];
-	$obj['title'] = $track->title;
-	$obj['voting'] = $file['voting'];
-	$obj['stars'] = $file['rate'];
-	if ($showstars)
-		$obj['html'] = "<div title='".str_replace(".",",",$obj['voting']) . " " . JText::_('COM_JTG_STARS')  . "'>" . $stars . "</div>";
-	else
-		$obj['html'] = "<a title='".str_replace(".",",",$obj['voting']) . " " . JText::_('COM_JTG_STARS')  . "'>" . $obj['stars'] . "</a>";
-	$return[] = JArrayHelper::toObject($obj);
-	}
-	}
-	return $return;
-	}
-	*/
 	/*
 	 static private function giveBest($model,$best,$bad=false) {
 	echo "function giveBest: deprecated";
@@ -753,13 +713,13 @@ class LayoutHelper
 	}
 
 	/**
-	 * function_description
+	 * build the SQL where statement to filter one category subcategories
 	 *
-	 * @param   unknown_type  $catid  param_description
-	 * @param   unknown_type  $cats  param_description
-	 * @param   unknown_type  $lockage  param_description
+	 * @param   integer  $catid    category ID
+	 * @param   array    $cats     param_description
+	 * @param   boolean  $lockage  if false only return sub categories
 	 *
-	 * @return string
+	 * @return string SQL where statement to select a category ($lockage=true) and its subcategories
 	 */
 	static private function getParentcats($catid, $cats, $lockage = false)
 	{

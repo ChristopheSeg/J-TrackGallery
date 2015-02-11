@@ -647,6 +647,10 @@ class JtgViewFiles extends JViewLegacy
 							{
 								$thumb = $image;
 							}
+							else
+							{
+								// Dummy line for Coding standard
+							}
 
 							$imageBlock .= "	<a class=\"highslide\" href='/images/jtrackgallery/track_" . $id . "/" . $image . "' title=\"" . $image . "\" onclick=\"return hs.expand(this)\">
 							<img src=\"" . JUri::base() . "images/jtrackgallery/track_" . $id . '/' . $thumb . "\" alt=\"$image\"  /></a>\n\n";
@@ -672,10 +676,18 @@ class JtgViewFiles extends JViewLegacy
 							{
 								$imageBlock .= "<br /><br />";
 							}
+							else
+							{
+								// Dummy line for Coding standard
+							}
 
 							$imageBlock .= "<img src=\"" . JUri::base() . "images/jtrackgallery/track_" . $id . "/"
 							. $image . "\" alt=\"" . $track->title . " (" . $image . ")" . "\" title=\"" . $track->title
 							. " (" . $image . ")" . "\" />\n";
+						}
+						else
+						{
+							// Dummy line for Coding standard
 						}
 					}
 					break;
@@ -691,7 +703,8 @@ class JtgViewFiles extends JViewLegacy
 					$galscript = "";
 			}
 		}
-		else {
+		else
+		{
 			$this->images = false;
 			$galscript = "";
 		}

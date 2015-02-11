@@ -201,7 +201,7 @@ class JtgHelper
 
 		if ( ( $voted != 0 ) AND ( (float) $track->vote == 0 ) )
 		{
-			// Wenn gevoted wurde aber Voting gleich 0
+			// When gevoted wurde aber Voting gleich 0
 			// If voted but voting = 0
 			$error = "<font color=red> (" . JText::_('Error') . "?)</font> ";
 		}
@@ -326,7 +326,7 @@ class JtgHelper
 	 * function_description
 	 *
 	 * @param   unknown_type  $allcats  param_description
-	 * @param   unknown_type  $catid  param_description
+	 * @param   integer  $catid  category ID
 	 * @param   unknown_type  $format  param_description
 	 * @param   unknown_type  $link  param_description
 	 *
@@ -941,11 +941,11 @@ class JtgHelper
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $where  param_description
-	 * @param   unknown_type  $access  param_description
-	 * @param   unknown_type  $otherfiles  param_description
+	 * @param   string   $where       input where statement
+	 * @param   string   $access      File access level
+	 * @param   integer  $otherfiles  0 for non registered, 1 for registered, 2 for special users
 	 *
-	 * @return return_description
+	 * @return sql where statement according to access restriction
 	 */
 	static public function MayIsee($where, $access, $otherfiles)
 	{

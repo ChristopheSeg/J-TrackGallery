@@ -284,12 +284,12 @@ class JtgModelMaps extends JModelLegacy
 	}
 
 	/**
-	 * function_description
+	 * publish or unpublish some track(s)
 	 *
-	 * @param   array  $cid  param_description
-	 * @param   string  $publish  param_description
+	 * @param   array   $cid      array of track IDs
+	 * @param   string  $publish  1 to publish, O to unpublish
 	 *
-	 * @return bool
+	 * @return bool true on success
 	 */
 	function publish($cid = array(), $publish = 1)
 	{
