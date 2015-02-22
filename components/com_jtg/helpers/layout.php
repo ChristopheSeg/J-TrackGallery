@@ -30,7 +30,7 @@ class LayoutHelper
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $float  param_description
+	 * @param   unknown_type  $float       param_description
 	 * @param   unknown_type  $expressive  param_description
 	 *
 	 * @return return_description
@@ -208,9 +208,9 @@ class LayoutHelper
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $where  param_description
+	 * @param   unknown_type  $where   param_description
 	 * @param   unknown_type  $access  param_description
-	 * @param   unknown_type  $model  param_description
+	 * @param   unknown_type  $model   param_description
 	 * @param   unknown_type  $newest  param_description
 	 *
 	 * @return return_description
@@ -230,10 +230,10 @@ class LayoutHelper
 	/**
 	 * function_description
 	 *
-	 * @param   string   $where       input where statement
-	 * @param   string   $access      File access level
-	 * @param   unknown_type  $model  param_description
-	 * @param   unknown_type  $hits  param_description
+	 * @param   string        $where   input where statement
+	 * @param   string        $access  File access level
+	 * @param   unknown_type  $model   param_description
+	 * @param   unknown_type  $hits    param_description
 	 *
 	 * @return return_description
 	 */
@@ -252,10 +252,10 @@ class LayoutHelper
 	/**
 	 * function_description
 	 *
-	 * @param   string   $where       input where statement
-	 * @param   string   $access      File access level
-	 * @param   unknown_type  $model  param_description
-	 * @param   unknown_type  $limit  param_description
+	 * @param   string        $where   input where statement
+	 * @param   string        $access  File access level
+	 * @param   unknown_type  $model   param_description
+	 * @param   unknown_type  $limit   param_description
 	 *
 	 * @return return_description
 	 */
@@ -274,10 +274,10 @@ class LayoutHelper
 	/**
 	 * function_description
 	 *
-	 * @param   string   $where       input where statement
-	 * @param   string   $access      File access level
-	 * @param   unknown_type  $model  param_description
-	 * @param   unknown_type  $best  param_description
+	 * @param   string        $where      input where statement
+	 * @param   string        $access     File access level
+	 * @param   unknown_type  $model      param_description
+	 * @param   unknown_type  $best       param_description
 	 * @param   unknown_type  $showstars  param_description
 	 *
 	 * @return return_description
@@ -447,7 +447,7 @@ class LayoutHelper
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $val  param_description
+	 * @param   unknown_type  $val   param_description
 	 * @param   unknown_type  $cats  param_description
 	 *
 	 * @return return_description

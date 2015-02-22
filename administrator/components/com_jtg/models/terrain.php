@@ -56,8 +56,11 @@ class JtgModelTerrain extends JModelLegacy
 
 		$array = JFactory::getApplication()->input->get('cid', array(0), 'array');
 		$edit	= JFactory::getApplication()->input->get('edit', true);
+
 		if ($edit)
+		{
 			$this->setId((int) $array[0]);
+		}
 	}
 
 	/**

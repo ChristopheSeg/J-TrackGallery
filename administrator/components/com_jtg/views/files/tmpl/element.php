@@ -41,7 +41,7 @@ $document->addStyleSheet(JUri::base() . 'components/com_jtg/template.css');
 			<td nowrap="nowrap"></td>
 		</tr>
 	</table>
-	<table class="adminlist" cellpadding="1">
+	<table class="adminlist">
 		<thead>
 			<tr>
 				<th class="title"><?php echo JText::_('COM_JTG_NUM'); ?></th>

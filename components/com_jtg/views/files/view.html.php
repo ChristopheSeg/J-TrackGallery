@@ -1092,9 +1092,9 @@ class JtgViewFiles extends JViewLegacy
 	 * function_description
 	 *
 	 * @param   unknown_type  $template  param_description
-	 * @param   unknown_type  $content  param_description
+	 * @param   unknown_type  $content   param_description
 	 * @param   unknown_type  $linkname  param_description
-	 * @param   unknown_type  $only  param_description
+	 * @param   unknown_type  $only      param_description
 	 *
 	 * @return return_description
 	 */

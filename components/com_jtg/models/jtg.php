@@ -65,14 +65,14 @@ class JtgModeljtg extends JModelLegacy
 	}
 
 	/**
-	 * function_description
+	 * Load a track(s) list in #__jtg_files according to incoming parameters
 	 *
-	 * @param   unknown_type  $order   param_description
-	 * @param   unknown_type  $limit   param_description
-	 * @param   unknown_type  $where   param_description
-	 * @param   unknown_type  $access  param_description
+	 * @param   string  $order   ordering of the list
+	 * @param   string  $limit   SQL limit statement
+	 * @param   string  $where   SQL Where filter
+	 * @param   string  $access  Track acces level
 	 *
-	 * @return return_description
+	 * @return Loadobjeclist() track lists extracted from #__jtg_files
 	 */
 	static public function getTracksData($order, $limit, $where = "",$access = null)
 	{
@@ -81,7 +81,11 @@ class JtgModeljtg extends JModelLegacy
 			$where = " AND ( " . $where . " )";
 		}
 
-		// 	if ( $access !== null ) $where .= " AND a.access <= " . $access;
+		if ( $access !== null )
+		{
+			$where .= " AND a.access <= " . $access;
+		}
+
 		$mainframe = JFactory::getApplication();
 		$db = JFactory::getDBO();
 		$query = "SELECT a.*, b.title AS cat FROM #__jtg_files AS a"

@@ -28,7 +28,7 @@ $image = $this->data->image;
 ?>
 <form action="" method="post" name="adminForm" id="adminForm"
 	class="adminForm" enctype="multipart/form-data">
-	<table class="adminlist" cellpadding="1">
+	<table class="adminlist">
 		<thead>
 			<tr>
 				<th colspan="2" align="center"><?php echo JText::_('COM_JTG_ADD_CAT'); ?>

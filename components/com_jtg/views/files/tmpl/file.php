@@ -398,7 +398,7 @@ if ( $this->clicklist !== false ) {
 	}
 	?>
 	<div class="gps-info">
-		<table border="0" style="width:98%;" align="center">
+		<table border=0 style="width:98%;" align="center">
 			<thead>
 				<tr>
 					<th colspan="3"><?php echo JText::_('COM_JTG_DETAILS'); ?></th>

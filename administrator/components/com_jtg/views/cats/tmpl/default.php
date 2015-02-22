@@ -31,7 +31,7 @@ $ordering = ($this->lists['order'] == 'ordering');
 ?>
 <form action="index.php" method="post" name="adminForm" id="adminForm">
 
-	<table class="adminlist" cellpadding="1">
+	<table class="adminlist">
 		<thead>
 			<tr>
 				<th class="title"><?php echo JText::_('COM_JTG_NUM'); ?></th>

@@ -31,7 +31,7 @@ class GpsDataClass
 
 	var $sortedcats = null;
 
-	// Aarray tracks[j]->coords; // array containing longitude latitude elevation time and heartbeat data
+	// Array tracks[j]->coords; // array containing longitude latitude elevation time and heartbeat data
 	var $tracks = array();
 
 	var $speedDataExists = false;
@@ -347,9 +347,15 @@ class GpsDataClass
 				$this->trackname .= $this->gpsFile;
 			}
 
-			$this->description = $gps_file_description . '<br />' . $tracks_description;
-
-			if (!$this->description)
+			if (($gps_file_description) AND ($tracks_description))
+			{
+				$this->description = $gps_file_description . '<br />' . $tracks_description;
+			}
+			elseif ($tracks_description)
+			{
+				$this->description = $tracks_description;
+			}
+			else
 			{
 				$this->description = $this->trackname;
 			}
@@ -439,18 +445,8 @@ class GpsDataClass
 	private function extractCoordsGPX($xml)
 	{
 		$this->trackname = (string) @$xml->name;
-
-		if ( strlen($this->trackname) == 0)
-		{
-			$this->trackname = (string) @$xml->trk[0]->name;
-		}
-
-		$this->description = @$xml->desc;
-
-		if ( !$this->description)
-		{
-			$this->description = $this->trackname;
-		}
+		$gps_file_description = '';
+		$tracks_description = '';
 
 		$this->Date = (string) @$xml->time;
 
@@ -509,6 +505,7 @@ class GpsDataClass
 					if (isset($xml->trk[$t]->name))
 					{
 						$this->track[$this->trackCount]->trackname = (string) $xml->trk[$t]->name;
+						$tracks_description .= '<br />' . $this->track[$this->trackCount]->trackname;
 					}
 					else
 					{
@@ -523,6 +520,32 @@ class GpsDataClass
 		}
 
 		$this->isTrack = ($this->trackCount > 0);
+		$gps_file_description = @$xml->desc;
+
+		if (strlen($this->trackname) == 0)
+		{
+			if ($this->trackCount == 1)
+			{
+				$this->trackname = (string) @$xml->trk[0]->name;
+			}
+			else
+			{
+				$this->trackname = $this->trackfilename;
+			}
+		}
+
+		if (($gps_file_description) AND ($tracks_description))
+		{
+			$this->description = $gps_file_description . '<br />' . $tracks_description;
+		}
+		elseif ($tracks_description)
+		{
+			$this->description = $tracks_description;
+		}
+		else
+		{
+			$this->description = $this->trackname;
+		}
 
 		// Nothing to return
 		return true;
@@ -531,7 +554,7 @@ class GpsDataClass
 	/**
 	 * function_description
 	 *
-	 * @param   string   $file  param_description
+	 * @param   string   $file     param_description
 	 * @param   integer  $trackid  track id
 	 *
 	 * @return array
@@ -1462,7 +1485,7 @@ class GpsDataClass
 	 * Löscht den aktuellen Track aus der
 	 * Gesamtansicht
 	 *
-	 * @param   unknown_type  $rows  param_description
+	 * @param   unknown_type  $rows   param_description
 	 * @param   unknown_type  $track  param_description
 	 *
 	 * @return array()
@@ -1635,7 +1658,7 @@ class GpsDataClass
 	/**
 	 * Openlayers write maps
 	 *
-	 * @param   unknown_type  $where  param_description
+	 * @param   unknown_type  $where   param_description
 	 * @param   unknown_type  $tracks  param_description
 	 * @param   unknown_type  $params  param_description
 	 *
@@ -1823,7 +1846,7 @@ class GpsDataClass
 	 * function_description
 	 *
 	 * @param   unknown_type  $track_array  param_description
-	 * @param   unknown_type  $visibility  param_description
+	 * @param   unknown_type  $visibility   param_description
 	 *
 	 * @return string
 	 */
@@ -2384,7 +2407,7 @@ class GpsDataClass
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $track  param_description
+	 * @param   unknown_type  $track   param_description
 	 * @param   unknown_type  $params  param_description
 	 *
 	 * @return return_description
@@ -2451,7 +2474,7 @@ class GpsDataClass
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $file  param_description
+	 * @param   unknown_type  $file    param_description
 	 * @param   unknown_type  $params  param_description
 	 *
 	 * @return return_description
@@ -2546,7 +2569,7 @@ class GpsDataClass
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $params  param_description
+	 * @param   unknown_type  $params     param_description
 	 * @param   unknown_type  $adminonly  param_description
 	 *
 	 * @return string

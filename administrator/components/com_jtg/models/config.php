@@ -86,7 +86,7 @@ class JtgModelConfig extends JModelLegacy
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $row  param_description
+	 * @param   unknown_type  $row       param_description
 	 * @param   unknown_type  $tablekey  param_description
 	 *
 	 * @return true or errormessage

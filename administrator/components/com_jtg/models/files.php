@@ -163,7 +163,7 @@ class JtgModelFiles extends JModelLegacy
 	 * function_description
 	 *
 	 * @param   unknown_type  $files  param_description
-	 * @param   unknown_type  $dest  param_description
+	 * @param   unknown_type  $dest   param_description
 	 * @param   unknown_type  $types  param_description
 	 *
 	 * @return string
@@ -465,7 +465,7 @@ class JtgModelFiles extends JModelLegacy
 	/**
 	 * function_description
 	 *
-	 * @param   array  $cid  param_description
+	 * @param   array   $cid   param_description
 	 * @param   string  $hide  param_description
 	 *
 	 * @return bool
@@ -503,7 +503,6 @@ class JtgModelFiles extends JModelLegacy
 	 * @param   string  $access  track access level
 	 *
 	 * @return bool true on success
-
 	 */
 	function access($cid = array(), $access = 1)
 	{
@@ -671,9 +670,9 @@ class JtgModelFiles extends JModelLegacy
 	 * function_description
 	 *
 	 * @param   unknown_type  $nosubcats  param_description
-	 * @param   unknown_type  $stdtext  param_description
-	 * @param   unknown_type  $stdid  param_description
-	 * @param   unknown_type  $type  param_description
+	 * @param   unknown_type  $stdtext    param_description
+	 * @param   unknown_type  $stdid      param_description
+	 * @param   unknown_type  $type       param_description
 	 *
 	 * @return array
 	 */
@@ -766,9 +765,9 @@ class JtgModelFiles extends JModelLegacy
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $select  param_description
-	 * @param   boolean  $nullter  if true, add a 'select' text before first terrain in array list
-	 * @param   string   $where    input sql where statement
+	 * @param   unknown_type  $select   param_description
+	 * @param   boolean       $nullter  if true, add a 'select' text before first terrain in array list
+	 * @param   string        $where    input sql where statement
 	 *
 	 * @return array list of terrains
 	 */

@@ -28,7 +28,7 @@ $accept = array("gpx","tcx", "kml");
 $max = 100;
 ?>
 
-<table class="adminlist" cellpadding="1">
+<table class="adminlist">
 	<tbody>
 		<tr>
 			<td>

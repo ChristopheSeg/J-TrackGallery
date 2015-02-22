@@ -52,7 +52,7 @@ class JtgModelFiles extends JModelLegacy
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $limit  param_description
+	 * @param   unknown_type  $limit       param_description
 	 * @param   unknown_type  $limitstart  param_description
 	 *
 	 * @return return_description
@@ -1121,7 +1121,7 @@ class JtgModelFiles extends JModelLegacy
 	 *
 	 * @param   unknown_type  $to_lat  param_description
 	 * @param   unknown_type  $to_lon  param_description
-	 * @param   unknown_type  $lang  param_description
+	 * @param   unknown_type  $lang    param_description
 	 *
 	 * @return array
 	 */

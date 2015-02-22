@@ -278,7 +278,7 @@ if ($this->cfg->access == 1)
 			else
 			{
 				$reject = "index.php?option=com_jtg";
-				$cancel = JText::_('Cancel');
+				$cancel = JText::_('JCANCEL');
 			}
 			?>
 			<button class="button" type="button"

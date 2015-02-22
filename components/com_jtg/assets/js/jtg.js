@@ -52,11 +52,11 @@ else
 
 function getAvgTime(speed_str, length, decimal_separator)  {
 
-		if (decimal_separator == '.') 
+		if (decimal_separator == '.')
 		{
 			var speed = speed_str;
-		} 
-		else 
+		}
+		else
 		{
 			var speed = speed_str.replace(decimal_separator, '.');
 		}
@@ -105,19 +105,19 @@ function jumpTo(lon, lat, zoom) {
     map.setCenter(new OpenLayers.LonLat(x, y), zoom);
     return false;
 }
- 
+
 function Lon2Merc(lon) {
     return 20037508.34 * lon / 180;
 }
- 
+
 function Lat2Merc(lat) {
     var PI = 3.14159265358979323846;
     lat = Math.log(Math.tan( (90 + lat) * PI / 360)) / (PI / 180);
     return 20037508.34 * lat / 180;
 }
- 
+
 function addMarker(layer, lon, lat, popupContentHTML, showPopupOnLoad, iconId) {
- 
+
     // Koordinaten in LonLat umwandeln
     var ll = new OpenLayers.LonLat(Lon2Merc(lon), Lat2Merc(lat));
 
@@ -128,10 +128,10 @@ function addMarker(layer, lon, lat, popupContentHTML, showPopupOnLoad, iconId) {
     feature.data.popupContentHTML = popupContentHTML;
     feature.data.overflow = "auto";
     feature.data.icon = makeIcon(iconId);
- 
+
     // Marker erstellen
     var marker = feature.createMarker();
- 
+
     /*
      * Handler Funktionen für die Mouse-Events
      */
@@ -160,19 +160,19 @@ function addMarker(layer, lon, lat, popupContentHTML, showPopupOnLoad, iconId) {
 		this.popup.show();
 
 	OpenLayers.Event.stop(evt);
-    }
-    // Hover End
-    var markerHoverEnd = function(evt) {
+	};
+	// Hover End
+	var markerHoverEnd = function(evt) {
 	if (!this.popup.clicked) {
 		this.popup.hide();
 	}
 	OpenLayers.Event.stop(evt);
-    }
+	};
 
-    // Events auf den Marker registrieren und als Objekt das Feature übergeben
-    marker.events.register("mousedown", feature, markerClick);
-    if (showPopupOnHover) {
-    	marker.events.register("mouseover", feature, markerHover);
+	// Events auf den Marker registrieren und als Objekt das Feature übergeben
+	marker.events.register("mousedown", feature, markerClick);
+	if (showPopupOnHover) {
+		marker.events.register("mouseover", feature, markerHover);
     	marker.events.register("mouseout", feature, markerHoverEnd);
     }
 
@@ -217,14 +217,14 @@ function makeIcon(iconId) {
 	var icon = new OpenLayers.Icon(icons[iconId][0],size,offset);
 	return icon;
 }
- 
+
 function getCycleTileURL(bounds) {
    var res = this.map.getResolution();
    var x = Math.round((bounds.left - this.maxExtent.left) / (res * this.tileSize.w));
    var y = Math.round((this.maxExtent.top - bounds.top) / (res * this.tileSize.h));
    var z = this.map.getZoom();
    var limit = Math.pow(2, z);
- 
+
    if (y < 0 || y >= limit)
    {
      return null;
@@ -232,7 +232,7 @@ function getCycleTileURL(bounds) {
    else
    {
      x = ((x % limit) + limit) % limit;
- 
+
      return this.url + z + "/" + x + "/" + y + "." + this.type;
    }
 }
@@ -275,7 +275,7 @@ function get_parameters() {
 function checkForPermalink() {
 	var parameters = get_parameters();
 
-	if (parameters['zoom'] != null) 
+	if (parameters['zoom'] != null)
 		zoom = parseInt(parameters['zoom']);
 	if (parameters['lat'] != null)
 		lat = parseFloat(parameters['lat']);
@@ -324,7 +324,7 @@ function toggleInfo() {
 		// Info verstecken
 		document.getElementById('description').className = 'hide';
 		document.getElementById('descriptionToggle').innerHTML = text[0];
-	}	
+	}
 }
 
 /*
@@ -354,10 +354,10 @@ function drawPolygon(coordinates,style) {
 function createPointsArrayFromCoordinates(coordinates) {
 	var points = new Array();
 	for (var i=0;i<coordinates.length;++i) {
-		var lonlat = new OpenLayers.LonLat(coordinates[i][0],coordinates[i][1]).transform(new OpenLayers.Projection("EPSG:4326"),new OpenLayers.Projection("EPSG:900913"))
-		points.push(new OpenLayers.Geometry.Point(lonlat.lon,lonlat.lat))
+		var lonlat = new OpenLayers.LonLat(coordinates[i][0],coordinates[i][1]).transform(new OpenLayers.Projection("EPSG:4326"),new OpenLayers.Projection("EPSG:900913"));
+		points.push(new OpenLayers.Geometry.Point(lonlat.lon,lonlat.lat));
 	}
-	return points;	
+	return points;
 }
 
 /*

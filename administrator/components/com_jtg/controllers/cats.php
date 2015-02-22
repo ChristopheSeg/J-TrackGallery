@@ -61,8 +61,11 @@ class JtgControllerCats extends JtgController
 
 		// Redirect to cats overview
 		$link = JRoute::_("index.php?option=com_jtg&task=cats&controller=cats&task=managecatpics", false);
+
 		if ($success)
+		{
 			$this->setRedirect($link, JText::_('COM_JTG_CATPIC_SAVED'));
+		}
 		else
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_CATPIC_NOTSAVED'), 'Warning');
@@ -278,8 +281,12 @@ class JtgControllerCats extends JtgController
 		$link = JRoute::_("index.php?option=com_jtg&task=cats&controller=cats", false);
 
 		if ($success)
+		{
 			$this->setRedirect($link, JText::_('COM_JTG_CAT_SAVED'));
+		}
 		else
+		{
 			$this->setRedirect($link, JText::_('COM_JTG_CAT_NOT_SAVED'));
+		}
 	}
 }

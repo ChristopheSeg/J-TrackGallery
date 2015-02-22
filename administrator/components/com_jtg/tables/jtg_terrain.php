@@ -53,7 +53,7 @@ class TableJTG_Terrain extends JTable
 	/**
 	 * function_description
 	 *
-	 * @param   array  $array  param_description
+	 * @param   array   $array   param_description
 	 * @param   string  $ignore  param_description
 	 *
 	 * @return string

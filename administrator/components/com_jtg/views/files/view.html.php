@@ -116,7 +116,7 @@ class JtgViewFiles extends JViewLegacy
 	/**
 	 * Gibt den Klicklink zurück mit dem man Dateien für das Menü auswählen kann
 	 *
-	 * @param   unknown_type  $id  param_description
+	 * @param   unknown_type  $id     param_description
 	 * @param   unknown_type  $title  param_description
 	 *
 	 * @return string
@@ -131,7 +131,7 @@ class JtgViewFiles extends JViewLegacy
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $file  param_description
+	 * @param   unknown_type  $file   param_description
 	 * @param   unknown_type  $count  param_description
 	 *
 	 * @return string
@@ -146,8 +146,8 @@ class JtgViewFiles extends JViewLegacy
 	 * function_description
 	 *
 	 * @param   unknown_type  $iconpath  param_description
-	 * @param   unknown_type  $hidden  param_description
-	 * @param   unknown_type  $count  param_description
+	 * @param   unknown_type  $hidden    param_description
+	 * @param   unknown_type  $count     param_description
 	 *
 	 * @return return_description
 	 */
@@ -188,7 +188,7 @@ class JtgViewFiles extends JViewLegacy
 	 * function_description
 	 *
 	 * @param   unknown_type  $track  param_description
-	 * @param   unknown_type  $wp  param_description
+	 * @param   unknown_type  $wp     param_description
 	 * @param   unknown_type  $route  param_description
 	 * @param   unknown_type  $cache  param_description
 	 *
@@ -457,8 +457,8 @@ class JtgViewFiles extends JViewLegacy
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $cats  param_description
-	 * @param   integer  $catid  category ID
+	 * @param   unknown_type  $cats       param_description
+	 * @param   integer       $catid      category ID
 	 * @param   unknown_type  $separator  param_description
 	 *
 	 * @return return_description

@@ -92,7 +92,7 @@ class ContentViewElement extends JViewLegacy
 		</tr>
 	</table>
 
-	<table class="adminlist" cellspacing="1">
+	<table class="adminlist">
 		<thead>
 			<tr>
 				<th width="5"><?php echo JText::_('COM_JTG_NUM'); ?>

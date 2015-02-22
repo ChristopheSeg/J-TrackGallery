@@ -27,7 +27,7 @@ JToolBarHelper::help('cats/managecatpics', true);
 
 ?>
 <form action="" method="post" name="adminForm" id="adminForm">
-	<table class="adminlist" cellpadding="1">
+	<table class="adminlist">
 		<thead>
 			<tr>
 				<th width="5%" class="title"><?php echo JText::_('COM_JTG_NUM'); ?>

@@ -197,13 +197,19 @@ class JFormFieldOwnList extends JFormField
 		if ( ( $p['jtg_param_level_from'] != 0 ) OR ( $p['jtg_param_level_to'] != 5 ) )
 		{
 			if ( $p['jtg_param_level_from'] == $p['jtg_param_level_to'] )
+			{
 				$r[] = JText::_('COM_JTG_MENU_LIMIT_CONSTRUCT_LEVEL') . " " . $p['jtg_param_level_from'];
+			}
 			elseif ( $p['jtg_param_level_from'] > $p['jtg_param_level_to'] )
-			$r[] = '<font color=red>'
+			{
+				$r[] = '<font color=red>'
 			. JText::sprintf('COM_JTG_MENU_LIMIT_CONSTRUCT_LEVEL_FROM_TO', $p['jtg_param_level_from'], $p['jtg_param_level_to'])
 			. '</font>';
+			}
 			else
+			{
 				$r[] = JText::sprintf('COM_JTG_MENU_LIMIT_CONSTRUCT_LEVEL_FROM_TO', $p['jtg_param_level_from'], $p['jtg_param_level_to']);
+			}
 		}
 
 		if ( ( $p['jtg_param_vote_from'] != 0 ) OR ( $p['jtg_param_vote_to'] != 10 ) )

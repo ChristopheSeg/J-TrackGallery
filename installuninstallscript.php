@@ -35,7 +35,7 @@ class Com_JtgInstallerScript
 	 * preflight runs before anything else and while the extracted files are in the uploaded temp folder.
 	 * If preflight returns false, Joomla will abort the update and undo everything already done.
 	 *
-	 * @param   unknown_type  $type  param_description
+	 * @param   unknown_type  $type    param_description
 	 * @param   unknown_type  $parent  param_description
 	 *
 	 * @return return_description

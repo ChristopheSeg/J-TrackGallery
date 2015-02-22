@@ -190,9 +190,8 @@ if ( $userid )
 			}
 			?>
 			</td>
-			<td><input type="input" size="15" class="output" name="lat" id="lat"
-				value="<?php
-			echo $lat; ?>"
+			<td><input type="text" size="15" class="output" name="lat" id="lat"
+				value="<?php echo $lat; ?>"
 				onchange="handleFillLL();mapcenter();"></input> <?php
 				echo JText::_('COM_JTG_LAT_U');
 				echo "</td>\n			<td>";
@@ -204,7 +203,7 @@ if ( $userid )
 			echo JText::_('COM_JTG_LON');
 			?>
 			</td>
-			<td><input type="input" size="15" class="output" name="lon" id="lon"
+			<td><input type="text" size="15" class="output" name="lon" id="lon"
 				value="<?php
 			echo $lon; ?>"
 				onchange="handleFillLL();mapcenter();"></input> <?php

@@ -71,7 +71,7 @@ if (JVERSION >= 3.0)
 ?>
 <form action="" method="post" name="adminForm" id="adminForm"
 	class="adminForm" enctype="multipart/form-data">
-	<table class="adminlist" cellpadding="1">
+	<table class="adminlist">
 		<thead>
 			<tr>
 				<th colspan="3" align="center"><?php echo $title; ?></th>
@@ -92,7 +92,7 @@ if (JVERSION >= 3.0)
 				<td><?php echo JText::_('COM_JTG_NAME'); ?>:*</td>
 				<td><input id="name" type="text" name="name"
 					value="<?php echo $id AND isset($map->name)? $map->name: ''; ?>"
-					size="50" maxsize="50" /> (<?php echo $id AND isset($map->name)? JText::_($map->name): ''; ?>)
+					size="50" maxlength="50" /> (<?php echo $id AND isset($map->name)? JText::_($map->name): ''; ?>)
 				</td>
 			</tr>
 			<tr>
@@ -101,8 +101,8 @@ if (JVERSION >= 3.0)
 			</tr>
 			<tr>
 				<td><?php echo JText::_('COM_JTG_OL_PARAMETERS'); ?>:*</td>
-				<td><textarea id="param" type="text" name="param" value=""
-						cols="100" maxsize="500" rows="8">
+				<td><textarea id="param" name="param"
+						cols="100" maxlength="500" rows="8">
 						<?php
 						$replace = array("'",'"');
 						$with = array("'","&quot;");
@@ -126,7 +126,7 @@ if (($id) AND (isset($map->script)))
 	echo $script;
 }
 ?>"
-					size="100" maxsize="300" /></td>
+					size="100" maxlength="300" /></td>
 			</tr>
 			<tr>
 				<td><?php echo JText::_('COM_JTG_CODE'); ?>:</td>
@@ -139,13 +139,13 @@ if (($id) AND (isset($map->code)))
 	echo $code;
 }
 ?>"
-					size="100" maxsize="300" /></td>
+					size="100" maxlength="300" /></td>
 			</tr>
 			<tr>
 				<td><?php echo JText::_('COM_JTG_ORDER'); ?>:*</td>
 				<td><input id="order" type="text" name="order"
 					value="<?php echo $id AND isset($map->ordering)? $map->ordering: '99'; ?>"
-					size="2" maxsize="2">
+					size="2" maxlength="2">
 				</td>
 			</tr>
 		</tbody>

@@ -87,7 +87,7 @@ if ($this->id >= 1)
 ?>
 <form action="" method="post" name="adminForm" id="adminForm"
 	class="adminForm" enctype="multipart/form-data">
-	<table class="adminlist" cellpadding="1">
+	<table class="adminlist">
 		<thead>
 			<tr>
 				<th colspan="3" align="center"><?php echo $title; ?></th>
@@ -206,8 +206,7 @@ if ($this->id >= 1)
 			<tr class="row0 row-even">
 				<td valign="top" colspan="3"><?php echo JText::_('COM_JTG_IMAGES'); ?>
 					(max. 10): <input type="file" name="images[]" class="multi"
-					maxlength="10"><br clear="all" /> <br /> <?php if ( isset($this->images) )
-						echo $this->images; ?>
+					maxlength="10"><br clear="all" /> <br /> <?php echo isset($this->images)? $this->images: ''; ?>
 				</td>
 			</tr>
 			<?php

@@ -143,9 +143,9 @@ class JtgHelper
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $surface  param_description
+	 * @param   unknown_type  $surface    param_description
 	 * @param   unknown_type  $filetypes  param_description
-	 * @param   unknown_type  $track  param_description
+	 * @param   unknown_type  $track      param_description
 	 *
 	 * @return return_description
 	 */
@@ -326,9 +326,9 @@ class JtgHelper
 	 * function_description
 	 *
 	 * @param   unknown_type  $allcats  param_description
-	 * @param   integer  $catid  category ID
-	 * @param   unknown_type  $format  param_description
-	 * @param   unknown_type  $link  param_description
+	 * @param   integer       $catid    category ID
+	 * @param   unknown_type  $format   param_description
+	 * @param   unknown_type  $link     param_description
 	 *
 	 * @return return_description
 	 */
@@ -498,9 +498,9 @@ class JtgHelper
 	 * function_description
 	 *
 	 * @param   unknown_type  $allterrains  param_description
-	 * @param   unknown_type  $terrainid  param_description
-	 * @param   unknown_type  $format  param_description
-	 * @param   unknown_type  $link  param_description
+	 * @param   unknown_type  $terrainid    param_description
+	 * @param   unknown_type  $format       param_description
+	 * @param   unknown_type  $link         param_description
 	 *
 	 * @return return_description
 	 */
@@ -726,7 +726,7 @@ class JtgHelper
 	/**
 	 * Fetchs lat/lon from users given ID, otherwise from all users
 	 *
-	 * @param   unknown_type  $uid  param_description
+	 * @param   unknown_type  $uid      param_description
 	 * @param   unknown_type  $exclude  param_description
 	 *
 	 * @return return_description
@@ -770,9 +770,9 @@ class JtgHelper
 	 * creates the images
 	 *
 	 * @param   string  $file_tmp_name  param_description
-	 * @param   string  $ext  param_description
-	 * @param   string  $image_dir  param_description
-	 * @param   string  $image  param_description
+	 * @param   string  $ext            param_description
+	 * @param   string  $image_dir      param_description
+	 * @param   string  $image          param_description
 	 *
 	 * @return return_description
 	 */
@@ -899,7 +899,7 @@ class JtgHelper
 	/**
 	 * function_description
 	 *
-	 * @param   string  $uid  param_description
+	 * @param   string  $uid       param_description
 	 * @param   string  $username  param_description
 	 *
 	 * @return string
@@ -982,9 +982,9 @@ class JtgHelper
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $float  param_description
+	 * @param   unknown_type  $float    param_description
 	 * @param   unknown_type  $default  param_description
-	 * @param   unknown_type  $unit  param_description
+	 * @param   unknown_type  $unit     param_description
 	 *
 	 * @return return_description
 	 */

@@ -58,7 +58,7 @@ $document->addStyleSheet(JUri::base() . 'components/com_jtg/template.css');
 			<td nowrap="nowrap"></td>
 		</tr>
 	</table>
-	<table class="adminlist" cellpadding="1">
+	<table class="adminlist">
 		<tfoot>
 			<tr>
 				<td colspan="14"><?php echo $this->pagination->getListFooter(); ?></td>
@@ -184,7 +184,7 @@ $document->addStyleSheet(JUri::base() . 'components/com_jtg/template.css');
 				<td align="center"><?php echo $row->id; ?></td>
 				<td align="center"><?php echo $checked; ?></td>
 				<td align="center">
-					<?php echo '<span class="hasTip" title="' . $row->file ?>"><?php echo $title; ?> </span></td>
+					<?php echo '<span class="hasTip" title="' . $row->file . '">' . $title . '</span>'; ?> </td>
 				<td align="center" nowrap><?php echo $imagelink; ?></td>
 				<td align="left"><?php echo $cats; ?></td>
 				<td align="center"><?php echo $terrain; ?></td>

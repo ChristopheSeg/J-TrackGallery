@@ -62,7 +62,7 @@ class JtgModelMAp extends JModelLegacy
 	 * function_description
 	 *
 	 * @param   string  $order  param_description
-	 * @param   array  $cid  param_description
+	 * @param   array   $cid    param_description
 	 *
 	 * @return boolean
 	 */

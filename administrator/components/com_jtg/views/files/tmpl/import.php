@@ -323,7 +323,7 @@ $document->addStyleDeclaration($style);
 				{
 					$table .= ("				<td>");
 					$table .= ("<input type=\"hidden\" name=\"file_" . $count . "\" value=\"" . $file . "\" />\n");
-					$table .= ("\n				<input id=\"title\" type=\"text\" name=\"title_" . $count . "\" value=\"" . $title . "\" size=\"30\" /></td>\n");
+					$table .= "\n				<input id=\"title_" . $count . "\" type=\"text\" name=\"title_" . $count . "\" value=\"" . $title . "\" size=\"30\" /></td>\n";
 				}
 
 				// Row: Difficulty level

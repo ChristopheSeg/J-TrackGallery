@@ -225,8 +225,12 @@ class JtgControllerMaps extends JtgController
 
 		$model = $this->getModel('maps');
 		$savemap = $model->saveMap();
+
 		if (!$savemap)
+		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+		}
+
 		$this->setRedirect(JRoute::_('index.php?option=com_jtg&task=maps&controller=maps', false));
 	}
 
@@ -261,8 +265,11 @@ class JtgControllerMaps extends JtgController
 		JSession::checkToken() or jexit('Invalid Token');
 
 		$model = $this->getModel('maps');
+
 		if (!$model->updateMap())
+		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+		}
 
 		$this->setRedirect(JRoute::_('index.php?option=com_jtg&task=maps&controller=maps', false));
 	}

@@ -59,7 +59,7 @@ class TableJTG_Cats extends JTable
 	/**
 	 * bind function
 	 *
-	 * @param   array   $array  param_description
+	 * @param   array   $array   param_description
 	 * @param   string  $ignore  param_description
 	 *
 	 * @return object

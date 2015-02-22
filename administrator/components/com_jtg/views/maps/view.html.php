@@ -96,7 +96,7 @@ class JtgViewMaps extends JViewLegacy
 	/**
 	 * function_description
 	 *
-	 * @param   object   $map  param_description
+	 * @param   object   $map    param_description
 	 * @param   integer  $count  param_description
 	 *
 	 * @return string

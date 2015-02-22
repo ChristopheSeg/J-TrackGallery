@@ -35,7 +35,7 @@ $version = (string) $manifest['version'];
 ?>
 <div style="margin: auto">
 	<div style="float: left; margin-left: 30px">
-		<table border="0" align="center" cellspacing="2" cellpadding="2">
+		<table>
 			<tbody>
 				<tr>
 					<td colspan="2"><img src="<?php echo $link;?>"

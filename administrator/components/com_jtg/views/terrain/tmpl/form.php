@@ -45,7 +45,7 @@ JToolBarHelper::help('terrain/form', true);
 ?>
 <form action="" method="post" name="adminForm" id="adminForm"
 	class="adminForm">
-	<table class="adminlist" cellpadding="1">
+	<table class="adminlist">
 		<thead>
 			<tr>
 				<th colspan="2" align="center"><?php echo $title; ?></th>
@@ -80,6 +80,8 @@ if ( $this->id )
 		type="hidden" name="task" value="" />
 	<?php
 	if ($this->id)
-		echo "<input type=\"hidden\" name=\"id\" value=\"" . $this->id . "\" />"
-		?>
+	{
+		echo "<input type=\"hidden\" name=\"id\" value=\"" . $this->id . "\" />";
+	}
+	?>
 </form>

@@ -34,7 +34,7 @@ class JtgViewDefault extends JViewLegacy
 	/**
 	 * function_description
 	 *
-	 * @param   object  $tpl  param_description
+	 * @param   object        $tpl  param_description
 	 * @param   unknown_type  $map  param_description
 	 *
 	 * @return return_description
