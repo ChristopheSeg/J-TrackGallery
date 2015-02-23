@@ -45,7 +45,7 @@ echo $this->lh;
 				<button class="button"
 					onclick="document.getElementById('searchfield').value='';this.form.getElementById('filter_state').value='';this.form.submit();">
 					<?php echo JText::_('COM_JTG_RESET'); ?>
-				</button> <?php echo JText::_('Display Num') . '&nbsp;' . $this->pagination->getLimitBox(); ?>
+				</button> <?php echo JText::_('JGLOBAL_DISPLAY_NUM') . '&nbsp;' . $this->pagination->getLimitBox(); ?>
 			</td>
 			<td style="text-align: right"><?php echo $this->pagination->getResultsCounter(); ?>
 			</td>
@@ -76,9 +76,15 @@ if (! $this->params->get("jtg_param_disable_terrains"))
 				<th width="20px">
 				<?php echo JHtml::_('grid.sort', JText::_('COM_JTG_HITS'), 'hits', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
 				</th>
+<?php if ($this->cfg->usevote == 1)
+{
+?>
 				<th width="20px">
 				<?php echo JHtml::_('grid.sort', JText::_('COM_JTG_VOTING'), 'vote', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
 				</th>
+<?php
+}
+?>
 				<th width="80px">
 				<?php echo JHtml::_('grid.sort', JText::_('COM_JTG_DISTANCE'), 'distance', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
 				</th>
@@ -167,7 +173,13 @@ if (! $this->params->get("jtg_param_disable_terrains"))
 
 				<td><?php echo $profile; ?></td>
 				<td><?php echo $hits; ?></td>
+<?php if ($this->cfg->usevote == 1)
+{
+?>
 				<td><?php echo $votes; ?></td>
+<?php
+}
+?>
 				<td><?php echo $distance; ?></td>
 			</tr>
 			<?php

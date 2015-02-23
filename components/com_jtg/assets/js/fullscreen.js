@@ -30,7 +30,6 @@ else
 	olmap.updateSize();
 
 	// SetTimeout("olmap.zoomTo(new_zoom);	", 1000);
-	// TODO improve Zoom calculation accounting for screen size
 }
 function switch_fullscreen()
 {

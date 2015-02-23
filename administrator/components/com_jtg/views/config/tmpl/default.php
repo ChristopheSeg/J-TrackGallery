@@ -296,9 +296,7 @@ margin: 1px 0 0 0;
 					<?php echo '<span class="hasTip" title="' . JText::_('COM_JTG_TT_TITLE')
 					. '::' . JText::_('COM_JTG_GALLERY_CODE_DESC') . '">' . JText::_('COM_JTG_GALLERY_CODE') . '</span>'; ?>
 				</td>
-				<td><textarea rows="2" cols="70" name="gallery_code">
-						<?php echo $this->config->gallery_code; ?>
-					</textarea></td>
+				<td><textarea rows="2" cols="70" name="gallery_code"><?php echo $this->config->gallery_code; ?></textarea></td>
 			</tr>
 			<tr>
 				<td>

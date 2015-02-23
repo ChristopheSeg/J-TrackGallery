@@ -960,7 +960,7 @@ class JtgModelFiles extends JModelLegacy
 					if (!JFile::delete($file))
 					{
 						// TODO JTEXT + warning
-						echo "Erasing failed (file: \"" . $file . "\") !\n";
+						echo JText::sprintf('COM_JTG_FILE_DELETE_FAILED', $file);
 
 						// TODO check if exit is correct here ???
 						exit;
@@ -1131,7 +1131,7 @@ class JtgModelFiles extends JModelLegacy
 			}
 		}
 		// 	get the start coordinates $target
-		// TODO GPSCLASS deprecated,
+		// TODO GPSCLASS deprecated, (was in use in importFromJPT)
 		$gps_old = new gpsClass;
 		$gps_old->gpsFile = $file;
 		$isTrack = $gps_old->isTrack();
@@ -1289,8 +1289,7 @@ class JtgModelFiles extends JModelLegacy
 			{
 				if (!JFile::upload($file['tmp_name'], $upload_dir . $target))
 				{
-					// TODO JTEXT !
-					echo "Upload failed!";
+					echo JText::_('COM_JTG_UPLOAD_FAILED');
 				}
 				else
 				{
@@ -1307,7 +1306,6 @@ class JtgModelFiles extends JModelLegacy
 				if ( $fncount > 100 )
 				{
 					// This would never happen !!
-					// TODOTODO add erase old file
 					die("<html>Booah! No free Filename available!<br />\"<i>" . JFile::makeSafe($file['name']) . "</i>\"</html>");
 				}
 
@@ -1531,7 +1529,7 @@ class JtgModelFiles extends JModelLegacy
 			$access = $importfile['access'];
 
 			// Get the start coordinates $target
-			// TODO gpsclass deprecated
+			// TODO gpsclass deprecated was in use in importFromJPT
 			$gps_old = new gpsClass;
 			$gps_old->gpsFile = $file;
 			$isTrack = $gps_old->isTrack();

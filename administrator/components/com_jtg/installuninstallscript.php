@@ -246,7 +246,6 @@ class Com_JtgInstallerScript
 	$parent->getParent()->setRedirectURL('index.php?option=com_jtg');
 	*/
 
-	// TODO check if is this remains usefull ??
 	echo '<tr><td colspan="3">';
 	echo '<font color="red" size="+1">' . JText::_('COM_JTG_HINTS') . '</font>';
 	echo JText::_('COM_JTG_HINTS_DETAILS');
@@ -330,7 +329,7 @@ class Com_JtgInstallerScript
 				$db->execute();
 			}
 
-			// TODO: replace by sql table default?
+			// TODO: replace by sql table default values?
 			// Save default params
 			$query = 'UPDATE #__extensions SET params = ';
 			$query .= '\' {

@@ -38,7 +38,7 @@ if ($user->id != 0)
 	name="adminForm" id="adminForm">
 	<table style="width:100%;">
 		<tr>
-			<td><?php echo JText::_('Display Num') . '&nbsp;' . $this->pagination->getLimitBox(); ?>
+			<td><?php echo JText::_('JGLOBAL_DISPLAY_NUM') . '&nbsp;' . $this->pagination->getLimitBox(); ?>
 			</td>
 			<td style="text-align: right"><?php echo $this->pagination->getResultsCounter(); ?>
 			</td>

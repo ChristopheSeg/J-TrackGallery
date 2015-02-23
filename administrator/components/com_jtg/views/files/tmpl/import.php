@@ -416,8 +416,7 @@ $document->addStyleDeclaration($style);
 			echo JText::_('COM_JTG_FOUND_T') . "<br /><br />";
 			echo JText::_('COM_JTG_FOUND_L');
 
-			// TODO folder/images don't exist !!!
-			echo " <a href=\"index.php?option=com_jtg&task=importjgt&controller=files\"><img src=\"templates/khepri/images/notice-download.png\" /></a>";
+			echo " <a href=\"index.php?option=com_jtg&task=importjgt&controller=files\"><img src=\"/administrator/templates/bluestork/images/notice-download.png\" /></a>";
 
 			// Datenimport von joomgpstracks END
 		}

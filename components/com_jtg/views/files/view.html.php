@@ -48,6 +48,12 @@ class JtgViewFiles extends JViewLegacy
 			return JText::_('COM_JTG_NO_RESSOURCE');
 		}
 
+		if ($this->cfg->access == 0)
+		{
+			// Track access is not used
+			return true;
+		}
+
 		$published = (bool) $param->track->published;
 		$access = (int) $param->track->access;
 		/* $access:
@@ -328,8 +334,6 @@ class JtgViewFiles extends JViewLegacy
 		$this->imgcount = $imgcount;
 		$this->images = $images;
 
-		// TODO $this->kml = $start;
-		$this->kml = null;
 		$this->lh = $lh;
 		$this->footer = $footer;
 		$this->track = $track;

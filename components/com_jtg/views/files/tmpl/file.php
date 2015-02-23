@@ -421,7 +421,7 @@ if ( $this->clicklist !== false ) {
 								</label> <input type="text" name="speed" id="speed" value=""
 									size="4" />
 								</span> <input type="button" name="button" class="button"
-									value="Submit"
+									value="<?php echo JText::_('JSUBMIT'); ?>"
 									onclick="getAvgTime(document.getElementById('speed').value,<?php echo $this->distance_float; ?>,
 				<?php echo '\'' . JText::_('COM_JTG_SEPARATOR_DEC') . '\''; ?>);" />
 							</div>

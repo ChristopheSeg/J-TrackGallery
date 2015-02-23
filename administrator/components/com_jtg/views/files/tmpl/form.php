@@ -134,13 +134,13 @@ if ($this->id >= 1)
 			<tr class="row0 row-even">
 				<td><?php echo JText::_('COM_JTG_TITLE'); ?>:*</td>
 				<td><input id="title" type="text" name="title"
-					value="<?php echo isset($this->id) AND ($this->id != 0)? $this->track->title: ''; ?>"
+					value="<?php echo (isset($this->id) AND ($this->id != 0))? $this->track->title: ''; ?>"
 					size="30" /></td>
 			</tr>
 			<tr class="row1 row-odd">
 				<td><?php echo JText::_('COM_JTG_DATE'); ?>:*</td>
 				<td><input id="date" type="text" name="date"
-					value="<?php echo isset($this->id) AND ($this->id != 0)? $this->track->date: ''; ?>"
+					value="<?php echo (isset($this->id) AND ($this->id != 0))? $this->track->date: ''; ?>"
 					size="10" /></td>
 			</tr>
 			<tr class="row0 row-even">

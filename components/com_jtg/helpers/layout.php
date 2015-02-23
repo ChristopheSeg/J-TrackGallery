@@ -135,10 +135,23 @@ class LayoutHelper
 	 */
 	static public function footer()
 	{
-		$footer = '<div class="gps-footer">' . JText::_('COM_JTG_POWERED_BY');
-		$footer .= ' <a href="http://jtrackgallery.net"';
-		$footer .= ' target="_blank">J!Track Gallery</a>';
-		$footer .= '</div>';
+		$params = JComponentHelper::getParams('com_jtg');
+
+		if ($params->get('jtg_param_display_jtg_credits') == 1)
+		{
+			$footer = '<div class="gps-footer">' . JText::_('COM_JTG_POWERED_BY');
+			$footer .= ' <a href="http://jtrackgallery.net"';
+			$footer .= ' target="_blank">J!Track Gallery</a>';
+			$footer .= "</div>\n";
+		}
+		else
+		{
+			// Add a comment with a link to jtrackgallery.net
+			$footer = '<!--' . JText::_('COM_JTG_POWERED_BY');
+			$footer .= ' <a href="http://jtrackgallery.net"';
+			$footer .= ' target="_blank">J!Track Gallery</a>';
+			$footer .= "-->\n";
+		}
 
 		return $footer;
 	}

@@ -1153,7 +1153,6 @@ class GpsDataClass
 		}
 		else
 		{
-			// TODO: Typeigenes Icon (Track, WP, Route)
 			$hddpath = JPATH_SITE . "/components/com_jtg/assets/template/" . $cfg->template . "/images/";
 			$wpcoords = simplexml_load_file($hddpath . "unknown_Cat_wp.xml");
 			$marker .= "var size = new OpenLayers.Size(" . $wpcoords->sizex . ", " . $wpcoords->sizey . "); ";
@@ -1514,7 +1513,6 @@ class GpsDataClass
 					$store = false;
 				}
 
-				// TODO break not used !!
 				break;
 			}
 
@@ -2328,6 +2326,7 @@ class GpsDataClass
 					}
 					else
 					{
+						// TODO recreate thumbnail if it does not exists (case direct FTP upload of images)
 						$imagepath = $httppath . $image;
 					}
 
