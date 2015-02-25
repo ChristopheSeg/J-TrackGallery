@@ -24,11 +24,11 @@ $iconpath = JUri::root() . "components/com_jtg/assets/template/" . $tmpl . "/ima
 
 if ( $userid )
 {
-	$document->addScriptDeclaration("var alerttext = '" . JText::_('COM_JTG_SET_HOMEPOSITION') . "';");
+	$document->addScriptDeclaration("var alerttext = '" . str_replace("'", "\'",JText::_('COM_JTG_SET_HOMEPOSITION')) . "';");
 }
 else
 {
-	$document->addScriptDeclaration("var alerttext = '" . JText::_('COM_JTG_HOMEPOSITION_GUESTS') . "';");
+	$document->addScriptDeclaration("var alerttext = '" . str_replace("'", "\'",JText::_('COM_JTG_HOMEPOSITION_GUESTS')) . "';");
 }
 
 $document->addScript('media/system/js/mootools.js');

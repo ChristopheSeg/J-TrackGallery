@@ -877,12 +877,19 @@ class JtgModelFiles extends JModelLegacy
 				$file_tmp = str_replace('#', '', $file_tmp);
 				$file_tmp = str_replace('\&amp;', '', $file_tmp);
 				$file_tmp = str_replace('\&', '', $file_tmp);
+
+				// Truncate filename to 50 characters
+				if (strlen($file_tmp) > 50)
+				{
+					$file_tmp = substr($file_tmp, 0, 50);
+				}
+
 				$target = $file_tmp . "." . $extension;
+
 				$target = JFile::makeSafe($target);
 
 				if ( (!$file_replace ) and (in_array($target, $existingfiles)) )
 				{
-					$randnumber = (50 - strlen($target));
 					$fncount = 1;
 
 					while (true)
@@ -893,12 +900,6 @@ class JtgModelFiles extends JModelLegacy
 						{
 							break;
 						}
-						// Normally not usefull
-						if ( $fncount > 100 )
-						{
-							$randname = JtgHelper::alphanumericPass(45);
-							$target = $randname . "." . $extension;
-						}
 
 						if ( $fncount > 10000 )
 						{
@@ -906,31 +907,6 @@ class JtgModelFiles extends JModelLegacy
 						}
 
 						$fncount++;
-					}
-				}
-				elseif (strlen($target) > 50)
-				{
-					// If filename is more than 50 characters long...
-
-					// TODO change this to a more convenient filename truncation
-					for ($j = 0;$j < 100;$j++)
-					{
-						// Unternehme 100 Versuche...
-						$file_tmp = JtgHelper::alphanumericPass(45);
-
-						if ( !in_array($file_tmp . "." . $extension, $existingfiles) )
-						{
-							// ... einen neuen Namen zu finden, ...
-							$target = $file_tmp . "." . $extension;
-							$j = 105;
-
-							// Und beende, andernfalls ...
-						}
-
-						if ( $j == 99 ) // ... breche ab.
-						{
-							die("<html>Filename<br />\"<i>" . $file . "</i>\"<br />too long to proceed, please short manually</html>");
-						}
 					}
 				}
 
@@ -1073,6 +1049,13 @@ class JtgModelFiles extends JModelLegacy
 		$file_tmp = str_replace('#', '', $file_tmp);
 		$file_tmp = str_replace('\&amp;', '', $file_tmp);
 		$file_tmp = str_replace('\&', '', $file_tmp);
+
+		// Truncate filename to 50 characters
+		if (strlen($file_tmp) > 50)
+		{
+			$file_tmp = substr($file_tmp, 0, 50);
+		}
+
 		$target = $file_tmp . "." . $extension;
 		$target = JFile::makeSafe($target);
 
@@ -1083,20 +1066,13 @@ class JtgModelFiles extends JModelLegacy
 
 			while (true)
 			{
-				$randname = $this->alphanumericPass($randnumber);
-				$target = $file_tmp . $randname . "." . $extension;
+				$target = $file_tmp . '_' . $fncount . "." . $extension;
 
 				if (!in_array($target, $existingfiles) )
 				{
 					break;
 				}
 				// Man weiß ja nie ;)
-
-				if ( $fncount > 100 )
-				{
-					$randname = $this->alphanumericPass(45);
-					$target = $randname . "." . $extension;
-				}
 
 				if ( $fncount > 10000 )
 				{
@@ -1106,30 +1082,7 @@ class JtgModelFiles extends JModelLegacy
 				$fncount++;
 			}
 		}
-		elseif (strlen($target) > 50)
-		{
-			// When Dateiname über 50 Zeichen hat...
-			// ... Unternehme 100 Versuche...
 
-			for ($j = 0;$j < 100;$j++)
-			{
-				$file_tmp = $this->alphanumericPass(45);
-
-				if ( !in_array($file_tmp . "." . $extension, $existingfiles) )
-				{
-					// Einen neuen Namen zu finden, ...
-					$target = $file_tmp . "." . $extension;
-
-					// Und beende, andernfalls ...
-					$j = 105;
-				}
-
-				if ( $j == 99 ) // ... breche ab.
-				{
-					die("<html>Filename<br />\"<i>" . $file . "</i>\"<br />too long to proceed, please short manually</html>");
-				}
-			}
-		}
 		// 	get the start coordinates $target
 		// TODO GPSCLASS deprecated, (was in use in importFromJPT)
 		$gps_old = new gpsClass;
@@ -1272,6 +1225,13 @@ class JtgModelFiles extends JModelLegacy
 		$file_tmp = str_replace('#', '', $file_tmp);
 		$file_tmp = str_replace('\&amp;', '', $file_tmp);
 		$file_tmp = str_replace('\&', '', $file_tmp);
+
+		// Truncate filename to 50 characters
+		if (strlen($file_tmp) > 50)
+		{
+			$file_tmp = substr($file_tmp, 0, 50);
+		}
+
 		$target = $file_tmp . "." . $extension;
 		$uid = JFactory::getApplication()->input->get('uid');
 		$date = date("Y-m-d");
@@ -1466,6 +1426,13 @@ class JtgModelFiles extends JModelLegacy
 			$file_tmp = str_replace('#', '', $file_tmp);
 			$file_tmp = str_replace('\&amp;', '', $file_tmp);
 			$file_tmp = str_replace('\&', '', $file_tmp);
+
+			// Truncate filename to 50 characters
+			if (strlen($file_tmp) > 50)
+			{
+				$file_tmp = substr($file_tmp, 0, 50);
+			}
+
 			$target = $file_tmp . "." . $extension;
 			$target = JFile::makeSafe($target);
 
@@ -1476,19 +1443,11 @@ class JtgModelFiles extends JModelLegacy
 
 				while (true)
 				{
-					$randname = $this->alphanumericPass($randnumber);
-					$target = $file_tmp . $randname . "." . $extension;
+					$target = $file_tmp . '_' . $fncount . "." . $extension;
 
 					if (!in_array($target, $existingfiles) )
 					{
 						break;
-					}
-
-					if ( $fncount > 100 )
-					{
-						// Man weiß ja nie ;)
-						$randname = $this->alphanumericPass(45);
-						$target = $randname . "." . $extension;
 					}
 
 					if ( $fncount > 10000 )
@@ -1497,30 +1456,6 @@ class JtgModelFiles extends JModelLegacy
 					}
 
 					$fncount++;
-				}
-			}
-			elseif (strlen($target) > 50)
-			{
-				// When Dateiname über 50 Zeichen hat...
-				for ($j = 0;$j < 100;$j++)
-				{
-					// ... unternehme 100 Versuche...
-					$file_tmp = $this->alphanumericPass(45);
-
-					if ( !in_array($file_tmp . "." . $extension, $existingfiles))
-					{
-						// ... einen neuen Namen zu finden, ...
-						$target = $file_tmp . "." . $extension;
-
-						// Und beende, andernfalls ...
-						$j = 105;
-					}
-
-					if ( $j == 99 )
-					{
-						// ... breche ab.
-						die("<html>Filename<br />\"<i>" . $file . "</i>\"<br />too long to proceed, please short manually</html>");
-					}
 				}
 			}
 

@@ -237,40 +237,6 @@ class JtgHelper
 	/**
 	 * function_description
 	 *
-	 * @param   integer  $length  param_description
-	 *
-	 * @return random string with given (int) lengh
-	 * http://www.php.net/manual/de/function.mt-rand.php#92711
-	 */
-	static public function alphanumericPass($length)
-	{
-		// TODO deprecated
-		$p = "";
-
-		for ($i = 0;$i < $length;$i++)
-		{
-			$c = mt_rand(1, 4);
-
-			switch ($c)
-			{
-				case ($c <= 2):
-					// Add a number
-					$p .= mt_rand(0, 9);
-					break;
-
-				case ($c <= 4):
-					// Add a lowercase letter
-					$p .= chr(mt_rand(97, 122));
-					break;
-			}
-		}
-
-		return $p;
-	}
-
-	/**
-	 * function_description
-	 *
 	 * @param   unknown_type  $file  param_description
 	 * @param   unknown_type  $dest  param_description
 	 *
@@ -306,8 +272,7 @@ class JtgHelper
 			}
 			else
 			{
-				$randname = self::alphanumericPass($randnumber);
-				$filename = $randname . JFile::makeSafe($file['name']);
+				$filename = $fncount . JFile::makeSafe($file['name']);
 
 				// Man weiß ja nie ;)
 				if ( $fncount > 10000 )

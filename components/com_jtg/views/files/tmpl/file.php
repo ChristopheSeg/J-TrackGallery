@@ -541,7 +541,7 @@ if ($this->cfg->usevote == 1)
 	{
 		$template .= JText::_('COM_JTG_ARITHMETICAL_MIDDLE') . ": " .
 				$JtgHelper->getLocatedFloat($this->vote['rate'])
-				. ' ' . JText::_('COM_JTG_FROM') . " " . ($i - 1) . "<br />\n";
+				. ' ' . JText::_('COM_JTG_FROM') . " " . ($i - 1) . " \n";
 		$template .= $this->vote['count'] . "&nbsp;" . JText::_('COM_JTG_RATINGS') . "\n";
 	}
 
