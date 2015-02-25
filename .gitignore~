@@ -1,4 +1,6 @@
 /nbproject/private/
+/administrator/components/com_jtg/com_jtg.xml
+/administrator/components/com_jtg/installuninstallscript.php
 /components/com_jtg/uploads/import/
 /components/com_jtg/uploads/*.gpx
 /components/com_jtg/uploads/*.GPX

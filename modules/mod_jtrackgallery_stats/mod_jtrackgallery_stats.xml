@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" version="2.5">
+<name>MOD_JTG_STATS</name>
+<author>Modified for JtrackGallery by Christophe Seguinot - Modded By Jason Oxley - Original Author Michael Pfister</author>
+<creationDate>September 2010</creationDate>
+<copyright>(C) 2010 All rights reserved.</copyright>
+<license>GNU/GPL2</license>
+<authorEmail>christophe@jtrackgallery.net</authorEmail>
+<authorUrl>http://jtrackgallery.net/</authorUrl>
+<version>0.9.5</version>
+<description>MOD_JTG_STATS_DESCRIPTION</description>
+<files>
+ <filename module="mod_jtrackgallery_stats">mod_jtrackgallery_stats.php</filename>
+ <filename>index.html</filename>
+ <filename>helper.php</filename>
+ <filename>tmpl/default.php</filename>
+ <filename>tmpl/index.html</filename>
+</files>
+<languages folder="language">
+    <language tag="de-DE">de-DE/de-DE.mod_jtrackgallery_stats.ini</language>
+    <language tag="en-GB">en-GB/en-GB.mod_jtrackgallery_stats.ini</language>
+    <language tag="fr-FR">fr-FR/fr-FR.mod_jtrackgallery_stats.ini</language>
+    <language tag="pl-PL">pl-PL/pl-PL.mod_jtrackgallery_stats.ini</language>
+    
+    <language tag="de-DE">de-DE/de-DE.mod_jtrackgallery_stats.sys.ini</language>
+    <language tag="en-GB">en-GB/en-GB.mod_jtrackgallery_stats.sys.ini</language>
+    <language tag="fr-FR">fr-FR/fr-FR.mod_jtrackgallery_stats.sys.ini</language>
+    <language tag="pl-PL">pl-PL/pl-PL.mod_jtrackgallery_stats.sys.ini</language>
+</languages>
+<config><fields name="params"><fieldset name="basic" label="MOD_JTG_STATS_CONFIGURATION">
+	<field name="moduleclass_sfx" type="text" label="MOD_JTG_STATS_MODULE_SFX" size="40" />
+
+	<field name="tcustom_enable" type="radio" label="MOD_JTG_STATS_CUSTOM_TEXT_ENABLE" default="0">
+	    <option value="1">JYes</option>
+	    <option value="0">JNo</option>
+	</field>
+
+	<field name="tcustom" type="textarea" rows="10" cols="40" label="MOD_JTG_STATS_CUSTOM_TEXT" size="40" default="our Database have $cats categories and $tracks tracks representing a total distance of $distance km ($distance_mi Mi) and a total elevation of $ascent km (descent $descent km). Tracks have been viewed $views times and rated $votes times" description="MOD_JTG_STATS_CUSTOM_TEXT_DESCRIPTION" />
+	<field name="thead" type="text" label="MOD_JTG_STATS_HEADER_TEXT" size="40" default="GPS Track Stats" description="MOD_JTG_STATS_HEADER_TEXT_DESCRIPTION" />
+	<field name="theado" type="radio" label="MOD_JTG_STATS_HEADER_TEXT_ENABLE" default="1">
+	       <option value="1">JYES</option>
+	       <option value="0">JNO</option>
+	</field>
+	<field type="spacer" name="myspacer1" hr="true" />
+	<field name="tcat" type="text" label="MOD_JTG_STATS_CATEGORY_TEXT" size="40" default="Total Categories: %s" description="MOD_JTG_STATS_CATEGORY_TEXT_DESCRIPTION" />
+	<field name="tcato" type="radio" label="MOD_JTG_STATS_CATEGORY_TEXT_ENABLE" default="1">
+	       <option value="1">JYES</option>
+	       <option value="0">JNO</option>
+	</field>
+	<field type="spacer" name="myspacer2" hr="true" />
+	<field name="ttrack" type="text" label="MOD_JTG_STATS_TRACKS_TEXT" size="40" default="Total Of %s Tracks" description="MOD_JTG_STATS_TRACKS_TEXT_DESCRIPTION" />
+	<field name="ttracko" type="radio" label="MOD_JTG_STATS_TRACKS_TEXT_ENABLE" default="1">
+	       <option value="1">JYES</option>
+	       <option value="0">JNO</option>
+	</field>
+	<field type="spacer" name="myspacer3" hr="true" />
+	<field name="tdis" type="text" label="MOD_JTG_STATS_DISTANCE_TEXT" size="40" default="%s Km's Of Tracks" description="MOD_JTG_STATS_DISTANCE_TEXT_DESCRIPTION" />
+	<field name="tdiso" type="radio" label="MOD_JTG_STATS_DISTANCE_TEXT_ENABLE" default="1">
+	       <option value="1">JYES</option>
+	       <option value="0">JNO</option>
+	</field>
+	<field name="unit" type="list" label="MOD_JTG_STATS_UNIT" default="Kilometer">
+	  <option value="Kilometer">MOD_JTG_STATS_KILOMETER</option>
+	  <option value="Miles">MOD_JTG_STATS_MILES</option>
+	</field>
+    <field name="decimalseparator" type="list" label="MOD_JTG_STATS_DECIMAL_SEPARATOR" default=",">
+	<option value=",">MOD_JTG_STATS_COMMA</option>
+ 	<option value=".">MOD_JTG_STATS_DOT</option>
+    </field>
+    <field type="spacer" name="myspacer4" hr="true" />
+	<field name="tasc" type="text" label="MOD_JTG_STATS_ASCENT_TEXT" size="40" default="%s Km's Of Ascent" description="MOD_JTG_STATS_ASCENT_TEXT_DESCRIPTION" />
+	<field name="tasco" type="radio" label="MOD_JTG_STATS_ASCENT_TEXT_ENABLE" default="1">
+	       <option value="1">JYES</option>
+	       <option value="0">JNO</option>
+	</field>
+	<field type="spacer" name="myspacer5" hr="true" />
+	<field name="tdec" type="text" label="MOD_JTG_STATS_DESCENT_TEXT" size="40" default="%s Km's Of Descent" description="MOD_JTG_STATS_DESCENT_TEXT_DESCRIPTION" />
+	<field name="tdeco" type="radio" label="MOD_JTG_STATS_DESCENT_TEXT_ENABLE" default="1">
+	       <option value="1">JYES</option>
+	       <option value="0">JNO</option>
+	</field>
+	<field type="spacer" name="myspacer6" hr="true" />
+	<field name="tview" type="text" label="MOD_JTG_STATS_VIEWED_TEXT" size="40" default="Times Tracks Viewed: %s" description="MOD_JTG_STATS_VIEWED_DESCRIPTION" />
+	<field name="tviewo" type="radio" label="MOD_JTG_STATS_VIEWED_TEXT_ENABLE" default="1">
+	       <option value="1">JYES</option>
+	       <option value="0">JNO</option>
+	</field>
+	<field type="spacer" name="myspacer7" hr="true" />
+	<field name="tvote" type="text" label="MOD_JTG_STATS_RATING_TEXT" size="40" default="Total Ratings Given: %s" description="MOD_JTG_STATS_RATING_DESCRIPTION" />
+	<field name="tvoteo" type="radio" label="MOD_JTG_STATS_RATING_TEXT_ENABLE" default="1">
+	       <option value="1">JYES</option>
+	       <option value="0">JNO</option>
+	</field>
+</fieldset></fields></config>
+</extension>
