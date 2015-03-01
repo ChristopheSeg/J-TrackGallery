@@ -1,34 +1,52 @@
 <?php
 /**
- * @version 0.7 
- * @package JTrackGallery
- * @copyright (C) 2009 Michael Pfister, 2013 Christophe Seguinot
- * @license GNU/GPL2
-
- * You should have received a copy of the GNU General Public License
- * along with Idoblog; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
+ *
+ *
+ * @package     Comjtg
+ * @subpackage  Module JTrackGalleryLatest
+ * @author      Christophe Seguinot <christophe@jtrackgallery.net>
+ * @author      Pfister Michael, JoomGPStracks <info@mp-development.de>
+ * @copyright   2015 J!TrackGallery, InJooosm and joomGPStracks teams
+ *
+ * @license     http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3
+ * @link        http://jtrackgallery.net/
+ *
  */
 
-/** ensure this file is being included by a parent file */
-defined('_JEXEC') or die( 'Restricted access' );
+// No direct access
+defined('_JEXEC') or die('Restricted access');
 
-class modjtrackgalleryLatestHelper  {
+/**
+ * ModjtrackgalleryLatestHelper class for Module JTrackGalleryLatest
+ *
+ * @package     Comjtg
+ * @subpackage  Module JTrackGalleryLatest
+ * @since       0.8
+ */
 
-    function getTracks($count) {
-        $mainframe = JFactory::getApplication();;
+class ModjtrackgalleryLatestHelper
+{
+	/**
+	 * function_description
+	 *
+	 * @param   integer  $count  number of tracks used in stats
+	 *
+	 * @return return_description
+	 */
+	public function getTracks($count)
+	{
+		$mainframe = JFactory::getApplication();
 
-        $db = JFactory::getDBO();
+		$db = JFactory::getDBO();
 
-        $query = "SELECT a.*, b.title as cat FROM #__jtg_files AS a"
-                . "\n LEFT JOIN #__jtg_cats AS b ON b.id=a.catid"
-                . "\n ORDER BY id DESC"
-                . "\n LIMIT ".$count
-                ;
-        $db->setQuery($query);
-        $result = $db->loadObjectList();
+		$query = "SELECT a.*, b.title as cat FROM #__jtg_files AS a"
+				. "\n LEFT JOIN #__jtg_cats AS b ON b.id=a.catid"
+				. "\n ORDER BY id DESC"
+				. "\n LIMIT " . $count;
+		$db->setQuery($query);
+		$result = $db->loadObjectList();
 
-        return $result;
-    }
+		return $result;
+	}
 }
-?>

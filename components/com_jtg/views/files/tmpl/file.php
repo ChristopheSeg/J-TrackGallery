@@ -539,10 +539,12 @@ if ($this->cfg->usevote == 1)
 	}
 	else
 	{
-		$template .= JText::_('COM_JTG_ARITHMETICAL_MIDDLE') . ": " .
-				$JtgHelper->getLocatedFloat($this->vote['rate'])
-				. ' ' . JText::_('COM_JTG_FROM') . " " . ($i - 1) . " \n";
-		$template .= $this->vote['count'] . "&nbsp;" . JText::_('COM_JTG_RATINGS') . "\n";
+		$template .= JText::sprintf(
+				'COM_JTG_TRACK_RATING',
+				$JtgHelper->getLocatedFloat($this->vote['rate']),
+				$i - 1,
+				$this->vote['count']
+				) . "\n";
 	}
 
 	echo $this->parseTemplate("description", $template);

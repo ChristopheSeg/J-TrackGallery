@@ -3,10 +3,10 @@
 	<name>com_jtg</name>
 	<author>J!Track Gallery, InJoo0SM and joomGPStracks teams</author>
 	<creationDate>22.04.2011</creationDate>
-	<license>GNU/GPL2</license>
+	<license>GNU/GPL3</license>
 	<authorEmail>christophe@jtrackgallery.net</authorEmail>
 	<authorUrl>http://jtrackgallery.net/</authorUrl>
-	<version>0.9.4</version>
+	<version>0.9.7</version>
 	<description>COM_JTG_DESCRIPTION</description>
 
 	<install folder="administrator/components/com_jtg">
@@ -27,7 +27,6 @@
 	</uninstall>
 
 	<scriptfile>installuninstallscript.php</scriptfile>
-
 	<files folder="components/com_jtg">
 		<file>controller.php</file>
 		<file>index.html</file>
@@ -74,9 +73,11 @@
 	</administration>
 	<!-- UPDATESERVERS DEFINITION -->
 	<!-- Note: No spaces or linebreaks allowed between the server tags -->
+	<!--  this was for component update  (now package update)
 	<updateservers>
 		<server type="extension" priority="1" name="J!Track Gallery Update Site">http://jtrackgallery.net/downloads/J-TrackGallery-updates.xml</server>
 	</updateservers>
+	-->
 	<params />
 	<modules />
 </extension>

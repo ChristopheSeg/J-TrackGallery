@@ -102,8 +102,7 @@ if (JVERSION >= 3.0)
 			<tr>
 				<td><?php echo JText::_('COM_JTG_OL_PARAMETERS'); ?>:*</td>
 				<td><textarea id="param" name="param"
-						cols="100" maxlength="500" rows="8">
-						<?php
+						cols="100" maxlength="500" rows="8"><?php
 						$replace = array("'",'"');
 						$with = array("'","&quot;");
 
@@ -112,8 +111,7 @@ if (JVERSION >= 3.0)
 							$param = str_replace($replace, $with, $map->param);
 							echo $param;
 						}
-						?>
-					</textarea>
+						?></textarea>
 				</td>
 			</tr>
 			<tr>

@@ -40,7 +40,7 @@ class Com_JtgInstallerScript
 	 *
 	 * @return return_description
 	 */
-	function preflight($type, $parent)
+	public function preflight($type, $parent)
 	{
 		// Try to increment some limits
 		// Execution time 5 minutes
@@ -73,12 +73,12 @@ class Com_JtgInstallerScript
 			echo '<br /> &nbsp; ' . JText::sprintf('COM_JTG_PREFLIGHT_INSTALLING', $this->release);
 		}
 
-		echo '<br /> &nbsp; ' . JText::sprintf('COM_JTG_PREFLIGHT_MIN_JOOMLA', $this->minimum_joomla_release, $jversion->getShortVersion);
+		echo '<br /> &nbsp; ' . JText::sprintf('COM_JTG_PREFLIGHT_MIN_JOOMLA', $this->minimum_joomla_release, $jversion->getShortVersion());
 
 		// Abort if the current Joomla release is older
-		if (version_compare($jversion->getShortVersion, $this->minimum_joomla_release, 'lt'))
+		if (version_compare($jversion->getShortVersion(), $this->minimum_joomla_release, 'lt'))
 		{
-			Factory::getApplication()->enqueueMessage(JText::sprintf('COM_JTG_PREFLIGHT_MIN_JOOMLA_ABORT', $this->minimum_joomla_release), 'Warning');
+			JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_JTG_PREFLIGHT_MIN_JOOMLA_ABORT', $this->minimum_joomla_release), 'Warning');
 
 			return false;
 		}
@@ -111,7 +111,7 @@ class Com_JtgInstallerScript
 	 *
 	 * @return return_description
 	 */
-	function install( $parent )
+	public function install( $parent )
 	{
 		jimport('joomla.filesystem.folder');
 		jimport('joomla.filesystem.file');
@@ -246,7 +246,7 @@ class Com_JtgInstallerScript
 	 *
 	 * @return return_description
 	 */
-	function update( $parent )
+	public function update( $parent )
 	{
 		// This is executed after upgrade.sql
 		// Upgrading from $oldRelease to $this->release
@@ -273,7 +273,7 @@ class Com_JtgInstallerScript
 	 *
 	 * @return return_description
 	 */
-	function postflight($type, $parent)
+	public function postflight($type, $parent)
 	{
 		$db = JFactory::getDBO();
 		$application = JFactory::getApplication();
@@ -354,7 +354,7 @@ class Com_JtgInstallerScript
 	 *
 	 * @return always true
 	 */
-	function uninstall( $parent )
+	public function uninstall( $parent )
 	{
 		// Set a simple message
 
@@ -414,7 +414,7 @@ class Com_JtgInstallerScript
 	 *
 	 * @return parameter value
 	 */
-	function getParam( $name )
+	public function getParam( $name )
 	{
 		$db = JFactory::getDbo();
 		$db->setQuery('SELECT manifest_cache FROM #__extensions WHERE name = "com_jtg"');
@@ -432,7 +432,7 @@ class Com_JtgInstallerScript
 	 *
 	 * @return void
 	 */
-	function setParams($param_array)
+	public function setParams($param_array)
 	{
 		if ( count($param_array) > 0 )
 		{

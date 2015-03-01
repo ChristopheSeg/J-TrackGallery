@@ -1,20 +1,24 @@
 <?php
 /**
- * @version 0.7 
- * @package JTrackGallery
- * @copyright (C) 2009 Michael Pfister, 2013 Christophe Seguinot
- * @license GNU/GPL2
-
- * You should have received a copy of the GNU General Public License
- * along with Idoblog; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
+ *
+ *
+ * @package     Comjtg
+ * @subpackage  Module JTrackGalleryLatest
+ * @author      Christophe Seguinot <christophe@jtrackgallery.net>
+ * @author      Pfister Michael, JoomGPStracks <info@mp-development.de>
+ * @copyright   2015 J!TrackGallery, InJooosm and joomGPStracks teams
+ *
+ * @license     http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3
+ * @link        http://jtrackgallery.net/
+ *
  */
 
-/** ensure this file is being included by a parent file */
-defined('_JEXEC') or die( 'Restricted access' );
+// No direct access
+defined('_JEXEC') or die('Restricted access');
 
-require_once dirname(__FILE__).'/helper.php';
-$latest = new modjtrackgalleryLatestHelper;
+require_once dirname(__FILE__) . '/helper.php';
+$latest = new ModjtrackgalleryLatestHelper;
 
 $width = $params->get('width');
 $heigth = $params->get('heigth');
@@ -24,16 +28,15 @@ $color = $params->get('color');
 $count = $params->get('count');
 $tracks = $latest->getTracks($count);
 $apikey = $params->get('apikey');
-if ($params->get('unit') == "Kilometer" ) 
+
+if ($params->get('unit') == "Kilometer" )
 {
-    $unit = 1;
+	$unit = 1;
 }
 else
 {
-    $unit = 1/1.609344;
+	$unit = 1 / 1.609344;
 }
 
 
 require JModuleHelper::getLayoutPath('mod_jtrackgallery_latest', $params->get('layout', 'default'));
-
-?>

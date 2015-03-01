@@ -42,7 +42,7 @@ class Com_JtgInstallerScript
 	 *
 	 * @return boolean true if preflight success
 	 */
-	function preflight ($type, $parent)
+	protected function preflight ($type, $parent)
 	{
 		// Try to increment some limits: execution time 5 minutes
 		@set_time_limit(240);
@@ -126,7 +126,7 @@ class Com_JtgInstallerScript
 	 *
 	 * @return boolean true if install success
 	 */
-	function install ($parent)
+	protected function install ($parent)
 	{
 		jimport('joomla.filesystem.folder');
 		jimport('joomla.filesystem.file');
@@ -266,7 +266,7 @@ class Com_JtgInstallerScript
 	 *
 	 * @return boolean true if preflight success
 	 */
-	function update ($parent)
+	protected function update ($parent)
 	{
 		// This is executed after upgrade.sql
 		// Upgrading from $oldRelease to $this->release
@@ -295,7 +295,7 @@ class Com_JtgInstallerScript
 	 *
 	 * @return return_description
 	 */
-	function postflight ($type, $parent)
+	protected function postflight ($type, $parent)
 	{
 		$db = JFactory::getDBO();
 		$application = JFactory::getApplication();
@@ -380,7 +380,7 @@ class Com_JtgInstallerScript
 	 *
 	 * @return always true
 	 */
-	function uninstall ($parent)
+	protected function uninstall ($parent)
 	{
 		// Set a simple message
 		jimport('joomla.filesystem.folder');
@@ -448,7 +448,7 @@ class Com_JtgInstallerScript
 	 *
 	 * @return parameter value
 	 */
-	function getParam ($name)
+	protected function getParam ($name)
 	{
 		$db = JFactory::getDbo();
 		$db->setQuery('SELECT manifest_cache FROM #__extensions WHERE name = "com_jtg"');
@@ -464,7 +464,7 @@ class Com_JtgInstallerScript
 	 *
 	 * @return parameter value
 	 */
-	function setParams ($param_array)
+	protected function setParams ($param_array)
 	{
 		if (count($param_array) > 0)
 		{

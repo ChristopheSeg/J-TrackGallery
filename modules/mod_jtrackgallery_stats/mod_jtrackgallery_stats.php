@@ -1,20 +1,24 @@
 <?php
 /**
- * @version 0.7
- * @package JTrackGallery
- * @copyright (C) 2009 Michael Pfister, 2013 Christophe Seguinot
- * @license GNU/GPL2
-
- * You should have received a copy of the GNU General Public License
- * along with Idoblog; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
+ *
+ *
+ * @package     Comjtg
+ * @subpackage  Module JTrackGalleryLatest
+ * @author      Christophe Seguinot <christophe@jtrackgallery.net>
+ * @author      Pfister Michael, JoomGPStracks <info@mp-development.de>
+ * @copyright   2015 J!TrackGallery, InJooosm and joomGPStracks teams
+ *
+ * @license     http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3
+ * @link        http://jtrackgallery.net/
+ *
  */
 
-/** ensure this file is being included by a parent file */
-defined('_JEXEC') or die( 'Restricted access' );
+// No direct access
+defined('_JEXEC') or die('Restricted access');
 
-require_once dirname(__FILE__).'/helper.php';
-$stats = new modjtrackgalleryHelper;
+require_once dirname(__FILE__) . '/helper.php';
+$stats = new ModjtrackgalleryStatsHelper;
 
 $moduleclass_sfx = $params->get('moduleclass_sfx');
 $tcustom_enable = $params->get('tcustom_enable');
@@ -37,37 +41,37 @@ $tviewo = $params->get('tviewo');
 $tvoteo = $params->get('tvoteo');
 $cats = $stats->countCats();
 $tracks = $stats->countTracks();
-$distance_km = $stats->countDistance(); // in kilometer
+$distance_km = $stats->countDistance();
 $ascent = $stats->countAscent();
 $descent = $stats->countDescent();
 $views = $stats->countViews();
 $votes = $stats->countVotes();
-$distance_mi = $distance_km/1.609344; // in Miles
+$distance_mi = $distance_km / 1.609344;
 $decimalseparator = $params->get('decimalseparator');
 
-// round value and account for decimal separator
-$distance_km = (string) round($distance_km, 1); 
-$distance_mi = (string) round($distance_mi, 1); 
-if ($params->get('unit') == "Kilometer" ) 
+// Round value and account for decimal separator
+$distance_km = (string) round($distance_km, 1);
+$distance_mi = (string) round($distance_mi, 1);
+
+if ($params->get('unit') == "Kilometer" )
 {
-    $distance = $distance_km;
+	$distance = $distance_km;
 }
 else
 {
-    $distance = $distance_mi;
+	$distance = $distance_mi;
 }
-$ascent = (string) round($ascent, 1); 
-$descent = (string) round($descent, 1); 
+
+$ascent = (string) round($ascent, 1);
+$descent = (string) round($descent, 1);
 
 if ($decimalseparator != '.')
 {
-    $distance = str_replace ('.', $decimalseparator, $distance);
-    $distance_km = str_replace ('.', $decimalseparator, $distance_km);
-    $distance_mi = str_replace ('.', $decimalseparator, $distance_mi);
-    $ascent = str_replace ('.', $decimalseparator, $ascent);
-    $descent = str_replace ('.', $decimalseparator, $descent);
+	$distance = str_replace('.', $decimalseparator, $distance);
+	$distance_km = str_replace('.', $decimalseparator, $distance_km);
+	$distance_mi = str_replace('.', $decimalseparator, $distance_mi);
+	$ascent = str_replace('.', $decimalseparator, $ascent);
+	$descent = str_replace('.', $decimalseparator, $descent);
 }
 
 require JModuleHelper::getLayoutPath('mod_jtrackgallery_stats', $params->get('layout', 'default'));
-
-?>

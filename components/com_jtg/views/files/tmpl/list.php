@@ -173,7 +173,8 @@ if (! $this->params->get("jtg_param_disable_terrains"))
 
 				<td><?php echo $profile; ?></td>
 				<td><?php echo $hits; ?></td>
-<?php if ($this->cfg->usevote == 1)
+<?php
+if ($this->cfg->usevote == 1)
 {
 ?>
 				<td><?php echo $votes; ?></td>

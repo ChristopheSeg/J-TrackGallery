@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="module" version="2.5">
+<extension type="module" version="2.5" method="upgrade">
 <name>MOD_JTG_LATEST</name>
 <author>Modified for JtrackGallery by Christophe Seguinot - Modded By Jason Oxley - Original Author Michael Pfister</author>
 <creationDate>September 2010</creationDate>
@@ -7,82 +7,82 @@
 <license>GNU/GPL2</license>
 <authorEmail>christophe@jtrackgallery.net</authorEmail>
 <authorUrl>http://jtrackgallery.net/</authorUrl>
-<version>0.9.5</version>
+<version>0.9.7</version>
 <description>MOD_JTG_LATEST_DESCRIPTION</description>
 <files>
-    <filename module="mod_jtrackgallery_latest">mod_jtrackgallery_latest.php</filename>
-    <filename>index.html</filename>
-    <filename>helper.php</filename>
-    <filename>tmpl/default.php</filename>
-    <filename>tmpl/index.html</filename>
+	<filename module="mod_jtrackgallery_latest">mod_jtrackgallery_latest.php</filename>
+	<filename>index.html</filename>
+	<filename>helper.php</filename>
+	<filename>tmpl/default.php</filename>
+	<filename>tmpl/index.html</filename>
 </files>
 <languages folder="language">
-    <language tag="de-DE">de-DE/de-DE.mod_jtrackgallery_latest.ini</language>
-    <language tag="en-GB">en-GB/en-GB.mod_jtrackgallery_latest.ini</language>
-    <language tag="fr-FR">fr-FR/fr-FR.mod_jtrackgallery_latest.ini</language>
-    <language tag="pl-PL">pl-PL/pl-PL.mod_jtrackgallery_latest.ini</language>
-    <language tag="de-DE">de-DE/de-DE.mod_jtrackgallery_latest.sys.ini</language>
-    <language tag="en-GB">en-GB/en-GB.mod_jtrackgallery_latest.sys.ini</language>
-    <language tag="fr-FR">fr-FR/fr-FR.mod_jtrackgallery_latest.sys.ini</language>
-    <language tag="pl-PL">pl-PL/pl-PL.mod_jtrackgallery_latest.sys.ini</language>
+	<language tag="de-DE">de-DE/de-DE.mod_jtrackgallery_latest.ini</language>
+	<language tag="en-GB">en-GB/en-GB.mod_jtrackgallery_latest.ini</language>
+	<language tag="fr-FR">fr-FR/fr-FR.mod_jtrackgallery_latest.ini</language>
+	<language tag="pl-PL">pl-PL/pl-PL.mod_jtrackgallery_latest.ini</language>
+	
+	<language tag="de-DE">de-DE/de-DE.mod_jtrackgallery_latest.sys.ini</language>
+	<language tag="en-GB">en-GB/en-GB.mod_jtrackgallery_latest.sys.ini</language>
+	<language tag="fr-FR">fr-FR/fr-FR.mod_jtrackgallery_latest.sys.ini</language>
+	<language tag="pl-PL">pl-PL/pl-PL.mod_jtrackgallery_latest.sys.ini</language>
 </languages>
 <config><fields name="params"><fieldset name="basic" label="MOD_JTG_LATEST_CONFIGURATION">
-    <field name="tcustom_enable" type="radio" label="MOD_JTG_LATEST_CUSTOM_TEXT_ENABLE" default="0">
-	<option value="1">JYes</option>
-	<option value="0">JNo</option>
-    </field>
-    <field name="tcustom" type="textarea" rows="10" cols="40" label="MOD_JTG_LATEST_CUSTOM_TEXT" size="40" default="Category: $cats, distance $distance_km km ($distance_mi Mi)" description="MOD_JTG_LATEST_CUSTOM_TEXT_DESCRIPTION" />
+	<field name="tcustom_enable" type="radio" label="MOD_JTG_LATEST_CUSTOM_TEXT_ENABLE" default="0">
+		<option value="1">JYes</option>
+		<option value="0">JNo</option>
+	</field>
+	<field name="tcustom" type="textarea" rows="10" cols="40" label="MOD_JTG_LATEST_CUSTOM_TEXT" size="40" default="Category: $cats, distance $distance_km km ($distance_mi Mi)" description="MOD_JTG_LATEST_CUSTOM_TEXT_DESCRIPTION" />
 
-<field name="moduleclass_sfx" type="text" label="MOD_JTG_LATEST_MODULE_SFX" description="MOD_JTG_LATEST_MODULE_SFX_DESCRIPTION" size="15" />
-    <field name="apikey" type="text" label="MOD_JTG_LATEST_GOOGLE_API_KEY" size="15" description="MOD_JTG_LATEST_GOOGLE_API_KEY_DESCRIPTION"/>
-    <field name="count" type="text" label="MOD_JTG_LATEST_MAPS_TO_DISPLAY" size="15" default="5" />
-    <field name="width" type="text" label="MOD_JTG_LATEST_MAP_WIDTH" size="15" default="150" />
-    <field name="heigth" type="text" label="MOD_JTG_LATEST_MAP_HEIGHT" default="150" size="15" />
-    <field name="zoom" type="text" label="MOD_JTG_LATEST_ZOOM_LEVEL" size="15" description="MOD_JTG_LATEST_ZOOM_LEVEL_DESCRIPTION" default="6" />
-    <field name="map" type="list" label="MOD_JTG_LATEST_MAPTYPE" default="roadmap">
- 	<option value="roadmap">MOD_JTG_LATEST_Roadmap</option>
-	<option value="mobile">MOD_JTG_LATEST_Mobile</option>
-        <option value="satellite">MOD_JTG_LATEST_Satellite</option>
-        <option value="terrain">MOD_JTG_LATEST_Terrain</option>
-        <option value="hybrid">MOD_JTG_LATEST_Hybrid</option>
-    </field>
-    <field name="color" type="list" label="MOD_JTG_LATEST_MARKERCOLOR" default="red">
- 	<option value="black">MOD_JTG_LATEST_Black</option>
-	<option value="brown">MOD_JTG_LATEST_Brown</option>
-        <option value="green">MOD_JTG_LATEST_Green</option>
-        <option value="purple">MOD_JTG_LATEST_Purple</option>
-        <option value="yellow">MOD_JTG_LATEST_Yellow</option>
-        <option value="gray">MOD_JTG_LATEST_Gray</option>
-        <option value="orange">MOD_JTG_LATEST_Orange</option>
-        <option value="red">MOD_JTG_LATEST_Red</option>
-        <option value="white">MOD_JTG_LATEST_White</option>
-    </field>
-    <field name="style" type="radio" label="MOD_JTG_LATEST_STYLE" default="0">
-	<option value="1">MOD_JTG_LATEST_Horizontal</option>
- 	<option value="0">MOD_JTG_LATEST_Vertical</option>
-    </field>
+	<field name="moduleclass_sfx" type="text" label="MOD_JTG_LATEST_MODULE_SFX" description="MOD_JTG_LATEST_MODULE_SFX_DESCRIPTION" size="15" />
+	<field name="apikey" type="text" label="MOD_JTG_LATEST_GOOGLE_API_KEY" size="15" description="MOD_JTG_LATEST_GOOGLE_API_KEY_DESCRIPTION"/>
+	<field name="count" type="text" label="MOD_JTG_LATEST_MAPS_TO_DISPLAY" size="15" default="5" />
+	<field name="width" type="text" label="MOD_JTG_LATEST_MAP_WIDTH" size="15" default="150" />
+	<field name="heigth" type="text" label="MOD_JTG_LATEST_MAP_HEIGHT" default="150" size="15" />
+	<field name="zoom" type="text" label="MOD_JTG_LATEST_ZOOM_LEVEL" size="15" description="MOD_JTG_LATEST_ZOOM_LEVEL_DESCRIPTION" default="6" />
+	<field name="map" type="list" label="MOD_JTG_LATEST_MAPTYPE" default="roadmap">
+		<option value="roadmap">MOD_JTG_LATEST_Roadmap</option>
+		<option value="mobile">MOD_JTG_LATEST_Mobile</option>
+		<option value="satellite">MOD_JTG_LATEST_Satellite</option>
+		<option value="terrain">MOD_JTG_LATEST_Terrain</option>
+		<option value="hybrid">MOD_JTG_LATEST_Hybrid</option>
+	</field>
+	<field name="color" type="list" label="MOD_JTG_LATEST_MARKERCOLOR" default="red">
+		<option value="black">MOD_JTG_LATEST_Black</option>
+		<option value="brown">MOD_JTG_LATEST_Brown</option>
+		<option value="green">MOD_JTG_LATEST_Green</option>
+		<option value="purple">MOD_JTG_LATEST_Purple</option>
+		<option value="yellow">MOD_JTG_LATEST_Yellow</option>
+		<option value="gray">MOD_JTG_LATEST_Gray</option>
+		<option value="orange">MOD_JTG_LATEST_Orange</option>
+		<option value="red">MOD_JTG_LATEST_Red</option>
+		<option value="white">MOD_JTG_LATEST_White</option>
+	</field>
+	<field name="style" type="radio" label="MOD_JTG_LATEST_STYLE" default="0">
+		<option value="1">MOD_JTG_LATEST_Horizontal</option>
+		<option value="0">MOD_JTG_LATEST_Vertical</option>
+	</field>
 
-    <field type="spacer" name="myspacer1" hr="true" />
-    <field name="tcats" type="text" label="MOD_JTG_LATEST_CATEGORY_TEXT" size="40" default="Categorie: %s" description="MOD_JTG_LATEST_CATEGORY_DEFAULT" />
-    <field name="cats" type="radio" label="MOD_JTG_LATEST_CATEGORY" default="0">
-	<option value="1">JYes</option>
- 	<option value="0">JNo</option>
-    </field>
-    <field type="spacer" name="myspacer2" hr="true" />
-    <field name="tdistance" type="text" label="MOD_JTG_LATEST_DISTANCE_TEXT" size="40" default="%s Km" description="MOD_JTG_LATEST_DISTANCE_DEFAULT" />
-    <field name="distance" type="radio" label="MOD_JTG_LATEST_DISTANCE" default="0">
-	<option value="1">JYes</option>
- 	<option value="0">JNo</option>
-    </field>
-    <field name="unit" type="list" label="MOD_JTG_LATEST_UNIT" default="Kilometer">
-	<option value="Kilometer">MOD_JTG_LATEST_KILOMETER</option>
- 	<option value="Miles">MOD_JTG_LATEST_MILES</option>
-    </field>
-    <field name="decimalseparator" type="list" label="MOD_JTG_LATEST_DECIMAL_SEPARATOR" default=",">
-	<option value=",">MOD_JTG_LATEST_COMMA</option>
- 	<option value=".">MOD_JTG_LATEST_DOT</option>
-    </field>
+	<field type="spacer" name="myspacer1" hr="true" />
+	<field name="tcats" type="text" label="MOD_JTG_LATEST_CATEGORY_TEXT" size="40" default="Categorie: %s" description="MOD_JTG_LATEST_CATEGORY_DEFAULT" />
+	<field name="cats" type="radio" label="MOD_JTG_LATEST_CATEGORY" default="0">
+		<option value="1">JYes</option>
+		<option value="0">JNo</option>
+	</field>
+	<field type="spacer" name="myspacer2" hr="true" />
+	<field name="tdistance" type="text" label="MOD_JTG_LATEST_DISTANCE_TEXT" size="40" default="%s Km" description="MOD_JTG_LATEST_DISTANCE_DEFAULT" />
+	<field name="distance" type="radio" label="MOD_JTG_LATEST_DISTANCE" default="0">
+		<option value="1">JYes</option>
+		<option value="0">JNo</option>
+	</field>
+	<field name="unit" type="list" label="MOD_JTG_LATEST_UNIT" default="Kilometer">
+		<option value="Kilometer">MOD_JTG_LATEST_KILOMETER</option>
+		<option value="Miles">MOD_JTG_LATEST_MILES</option>
+	</field>
+	<field name="decimalseparator" type="list" label="MOD_JTG_LATEST_DECIMAL_SEPARATOR" default=",">
+		<option value=",">MOD_JTG_LATEST_COMMA</option>
+		<option value=".">MOD_JTG_LATEST_DOT</option>
+	</field>
 </fieldset>
-</fields>
-</config>
+</fields></config>
 </extension>

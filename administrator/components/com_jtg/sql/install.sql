@@ -69,13 +69,13 @@ INSERT  IGNORE INTO `#__jtg_config` (`id`, `gid`, `unit`, `type`, `max_size`, `m
 `charts_height`, `charts_linec`, `charts_bg`, `profile`, `template`, `comment_who`, 
 `inform_autor`, `captcha`, `ordering`, `comments`, `access`, `approach`, 
 `routingiconset`, `usevote`, `download`, `gallery`, `showcharts`, 
-`level`) VALUES
+`gallery_code`, `level`) VALUES
 (1, 'a:0:{}', 'Kilometer', 'jpg,jpeg,png,gif', 200, 220, 
 400, 0, 0, 5, '500px', '100%', '100%', 
 '180px', 'FF0000', '0000CC', '0', 'default', 'a:0:{}', 
 1, 0, 'DESC', 0, 0, 'no', 
-'real', 0, 2, 2, 
-'COM_JTG_LEVEL_1\nCOM_JTG_LEVEL_2\nCOM_JTG_LEVEL_3\nCOM_JTG_LEVEL_4\nCOM_JTG_LEVEL_5');
+'real', 0, 1, 2, 2, 
+'{gallery}%folder%{/gallery}', 'COM_JTG_LEVEL_1\nCOM_JTG_LEVEL_2\nCOM_JTG_LEVEL_3\nCOM_JTG_LEVEL_4\nCOM_JTG_LEVEL_5');
 
 CREATE TABLE IF NOT EXISTS `#__jtg_files` (
 	`id` int(10) NOT NULL AUTO_INCREMENT,

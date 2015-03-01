@@ -1,22 +1,26 @@
 <?php
 /**
- * @version 0.7 
- * @package JTrackGallery
- * @copyright (C) 2009 Michael Pfister, 2013 Christophe Seguinot
- * @license GNU/GPL2
-
- * You should have received a copy of the GNU General Public License
- * along with Idoblog; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
+ *
+ *
+ * @package     Comjtg
+ * @subpackage  Module JTrackGalleryLatest
+ * @author      Christophe Seguinot <christophe@jtrackgallery.net>
+ * @author      Pfister Michael, JoomGPStracks <info@mp-development.de>
+ * @copyright   2015 J!TrackGallery, InJooosm and joomGPStracks teams
+ *
+ * @license     http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3
+ * @link        http://jtrackgallery.net/
+ *
  */
 
-/** ensure this file is being included by a parent file */
-defined('_JEXEC') or die( 'Restricted access' );
+// No direct access
+defined('_JEXEC') or die('Restricted access');
 ?>
 <div style="padding-left:10px">
 <?php
 
-if ($tcustom_enable) 
+if ($tcustom_enable)
 {
 	// Use custom display, replace each data when needed
 	$tcustom = str_replace('$cats', $cats, $tcustom);
@@ -27,44 +31,70 @@ if ($tcustom_enable)
 	$tcustom = str_replace('$descent', $descent, $tcustom);
 	$tcustom = str_replace('$views', $views, $tcustom);
 	$tcustom = str_replace('$votes', $votes, $tcustom);
-	echo $tcustom; 
-}    
+	echo $tcustom;
+}
 else
 {
 	if ($theado == "1")
 	{
-	    echo "<div>"; echo JText::_($thead); echo "</div>"; 
+		echo "<div>";
+		echo JText::_($thead);
+		echo "</div>";
 	}
-	echo '<ul>'; 
-	if ($tcato == "1") 
+
+	echo '<ul>';
+
+	if ($tcato == "1")
 	{
-	    echo "<li>"; echo sprintf($tcat, $cats); echo "</li>"; 
+		echo '<li>';
+		echo sprintf($tcat, $cats);
+		echo '</li>';
 	}
-	if ($ttracko == "1") 
+
+	if ($ttracko == "1")
 	{
-	    echo "<li>"; echo sprintf($ttrack, $tracks); echo "</li>"; 
+		echo '<li>';
+		echo sprintf($ttrack, $tracks);
+		echo '</li>';
 	}
-	if ($tdiso == "1") 
+
+	if ($tdiso == "1")
 	{
-	    echo "<li>"; echo sprintf($tdis, $distance); echo "</li>"; 
+		echo '<li>';
+		echo sprintf($tdis, $distance);
+		echo '</li>';
 	}
-	if ($tasco == "1") 
+
+	if ($tasco == "1")
 	{
-	    echo "<li>"; echo sprintf($tasc, $ascent); echo "</li>";
+		echo '<li>';
+		echo sprintf($tasc, $ascent);
+		echo '</li>';
 	}
-	if ($tdeco == "1") 
+
+	if ($tdeco == "1")
 	{
-	    echo "<li>"; echo sprintf($tdec, $descent); echo "</li>";
+		echo '<li>';
+		echo sprintf($tdec, $descent);
+		echo
+		"</li>";
 	}
-	if ($tviewo == "1") 
+
+	if ($tviewo == "1")
 	{
-	    echo "<li>"; echo sprintf($tview, $views); echo "</li>";
+		echo '<li>';
+		echo sprintf($tview, $views);
+		echo '</li>';
 	}
-	if ($tvoteo == "1") 
+
+	if ($tvoteo == "1")
 	{
-	    echo "<li>"; echo sprintf($tvote, $votes); echo "</li>"; 
+		echo '<li>';
+		echo sprintf($tvote, $votes);
+		echo '</li>';
 	}
-	echo '</ul>'; 
+
+	echo '</ul>';
 }
 ?>
 </div>

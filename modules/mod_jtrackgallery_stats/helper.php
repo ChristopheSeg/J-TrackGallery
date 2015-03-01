@@ -1,104 +1,148 @@
 <?php
 /**
- * @version 0.7
- * @package JTrackGallery
- * @copyright (C) 2009 Michael Pfister, 2013 Christophe Seguinot
- * @license GNU/GPL2
-
- * You should have received a copy of the GNU General Public License
- * along with Idoblog; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
+ *
+ *
+ * @package     Comjtg
+ * @subpackage  Module JTrackGalleryLatest
+ * @author      Christophe Seguinot <christophe@jtrackgallery.net>
+ * @author      Pfister Michael, JoomGPStracks <info@mp-development.de>
+ * @copyright   2015 J!TrackGallery, InJooosm and joomGPStracks teams
+ *
+ * @license     http://www.gnu.org/licenses/gpl-3.0.html GNU/GPLv3
+ * @link        http://jtrackgallery.net/
+ *
  */
 
-/** ensure this file is being included by a parent file */
-defined('_JEXEC') or die( 'Restricted access' );
+// No direct access
+defined('_JEXEC') or die('Restricted access');
 
-class modjtrackgalleryHelper  {
+/**
+ * ModjtrackgalleryLatestHelper class for Module JTrackGalleryStats
+ *
+ * @package     Comjtg
+ * @subpackage  Module JTrackGalleryStats
+ * @since       0.8
+ */
+class ModjtrackgalleryStatsHelper
+{
+	/**
+	 * function_description
+	 *
+	 * @return return_description
+	 */
+	public function countCats()
+	{
+		$mainframe = JFactory::getApplication();
+		$db = JFactory::getDBO();
+		$query = "SELECT COUNT(*) FROM #__jtg_cats WHERE published='1'";
+		$db->setQuery($query);
+		$result = $db->loadResult();
 
-    function countCats()  {
-        $mainframe = JFactory::getApplication();;
+		return $result;
+	}
 
-        $db = JFactory::getDBO();
+	/**
+	 * function_description
+	 *
+	 * @return return_description
+	 */
+	public function countTracks()
+	{
+		$mainframe = JFactory::getApplication();
+		$db = JFactory::getDBO();
+		$query = "SELECT COUNT(*) FROM #__jtg_files WHERE published='1'";
+		$db->setQuery($query);
+		$result = $db->loadResult();
 
-        $query = "SELECT COUNT(*) FROM #__jtg_cats WHERE published='1'";
-        $db->setQuery($query);
-        $result = $db->loadResult();
+		return $result;
+	}
 
-        return $result;
-    }
+	/**
+	 * function_description
+	 *
+	 * @return return_description
+	 */
+	public function countDistance()
+	{
+		$mainframe = JFactory::getApplication();
 
-    function countTracks()  {
-        $mainframe = JFactory::getApplication();;
+		$db = JFactory::getDBO();
 
-        $db = JFactory::getDBO();
+		$query = "SELECT SUM(distance) FROM #__jtg_files WHERE published='1'";
+		$db->setQuery($query);
 
-        $query = "SELECT COUNT(*) FROM #__jtg_files WHERE published='1'";
-        $db->setQuery($query);
-        $result = $db->loadResult();
+		// In km
+		$result = (int) $db->loadResult();
 
-        return $result;
-    }
-    
-    function countDistance()  {
-        $mainframe = JFactory::getApplication();;
+		return $result;
+	}
 
-        $db = JFactory::getDBO();
+	/**
+	 * function_description
+	 *
+	 * @return return_description
+	 */
+	public function countAscent()
+	{
+		$mainframe = JFactory::getApplication();
+		$db = JFactory::getDBO();
+		$query = "SELECT SUM(ele_asc) FROM #__jtg_files WHERE published='1'";
+		$db->setQuery($query);
 
-        $query = "SELECT SUM(distance) FROM #__jtg_files WHERE published='1'";
-        $db->setQuery($query);
-        $result = (int) $db->loadResult(); // in km
+		// In km
+		$result = ($db->loadResult() / 1000);
 
-        return $result;
-    }
+		return $result;
+	}
 
-    function countAscent()  {
-        $mainframe = JFactory::getApplication();;
+	/**
+	 * function_description
+	 *
+	 * @return return_description
+	 */
+	public function countDescent()
+	{
+		$mainframe = JFactory::getApplication();
+		$db = JFactory::getDBO();
+		$query = "SELECT SUM(ele_desc) FROM #__jtg_files WHERE published='1'";
+		$db->setQuery($query);
 
-        $db = JFactory::getDBO();
+		// In km
+		$result = ($db->loadResult() / 1000);
 
-        $query = "SELECT SUM(ele_asc) FROM #__jtg_files WHERE published='1'";
-        $db->setQuery($query);
-        $result = ($db->loadResult()/1000); //in km
+		return $result;
+	}
 
-        return $result;
-    }
+	/**
+	 * function_description
+	 *
+	 * @return return_description
+	 */
+	public function countViews()
+	{
+		$mainframe = JFactory::getApplication();
+		$db = JFactory::getDBO();
+		$query = "SELECT SUM(hits) FROM #__jtg_files WHERE published='1'";
+		$db->setQuery($query);
+		$result = $db->loadResult();
 
-    function countDescent()  {
-        $mainframe = JFactory::getApplication();;
+		return $result;
+	}
 
-        $db = JFactory::getDBO();
+	/**
+	 * function_description
+	 *
+	 * @return return_description
+	 */
+	public function countVotes()
+	{
+		$mainframe = JFactory::getApplication();
+		$db = JFactory::getDBO();
+		$query = "SELECT COUNT(*) FROM #__jtg_votes";
+		$db->setQuery($query);
+		$result = $db->loadResult();
 
-        $query = "SELECT SUM(ele_desc) FROM #__jtg_files WHERE published='1'";
-        $db->setQuery($query);
-        $result =  ($db->loadResult()/1000); //in km
-
-        return $result;
-    }
-
-    function countViews()  {
-        $mainframe = JFactory::getApplication();;
-
-        $db = JFactory::getDBO();
-
-        $query = "SELECT SUM(hits) FROM #__jtg_files WHERE published='1'";
-        $db->setQuery($query);
-        $result = $db->loadResult();
-
-        return $result;
-    }
-
-    function countVotes()  {
-        $mainframe = JFactory::getApplication();;
-
-        $db = JFactory::getDBO();
-
-        $query = "SELECT COUNT(*) FROM #__jtg_votes";
-        $db->setQuery($query);
-        $result = $db->loadResult();
-
-        return $result;
-    }
-
-    
+		return $result;
+	}
 }
-?>

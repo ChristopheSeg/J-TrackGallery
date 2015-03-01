@@ -24,11 +24,11 @@ $iconpath = JUri::root() . "components/com_jtg/assets/template/" . $tmpl . "/ima
 
 if ( $userid )
 {
-	$document->addScriptDeclaration("var alerttext = '" . str_replace("'", "\'",JText::_('COM_JTG_SET_HOMEPOSITION')) . "';");
+	$document->addScriptDeclaration("var alerttext = '" . str_replace("'", "\'", JText::_('COM_JTG_SET_HOMEPOSITION')) . "';");
 }
 else
 {
-	$document->addScriptDeclaration("var alerttext = '" . str_replace("'", "\'",JText::_('COM_JTG_HOMEPOSITION_GUESTS')) . "';");
+	$document->addScriptDeclaration("var alerttext = '" . str_replace("'", "\'", JText::_('COM_JTG_HOMEPOSITION_GUESTS')) . "';");
 }
 
 $document->addScript('media/system/js/mootools.js');
@@ -237,10 +237,9 @@ if ( $userid )
 					echo "					<option value=\"all\"" . $sall . ">" . JText::_('COM_JTG_VISIBLE_ALL') . "</option>
 					<option value=\"reg\"" . $sreg . ">" . JText::_('COM_JTG_VISIBLE_REG') . "</option>
 					<option value=\"non\"" . $snon . ">" . JText::_('COM_JTG_VISIBLE_NONE') . "</option>
-					</select>
 					";
 					?>
-
+</select>
 			</td>
 		</tr>
 	</table>

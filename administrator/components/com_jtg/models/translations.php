@@ -125,7 +125,6 @@ class JtgModelTranslations extends JModelLegacy
 				$iswritable = JPath::getPermissions($file);
 				$iswritable = $iswritable[1];
 				$content = file_get_contents($file);
-				$text = explode("\n", $content);
 
 				if ($iswritable == "w" )
 				{
