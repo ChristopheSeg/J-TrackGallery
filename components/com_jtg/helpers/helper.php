@@ -581,7 +581,6 @@ class JtgHelper
 
 		foreach ($cfg_id as $key => $group)
 		{
-
 			if (array_search($group, $user_groups) )
 			{
 				return true;

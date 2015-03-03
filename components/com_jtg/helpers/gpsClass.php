@@ -995,7 +995,8 @@ class GpsDataClass
 		$elevationChartData = "";
 		$beatChartData = "";
 		$speedChartData = "";
-
+		$longitudeChartData = "";
+		$latitudeChartData = "";
 		/*
 		 * $c is the step for scanning allDistances/speed and others datas
 		* $width is half the width over which speed data are smoothed
@@ -1020,6 +1021,8 @@ class GpsDataClass
 			$distance = (string) round($this->allDistances[$i], 2);
 			$i2 = max($i - $width, 1);
 			$i3 = min($i + $width, $n - 1);
+			$longitudeChartData .= $this->allCoords[$i][0] . ',';
+			$latitudeChartData .= $this->allCoords[$i][1] . ',';
 
 			if ($this->speedDataExists)
 			{
@@ -1046,6 +1049,9 @@ class GpsDataClass
 				$beatChartData .= '[' . $distance . ',' . round($this->allBeat[$i2], 0) . '],';
 			}
 		}
+
+		$this->longitudeData = '[' . substr($longitudeChartData, 0, -1) . ']';
+		$this->latitudeData = '[' . substr($latitudeChartData, 0, -1) . ']';
 
 		if ($this->speedDataExists)
 		{
@@ -2066,12 +2072,12 @@ class GpsDataClass
 			{
 				foreach ($coords as $key => $fetch)
 				{
-					$string .= "[" . $coords[$key][0] . "," . $coords[$key][1] . "],\n";
+					$string .= "[" . $coords[$key][0] . "," . $coords[$key][1] . "],";
 				}
 			}
 			else
 			{
-				// Dummy line for Coding standard
+				// Dummy line for Coding standard (else required!)
 			}
 
 			$string .= "],\n{strokeColor:\"" . $this->getHexColor("#" . $color[$i]) . "\",\nstrokeWidth: 2,\nfillColor: \"" . $this->getHexColor("#" . $color[$i]) . "\",\nfillOpacity: 0.4}));\n";
@@ -2134,7 +2140,6 @@ class GpsDataClass
 		$maps = $this->getMaps("ordering");
 		$return = "";
 		$document = JFactory::getDocument();
-
 		for ($i = 0;$i < count($maps);$i++)
 		{
 			$map = $maps[$i];
@@ -2724,7 +2729,7 @@ class GpsDataClass
 		$link = JUri::current();
 
 		$string_se = "";
-		$string = "// <!-- parseXMLlinesCOM_JTG BEGIN -->\n";
+		$string = "// <!-- parseXMLlines BEGIN -->\n";
 
 		if ($this->trackCount == 0)
 		{
@@ -2744,6 +2749,7 @@ class GpsDataClass
 			$string .= ")";
 			$string .= ";olmap.addLayer(layer_vectors)";
 			$string .= ";\n";
+			$string .= ";/* \n Temporary commented ";
 			$string .= "var geometries = new Array();geometries.push(drawLine([\n";
 			$n = 0;
 			$coordscount = (count($coords) - 1);
@@ -2770,7 +2776,7 @@ class GpsDataClass
 			$string .= "strokeWidth: 3,\n";
 			$string .= "strokeOpacity: 0.7";
 			$string .= "}));\n";
-
+			$string .= " end of Temporary commented section */ \n";
 			$string_se .= "var lonLatStart" . $i . " = new OpenLayers.LonLat(" . $this->track[$i]->start . ") . ";
 			$string_se .= "transform(new OpenLayers.Projection(\"EPSG:4326\"), olmap.getProjectionObject());\n";
 			$string_se .= "var lonLatZiel" . $i . " = new OpenLayers.LonLat(" . $this->track[$i]->stop . ") . ";
@@ -2801,7 +2807,47 @@ class GpsDataClass
 		$string .= "olmap.addLayer(layer_startziel);";
 		$string .= "layer_startziel.setVisibility(true);";
 		$string .= $string_se;
-		$string .= "// <!-- parseXMLlinesCOM_JTG END -->\n";
+		$string .= "// <!-- parseXMLlines END -->\n";
+
+		// if (AnimatedCursorLayer)
+		if (true)
+		{
+			// AnimatedCursorLayer
+			$document = JFactory::getDocument();
+			$document->addScript('/components/com_jtg/assets/js/animatedCursor.js');
+
+			$string .= "// <!-- parseOLMapAnimatedCursorLayer BEGIN -->\n";
+			$string .= "var points = [];\n";
+			$string .= "var style ={strokeOpacity: 0.7, strokeColor: \"#ff00ff\", strokeWidth: 5, graphicZIndex: 5}\n";
+			$string .= "for (var i in longitudeData) {\n";
+			$string .= "	var point = new OpenLayers.Geometry.Point(longitudeData[i], latitudeData[i]). transform(new OpenLayers.Projection(\"EPSG:4326\"), olmap.getProjectionObject());\n";
+			$string .= "	points.push(point);\n";
+			$string .= "}\n";
+			$string .= "var line = new OpenLayers.Geometry.LineString(points);\n";
+			$string .= "var linefeature  = new OpenLayers.Feature.Vector(line, null, style);\n";
+
+			$string .= "animatedCursorLayer = new OpenLayers.Layer.Vector(\"Moving Cursor Line\");\n";
+			$string .= "animatedCursorLayer.addFeatures([linefeature]);\n";
+			$string .= "animatedCursorLayer.gpxfeature = animatedCursorLayer.features[0];\n";
+			$string .= "olmap.addLayer(animatedCursorLayer);\n";
+			$string .= "\n// <!-- parseOLMapAnimatedCursorIcon BEGIN -->\n";
+			$string .= "animatedCursorIcon = new OpenLayers.Layer.Markers(\"Moving Cursor\", {\n";
+			$string .= "displayInLayerSwitcher: false });\n";
+			$string .= "olmap.addLayer(animatedCursorIcon);\n";
+			$string .= "animatedCursorIcon.setVisibility(false);\n";
+			$string .= "var lonLat = new OpenLayers.LonLat(0,0) . transform(new OpenLayers.Projection(\"EPSG:4326\"), olmap.getProjectionObject());\n";
+			$string .= "var size = new OpenLayers.Size(32,32);\n";
+			$string .= "var offset = new OpenLayers.Pixel(-16,-32);\n";
+			$string .= "var icon = new OpenLayers.Icon(\"/components/com_jtg/assets/images/orange-dot.png\",size,offset);\n";
+			$string .= "animatedCursorIcon.addMarker(new OpenLayers.Marker(lonLat,icon));\n";
+			$string .= "// <!-- parseOLMapAnimatedCursorIcon END -->\n";
+		}
+		else
+		{
+			$string .= "<!-- AnimatedCursorLayer not activated -->\n";
+		}
+
+		$string .= "// <!-- parseOLMapAnimatedCursorLayer END -->\n";
 
 		$center = "// <!-- parseOLMapCenterSingleTrack BEGIN -->\n";
 		$center .= "var min = lonLatToMercator(new OpenLayers.LonLat";

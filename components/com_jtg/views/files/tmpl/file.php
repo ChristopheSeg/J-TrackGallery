@@ -125,6 +125,8 @@ if ($maySeeSingleFile === true)
 	src="http://code.highcharts.com/modules/exporting.js"></script>
 
 <script type="text/javascript">
+		var longitudeData= <?php echo $this->longitudeData; ?>;
+		var latitudeData= <?php echo $this->latitudeData; ?>;
 		var isIE=0;
 		if (navigator.appName == 'Microsoft Internet Explorer')
 			isIE=1;
@@ -255,19 +257,44 @@ if ($beatchart)
 }
 ?>
 			],
+<?php
+// if (AnimatedCursorLayer)
+if (true)
+{
+?>
+			plotOptions: {
+				series: {
+					point: {
+						events: {
+							mouseOver: function () {
+								var index = this.series.processedXData.indexOf(this.x);
+								hover_profil_graph(longitudeData[index],latitudeData[index], index);
+							}
+						}
+					},
+					events: {
+						mouseOut: function () {
+						out_profil_graph();
+						}
+					}
+				}
+			},
+<?php
+}
+?>
 			tooltip: {
-				valueDecimals: 2,
-				formatter: function() {
-				var s = '<b><?php echo JText::_('COM_JTG_DISTANCE'); ?>: '
-					+ this.x
-					+' <?php echo JText::_('COM_JTG_DISTANCE_UNIT_' . strtoupper($this->cfg->unit)); ?></b>';
-				$.each(this.points, function(i, point) {
-					s += '<br/>'+ point.series.name +': '+
-					point.y + ' ' + point.series.options.unit;
-				});
-				return s;
-				},
-				shared: true
+			valueDecimals: 2,
+			formatter: function() {
+			var s = '<b><?php echo JText::_('COM_JTG_DISTANCE'); ?>: '
+				+ this.x
+				+' <?php echo JText::_('COM_JTG_DISTANCE_UNIT_' . strtoupper($this->cfg->unit)); ?></b>';
+			$.each(this.points, function(i, point) {
+				s += '<br/>'+ point.series.name +': '+
+				point.y + ' ' + point.series.options.unit;
+			});
+			return s;
+			},
+			shared: true
 			},
 			legend: {
 				layout: 'vertical',
@@ -466,7 +493,7 @@ if ($this->track->ele_asc)
 					<td><?php echo JText::_('COM_JTG_ELEVATION_UP'); ?>:</td>
 					<td><?php
 						echo $this->track->ele_asc;
-						echo JText::_('COM_JTG_METERS');
+						echo ' ' . JText::_('COM_JTG_METERS');
 						?>
 					</td>
 				</tr>
@@ -479,7 +506,7 @@ if ($this->track->ele_desc)
 				<tr>
 					<td><?php echo JText::_('COM_JTG_ELEVATION_DOWN'); ?>:</td>
 					<td><?php echo $this->track->ele_desc; ?>
-						<?php echo JText::_('COM_JTG_METERS'); ?>
+						<?php echo ' ' . JText::_('COM_JTG_METERS'); ?>
 					</td>
 				</tr>
 <?php
