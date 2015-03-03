@@ -2826,20 +2826,19 @@ class GpsDataClass
 			$string .= "var line = new OpenLayers.Geometry.LineString(points);\n";
 			$string .= "var linefeature  = new OpenLayers.Feature.Vector(line, null, style);\n";
 
-			$string .= "animatedCursorLayer = new OpenLayers.Layer.Vector(\"Moving Cursor Line\");\n";
+			$string .= "animatedCursorLayer = new OpenLayers.Layer.Vector(\"Animated Cursor Line\");\n";
 			$string .= "animatedCursorLayer.addFeatures([linefeature]);\n";
 			$string .= "animatedCursorLayer.gpxfeature = animatedCursorLayer.features[0];\n";
 			$string .= "olmap.addLayer(animatedCursorLayer);\n";
 			$string .= "\n// <!-- parseOLMapAnimatedCursorIcon BEGIN -->\n";
-			$string .= "animatedCursorIcon = new OpenLayers.Layer.Markers(\"Moving Cursor\", {\n";
+			$string .= "animatedCursorIcon = new OpenLayers.Layer.Markers(\"Animated Cursor\", {\n";
 			$string .= "displayInLayerSwitcher: false });\n";
 			$string .= "olmap.addLayer(animatedCursorIcon);\n";
 			$string .= "animatedCursorIcon.setVisibility(false);\n";
-			$string .= "var lonLat = new OpenLayers.LonLat(0,0) . transform(new OpenLayers.Projection(\"EPSG:4326\"), olmap.getProjectionObject());\n";
 			$string .= "var size = new OpenLayers.Size(32,32);\n";
 			$string .= "var offset = new OpenLayers.Pixel(-16,-32);\n";
-			$string .= "var icon = new OpenLayers.Icon(\"/components/com_jtg/assets/images/orange-dot.png\",size,offset);\n";
-			$string .= "animatedCursorIcon.addMarker(new OpenLayers.Marker(lonLat,icon));\n";
+			$string .= "var cursorIcon = new OpenLayers.Icon(\"/components/com_jtg/assets/images/orange-dot.png\",size,offset);\n";
+			$string .= "animatedCursorIcon.addMarker(new OpenLayers.Marker(lonLatZiel1.clone(),cursorIcon));\n";
 			$string .= "// <!-- parseOLMapAnimatedCursorIcon END -->\n";
 		}
 		else
