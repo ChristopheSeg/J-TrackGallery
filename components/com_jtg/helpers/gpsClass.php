@@ -1072,7 +1072,7 @@ class GpsDataClass
 	}
 
 	/**
-	 * Function parseCatIcon not rewrittten
+	 * Function parseCatIcon
 	 *
 	 * @param   integer  $catid    category ID
 	 * @param   boolean  $istrack  true if GPS file contains track(s)
@@ -1103,75 +1103,48 @@ class GpsDataClass
 			}
 		}
 
-		$marker = "";
-
 		if (! $catimage )
 		{
 			$catimage = 'symbol_inter.png';
 		}
 
-		if ( $catimage !== false )
+		$catimage = "images/jtrackgallery/cats/" . $catimage;
+		if ( !is_file($catimage) )
 		{
-			$catimage = "images/jtrackgallery/cats/" . $catimage;
+			$catimage = "images/jtrackgallery/cats/symbol_inter.png";
+		}
 
-			if ( is_file($catimage) )
+		$simagesize = getimagesize($catimage);
+		$sizex = $simagesize[0];
+		$sizey = $simagesize[1];
+		$maximagesize = 26;
+
+		if ( ( $sizex > $maximagesize ) OR ( $sizey > $maximagesize) )
+		{
+			$oldsizex = $sizex;
+			$oldsizey = $sizey;
+			$ratio = $sizex / $sizey;
+
+			if ( $ratio > 1 )
 			{
-				$simagesize = getimagesize($catimage);
-				$sizex = $simagesize[0];
-				$sizey = $simagesize[1];
-				$maximagesize = 26;
-
-				if ( ( $sizex > $maximagesize ) OR ( $sizey > $maximagesize) )
-				{
-					$oldsizex = $sizex;
-					$oldsizey = $sizey;
-					$ratio = $sizex / $sizey;
-
-					if ( $ratio > 1 )
-					{
-						// Pic is letterbox
-						$sizex = $maximagesize;
-						$sizey = $sizex / $ratio;
-					}
-					else
-					{
-						// Pic is upright
-						$sizey = $maximagesize;
-						$sizex = $sizey * $ratio;
-					}
-				}
-
-				$offsetx = round(-($sizex / 2));
-				$offsety = round(-($sizey / 2));
-				$marker .= "var size = new OpenLayers.Size(" . $sizex . ", " . $sizey . "); ";
-				$marker .= "var offset = new OpenLayers.Pixel(" . $offsetx . ", " . $offsety . "); ";
-				$marker .= "var file = '" . JUri::base() . $catimage . "'; ";
-				$marker .= "var icon = new OpenLayers.Icon(file,size,offset);";
-				$marker .= "addMarker(ll, popupClass, popupContentHTML, true, true, icon);\n";
-
-				return $marker;
+				// Pic is letterbox
+				$sizex = $maximagesize;
+				$sizey = $sizex / $ratio;
+			}
+			else
+			{
+				// Pic is upright
+				$sizey = $maximagesize;
+				$sizex = $sizey * $ratio;
 			}
 		}
 
-		if ( $istrack == "1" )
-		{
-			$marker .= "addMarker(ll, popupClass, popupContentHTML, true, true );\n";
-		}
-		else
-		{
-			$hddpath = JPATH_SITE . "/components/com_jtg/assets/template/" . $cfg->template . "/images/";
-			$wpcoords = simplexml_load_file($hddpath . "unknown_Cat_wp.xml");
-			$marker .= "var size = new OpenLayers.Size(" . $wpcoords->sizex . ", " . $wpcoords->sizey . "); ";
-			$marker .= "var offset = new OpenLayers.Pixel(" . $wpcoords->offsetx . ", " . $wpcoords->offsety . "); ";
-			$marker .= "var file = '" . $iconpath . "unknown_Cat_wp.png';";
-			$marker .= "var icon = new OpenLayers.Icon(file,size,offset);";
-			$marker .= "addMarker(ll, popupClass, popupContentHTML, true, true, icon);\n";
+		$offsetx = round(-($sizex / 2));
+		$offsety = round(-($sizey / 2));
+		$iconuri = JUri::base() . $catimage;
+		$iconStyle= "{graphicWidth: $sizex , graphicHeight: $sizey, graphicXOffset: $offsetx, graphicYOffset: $offsety, externalGraphic: '$iconuri'}";
 
-			// 		$marker .= "addMarker(ll, popupClass, popupContentHTML, true, true, ";
-			// 		$marker .= "'components/com_jtg/assets/images/symbols/Pin Green.png');\n";
-		}
-
-		return $marker;
+		return $iconStyle;
 	}
 
 	/**
@@ -1845,7 +1818,6 @@ class GpsDataClass
 	.* return $startziel;
 	* }
 	*/
-
 	/**
 	 * function_description
 	 *
@@ -1855,6 +1827,137 @@ class GpsDataClass
 	 * @return string
 	 */
 	private function parseOLMarker($track_array, $visibility = true)
+	{
+		$cfg = JtgHelper::getConfig();
+
+		if (!$track_array)
+		{
+			return false;
+		}
+
+		$document = JFactory::getDocument();
+		$document->addScript('components/com_jtg/assets/js/patches_OL-popup-autosize.js');
+		$document->addScript('components/com_jtg/assets/js/FeaturePopups.js');
+		$document->addScript('components/com_jtg/assets/js/animatedCursor.js');
+		$document->addScript('components/com_jtg/assets/js/jtgOverView.js');
+
+		$marker = "// <!-- parseOLMarker BEGIN -->\n";
+		$marker .= "markers = [\n";
+		$i = 0;
+
+		foreach ( $track_array AS $row )
+		{
+			$i++;
+			$url = JROUTE::_("index.php?option=com_jtg&view=files&layout=file&id=" . $row->id);
+			$lon = $row->start_e;
+			$lat = $row->start_n;
+
+			if ($row->published == 1 AND ( ( $lon ) OR ( $lon ) ))
+			{
+				$link = "<a href=\"" . $url . "\"";
+
+				switch ($row->access)
+				{
+					case 0:
+						// Public
+						$link .= ">";
+						break;
+					case 9:
+						// Private
+						$link .= " title=\\\"" . JText::_('COM_JTG_PRIVATE') . "\">";
+						break;
+					case 1:
+						// Registered
+						$link .= " title=\\\"" . JText::_('COM_JTG_REGISTERED') . "\">";
+						break;
+					case 2:
+						// Admin
+						$link .= " title=\\\"" . JText::_('COM_JTG_ADMINISTRATORS') . "\">";
+						break;
+				}
+
+				if ($row->title)
+				{
+					$link .= str_replace(array("'"), array("\'"), $row->title);
+				}
+				else
+				{
+					$link .= "<i>" . str_replace(array("'"), array("\'"), JText::_('COM_JTG_NO_TITLE')) . "</i>";
+				}
+
+				if ( $row->access != 0 )
+				{
+					$iconpath = JUri::root() . "components/com_jtg/assets/template/" . $cfg->template . "/images/";
+				}
+
+				switch ($row->access)
+				{
+					case 1:
+						$link .= "&nbsp;<img alt=\\\"" . JText::_('COM_JTG_REGISTERED') . "\" src=\\\"" . $iconpath . "registered_only.png\\\" />";
+						break;
+					case 2:
+						$link .= "&nbsp;<img alt=\\\"" . JText::_('COM_JTG_ADMINISTRATORS') . "\" src=\\\"" . $iconpath . "special_only.png\\\" />";
+						break;
+					case 9:
+						$link .= "&nbsp;<img alt=\\\"" . JText::_('COM_JTG_PRIVATE') . "\" src=\\\"" . $iconpath . "private_only.png\\\" />";
+						break;
+				}
+
+				$link .= "</a></b>";
+
+				if ( $row->cat != "" )
+				{
+					$cats = str_replace(array("'"), array("\'"), JText::_('COM_JTG_CAT')) . ": ";
+					$cats = JtgHelper::parseMoreCats($this->sortedcats, $row->catid, "box", true);
+				}
+				else
+				{
+					$cats = "<br /><i>" . str_replace(array("'"), array("\'"), JText::_('COM_JTG_CAT_NONE')) . "</i>";
+				}
+
+				// Add track description, after striping HTML tags
+				$description = $this->showDesc($row->description);
+
+				// Start icon
+				$iconStyle = $this->parseCatIcon($row->catid, $row->istrack, $row->iswp, $row->isroute);
+
+				// Javacsript code
+				if ($i > 1)
+				{
+					$marker .= "	,\n";
+				}
+
+				$marker .= "	{\n" .
+					'		"lon" : ' . $lon . ",\n" .
+					'		"lat" : ' . $lat . ",\n" .
+					'		"cats" : \'' . $cats . "',\n" .
+					'		"link": \'' . $link . "',\n" .
+					'		"description": \'' . $description . "',\n" .
+					'		"iconStyle": ' . $iconStyle . "\n " .
+					"	}\n";
+			}
+			else
+			{
+				// Dummy line for Coding standard
+			}
+		}
+
+		$marker .= "	];\n";
+		$marker .= "addClusteredLayerOfMarkers();\n";
+		$marker .= "// <!-- parseOLMarker END -->\n";
+
+		return $marker;
+	}
+
+	/**
+	 * function_description
+	 *
+	 * @param   unknown_type  $track_array  param_description
+	 * @param   unknown_type  $visibility   param_description
+	 *
+	 * @return string
+	 */
+	private function parseOLMarker_old($track_array, $visibility = true)
 	{
 		$cfg = JtgHelper::getConfig();
 
@@ -1951,12 +2054,6 @@ class GpsDataClass
 				{
 					$marker .= "<br />" . str_replace(array("'"), array("\'"), JText::_('COM_JTG_CAT')) . ": ";
 					$marker .= JtgHelper::parseMoreCats($this->sortedcats, $row->catid, "box", true);
-
-					/* 				"<a href=\"index.php?option=com_jtg&amp;view=files&amp;layout=list&amp;search=" .
-					 * 					$row->cat . "\">" . $row->cat . "</a><br />";
-					 .* 				$marker .= "<a href=\"index.php?option=com_jtg&amp;view=files&amp;layout=list&amp;search=" .
-					 					$row->cat . "\">" . $row->cat . "</a><br />";
-					*/
 				}
 				else
 				{
@@ -2005,30 +2102,6 @@ class GpsDataClass
 	OpenLayers.Event.stop(evt);
 	};
 	";
-		/*
-		 $marker .= "		var markerHover = function (evt) {
-		if (this.popup == null) {
-		this.popup = this.createPopup(this.closeBox);
-		olmap.addPopup(this.popup);
-		this.popup.show();
-		}
-		else
-		{
-		this.popup.toggle();
-		}
-		currentPopup = this.popup;
-		OpenLayers.Event.stop(evt);
-		};
-
-		var markerDestroy = function (evt) {
-		if (this.popup != null) {
-		this.popup.dest();
-		}
-		currentPopup = this.popup;
-		OpenLayers.Event.stop(evt);
-		};
-		";
-		*/
 
 		// MouseDown
 		$marker .= "		marker.events.register(\"mousedown\", feature, markerClick);\n";
@@ -2140,6 +2213,7 @@ class GpsDataClass
 		$maps = $this->getMaps("ordering");
 		$return = "";
 		$document = JFactory::getDocument();
+
 		for ($i = 0;$i < count($maps);$i++)
 		{
 			$map = $maps[$i];
@@ -2809,44 +2883,6 @@ class GpsDataClass
 		$string .= $string_se;
 		$string .= "// <!-- parseXMLlines END -->\n";
 
-		// if (AnimatedCursorLayer)
-		if (true)
-		{
-			// AnimatedCursorLayer
-			$document = JFactory::getDocument();
-			$document->addScript('/components/com_jtg/assets/js/animatedCursor.js');
-
-			$string .= "// <!-- parseOLMapAnimatedCursorLayer BEGIN -->\n";
-			$string .= "var points = [];\n";
-			$string .= "var style ={strokeOpacity: 0.7, strokeColor: \"#ff00ff\", strokeWidth: 5, graphicZIndex: 5}\n";
-			$string .= "for (var i in longitudeData) {\n";
-			$string .= "	var point = new OpenLayers.Geometry.Point(longitudeData[i], latitudeData[i]). transform(new OpenLayers.Projection(\"EPSG:4326\"), olmap.getProjectionObject());\n";
-			$string .= "	points.push(point);\n";
-			$string .= "}\n";
-			$string .= "var line = new OpenLayers.Geometry.LineString(points);\n";
-			$string .= "var linefeature  = new OpenLayers.Feature.Vector(line, null, style);\n";
-
-			$string .= "animatedCursorLayer = new OpenLayers.Layer.Vector(\"Animated Cursor Line\");\n";
-			$string .= "animatedCursorLayer.addFeatures([linefeature]);\n";
-			$string .= "animatedCursorLayer.gpxfeature = animatedCursorLayer.features[0];\n";
-			$string .= "olmap.addLayer(animatedCursorLayer);\n";
-			$string .= "\n// <!-- parseOLMapAnimatedCursorIcon BEGIN -->\n";
-			$string .= "animatedCursorIcon = new OpenLayers.Layer.Markers(\"Animated Cursor\", {\n";
-			$string .= "displayInLayerSwitcher: false });\n";
-			$string .= "olmap.addLayer(animatedCursorIcon);\n";
-			$string .= "animatedCursorIcon.setVisibility(false);\n";
-			$string .= "var size = new OpenLayers.Size(32,32);\n";
-			$string .= "var offset = new OpenLayers.Pixel(-16,-32);\n";
-			$string .= "var cursorIcon = new OpenLayers.Icon(\"/components/com_jtg/assets/images/orange-dot.png\",size,offset);\n";
-			$string .= "animatedCursorIcon.addMarker(new OpenLayers.Marker(lonLatZiel1.clone(),cursorIcon));\n";
-			$string .= "// <!-- parseOLMapAnimatedCursorIcon END -->\n";
-		}
-		else
-		{
-			$string .= "<!-- AnimatedCursorLayer not activated -->\n";
-		}
-
-		$string .= "// <!-- parseOLMapAnimatedCursorLayer END -->\n";
 
 		$center = "// <!-- parseOLMapCenterSingleTrack BEGIN -->\n";
 		$center .= "var min = lonLatToMercator(new OpenLayers.LonLat";
@@ -2855,6 +2891,47 @@ class GpsDataClass
 		$center .= "(" . $this->bbox_lon_max . "," . $this->bbox_lat_max . "));\n";
 		$center .= "olmap.zoomToExtent(new OpenLayers.Bounds(min.lon, min.lat, max.lon, max.lat));\n";
 		$center .= "// <!-- parseOLMapCenterSingleTrack END -->\n";
+
+		// if (AnimatedCursorLayer)
+		if (true)
+		{
+			/* AnimatedCursorLayer
+			 * This MUST be added after olmap.zoomToExtent
+			 */
+			$document = JFactory::getDocument();
+			$document->addScript('/components/com_jtg/assets/js/animatedCursor.js');
+
+			$center .= "\n// <!-- parseOLMapAnimatedCursorLayer BEGIN -->\n";
+			$center .= "var points = [];\n";
+			$center .= "var style ={strokeOpacity: 0.7, strokeColor: \"#ff00ff\", strokeWidth: 5, graphicZIndex: 5}\n";
+			$center .= "for (var i in longitudeData) {\n";
+			$center .= "	var point = new OpenLayers.Geometry.Point(longitudeData[i], latitudeData[i]). transform(new OpenLayers.Projection(\"EPSG:4326\"), olmap.getProjectionObject());\n";
+			$center .= "	points.push(point);\n";
+			$center .= "}\n";
+			$center .= "var line = new OpenLayers.Geometry.LineString(points);\n";
+			$center .= "var linefeature  = new OpenLayers.Feature.Vector(line, null, style);\n";
+
+			$center .= "animatedCursorLayer = new OpenLayers.Layer.Vector(\"Animated Cursor Line\");\n";
+			$center .= "animatedCursorLayer.addFeatures([linefeature]);\n";
+			$center .= "animatedCursorLayer.gpxfeature = animatedCursorLayer.features[0];\n";
+			$center .= "olmap.addLayer(animatedCursorLayer);\n";
+			$center .= "\n// <!-- parseOLMapAnimatedCursorIcon BEGIN -->\n";
+			$center .= "animatedCursorIcon = new OpenLayers.Layer.Markers(\"Animated Cursor\", {\n";
+			$center .= "displayInLayerSwitcher: false });\n";
+			$center .= "olmap.addLayer(animatedCursorIcon);\n";
+			$center .= "animatedCursorIcon.setVisibility(false);\n";
+			$center .= "var size = new OpenLayers.Size(32,32);\n";
+			$center .= "var offset = new OpenLayers.Pixel(-16,-32);\n";
+			$center .= "var cursorIcon = new OpenLayers.Icon(\"/components/com_jtg/assets/images/orange-dot.png\",size,offset);\n";
+			$center .= "animatedCursorIcon.addMarker(new OpenLayers.Marker(lonLatZiel1.clone(),cursorIcon));\n";
+			$center .= "// <!-- parseOLMapAnimatedCursorIcon END -->\n";
+		}
+		else
+		{
+			$center .= "<!-- AnimatedCursorLayer not activated -->\n";
+		}
+
+		$center .= "// <!-- parseOLMapAnimatedCursorLayer END -->\n";
 
 		return array( "coords" => $string, "center" => $center );
 	}
