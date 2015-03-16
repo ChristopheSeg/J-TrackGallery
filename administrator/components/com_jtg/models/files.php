@@ -372,9 +372,9 @@ class JtgModelFiles extends JModelLegacy
 
 		if ($search)
 		{
-			$where[] = 'LOWER(a.title) LIKE ' . $db->Quote('%' . $db->getEscaped($search, true) . '%', false);
-			$where[] = 'LOWER(b.title) LIKE ' . $db->Quote('%' . $db->getEscaped($search, true) . '%', false);
-			$where[] = 'LOWER(a.date) LIKE ' . $db->Quote('%' . $db->getEscaped($search, true) . '%', false);
+			$where[] = 'LOWER(a.title) LIKE ' . $db->Quote('%' . $db->escape($search, true) . '%', false);
+			$where[] = 'LOWER(b.title) LIKE ' . $db->Quote('%' . $db->escape($search, true) . '%', false);
+			$where[] = 'LOWER(a.date) LIKE ' . $db->Quote('%' . $db->escape($search, true) . '%', false);
 		}
 
 		$where = ( count($where) ? ' WHERE ' . implode(' OR ', $where) : '');
@@ -863,7 +863,7 @@ class JtgModelFiles extends JModelLegacy
 					$terrain = "";
 				}
 
-				$desc = $db->getEscaped(implode(' ', JFactory::getApplication()->input->get('desc_' . $i, '', 'array')));
+				$desc = $db->escape(implode(' ', JFactory::getApplication()->input->get('desc_' . $i, '', 'array')));
 				$file = JFactory::getApplication()->input->get('file_' . $i, '', 'raw');
 				$file_replace = JFactory::getApplication()->input->get('file_replace_' . $i);
 				$hidden = JFactory::getApplication()->input->get('hidden_' . $i);
@@ -1213,7 +1213,7 @@ class JtgModelFiles extends JModelLegacy
 			$terrain = "";
 		}
 
-		$desc = $db->getEscaped(implode(' ', JFactory::getApplication()->input->get('description', '', 'array')));
+		$desc = $db->escape(implode(' ', JFactory::getApplication()->input->get('description', '', 'array')));
 		$file = JFactory::getApplication()->input->files->get('file');
 		$file_tmp = explode('/', $file);
 		$filename = strtolower($file_tmp[(count($file_tmp) - 1)]);
@@ -1637,7 +1637,7 @@ class JtgModelFiles extends JModelLegacy
 			$terrain = $terrain ? implode(',', $terrain) : '';
 		}
 
-		$desc = $db->getEscaped(implode(' ', JFactory::getApplication()->input->get('description', '', 'array')));
+		$desc = $db->escape(implode(' ', JFactory::getApplication()->input->get('description', '', 'array')));
 		$uid = JFactory::getApplication()->input->get('uid');
 
 		if ( $date == "" )

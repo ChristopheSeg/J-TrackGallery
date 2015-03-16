@@ -27,10 +27,16 @@ echo $this->gpsData->writeOLMap($this->where, $this->tracks, $this->params);
 	z-index: 0;
 }
 
+.olButton::before{
+	display: none;
+}
 #jtg_map.fullscreen {
 	height: 800px;
 	width: 100%;
 	z-index: 20;
+}
+#jtg_map img{
+	max-width: none; /* joomla3 max-width=100% breaks popups*/
 }
 </style>
 <center>

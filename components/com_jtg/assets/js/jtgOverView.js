@@ -104,7 +104,8 @@ function addClusteredLayerOfMarkers(){
             // Create a vector layers
             var layerVectorForMarkers = new OpenLayers.Layer.Vector("Features", {
                 renderers: ['Canvas','SVG'],
-                strategies: [
+                displayInLayerSwitcher: false,
+            strategies: [
 			new OpenLayers.Strategy.Cluster({distance: 15, threshold: 2})],
                 styleMap:  new OpenLayers.StyleMap(style)
             });
@@ -132,11 +133,12 @@ function addClusteredLayerOfMarkers(){
 		    hoverItem: '${.name}<br>',
 		    // select: single & list
 		    single: '<div><h2>${.name}</h2>${.description}</div>',
-		    item: '<li>${.name}</li>'
+		    item: '<li>${.name}</li>',
+		    list: '${html}'
 		}}]
 	    ]
 	});
-
+	// featurePopupControl.layerListTemplate: 'XXX${html}'
 	olmap.addControl(featurePopupControl);
 
 }

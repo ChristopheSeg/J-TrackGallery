@@ -1812,10 +1812,10 @@ class GpsDataClass
 	 * @return string
 	 */
 	/*
-	 * private function parseOLStartZiel() {
-	.* $startziel = "// <!-- parseOLStartZiel BEGIN -->\n";
-	.* $startziel .= "// <!-- parseOLStartZiel END -->\n";
-	.* return $startziel;
+	 * private function parseOLStartStop() {
+	.* $startstop = "// <!-- parseOLStartStop BEGIN -->\n";
+	.* $startstop .= "// <!-- parseOLStartStop END -->\n";
+	.* return $startstop;
 	* }
 	*/
 	/**
@@ -2817,69 +2817,37 @@ class GpsDataClass
 			$m = microtime(true);
 			$coords = $this->track[$i]->coords;
 			$subid = $link . "&amp;subid=" . $i;
-			$string .= "layer_vectors = new OpenLayers.Layer.Vector(";
-			$string .= "\"" . ($this->track[$i]->trackname? $this->track[$i]->trackname : JText::_('COM_JTG_TRACK') . $i) . "\"";
-			$string .= ", { displayInLayerSwitcher: true }";
-			$string .= ")";
-			$string .= ";olmap.addLayer(layer_vectors)";
-			$string .= ";\n";
-			$string .= ";/* \n Temporary commented ";
-			$string .= "var geometries = new Array();geometries.push(drawLine([\n";
-			$n = 0;
-			$coordscount = (count($coords) - 1);
-
-			foreach ($coords as $key => $fetch)
-			{
-				$string .= "[" . $coords[$key][0] . "," . $coords[$key][1] . "]";
-
-				if ($n != $coordscount)
-				{
-					$string .= ",\n";
-				}
-				else
-				{
-					$string .= "\n";
-				}
-
-				$n++;
-			}
-
-			$string .= "],\n{";
 			$color = "#" . $tracksColors[$i - 1];
-			$string .= "strokeColor:\"" . $color . "\",\n";
-			$string .= "strokeWidth: 3,\n";
-			$string .= "strokeOpacity: 0.7";
-			$string .= "}));\n";
-			$string .= " end of Temporary commented section */ \n";
+
 			$string_se .= "var lonLatStart" . $i . " = new OpenLayers.LonLat(" . $this->track[$i]->start . ") . ";
 			$string_se .= "transform(new OpenLayers.Projection(\"EPSG:4326\"), olmap.getProjectionObject());\n";
-			$string_se .= "var lonLatZiel" . $i . " = new OpenLayers.LonLat(" . $this->track[$i]->stop . ") . ";
+			$string_se .= "var lonLatStop" . $i . " = new OpenLayers.LonLat(" . $this->track[$i]->stop . ") . ";
 			$string_se .= "transform(new OpenLayers.Projection(\"EPSG:4326\"), olmap.getProjectionObject());\n";
 			$string_se .= "var sizeStart" . $i . " = new OpenLayers.Size(24,24);\n";
-			$string_se .= "var sizeZiel" . $i . " = new OpenLayers.Size(24,24);\n";
+			$string_se .= "var sizeStop" . $i . " = new OpenLayers.Size(24,24);\n";
 			$string_se .= "var offsetStart" . $i . " = new OpenLayers.Pixel(-3,-22);\n";
-			$string_se .= "var offsetZiel" . $i . " = new OpenLayers.Pixel(-19,-22);\n";
+			$string_se .= "var offsetStop" . $i . " = new OpenLayers.Pixel(-19,-22);\n";
 			$string_se .= "var iconStart" . $i . " = ";
 			$string_se .= "new OpenLayers.Icon(\"" . $iconpath . "trackStart.png\",";
 			$string_se .= "sizeStart" . $i . ",offsetStart" . $i . ");\n";
-			$string_se .= "var iconZiel" . $i . " = new OpenLayers.Icon(\"" . $iconpath . "trackDest.png\",";
-			$string_se .= "sizeZiel" . $i . ",offsetZiel" . $i . ");\n";
-			$string_se .= "layer_startziel.addMarker(new OpenLayers.Marker(lonLatZiel" . $i . ",iconZiel" . $i . "));\n";
+			$string_se .= "var iconStop" . $i . " = new OpenLayers.Icon(\"" . $iconpath . "trackDest.png\",";
+			$string_se .= "sizeStop" . $i . ",offsetStop" . $i . ");\n";
+			$string_se .= "layer_startstop.addMarker(new OpenLayers.Marker(lonLatStop" . $i . ",iconStop" . $i . "));\n";
 			$string_se .= "popupClassStart = AutoSizeAnchored;\n";
 			$string_se .= "popupContentHTMLStart = '";
 			$string_se .= "<font style=\"font-weight: bold;\" color=\"" . $color . "\">";
 			$string_se .= ($this->track[$i]->trackname? $this->track[$i]->trackname : JText::_('COM_JTG_TRACK') . $i);
 			$string_se .= "</font>";
 			$string_se .= "';\n";
-			$string_se .= "addlayer_startziel(lonLatStart" . $i . ", popupClassStart, popupContentHTMLStart, true, false, iconStart" . $i . ", olmap);\n";
+			$string_se .= "addlayer_startstop(lonLatStart" . $i . ", popupClassStart, popupContentHTMLStart, true, false, iconStart" . $i . ", olmap);\n";
 		}
 
-		$string .= "layer_startziel = new OpenLayers.Layer.Markers(";
+		$string .= "layer_startstop = new OpenLayers.Layer.Markers(";
 		$string .= "\"" . $i . ": " . $this->trackname . "\"";
 		$string .= ", { displayInLayerSwitcher: false }";
 		$string .= ");";
-		$string .= "olmap.addLayer(layer_startziel);";
-		$string .= "layer_startziel.setVisibility(true);";
+		$string .= "olmap.addLayer(layer_startstop);";
+		$string .= "layer_startstop.setVisibility(true);";
 		$string .= $string_se;
 		$string .= "// <!-- parseXMLlines END -->\n";
 
@@ -2902,16 +2870,18 @@ class GpsDataClass
 			$document->addScript('/components/com_jtg/assets/js/animatedCursor.js');
 
 			$center .= "\n// <!-- parseOLMapAnimatedCursorLayer BEGIN -->\n";
+			$center .= "longitudeData = $this->longitudeData;\n";
+			$center .= "latitudeData = $this->latitudeData;\n";
 			$center .= "var points = [];\n";
 			$center .= "var style ={strokeOpacity: 0.7, strokeColor: \"#ff00ff\", strokeWidth: 5, graphicZIndex: 5}\n";
-			$center .= "for (var i in longitudeData) {\n";
+			$center .= "for (var i = 0; i < longitudeData.length; i++) {\n";
 			$center .= "	var point = new OpenLayers.Geometry.Point(longitudeData[i], latitudeData[i]). transform(new OpenLayers.Projection(\"EPSG:4326\"), olmap.getProjectionObject());\n";
 			$center .= "	points.push(point);\n";
 			$center .= "}\n";
 			$center .= "var line = new OpenLayers.Geometry.LineString(points);\n";
 			$center .= "var linefeature  = new OpenLayers.Feature.Vector(line, null, style);\n";
 
-			$center .= "animatedCursorLayer = new OpenLayers.Layer.Vector(\"Animated Cursor Line\");\n";
+			$center .= "animatedCursorLayer = new OpenLayers.Layer.Vector(\"$this->trackname\");\n";
 			$center .= "animatedCursorLayer.addFeatures([linefeature]);\n";
 			$center .= "animatedCursorLayer.gpxfeature = animatedCursorLayer.features[0];\n";
 			$center .= "olmap.addLayer(animatedCursorLayer);\n";
@@ -2923,7 +2893,7 @@ class GpsDataClass
 			$center .= "var size = new OpenLayers.Size(32,32);\n";
 			$center .= "var offset = new OpenLayers.Pixel(-16,-32);\n";
 			$center .= "var cursorIcon = new OpenLayers.Icon(\"/components/com_jtg/assets/images/orange-dot.png\",size,offset);\n";
-			$center .= "animatedCursorIcon.addMarker(new OpenLayers.Marker(lonLatZiel1.clone(),cursorIcon));\n";
+			$center .= "animatedCursorIcon.addMarker(new OpenLayers.Marker(lonLatStop1.clone(),cursorIcon));\n";
 			$center .= "// <!-- parseOLMapAnimatedCursorIcon END -->\n";
 		}
 		else

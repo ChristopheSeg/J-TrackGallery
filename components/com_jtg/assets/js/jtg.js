@@ -25,8 +25,8 @@ else
 	layer_geotaggedImgs.addMarker(marker);
 }
 
-function addlayer_startziel(ll, popupClass, popupContentHTML, closeBox, overflow, icon, map) {
-	var feature = new OpenLayers.Feature(layer_startziel, ll);
+function addlayer_startstop(ll, popupClass, popupContentHTML, closeBox, overflow, icon, map) {
+	var feature = new OpenLayers.Feature(layer_startstop, ll);
 	feature.closeBox = closeBox;
 	feature.popupClass = popupClass;
 	feature.data.popupContentHTML = popupContentHTML;
@@ -47,7 +47,7 @@ else
 		OpenLayers.Event.stop(evt);
 	};
 	marker.events.register("mousedown", feature, markerClick);
-	layer_startziel.addMarker(marker);
+	layer_startstop.addMarker(marker);
 }
 
 function getAvgTime(speed_str, length, decimal_separator)  {

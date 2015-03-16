@@ -125,8 +125,6 @@ if ($maySeeSingleFile === true)
 	src="http://code.highcharts.com/modules/exporting.js"></script>
 
 <script type="text/javascript">
-		var longitudeData= <?php echo $this->longitudeData; ?>;
-		var latitudeData= <?php echo $this->latitudeData; ?>;
 		var isIE=0;
 		if (navigator.appName == 'Microsoft Internet Explorer')
 			isIE=1;
@@ -384,6 +382,9 @@ if ($beatchart)
 	height: <?php echo$this->cfg->map_height; ?>;
 	width: <?php echo$this->cfg->map_width; ?>;
 	z-index: 0;
+}
+.olButton::before {
+	display: none;
 }
 
 #jtg_map.fullscreen {

@@ -749,12 +749,12 @@ class JtgViewFiles extends JViewLegacy
 		$this->profile = $profile;
 		$this->beatdata = $gpsData->beatData;
 		$this->heighdata = $gpsData->elevationData;
-		$this->latitudeData = $gpsData->latitudeData;
-		$this->longitudeData = $gpsData->longitudeData;
 		$this->speeddata = $gpsData->speedData;
 		$this->speedDataExists = $gpsData->speedDataExists;
 		$this->elevationDataExists = $gpsData->elevationDataExists;
 		$this->beatDataExists = $gpsData->beatDataExists;
+		$this->longitudeData = $gpsData->longitudeData;
+		$this->latitudeData = $gpsData->latitudeData;
 		$this->comments = $comments;
 		$this->user = $user;
 		$this->model = $model;

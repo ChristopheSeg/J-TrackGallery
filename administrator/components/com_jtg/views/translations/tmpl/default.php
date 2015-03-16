@@ -108,8 +108,8 @@ if (JVERSION >= 3.0)
 		?>
 	<textarea name="<?php echo $lang['tag']; ?>" cols="100"
 		rows="<?php echo $lang['rows']; ?>">
-<?php echo $lang['value']; ?>
-</textarea>
+		<?php echo $lang['value']; ?>
+	</textarea>
 	<br />&nbsp;
 	<?php
 	echo '</td></tr></table>';

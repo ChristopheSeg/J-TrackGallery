@@ -213,8 +213,8 @@ class JtgModelMaps extends JModelLegacy
 
 		if ($search)
 		{
-			$where[] = 'LOWER(a.name) LIKE ' . $db->Quote('%' . $db->getEscaped($search, true) . '%', false);
-			$where[] = 'LOWER(b.name) LIKE ' . $db->Quote('%' . $db->getEscaped($search, true) . '%', false);
+			$where[] = 'LOWER(a.name) LIKE ' . $db->Quote('%' . $db->escape($search, true) . '%', false);
+			$where[] = 'LOWER(b.name) LIKE ' . $db->Quote('%' . $db->escape($search, true) . '%', false);
 		}
 
 		$where = (count($where) ? ' WHERE ' . implode(' OR ', $where) : '');

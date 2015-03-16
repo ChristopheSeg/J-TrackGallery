@@ -243,22 +243,22 @@ class JtgModelFiles extends JModelLegacy
 
 		if ($search)
 		{
-			$where[] = 'LOWER(a.title) LIKE ' . $db->Quote('%' . $db->getEscaped($search, true) . '%', false);
-			$where[] = 'LOWER(b.title) LIKE ' . $db->Quote('%' . $db->getEscaped($search, true) . '%', false);
-			$where[] = 'LOWER(c.username) LIKE ' . $db->Quote('%' . $db->getEscaped($search, true) . '%', false);
+			$where[] = 'LOWER(a.title) LIKE ' . $db->Quote('%' . $db->escape($search, true) . '%', false);
+			$where[] = 'LOWER(b.title) LIKE ' . $db->Quote('%' . $db->escape($search, true) . '%', false);
+			$where[] = 'LOWER(c.username) LIKE ' . $db->Quote('%' . $db->escape($search, true) . '%', false);
 			$index = "d";
 		}
 
 		if ($cat)
 		{
-			$where[] = '(' . $index . '.catid) LIKE ' . $db->Quote('%' . $db->getEscaped($cat, true) . '%', false);
+			$where[] = '(' . $index . '.catid) LIKE ' . $db->Quote('%' . $db->escape($cat, true) . '%', false);
 		}
 
 		if ($terrain)
 		{
-			// $where[] = '('.$index.'.terrain) = '.$db->Quote( $db->getEscaped(
+			// $where[] = '('.$index.'.terrain) = '.$db->Quote( $db->escape(
 			// $terrain, true ), false);
-			$where[] = '(' . $index . '.terrain) LIKE ' . $db->Quote('%' . $db->getEscaped($terrain, true) . '%', false);
+			$where[] = '(' . $index . '.terrain) LIKE ' . $db->Quote('%' . $db->escape($terrain, true) . '%', false);
 		}
 
 		$pubhid = "( a.published = '1' AND a.hidden = '0' )";
@@ -359,7 +359,7 @@ class JtgModelFiles extends JModelLegacy
 		$title = JFactory::getApplication()->input->get('title');
 		$terrain = JFactory::getApplication()->input->get('terrain', null, 'array');
 		$terrain = $terrain ? implode(', ', $terrain) : '';
-		$desc = $db->getEscaped(implode(' ', JFactory::getApplication()->input->get('description', '', 'array')));
+		$desc = $db->escape(implode(' ', JFactory::getApplication()->input->get('description', '', 'array')));
 		$file = JFactory::getApplication()->input->files->get('file');
 		$uid = $user->get('id');
 		$date = date("Y-m-d");
@@ -771,7 +771,7 @@ class JtgModelFiles extends JModelLegacy
 		// Get the post data
 		$catid = JFactory::getApplication()->input->get('catid', null, 'array');
 		$catid = $catid ? implode(',', $catid) :  '';
-		$level = JFactory::getApplication()->input->get('level_' . $i, 0, 'integer');
+		$level = JFactory::getApplication()->input->get('level', 0, 'integer');
 		$title = JFactory::getApplication()->input->get('title');
 		$allimages = $this->getImages($id);
 		$imgpath = JPATH_SITE . '/images/jtrackgallery/track_' . $id . '/';
@@ -801,12 +801,12 @@ class JtgModelFiles extends JModelLegacy
 		{
 			$terrain = '';
 		}
+
 		/* Joomla Jinput strips html tags!!
 		 http://stackoverflow.com/questions/19426943/joomlas-jinput-strips-html-with-every-filter
 		*/
-		$desc = $db->getEscaped(implode(' ', JFactory::getApplication()->input->get('description', '', 'array')));
+		$desc = $db->escape(implode(' ', JFactory::getApplication()->input->get('description', '', 'array')));
 
-		// $images = JFactory::getApplication()->input->files->get('images');
 		$jInput = JFactory::getApplication()->input;
 		$jFileInput = new jInput($_FILES);
 		$images = $jFileInput->get('images', array(), 'array');
