@@ -729,7 +729,7 @@ class JtgViewFiles extends JViewLegacy
 						JFolder::create($thumb_dir);
 					}
 
-					require_once JPATH_SITE . 'administrator/components/com_jtg/models/thumb_creation.php';
+					require_once JPATH_SITE . '/administrator/components/com_jtg/models/thumb_creation.php';
 
 					foreach ($imgs AS $image)
 					{
