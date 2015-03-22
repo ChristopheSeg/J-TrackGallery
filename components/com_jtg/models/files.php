@@ -356,7 +356,7 @@ class JtgModelFiles extends JModelLegacy
 		$catid = JFactory::getApplication()->input->get('catid', null, 'array');
 		$catid = $catid ? implode(',', $catid) : '';
 		$level = JFactory::getApplication()->input->get('level', 0, 'integer');
-		$title = JFactory::getApplication()->input->get('title');
+		$title = JFactory::getApplication()->input->get('title', '', 'string');
 		$terrain = JFactory::getApplication()->input->get('terrain', null, 'array');
 		$terrain = $terrain ? implode(', ', $terrain) : '';
 		$desc = $db->escape(implode(' ', JFactory::getApplication()->input->get('description', '', 'array')));
@@ -772,7 +772,7 @@ class JtgModelFiles extends JModelLegacy
 		$catid = JFactory::getApplication()->input->get('catid', null, 'array');
 		$catid = $catid ? implode(',', $catid) :  '';
 		$level = JFactory::getApplication()->input->get('level', 0, 'integer');
-		$title = JFactory::getApplication()->input->get('title');
+		$title = JFactory::getApplication()->input->get('title', '', 'string');
 		$allimages = $this->getImages($id);
 		$imgpath = JPATH_SITE . '/images/jtrackgallery/track_' . $id . '/';
 
@@ -1024,7 +1024,7 @@ class JtgModelFiles extends JModelLegacy
 		$name = JFactory::getApplication()->input->get('name');
 		$email = JFactory::getApplication()->input->get('email', '', 'Raw');
 		$homepage = JFactory::getApplication()->input->get('homepage');
-		$title = JFactory::getApplication()->input->get('title');
+		$title = JFactory::getApplication()->input->get('title', '', 'string');
 		$text = JFactory::getApplication()->input->get('text', '', 'raw');
 
 		if ($text == "")

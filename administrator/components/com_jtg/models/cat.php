@@ -270,7 +270,7 @@ class JtgModelCat extends JModelLegacy
 		jimport('joomla.filesystem.file');
 
 		$db = JFactory::getDBO();
-		$title = JFactory::getApplication()->input->get('title');
+		$title = JFactory::getApplication()->input->get('title', '', 'string');
 
 		if ( $title == "" )
 		{
@@ -382,7 +382,7 @@ class JtgModelCat extends JModelLegacy
 
 		$id = JRequest::getInt('id');
 		$file = JFactory::getApplication()->input->files->get('image');
-		$title = JFactory::getApplication()->input->get('title');
+		$title = JFactory::getApplication()->input->get('title', '', 'string');
 		$image = JFactory::getApplication()->input->get('catpic');
 
 		if ( $title == "" )

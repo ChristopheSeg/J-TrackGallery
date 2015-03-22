@@ -851,7 +851,7 @@ class JtgModelFiles extends JModelLegacy
 				$catid = JFactory::getApplication()->input->get('catid_' . $i, null, 'array');
 				$catid = $catid ? implode(',', $catid) : '';
 				$level = JFactory::getApplication()->input->get('level_' . $i, 0, 'integer');
-				$title = JFactory::getApplication()->input->get('title_' . $i);
+				$title = JFactory::getApplication()->input->get('title_' . $i, '', 'string');
 				$terrain = JFactory::getApplication()->input->get('terrain_' . $i, null, 'array');
 
 				if ($terrain)
@@ -1201,7 +1201,7 @@ class JtgModelFiles extends JModelLegacy
 		$catid = JFactory::getApplication()->input->get('catid', null, 'array');
 		$catid = $catid ? implode(',', $catid) : '';
 		$level = JFactory::getApplication()->input->get('level', 0, 'integer');
-		$title = JFactory::getApplication()->input->get('title');
+		$title = JFactory::getApplication()->input->get('title', '', 'string');
 		$terrain = JFactory::getApplication()->input->get('terrain', null, 'array');
 
 		if ($terrain)
@@ -1605,7 +1605,7 @@ class JtgModelFiles extends JModelLegacy
 		$catid = JFactory::getApplication()->input->get('catid', null, 'array');
 		$catid = $catid ? implode(',', $catid) : '';
 		$level = JFactory::getApplication()->input->get('level', 0, 'integer');
-		$title = JFactory::getApplication()->input->get('title');
+		$title = JFactory::getApplication()->input->get('title', '', 'string');
 		$hidden = JFactory::getApplication()->input->get('hidden');
 		$published = JFactory::getApplication()->input->get('published');
 

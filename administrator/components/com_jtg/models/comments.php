@@ -216,7 +216,7 @@ class JtgModelComments extends JModelLegacy
 		$mainframe = JFactory::getApplication();
 
 		$id     = JRequest::getInt('id');
-		$title  = JFactory::getApplication()->input->get('title');
+		$title  = JFactory::getApplication()->input->get('title', '', 'string');
 		$text   = JFactory::getApplication()->input->get('text', '', 'raw');
 
 		$db = JFactory::getDBO();

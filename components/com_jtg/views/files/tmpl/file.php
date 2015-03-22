@@ -434,7 +434,7 @@ if ( $this->clicklist !== false ) {
 			</thead>
 			<tbody>
 				<tr>
-					<td><?php echo JText::_('COM_JTG_FROM'); ?>:</td>
+					<td><?php echo JText::_('COM_JTG_UPLOADER'); ?>:</td>
 					<td><?php echo $this->profile; ?></td>
 					<td rowspan="6" valign="top"><?php
 					if ( ($durationbox) AND ($this->track->distance != "") AND ((float) $this->track->distance != 0))
@@ -570,7 +570,6 @@ if ($this->cfg->usevote == 1)
 		$template .= JText::sprintf(
 				'COM_JTG_TRACK_RATING',
 				$JtgHelper->getLocatedFloat($this->vote['rate']),
-				$i - 1,
 				$this->vote['count']
 				) . "\n";
 	}

@@ -180,7 +180,7 @@ $document->addStyleSheet(JUri::base() . 'components/com_jtg/template.css');
 				?>
 			<tr class="<?php echo "row$k ";
 				echo $k? 'row-odd':'row-even'; ?>">
-				<td align="center"><?php echo $this->pagination->getRowOffset($i); ?></td>
+				<!--   <td align="center"><?php echo $this->pagination->getRowOffset($i); ?></td>-->
 				<td align="center"><?php echo $row->id; ?></td>
 				<td align="center"><?php echo $checked; ?></td>
 				<td align="center">
@@ -228,7 +228,7 @@ $document->addStyleSheet(JUri::base() . 'components/com_jtg/template.css');
 		?>
 		<thead>
 			<tr>
-				<th class="title"><?php echo JText::_('COM_JTG_NUM'); ?></th>
+				<!-- <th class="title"><?php echo JText::_('COM_JTG_NUM'); ?></th> -->
 				<th class="title" nowrap="nowrap"><?php
 				echo JHtml::_('grid.sort',
 						JText::_('COM_JTG_ID'), 'id', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>:</th>

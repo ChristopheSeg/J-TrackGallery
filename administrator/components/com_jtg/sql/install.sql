@@ -70,7 +70,7 @@ INSERT  IGNORE INTO `#__jtg_config` (`id`, `gid`, `unit`, `type`, `max_size`, `m
 `inform_autor`, `captcha`, `ordering`, `comments`, `access`, `approach`, 
 `routingiconset`, `usevote`, `download`, `gallery`, `showcharts`, 
 `gallery_code`, `level`) VALUES
-(1, 'a:0:{}', 'Kilometer', 'jpg,jpeg,png,gif', 200, 220, 
+(1, 'a:0:{}', 'Kilometer', 'jpg,jpeg,png,gif', 1500, 220, 
 400, 0, 0, 5, '500px', '100%', '100%', 
 '180px', 'FF0000', '0000CC', '0', 'default', 'a:0:{}', 
 1, 0, 'DESC', 0, 0, 'no', 
