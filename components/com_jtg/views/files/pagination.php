@@ -106,13 +106,16 @@ class JPagination extends JObject
 		// Set the pagination iteration loop values.
 		$displayedPages = 10;
 		$this->set('pages.start', $this->get('pages.current') - ($displayedPages / 2));
+
 		if ($this->get('pages.start') < 1)
 		{
 			$this->set('pages.start', 1);
 		}
+
 		if (($this->get('pages.start') + $displayedPages) > $this->get('pages.total'))
 		{
 			$this->set('pages.stop', $this->get('pages.total'));
+
 			if ($this->get('pages.total') < $displayedPages)
 			{
 				$this->set('pages.start', 1);
@@ -204,10 +207,12 @@ class JPagination extends JObject
 	public function getData()
 	{
 		static $data;
+
 		if (!is_object($data))
 		{
 			$data = $this->_buildDataObject();
 		}
+
 		return $data;
 	}
 
@@ -222,10 +227,12 @@ class JPagination extends JObject
 	{
 		// Initialise variables.
 		$html = null;
+
 		if ($this->get('pages.total') > 1)
 		{
 			$html .= JText::sprintf('JLIB_HTML_PAGE_CURRENT_OF_TOTAL', $this->get('pages.current'), $this->get('pages.total'));
 		}
+
 		return $html;
 	}
 
@@ -287,13 +294,16 @@ class JPagination extends JObject
 		$listOverride = false;
 
 		$chromePath = JPATH_THEMES . '/' . $app->getTemplate() . '/html/pagination.php';
+
 		if (file_exists($chromePath))
 		{
 			include_once $chromePath;
+
 			if (function_exists('pagination_item_active') && function_exists('pagination_item_inactive'))
 			{
 				$itemOverride = true;
 			}
+
 			if (function_exists('pagination_list_render'))
 			{
 				$listOverride = true;
@@ -322,6 +332,7 @@ class JPagination extends JObject
 			$list['start']['active'] = false;
 			$list['start']['data'] = ($itemOverride) ? pagination_item_inactive($data->start) : $this->_item_inactive($data->start);
 		}
+
 		if ($data->previous->base !== null)
 		{
 			$list['previous']['active'] = true;
@@ -333,7 +344,9 @@ class JPagination extends JObject
 			$list['previous']['data'] = ($itemOverride) ? pagination_item_inactive($data->previous) : $this->_item_inactive($data->previous);
 		}
 
-		$list['pages'] = array(); //make sure it exists
+		// Make sure $list['pages'] exists
+		$list['pages'] = array();
+
 		foreach ($data->pages as $i => $page)
 		{
 			if ($page->base !== null)
@@ -401,14 +414,17 @@ class JPagination extends JObject
 		$list['pageslinks'] = $this->getPagesLinks();
 
 		$chromePath = JPATH_THEMES . '/' . $app->getTemplate() . '/html/pagination.php';
+
 		if (file_exists($chromePath))
 		{
 			include_once $chromePath;
+
 			if (function_exists('pagination_list_footer'))
 			{
 				return pagination_list_footer($list);
 			}
 		}
+
 		return $this->_list_footer($list);
 	}
 
@@ -431,6 +447,7 @@ class JPagination extends JObject
 		{
 			$limits[] = JHtml::_('select.option', "$i");
 		}
+
 		$limits[] = JHtml::_('select.option', '50', JText::_('J50'));
 		$limits[] = JHtml::_('select.option', '100', JText::_('J100'));
 		$limits[] = JHtml::_('select.option', '0', JText::_('JALL'));
@@ -462,6 +479,7 @@ class JPagination extends JObject
 				$selected
 			);
 		}
+
 		return $html;
 	}
 
@@ -533,14 +551,15 @@ class JPagination extends JObject
 		$lang = JFactory::getLanguage();
 		$html = "<div class=\"container\"><div class=\"jtgpagination\">\n";
 
-		$html .= "\n<div class=\"limit\">".JText::_('JGLOBAL_DISPLAY_NUM').$list['limitfield']."";
+		$html .= "\n<div class=\"limit\">" . JText::_('JGLOBAL_DISPLAY_NUM') . $list['limitfield'] . "";
 		$html .= $list['pageslinks'];
-		$html .= "\n".$list['pagescounter']."</div>";
+		$html .= "\n" . $list['pagescounter'] . "</div>";
 
-		$html .= "\n<input type=\"hidden\" name=\"" . $list['prefix'] . "limitstart\" value=\"".$list['limitstart']."\" />";
+		$html .= "\n<input type=\"hidden\" name=\"" . $list['prefix'] . "limitstart\" value=\"" . $list['limitstart'] . "\" />";
 		$html .= "\n</div></div>";
 
-		return $html;	}
+		return $html;
+	}
 
 	/**
 	 * Create the html for a list footer
@@ -557,32 +576,49 @@ class JPagination extends JObject
 		$lang = JFactory::getLanguage();
 		$html = null;
 
-		if ($list['start']['active']) {
-			$html .= "<div class=\"button2jtg-right\"><div class=\"start\">".$list['start']['data']."</div></div>";
-		} else {
-			$html .= "<div class=\"button2jtg-right off\"><div class=\"start\">".$list['start']['data']."</div></div>";
+		if ($list['start']['active'])
+		{
+			$html .= "<div class=\"button2jtg-right\"><div class=\"start\">" . $list['start']['data'] . "</div></div>";
 		}
-		if ($list['previous']['active']) {
-			$html .= "<div class=\"button2jtg-right\"><div class=\"prev\">".$list['previous']['data']."</div></div>";
-		} else {
-			$html .= "<div class=\"button2jtg-right off\"><div class=\"prev\">".$list['previous']['data']."</div></div>";
+		else
+		{
+			$html .= "<div class=\"button2jtg-right off\"><div class=\"start\">" . $list['start']['data'] . "</div></div>";
+		}
+
+		if ($list['previous']['active'])
+		{
+			$html .= "<div class=\"button2jtg-right\"><div class=\"prev\">" . $list['previous']['data'] . "</div></div>";
+		}
+		else
+		{
+			$html .= "<div class=\"button2jtg-right off\"><div class=\"prev\">" . $list['previous']['data'] . "</div></div>";
 		}
 
 		$html .= "\n<div class=\"button2jtg-left\"><div class=\"page\">";
-		foreach($list['pages'] as $page) {
+
+		foreach ($list['pages'] as $page)
+		{
 			$html .= $page['data'];
 		}
+
 		$html .= "\n</div></div>";
 
-		if ($list['next']['active']) {
-			$html .= "<div class=\"button2jtg-left\"><div class=\"next\">".$list['next']['data']."</div></div>";
-		} else {
-			$html .= "<div class=\"button2jtg-left off\"><div class=\"next\">".$list['next']['data']."</div></div>";
+		if ($list['next']['active'])
+		{
+			$html .= "<div class=\"button2jtg-left\"><div class=\"next\">" . $list['next']['data'] . "</div></div>";
 		}
-		if ($list['end']['active']) {
-			$html .= "<div class=\"button2jtg-left\"><div class=\"end\">".$list['end']['data']."</div></div>";
-		} else {
-			$html .= "<div class=\"button2jtg-left off\"><div class=\"end\">".$list['end']['data']."</div></div>";
+		else
+		{
+			$html .= "<div class=\"button2jtg-left off\"><div class=\"next\">" . $list['next']['data'] . "</div></div>";
+		}
+
+		if ($list['end']['active'])
+		{
+			$html .= "<div class=\"button2jtg-left\"><div class=\"end\">" . $list['end']['data'] . "</div></div>";
+		}
+		else
+		{
+			$html .= "<div class=\"button2jtg-left off\"><div class=\"end\">" . $list['end']['data'] . "</div></div>";
 		}
 
 		return $html;
@@ -599,11 +635,14 @@ class JPagination extends JObject
 	 */
 	protected function _item_active(&$item)
 	{
-		if ($item->base>0)
-			return "<a href=\"#\" title=\"".$item->text."\" onclick=\"document.adminForm." . $item->prefix . "limitstart.value=".$item->base."; Joomla.submitform();return false;\">".$item->text."</a>";
+		if ($item->base > 0)
+		{
+			return "<a href=\"#\" title=\"" . $item->text . "\" onclick=\"document.adminForm." . $item->prefix . "limitstart.value=" . $item->base . "; Joomla.submitform();return false;\">" . $item->text . "</a>";
+		}
 		else
-			return "<a href=\"#\" title=\"".$item->text."\" onclick=\"document.adminForm." . $item->prefix . "limitstart.value=0; Joomla.submitform();return false;\">".$item->text."</a>";
-
+		{
+			return "<a href=\"#\" title=\"" . $item->text . "\" onclick=\"document.adminForm." . $item->prefix . "limitstart.value=0; Joomla.submitform();return false;\">" . $item->text . "</a>";
+		}
 	}
 
 	/**
@@ -617,7 +656,7 @@ class JPagination extends JObject
 	 */
 	protected function _item_inactive(&$item)
 	{
-		return "<span>".$item->text."</span>";
+		return "<span>" . $item->text . "</span>";
 	}
 
 	/**
@@ -634,6 +673,7 @@ class JPagination extends JObject
 
 		// Build the additional URL parameters string.
 		$params = '';
+
 		if (!empty($this->_additionalUrlParams))
 		{
 			foreach ($this->_additionalUrlParams as $key => $value)
@@ -643,6 +683,7 @@ class JPagination extends JObject
 		}
 
 		$data->all = new JPaginationObject(JText::_('JLIB_HTML_VIEW_ALL'), $this->prefix);
+
 		if (!$this->_viewall)
 		{
 			$data->all->base = '0';
@@ -656,10 +697,6 @@ class JPagination extends JObject
 		if ($this->get('pages.current') > 1)
 		{
 			$page = ($this->get('pages.current') - 2) * $this->limit;
-
-			// Set the empty for removal from route
-			//$page = $page == 0 ? '' : $page;
-
 			$data->start->base = '0';
 			$data->start->link = JRoute::_($params . '&' . $this->prefix . 'limitstart=0');
 			$data->previous->base = $page;
@@ -683,19 +720,20 @@ class JPagination extends JObject
 
 		$data->pages = array();
 		$stop = $this->get('pages.stop');
+
 		for ($i = $this->get('pages.start'); $i <= $stop; $i++)
 		{
 			$offset = ($i - 1) * $this->limit;
-			// Set the empty for removal from route
-			//$offset = $offset == 0 ? '' : $offset;
 
 			$data->pages[$i] = new JPaginationObject($i, $this->prefix);
+
 			if ($i != $this->get('pages.current') || $this->_viewall)
 			{
 				$data->pages[$i]->base = $offset;
 				$data->pages[$i]->link = JRoute::_($params . '&' . $this->prefix . 'limitstart=' . $offset);
 			}
 		}
+
 		return $data;
 	}
 }

@@ -2281,6 +2281,7 @@ class GpsDataClass
 	);
 	olmap.addLayer( hill );\n";
 
+
 		if ( !isset($baselayer))
 		{
 			// No map available
