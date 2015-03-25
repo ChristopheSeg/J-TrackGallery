@@ -31,6 +31,7 @@ echo $this->lh;
 		document.adminForm.submit( task );
 	}
 </script>
+
 <form action="<?php echo $this->action; ?>" method="post"
 	name="adminForm" id="adminForm">
 	<table style="width:100%;">

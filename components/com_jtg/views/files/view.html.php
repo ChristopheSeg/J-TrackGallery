@@ -817,7 +817,7 @@ class JtgViewFiles extends JViewLegacy
 		// $rows = $model->getData($limit, $limitstart );
 		$rows = $cache->get(array ( $model, 'getData' ), array ( $limit, $limitstart ));
 		$total = $this->get('Total');
-		$pagination = new JtgPagination($total, $limitstart, $limit);
+		$pagination = new JPagination($total, $limitstart, $limit);
 
 		$this->sortedcats = $sortedcats;
 		$this->sortedter = $sortedter;

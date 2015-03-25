@@ -444,7 +444,7 @@ class JPagination extends JObject
 				'select.genericlist',
 				$limits,
 				$this->prefix . 'limit',
-				'class="inputbox" size="1" onchange="Joomla.submitform();"',
+				'class="inputbox" style="width:60px; height: 22px" size="1" onchange="Joomla.submitform();"',
 				'value',
 				'text',
 				$selected
@@ -456,7 +456,7 @@ class JPagination extends JObject
 				'select.genericlist',
 				$limits,
 				$this->prefix . 'limit',
-				'class="inputbox" size="1" onchange="this.form.submit()"',
+				'class="inputbox" style="width:60px; height: 22px" size="1" onchange="this.form.submit()"',
 				'value',
 				'text',
 				$selected
@@ -531,7 +531,7 @@ class JPagination extends JObject
 	{
 		// Initialise variables.
 		$lang = JFactory::getLanguage();
-		$html = "<div class=\"container\"><div class=\"pagination\">\n";
+		$html = "<div class=\"container\"><div class=\"jtgpagination\">\n";
 
 		$html .= "\n<div class=\"limit\">".JText::_('JGLOBAL_DISPLAY_NUM').$list['limitfield']."";
 		$html .= $list['pageslinks'];

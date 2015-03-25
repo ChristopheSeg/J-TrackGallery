@@ -907,6 +907,12 @@ table.adminlist tfoot td,table.adminlist tfoot th {
 	border-top: 1px solid #738498;
 }
 
+.jtgpagination a {
+	border-top-width: 0px;
+	border-bottom-width: 0px;
+}
+
+
 .button2jtg-left,
 .button2jtg-right,
 .button2jtg-left div,
