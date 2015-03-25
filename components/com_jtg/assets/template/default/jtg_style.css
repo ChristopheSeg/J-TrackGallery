@@ -894,3 +894,121 @@ span label {
 .comment-form label {
 	padding-left: 10px;
 }
+
+
+/* Pagination on frontend  (from bluestork Joomla 2.5 admin style) */
+table.adminlist tfoot tr {
+	color: #2c2c2c;
+}
+
+	/* Table td/th styles */
+table.adminlist tfoot td,table.adminlist tfoot th {
+	background-color: #ffffff;
+	border-top: 1px solid #738498;
+}
+
+.button2jtg-left,
+.button2jtg-right,
+.button2jtg-left div,
+.button2jtg-right div {
+	float: left;
+}
+.button2jtg-left a,
+.button2jtg-right a,
+.button2jtg-left button,
+.button2jtg-right button,
+.button2jtg-left span,
+.button2jtg-right span {
+	display: block;
+	height: 22px;
+	float: left;
+	line-height: 22px;
+	font-size: 1em;
+	color: #333;
+	cursor: pointer;
+}
+
+.button2jtg-left span,.button2jtg-right span {
+	cursor: default;
+	color: #999;
+}
+
+.button2jtg-left .page a,
+.button2jtg-right .page a,
+.button2jtg-left .page span,
+.button2jtg-right .page span,
+.button2jtg-left .blank a,
+.button2jtg-right .blank a,
+.button2jtg-left .blank span,
+.button2jtg-right .blank span,
+.button2jtg-left .blank button,
+.button2jtg-right .blank button {
+	padding: 0 6px;
+}
+
+.page span,.blank span {
+	color: #000;
+	font-weight: bold;
+}
+
+.button2jtg-left a:hover,
+.button2jtg-right a:hover,
+.button2jtg-left button:hover,
+.button2jtg-left button:hover	{
+	text-decoration: none;
+	color: #0B55C4;
+}
+
+.button2jtg-left a,
+.button2jtg-left span,
+.button2jtg-left button {
+	padding: 0 24px 0 6px;
+}
+
+.button2jtg-right a,
+.button2jtg-right span,
+.button2jtg-right button {
+	padding: 0 6px 0 24px;
+}
+
+.button2jtg-left {
+	background: url(../../images/pagination/j_button2_left.png) no-repeat;
+	float: left;
+	margin-right: 10px;
+}
+
+.button2jtg-right {
+	background: url(../../images/pagination/j_button2_right.png) 100% 0 no-repeat;
+	float: left;
+	margin-left: 5px;
+	margin-right: 10px;
+}
+
+
+.button2jtg-right .prev 		{	background: url(../../images/pagination/j_button2_prev.png) no-repeat; }
+.button2jtg-right.off .prev 	{	background: url(../../images/pagination/j_button2_prev_off.png) no-repeat; }
+.button2jtg-right .start 		{	background: url(../../images/pagination/j_button2_first.png) no-repeat; }
+.button2jtg-right.off .start 	{	background: url(../../images/pagination/j_button2_first_off.png) no-repeat; }
+.button2jtg-left .page,
+.button2jtg-left .blank 		{	background: url(../../images/pagination/j_button2_right_cap.png) 100% 0 no-repeat; }
+.button2jtg-left .next 		{	background: url(../../images/pagination/j_button2_next.png) 100% 0 no-repeat; }
+.button2jtg-left.off .next 	{	background: url(../../images/pagination/j_button2_next_off.png) 100% 0 no-repeat; }
+.button2jtg-left .end 			{	background: url(../../images/pagination/j_button2_last.png) 100% 0 no-repeat; }
+.button2jtg-left.off .end 		{	background: url(../../images/pagination/j_button2_last_off.png) 100% 0 no-repeat; }
+.button2jtg-left .image 		{	background: url(../../images/pagination/j_button2_image.png) 100% 0 no-repeat; }
+.button2jtg-left .readmore 	{	background: url(../../images/pagination/j_button2_readmore.png) 100% 0 no-repeat; }
+.button2jtg-left .pagebreak 	{	background: url(../../images/pagination/j_button2_pagebreak.png) 100% 0 no-repeat; }
+.button2jtg-left .blank 		{	background: url(../../images/pagination/j_button2_blank.png) 100% 0 no-repeat; }
+.button2jtg-left .article 		{	background: url(../../images/pagination/j_button2_readmore.png) 100% 0 no-repeat; }
+
+div.button2jtg-left button {
+	background: transparent;
+	margin-top: 0;
+	border: 0 solid #ccc;
+}
+
+div.button2jtg-left button {
+	background: transparent;
+	border: 0 solid #aaa;
+}
+

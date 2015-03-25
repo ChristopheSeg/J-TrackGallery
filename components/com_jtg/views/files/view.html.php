@@ -20,7 +20,14 @@
 defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.view');
-jimport('joomla.html.pagination');
+
+/*
+ * Pagination previously made with J!2.5 pagination
+ * jimport('joomla.html.pagination');
+ * Now include a modified JPagination class working under J!2.5 and J3.x
+ */
+include_once JPATH_BASE . '/components/com_jtg/views/files/pagination.php';
+
 
 /**
  * JtgViewFiles class @ see JViewLegacy
@@ -810,7 +817,7 @@ class JtgViewFiles extends JViewLegacy
 		// $rows = $model->getData($limit, $limitstart );
 		$rows = $cache->get(array ( $model, 'getData' ), array ( $limit, $limitstart ));
 		$total = $this->get('Total');
-		$pagination = new JPagination($total, $limitstart, $limit);
+		$pagination = new JtgPagination($total, $limitstart, $limit);
 
 		$this->sortedcats = $sortedcats;
 		$this->sortedter = $sortedter;

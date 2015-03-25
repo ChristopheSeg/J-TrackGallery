@@ -45,9 +45,9 @@ echo $this->lh;
 				<button class="button"
 					onclick="document.getElementById('searchfield').value='';this.form.getElementById('filter_state').value='';this.form.submit();">
 					<?php echo JText::_('COM_JTG_RESET'); ?>
-				</button> <?php echo JText::_('JGLOBAL_DISPLAY_NUM') . '&nbsp;' . $this->pagination->getLimitBox(); ?>
+				</button>
 			</td>
-			<td style="text-align: right"><?php echo $this->pagination->getResultsCounter(); ?>
+			<td style="text-align: right"><?php echo $this->pagination->getPagesCounter(); ?>
 			</td>
 		</tr>
 	</table>
@@ -92,8 +92,7 @@ if (! $this->params->get("jtg_param_disable_terrains"))
 		</thead>
 		<tfoot>
 			<tr class="sectiontablefooter">
-				<td colspan="8" align="center"><?php echo $this->pagination->getPagesLinks($this->rows); ?>
-					<?php echo $this->pagination->getResultsCounter(); ?></td>
+				<td colspan="8" align="center"><?php echo $this->pagination->getListFooter();?></td>
 			</tr>
 		</tfoot>
 		<tbody>

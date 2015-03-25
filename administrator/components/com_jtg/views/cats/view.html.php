@@ -132,7 +132,7 @@ class JtgViewCats extends JViewLegacy
 		$rows = $this->get('Data');
 		$children = array();
 		$image = array();
-		$imagedir = JUri::base() . '../images/jtrackgallery/cats/';
+		$imagedir = JUri::base() . '../../images/pagination/jtrackgallery/cats/';
 
 		foreach ($rows as $v )
 		{
