@@ -705,14 +705,14 @@ class JtgViewFiles extends JViewLegacy
 			// 		$lists['access']	= JHtml::_('list.accesslevel', $row );
 			$lists['hidden'] = JHtml::_('select.genericlist', $yesnolist, 'hidden', 'class="inputbox" size="2"', 'id', 'title', $track->hidden);
 			$lists['uid'] = JHtml::_('list.users', 'uid', $track->uid, 1, null, 'name', 0);
-			$img_dir = JPATH_SITE . '/images/jtrackgallery/track_' . $id . '/';
+			$img_dir = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks_images/track_' . $id . '/';
 
 			if (!JFolder::exists($img_dir))
 			{
 				JFolder::create($img_dir, 0777);
 			}
 
-			$img_path = JUri::root() . 'images/jtrackgallery/track_' . $id . '/';
+			$img_path = JUri::root() . 'images/jtrackgallery/uploaded_tracks_images/track_' . $id . '/';
 			$thumb_dir = $img_dir . 'thumbs/';
 			$thumb_dir = $img_dir . 'thumbs/';
 			$images = null;

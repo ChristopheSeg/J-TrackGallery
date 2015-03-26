@@ -209,7 +209,7 @@ class Com_JtgInstallerScript
 	JFolder::copy($src_folder_to_copy, $dest_folder_to_copy, $force = false);
 
 	// Copy example tracks
-	$src_folder_to_copy = JPATH_SITE . '/components/com_jtg/assets/sample_tracks';
+	$src_folder_to_copy = JPATH_SITE . '/components/com_jtg/assets/uploaded_tracks';
 	$dest_folder_to_copy = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks';
 	$files = JFolder::files($src_folder_to_copy);
 
@@ -220,6 +220,16 @@ class Com_JtgInstallerScript
 		{
 			JFile::copy($src_folder_to_copy . '/' . $file, $dest_folder_to_copy . '/' . $file);
 		}
+	}
+
+	// Copy example image gallery
+	$src_folder_to_copy = JPATH_SITE . '/components/com_jtg/assets/uploaded_tracks_images';
+	$dest_folder_to_copy = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks_images';
+
+	// Copy entire folder if destination folder don't exist
+	if (!JFolder::exists($dest_folder_to_copy))
+	{
+		JFolder::copy($src_folder_to_copy, $dest_folder_to_copy, $force = false);
 	}
 
 	echo '<tr><td colspan="3">' . JText::sprintf('COM_JTG_INSTALLED_VERSION', $this->release) . '</td></tr>';

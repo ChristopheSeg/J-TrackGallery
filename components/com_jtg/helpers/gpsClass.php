@@ -2271,16 +2271,6 @@ class GpsDataClass
 
 		// TODO osm_getTileURL see http://wiki.openstreetmap.org/wiki/Talk:Openlayers_POI_layer_example
 		$document->addScript('/components/com_jtg/assets/js/jtg_getTileURL.js');
-		$return .= "hill = new OpenLayers.Layer.TMS(\"" . JText::_('COM_JTG_HILL_SHADE_NASA') . "\"\n,
-		\"http://toolserver.org/~cmarqu/hill/\",
-		{
-		type: 'png', getURL: osm_getTileURL,
-		displayOutsideMaxExtent: true, isBaseLayer: false,
-		transparent: true, \"visibility\": false
-	}
-	);
-	olmap.addLayer( hill );\n";
-
 
 		if ( !isset($baselayer))
 		{
@@ -2384,8 +2374,8 @@ class GpsDataClass
 		$max_geoim_height = (int) $max_geoim_height;
 		$foundpics = false;
 		$map = "// <!-- parseOLGeotaggedImgs BEGIN -->\n";
-		$httppath = JUri::base() . "images/jtrackgallery/track_" . $id . "/";
-		$folder = JPATH_SITE . "/images/jtrackgallery/" . 'track_' . $id . '/';
+		$httppath = JUri::base() . "images/jtrackgallery/uploaded_tracks_images/track_" . $id . "/";
+		$folder = JPATH_SITE . "/images/jtrackgallery/uploaded_tracks_images/" . 'track_' . $id . '/';
 		$map .= "layer_geotaggedImgs = new OpenLayers.Layer.Markers(\"" . JText::_('COM_JTG_GEOTAGGED_IMAGES') . "\"," .
 				" { displayInLayerSwitcher: true });" .
 				"\n	olmap.addLayer(layer_geotaggedImgs);" .

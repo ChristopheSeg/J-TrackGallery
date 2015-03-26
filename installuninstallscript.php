@@ -138,14 +138,16 @@ class Com_JtgInstallerScript
 			"images/jtrackgallery",
 			"images/jtrackgallery/cats",
 			"images/jtrackgallery/terrain",
+			"images/jtrackgallery/language",
 			"images/jtrackgallery/uploaded_tracks",
 			"images/jtrackgallery/uploaded_tracks/import"
 	);
 
 	$folders_to_chmod = array (
+			"images/jtrackgallery/cats",
+			"images/jtrackgallery/language",
 			"images/jtrackgallery/uploaded_tracks",
-			"images/jtrackgallery/uploaded_tracks/import",
-			"components/com_jtg/assets/images/symbols",
+			"images/jtrackgallery/uploaded_tracks/import"
 	);
 
 	echo '<table><tr><td colspan="3"><b>' . JText::_('COM_JTG_FILES_FOLDERS_TO_CREATE') . '</td></tr>';
@@ -209,7 +211,7 @@ class Com_JtgInstallerScript
 	JFolder::copy($src_folder_to_copy, $dest_folder_to_copy, $force = false);
 
 	// Copy example tracks
-	$src_folder_to_copy = JPATH_SITE . '/components/com_jtg/assets/sample_tracks';
+	$src_folder_to_copy = JPATH_SITE . '/components/com_jtg/assets/uploaded_tracks';
 	$dest_folder_to_copy = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks';
 	$files = JFolder::files($src_folder_to_copy);
 
@@ -220,6 +222,16 @@ class Com_JtgInstallerScript
 		{
 			JFile::copy($src_folder_to_copy . '/' . $file, $dest_folder_to_copy . '/' . $file);
 		}
+	}
+
+	// Copy example image gallery
+	$src_folder_to_copy = JPATH_SITE . '/components/com_jtg/assets/uploaded_tracks_images';
+	$dest_folder_to_copy = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks_images';
+
+	// Copy entire folder if destination folder don't exist
+	if (!JFolder::exists($dest_folder_to_copy))
+	{
+		JFolder::copy($src_folder_to_copy, $dest_folder_to_copy, $force = false);
 	}
 
 	echo '<tr><td colspan="3">' . JText::sprintf('COM_JTG_INSTALLED_VERSION', $this->release) . '</td></tr>';
@@ -255,6 +267,23 @@ class Com_JtgInstallerScript
 		if ( version_compare($oldRelease, '0.7.0', '<'))
 		{
 			// Installed version is lower then 0.7.0 ==> do some stuff
+		}
+
+		/*
+		 * Move existing old image gallery
+		 * from /images/jtrackgallery/track_xx (version<= 0.9.9)
+		 * to /images/jtrackgallery/uploaded_tracks_images/track_xx (version> 0.9.9)
+		*/
+
+		$folders = JFolder::folders(JPATH_SITE . '/images/jtrackgallery', 'track_*', false);
+
+		// Move entire folder (track_xx) if destination folder don't exist
+		foreach ($folders as $folder)
+		{
+			if (!JFolder::exists(JPATH_SITE . '/images/jtrackgallery/uploaded_tracks_images/' . $folder))
+			{
+				JFolder::move(JPATH_SITE . '/images/jtrackgallery/' . $folder, JPATH_SITE . '/images/jtrackgallery/uploaded_tracks_images/' . $folder);
+			}
 		}
 
 		echo '<p>' . JText::sprintf('COM_JTG_UPDATED', $this->release) . '</p>';

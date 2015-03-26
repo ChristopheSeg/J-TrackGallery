@@ -475,7 +475,7 @@ class JtgModelFiles extends JModelLegacy
 
 		if (count($images) > 0)
 		{
-			$img_dir = JPATH_SITE . '/images/jtrackgallery/track_' . $rows->id . '/';
+			$img_dir = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks_images/track_' . $rows->id . '/';
 			JFolder::create($img_dir, 0777);
 
 			foreach ($images['name'] as $key => $value)
@@ -702,7 +702,7 @@ class JtgModelFiles extends JModelLegacy
 		$file = $this->_db->loadObject();
 
 		// Folder and Pictures within delete
-		$folder = JPATH_SITE . "/images/jtrackgallery/" . 'track_' . $id;
+		$folder = JPATH_SITE . "/images/jtrackgallery/uploaded_tracks_images/" . 'track_' . $id;
 
 		if (JFolder::exists($folder))
 		{
@@ -739,7 +739,7 @@ class JtgModelFiles extends JModelLegacy
 	 */
 	function getImages ($id)
 	{
-		$img_dir = JPATH_SITE . '/images/jtrackgallery/track_' . $id;
+		$img_dir = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks_images/track_' . $id;
 
 		if (! JFolder::exists($img_dir))
 		{
@@ -774,7 +774,7 @@ class JtgModelFiles extends JModelLegacy
 		$level = JFactory::getApplication()->input->get('level', 0, 'integer');
 		$title = JFactory::getApplication()->input->get('title', '', 'string');
 		$allimages = $this->getImages($id);
-		$imgpath = JPATH_SITE . '/images/jtrackgallery/track_' . $id . '/';
+		$imgpath = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks_images/track_' . $id . '/';
 
 		foreach ($allimages as $key => $image)
 		{

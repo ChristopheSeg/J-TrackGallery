@@ -1353,7 +1353,7 @@ class JtgModelFiles extends JModelLegacy
 		$id = $result->id;
 
 		// Images upload part
-		$imgpath = JPATH_SITE . '/images/jtrackgallery/track_' . $id . '/';
+		$imgpath = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks_images/uploaded_tracks_images/track_' . $id . '/';
 		$jInput = JFactory::getApplication()->input;
 		$jFileInput = new jInput($_FILES);
 		$images = $jFileInput->get('images', array(), 'array');
@@ -1538,7 +1538,7 @@ class JtgModelFiles extends JModelLegacy
 				$images = 0;
 
 				$sourcePath = JPATH_SITE . '/images/joomgpstracks/' . md5($title);
-				$destPath = JPATH_SITE . '/images/jtrackgallery/track_' . $id;
+				$destPath = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks_images/track_' . $id;
 
 				if (count($images) > 0 )
 				{
@@ -1573,7 +1573,7 @@ class JtgModelFiles extends JModelLegacy
 	function getImages($id)
 	{
 		jimport('joomla.filesystem.folder');
-		$img_dir = JPATH_SITE . '/images/jtrackgallery/track_' . $id;
+		$img_dir = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks_images/track_' . $id;
 
 		if (!JFolder::exists($img_dir))
 		{
@@ -1610,7 +1610,7 @@ class JtgModelFiles extends JModelLegacy
 		$published = JFactory::getApplication()->input->get('published');
 
 		$allimages = $this->getImages($id);
-		$imgpath = JPATH_SITE . '/images/jtrackgallery/track_' . $id . '/';
+		$imgpath = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks_images/track_' . $id . '/';
 
 		if ($allimages)
 		{

@@ -284,9 +284,9 @@ class JtgViewFiles extends JViewLegacy
 		}
 
 		$level = $model->getLevelSelect($sellevel);
-		$img_dir = JPATH_SITE . '/images/jtrackgallery/track_' . $id . '/';
+		$img_dir = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks_images/track_' . $id . '/';
 		$thumb_dir = $img_dir . 'thumbs/';
-		$img_path = JUri::root() . 'images/jtrackgallery/track_' . $id . "/";
+		$img_path = JUri::root() . 'images/jtrackgallery/uploaded_tracks_images/track_' . $id . "/";
 		$images = null;
 		$imgcount = 0;
 
@@ -528,7 +528,7 @@ class JtgViewFiles extends JViewLegacy
 		 // 		}
 		 */
 		// Load images if exists
-		$img_dir = JPATH_SITE . '/images/jtrackgallery/track_' . $id;
+		$img_dir = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks_images/track_' . $id;
 
 		if (JFolder::exists($img_dir))
 		{
@@ -583,7 +583,7 @@ class JtgViewFiles extends JViewLegacy
 							$imageBlock .= "	<div class=\"imageElement\">
 							<h3>" . $track->title . " <small>(" . $image . ")</small></h3>
 							<p></p>
-							<img src=\"" . JUri::base() . "images/jtrackgallery/track_" . $id . "/" . $image . "\" class=\"full\" height=\"0px\" />
+							<img src=\"" . JUri::base() . "images/jtrackgallery/uploaded_tracks_images/track_" . $id . "/" . $image . "\" class=\"full\" height=\"0px\" />
 							</div>\n";
 						}
 					}
@@ -654,7 +654,7 @@ class JtgViewFiles extends JViewLegacy
 								$thumb = 'thumbs/thumb2_' . $image;
 							}
 
-							if ( ! JFile::exists(JPATH_SITE . '/images/jtrackgallery/track_' . $id . '/' . $thumb) )
+							if ( ! JFile::exists(JPATH_SITE . '/images/jtrackgallery/uploaded_tracks_images/track_' . $id . '/' . $thumb) )
 							{
 								$thumb = $image;
 							}
@@ -663,8 +663,8 @@ class JtgViewFiles extends JViewLegacy
 								// Dummy line for Coding standard
 							}
 
-							$imageBlock .= "	<a class=\"highslide\" href='/images/jtrackgallery/track_" . $id . "/" . $image . "' title=\"" . $image . "\" onclick=\"return hs.expand(this)\">
-							<img src=\"" . JUri::base() . "images/jtrackgallery/track_" . $id . '/' . $thumb . "\" alt=\"$image\"  /></a>\n\n";
+							$imageBlock .= "	<a class=\"highslide\" href='/images/jtrackgallery/uploaded_tracks_images/track_" . $id . "/" . $image . "' title=\"" . $image . "\" onclick=\"return hs.expand(this)\">
+							<img src=\"" . JUri::base() . "images/jtrackgallery/uploaded_tracks_images/track_" . $id . '/' . $thumb . "\" alt=\"$image\"  /></a>\n\n";
 						}
 					}
 
@@ -692,7 +692,7 @@ class JtgViewFiles extends JViewLegacy
 								// Dummy line for Coding standard
 							}
 
-							$imageBlock .= "<img src=\"" . JUri::base() . "images/jtrackgallery/track_" . $id . "/"
+							$imageBlock .= "<img src=\"" . JUri::base() . "images/jtrackgallery/uploaded_tracks_images/track_" . $id . "/"
 							. $image . "\" alt=\"" . $track->title . " (" . $image . ")" . "\" title=\"" . $track->title
 							. " (" . $image . ")" . "\" />\n";
 						}
@@ -704,7 +704,7 @@ class JtgViewFiles extends JViewLegacy
 					break;
 
 				case 'ext_plugin':
-					$gallery_folder = "jtrackgallery/track_" . $id;
+					$gallery_folder = "jtrackgallery/uploaded_tracks_images/track_" . $id;
 					$external_gallery = str_replace('%folder%', $gallery_folder, $cfg->gallery_code);
 					$imageBlock = JHTML::_('content.prepare', $external_gallery);
 					$galscript = "";
