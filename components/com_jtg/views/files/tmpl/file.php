@@ -256,7 +256,7 @@ if ($beatchart)
 ?>
 			],
 <?php
-// if (AnimatedCursorLayer)
+// TODO if (AnimatedCursorLayer)
 if (true)
 {
 ?>

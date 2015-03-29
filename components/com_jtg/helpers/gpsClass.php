@@ -1109,6 +1109,7 @@ class GpsDataClass
 		}
 
 		$catimage = "images/jtrackgallery/cats/" . $catimage;
+
 		if ( !is_file($catimage) )
 		{
 			$catimage = "images/jtrackgallery/cats/symbol_inter.png";
@@ -1142,7 +1143,7 @@ class GpsDataClass
 		$offsetx = round(-($sizex / 2));
 		$offsety = round(-($sizey / 2));
 		$iconuri = JUri::base() . $catimage;
-		$iconStyle= "{graphicWidth: $sizex , graphicHeight: $sizey, graphicXOffset: $offsetx, graphicYOffset: $offsety, externalGraphic: '$iconuri'}";
+		$iconStyle = "{graphicWidth: $sizex , graphicHeight: $sizey, graphicXOffset: $offsetx, graphicYOffset: $offsety, externalGraphic: '$iconuri'}";
 
 		return $iconStyle;
 	}
@@ -2842,7 +2843,6 @@ class GpsDataClass
 		$string .= $string_se;
 		$string .= "// <!-- parseXMLlines END -->\n";
 
-
 		$center = "// <!-- parseOLMapCenterSingleTrack BEGIN -->\n";
 		$center .= "var min = lonLatToMercator(new OpenLayers.LonLat";
 		$center .= "(" . $this->bbox_lon_min . "," . $this->bbox_lat_min . "));\n";
@@ -2851,7 +2851,7 @@ class GpsDataClass
 		$center .= "olmap.zoomToExtent(new OpenLayers.Bounds(min.lon, min.lat, max.lon, max.lat));\n";
 		$center .= "// <!-- parseOLMapCenterSingleTrack END -->\n";
 
-		// if (AnimatedCursorLayer)
+		// RODO if (AnimatedCursorLayer)
 		if (true)
 		{
 			/* AnimatedCursorLayer

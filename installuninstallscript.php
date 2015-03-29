@@ -208,9 +208,26 @@ class Com_JtgInstallerScript
 	// Copy additional.ini language files without erasing existing files
 	$src_folder_to_copy = JPATH_SITE . '/components/com_jtg/assets/language';
 	$dest_folder_to_copy = JPATH_SITE . '/images/jtrackgallery/language';
-	JFolder::copy($src_folder_to_copy, $dest_folder_to_copy, $force = false);
+	$folders = JFolder::folders($src_folder_to_copy, false);
 
-	// Copy example tracks
+	// For each language folder
+	foreach ($folders as $folder)
+	{
+		$src_folder_to_copy2 = $src_folder_to_copy . '/' . $folder;
+		$dest_folder_to_copy2 = $dest_folder_to_copy . '/' . $folder;
+		$files = JFolder::files($src_folder_to_copy2);
+		JFolder::create($dest_folder_to_copy2);
+
+		foreach ($files as $file)
+		{
+			if (!JFile::exists($dest_folder_to_copy2 . '/' . $file) )
+			{
+				JFile::copy($src_folder_to_copy2 . '/' . $file, $dest_folder_to_copy2 . '/' . $file);
+			}
+		}
+	}
+
+	// Copy example tracks without erasing existing files
 	$src_folder_to_copy = JPATH_SITE . '/components/com_jtg/assets/uploaded_tracks';
 	$dest_folder_to_copy = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks';
 	$files = JFolder::files($src_folder_to_copy);
@@ -228,15 +245,25 @@ class Com_JtgInstallerScript
 	$src_folder_to_copy = JPATH_SITE . '/components/com_jtg/assets/uploaded_tracks_images';
 	$dest_folder_to_copy = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks_images';
 
-	// Copy entire folder if destination folder don't exist
-	if (!JFolder::exists($dest_folder_to_copy))
+	$folders = JFolder::folders($src_folder_to_copy, 'track_*', false);
+
+	// For each uploaded_tracks_images folder
+	foreach ($folders as $folder)
 	{
-		JFolder::copy($src_folder_to_copy, $dest_folder_to_copy, $force = false);
+		JFolder::copy($src_folder_to_copy . '/' . $folder, $dest_folder_to_copy . '/' . $folder, $force = false);
 	}
 
 	echo '<tr><td colspan="3">' . JText::sprintf('COM_JTG_INSTALLED_VERSION', $this->release) . '</td></tr>';
 
+	// Update tracks user ID to current user id
+	$db = JFactory::getDBO();
+	$application = JFactory::getApplication();
+	$uid = JFactory::getUser($row->uid);
+	$db->setQuery("UPDATE `#__jtg_files` SET `uid` = '$uid' WHERE 1");
+	$db->execute();
+
 	// You can have the backend jump directly to the newly installed component configuration page
+
 	// $parent->getParent()->setRedirectURL('index.php?option=com_jtg');
 
 	echo '<tr><td colspan="3">';
@@ -336,9 +363,11 @@ class Com_JtgInstallerScript
 				$db->execute();
 			}
 
-			// Save default params
+			// TODO Save default params directly in table
 			$query = 'UPDATE #__extensions SET params = ';
-			$query .= '\' {"jtg_param_newest":"10","jtg_param_mostklicks":"10",
+			$query .= '\' {
+			"jtg_param_newest":"10",
+			"jtg_param_mostklicks":"10",
 			"jtg_param_best":"0","jtg_param_rand":"0",
 			"jtg_param_otherfiles":"0",
 			"jtg_param_lh":"1",
@@ -355,7 +384,7 @@ class Com_JtgInstallerScript
 			"jtg_param_allow_mousemove":"1",
 			"jtg_param_allow_keymove":"0",
 			"jtg_param_offer_download_gpx":"1",
-			"jtg_param_offer_download_kml":"0",
+			"jtg_param_offer_download_kml":"1",
 			"jtg_param_offer_download_tcx":"0",
 			"jtg_param_tracks":"0",
 			"jtg_param_cats":["-1"],

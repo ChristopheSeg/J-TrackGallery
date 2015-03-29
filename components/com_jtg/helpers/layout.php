@@ -142,6 +142,21 @@ class LayoutHelper
 			$footer = '<div class="gps-footer">' . JText::_('COM_JTG_POWERED_BY');
 			$footer .= ' <a href="http://jtrackgallery.net"';
 			$footer .= ' target="_blank">J!Track Gallery</a>';
+
+			if ( (strpos($_SERVER['SERVER_NAME'], 'localcarto') !== false)
+				or (strpos($_SERVER['SERVER_NAME'], 'jtrackgallery.net') !== false) )
+			{
+				$db = JFactory::getDbo();
+				$query = $db->getQuery(true);
+				$query->select('manifest_cache');
+				$query->from($db->quoteName('#__extensions'));
+				$query->where('element = "com_jtg"');
+				$db->setQuery($query);
+
+				$manifest = json_decode($db->loadResult(), true);
+				$footer .= ' ' . (string) $manifest['version'];
+			}
+
 			$footer .= "</div>\n";
 		}
 		else
