@@ -134,11 +134,11 @@ if (! $this->params->get("jtg_param_disable_terrains"))
 
 				if ($profile != "")
 				{
-					$profile .= "<br />";
+					$profile .= "&nbsp;";
 				}
 				else
 				{
-					$profile .= "<font class=\"emptyEntry\">" . JText::_('COM_JTG_NO_USER') . "</font><br />";
+					$profile .= "<font class=\"emptyEntry\">" . JText::_('COM_JTG_NO_USER') . "</font>&nbsp;";
 				}
 
 				if (( ( $this->uid != 0 ) AND ( $this->uid == $row->uid ) )

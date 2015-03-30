@@ -352,23 +352,22 @@ class Com_JtgInstallerScript
 		if (( $type == 'install' ) and ($componentJtgIsInstalled !== null) )
 		{
 			// This is a successful install (not an upgrade):
-			// affect sample tracks to this admin user
+			// affect sample tracks to current (admin) user
 			$user = JFactory::getUser();
-			$uid = $user->get('id');
+			$uid = $user->id;
 
-			if ($uid !== 430)
-			{
-				$query = 'UPDATE #__jtg_files SET uid =' . $uid . ' WHERE uid =430';
-				$db->setQuery($query);
-				$db->execute();
-			}
+			$query = 'UPDATE #__jtg_files SET uid =' . $uid . ' WHERE 1';
+			$db->setQuery($query);
+			$db->execute();
 
 			// TODO Save default params directly in table
 			$query = 'UPDATE #__extensions SET params = ';
 			$query .= '\' {
+			"jtg_param_display_jtg_credits":"1",
 			"jtg_param_newest":"10",
 			"jtg_param_mostklicks":"10",
-			"jtg_param_best":"0","jtg_param_rand":"0",
+			"jtg_param_best":"0",
+			"jtg_param_rand":"0",
 			"jtg_param_otherfiles":"0",
 			"jtg_param_lh":"1",
 			"jtg_param_disable_terrains":"0",
