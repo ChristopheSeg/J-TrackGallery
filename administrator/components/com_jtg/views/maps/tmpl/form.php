@@ -91,8 +91,8 @@ if (JVERSION >= 3.0)
 			<tr>
 				<td><?php echo JText::_('COM_JTG_NAME'); ?>:*</td>
 				<td><input id="name" type="text" name="name"
-					value="<?php echo $id AND isset($map->name)? $map->name: ''; ?>"
-					size="50" maxlength="50" /> (<?php echo $id AND isset($map->name)? JText::_($map->name): ''; ?>)
+					value="<?php echo isset($map->name)? $map->name: (string) $id; ?>"
+					size="50" maxlength="50" /> (<?php echo isset($map->name)? JText::_($map->name): (string) $id; ?>)
 				</td>
 			</tr>
 			<tr>
