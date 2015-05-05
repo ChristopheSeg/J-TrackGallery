@@ -6,11 +6,12 @@
 */
 
 /* 
- svg, label,input  used by joomla 3.x css must be redefined for olMpa	
+ svg, label,input  used by joomla 3.x css must be redefined for olMap	
 */
 #jtg_map svg {
 	max-width: none;
 }
+.olMap img { max-width:none; /* Bootstrap-Openlayers issue */}
 
 .olControlLayerSwitcher {
 	opacity: 0.8 !important;

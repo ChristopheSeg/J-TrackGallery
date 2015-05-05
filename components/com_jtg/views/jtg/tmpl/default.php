@@ -38,6 +38,9 @@ echo $this->gpsData->writeOLMap($this->where, $this->tracks, $this->params);
 #jtg_map img{
 	max-width: none; /* joomla3 max-width=100% breaks popups*/
 }
+
+.olMap img { max-width: none; /* Bootstrap Openlayers issue*/
+}
 </style>
 <center>
 	<div id="jtg_map" class="olMap"></div>

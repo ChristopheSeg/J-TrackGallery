@@ -32,7 +32,7 @@ class GpsDataClass
 	var $sortedcats = null;
 
 	// Array tracks[j]->coords; // array containing longitude latitude elevation time and heartbeat data
-	var $tracks = array();
+	var $track = array();
 
 	var $speedDataExists = false;
 
@@ -70,6 +70,15 @@ class GpsDataClass
 
 	var $description = "";
 
+	var $bbox_lat_max = -90;
+
+	var $bbox_lat_min = 90;
+
+	var $bbox_lon_max = -180;
+
+	var $bbox_lon_min = 180;
+
+
 	/**
 	 * function_description
 	 *
@@ -90,7 +99,7 @@ class GpsDataClass
 	 */
 	public function loadFileAndData($gpsFile, $trackfilename)
 	{
-		// $xml can not belong to $this (SimpleXMLElement can not be serialzed => not cached)
+		// $xml can not belong to $this (SimpleXMLElement can not be serialized => not cached)
 
 		$this->gpsFile = $gpsFile;
 		$this->trackfilename = $trackfilename;
@@ -154,8 +163,17 @@ class GpsDataClass
 		// Calculate chartData
 		$this->createChartData();
 
-		// Extract WP
-		$this->extractWPs($xml);
+		// TODO include WP in new function extractCoordsGPX
+		switch ($this->ext)
+		{
+			case "gpx":
+				// TODO include WP in new function extractCoordsGPX
+				break;
+			default:
+				// Extract WP
+				$this->extractWPs($xml);
+		}
+
 		$this->fileChecked = true;
 
 		return $this;
@@ -175,14 +193,13 @@ class GpsDataClass
 
 		if ( ($gpsFile) and (JFile::exists($gpsFile)) )
 		{
+			$this->gpsFile = $gpsFile;
 			$this->ext = JFile::getExt($gpsFile);
-			$xml = simplexml_load_file($this->gpsFile);
 		}
 		elseif  (JFile::exists($this->gpsFile))
 		{
-			$this->gpsFile = $gpsFile;
+			// $this->gpsFile = $gpsFile;
 			$this->ext = JFile::getExt($this->gpsFile);
-			$xml = simplexml_load_file($this->gpsFile);
 		}
 		else
 		{
@@ -192,15 +209,46 @@ class GpsDataClass
 			return false;
 		}
 
-		$this->errorXml = false;
+		// Enable user error handling
+		libxml_use_internal_errors(true);
+		libxml_clear_errors();
+
+		if ($this->ext == 'gpx')
+		{
+			// Open (don't load) GPX xml files using XMLReader
+			$xml = new XMLReader();
+			$xml->open($this->gpsFile);
+		}
+		else
+		{
+			// Load KML and TCX xml files using simplexml_load_file
+			$xml = simplexml_load_file($this->gpsFile);
+		}
 
 		if ($xml === false)
 		{
 			// "Failed loading XML\n";
 
+			$this->error = true;
+
 			foreach (libxml_get_errors() as $error)
 			{
-				$this->errorMessages[] = $error->message;
+				switch ($error->level)
+				{
+					case LIBXML_ERR_WARNING:
+						$this->errorMessages[] = "Warning $error->code: ";
+						break;
+					case LIBXML_ERR_ERROR:
+						$this->errorMessages[] = "Error $error->code: ";
+						break;
+					case LIBXML_ERR_FATAL:
+						$this->errorMessages[] = "Fatal Error $error->code: ";
+						break;
+				}
+
+				$this->errorMessages[] = trim($error->message) .
+				"\n  Line: $error->line" .
+				"\n  Column: $error->column";
 			}
 		}
 
@@ -438,12 +486,273 @@ class GpsDataClass
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $xml  param_description
+	 * @param   unknown_type  $xmlcontents  XMLreader object
 	 *
 	 * @return return_description
 	 */
-	private function extractCoordsGPX($xml)
+
+private function extractCoordsGPX($xmlcontents)
+{
+	$this->trackname = '';
+	$this->trackCount = 0;
 	{
+		// Iterate nodes
+		$countElements = 0;
+		$i_wpt = 0;
+		$i_trk = 0;
+		$this->trackCount = 0;
+
+		while ($xmlcontents->read() )
+		{
+			// Check to ensure nodeType is an Element not attribute or #Text
+			if ($xmlcontents->nodeType == XMLReader::ELEMENT)
+			{
+				// Start element found
+				$currentElement = $xmlcontents->localName;
+				$endElement = '';
+				$countElements++;
+
+				switch ($currentElement)
+				{
+					case 'time':
+						// GPS file Time
+						$xmlcontents->read();
+						$time = $xmlcontents->value;
+						$dt = new DateTime($time);
+						$this->Date = $dt->format('Y-m-d');
+
+						// Read end tag
+						$xmlcontents->read();
+						break;
+					case 'wpt':
+						// TODO See J!TrackGallery wpt format!!
+						// WayPoint
+						//GEt $xml as a simplexmlelement
+						$xml=false;
+						$this->extractWPs($xml);
+						// $xml->close();
+						$i_wpt++;
+						$lat = (float) $xmlcontents->getAttribute('lat');
+						$lon = (float) $xmlcontents->getAttribute('lon');
+						$endWptElement = false;
+
+						while ( !$endWptElement )
+						{
+							$xmlcontents->read();
+
+							if ($xmlcontents->nodeType == XMLReader::END_ELEMENT)
+							{
+								$endWptElement = ($xmlcontents->localName == 'wpt');
+							}
+							else
+							{
+								$endWptElement = false;
+							}
+							// Extract wpt data
+							if ( ($xmlcontents->name == 'name') AND ($xmlcontents->nodeType == XMLReader::ELEMENT) )
+							{
+								$xmlcontents->read();
+
+								// Wpt Name $this->trackname = $xmlcontents->value;
+
+								// Read end tag
+								$xmlcontents->read();
+							}
+						}
+						break;
+
+					case 'trk':
+						// Track
+						$i_trk++;
+						$coords = array();
+						$trkname = '';
+
+						while ( ($currentElement !== $endElement) )
+						{
+							$xmlcontents->read();
+
+							if ($xmlcontents->nodeType == XMLReader::END_ELEMENT)
+							{
+								$endElement = $xmlcontents->localName;
+							}
+							else
+							{
+								$endElement = '';
+							}
+							// Extract trk data
+							if ( ($xmlcontents->name == 'name') AND ($xmlcontents->nodeType == XMLReader::ELEMENT) )
+							{
+								$xmlcontents->read();
+								$trackname = $xmlcontents->value;
+
+								// Read end tag
+								$xmlcontents->read();
+							}
+
+							if ( ($xmlcontents->name == 'trkseg') AND ($xmlcontents->nodeType == XMLReader::ELEMENT) )
+							{
+								// Trkseg found
+								$endTrksegElement = false;
+								$i_trkpt = 0;
+								$ele = 0;
+								$time = '0';
+
+								while ( !$endTrksegElement )
+								{
+									$xmlcontents->read();
+
+									if ($xmlcontents->nodeType == XMLReader::END_ELEMENT)
+									{
+										$endTrksegElement = ($xmlcontents->localName == 'trkseg');
+									}
+									else
+									{
+										$endTrksegElement = false;
+									}
+
+									if ( ($xmlcontents->name == 'trkpt') AND ($xmlcontents->nodeType == XMLReader::ELEMENT) )
+									{
+										// Trkpt found
+										$i_trkpt++;
+										$lat = (float) $xmlcontents->getAttribute('lat');
+										$lon = (float) $xmlcontents->getAttribute('lon');
+
+										if ( $lat > $this->bbox_lat_max )
+										{
+											$this->bbox_lat_max = $lat;
+										}
+
+										if ( $lat < $this->bbox_lat_min )
+										{
+											$this->bbox_lat_min = $lat;
+										}
+
+										if ( $lon > $this->bbox_lon_max )
+										{
+											$this->bbox_lon_max = $lon;
+										}
+
+										if ( $lon < $this->bbox_lon_min )
+										{
+											$this->bbox_lon_min = $lon;
+										}
+
+										// TODOTODO
+										// $this->wp[] = $xml->wpt[$i];
+
+										// Read end tag
+										$xmlcontents->read();
+									}
+
+									if ( ($xmlcontents->name == 'ele') AND ($xmlcontents->nodeType == XMLReader::ELEMENT) )
+									{
+										// Trkpt elevation found
+										$xmlcontents->read();
+										$ele = (float) $xmlcontents->value;
+
+										// Read end tag
+										$xmlcontents->read();
+									}
+
+									if ( ($xmlcontents->name == 'time') AND ($xmlcontents->nodeType == XMLReader::ELEMENT) )
+									{
+										// Trkpt time found
+										$xmlcontents->read();
+										$time = (string) $xmlcontents->value;
+
+										// Read end tag
+										$xmlcontents->read();
+									}
+
+									if ( ($xmlcontents->name == 'trkpt') AND ($xmlcontents->nodeType == XMLReader::END_ELEMENT) )
+									{
+										// End Trkpt
+										$coords[] = array((string) $lon, (string) $lat, (string) $ele, (string) $time, 0);
+										$xmlcontents->read();
+									}
+								}
+							}
+
+							if ( ($xmlcontents->name == 'trkseg') AND ($xmlcontents->nodeType == XMLReader::END_ELEMENT) )
+							{
+								// End trkseg
+								$coordinatesCount = count($coords);
+
+								if ($coordinatesCount > 1 )
+								{
+									// This is a track with more than 2 points
+									$this->isTrack = true;
+									$this->trackCount++;
+									$this->track[$this->trackCount] = new stdClass;
+									$this->track[$this->trackCount]->description = '';
+
+									if ($trackname)
+									{
+										$this->track[$this->trackCount]->trackname = $trackname;
+									}
+									else
+									{
+										$this->track[$this->trackCount]->trackname = $this->trackname . '-' . (string) $this->trackCount;
+									}
+
+									$this->track[$this->trackCount]->coords = $coords;
+									$this->track[$this->trackCount]->start = ($coords[0][0] . "," . $coords[0][1]);
+									$this->track[$this->trackCount]->stop = ($coords[$coordinatesCount - 1][0] . "," . $coords[$coordinatesCount - 1][1]);
+								}
+							}
+						}
+						break;
+				}
+			}
+		}
+
+		if (strlen($this->trackname) == 0)
+		{
+			if ($this->trackCount == 1)
+			{
+				if ($this->track[1]->trackname)
+				{
+					$this->trackname = $this->track[1]->trackname;
+				}
+				else
+				{
+					$this->trackname = $this->trackfilename;
+				}
+			}
+			else
+			{
+				$this->trackname = $this->trackfilename;
+			}
+		}
+
+		if (!$this->description)
+		{
+			if ($this->trackCount == 1)
+			{
+				$this->description = $this->track[1]->description? $this->track[1]->description: '';
+			}
+			elseif ($this->trackCount > 1)
+			{
+				$this->description = $this->track[1]->description? $this->track[1]->description: '';
+
+				for ($i = 2; $i <= $this->trackCount; $i++)
+				{
+				$this->description .= '<br>' . $this->track[$i]->description? $this->track[$i]->description: '';
+				}
+			}
+		}
+
+		$xmlcontents->close();
+
+	}
+
+// Nothing to return
+return true;
+}
+
+	private function extractCoordsGPX2($xml)
+	{
+		// OLD simple xml
 		$this->trackname = (string) @$xml->name;
 		$gps_file_description = '';
 		$tracks_description = '';
@@ -463,6 +772,9 @@ class GpsDataClass
 			for ($j = 0; $j < @count($xml->trk[$t]->trkseg); $j++)
 			{
 				$coords = array();
+				echo "<br>nbtraces " . count($xml->trk) . " tracen°$t nb segments " .
+						count($xml->trk[$t]) . " segment n0 $j " . count($xml->trk[$t]->trkseg[$j]) . " nb trkpt=" .
+						count($xml->trk[$t]->trkseg[$j]->trkpt);
 
 				for ($i = 0; $i < count($xml->trk[$t]->trkseg[$j]->trkpt); $i++)
 				{
@@ -631,10 +943,6 @@ class GpsDataClass
 		$this->totalDescent = 0;
 		$d = 0;
 		$this->allDistances[0] = 0;
-		$this->bbox_lat_max = -90;
-		$this->bbox_lat_min = 90;
-		$this->bbox_lon_max = -180;
-		$this->bbox_lon_min = 180;
 		/*
 		 if ( $this->unit == "Kilometer" )
 		 {
@@ -923,6 +1231,7 @@ class GpsDataClass
 	public function extractWPs($xml)
 	{
 		// TODO see for TCX and KML files
+		//TODO separate extraction and parsing
 		if ($xml->wpt)
 		{
 			$i = 0;
