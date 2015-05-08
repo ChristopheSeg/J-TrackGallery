@@ -76,8 +76,8 @@ $version = (string) $manifest['version'];
 				</tr>
 				<tr>
 					<td><?php echo JText::_('COM_JTG_LICENSE');?>:</td>
-					<td><a href="http://www.gnu.org/licenses/gpl-2.0.html"
-						target="_blank">GNU/GPL2</a></td>
+					<td><a href="http://www.gnu.org/licenses/gpl-3.0.html"
+						target="_blank">GNU/GPLv3</a></td>
 				</tr>
 			</tbody>
 		</table>

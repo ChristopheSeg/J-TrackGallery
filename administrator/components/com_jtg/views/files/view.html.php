@@ -379,6 +379,7 @@ class JtgViewFiles extends JViewLegacy
 	 */
 	public function giveTitle($file)
 	{
+		// TODO remove this function in future version
 		if ((!is_file($file)) OR (!is_readable($file)))
 		{
 			return "";

@@ -52,7 +52,7 @@ class GpsDataClass
 
 	var $trackCount = 0;
 
-	var $wp = false;
+	var $wps = array();
 
 	var $isTrack = false;
 
@@ -87,6 +87,27 @@ class GpsDataClass
 	public function __construct($unit)
 	{
 		$this->unit = $unit;
+	}
+
+	/**
+	 * This function load and xml file if it exits
+	 *
+	 * @param   string  $file  the xml file (path) to load
+	 *
+	 * @return <boolean> gpsclass object
+	 */
+	public function loadFile($file)
+	{
+		if (file_exists($file))
+		{
+			$xml = simplexml_load_file($file);
+
+			return $xml;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	/**
@@ -164,15 +185,7 @@ class GpsDataClass
 		$this->createChartData();
 
 		// TODO include WP in new function extractCoordsGPX
-		switch ($this->ext)
-		{
-			case "gpx":
-				// TODO include WP in new function extractCoordsGPX
-				break;
-			default:
-				// Extract WP
-				$this->extractWPs($xml);
-		}
+		$this->extractWPs();
 
 		$this->fileChecked = true;
 
@@ -500,6 +513,7 @@ private function extractCoordsGPX($xmlcontents)
 		$countElements = 0;
 		$i_wpt = 0;
 		$i_trk = 0;
+		$wp = array();
 		$this->trackCount = 0;
 
 		while ($xmlcontents->read() )
@@ -525,15 +539,34 @@ private function extractCoordsGPX($xmlcontents)
 						$xmlcontents->read();
 						break;
 					case 'wpt':
-						// TODO See J!TrackGallery wpt format!!
-						// WayPoint
-						//GEt $xml as a simplexmlelement
-						$xml=false;
-						$this->extractWPs($xml);
-						// $xml->close();
+						$wp[] = (array) $xmlcontents->readInnerXML();
 						$i_wpt++;
+						$this->wps[$i_wpt] = new WpClass();
 						$lat = (float) $xmlcontents->getAttribute('lat');
 						$lon = (float) $xmlcontents->getAttribute('lon');
+						$this->wps[$i_wpt]->lat = $lat;
+						$this->wps[$i_wpt]->lon = $lon;
+
+						if ( $lat > $this->bbox_lat_max )
+						{
+							$this->bbox_lat_max = $lat;
+						}
+
+						if ( $lat < $this->bbox_lat_min )
+						{
+							$this->bbox_lat_min = $lat;
+						}
+
+						if ( $lon > $this->bbox_lon_max )
+						{
+							$this->bbox_lon_max = $lon;
+						}
+
+						if ( $lon < $this->bbox_lon_min )
+						{
+							$this->bbox_lon_min = $lon;
+						}
+
 						$endWptElement = false;
 
 						while ( !$endWptElement )
@@ -548,14 +581,14 @@ private function extractCoordsGPX($xmlcontents)
 							{
 								$endWptElement = false;
 							}
+
 							// Extract wpt data
-							if ( ($xmlcontents->name == 'name') AND ($xmlcontents->nodeType == XMLReader::ELEMENT) )
+							if ($xmlcontents->nodeType == XMLReader::ELEMENT)
 							{
+								$key = $xmlcontents->localName;
 								$xmlcontents->read();
-
-								// Wpt Name $this->trackname = $xmlcontents->value;
-
-								// Read end tag
+								$value = $xmlcontents->value;
+								$this->wps[$i_wpt]->$key = $value;
 								$xmlcontents->read();
 							}
 						}
@@ -636,9 +669,6 @@ private function extractCoordsGPX($xmlcontents)
 										{
 											$this->bbox_lon_min = $lon;
 										}
-
-										// TODOTODO
-										// $this->wp[] = $xml->wpt[$i];
 
 										// Read end tag
 										$xmlcontents->read();
@@ -1228,61 +1258,18 @@ return true;
 	 *
 	 * @return (int) Anzahl
 	 */
-	public function extractWPs($xml)
+	public function extractWPs()
 	{
 		// TODO see for TCX and KML files
-		//TODO separate extraction and parsing
-		if ($xml->wpt)
+		if (empty($this->wp))
 		{
-			$i = 0;
-			$wp = array();
-
-			while (true)
-			{
-				if ($xml->wpt[$i])
-				{
-					$lat = (float) ($xml->wpt[$i]->attributes()->lat);
-					$lon = (float) ($xml->wpt[$i]->attributes()->lon);
-
-					if ( $lat > $this->bbox_lat_max )
-					{
-						$this->bbox_lat_max = $lat;
-					}
-
-					if ( $lat < $this->bbox_lat_min )
-					{
-						$this->bbox_lat_min = $lat;
-					}
-
-					if ( $lon > $this->bbox_lon_max )
-					{
-						$this->bbox_lon_max = $lon;
-					}
-
-					if ( $lon < $this->bbox_lon_min )
-					{
-						$this->bbox_lon_min = $lon;
-					}
-
-					$this->wp[] = $xml->wpt[$i];
-				}
-				else
-				{
-					break;
-				}
-
-				$i++;
-			}
-
-			$this->isWaypoint = true;
-		}
-		else
-		{
-			$this->wp = null;
 			$this->isWaypoint = false;
+			$this->wp = null;
 
 			return false;
 		}
+
+		$this->isWaypoint = true;
 
 		$center = "// <!-- parseOLMapCenterSingleTrack BEGIN -->\n";
 		$center .= "var min = lonLatToMercator(new OpenLayers.LonLat";
@@ -1313,6 +1300,7 @@ return true;
 		*/
 		$n = count($this->allDistances);
 
+		// TODO possibly desactivate or choose max number of points
 		if ($n > 1200)
 		{
 			$c = $n / 600;
@@ -1324,6 +1312,10 @@ return true;
 			$c = 1;
 			$width = 2;
 		}
+
+		// TODO TEMPORARY
+		//$c = 1;
+		//$width = 2;
 
 		for ($i = 0; $i < $n; $i = $i + $c)
 		{
@@ -1493,8 +1485,7 @@ return true;
 		}
 
 		$icon = $pngfile;
-		$this->gpsFile = $xmlfile;
-		$xml = $this->loadFile();
+		$xml = $this->loadFile($xmlfile);
 		$sizex = $xml->sizex;
 		$sizey = $xml->sizey;
 		$offsetx = $xml->offsetx;
@@ -1544,80 +1535,77 @@ return true;
 	 *
 	 * @return (int) Anzahl
 	 */
-	public function parseWPs($wps)
+	public function parseWPs()
 	{
-		if ( $wps == false)
+		if ( empty($this->wps))
 		{
 			return false;
 		}
 
-		$wp = "// <!-- parseWPs BEGIN -->\n";
-		$wp .= "wps = new OpenLayers.Layer.Markers(\"" . JText::_('COM_JTG_WAYPOINTS') . "\");";
-		$wp .= "olmap.addLayer(wps);";
-		$wp .= "addWPs();";
-		$wp .= "function addWPs() {\n";
+		$wpcode = "// <!-- parseWPs BEGIN -->\n";
+		$wpcode .= "wps = new OpenLayers.Layer.Markers(\"" . JText::_('COM_JTG_WAYPOINTS') . "\");";
+		$wpcode .= "olmap.addLayer(wps);";
+		$wpcode .= "addWPs();";
+		$wpcode .= "function addWPs() {\n";
 
-		foreach ($wps as $key => $value)
+		foreach ($this->wps as $wp)
 		{
-			$lonlat = $value->attributes();
-			$lon = $lonlat['lon'];
-			$lat = $lonlat['lat'];
 			$replace = array("
 					","'");
 			$with = array("<br />","\'");
-			$hasURL = $this->hasURL($value);
-			$isGeocache = $this->isGeocache($value);
+			$hasURL = isset($wp->URL);
+			$isGeocache = $this->isGeocache($wp->value);
 
 			if ($hasURL)
 			{
-				$URL = " <a href=\"" . $value->url . "\" target=\"_blank\">" .
-						trim(str_replace($replace, $with, $value->urlname)) . "</a>";
+				$URL = " <a href=\"" . $wp->url . "\" target=\"_blank\">" .
+						trim(str_replace($replace, $with, $wp->urlname)) . "</a>";
 			}
 			else
 			{
 				$URL = "";
 			}
 
-			$name = trim(str_replace($replace, $with, $value->name));
-			$cmt = trim(str_replace($replace, $with, $value->cmt));
-			$desc = trim(str_replace($replace, $with, $value->desc));
-			$ele = (float) $value->ele;
+			$name = trim(str_replace($replace, $with, $wp->name));
+			$cmt = trim(str_replace($replace, $with, $wp->cmt));
+			$desc = trim(str_replace($replace, $with, $wp->desc));
+			$ele = (float) $wp->ele;
 
 			if ($isGeocache)
 			{
-				$sym = (string) $value->type;
+				$sym = (string) $wp->type;
 			}
 			else
 			{
-				$sym = $value->sym;
+				$sym = $wp->sym;
 			}
 
-			$wp .= "llwp = new OpenLayers.LonLat(" . $lon . "," . $lat . ").transform(new OpenLayers . ";
-			$wp .= "Projection(\"EPSG:4326\"), olmap.getProjectionObject());\n";
-			$wp .= "popupClasswp = AutoSizeAnchored;\n";
-			$wp .= "popupContentHTMLwp = '<b>" . JText::_('COM_JTG_NAME') . ":</b> " . $name . $URL . "<br /><small>";
+			$wpcode .= "llwp = new OpenLayers.LonLat(" . $wp->lon . "," . $wp->lat . ").transform(new OpenLayers . ";
+			$wpcode .= "Projection(\"EPSG:4326\"), olmap.getProjectionObject());\n";
+			$wpcode .= "popupClasswp = AutoSizeAnchored;\n";
+			$wpcode .= "popupContentHTMLwp = '<b>" . JText::_('COM_JTG_NAME') . ":</b> " . $name . $URL . "<br /><small>";
 
 			if ($desc)
 			{
-				$wp .= "<b>" . JText::_('COM_JTG_DESCRIPTION') . ":</b> " . $desc;
+				$wpcode .= "<b>" . JText::_('COM_JTG_DESCRIPTION') . ":</b> " . $desc;
 			}
 
 			if ( ($cmt) AND ($desc != $cmt) )
 			{
-				$wp .= "<br /><b>" . JText::_('COM_JTG_COMMENT') . ":</b> " . $cmt;
+				$wpcode .= "<br /><b>" . JText::_('COM_JTG_COMMENT') . ":</b> " . $cmt;
 			}
 
 			if ($ele)
 			{
-				$wp .= "<br /><b>" . JText::_('COM_JTG_ELEVATION') . " :</b> ca. " . round($ele, 1) . "m<small>";
+				$wpcode .= "<br /><b>" . JText::_('COM_JTG_ELEVATION') . " :</b> ca. " . round($ele, 1) . "m<small>";
 			}
 
-			$wp .= "';\n";
-			$wp .= $this->parseOwnIcon($sym);
-			$wp .= "addWP(llwp, popupClasswp, popupContentHTMLwp, true, true, icon);\n";
+			$wpcode .= "';\n";
+			$wpcode .= $this->parseOwnIcon($sym);
+			$wpcode .= "addWP(llwp, popupClasswp, popupContentHTMLwp, true, true, icon);\n";
 		}
 
-		$wp .= "	}\n";
+		$wpcode .= "	}\n";
 		/*
 		 * $wp .= "	//
 		* Function: addWP
@@ -1634,7 +1622,7 @@ return true;
 		* overflow - {Boolean} Let the popup overflow scrollbars?
 		*/
 
-		$wp .= "	function addWP(ll, popupClass, popupContentHTML, closeBox, overflow, icon) {
+		$wpcode .= "	function addWP(ll, popupClass, popupContentHTML, closeBox, overflow, icon) {
 		var feature = new OpenLayers.Feature(wps, ll);
 		feature.closeBox = closeBox;
 		feature.popupClass = popupClass;
@@ -1658,9 +1646,9 @@ return true;
 	wp.events.register(\"mousedown\", feature, markerClick);
 	wps.addMarker(wp);
 	}\n";
-		$wp .= "// <!-- parseWPs END -->\n";
+		$wpcode .= "// <!-- parseWPs END -->\n";
 
-		return $wp;
+		return $wpcode;
 	}
 
 	/**
@@ -2825,9 +2813,9 @@ return true;
 		$map .= $this->parseOLGeotaggedImgs($track->id, $cfg->max_geoim_height, $iconpath, $httpiconpath);
 		$zeiten .= (int) round((microtime(true) - $jtg_microtime ), 0) . " " . JText::_('COM_JTG_DEBUG_TIMES') . " parseOLGeotaggedImgs<br />\n";
 
-		if ($this->wp !== false)
+		if ($this->wps !== false)
 		{
-			$map .= $this->parseWPs($this->wp['wps']);
+			$map .= $this->parseWPs();
 		}
 
 		if ( $this->allCoords !== null )
@@ -2873,9 +2861,9 @@ return true;
 		$coords = $this->parseXMLlinesOL();
 		$map .= $coords['coords'];
 
-		if ($this->wp)
+		if ($this->wps)
 		{
-			$map .= $this->parseWPs($this->wp['wps']);
+			$map .= $this->parseWPs();
 		}
 
 		if ( $coords !== null )
@@ -3281,6 +3269,39 @@ return true;
 		}
 	}
 	// Osm END
+}
+
+/**
+ * WpClass class for the jtg component
+ *
+ * @package     Comjtg
+ * @subpackage  Frontend
+ * @since       0.9.10
+ */
+class WpClass
+{
+	var $lon = 0;
+
+	var $lat = 0;
+
+	var $value = null;
+
+	var $url = null;
+
+	var $urlname = null;
+
+	var $name = null;
+
+	var $cmt = null;
+
+	var $desc = null;
+
+	var $ele = null;
+
+	var $type = null;
+
+	var $sym = null;
+
 }
 
 /**
