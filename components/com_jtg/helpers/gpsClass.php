@@ -544,6 +544,7 @@ private function extractCoordsGPX($xmlcontents)
 						$this->wps[$i_wpt] = new WpClass();
 						$lat = (float) $xmlcontents->getAttribute('lat');
 						$lon = (float) $xmlcontents->getAttribute('lon');
+						$this->wps[$i_wpt]->sym = 'wp';
 						$this->wps[$i_wpt]->lat = $lat;
 						$this->wps[$i_wpt]->lon = $lon;
 
@@ -1583,7 +1584,7 @@ return true;
 			$wpcode .= "llwp = new OpenLayers.LonLat(" . $wp->lon . "," . $wp->lat . ").transform(new OpenLayers . ";
 			$wpcode .= "Projection(\"EPSG:4326\"), olmap.getProjectionObject());\n";
 			$wpcode .= "popupClasswp = AutoSizeAnchored;\n";
-			$wpcode .= "popupContentHTMLwp = '<b>" . JText::_('COM_JTG_NAME') . ":</b> " . $name . $URL . "<br /><small>";
+			$wpcode .= "popupContentHTMLwp = '<b>" . JText::_('COM_JTG_NAME') . ":</b> " . $name . $URL; //TODOTODO . "<br /><small>";
 
 			if ($desc)
 			{
@@ -1597,6 +1598,7 @@ return true;
 
 			if ($ele)
 			{
+				//TODO unit in elevation !!
 				$wpcode .= "<br /><b>" . JText::_('COM_JTG_ELEVATION') . " :</b> ca. " . round($ele, 1) . "m<small>";
 			}
 

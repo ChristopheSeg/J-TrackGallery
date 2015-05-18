@@ -38,8 +38,12 @@ echo $this->gpsData->writeOLMap($this->where, $this->tracks, $this->params);
 #jtg_map img{
 	max-width: none; /* joomla3 max-width=100% breaks popups*/
 }
+/* Fix Bootstrap-Openlayers issue */
+.olMap img { max-width: none !important;
+}
 
-.olMap img { max-width: none; /* Bootstrap Openlayers issue*/
+img.olTileImage {
+	max-width: none !important;
 }
 </style>
 <center>
@@ -47,7 +51,7 @@ echo $this->gpsData->writeOLMap($this->where, $this->tracks, $this->params);
 	<script src="/components/com_jtg/assets/js/fullscreen.js"
 		type="text/javascript"></script>
 	<script type="text/javascript">slippymap_init("map");
-    </script>
+	</script>
 
 </center>
 <?php

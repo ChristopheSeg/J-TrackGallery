@@ -180,7 +180,7 @@ function addMarker(layer, lon, lat, popupContentHTML, showPopupOnLoad, iconId) {
     layer.addMarker(marker);
 
     // Popup erstellen, der Karte hinzufügen und anzeigen, falls gewünscht
-    map.addPopup(feature.createPopup(feature.closeBox));
+    olmap.addPopup(feature.createPopup(feature.closeBox));
 
     if (showPopupOnLoad != true) {
 		// Wenn das Popup nicht angezeigt werden soll, verstecken und auf 'nicht angeklickt' setzen

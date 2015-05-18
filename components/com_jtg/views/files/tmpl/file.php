@@ -392,6 +392,12 @@ if ($beatchart)
 	width: 100%;
 	z-index: 20;
 }
+
+/* Fix Bootstrap-Openlayers issue */
+img.olTileImage {
+	max-width: none !important;
+}
+
 </style>
 <?php
 if ($this->map)
