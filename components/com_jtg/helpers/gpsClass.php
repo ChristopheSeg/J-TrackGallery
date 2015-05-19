@@ -1583,8 +1583,8 @@ return true;
 
 			$wpcode .= "llwp = new OpenLayers.LonLat(" . $wp->lon . "," . $wp->lat . ").transform(new OpenLayers . ";
 			$wpcode .= "Projection(\"EPSG:4326\"), olmap.getProjectionObject());\n";
-			$wpcode .= "popupClasswp = AutoSizeAnchored;\n";
-			$wpcode .= "popupContentHTMLwp = '<b>" . JText::_('COM_JTG_NAME') . ":</b> " . $name . $URL; //TODOTODO . "<br /><small>";
+			$wpcode .= "popupClasswp = AutoSizeFramedCloud;\n";
+			$wpcode .= "popupContentHTMLwp = '" . $name . $URL;
 
 			if ($desc)
 			{
@@ -2805,7 +2805,14 @@ return true;
 		$zeiten .= (int) round((microtime(true) - $jtg_microtime), 0) . " " . JText::_('COM_JTG_DEBUG_TIMES') . " parseOLLayer<br />\n";
 		$coords = $this->parseXMLlinesOL();
 		$zeiten .= (int) round((microtime(true) - $jtg_microtime), 0) . " " . JText::_('COM_JTG_DEBUG_TIMES') . " parseXMLlinesOL<br />\n";
-
+if ( $this->allCoords !== null )
+		{
+			$map .= $coords['center'];
+		}
+		else
+		{
+			$map .= $this->wp['center'];
+		}
 		if ( $coords !== null )
 		{
 			$map .= $coords['coords'];
@@ -2820,14 +2827,7 @@ return true;
 			$map .= $this->parseWPs();
 		}
 
-		if ( $this->allCoords !== null )
-		{
-			$map .= $coords['center'];
-		}
-		else
-		{
-			$map .= $this->wp['center'];
-		}
+
 
 		$zeiten .= (int) round((microtime(true) - $jtg_microtime ), 0) . " " . JText::_('COM_JTG_DEBUG_TIMES') . " parseOLMapCenterSingleTrack<br />\n";
 		$map .= $this->parseOLMapFunctions();
@@ -3094,6 +3094,52 @@ return true;
 		$link = JUri::current();
 
 		$string_se = "";
+		$center = "";
+		// TODO if (AnimatedCursorLayer)
+		if (true)
+		{
+			/* AnimatedCursorLayer
+			 * This MUST be added after olmap.zoomToExtent
+			*/
+			$document = JFactory::getDocument();
+			$document->addScript('/components/com_jtg/assets/js/animatedCursor.js');
+
+			$center .= "\n// <!-- parseOLMapAnimatedCursorLayer BEGIN -->\n";
+			$center .= "longitudeData = $this->longitudeData;\n";
+			$center .= "latitudeData = $this->latitudeData;\n";
+			$center .= "var points = [];\n";
+			$center .= "var style ={strokeOpacity: 0.7, strokeColor: \"#ff00ff\", strokeWidth: 5, graphicZIndex: 5}\n";
+			$center .= "for (var i = 0; i < longitudeData.length; i++) {\n";
+			$center .= "	var point = new OpenLayers.Geometry.Point(longitudeData[i], latitudeData[i]). transform(new OpenLayers.Projection(\"EPSG:4326\"), olmap.getProjectionObject());\n";
+			$center .= "	points.push(point);\n";
+			$center .= "}\n";
+			$center .= "var line = new OpenLayers.Geometry.LineString(points);\n";
+			$center .= "var linefeature  = new OpenLayers.Feature.Vector(line, null, style);\n";
+
+			$center .= "animatedCursorLayer = new OpenLayers.Layer.Vector(\"$this->trackname\");\n";
+			$center .= "animatedCursorLayer.addFeatures([linefeature]);\n";
+			$center .= "animatedCursorLayer.gpxfeature = animatedCursorLayer.features[0];\n";
+			$center .= "olmap.addLayer(animatedCursorLayer);\n";
+			$center .= "\n// <!-- parseOLMapAnimatedCursorIcon BEGIN -->\n";
+			$center .= "animatedCursorIcon = new OpenLayers.Layer.Markers(\"Animated Cursor\", {\n";
+			$center .= "displayInLayerSwitcher: false });\n";
+			$center .= "olmap.addLayer(animatedCursorIcon);\n";
+			$center .= "animatedCursorIcon.setVisibility(false);\n";
+			$center .= "var size = new OpenLayers.Size(32,32);\n";
+			$center .= "var offset = new OpenLayers.Pixel(-16,-32);\n";
+			$center .= "var cursorIcon = new OpenLayers.Icon(\"/components/com_jtg/assets/images/orange-dot.png\",size,offset);\n";
+			$center .= "var lonLatStart = new OpenLayers.LonLat(" . $this->track[1]->start . ") . ";
+			$center .= "transform(new OpenLayers.Projection(\"EPSG:4326\"), olmap.getProjectionObject());\n";
+			$center .= "animatedCursorIcon.addMarker(new OpenLayers.Marker(lonLatStart,cursorIcon));\n";
+			$center .= "// <!-- parseOLMapAnimatedCursorIcon END -->\n";
+		}
+		else
+		{
+			$center .= "<!-- AnimatedCursorLayer not activated -->\n";
+		}
+
+		$center .= "// <!-- parseOLMapAnimatedCursorLayer END -->\n";
+
 		$string = "// <!-- parseXMLlines BEGIN -->\n";
 
 		if ($this->trackCount == 0)
@@ -3124,7 +3170,7 @@ return true;
 			$string_se .= "var iconStop" . $i . " = new OpenLayers.Icon(\"" . $iconpath . "trackDest.png\",";
 			$string_se .= "sizeStop" . $i . ",offsetStop" . $i . ");\n";
 			$string_se .= "layer_startstop.addMarker(new OpenLayers.Marker(lonLatStop" . $i . ",iconStop" . $i . "));\n";
-			$string_se .= "popupClassStart = AutoSizeAnchored;\n";
+			$string_se .= "popupClassStart = AutoSizeFramedCloud;\n";
 			$string_se .= "popupContentHTMLStart = '";
 			$string_se .= "<font style=\"font-weight: bold;\" color=\"" . $color . "\">";
 			$string_se .= ($this->track[$i]->trackname? $this->track[$i]->trackname : JText::_('COM_JTG_TRACK') . $i);
@@ -3142,56 +3188,13 @@ return true;
 		$string .= $string_se;
 		$string .= "// <!-- parseXMLlines END -->\n";
 
-		$center = "// <!-- parseOLMapCenterSingleTrack BEGIN -->\n";
+		$center .= "// <!-- parseOLMapCenterSingleTrack BEGIN -->\n";
 		$center .= "var min = lonLatToMercator(new OpenLayers.LonLat";
 		$center .= "(" . $this->bbox_lon_min . "," . $this->bbox_lat_min . "));\n";
 		$center .= "var max = lonLatToMercator(new OpenLayers.LonLat";
 		$center .= "(" . $this->bbox_lon_max . "," . $this->bbox_lat_max . "));\n";
 		$center .= "olmap.zoomToExtent(new OpenLayers.Bounds(min.lon, min.lat, max.lon, max.lat));\n";
 		$center .= "// <!-- parseOLMapCenterSingleTrack END -->\n";
-
-		// RODO if (AnimatedCursorLayer)
-		if (true)
-		{
-			/* AnimatedCursorLayer
-			 * This MUST be added after olmap.zoomToExtent
-			 */
-			$document = JFactory::getDocument();
-			$document->addScript('/components/com_jtg/assets/js/animatedCursor.js');
-
-			$center .= "\n// <!-- parseOLMapAnimatedCursorLayer BEGIN -->\n";
-			$center .= "longitudeData = $this->longitudeData;\n";
-			$center .= "latitudeData = $this->latitudeData;\n";
-			$center .= "var points = [];\n";
-			$center .= "var style ={strokeOpacity: 0.7, strokeColor: \"#ff00ff\", strokeWidth: 5, graphicZIndex: 5}\n";
-			$center .= "for (var i = 0; i < longitudeData.length; i++) {\n";
-			$center .= "	var point = new OpenLayers.Geometry.Point(longitudeData[i], latitudeData[i]). transform(new OpenLayers.Projection(\"EPSG:4326\"), olmap.getProjectionObject());\n";
-			$center .= "	points.push(point);\n";
-			$center .= "}\n";
-			$center .= "var line = new OpenLayers.Geometry.LineString(points);\n";
-			$center .= "var linefeature  = new OpenLayers.Feature.Vector(line, null, style);\n";
-
-			$center .= "animatedCursorLayer = new OpenLayers.Layer.Vector(\"$this->trackname\");\n";
-			$center .= "animatedCursorLayer.addFeatures([linefeature]);\n";
-			$center .= "animatedCursorLayer.gpxfeature = animatedCursorLayer.features[0];\n";
-			$center .= "olmap.addLayer(animatedCursorLayer);\n";
-			$center .= "\n// <!-- parseOLMapAnimatedCursorIcon BEGIN -->\n";
-			$center .= "animatedCursorIcon = new OpenLayers.Layer.Markers(\"Animated Cursor\", {\n";
-			$center .= "displayInLayerSwitcher: false });\n";
-			$center .= "olmap.addLayer(animatedCursorIcon);\n";
-			$center .= "animatedCursorIcon.setVisibility(false);\n";
-			$center .= "var size = new OpenLayers.Size(32,32);\n";
-			$center .= "var offset = new OpenLayers.Pixel(-16,-32);\n";
-			$center .= "var cursorIcon = new OpenLayers.Icon(\"/components/com_jtg/assets/images/orange-dot.png\",size,offset);\n";
-			$center .= "animatedCursorIcon.addMarker(new OpenLayers.Marker(lonLatStop1.clone(),cursorIcon));\n";
-			$center .= "// <!-- parseOLMapAnimatedCursorIcon END -->\n";
-		}
-		else
-		{
-			$center .= "<!-- AnimatedCursorLayer not activated -->\n";
-		}
-
-		$center .= "// <!-- parseOLMapAnimatedCursorLayer END -->\n";
 
 		return array( "coords" => $string, "center" => $center );
 	}

@@ -925,6 +925,8 @@ class JtgModelFiles extends JModelLegacy
 
 				if ($errors)
 				{
+					// file is NOT OK
+					$fileokay = false;
 					$map = "";
 					$coords = "";
 					$distance_float = 0;
@@ -942,20 +944,22 @@ class JtgModelFiles extends JModelLegacy
 						exit;
 					}
 				}
+				else
+				{
+					// file is OK
+					$fileokay = true;
+					$start_n = $gpsData->start[1];
+					$start_e = $gpsData->start[0];
+					$coords = $gpsData->allCoords;
+					$isTrack = $gpsData->isTrack;
+					$isWaypoint = $gpsData->isWaypoint;
+					$isRoute = 0;
+					$isCache = 0;
 
-				// TODO remove $fileokay
-				$fileokay = true;
-				$start_n = $gpsData->start[1];
-				$start_e = $gpsData->start[0];
-				$coords = $gpsData->allCoords;
-				$isTrack = $gpsData->isTrack;
-				$isWaypoint = $gpsData->isWaypoint;
-				$isRoute = 0;
-				$isCache = 0;
-
-				$distance = $gpsData->distance;
-				$totalAscent = $gpsData->totalAscent;
-				$totalDescent = $gpsData->totalDescent;
+					$distance = $gpsData->distance;
+					$totalAscent = $gpsData->totalAscent;
+					$totalDescent = $gpsData->totalDescent;
+				}
 
 				if ($fileokay == true)
 				{
@@ -1283,6 +1287,7 @@ class JtgModelFiles extends JModelLegacy
 
 		if ($errors)
 		{
+			// File is NOT OK
 			$map = "";
 			$coords = "";
 			$distance_float = 0;
@@ -1293,87 +1298,90 @@ class JtgModelFiles extends JModelLegacy
 			// TODO before exit, remove downloaded file!!
 			exit;
 		}
-		// TODO remove $fileokay
-		$fileokay = true;
-
-		$start_n = $gpsData->start[1];
-		$start_e = $gpsData->start[0];
-		$coords = $gpsData->allCoords;
-		$isTrack = $gpsData->isTrack;
-		$isWaypoint = $gpsData->isWaypoint;
-		$isRoute = 0;
-		$isCache = 0;
-		$totalAscent = $gpsData->totalAscent;
-		$totalDescent = $gpsData->totalDescent;
-		$distance = $gpsData->distance;
-
-		$query = "INSERT INTO #__jtg_files SET"
-		. "\n uid='" . $uid . "',"
-		. "\n catid='" . $catid . "',"
-		. "\n title='" . $title . "',"
-		. "\n file='" . strtolower($filename) . "',"
-		. "\n terrain='" . $terrain . "',"
-		. "\n description='" . $desc . "',"
-		. "\n date='" . $date . "',"
-		. "\n start_n='" . $start_n . "',"
-		. "\n start_e='" . $start_e . "',"
-		. "\n distance='" . $distance . "',"
-		. "\n ele_asc='" . $totalAscent . "',"
-		. "\n ele_desc='" . $totalDescent . "',"
-		. "\n level='" . $level . "',"
-		. "\n access='" . $access . "',"
-		. "\n istrack='" . $isTrack . "',"
-		. "\n iswp='" . $isWaypoint . "',"
-		. "\n isroute='" . $isRoute . "',"
-		. "\n iscache='" . $isCache . "',"
-		. "\n hidden='" . $hidden . "'";
-
-		$db->setQuery($query);
-		$db->execute();
-
-		if ($db->getErrorNum())
+		else
 		{
-			JFile::delete($file);
+			// File is OK
+			$fileokay = true;
 
-			return false;
-		}
+			$start_n = $gpsData->start[1];
+			$start_e = $gpsData->start[0];
+			$coords = $gpsData->allCoords;
+			$isTrack = $gpsData->isTrack;
+			$isWaypoint = $gpsData->isWaypoint;
+			$isRoute = 0;
+			$isCache = 0;
+			$totalAscent = $gpsData->totalAscent;
+			$totalDescent = $gpsData->totalDescent;
+			$distance = $gpsData->distance;
 
-		$query = "SELECT * FROM #__jtg_files"
-		. "\n WHERE file='" . strtolower($filename) . "'";
-		$db->setQuery($query);
-		$result = $db->loadObject();
+			$query = "INSERT INTO #__jtg_files SET"
+			. "\n uid='" . $uid . "',"
+			. "\n catid='" . $catid . "',"
+			. "\n title='" . $title . "',"
+			. "\n file='" . strtolower($filename) . "',"
+			. "\n terrain='" . $terrain . "',"
+			. "\n description='" . $desc . "',"
+			. "\n date='" . $date . "',"
+			. "\n start_n='" . $start_n . "',"
+			. "\n start_e='" . $start_e . "',"
+			. "\n distance='" . $distance . "',"
+			. "\n ele_asc='" . $totalAscent . "',"
+			. "\n ele_desc='" . $totalDescent . "',"
+			. "\n level='" . $level . "',"
+			. "\n access='" . $access . "',"
+			. "\n istrack='" . $isTrack . "',"
+			. "\n iswp='" . $isWaypoint . "',"
+			. "\n isroute='" . $isRoute . "',"
+			. "\n iscache='" . $isCache . "',"
+			. "\n hidden='" . $hidden . "'";
 
-		if ($db->getErrorNum())
-		{
-			echo $db->stderr();
+			$db->setQuery($query);
+			$db->execute();
 
-			return false;
-		}
-
-		$id = $result->id;
-
-		// Images upload part
-		$imgpath = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks_images/uploaded_tracks_images/track_' . $id . '/';
-		$jInput = JFactory::getApplication()->input;
-		$jFileInput = new jInput($_FILES);
-		$images = $jFileInput->get('images', array(), 'array');
-
-		if (count($images['name']) > 1)
-		{
-			$cfg = JtgHelper::getConfig();
-			$types = explode(',', $cfg->type);
-			JFolder::create($imgpath, 0777);
-
-			foreach ($images['name'] as $key => $value)
+			if ($db->getErrorNum())
 			{
-				if ($value != "")
-				{
-					$imgfilename = JFile::makesafe($value);
-					$ext = JFile::getExt($images['name'][$key]);
+				JFile::delete($file);
 
-					if (in_array(strtolower($ext), $types))
+				return false;
+			}
+
+			$query = "SELECT * FROM #__jtg_files"
+			. "\n WHERE file='" . strtolower($filename) . "'";
+			$db->setQuery($query);
+			$result = $db->loadObject();
+
+			if ($db->getErrorNum())
+			{
+				echo $db->stderr();
+
+				return false;
+			}
+
+			$id = $result->id;
+
+			// Images upload part
+			$imgpath = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks_images/uploaded_tracks_images/track_' . $id . '/';
+			$jInput = JFactory::getApplication()->input;
+			$jFileInput = new jInput($_FILES);
+			$images = $jFileInput->get('images', array(), 'array');
+
+			if (count($images['name']) > 1)
+			{
+				$cfg = JtgHelper::getConfig();
+				$types = explode(',', $cfg->type);
+				JFolder::create($imgpath, 0777);
+
+				foreach ($images['name'] as $key => $value)
+				{
+					if ($value != "")
 					{
-						JtgHelper::createimageandthumbs($images['tmp_name'][$key], $ext, $imgpath, $imgfilename);
+						$imgfilename = JFile::makesafe($value);
+						$ext = JFile::getExt($images['name'][$key]);
+
+						if (in_array(strtolower($ext), $types))
+						{
+							JtgHelper::createimageandthumbs($images['tmp_name'][$key], $ext, $imgpath, $imgfilename);
+						}
 					}
 				}
 			}
