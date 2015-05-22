@@ -90,10 +90,11 @@ class JtgModelFiles extends JModelLegacy
 			$isCache = 0;
 		}
 
-		if ( $this->isTrack == 1 )
+		if ( $gpsData->isTrack == 1 )
 		{
 			$distance = $gpsData->distance;
-			$ele = $gpsData->getElevation($coords);
+			$ele[0] = $gpsData->totalAscent;
+			$ele[1] = $gpsData->totalDescent;
 		}
 		else
 		{
@@ -101,7 +102,7 @@ class JtgModelFiles extends JModelLegacy
 			$ele = array(null,null);
 		}
 
-		if ( $this->start === false )
+		if ( $gpsData->start === false )
 		{
 			return false;
 		}
@@ -1502,8 +1503,6 @@ class JtgModelFiles extends JModelLegacy
 
 			$distance = $importfile['distance'];
 
-			// Call the elevation function
-			// 			$ele = $gps_old->getElevation($coords);
 			$ele[0] = $importfile['ele_asc'];
 			$ele[1] = $importfile['ele_desc'];
 

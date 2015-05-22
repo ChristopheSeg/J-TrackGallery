@@ -29,6 +29,7 @@ class GpsDataClass
 {
 	var $gpsFile = null;
 
+
 	var $sortedcats = null;
 
 	// Array tracks[j]->coords; // array containing longitude latitude elevation time and heartbeat data
@@ -57,6 +58,9 @@ class GpsDataClass
 	var $isTrack = false;
 
 	var $isCache = false;
+
+
+	var $isRoute = false;
 
 	var $isWaypoint = false;
 
@@ -601,12 +605,13 @@ private function extractCoordsGPX($xmlcontents)
 						$coords = array();
 						$trkname = '';
 
-						while ( ($currentElement !== $endElement) )
+						while ( ('trk' !== $endElement) )
 						{
 							$xmlcontents->read();
 
 							if ($xmlcontents->nodeType == XMLReader::END_ELEMENT)
 							{
+								// </xxx> found
 								$endElement = $xmlcontents->localName;
 							}
 							else
@@ -623,7 +628,7 @@ private function extractCoordsGPX($xmlcontents)
 								$xmlcontents->read();
 							}
 
-							if ( ($xmlcontents->name == 'trkseg') AND ($xmlcontents->nodeType == XMLReader::ELEMENT) )
+							elseif ( ($xmlcontents->name == 'trkseg') AND ($xmlcontents->nodeType == XMLReader::ELEMENT) )
 							{
 								// Trkseg found
 								$endTrksegElement = false;
@@ -647,10 +652,10 @@ private function extractCoordsGPX($xmlcontents)
 									if ( ($xmlcontents->name == 'trkpt') AND ($xmlcontents->nodeType == XMLReader::ELEMENT) )
 									{
 										// Trkpt found
+
 										$i_trkpt++;
 										$lat = (float) $xmlcontents->getAttribute('lat');
 										$lon = (float) $xmlcontents->getAttribute('lon');
-
 										if ( $lat > $this->bbox_lat_max )
 										{
 											$this->bbox_lat_max = $lat;
@@ -670,9 +675,8 @@ private function extractCoordsGPX($xmlcontents)
 										{
 											$this->bbox_lon_min = $lon;
 										}
-
 										// Read end tag
-										$xmlcontents->read();
+										// $xmlcontents->read();
 									}
 
 									if ( ($xmlcontents->name == 'ele') AND ($xmlcontents->nodeType == XMLReader::ELEMENT) )
@@ -680,7 +684,6 @@ private function extractCoordsGPX($xmlcontents)
 										// Trkpt elevation found
 										$xmlcontents->read();
 										$ele = (float) $xmlcontents->value;
-
 										// Read end tag
 										$xmlcontents->read();
 									}
@@ -699,14 +702,14 @@ private function extractCoordsGPX($xmlcontents)
 									{
 										// End Trkpt
 										$coords[] = array((string) $lon, (string) $lat, (string) $ele, (string) $time, 0);
-										$xmlcontents->read();
-									}
-								}
-							}
 
-							if ( ($xmlcontents->name == 'trkseg') AND ($xmlcontents->nodeType == XMLReader::END_ELEMENT) )
-							{
+									}
+
+								}
+
 								// End trkseg
+
+								$endTrksegElement = true;
 								$coordinatesCount = count($coords);
 
 								if ($coordinatesCount > 1 )
@@ -730,6 +733,11 @@ private function extractCoordsGPX($xmlcontents)
 									$this->track[$this->trackCount]->start = ($coords[0][0] . "," . $coords[0][1]);
 									$this->track[$this->trackCount]->stop = ($coords[$coordinatesCount - 1][0] . "," . $coords[$coordinatesCount - 1][1]);
 								}
+
+							}
+							else
+							{
+								// Tag is not trk, trkseg, nor Name: proceed
 							}
 						}
 						break;
@@ -1026,7 +1034,7 @@ return true;
 				$next_time = $this->giveTimestamp($next_coord[3]);
 			}
 
-			for ($i = 0; $i < (count($this->track[$t]->coords) - 2); $i++)
+			for ($i = 0; $i < (count($this->track[$t]->coords) - 1); $i++)
 			{
 				$next_coord = $this->track[$t]->coords[$i + 1];
 
@@ -1262,10 +1270,10 @@ return true;
 	public function extractWPs()
 	{
 		// TODO see for TCX and KML files
-		if (empty($this->wp))
+		if (empty($this->wps))
 		{
 			$this->isWaypoint = false;
-			$this->wp = null;
+			$this->wps = null;
 
 			return false;
 		}
@@ -1279,7 +1287,7 @@ return true;
 		$center .= "(" . $this->bbox_lon_max . "," . $this->bbox_lat_max . "));\n";
 		$center .= "olmap.zoomToExtent(new OpenLayers.Bounds(min.lon, min.lat, max.lon, max.lat));\n";
 		$center .= "// <!-- parseOLMapCenterSingleTrack END -->\n";
-		$this->wp = array( "wps" => $wp, "center" => $center );
+		$this->wpCenter = $center;
 	}
 
 	/**
@@ -2062,9 +2070,6 @@ return true;
 			}
 		}
 
-		/*
-		 echo "\n<!--\n\$bbox_lat_max = " . $bbox_lat_max . "\n\$bbox_lat_min = " . $bbox_lat_min . "\n-->";
-		*/
 		$center = "// <!-- parseOLMapCenter BEGIN -->\n";
 		$center .= "var min = lonLatToMercator(new OpenLayers.LonLat";
 		$center .= "(" . $bbox_lon_min . "," . $bbox_lat_min . "));\nvar max = lonLatToMercator";
@@ -2811,7 +2816,7 @@ if ( $this->allCoords !== null )
 		}
 		else
 		{
-			$map .= $this->wp['center'];
+			$map .= $this->wpCenter;
 		}
 		if ( $coords !== null )
 		{
