@@ -1302,17 +1302,19 @@ return true;
 		$speedChartData = "";
 		$longitudeChartData = "";
 		$latitudeChartData = "";
+
+		$cfg = JtgHelper::getConfig();
+		$n = count($this->allDistances);
+
 		/*
-		 * $c is the step for scanning allDistances/speed and others datas
+		* Adjust max number of points to display on tracks (maxTrkptDisplay)
+		* $c is the step for scanning allDistances/speed and others datas
 		* $width is half the width over which speed data are smoothed
 		* Smoothed speed is average from $i-$witdh<=index<=$i+$width
 		*/
-		$n = count($this->allDistances);
-
-		// TODO possibly desactivate or choose max number of points
-		if ($n > 1200)
+		if ($n > $cfg->maxTrkptDisplay)
 		{
-			$c = $n / 600;
+			$c = $n / $cfg->maxTrkptDisplay / 2;
 			$c = round($c, 0);
 			$width = 2 * $c;
 		}

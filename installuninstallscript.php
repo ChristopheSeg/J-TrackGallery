@@ -302,7 +302,7 @@ class Com_JtgInstallerScript
 		 * to /images/jtrackgallery/uploaded_tracks_images/track_xx (version> 0.9.9)
 		*/
 
-		$folders = JFolder::folders(JPATH_SITE . '/images/jtrackgallery', 'track_*', false);
+		$folders = JFolder::folders(JPATH_SITE . '/images/jtrackgallery', '^track*', false);
 
 		// Move entire folder (track_xx) if destination folder don't exist
 		foreach ($folders as $folder)

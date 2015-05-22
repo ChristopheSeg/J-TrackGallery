@@ -77,6 +77,23 @@ if ($this->id >= 1)
 	else
 	{
 		$map = $cache->get(array ( $gpsData, 'writeTrackOL' ), array ( $track, $params ));
+		$map.= '<style type="text/css">
+
+.olButton::before{
+	display: none;
+}
+#jtg_map img{
+	max-width: none; /* joomla3 max-width=100% breaks popups*/
+}
+
+/* Fix Bootstrap-Openlayers issue */
+.olMap img { max-width: none !important;
+}
+
+img.olTileImage {
+	max-width: none !important;
+}
+</style>';
 		$map .= ("\n<div id=\"jtg_map\"  align=\"center\" class=\"olMap\" ");
 		$map .= ("style=\"width: 400px; height: 500px; background-color:#EEE; vertical-align:middle;\" >");
 		$map .= ("\n<script>slippymap_init();</script>");
@@ -85,6 +102,7 @@ if ($this->id >= 1)
 }
 
 ?>
+
 <form action="" method="post" name="adminForm" id="adminForm"
 	class="adminForm" enctype="multipart/form-data">
 	<table class="adminlist">

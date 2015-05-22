@@ -397,6 +397,8 @@ if ($beatchart)
 img.olTileImage {
 	max-width: none !important;
 }
+.olPopup img { max-width: none !important;
+}
 
 </style>
 <?php
