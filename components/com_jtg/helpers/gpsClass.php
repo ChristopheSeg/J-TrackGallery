@@ -29,7 +29,6 @@ class GpsDataClass
 {
 	var $gpsFile = null;
 
-
 	var $sortedcats = null;
 
 	// Array tracks[j]->coords; // array containing longitude latitude elevation time and heartbeat data
@@ -59,7 +58,6 @@ class GpsDataClass
 
 	var $isCache = false;
 
-
 	var $isRoute = false;
 
 	var $isWaypoint = false;
@@ -81,7 +79,6 @@ class GpsDataClass
 	var $bbox_lon_max = -180;
 
 	var $bbox_lon_min = 180;
-
 
 	/**
 	 * function_description
@@ -152,6 +149,7 @@ class GpsDataClass
 		{
 			case "gpx":
 				$extract_result = $this->extractCoordsGPX($xml);
+				unset($xml);
 				break;
 			case "kml":
 				$extract_result = $this->extractCoordsKML($xml);
@@ -233,7 +231,7 @@ class GpsDataClass
 		if ($this->ext == 'gpx')
 		{
 			// Open (don't load) GPX xml files using XMLReader
-			$xml = new XMLReader();
+			$xml = new XMLReader;
 			$xml->open($this->gpsFile);
 		}
 		else
@@ -545,7 +543,7 @@ private function extractCoordsGPX($xmlcontents)
 					case 'wpt':
 						$wp[] = (array) $xmlcontents->readInnerXML();
 						$i_wpt++;
-						$this->wps[$i_wpt] = new WpClass();
+						$this->wps[$i_wpt] = new WpClass;
 						$lat = (float) $xmlcontents->getAttribute('lat');
 						$lon = (float) $xmlcontents->getAttribute('lon');
 						$this->wps[$i_wpt]->sym = 'wp';
@@ -656,6 +654,7 @@ private function extractCoordsGPX($xmlcontents)
 										$i_trkpt++;
 										$lat = (float) $xmlcontents->getAttribute('lat');
 										$lon = (float) $xmlcontents->getAttribute('lon');
+
 										if ( $lat > $this->bbox_lat_max )
 										{
 											$this->bbox_lat_max = $lat;
@@ -684,6 +683,7 @@ private function extractCoordsGPX($xmlcontents)
 										// Trkpt elevation found
 										$xmlcontents->read();
 										$ele = (float) $xmlcontents->value;
+
 										// Read end tag
 										$xmlcontents->read();
 									}
@@ -702,9 +702,7 @@ private function extractCoordsGPX($xmlcontents)
 									{
 										// End Trkpt
 										$coords[] = array((string) $lon, (string) $lat, (string) $ele, (string) $time, 0);
-
 									}
-
 								}
 
 								// End trkseg
@@ -733,7 +731,6 @@ private function extractCoordsGPX($xmlcontents)
 									$this->track[$this->trackCount]->start = ($coords[0][0] . "," . $coords[0][1]);
 									$this->track[$this->trackCount]->stop = ($coords[$coordinatesCount - 1][0] . "," . $coords[$coordinatesCount - 1][1]);
 								}
-
 							}
 							else
 							{
@@ -788,119 +785,6 @@ private function extractCoordsGPX($xmlcontents)
 // Nothing to return
 return true;
 }
-
-	private function extractCoordsGPX2($xml)
-	{
-		// OLD simple xml
-		$this->trackname = (string) @$xml->name;
-		$gps_file_description = '';
-		$tracks_description = '';
-
-		$this->Date = (string) @$xml->time;
-
-		if ($this->Date)
-		{
-			$dt = new DateTime($this->Date);
-			$this->Date = $dt->format('Y-m-d');
-		}
-
-		$this->trackCount = 0;
-
-		for ($t = 0; $t < @count($xml->trk); $t++)
-		{
-			for ($j = 0; $j < @count($xml->trk[$t]->trkseg); $j++)
-			{
-				$coords = array();
-				echo "<br>nbtraces " . count($xml->trk) . " tracen°$t nb segments " .
-						count($xml->trk[$t]) . " segment n0 $j " . count($xml->trk[$t]->trkseg[$j]) . " nb trkpt=" .
-						count($xml->trk[$t]->trkseg[$j]->trkpt);
-
-				for ($i = 0; $i < count($xml->trk[$t]->trkseg[$j]->trkpt); $i++)
-				{
-					$trkpt = $xml->trk[$t]->trkseg[$j]->trkpt[$i];
-
-					if (isset($trkpt->attributes()->lat) && isset($trkpt->attributes()->lon))
-					{
-						$lat = $trkpt->attributes()->lat;
-						$lon = $trkpt->attributes()->lon;
-
-						if (isset($trkpt->ele))
-						{
-							$ele = $trkpt->ele;
-						}
-						else
-						{
-							$ele = "0";
-						}
-
-						if (isset($trkpt->time))
-						{
-							$time = $trkpt->time;
-						}
-						else
-						{
-							$time = "0";
-						}
-
-						$coords[] = array((string) $lon, (string) $lat, (string) $ele, (string) $time, 0);
-					}
-				}
-				// This is a track if more than 2 coordinates found
-				$coordinatesCount = count($coords);
-
-				if ($coordinatesCount > 1)
-				{
-					$this->trackCount++;
-					$this->track[$this->trackCount] = new stdClass;
-
-					if (isset($xml->trk[$t]->name))
-					{
-						$this->track[$this->trackCount]->trackname = (string) $xml->trk[$t]->name;
-						$tracks_description .= '<br />' . $this->track[$this->trackCount]->trackname;
-					}
-					else
-					{
-						$this->track[$this->trackCount]->trackname = $this->trackname . '-' . (string) $this->trackCount;
-					}
-
-					$this->track[$this->trackCount]->coords = $coords;
-					$this->track[$this->trackCount]->start = ($coords[0][0] . "," . $coords[0][1]);
-					$this->track[$this->trackCount]->stop = ($coords[$coordinatesCount - 1][0] . "," . $coords[$coordinatesCount - 1][1]);
-				}
-			}
-		}
-
-		$this->isTrack = ($this->trackCount > 0);
-		$gps_file_description = @$xml->desc;
-
-		if (strlen($this->trackname) == 0)
-		{
-			if ($this->trackCount == 1)
-			{
-				$this->trackname = (string) @$xml->trk[0]->name;
-			}
-			else
-			{
-				$this->trackname = $this->trackfilename;
-			}
-		}
-
-		if (($gps_file_description) AND ($tracks_description))
-		{
-			$this->description = $gps_file_description . '<br />' . $tracks_description;
-		}
-		elseif ($tracks_description)
-		{
-			$this->description = $tracks_description;
-		}
-		else
-		{
-			$this->description = $this->trackname;
-		}
-
-		// Nothing to return
-		return true;
-	}
 
 	/**
 	 * function_description
@@ -1263,8 +1147,6 @@ return true;
 	/**
 	 * function_description
 	 *
-	 * @param   object  $xml  xml object to process
-	 *
 	 * @return (int) Anzahl
 	 */
 	public function extractWPs()
@@ -1312,7 +1194,7 @@ return true;
 		* $width is half the width over which speed data are smoothed
 		* Smoothed speed is average from $i-$witdh<=index<=$i+$width
 		*/
-		if ($n > $cfg->maxTrkptDisplay)
+		if ( ($cfg->maxTrkptDisplay > 0) AND ($n > $cfg->maxTrkptDisplay))
 		{
 			$c = $n / $cfg->maxTrkptDisplay / 2;
 			$c = round($c, 0);
@@ -1323,10 +1205,6 @@ return true;
 			$c = 1;
 			$width = 2;
 		}
-
-		// TODO TEMPORARY
-		//$c = 1;
-		//$width = 2;
 
 		for ($i = 0; $i < $n; $i = $i + $c)
 		{
@@ -1542,8 +1420,6 @@ return true;
 	/**
 	 * function_description
 	 *
-	 * @param   array  $wps  waypoints to parse
-	 *
 	 * @return (int) Anzahl
 	 */
 	public function parseWPs()
@@ -1608,7 +1484,7 @@ return true;
 
 			if ($ele)
 			{
-				//TODO unit in elevation !!
+				// TODO unit in elevation !!
 				$wpcode .= "<br /><b>" . JText::_('COM_JTG_ELEVATION') . " :</b> ca. " . round($ele, 1) . "m<small>";
 			}
 
@@ -2812,7 +2688,8 @@ return true;
 		$zeiten .= (int) round((microtime(true) - $jtg_microtime), 0) . " " . JText::_('COM_JTG_DEBUG_TIMES') . " parseOLLayer<br />\n";
 		$coords = $this->parseXMLlinesOL();
 		$zeiten .= (int) round((microtime(true) - $jtg_microtime), 0) . " " . JText::_('COM_JTG_DEBUG_TIMES') . " parseXMLlinesOL<br />\n";
-if ( $this->allCoords !== null )
+
+		if ( $this->allCoords !== null )
 		{
 			$map .= $coords['center'];
 		}
@@ -2820,6 +2697,7 @@ if ( $this->allCoords !== null )
 		{
 			$map .= $this->wpCenter;
 		}
+
 		if ( $coords !== null )
 		{
 			$map .= $coords['coords'];
@@ -2833,8 +2711,6 @@ if ( $this->allCoords !== null )
 		{
 			$map .= $this->parseWPs();
 		}
-
-
 
 		$zeiten .= (int) round((microtime(true) - $jtg_microtime ), 0) . " " . JText::_('COM_JTG_DEBUG_TIMES') . " parseOLMapCenterSingleTrack<br />\n";
 		$map .= $this->parseOLMapFunctions();
@@ -3018,17 +2894,22 @@ if ( $this->allCoords !== null )
 		$control .= "				displayProjection: new OpenLayers.Projection(\"EPSG:4326\")\n";
 		$control .= "			} );\n\n";
 
-		// Add FullScreen Toggle control  Source from http://www.utagawavtt.com
-		$control .= "		// <!-- parseOLMapFullscreen button BEGIN -->\n";
-		$control .= "		var fullscreenToolbar = new OpenLayers.Control.NavToolbar();\n";
-		$control .= "		var button_fullscreen = new OpenLayers.Control.Button({\n";
-		$control .= "			displayClass: \"buttonFullScreen\",\n";
-		$control .= "			trigger: switch_fullscreen2 // Switch_fullscreen\n";
-		$control .= "		});\n";
-		$control .= "		button_fullscreen.title = \"Plein écran\";\n";
-		$control .= "		fullscreenToolbar.addControls([button_fullscreen]);\n";
-		$control .= "		olmap.addControl(fullscreenToolbar);\n";
-		$control .= "		// <!-- parseOLMapFullscreen button END -->\n";
+		// Don't use fullscreen option on admin site
+		if ( $_SERVER['SCRIPT_URL'] !== '/administrator/index.php')
+		{
+			// Add FullScreen Toggle control Source from http://www.utagawavtt.com
+			$control .= "		// <!-- parseOLMapFullscreen button BEGIN -->\n";
+			$control .= "		var fullscreenToolbar = new OpenLayers.Control.NavToolbar();\n";
+			$control .= "		var button_fullscreen = new OpenLayers.Control.Button({\n";
+			$control .= "			displayClass: \"buttonFullScreen\",\n";
+			$control .= "			trigger: switch_fullscreen2 // Switch_fullscreen\n";
+			$control .= "		});\n";
+			$control .= "		button_fullscreen.title = \"Plein écran\";\n";
+			$control .= "		fullscreenToolbar.addControls([button_fullscreen]);\n";
+			$control .= "		olmap.addControl(fullscreenToolbar);\n";
+			$control .= "		// <!-- parseOLMapFullscreen button END -->\n";
+		}
+
 		$control .= "		// <!-- parseOLMapmouse wheel (this must stay after NavToolbar) BEGIN -->\n";
 
 		if ( ( $params === false ) OR ( $params->get('jtg_param_allow_mousemove') != "0" ) )
@@ -3102,6 +2983,7 @@ if ( $this->allCoords !== null )
 
 		$string_se = "";
 		$center = "";
+
 		// TODO if (AnimatedCursorLayer)
 		if (true)
 		{
@@ -3313,7 +3195,6 @@ class WpClass
 	var $type = null;
 
 	var $sym = null;
-
 }
 
 /**

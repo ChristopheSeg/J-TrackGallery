@@ -247,6 +247,7 @@ margin: 1px 0 0 0;
 				<td><?php echo JText::_('COM_JTG_MAX_TRKPT_DISPLAY'); ?></td>
 				<td>&nbsp;&nbsp;<input type="text" name="maxTrkptDisplay"
 					value="<?php echo $this->config->maxTrkptDisplay; ?>" size="20" />
+					<?php echo JText::_('COM_JTG_MAX_TRKPT_DISPLAY2'); ?>
 				</td>
 			</tr>
 			<tr>
