@@ -1004,43 +1004,4 @@ class JtgHelper
 				JText::_('COM_JTG_SEPARATOR_THS')
 		) . $unit;
 	}
-
-	/**
-	 * function_description
-	 *
-	 * @param   unknown_type  $float  param_description
-	 *
-	 * @return return_description
-	 */
-	static public function _getLocatedFloat_old($float)
-	{
-		$float = (float) $float;
-
-		if ( preg_match('/\./', $float) )
-		{
-			// Has decimal place
-			$digit = explode('.', $float);
-
-			// Count of digits after decimal place
-			$digits = strlen($digit[1]);
-		}
-		else
-		{
-			$digits = 0;
-		}
-
-		jimport('joomla.language.language');
-		$lang = JFactory::getLanguage();
-		$locale = $lang->getLocale();
-		setlocale(LC_ALL, $locale);
-		$locale = localeconv();
-		$return = number_format(
-				$float,
-				$digits,
-				$locale['decimal_point'],
-				$locale['thousands_sep']
-		);
-
-		return $return;
-	}
 }

@@ -120,7 +120,7 @@ class Com_JtgInstallerScript
 		?>
 	<br />
 	<img
-		src="<?php echo '/components/com_jtg/assets/images/logo_JTG.png'; ?>"
+		src="<?php echo JPATH_SITE . '/components/com_jtg/assets/images/logo_JTG.png'; ?>"
 		alt="J!Track Gallery" />
 	<br />
 	<table class="adminlist" border="1" style="width:100%;">

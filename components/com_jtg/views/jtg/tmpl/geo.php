@@ -38,12 +38,17 @@ $document->addScript('components/com_jtg/assets/js/homeposition.js');
 // JHtml::_('behavior.tooltip'); // with this option IE8 doesn't work
 $otherusers = 0;
 $scriptbody = "";
-$imgpath = '/templates/' . $template . '/css/ol_images';
+$imgpath = 'templates/' . $template . '/css/ol_images';
 
-if ( ! JFolder::exists(JPATH_SITE . $imgpath))
+if ( JFolder::exists(JPATH_SITE . '/' . $imgpath))
 {
-	$imgpath = '/components/com_jtg/assets/template/default/ol_images/';
+	$imgpath = JUri::root() . $imgpath;
 }
+else
+{
+	$imgpath = JUri::root() . 'components/com_jtg/assets/template/default/ol_images/';
+}
+
 
 $scriptheader = ("<script type=\"text/javascript\">
 		var iconpath = '" . $iconpath . "';\n");

@@ -297,7 +297,7 @@ class GpsDataClass
 	 */
 	private function extractCoordsKML($xml)
 	{
-		// TODO directly load DOMDOCUMENT without loading xml??
+		// TODO use XMLReader
 		$xmldom = new DOMDocument;
 		$xmldom->loadXML($xml->asXML());
 
@@ -1151,7 +1151,7 @@ return true;
 	 */
 	public function extractWPs()
 	{
-		// TODO see for TCX and KML files
+
 		if (empty($this->wps))
 		{
 			$this->isWaypoint = false;
@@ -2453,7 +2453,7 @@ return true;
 		$return .= "olmap.addLayer( hs2,hs2_1 );\n";
 
 		// TODO osm_getTileURL see http://wiki.openstreetmap.org/wiki/Talk:Openlayers_POI_layer_example
-		$document->addScript('/components/com_jtg/assets/js/jtg_getTileURL.js');
+		$document->addScript('components/com_jtg/assets/js/jtg_getTileURL.js');
 
 		if ( !isset($baselayer))
 		{
@@ -2778,11 +2778,15 @@ return true;
 		$mainframe = JFactory::getApplication();
 		jimport('joomla.filesystem.folder');
 		$template = $mainframe->getTemplate();
-		$imgpath = '/templates/' . $template . '/css/ol_images';
+		$imgpath = 'templates/' . $template . '/css/ol_images';
 
-		if ( ! JFolder::exists(JPATH_SITE . $imgpath))
+		if ( JFolder::exists(JPATH_SITE . '/' . $imgpath))
 		{
-			$imgpath = '/components/com_jtg/assets/template/default/ol_images/';
+			$imgpath = JUri::root() . $imgpath;
+		}
+		else
+		{
+			$imgpath = JUri::root() . 'components/com_jtg/assets/template/default/ol_images/';
 		}
 
 		$map = "\n<!-- parseScriptOLHead BEGIN -->\n";
@@ -2810,7 +2814,7 @@ return true;
 	{
 		$map = "// <!-- parseScriptOLFooter BEGIN -->\n";
 
-		//  close slippymap_s_init script
+		// Close slippymap_s_init script
 		$map .= "}\n";
 		$map .= "</script>\n";
 		$map .= "<!-- parseScriptOLFooter END -->\n";
@@ -2991,7 +2995,7 @@ return true;
 			 * This MUST be added after olmap.zoomToExtent
 			*/
 			$document = JFactory::getDocument();
-			$document->addScript('/components/com_jtg/assets/js/animatedCursor.js');
+			$document->addScript('components/com_jtg/assets/js/animatedCursor.js');
 
 			$center .= "\n// <!-- parseOLMapAnimatedCursorLayer BEGIN -->\n";
 			$center .= "longitudeData = $this->longitudeData;\n";
@@ -3016,7 +3020,7 @@ return true;
 			$center .= "animatedCursorIcon.setVisibility(false);\n";
 			$center .= "var size = new OpenLayers.Size(32,32);\n";
 			$center .= "var offset = new OpenLayers.Pixel(-16,-32);\n";
-			$center .= "var cursorIcon = new OpenLayers.Icon(\"/components/com_jtg/assets/images/orange-dot.png\",size,offset);\n";
+			$center .= "var cursorIcon = new OpenLayers.Icon(\"" . JUri::base() . "/components/com_jtg/assets/images/orange-dot.png\",size,offset);\n";
 			$center .= "var lonLatStart = new OpenLayers.LonLat(" . $this->track[1]->start . ") . ";
 			$center .= "transform(new OpenLayers.Projection(\"EPSG:4326\"), olmap.getProjectionObject());\n";
 			$center .= "animatedCursorIcon.addMarker(new OpenLayers.Marker(lonLatStart,cursorIcon));\n";
@@ -3253,8 +3257,7 @@ class GpsCoordsClass
 			}
 		}
 
-		$distance = $temp;
-		$distance = round($distance, 2);
+		$distance = round($temp, 2);
 
 		return $distance;
 	}

@@ -392,7 +392,7 @@ class JtgViewFiles extends JViewLegacy
 		JHtml::_('behavior.combobox');
 		$cache = JFactory::getCache('com_jtg');
 
-		// TODO when cache is used, Update a track, then browse it: jtg_osmGettile.js is not loaded!!
+		// TODO when cache is used, Update a track, then browse it: jtg_osmGettile.js is not loaded!! Why?
 		// $cache->setCaching( 1 ); // activate caching
 
 		if ( $params->get("jtg_param_lh") == 1 )
@@ -488,7 +488,7 @@ class JtgViewFiles extends JViewLegacy
 		 // 	}
 		 */
 		$action = "index.php?option=com_jtg&amp;controller=download&amp;task=download";
-		$file = './images/jtrackgallery/uploaded_tracks/' . strtolower($track->file);
+		$file = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks/' . strtolower($track->file);
 		$gpsData = new GpsDataClass($cfg->unit);
 
 		// Cache: $gpsData structure is cached, after LaodFileAndData
@@ -663,7 +663,7 @@ class JtgViewFiles extends JViewLegacy
 								// Dummy line for Coding standard
 							}
 
-							$imageBlock .= "	<a class=\"highslide\" href='/images/jtrackgallery/uploaded_tracks_images/track_" . $id . "/" . $image . "' title=\"" . $image . "\" onclick=\"return hs.expand(this)\">
+							$imageBlock .= "	<a class=\"highslide\" href='" . JUri::base() . "images/jtrackgallery/uploaded_tracks_images/track_" . $id . "/" . $image . "' title=\"" . $image . "\" onclick=\"return hs.expand(this)\">
 							<img src=\"" . JUri::base() . "images/jtrackgallery/uploaded_tracks_images/track_" . $id . '/' . $thumb . "\" alt=\"$image\"  /></a>\n\n";
 						}
 					}

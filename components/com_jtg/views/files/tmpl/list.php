@@ -149,11 +149,11 @@ if (! $this->params->get("jtg_param_disable_terrains"))
 					$deletelink = JRoute::_('index.php?option=com_jtg&controller=files&task=delete&id=' . $row->id, false);
 					$links = " <a href=\"" . $editlink . "\">" .
 					"<img title=\"" . JText::_('Edit') . "\" alt=\"" .
-						JText::_('Edit') . "\" src=\"/components/com_jtg/assets/images/edit_f2.png\" width=\"16px\" />" .
+						JText::_('Edit') . "\" src=\"" . JPATH_SITE . "/components/com_jtg/assets/images/edit_f2.png\" width=\"16px\" />" .
 					"</a> " .
 					"<a href=\"" . $deletelink . "\">" .
 					"<img title=\"" . JText::_('Delete') . "\" alt=\"" .
-						JText::_('Delete') . "\" src=\"/components/com_jtg/assets/images/cancel_f2.png\" width=\"16px\" />" .
+						JText::_('Delete') . "\" src=\"" . JPATH_SITE . "/components/com_jtg/assets/images/cancel_f2.png\" width=\"16px\" />" .
 					"</a>";
 				}
 				?>

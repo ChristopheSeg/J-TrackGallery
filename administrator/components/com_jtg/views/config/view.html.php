@@ -106,7 +106,7 @@ class JtgViewConfig extends JViewLegacy
 				array('id' => 'ext_plugin', 'text' => JText::_('COM_JTG_GAL_EXTERNAL_PLUGIN'))
 		);
 		$routingiconset = array();
-		$imgdir = "../components/com_jtg/assets/images/approach/";
+		$imgdir = JUri::root() . "components/com_jtg/assets/images/approach/";
 		$importdir = JPATH_SITE . "/components/com_jtg/assets/images/approach/";
 		$files = JFolder::folders($importdir);
 

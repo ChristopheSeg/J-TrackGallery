@@ -21,7 +21,7 @@ defined('_JEXEC') or die('Restricted access');
 JToolBarHelper::title(JText::_('COM_JTG_INFO'), 'generic.png');
 JToolBarHelper::back();
 
-$link = "../components/com_jtg/assets/images/logo_JTG.png";
+$link = JUri::root() . "components/com_jtg/assets/images/logo_JTG.png";
 $db = JFactory::getDbo();
 $query = $db->getQuery(true);
 $query->select('manifest_cache');
