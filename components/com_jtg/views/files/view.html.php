@@ -487,7 +487,7 @@ class JtgViewFiles extends JViewLegacy
 		 // 		$document->addScript('http://code.highcharts.com/modules/exporting.js');
 		 // 	}
 		 */
-		$action = "index.php?option=com_jtg&amp;controller=download&amp;task=download";
+		$action = "/index.php?option=com_jtg&amp;controller=download&amp;task=download";
 		$file = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks/' . strtolower($track->file);
 		$gpsData = new GpsDataClass($cfg->unit);
 

@@ -39,6 +39,8 @@ class JtgModelDownload extends JModelLegacy
 	 */
 	function download($id, $format, $track)
 	{
+		global $jtg_microtime;
+
 		$mainframe = JFactory::getApplication();
 		$cache = JFactory::getCache('com_jtg');
 		jimport('joomla.filesystem.file');
@@ -48,6 +50,9 @@ class JtgModelDownload extends JModelLegacy
 		// Default unit
 		$gpsData = new GpsDataClass("Kilometer");
 		$gpsData = $cache->get(array ( $gpsData, 'loadFileAndData' ), array ($file, $track->file ), "Kilometer");
+
+		// Disable JTG debug
+		$jtg_microtime = null;
 
 		if ($gpsData->displayErrors())
 		{
