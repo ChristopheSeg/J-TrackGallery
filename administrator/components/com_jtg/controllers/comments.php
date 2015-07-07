@@ -36,7 +36,7 @@ class JtgControllerComments extends JtgController
 	function publish ()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit('Invalid Token');
+		JSession::checkToken() or jexit(JTEXT::_('JINVALID_TOKEN'));
 
 		$cid = JFactory::getApplication()->input->get('cid', array(), 'array');
 		JArrayHelper::toInteger($cid);
@@ -64,7 +64,7 @@ class JtgControllerComments extends JtgController
 	function unpublish ()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit('Invalid Token');
+		JSession::checkToken() or jexit(JTEXT::_('JINVALID_TOKEN'));
 
 		$cid = JFactory::getApplication()->input->get('cid', array(), 'array');
 		JArrayHelper::toInteger($cid);
@@ -92,7 +92,7 @@ class JtgControllerComments extends JtgController
 	function remove ()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit('Invalid Token');
+		JSession::checkToken() or jexit(JTEXT::_('JINVALID_TOKEN'));
 
 		$cid = JFactory::getApplication()->input->get('cid', array(), 'array');
 		JArrayHelper::toInteger($cid);
@@ -120,7 +120,7 @@ class JtgControllerComments extends JtgController
 	function saveComment ()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit('Invalid Token');
+		JSession::checkToken() or jexit(JTEXT::_('JINVALID_TOKEN'));
 
 		$model = $this->getModel('comments');
 

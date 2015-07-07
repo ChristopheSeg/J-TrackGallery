@@ -637,7 +637,7 @@ if ($this->cfg->download >= 1)
 		<button class="button" type="button"
 			onclick="Joomla.submitbutton('download')">
 			<?php echo JText::_('COM_JTG_DOWNLOAD_THIS_TRACK') ?>
-		</button> </span>
+		</button>
 	<?php
 	echo JHtml::_('form.token') . "\n"; ?>
 	<input type="hidden" name="option" value="com_jtg" /> <input

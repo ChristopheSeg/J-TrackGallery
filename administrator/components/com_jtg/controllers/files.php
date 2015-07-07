@@ -38,7 +38,7 @@ class JtgControllerFiles extends JtgController
 	function updateGeneratedValues ()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit('Invalid Token');
+		JSession::checkToken() or jexit(JTEXT::_('JINVALID_TOKEN'));
 
 		$model = $this->getModel('files');
 
@@ -57,7 +57,7 @@ class JtgControllerFiles extends JtgController
 	 */
 	function uploadfiles ()
 	{
-		JSession::checkToken() or jexit('Invalid Token');
+		JSession::checkToken() or jexit(JTEXT::_('JINVALID_TOKEN'));
 		$jInput = JFactory::getApplication()->input;
 		$jFileInput = new jInput($_FILES);
 		$files = $jFileInput->get('files', array(), 'array');
@@ -89,7 +89,7 @@ class JtgControllerFiles extends JtgController
 	function publish ()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit('Invalid Token');
+		JSession::checkToken() or jexit(JTEXT::_('JINVALID_TOKEN'));
 
 		$cid = JFactory::getApplication()->input->get('cid', array(), 'array');
 		JArrayHelper::toInteger($cid);
@@ -117,7 +117,7 @@ class JtgControllerFiles extends JtgController
 	function tohide ()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit('Invalid Token');
+		JSession::checkToken() or jexit(JTEXT::_('JINVALID_TOKEN'));
 
 		$cid = JFactory::getApplication()->input->get('cid', array(), 'array');
 		JArrayHelper::toInteger($cid);
@@ -145,7 +145,7 @@ class JtgControllerFiles extends JtgController
 	function toshow ()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit('Invalid Token');
+		JSession::checkToken() or jexit(JTEXT::_('JINVALID_TOKEN'));
 
 		$cid = JFactory::getApplication()->input->get('cid', array(), 'array');
 		JArrayHelper::toInteger($cid);
@@ -173,7 +173,7 @@ class JtgControllerFiles extends JtgController
 	function unpublish ()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit('Invalid Token');
+		JSession::checkToken() or jexit(JTEXT::_('JINVALID_TOKEN'));
 
 		$cid = JFactory::getApplication()->input->get('cid', array(), 'array');
 		JArrayHelper::toInteger($cid);
@@ -201,7 +201,7 @@ class JtgControllerFiles extends JtgController
 	function accessregistered ()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit('Invalid Token');
+		JSession::checkToken() or jexit(JTEXT::_('JINVALID_TOKEN'));
 
 		$cid = JFactory::getApplication()->input->get('cid', array(), 'array');
 		JArrayHelper::toInteger($cid);
@@ -229,7 +229,7 @@ class JtgControllerFiles extends JtgController
 	function accessspecial ()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit('Invalid Token');
+		JSession::checkToken() or jexit(JTEXT::_('JINVALID_TOKEN'));
 
 		$cid = JFactory::getApplication()->input->get('cid', array(), 'array');
 		JArrayHelper::toInteger($cid);
@@ -257,7 +257,7 @@ class JtgControllerFiles extends JtgController
 	function accesspublic ()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit('Invalid Token');
+		JSession::checkToken() or jexit(JTEXT::_('JINVALID_TOKEN'));
 
 		$cid = JFactory::getApplication()->input->get('cid', array(), 'array');
 		JArrayHelper::toInteger($cid);
@@ -285,7 +285,7 @@ class JtgControllerFiles extends JtgController
 	function remove ()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit('Invalid Token');
+		JSession::checkToken() or jexit(JTEXT::_('JINVALID_TOKEN'));
 
 		$cid = JFactory::getApplication()->input->get('cid', array(), 'array');
 		JArrayHelper::toInteger($cid);
@@ -313,7 +313,7 @@ class JtgControllerFiles extends JtgController
 	function removeFromImport ()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit('Invalid Token');
+		JSession::checkToken() or jexit(JTEXT::_('JINVALID_TOKEN'));
 
 		$found = JFactory::getApplication()->input->get('found');
 
@@ -335,7 +335,7 @@ class JtgControllerFiles extends JtgController
 	function savefile ()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit('Invalid Token');
+		JSession::checkToken() or jexit(JTEXT::_('JINVALID_TOKEN'));
 
 		$model = $this->getModel('files');
 
@@ -366,7 +366,7 @@ class JtgControllerFiles extends JtgController
 	function savefiles ()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit('Invalid Token');
+		JSession::checkToken() or jexit(JTEXT::_('JINVALID_TOKEN'));
 
 		$model = $this->getModel('files');
 
@@ -386,7 +386,7 @@ class JtgControllerFiles extends JtgController
 	function updatefile ()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit('Invalid Token');
+		JSession::checkToken() or jexit(JTEXT::_('JINVALID_TOKEN'));
 
 		$model = $this->getModel('files');
 
@@ -405,7 +405,7 @@ class JtgControllerFiles extends JtgController
 	 */
 	function fetchJPTfiles ()
 	{
-		JSession::checkToken() or jexit('Invalid Token');
+		JSession::checkToken() or jexit(JTEXT::_('JINVALID_TOKEN'));
 		$model = $this->getModel('files');
 		echo $model->_fetchJPTfiles();
 	}

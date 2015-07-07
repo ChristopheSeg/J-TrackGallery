@@ -45,7 +45,7 @@ class JtgControllerGeo extends JtgController
 	{
 		$user = JFactory::getUser();
 		$userid = (int) $user->id;
-		JSession::checkToken() or jexit('Invalid Token');
+		JSession::checkToken() or jexit(JTEXT::_('JINVALID_TOKEN'));
 		$lat = JFactory::getApplication()->input->get('lat');
 		$lon = JFactory::getApplication()->input->get('lon');
 		$visible = JFactory::getApplication()->input->get('visible');

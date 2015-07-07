@@ -91,7 +91,7 @@ class JtgModelDownload extends JModelLegacy
 
 					if ($i != $n - 1)
 					{
-						$file .= $coord[0] . "," . $coord[1] . "," . $coord[2] . "";
+						$file .= $coord[0] . "," . $coord[1] . "," . $coord[2] . "\n";
 					}
 					else
 					{

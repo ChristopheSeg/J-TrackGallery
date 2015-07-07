@@ -40,7 +40,7 @@ class JtgControllerTerrain extends JtgController
 		$mainframe = JFactory::getApplication();
 
 		// Check for request forgeries
-		JSession::checkToken() or jexit('Invalid Token');
+		JSession::checkToken() or jexit(JTEXT::_('JINVALID_TOKEN'));
 
 		$model = $this->getModel('terrain');
 		$model->save();
@@ -60,7 +60,7 @@ class JtgControllerTerrain extends JtgController
 		$mainframe = JFactory::getApplication();
 
 		// Check for request forgeries
-		JSession::checkToken() or jexit('Invalid Token');
+		JSession::checkToken() or jexit(JTEXT::_('JINVALID_TOKEN'));
 
 		$model = $this->getModel('terrain');
 		$model->save();
@@ -78,7 +78,7 @@ class JtgControllerTerrain extends JtgController
 	function publish()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit('Invalid Token');
+		JSession::checkToken() or jexit(JTEXT::_('JINVALID_TOKEN'));
 
 		$cid = JFactory::getApplication()->input->get('cid', array(), 'array');
 		JArrayHelper::toInteger($cid);
@@ -106,7 +106,7 @@ class JtgControllerTerrain extends JtgController
 	function unpublish()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit('Invalid Token');
+		JSession::checkToken() or jexit(JTEXT::_('JINVALID_TOKEN'));
 
 		$cid = JFactory::getApplication()->input->get('cid', array(), 'array');
 		JArrayHelper::toInteger($cid);
@@ -134,7 +134,7 @@ class JtgControllerTerrain extends JtgController
 	function remove()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit('Invalid Token');
+		JSession::checkToken() or jexit(JTEXT::_('JINVALID_TOKEN'));
 
 		$cid = JFactory::getApplication()->input->get('cid', array(), 'array');
 		JArrayHelper::toInteger($cid);

@@ -36,11 +36,12 @@ class JtgControllerDownload extends JtgController
 	 */
 	function download()
 	{
-		JSession::checkToken() or jexit('Invalid Token');
+
+		JSession::checkToken() or jexit(JTEXT::_('JINVALID_TOKEN'));
 
 		$format = JFactory::getApplication()->input->get('format');
 		$model = $this->getModel('download');
-		$id = JRequest::getInt('id');
+		$id = JFactory::getApplication()->input->get('id');
 		$track = $model->getFile($id);
 		$trackname = str_replace(' ', '_', $track->title);
 
@@ -59,7 +60,6 @@ class JtgControllerDownload extends JtgController
 		header("Content-Disposition: attachment; filename=\"" . $trackname . "." . strtolower($format) . "\"");
 		header("Content Transfer-Encoding:binary");
 		header("Cache-Control: post-check=0, pre-check=0");
-
 		echo $model->download($id, $format, $track);
 	}
 }

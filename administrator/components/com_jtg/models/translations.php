@@ -46,7 +46,7 @@ class JtgModelTranslations extends JModelLegacy
 	function saveLanguage()
 	{
 		jimport('joomla.filesystem.file');
-		JSession::checkToken() or die( 'Invalid Token' );
+		JSession::checkToken() or die( 'JINVALID_TOKEN' );
 		$languages = $this->getRawLanguages();
 		$written = true;
 

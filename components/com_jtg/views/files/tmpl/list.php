@@ -144,16 +144,16 @@ if (! $this->params->get("jtg_param_disable_terrains"))
 				if (( ( $this->uid != 0 ) AND ( $this->uid == $row->uid ) )
 					OR  ( JFactory::getUser()->get('isRoot') ) )
 				{
-					// I can edit and delete my file (opr I'm admin)
+					// I can edit and delete my file (or I'm admin)
 					$editlink = JRoute::_('index.php?option=com_jtg&view=files&layout=form&id=' . $row->id, false);
 					$deletelink = JRoute::_('index.php?option=com_jtg&controller=files&task=delete&id=' . $row->id, false);
 					$links = " <a href=\"" . $editlink . "\">" .
-					"<img title=\"" . JText::_('Edit') . "\" alt=\"" .
-						JText::_('Edit') . "\" src=\"" . JPATH_SITE . "/components/com_jtg/assets/images/edit_f2.png\" width=\"16px\" />" .
+					"<img title=\"" . JText::_('JACTION_EDIT') . "\" alt=\"" .
+						JText::_('JACTION_EDIT') . "\" src=\"" . JUri::root() . "components/com_jtg/assets/images/edit_f2.png\" width=\"16px\" />" .
 					"</a> " .
 					"<a href=\"" . $deletelink . "\">" .
-					"<img title=\"" . JText::_('Delete') . "\" alt=\"" .
-						JText::_('Delete') . "\" src=\"" . JPATH_SITE . "/components/com_jtg/assets/images/cancel_f2.png\" width=\"16px\" />" .
+					"<img title=\"" . JText::_('JACTION_DELETE') . "\" alt=\"" .
+						JText::_('JACTION_DELETE') . "\" src=\"" . JUri::root() . "components/com_jtg/assets/images/cancel_f2.png\" width=\"16px\" />" .
 					"</a>";
 				}
 				?>

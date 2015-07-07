@@ -54,7 +54,7 @@ class JtgControllerCats extends JtgController
 	function uploadcatimages ()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit('Invalid Token');
+		JSession::checkToken() or jexit(JTEXT::_('JINVALID_TOKEN'));
 
 		$model = $this->getModel('cat');
 		$success = $model->saveCatImage();
@@ -82,7 +82,7 @@ class JtgControllerCats extends JtgController
 	function savecat ()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit('Invalid Token');
+		JSession::checkToken() or jexit(JTEXT::_('JINVALID_TOKEN'));
 
 		$model = $this->getModel('cat');
 		$success = $model->saveCat();
@@ -108,7 +108,7 @@ class JtgControllerCats extends JtgController
 	function orderup ()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit('Invalid Token');
+		JSession::checkToken() or jexit(JTEXT::_('JINVALID_TOKEN'));
 
 		$model = $this->getModel('cat');
 		$model->move(- 1);
@@ -124,7 +124,7 @@ class JtgControllerCats extends JtgController
 	function orderdown ()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit('Invalid Token');
+		JSession::checkToken() or jexit(JTEXT::_('JINVALID_TOKEN'));
 
 		$model = $this->getModel('cat');
 		$model->move(1);
@@ -140,7 +140,7 @@ class JtgControllerCats extends JtgController
 	function saveorder ()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit('Invalid Token');
+		JSession::checkToken() or jexit(JTEXT::_('JINVALID_TOKEN'));
 
 		$cid = JFactory::getApplication()->input->get('cid', array(), 'array');
 		$order = JFactory::getApplication()->input->get('order', array(), 'array');
@@ -161,7 +161,7 @@ class JtgControllerCats extends JtgController
 	function publish ()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit('Invalid Token');
+		JSession::checkToken() or jexit(JTEXT::_('JINVALID_TOKEN'));
 
 		$cid = JFactory::getApplication()->input->get('cid', array(), 'array');
 		JArrayHelper::toInteger($cid);
@@ -189,7 +189,7 @@ class JtgControllerCats extends JtgController
 	function unpublish ()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit('Invalid Token');
+		JSession::checkToken() or jexit(JTEXT::_('JINVALID_TOKEN'));
 
 		$cid = JFactory::getApplication()->input->get('cid', array(), 'array');
 		JArrayHelper::toInteger($cid);
@@ -217,7 +217,7 @@ class JtgControllerCats extends JtgController
 	function removepic ()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit('Invalid Token');
+		JSession::checkToken() or jexit(JTEXT::_('JINVALID_TOKEN'));
 
 		$cid = JFactory::getApplication()->input->get('cid', array(), 'array');
 
@@ -244,7 +244,7 @@ class JtgControllerCats extends JtgController
 	function remove ()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit('Invalid Token');
+		JSession::checkToken() or jexit(JTEXT::_('JINVALID_TOKEN'));
 
 		$cid = JFactory::getApplication()->input->get('cid', array(), 'array');
 		JArrayHelper::toInteger($cid);
@@ -272,7 +272,7 @@ class JtgControllerCats extends JtgController
 	function updatecat ()
 	{
 		// Check the token
-		JSession::checkToken() or die('Invalid Token');
+		JSession::checkToken() or die('JINVALID_TOKEN');
 
 		$model = $this->getModel('cat');
 		$success = $model->updateCat();
