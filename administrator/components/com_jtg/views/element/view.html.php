@@ -53,7 +53,7 @@ class ContentViewElement extends JViewLegacy
 		JHtml::_('behavior.modal');
 
 		$template = $mainframe->getTemplate();
-		$document->addStyleSheet("templates/$template/css/general.css");
+		$document->addStyleSheet(JUri::root(true) . "/templates/$template/css/general.css");
 
 		$limitstart = JFactory::getApplication()->input->get('limitstart', '0', '', 'int');
 

@@ -43,13 +43,13 @@ else
 
 JToolBarHelper::help('files/form', true);
 $document = JFactory::getDocument();
-$document->addStyleSheet(JUri::base() . 'components/com_jtg/template.css');
+$document->addStyleSheet(JUri::base(true) . '/components/com_jtg/template.css');
 $document->addStyleSheet('http://dev.openlayers.org/theme/default/style.css');
 
 // Add jtg_map stylesheet
 $cfg = JtgHelper::getConfig();
 $tmpl = ($cfg->template <> "") ? $cfg->template : 'default';
-$document->addStyleSheet(JUri::root() . 'components/com_jtg/assets/template/' . $tmpl . '/jtg_map_style.css');
+$document->addStyleSheet(JUri::root(true) . '/components/com_jtg/assets/template/' . $tmpl . '/jtg_map_style.css');
 $map = "";
 
 if ($this->id >= 1)
@@ -63,9 +63,9 @@ if ($this->id >= 1)
 	$document = JFactory::getDocument();
 	require_once '../components/com_jtg/helpers/gpsClass.php';
 	$document->addScript('http://www.openlayers.org/api/OpenLayers.js');
-	$document->addScript('components/com_jtg/assets/js/fullscreen.js');
+	$document->addScript( JUri::root(true) . '/components/com_jtg/assets/js/fullscreen.js');
 	$document->addScript('http://www.openstreetmap.org/openlayers/OpenStreetMap.js');
-	$document->addScript("components/com_jtg/assets/js/jtg.js");
+	$document->addScript( JUri::root(true) . '/components/com_jtg/assets/js/jtg.js');
 	$file = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks/' . $this->track->file;
 	$gpsData = new GpsDataClass($cfg->unit);
 	$gpsData = $cache->get(array ( $gpsData, 'loadFileAndData' ), array ($file, $track->file ), $cfg->unit);

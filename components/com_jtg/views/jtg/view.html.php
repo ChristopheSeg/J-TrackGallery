@@ -51,7 +51,7 @@ class JtgViewjtg extends JViewLegacy
 
 		// Then load jtg_map stylesheet
 		$tmpl = ($cfg->template = "") ? $cfg->template : 'default';
-		$document->addStyleSheet(JUri::base() . 'components/com_jtg/assets/template/' . $tmpl . '/jtg_map_style.css');
+		$document->addStyleSheet(JUri::root(true) . '/components/com_jtg/assets/template/' . $tmpl . '/jtg_map_style.css');
 
 		// Then override style with user templates
 		$template = $mainframe->getTemplate();
@@ -59,7 +59,7 @@ class JtgViewjtg extends JViewLegacy
 
 		if ( JFile::exists($template_jtg_map_style))
 		{
-			$document->addStyleSheet('templates/' . $template . '/css/jtg_map_style.css');
+			$document->addStyleSheet(JUri::root(true) . '/templates/' . $template . '/css/jtg_map_style.css');
 		}
 
 		$sitename = $document->getTitle() . " - " . $mainframe->getCfg('sitename');

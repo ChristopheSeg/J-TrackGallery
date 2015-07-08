@@ -464,7 +464,7 @@ class JtgViewFiles extends JViewLegacy
 
 		// Then load jtg_map stylesheet
 		$tmpl = ($cfg->template = "") ? $cfg->template : 'default';
-		$document->addStyleSheet(JUri::base() . 'components/com_jtg/assets/template/' . $tmpl . '/jtg_map_style.css');
+		$document->addStyleSheet(JUri::root(true) . '/components/com_jtg/assets/template/' . $tmpl . '/jtg_map_style.css');
 
 		// Then override style with user templates
 		$template = $mainframe->getTemplate();
@@ -472,13 +472,13 @@ class JtgViewFiles extends JViewLegacy
 
 		if ( JFile::exists($template_jtg_map_style) )
 		{
-			$document->addStyleSheet('templates/' . $template . '/css/jtg_map_style.css');
+			$document->addStyleSheet(JUri::root(true) . '/templates/' . $template . '/css/jtg_map_style.css');
 		}
 
 		// Kartenauswahl BEGIN
-		$document->addScript('components/com_jtg/assets/js/jtg.js');
+		$document->addScript( JUri::root(true) . '/components/com_jtg/assets/js/jtg.js');
 
-		$document->addScript('components/com_jtg/assets/js/fullscreen.js');
+		$document->addScript( JUri::root(true) . '/components/com_jtg/assets/js/fullscreen.js');
 
 		/**
 		 // TODO remove script from file.php and use method addscript
@@ -570,7 +570,7 @@ class JtgViewFiles extends JViewLegacy
 			}
 			window.addEvent('domready',startGallery);
 			</script>\n";
-					$document->addScript('components/com_jtg/assets/js/jd.gallery.js');
+					$document->addScript( JUri::root(true) . '/components/com_jtg/assets/js/jd.gallery.js');
 					$imageBlock .= "<div id=\"myGallery\">";
 
 					foreach ($images as $image)
@@ -631,8 +631,8 @@ class JtgViewFiles extends JViewLegacy
 			thumbnailId: 'thumb1'
 			}
 			</script>\n";
-					$document->addScript('components/com_jtg/assets/highslide/highslide-with-gallery.packed.js');
-					$document->addStyleSheet(JUri::base() . 'components/com_jtg/assets/highslide/highslide.css');
+					$document->addScript( JUri::root(true) . '/components/com_jtg/assets/highslide/highslide-with-gallery.packed.js');
+					$document->addStyleSheet(JUri::root(true) . '/components/com_jtg/assets/highslide/highslide.css');
 
 					// TODO This style sheet is not overrided.
 					$imageBlock .= "\n<div class=\"highslide-gallery\" style=\"width: auto; margin: auto\">\n";

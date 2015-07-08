@@ -194,9 +194,9 @@ class LayoutHelper
 	static public function parseMap($document)
 	{
 		$document->addScript('http://www.openlayers.org/api/OpenLayers.js');
-		$document->addScript('components/com_jtg/assets/js/fullscreen.js');
+		$document->addScript( JUri::root(true) . '/components/com_jtg/assets/js/fullscreen.js');
 		$document->addScript('http://www.openstreetmap.org/openlayers/OpenStreetMap.js');
-		$document->addScript('components/com_jtg/assets/js/jtg.js');
+		$document->addScript( JUri::root(true) . '/components/com_jtg/assets/js/jtg.js');
 	}
 
 	/**

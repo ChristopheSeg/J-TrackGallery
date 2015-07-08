@@ -53,7 +53,7 @@ $tmpl = ($cfg->template = "") ? $cfg->template : 'default';
 
 $document = JFactory::getDocument();
 $document->addStyleSheet(
-		JUri::base() . 'components/com_jtg/assets/template/' . $tmpl . '/jtg_style.css'
+		JUri::base() . '/components/com_jtg/assets/template/' . $tmpl . '/jtg_style.css'
 );
 
 // Override style with user templates

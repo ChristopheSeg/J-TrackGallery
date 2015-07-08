@@ -2019,10 +2019,10 @@ return true;
 		}
 
 		$document = JFactory::getDocument();
-		$document->addScript('components/com_jtg/assets/js/patches_OL-popup-autosize.js');
-		$document->addScript('components/com_jtg/assets/js/FeaturePopups.js');
-		$document->addScript('components/com_jtg/assets/js/animatedCursor.js');
-		$document->addScript('components/com_jtg/assets/js/jtgOverView.js');
+		$document->addScript( JUri::root(true) . '/components/com_jtg/assets/js/patches_OL-popup-autosize.js');
+		$document->addScript( JUri::root(true) . '/components/com_jtg/assets/js/FeaturePopups.js');
+		$document->addScript( JUri::root(true) . '/components/com_jtg/assets/js/animatedCursor.js');
+		$document->addScript( JUri::root(true) . '/components/com_jtg/assets/js/jtgOverView.js');
 
 		$marker = "// <!-- parseOLMarker BEGIN -->\n";
 		$marker .= "markers = [\n";
@@ -2453,7 +2453,7 @@ return true;
 		$return .= "olmap.addLayer( hs2,hs2_1 );\n";
 
 		// TODO osm_getTileURL see http://wiki.openstreetmap.org/wiki/Talk:Openlayers_POI_layer_example
-		$document->addScript('components/com_jtg/assets/js/jtg_getTileURL.js');
+		$document->addScript( JUri::root(true) . '/components/com_jtg/assets/js/jtg_getTileURL.js');
 
 		if ( !isset($baselayer))
 		{
@@ -2995,7 +2995,7 @@ return true;
 			 * This MUST be added after olmap.zoomToExtent
 			*/
 			$document = JFactory::getDocument();
-			$document->addScript('components/com_jtg/assets/js/animatedCursor.js');
+			$document->addScript( JUri::root(true) . '/components/com_jtg/assets/js/animatedCursor.js');
 
 			$center .= "\n// <!-- parseOLMapAnimatedCursorLayer BEGIN -->\n";
 			$center .= "longitudeData = $this->longitudeData;\n";

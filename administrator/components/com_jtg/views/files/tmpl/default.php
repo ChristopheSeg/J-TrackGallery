@@ -37,7 +37,7 @@ JToolBarHelper::help('files/default', true);
 
 $ordering = ($this->lists['order'] == 'ordering');
 $document = JFactory::getDocument();
-$document->addStyleSheet(JUri::base() . 'components/com_jtg/template.css');
+$document->addStyleSheet(JUri::base(true) . '/components/com_jtg/template.css');
 
 ?>
 <form action="" method="post" name="adminForm" id="adminForm">

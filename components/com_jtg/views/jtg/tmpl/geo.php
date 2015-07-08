@@ -31,9 +31,9 @@ else
 	$document->addScriptDeclaration("var alerttext = '" . str_replace("'", "\'", JText::_('COM_JTG_HOMEPOSITION_GUESTS')) . "';");
 }
 
-$document->addScript('media/system/js/mootools.js');
+$document->addScript( JUri::root(true) . '/media/system/js/mootools.js');
 $document->addScriptDeclaration('var iconpath = \'' . $iconpath . '\';');
-$document->addScript('components/com_jtg/assets/js/homeposition.js');
+$document->addScript( JUri::root(true) . '/components/com_jtg/assets/js/homeposition.js');
 
 // JHtml::_('behavior.tooltip'); // with this option IE8 doesn't work
 $otherusers = 0;
