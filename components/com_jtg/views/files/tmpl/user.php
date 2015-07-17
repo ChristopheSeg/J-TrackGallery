@@ -96,11 +96,11 @@ if ($user->id != 0)
 					<a
 					href="index.php?option=com_jtg&view=files&layout=form&id=<?php echo $row->id; ?>">
 						<img <?php echo $edit ?>
-						src=JPATH_SITE . "/components/com_jtg/assets/images/edit_f2.png" width="16px" />
+						src="<?php echo JPATH_SITE ?>/components/com_jtg/assets/images/edit_f2.png" width="16px" />
 				</a> <a
 					href="index.php?option=com_jtg&controller=files&task=delete&id=<?php echo $row->id; ?>">
 						<img <?php echo $delete ?>
-						src=JPATH_SITE . "/components/com_jtg/assets/images/cancel_f2.png" width="16px" />
+						src="<?php echo JPATH_SITE ?>/components/com_jtg/assets/images/cancel_f2.png" width="16px" />
 				</a>
 				</td>
 				<td><a href="<?php echo $link; ?>">

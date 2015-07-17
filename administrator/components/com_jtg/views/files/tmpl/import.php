@@ -127,7 +127,7 @@ $document->addStyleDeclaration($style);
 			<td>" . JHtml::_('select.genericlist', $terrain, 'terrain_all[]', 'size="' . $terrainsize . '"  multiple="multiple" onclick="setSelectMultiple(\'terrain\')"', 'id', 'title')
 			. "<br /><small>" . JText::_('COM_JTG_MULTIPLE_CHOICE_POSSIBLE') . "</small></td>
 			<td>" . JHtml::_('select.genericlist', $userslist, 'uid_all', 'class="inputbox" size="' . $userslistsize . '" onclick="setSelect(\'uid\')"', 'id', 'title', $me->id) . "</td>
-			<td>" . $this->accesslevelForImport("access_all", "onclick=\"setSelect('access')\"", false) . "</td>
+			<td>" . JtgHelper::getAccessList(0, "access_all", "onclick=\"setSelect('access')\"") . "</td>
 			<td>" . JHtml::_('select.genericlist', $yesnolist, 'hidden_all', 'class="inputbox" size="1" onclick="setSelect(\'hidden\')"', 'id', 'title') . "</td>
 			</tr>
 			");
@@ -146,7 +146,7 @@ $document->addStyleDeclaration($style);
 			$buttons = array(
 					"pagebreak",
 					"readmore");
-			$lists['access'] = $this->accesslevelForImport("access_" . $count);
+			$lists['access'] = JtgHelper::getAccessList(0, "access_" . $count);
 			$lists['uid'] = JHtml::_('select.genericlist', $userslist, 'uid_' . $count, ' size="' . $userslistsize . '"', 'id', 'title', $me->id);
 
 			// 				genericlist($arr, $name, $attribs=null, $key= 'value', $text= 'text', $selected = null, $idtag = false, $translate = false)

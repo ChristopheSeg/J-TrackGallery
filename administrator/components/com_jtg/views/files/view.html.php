@@ -31,46 +31,6 @@ jimport('joomla.application.component.view');
 class JtgViewFiles extends JViewLegacy
 {
 	/**
-	 * Build the select list for access level
-	 *
-	 * @param   string   $name     Select list name
-	 * @param   string   $js       Javascript code
-	 * @param   boolean  $oneline  Build single line select if true,
-	 *
-	 * @return return_description
-	 */
-	function accesslevelForImport($name , $js=null, $oneline=false)
-	{
-		$db = JFactory::getDBO();
-
-		$query = 'SELECT id AS value, title AS text'
-		. ' FROM #__viewlevels'
-		. ' ORDER BY id';
-		$db->setQuery($query);
-		$groups = $db->loadObjectList();
-
-		// New Entry Private BEGIN
-		$private = new stdClass;
-		$private->value = 9;
-		$private->text = JText::_('COM_JTG_PRIVATE');
-		array_unshift($groups, $private);
-
-		// New Entry Private END
-		if ( $oneline !== false )
-		{
-			$size = 1;
-		}
-		else
-		{
-			$size = min(count($groups), 6);
-		}
-
-		$access = JHtml::_('select.genericlist', $groups, $name, 'class="inputbox" size="' . $size . '" ' . $js, 'value', 'text', 0, '', 1);
-
-		return $access;
-	}
-
-	/**
 	 * function_description
 	 *
 	 * @param   integer  $rowaccess  access level

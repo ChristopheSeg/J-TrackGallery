@@ -597,7 +597,7 @@ class JtgHelper
 	 *
 	 * @return string accesslist select
 	 */
-	static public function getAccessList($accesslevel)
+	static public function getAccessList($accesslevel=0, $name='access' , $js=null)
 	{
 		$access = array (
 				array (
@@ -618,7 +618,9 @@ class JtgHelper
 				)
 		);
 
-		return JHtml::_('select.genericlist', $access, 'access', 'size="4"', 'id', 'text', $accesslevel);
+		// return JHtml::_('select.genericlist', $access, 'access', 'size="4"', 'id', 'text', $accesslevel);
+		return JHtml::_('select.genericlist', $access, $name, 'class="inputbox" size="4" ' . $js, 'id', 'text', $accesslevel);
+
 	}
 
 	/**
@@ -927,7 +929,8 @@ class JtgHelper
 				return $where . "a.access <= " . $access;
 				break;
 
-			case 1: // Registered
+			case 1: // Registered users
+				// TODO access <>0 because of previous break!!!
 				if ( ( $access == 0 ) OR ( $access == 1 ) )
 				{
 					return $where . "( a.access = 0 OR a.access = 1 )";
@@ -938,7 +941,8 @@ class JtgHelper
 				}
 				break;
 
-			case 2: // Special, Yes
+			case 2: // Special, administrators
+				// TODO why
 				return;
 				break;
 		}
