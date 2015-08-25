@@ -46,6 +46,12 @@
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
+		<field name="jtg_param_disable_hillshade" addfieldpath="/administrator/components/com_jtg/elements"
+			type="radio" default="O" label="COM_JTG_MENU_DISABLE_HILLSHADE"
+			description="COM_JTG_TT_MENU_DISABLE_HILLSHADE">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
 		<field name="jtg_param_show_speedchart" addfieldpath="/administrator/components/com_jtg/elements"
 			type="radio" default="1" label="COM_JTG_MENU_SHOW_SPEEDCHART"
 			description="COM_JTG_TT_MENU_SHOW_SPEEDCHART">

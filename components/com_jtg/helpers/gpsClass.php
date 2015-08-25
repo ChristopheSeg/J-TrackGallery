@@ -600,8 +600,6 @@ private function extractCoordsGPX($xmlcontents)
 					case 'trk':
 						// Track
 						$i_trk++;
-						$coords = array();
-						$trkname = '';
 
 						while ( ('trk' !== $endElement) )
 						{
@@ -630,6 +628,8 @@ private function extractCoordsGPX($xmlcontents)
 							{
 								// Trkseg found
 								$endTrksegElement = false;
+								$coords = array();
+								$trackname = '';
 								$i_trkpt = 0;
 								$ele = 0;
 								$time = '0';
@@ -2442,18 +2442,24 @@ return true;
 		}
 
 		// TODO: move this to overlays
-		$return .= "hs_name = \"" . JText::_('COM_JTG_HILL_SHADE_EUROPE') . "\";\n";
-		$return .= "hs_url = \"http://129.206.228.72/cached/hillshade?\";\n";
-		$return .= "hs_options = {layers: 'europe_wms:hs_srtm_europa',srs: 'EPSG:900913', format: 'image/jpeg', transparent: 'true',numZoomLevels: 19};\n";
-		$return .= "hs2_1_options = {layers: 'europe_wms:hs_srtm_europa',srs: 'EPSG:900913', format: 'image/jpeg',numZoomLevels: 19};\n";
+		$app = JFactory::getApplication();
+		$params = $app->getParams();
 
-		$return .= "hs2 =  new OpenLayers.Layer.WMS( hs_name , hs_url , hs_options, {'buffer':1, removeBackBufferDelay:0, className:'olLayerGridCustom'});\n";
-		$return .= "hs2.setOpacity(0.3);\n";
-		$return .= "hs2_1 =  new OpenLayers.Layer.WMS( hs_name , hs_url , hs2_1_options,{'buffer':1, transitionEffect:'resize', removeBackBufferDelay:0, className:'olLayerGridCustom'});\n";
-		$return .= "olmap.addLayer( hs2,hs2_1 );\n";
+		if (! $params->get('jtg_param_disable_hillshade'))
+		{
+			$return .= "hs_name = \"" . JText::_('COM_JTG_HILL_SHADE_EUROPE') . "\";\n";
+			$return .= "hs_url = \"http://129.206.228.72/cached/hillshade?\";\n";
+			$return .= "hs_options = {layers: 'europe_wms:hs_srtm_europa',srs: 'EPSG:900913', format: 'image/jpeg', transparent: 'true',numZoomLevels: 19};\n";
+			$return .= "hs2_1_options = {layers: 'europe_wms:hs_srtm_europa',srs: 'EPSG:900913', format: 'image/jpeg',numZoomLevels: 19};\n";
+
+			$return .= "hs2 =  new OpenLayers.Layer.WMS( hs_name , hs_url , hs_options, {'buffer':1, removeBackBufferDelay:0, className:'olLayerGridCustom'});\n";
+			$return .= "hs2.setOpacity(0.3);\n";
+			$return .= "hs2_1 =  new OpenLayers.Layer.WMS( hs_name , hs_url , hs2_1_options,{'buffer':1, transitionEffect:'resize', removeBackBufferDelay:0, className:'olLayerGridCustom'});\n";
+			$return .= "olmap.addLayer( hs2,hs2_1 );\n";
+		}
 
 		// TODO osm_getTileURL see http://wiki.openstreetmap.org/wiki/Talk:Openlayers_POI_layer_example
-		$document->addScript( JUri::root(true) . '/components/com_jtg/assets/js/jtg_getTileURL.js');
+		$document->addScript(JUri::root(true) . '/components/com_jtg/assets/js/jtg_getTileURL.js');
 
 		if ( !isset($baselayer))
 		{

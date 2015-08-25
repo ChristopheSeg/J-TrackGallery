@@ -593,7 +593,9 @@ class JtgHelper
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $accesslevel  param_description
+	 * @param   integer  $accesslevel  param_description
+	 * @param   string   $name         the select name
+	 * @param   string   $js           javascript string to add to select
 	 *
 	 * @return string accesslist select
 	 */
@@ -618,7 +620,6 @@ class JtgHelper
 				)
 		);
 
-		// return JHtml::_('select.genericlist', $access, 'access', 'size="4"', 'id', 'text', $accesslevel);
 		return JHtml::_('select.genericlist', $access, $name, 'class="inputbox" size="4" ' . $js, 'id', 'text', $accesslevel);
 
 	}
