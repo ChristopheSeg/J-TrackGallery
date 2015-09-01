@@ -45,6 +45,17 @@ class JtgControllerDownload extends JtgController
 		$track = $model->getFile($id);
 		$trackname = str_replace(' ', '_', $track->title);
 
+		if ($format == "original")
+		{
+			//TODOTODO
+			$output_format = 'xxx';
+		}
+		else
+		{
+			$output_format = $format;
+
+		}
+
 		if ($format == "kml")
 		{
 			$mime = "application/vnd.google-earth.kml+xml";
@@ -54,10 +65,9 @@ class JtgControllerDownload extends JtgController
 			$mime = "application/x-octet-stream";
 		}
 
-		// Required
 		header("Pragma: public");
 		header("Content-Type: " . $mime . "; charset=UTF-8");
-		header("Content-Disposition: attachment; filename=\"" . $trackname . "." . strtolower($format) . "\"");
+		header("Content-Disposition: attachment; filename=\"" . $trackname . "." . strtolower($output_format) . "\"");
 		header("Content Transfer-Encoding:binary");
 		header("Cache-Control: post-check=0, pre-check=0");
 		echo $model->download($id, $format, $track);

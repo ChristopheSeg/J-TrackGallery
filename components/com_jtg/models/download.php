@@ -47,12 +47,26 @@ class JtgModelDownload extends JModelLegacy
 		$file = JPATH_SITE . "/images/jtrackgallery/uploaded_tracks/" . $track->file;
 		$ext = JFile::getExt($file);
 
+		// Disable JTG debug
+		$jtg_microtime = null;
+
+		// First deal with original file download
+		if ($format == "original")
+		{
+			$content = JFile::read($file);
+
+			if ($content)
+			{
+				return $content;
+			}
+
+			return;
+		}
+
+
 		// Default unit
 		$gpsData = new GpsDataClass("Kilometer");
 		$gpsData = $cache->get(array ( $gpsData, 'loadFileAndData' ), array ($file, $track->file ), "Kilometer");
-
-		// Disable JTG debug
-		$jtg_microtime = null;
 
 		if ($gpsData->displayErrors())
 		{

@@ -605,7 +605,7 @@ if ($this->cfg->download >= 1)
 	}
 	else
 	{
-		$download_option = "";
+		$download_option = "	<option value=\"original\">original file</option>\n";
 
 		if ( (bool) $this->params->get("jtg_param_offer_download_gpx") )
 		{

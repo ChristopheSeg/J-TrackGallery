@@ -630,7 +630,7 @@ private function extractCoordsGPX($xmlcontents)
 								// Trkseg found
 								$endTrksegElement = false;
 								$coords = array();
-								//TODOTODO$trackname = '';
+								$tracksegname = '';
 								$i_trkpt = 0;
 								$ele = 0;
 								$time = '0';
@@ -719,9 +719,9 @@ private function extractCoordsGPX($xmlcontents)
 									$this->track[$this->trackCount] = new stdClass;
 									$this->track[$this->trackCount]->description = '';
 
-									if ($trackname)
+									if ($tracksegname)
 									{
-										$this->track[$this->trackCount]->trackname = $trackname;
+										$this->track[$this->trackCount]->trackname = $tracksegname;
 									}
 									else
 									{
