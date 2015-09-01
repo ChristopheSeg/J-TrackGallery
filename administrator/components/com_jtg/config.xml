@@ -64,6 +64,10 @@
 			<option value="1">COM_JTG_AUTOMATIC</option>
 			<option value="0">JHIDE</option>
 		</field>
+		<field name="jtg_param_elevation_filter_min_ascent" type="text"
+			addfieldpath="/administrator/components/com_jtg/elements" default="10"
+			size="3" label="COM_JTG_MENU_ELEVATION_FILTER_MIN_ASCENT" description="COM_JTG_TT_MENU_ELEVATION_FILTER_MIN_ASCENT">
+		</field>
 		<field name="jtg_param_show_durationcalc" type="radio"
 			addfieldpath="/administrator/components/com_jtg/elements" default="1"
 			label="COM_JTG_MENU_SHOW_DURATIONCALC" description="COM_JTG_TT_MENU_SHOW_DURATIONCALC">

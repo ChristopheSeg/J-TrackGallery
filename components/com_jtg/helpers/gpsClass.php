@@ -860,6 +860,11 @@ return true;
 	 */
 	private function extractAllTracksCoords()
 	{
+		$params = JComponentHelper::getParams('com_jtg');
+
+		$filterMinAscent = (float) $params->get('jtg_param_elevation_filter_min_ascent');
+		$filterMinAscent = max(0, $filterMinAscent);
+
 		$this->allCoords = array();
 		$this->allDistances = array();
 		$this->totalAscent = 0;
@@ -909,8 +914,8 @@ return true;
 
 			if ($this->elevationDataExists)
 			{
-				$next_elv = $next_coord[2];
-				$this->allElevation[$d] = (int) $next_elv;
+				$current_elv = $next_coord[2];
+				$this->allElevation[$d] = (int) $current_elv;
 			}
 
 			if ($this->speedDataExists)
@@ -918,7 +923,9 @@ return true;
 				$next_time = $this->giveTimestamp($next_coord[3]);
 			}
 
-			for ($i = 0; $i < (count($this->track[$t]->coords) - 1); $i++)
+			$datacount = count($this->track[$t]->coords);
+
+			for ($i = 0; $i < $datacount - 1; $i++)
 			{
 				$next_coord = $this->track[$t]->coords[$i + 1];
 
@@ -950,6 +957,8 @@ return true;
 						$this->bbox_lon_min = $next_coord[0];
 					}
 
+					// Distance in kilometer
+
 					$dis = acos(
 							(sin($current_lat_rad) * sin($next_lat_rad)) +
 							(cos($current_lat_rad) * cos($next_lat_rad) *
@@ -965,18 +974,29 @@ return true;
 
 					if ($this->elevationDataExists)
 					{
-						$current_elv = $next_elv;
 						$next_elv = $next_coord[2];
 						$this->allElevation[$d + 1] = (int) $next_elv;
 						$ascent = $next_elv - $current_elv;
 
-						if ($ascent >= 0)
+						/* elevationFilterOK is true when
+						 * $filterMinAscent = 0 (no filtering)
+						 * abs(ascent) is more then filterMinAscent
+						 * the data point is the last of the given track
+						 */
+						$elevationFilterOK = ( ($filterMinAscent == 0) OR (abs($ascent) > $filterMinAscent) OR ($i == $datacount - 2) );
+
+						if ($elevationFilterOK)
 						{
-							$this->totalAscent = $this->totalAscent + $ascent;
-						}
-						else
-						{
-							$this->totalDescent = $this->totalDescent - $ascent;
+							// Elevation data can be added to total ascent and descent
+							$current_elv = $next_elv;
+							if ($ascent >= 0)
+							{
+								$this->totalAscent = $this->totalAscent + $ascent;
+							}
+							else
+							{
+								$this->totalDescent = $this->totalDescent - $ascent;
+							}
 						}
 					}
 
@@ -2442,8 +2462,7 @@ return true;
 		}
 
 		// TODO: move this to overlays
-		$app = JFactory::getApplication();
-		$params = $app->getParams();
+		$params = JComponentHelper::getParams('com_jtg');
 
 		if (! $params->get('jtg_param_disable_hillshade'))
 		{
@@ -3014,8 +3033,8 @@ return true;
 			$center .= "}\n";
 			$center .= "var line = new OpenLayers.Geometry.LineString(points);\n";
 			$center .= "var linefeature  = new OpenLayers.Feature.Vector(line, null, style);\n";
-
-			$center .= "animatedCursorLayer = new OpenLayers.Layer.Vector(\"$this->trackname\");\n";
+			$trackname = htmlentities($this->trackname, ENT_QUOTES, 'UTF-8');
+			$center .= "animatedCursorLayer = new OpenLayers.Layer.Vector(\"$trackname\");\n";
 			$center .= "animatedCursorLayer.addFeatures([linefeature]);\n";
 			$center .= "animatedCursorLayer.gpxfeature = animatedCursorLayer.features[0];\n";
 			$center .= "olmap.addLayer(animatedCursorLayer);\n";
