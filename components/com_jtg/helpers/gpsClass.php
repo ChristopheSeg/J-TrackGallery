@@ -599,6 +599,7 @@ private function extractCoordsGPX($xmlcontents)
 
 					case 'trk':
 						// Track
+						$trackname = '';
 						$i_trk++;
 
 						while ( ('trk' !== $endElement) )
@@ -629,7 +630,7 @@ private function extractCoordsGPX($xmlcontents)
 								// Trkseg found
 								$endTrksegElement = false;
 								$coords = array();
-								$trackname = '';
+								//TODOTODO$trackname = '';
 								$i_trkpt = 0;
 								$ele = 0;
 								$time = '0';
@@ -989,6 +990,7 @@ return true;
 						{
 							// Elevation data can be added to total ascent and descent
 							$current_elv = $next_elv;
+
 							if ($ascent >= 0)
 							{
 								$this->totalAscent = $this->totalAscent + $ascent;
@@ -3033,8 +3035,8 @@ return true;
 			$center .= "}\n";
 			$center .= "var line = new OpenLayers.Geometry.LineString(points);\n";
 			$center .= "var linefeature  = new OpenLayers.Feature.Vector(line, null, style);\n";
-			$trackname = htmlentities($this->trackname, ENT_QUOTES, 'UTF-8');
-			$center .= "animatedCursorLayer = new OpenLayers.Layer.Vector(\"$trackname\");\n";
+			$track_name = htmlentities($this->trackname, ENT_QUOTES, 'UTF-8');
+			$center .= "animatedCursorLayer = new OpenLayers.Layer.Vector(\"$track_name\");\n";
 			$center .= "animatedCursorLayer.addFeatures([linefeature]);\n";
 			$center .= "animatedCursorLayer.gpxfeature = animatedCursorLayer.features[0];\n";
 			$center .= "olmap.addLayer(animatedCursorLayer);\n";
@@ -3091,14 +3093,14 @@ return true;
 			$string_se .= "popupClassStart = AutoSizeFramedCloud;\n";
 			$string_se .= "popupContentHTMLStart = '";
 			$string_se .= "<font style=\"font-weight: bold;\" color=\"" . $color . "\">";
-			$string_se .= ($this->track[$i]->trackname? $this->track[$i]->trackname : JText::_('COM_JTG_TRACK') . $i);
+			$string_se .= ($this->track[$i]->trackname? htmlentities($this->track[$i]->trackname, ENT_QUOTES, 'UTF-8') : JText::_('COM_JTG_TRACK') . $i);
 			$string_se .= "</font>";
 			$string_se .= "';\n";
 			$string_se .= "addlayer_startstop(lonLatStart" . $i . ", popupClassStart, popupContentHTMLStart, true, false, iconStart" . $i . ", olmap);\n";
 		}
 
 		$string .= "layer_startstop = new OpenLayers.Layer.Markers(";
-		$string .= "\"" . $i . ": " . $this->trackname . "\"";
+		$string .= "\"" . $i . ": " . $track_name . "\"";
 		$string .= ", { displayInLayerSwitcher: false }";
 		$string .= ");";
 		$string .= "olmap.addLayer(layer_startstop);";
