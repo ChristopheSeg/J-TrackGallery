@@ -45,13 +45,13 @@ class JtgModelDownload extends JModelLegacy
 		$cache = JFactory::getCache('com_jtg');
 		jimport('joomla.filesystem.file');
 		$file = JPATH_SITE . "/images/jtrackgallery/uploaded_tracks/" . $track->file;
-		$ext = JFile::getExt($file);
+		$ext = JFile::getExt($track->file);
 
 		// Disable JTG debug
 		$jtg_microtime = null;
 
 		// First deal with original file download
-		if ($format == "original")
+		if ($format == 'original')
 		{
 			$content = JFile::read($file);
 

@@ -605,21 +605,27 @@ if ($this->cfg->download >= 1)
 	}
 	else
 	{
-		$download_option = "	<option value=\"original\">original file</option>\n";
+
+		//TODOTODO
+		if ( (bool) $this->params->get("jtg_param_offer_download_original") )
+		{
+			$ext = JFile::getExt($this->track->file);
+			$download_option = "	<option value=\"original\">" . JText::_('COM_JTG_ORIGINAL_FILE') . " ($ext)</option>\n";
+		}
 
 		if ( (bool) $this->params->get("jtg_param_offer_download_gpx") )
 		{
-			$download_option .= "	<option value=\"gpx\">GPX</option>\n";
+			$download_option .= "	<option value=\"gpx\">" . JText::_('COM_JTG_CONVERTED_FILE') . " GPX</option>\n";
 		}
 
 		if ( (bool) $this->params->get("jtg_param_offer_download_kml") )
 		{
-			$download_option .= "	<option value=\"kml\">KML</option>\n";
+			$download_option .= "	<option value=\"kml\">" . JText::_('COM_JTG_CONVERTED_FILE') . " KML</option>\n";
 		}
 
 		if ( (bool) $this->params->get("jtg_param_offer_download_tcx") )
 		{
-			$download_option .= "	<option value=\"tcx\">Garmin (tcx)</option>\n";
+			$download_option .= "	<option value=\"tcx\">" . JText::_('COM_JTG_CONVERTED_FILE') . " TCX (Garmin)</option>\n";
 		}
 
 		echo $this->jscript;

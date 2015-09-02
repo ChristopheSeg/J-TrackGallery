@@ -118,6 +118,12 @@
 		</field>
 		<field type="spacer" name="myspacer2" class="text"
 			label="COM_JTG_MENUSPACER_DOWNLOAD" />
+		<field name="jtg_param_offer_download_original" type="radio"
+			addfieldpath="/administrator/components/com_jtg/elements" default="1"
+			label="COM_JTG_MENU_OFFER_DL_ORIGINAL" description="COM_JTG_TT_MENU_OFFER_DL_ORIGINAL">
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
 		<field name="jtg_param_offer_download_gpx" type="radio"
 			addfieldpath="/administrator/components/com_jtg/elements" default="1"
 			label="COM_JTG_MENU_OFFER_DL_GPX" description="COM_JTG_TT_MENU_OFFER_DL_GPX">

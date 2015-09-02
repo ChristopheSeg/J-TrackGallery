@@ -45,10 +45,11 @@ class JtgControllerDownload extends JtgController
 		$track = $model->getFile($id);
 		$trackname = str_replace(' ', '_', $track->title);
 
-		if ($format == "original")
+		if ($format == 'original')
 		{
-			//TODOTODO
-			$output_format = 'xxx';
+			jimport('joomla.filesystem.file');
+			$output_format = JFile::getext($track->file);
+			$trackname = str_replace('.' . $output_format, '', $track->file);
 		}
 		else
 		{
