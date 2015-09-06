@@ -371,7 +371,6 @@ class Com_JtgInstallerScript
 			"jtg_param_otherfiles":"0",
 			"jtg_param_lh":"1",
 			"jtg_param_disable_terrains":"0",
-			"jtg_param_disable_hillshade":"0",
 			"jtg_param_vote_show_stars":"0",
 			"jtg_param_show_speedchart":"1",
 			"jtg_param_show_heightchart":"1",

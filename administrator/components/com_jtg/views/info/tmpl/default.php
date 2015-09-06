@@ -60,6 +60,11 @@ $version = (string) $manifest['version'];
 					</a></td>
 				</tr>
 				<tr>
+					<td><?php echo JText::_('COM_JTG_CHANGELOG_PAGE');?>:</td>
+					<td><a href="http://jtrackgallery.net/wiki/install/changelog" target="_blank">http://jtrackgallery.net/wiki/install/changelog</a>
+					</td>
+				</tr>
+				<tr>
 					<td><?php echo JText::_('COM_JTG_DEMO_PAGE');?>:</td>
 					<td><a href="http://jtrackgallery.net" target="_blank">http://jtrackgallery.net/demo</a>
 					</td>

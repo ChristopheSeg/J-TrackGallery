@@ -2470,6 +2470,7 @@ return true;
 		// TODO: move this to overlays
 		$params = JComponentHelper::getParams('com_jtg');
 
+		/* This has been disabled since 0.9.17
 		if (! $params->get('jtg_param_disable_hillshade'))
 		{
 			$return .= "hs_name = \"" . JText::_('COM_JTG_HILL_SHADE_EUROPE') . "\";\n";
@@ -2482,6 +2483,7 @@ return true;
 			$return .= "hs2_1 =  new OpenLayers.Layer.WMS( hs_name , hs_url , hs2_1_options,{'buffer':1, transitionEffect:'resize', removeBackBufferDelay:0, className:'olLayerGridCustom'});\n";
 			$return .= "olmap.addLayer( hs2,hs2_1 );\n";
 		}
+		*/
 
 		// TODO osm_getTileURL see http://wiki.openstreetmap.org/wiki/Talk:Openlayers_POI_layer_example
 		$document->addScript(JUri::root(true) . '/components/com_jtg/assets/js/jtg_getTileURL.js');
