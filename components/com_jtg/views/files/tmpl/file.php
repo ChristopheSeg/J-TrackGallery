@@ -605,8 +605,6 @@ if ($this->cfg->download >= 1)
 	}
 	else
 	{
-
-		//TODOTODO
 		if ( (bool) $this->params->get("jtg_param_offer_download_original") )
 		{
 			$ext = JFile::getExt($this->track->file);

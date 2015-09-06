@@ -723,9 +723,13 @@ private function extractCoordsGPX($xmlcontents)
 									{
 										$this->track[$this->trackCount]->trackname = $tracksegname;
 									}
+									elseif ($trackname)
+									{
+										$this->track[$this->trackCount]->trackname = $trackname;
+									}
 									else
 									{
-										$this->track[$this->trackCount]->trackname = $this->trackname . '-' . (string) $this->trackCount;
+										$this->track[$this->trackCount]->trackname = $this->trackfilename . '-' . (string) $this->trackCount;
 									}
 
 									$this->track[$this->trackCount]->coords = $coords;

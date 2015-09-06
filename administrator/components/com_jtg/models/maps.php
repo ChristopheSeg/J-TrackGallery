@@ -332,9 +332,13 @@ class JtgModelMaps extends JModelLegacy
 		$order = JRequest::getInt('order');
 		$name = JFactory::getApplication()->input->get('name', '', 'string');
 		$name = htmlentities($name);
-		$param = JFactory::getApplication()->input->get('param', '', 'raw');
+
+		// Raw extraction remove link (attribution need links)
+		// $param = JFactory::getApplication()->input->get('param', '', 'raw');
+		$param = JFactory::getApplication()->input->get('param', '', 'array');
+		$param = str_replace("'", '&#39;', htmlentities($param[0]));
+
 		$checked_out = JFactory::getApplication()->input->get('checked_out');
-		$param = str_replace("'", '"', htmlentities($param));
 
 		if ( ( $name == "" ) OR ( $param == "" ) )
 		{
@@ -401,10 +405,12 @@ class JtgModelMaps extends JModelLegacy
 		$id = JRequest::getInt('id');
 		$name = JFactory::getApplication()->input->get('name', '', 'string');
 		$name = htmlentities($name);
-		$param = JFactory::getApplication()->input->get('param', '', 'raw');
 
-		// TODO was this usefull???
-		$param = str_replace("'", '"', htmlentities($param));
+		// Raw extraction remove link (attribution need links)
+		// $param = JFactory::getApplication()->input->get('param', '', 'raw');
+		$param = JFactory::getApplication()->input->get('param', '', 'array');
+		$param = str_replace("'", '&#39;', $param[0]);
+
 		$checked_out = JFactory::getApplication()->input->get('checked_out');
 		$code = JFactory::getApplication()->input->get('code', '', 'raw');
 		$code = htmlentities($code);
