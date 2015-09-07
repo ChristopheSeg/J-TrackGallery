@@ -209,8 +209,59 @@ class JtgModelFiles extends JModelLegacy
 	{
 		$mainframe = JFactory::getApplication();
 
-		$filter_order = $mainframe->getUserStateFromRequest($this->option . 'filter_order', 'filter_order', 'ordering', 'cmd');
-		$filter_order_Dir = $mainframe->getUserStateFromRequest($this->option . 'filter_order_Dir', 'filter_order_Dir', '', 'word');
+		$params = $mainframe->getParams();
+		$ordering = '';
+		switch ($params->get('jtg_param_track_ordering'))
+		{
+			case 'title_a':
+				$ordering = ' ORDER BY a.title ASC';
+				break;
+			case 'title_d':
+				$ordering = ' ORDER BY a.title DESC';
+				break;
+			case 'title_a_catid_a':
+				$ordering = ' ORDER BY a.title ASC AND a.catid ASC';
+				break;
+			case 'title_a_catid_d':
+				$ordering = ' a.title ASC, a.catid DESC';
+				break;
+			case 'title_d_catid_a':
+				$ordering = ' a.title DESC, a.catid ASC';
+				break;
+			case 'title_d_catid_d':
+				$ordering = ' a.title DESC, a.catid ASC';
+				break;
+			case 'hits_a':
+				$ordering = ' a.hits ASC';
+				break;
+			case 'hits_d':
+				$ordering = ' a.hits DESC';
+				break;
+			case 'catid_a':
+				$ordering = ' a.catid ASC';
+				break;
+			case 'catid_d':
+				$ordering = ' a.catid DESC';
+				break;
+			default:
+				$ordering = '';
+				break;
+		}
+
+		// Bug $filter_order use ordering fields which do not longer exist!!!
+		// $filter_order = $mainframe->getUserStateFromRequest($this->option . 'filter_order', 'filter_order', 'ordering', 'cmd');
+
+		// V0.9.17: Order $filter_order is set to $ordering (default ordering) when no other ordering is set by the user
+		$filter_order = $mainframe->getUserStateFromRequest($this->option . 'filter_order', 'filter_order', $ordering, 'cmd');
+
+		if ($filter_order == $ordering)
+		{
+			$filter_order_Dir = '';
+		}
+		else
+		{
+			$filter_order_Dir = $mainframe->getUserStateFromRequest($this->option . 'filter_order_Dir', 'filter_order_Dir', '', 'word');
+		}
 
 		if ($filter_order == 'ordering')
 		{

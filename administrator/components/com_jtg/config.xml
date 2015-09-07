@@ -145,9 +145,27 @@
 			<option value="0">JNO</option>
 		</field>
 	</fieldset>
+	<fieldset name="ORDERING" label="COM_JTG_TT_MENU_ORDERING">
+		<field type="spacer" name="myspacer4" class="text"
+			label="COM_JTG_MENUSPACER_ORDERING" />
+		<field name="jtg_param_track_ordering" type="list"
+			addfieldpath="/administrator/components/com_jtg/elements" default="1"
+			label="COM_JTG_MENU_TRACK_ORDERING" description="COM_JTG_TT_TRACK_ORDERING">
+			<option value="title_a">COM_JTG_TRACK_ORDER_TITLE_A</option>
+			<option value="title_d">COM_JTG_TRACK_ORDER_TITLE_D</option>
+			<option value="title_a_catid_a">COM_JTG_TRACK_ORDER_TITLE_A_CATID_A</option>
+			<option value="title_a_catid_d">COM_JTG_TRACK_ORDER_TITLE_A_CATID_D</option>
+			<option value="title_d_catid_a">COM_JTG_TRACK_ORDER_TITLE_D_CATID_A</option>
+			<option value="title_d_catid_d">COM_JTG_TRACK_ORDER_TITLE_D_CATID_D</option>
+			<option value="hits_a">COM_JTG_TRACK_ORDER_HITS_A</option>
+			<option value="hits_d">COM_JTG_TRACK_ORDER_HITS_D</option>
+			<option value="catid_a">COM_JTG_TRACK_ORDER_CATID_A</option>
+			<option value="catid_d">COM_JTG_TRACK_ORDER_CATID_D</option>
+		</field>
+	</fieldset>
 	<fieldset name="LIMIT" label="COM_JTG_TT_MENU_LIMIT">
 		<field type="spacer" addfieldpath="/administrator/components/com_jtg/elements" />
-		<field type="spacer" name="myspacer4" class="text"
+		<field type="spacer" name="myspacer5" class="text"
 			label="COM_JTG_MENUSPACER_LIMITS" />
 		<field name="jtg_param_cats" type="ownlist"
 			addfieldpath="/administrator/components/com_jtg/elements" label="COM_JTG_LIMIT_CATS"

@@ -97,6 +97,7 @@ class JtgViewjtg extends JViewLegacy
 
 		$footer = LayoutHelper::footer();
 		$disclaimericons = LayoutHelper::disclaimericons();
+
 		$rows = $model->getTracksData(null, null, $where);
 		$geo = JRoute::_('index.php?option=com_jtg&view=jtg&layout=geo', false);
 		$this->newest =	null;
