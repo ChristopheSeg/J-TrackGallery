@@ -7,16 +7,16 @@ Allowing to seamlessly upload GPX tracks and display maps on Joomla based websit
 - J!Track Gallery J!2.5 demo  : see http://demoj25.jtrackgallery.net/
 - J!Track Gallery J!3.2 demo  : see http://demoj3.jtrackgallery.net/
 - J!Track Gallery forum: http://jtrackgallery.net/forum/
+
 ####Status of the Project
-0.9.6 version of J!Track Gallery have been pushed January 2015.  
-Most frontend and backend features have been tested under J! 2.5 and J3.x
+0.9.17 version of J!Track Gallery have been pushed in September 2015.  
+Last months commit are mostly related to improvment and som bug fix
 
 ####History of J!TrackGallery  
 J!TrackGallery may be considered as a fork of [InJooosm](http://injooosm.sourceforge.net/)
-This valuable component is no longer maintained (last version is for Joomla 1.5). At the beginning of this project, I was not able to reach previous author so I decided to rename the component friom InJooOSM to J!TrackGallery. 
+This valuable component is no longer maintained (last version is for Joomla 1.5). At the beginning of this project, I was not able to reach previous author so I decided to rename the component from InJooOSM to J!TrackGallery. 
 
 It may be note that **InJooosm** was a fork of [joomgpstracks](http://www.joomlaos.de/Joomla_CMS_Downloads/Joomla_Komponenten/JoomGPSTracks.html)
-More information (soon available) on [J!Track Gallery website](http://jtrackgallery.net/)
 
  - Many Thanks to *Michael Pfister* (JoomGPSTracks) and *Christian Knorr* (InJooOSM) for providing this valuable component to the Open source community. 
 
