@@ -213,14 +213,17 @@ class JtgModelFiles extends JModelLegacy
 		$ordering = '';
 		switch ($params->get('jtg_param_track_ordering'))
 		{
+			case 'none':
+				$ordering = '';
+				break;
 			case 'title_a':
-				$ordering = ' ORDER BY a.title ASC';
+				$ordering = ' a.title ASC';
 				break;
 			case 'title_d':
-				$ordering = ' ORDER BY a.title DESC';
+				$ordering = ' a.title DESC';
 				break;
 			case 'title_a_catid_a':
-				$ordering = ' ORDER BY a.title ASC AND a.catid ASC';
+				$ordering = ' a.title ASC AND a.catid ASC';
 				break;
 			case 'title_a_catid_d':
 				$ordering = ' a.title ASC, a.catid DESC';
@@ -263,9 +266,13 @@ class JtgModelFiles extends JModelLegacy
 			$filter_order_Dir = $mainframe->getUserStateFromRequest($this->option . 'filter_order_Dir', 'filter_order_Dir', '', 'word');
 		}
 
-		if ($filter_order == 'ordering')
+		if ($filter_order == '')
 		{
-			$orderby = ' ORDER BY ordering ' . $filter_order_Dir;
+			$orderby = '';
+		}
+		elseif ($filter_order == $ordering)
+		{
+			$orderby = ' ORDER BY '. $ordering;
 		}
 		else
 		{

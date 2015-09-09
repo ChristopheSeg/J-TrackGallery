@@ -803,42 +803,45 @@ class JtgViewFiles extends JViewLegacy
 		$ordering = '';
 		switch ($params->get('jtg_param_track_ordering'))
 		{
+			case 'none':
+				$ordering = '';
+				break;
 			case 'title_a':
-				$ordering = ' ORDER BY a.title ASC';
+				$ordering = ' a.title ASC';
 				break;
 			case 'title_d':
-				$ordering = ' ORDER BY a.title DESC';
+				$ordering = ' a.title DESC';
 				break;
 			case 'title_a_catid_a':
-				$ordering = ' ORDER BY a.title ASC AND a.catid ASC';
+				$ordering = ' a.title ASC AND a.catid ASC';
 				break;
 			case 'title_a_catid_d':
-				$ordering = ' ORDER BY a.title ASC, a.catid DESC';
+				$ordering = ' a.title ASC, a.catid DESC';
 				break;
 			case 'title_d_catid_a':
-				$ordering = ' ORDER BY a.title DESC, a.catid ASC';
+				$ordering = ' a.title DESC, a.catid ASC';
 				break;
 			case 'title_d_catid_d':
-				$ordering = ' ORDER BY a.title DESC, a.catid ASC';
+				$ordering = ' a.title DESC, a.catid ASC';
 				break;
 			case 'hits_a':
-				$ordering = ' ORDER BY a.hits ASC';
+				$ordering = ' a.hits ASC';
 				break;
 			case 'hits_d':
-				$ordering = ' ORDER BY a.hits DESC';
+				$ordering = ' a.hits DESC';
 				break;
 			case 'catid_a':
-				$ordering = ' ORDER BY a.catid ASC';
+				$ordering = ' a.catid ASC';
 				break;
 			case 'catid_d':
-				$ordering = ' ORDER BY a.catid DESC';
+				$ordering = ' a.catid DESC';
 				break;
 			default:
 				$ordering = '';
 				break;
 		}
 
-		// Bug $filter_order use ordering fields which do not longer exist!!!
+		// Bug $filter_order use 'ordering' fields which do not longer exist (nor in Injooosm)!!!
 		// $filter_order = $mainframe->getUserStateFromRequest("$option.filter_order", 'filter_order', 'ordering', 'cmd');
 
 		// Order $filter_order is set to $ordering (default ordering) when no other ordering is set by the user
@@ -852,11 +855,7 @@ class JtgViewFiles extends JViewLegacy
 		{
 			$filter_order_Dir = $mainframe->getUserStateFromRequest("$option.filter_order_Dir", 'filter_order_Dir', '', 'word');
 		}
-var_dump($filter_order == $ordering);
-var_dump($ordering);
-var_dump($filter_order);
-var_dump($filter_order_Dir);
-echo('<br>TODOTODO ');
+
 		$search = $mainframe->getUserStateFromRequest("$option.search", 'search', '', 'string');
 		$search = JString::strtolower($search);
 		$limit = $mainframe->getUserStateFromRequest($option . '.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int');

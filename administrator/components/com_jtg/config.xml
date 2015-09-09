@@ -146,11 +146,10 @@
 		</field>
 	</fieldset>
 	<fieldset name="ORDERING" label="COM_JTG_TT_MENU_ORDERING">
-		<field type="spacer" name="myspacer4" class="text"
-			label="COM_JTG_MENUSPACER_ORDERING" />
 		<field name="jtg_param_track_ordering" type="list"
 			addfieldpath="/administrator/components/com_jtg/elements" default="1"
 			label="COM_JTG_MENU_TRACK_ORDERING" description="COM_JTG_TT_TRACK_ORDERING">
+			<option value="none">JNONE</option>
 			<option value="title_a">COM_JTG_TRACK_ORDER_TITLE_A</option>
 			<option value="title_d">COM_JTG_TRACK_ORDER_TITLE_D</option>
 			<option value="title_a_catid_a">COM_JTG_TRACK_ORDER_TITLE_A_CATID_A</option>
