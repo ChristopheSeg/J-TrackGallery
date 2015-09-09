@@ -10,7 +10,7 @@ Allowing to seamlessly upload GPX tracks and display maps on Joomla based websit
 
 ####Status of the Project
 0.9.17 version of J!Track Gallery have been pushed in September 2015.  
-Last months commit are mostly related to improvment and som bug fix
+Last months commits were mostly related to improvment and some bug fix.
 
 ####History of J!TrackGallery  
 J!TrackGallery may be considered as a fork of [InJooosm](http://injooosm.sourceforge.net/)
