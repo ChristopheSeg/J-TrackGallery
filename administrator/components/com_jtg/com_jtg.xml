@@ -71,13 +71,6 @@
 			<folder>views</folder>
 		</files>
 	</administration>
-	<!-- UPDATESERVERS DEFINITION -->
-	<!-- Note: No spaces or linebreaks allowed between the server tags -->
-	<!--  this was for component update  (now package update)
-	<updateservers>
-		<server type="extension" priority="1" name="J!Track Gallery Update Site">http://jtrackgallery.net/downloads/J-TrackGallery-updates.xml</server>
-	</updateservers>
-	-->
 	<params />
 	<modules />
 </extension>

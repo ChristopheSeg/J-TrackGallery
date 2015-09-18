@@ -649,11 +649,18 @@ span label {
 
 .gps-navi div {
 	display: block;
-	/*     text-transform:uppercase; */
 }
 
 .gps-navi a {
 	text-decoration: none;
+	}
+
+.gps-navi,
+.navi-part ,
+.gps-navi a {
+	-webkit-box-sizing: content-box;
+	-moz-box-sizing: content-box;
+	box-sizing: content-box;
 }
 
 .gps-navi a:hover,.gps-navi a:active {
@@ -664,7 +671,7 @@ span label {
 .navi-part {
 	float: left;
 	margin: 5px 10px;
-	font-weight: bold;
+	font-weight: bold;*
 }
 
 .no-float {
