@@ -812,6 +812,12 @@ class JtgViewFiles extends JViewLegacy
 			case 'title_d':
 				$ordering = ' a.title DESC';
 				break;
+			case 'level_a':
+				$ordering = ' a.level ASC';
+				break;
+			case 'level_d':
+				$ordering = ' a.level DESC';
+				break;
 			case 'title_a_catid_a':
 				$ordering = ' a.title ASC AND a.catid ASC';
 				break;

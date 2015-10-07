@@ -152,6 +152,8 @@
 			<option value="none">JNONE</option>
 			<option value="title_a">COM_JTG_TRACK_ORDER_TITLE_A</option>
 			<option value="title_d">COM_JTG_TRACK_ORDER_TITLE_D</option>
+			<option value="level_a">COM_JTG_TRACK_ORDER_LEVEL_A</option>
+			<option value="level_d">COM_JTG_TRACK_ORDER_LEVEL_D</option>
 			<option value="title_a_catid_a">COM_JTG_TRACK_ORDER_TITLE_A_CATID_A</option>
 			<option value="title_a_catid_d">COM_JTG_TRACK_ORDER_TITLE_A_CATID_D</option>
 			<option value="title_d_catid_a">COM_JTG_TRACK_ORDER_TITLE_D_CATID_A</option>

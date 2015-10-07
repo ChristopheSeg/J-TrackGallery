@@ -657,11 +657,13 @@ span label {
 
 .gps-navi,
 .navi-part ,
-.gps-navi a {
+.gps-navi a 
+{
 	-webkit-box-sizing: content-box;
 	-moz-box-sizing: content-box;
 	box-sizing: content-box;
 }
+.container { width: 100%; }
 
 .gps-navi a:hover,.gps-navi a:active {
 	text-decoration: none;

@@ -952,6 +952,51 @@ class JtgHelper
 	/**
 	 * function_description
 	 *
+	 * @param   unknown_type  $level  track difficulty level
+	 * @param   unknown_type  $catid  track category id
+	 *
+	 * @return string with level icon or level text
+	 */
+	static public function getLevelIcon($level, $catid = 0, $levelMin=1, $levelMax=5)
+	{
+		$iconspath = JPATH_BASE . '/images/jtrackgallery/difficulty_level/';
+		$iconsurl = JUri::root() . 'images/jtrackgallery/difficulty_level/';
+		$levelString = $level . '/' . $levelMax;
+
+		if (JFile::exists($iconspath . $catid . '_' . (string) $level . '.png'))
+		{
+			// Use $catid_$level.png
+			return '<img height="16" src="' . $iconsurl . $catid . '_' . (string) $level . '.png" alt="' . $level . '">';
+		}
+		elseif ( (JFile::exists($iconspath . $catid . '_l1.png'))
+				AND (JFile::exists($iconspath . $catid . '_l2.png'))
+				AND (JFile::exists($iconspath . $catid . '_l3.png')) )
+		{
+			// Use $catid_l1.png $catid_l2.png $catid_l3.png
+			$return = '';
+		for ($i = $levelMin; $i <= $level; $i++)
+		{
+			$j = 1 + (int) (($i - $levelMin) / ($levelMax - $levelMin) * 3);
+			$return .= '<img height="16" src="' . $iconsurl . $catid . '_l' . $j . '.png" alt="' . $level . '" title="' . $levelString . '">';
+		}
+
+			return $return;
+		}
+		elseif (JFile::exists($iconspath . (string) $level . '.png'))
+		{
+			// Use $level.png
+			return '<img height="16" src="' . $iconsurl . (string) $level . '.png" alt="' . $level . '">';
+		}
+		else
+		{
+			return (string) $levelString;
+		}
+
+
+	}
+	/**
+	 * function_description
+	 *
 	 * @param   unknown_type  $float    param_description
 	 * @param   unknown_type  $default  param_description
 	 * @param   unknown_type  $unit     param_description

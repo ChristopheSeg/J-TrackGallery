@@ -178,6 +178,7 @@ class JtgModelFiles extends JModelLegacy
 		$where = $this->_buildContentWhere();
 		$userwhere = "";
 
+
 		if (JFactory::getApplication()->input->get('layout') == 'user' && ! $where)
 		{
 			$userwhere = " WHERE uid='" . $user->get('id') . "'";
@@ -221,6 +222,12 @@ class JtgModelFiles extends JModelLegacy
 				break;
 			case 'title_d':
 				$ordering = ' a.title DESC';
+				break;
+			case 'level_a':
+				$ordering = ' a.level ASC';
+				break;
+			case 'level_d':
+				$ordering = ' a.level DESC';
 				break;
 			case 'title_a_catid_a':
 				$ordering = ' a.title ASC AND a.catid ASC';
@@ -272,7 +279,7 @@ class JtgModelFiles extends JModelLegacy
 		}
 		elseif ($filter_order == $ordering)
 		{
-			$orderby = ' ORDER BY '. $ordering;
+			$orderby = ' ORDER BY ' . $ordering;
 		}
 		else
 		{

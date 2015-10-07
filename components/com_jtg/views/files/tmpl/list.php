@@ -59,34 +59,36 @@ echo $this->lh;
 				<th>#</th>
 				<th><?php echo JHtml::_('grid.sort', JText::_('COM_JTG_TITLE'), 'title', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
 				</th>
-				<th width="80px"><?php echo JHtml::_('grid.sort', JText::_('COM_JTG_CAT'), 'cat', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
+				<th><?php echo JHtml::_('grid.sort', JText::_('COM_JTG_CAT'), 'cat', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
+				</th>
+				<th><?php echo JHtml::_('grid.sort', JText::_('COM_JTG_LEVEL'), 'level', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
 				</th>
 <?php
 if (! $this->params->get("jtg_param_disable_terrains"))
 {
 ?>
-				<th width="80px">
+				<th>
 				<?php echo JHtml::_('grid.sort', JText::_('COM_JTG_TERRAIN'), 'terrain', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
 				</th>
 <?php
 }
 ?>
-				<th width="80px">
+				<th>
 				<?php echo JHtml::_('grid.sort', JText::_('COM_JTG_USER'), 'user', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
 				</th>
-				<th width="20px">
+				<th>
 				<?php echo JHtml::_('grid.sort', JText::_('COM_JTG_HITS'), 'hits', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
 				</th>
 <?php if ($this->cfg->usevote == 1)
 {
 ?>
-				<th width="20px">
+				<th>
 				<?php echo JHtml::_('grid.sort', JText::_('COM_JTG_VOTING'), 'vote', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
 				</th>
 <?php
 }
 ?>
-				<th width="80px">
+				<th>
 				<?php echo JHtml::_('grid.sort', JText::_('COM_JTG_DISTANCE'), 'distance', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
 				</th>
 			</tr>
@@ -117,6 +119,9 @@ if (! $this->params->get("jtg_param_disable_terrains"))
 				$layoutHelper = new LayoutHelper;
 				$votes = $layoutHelper->parseVoteFloat($row->vote, true);
 				$links = null;
+				$levelMin = $this->params->get('jtg_param_level_from');
+				$levelMax = $this->params->get('jtg_param_level_to');
+				$level = JtgHelper::getLevelIcon($row->level, $row->catid, $levelMin, $levelMax);
 
 				if (!$row->distance)
 				{
@@ -162,7 +167,8 @@ if (! $this->params->get("jtg_param_disable_terrains"))
 				<td><a href="<?php echo $link; ?>">
 					<?php echo $row->title; ?> </a></td>
 				<td><?php echo $cat; ?></td>
-<?php
+				<td><?php echo $level; ?></td>
+				<?php
 if (! $this->params->get("jtg_param_disable_terrains"))
 {
 ?>
