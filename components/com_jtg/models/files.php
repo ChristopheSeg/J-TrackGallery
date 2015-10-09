@@ -212,6 +212,7 @@ class JtgModelFiles extends JModelLegacy
 
 		$params = $mainframe->getParams();
 		$ordering = '';
+
 		switch ($params->get('jtg_param_track_ordering'))
 		{
 			case 'none':
@@ -257,9 +258,6 @@ class JtgModelFiles extends JModelLegacy
 				$ordering = '';
 				break;
 		}
-
-		// Bug $filter_order use ordering fields which do not longer exist!!!
-		// $filter_order = $mainframe->getUserStateFromRequest($this->option . 'filter_order', 'filter_order', 'ordering', 'cmd');
 
 		// V0.9.17: Order $filter_order is set to $ordering (default ordering) when no other ordering is set by the user
 		$filter_order = $mainframe->getUserStateFromRequest($this->option . 'filter_order', 'filter_order', $ordering, 'cmd');

@@ -7,6 +7,9 @@
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
+		<field name="jtg_param_list_icon_max_height" type="text"
+			addfieldpath="/administrator/components/com_jtg/elements" default="16"
+			size="3" label="COM_JTG_LIST_ICON_MAX_HEIGHT" description="COM_JTG_TT_LIST_ICON_MAX_HEIGHT" />
 		<field type="spacer" name="myspacer1" class="text"
 			label="COM_JTG_MENUSPACER_APPEARANCE" />
 		<field name="jtg_param_newest" type="text"

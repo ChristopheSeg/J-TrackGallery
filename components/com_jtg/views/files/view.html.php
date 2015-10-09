@@ -847,20 +847,8 @@ class JtgViewFiles extends JViewLegacy
 				break;
 		}
 
-		// Bug $filter_order use 'ordering' fields which do not longer exist (nor in Injooosm)!!!
-		// $filter_order = $mainframe->getUserStateFromRequest("$option.filter_order", 'filter_order', 'ordering', 'cmd');
-
-		// Order $filter_order is set to $ordering (default ordering) when no other ordering is set by the user
-		$filter_order = $mainframe->getUserStateFromRequest("$option.filter_order", 'filter_order', $ordering, 'cmd');
-
-		if ($filter_order == $ordering)
-		{
-			$filter_order_Dir = '';
-		}
-		else
-		{
-			$filter_order_Dir = $mainframe->getUserStateFromRequest("$option.filter_order_Dir", 'filter_order_Dir', '', 'word');
-		}
+		$filter_order = $mainframe->getUserStateFromRequest("$option.filter_order", 'filter_order', '', 'cmd');
+		$filter_order_Dir = $mainframe->getUserStateFromRequest("$option.filter_order_Dir", 'filter_order_Dir', '', 'cmd');
 
 		$search = $mainframe->getUserStateFromRequest("$option.search", 'search', '', 'string');
 		$search = JString::strtolower($search);
@@ -918,7 +906,7 @@ class JtgViewFiles extends JViewLegacy
 
 		$order = JRequest::getVar('order', 'order', 'post', 'string');
 
-		$filter_order = $mainframe->getUserStateFromRequest("$option.filter_order", 'filter_order', 'ordering', 'cmd');
+		$filter_order = $mainframe->getUserStateFromRequest("$option.filter_order", 'filter_order', 'ordering', 'word');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest("$option.filter_order_Dir", 'filter_order_Dir', '', 'word');
 		$search = $mainframe->getUserStateFromRequest("$option.search", 'search', '', 'string');
 		$search = JString::strtolower($search);

@@ -111,9 +111,10 @@ if (! $this->params->get("jtg_param_disable_terrains"))
 					$row->title = "<font class=\"emptyEntry\">" . JText::_('COM_JTG_NO_TITLE') . "</font>";
 				}
 
+				$iconheight = $this->params->get('jtg_param_list_icon_max_height');
 				$link = JRoute::_('index.php?option=com_jtg&view=files&layout=file&id=' . $row->id, false);
 				$profile = JtgHelper::getProfileLink($row->uid, $row->user);
-				$cat = JtgHelper::parseMoreCats($this->sortedcats, $row->catid, "list", true);
+				$cat = JtgHelper::parseMoreCats($this->sortedcats, $row->catid, "list", true, $iconheight);
 				$terrain = JtgHelper::parseMoreTerrains($this->sortedter, $row->terrain, "list", true);
 				$hits = JtgHelper::getLocatedFloat($row->hits);
 				$layoutHelper = new LayoutHelper;
@@ -121,7 +122,8 @@ if (! $this->params->get("jtg_param_disable_terrains"))
 				$links = null;
 				$levelMin = $this->params->get('jtg_param_level_from');
 				$levelMax = $this->params->get('jtg_param_level_to');
-				$level = JtgHelper::getLevelIcon($row->level, $row->catid, $levelMin, $levelMax);
+
+				$level = JtgHelper::getLevelIcon($row->level, $row->catid, $levelMin, $levelMax, $iconheight);
 
 				if (!$row->distance)
 				{

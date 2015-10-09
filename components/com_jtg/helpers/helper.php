@@ -297,12 +297,13 @@ class JtgHelper
 	 *
 	 * @return return_description
 	 */
-	static public function parseMoreCats($allcats, $catid, $format = "array", $link = false)
+	static public function parseMoreCats($allcats, $catid, $format = "array", $link = false, $iconheight = 24)
 	{
 		$baseurl = "index.php?option=com_jtg&view=files&layout=list&cat=";
 		$image = JUri::base() . 'images/jtrackgallery/cats/';
 		$catids = explode(",", $catid);
 		$return = array();
+		$height = ($iconheight > 0? ' height="' . $iconheight . '" ' : '');
 
 		switch ($format)
 		{
@@ -356,7 +357,7 @@ class JtgHelper
 							if ( $allcats[$catid]->image != "")
 							{
 								$return[] = "<a href=\"" . $url . "\">" .
-										"<img title=\"" . JText::_($allcats[$catid]->title) . "\" alt=\"" . JText::_($allcats[$catid]->title) . "\" src=\"" . $image . $allcats[$catid]->image . "\" />&nbsp;" .
+										"<img $height title=\"" . JText::_($allcats[$catid]->title) . "\" alt=\"" . JText::_($allcats[$catid]->title) . "\" src=\"" . $image . $allcats[$catid]->image . "\" />&nbsp;" .
 										"</a>";
 							}
 							else
@@ -397,7 +398,7 @@ class JtgHelper
 							}
 							else
 							{
-								$return[] = "<a href=\"" . $url . "\"><img title=\"" . JText::_($allcats[$catid]->title)
+								$return[] = "<a href=\"" . $url . "\"><img $height title=\"" . JText::_($allcats[$catid]->title)
 								. "\" alt=\"" . JText::_($allcats[$catid]->title) . "\" src=\"" . $image
 								. $allcats[$catid]->image . "\" /></a>";
 							}
@@ -433,7 +434,7 @@ class JtgHelper
 							}
 							else
 							{
-								$return[] = "<a href=\"" . $url . "\"><img title=\"" . JText::_($allcats[$catid]->title)
+								$return[] = "<a href=\"" . $url . "\"><img $height title=\"" . JText::_($allcats[$catid]->title)
 								. "\" alt=\"" . JText::_($allcats[$catid]->title) . "\" src=\""
 								. $image . $allcats[$catid]->image . "\" /></a>";
 							}
@@ -952,21 +953,25 @@ class JtgHelper
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $level  track difficulty level
-	 * @param   unknown_type  $catid  track category id
+	 * @param   integer  $level       track difficulty level
+	 * @param   integer  $catid       track category id
+	 * @param   integer  $levelMin    minimum permitted value for level
+	 * @param   integer  $levelMax    maximum permitted value for level
+	 * @param   integer  $iconheight  height of icons
 	 *
-	 * @return string with level icon or level text
+	 * @return HTML string with level icon or level text
 	 */
-	static public function getLevelIcon($level, $catid = 0, $levelMin=1, $levelMax=5)
+	static public function getLevelIcon($level, $catid = 0, $levelMin=1, $levelMax=5, $iconheight = 24)
 	{
 		$iconspath = JPATH_BASE . '/images/jtrackgallery/difficulty_level/';
 		$iconsurl = JUri::root() . 'images/jtrackgallery/difficulty_level/';
 		$levelString = $level . '/' . $levelMax;
+		$height = ($iconheight > 0? ' height="' . $iconheight . '" ' : '');
 
 		if (JFile::exists($iconspath . $catid . '_' . (string) $level . '.png'))
 		{
 			// Use $catid_$level.png
-			return '<img height="16" src="' . $iconsurl . $catid . '_' . (string) $level . '.png" alt="' . $level . '">';
+			return '<img ' . $height . ' src="' . $iconsurl . $catid . '_' . (string) $level . '.png" alt="' . $level . '" title="' . $levelString . '">';
 		}
 		elseif ( (JFile::exists($iconspath . $catid . '_l1.png'))
 				AND (JFile::exists($iconspath . $catid . '_l2.png'))
@@ -974,26 +979,41 @@ class JtgHelper
 		{
 			// Use $catid_l1.png $catid_l2.png $catid_l3.png
 			$return = '';
-		for ($i = $levelMin; $i <= $level; $i++)
-		{
-			$j = 1 + (int) (($i - $levelMin) / ($levelMax - $levelMin) * 3);
-			$return .= '<img height="16" src="' . $iconsurl . $catid . '_l' . $j . '.png" alt="' . $level . '" title="' . $levelString . '">';
-		}
+
+			for ($i = $levelMin; $i <= $level; $i++)
+			{
+				$j = 1 + (int) (($i - $levelMin) / ($levelMax - $levelMin) * 3);
+				$return .= '<img ' . $height . ' src="' . $iconsurl . $catid . '_l' . $j . '.png" alt="' . $level . '" title="' . $levelString . '">';
+			}
 
 			return $return;
 		}
 		elseif (JFile::exists($iconspath . (string) $level . '.png'))
 		{
 			// Use $level.png
-			return '<img height="16" src="' . $iconsurl . (string) $level . '.png" alt="' . $level . '">';
+			return '<img ' . $height . ' src="' . $iconsurl . (string) $level . '.png" alt="' . $level . '" title="' . $levelString . '">';
+		}
+		elseif ( (JFile::exists($iconspath . 'l1.png'))
+				AND (JFile::exists($iconspath . 'l2.png'))
+				AND (JFile::exists($iconspath . 'l3.png')) )
+		{
+			// Use l1.png l2.png l3.png
+			$return = '';
+
+			for ($i = $levelMin; $i <= $level; $i++)
+			{
+				$j = 1 + round(($i - $levelMin) / ($levelMax - $levelMin) * 2);
+				$return .= '<img ' . $height . ' src="' . $iconsurl . 'l' . $j . '.png" alt="' . $level . '" title="' . $levelString . '">';
+			}
+
+			return $return;
 		}
 		else
 		{
-			return (string) $levelString;
+			return $levelString;
 		}
-
-
 	}
+
 	/**
 	 * function_description
 	 *
