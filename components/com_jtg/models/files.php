@@ -284,6 +284,7 @@ class JtgModelFiles extends JModelLegacy
 			$orderby = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir . ' , id ';
 		}
 
+
 		return $orderby;
 	}
 

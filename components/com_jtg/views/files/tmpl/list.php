@@ -72,14 +72,25 @@ if (! $this->params->get("jtg_param_disable_terrains"))
 				</th>
 <?php
 }
+
+if (! $this->params->get("jtg_param_tracks_list_hide_users"))
+{
 ?>
 				<th>
 				<?php echo JHtml::_('grid.sort', JText::_('COM_JTG_USER'), 'user', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
 				</th>
-				<th>
+<?php
+}
+
+if (! $this->params->get("jtg_param_tracks_list_hide_hits"))
+{
+?>				<th>
 				<?php echo JHtml::_('grid.sort', JText::_('COM_JTG_HITS'), 'hits', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
 				</th>
-<?php if ($this->cfg->usevote == 1)
+<?php
+}
+
+if ($this->cfg->usevote == 1)
 {
 ?>
 				<th>
@@ -177,11 +188,22 @@ if (! $this->params->get("jtg_param_disable_terrains"))
 				<td><?php echo $terrain; ?></td>
 <?php
 }
+
+if (! $this->params->get("jtg_param_tracks_list_hide_users"))
+{
 ?>
 
 				<td><?php echo $profile; ?></td>
+<?php
+}
+
+if (! $this->params->get("jtg_param_tracks_list_hide_hits"))
+{
+?>
 				<td><?php echo $hits; ?></td>
 <?php
+}
+
 if ($this->cfg->usevote == 1)
 {
 ?>

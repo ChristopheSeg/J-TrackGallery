@@ -15,7 +15,11 @@
  *
  */
 
-// This file is based on Joomla script.php and corresponding com_flexicontent install script
+/* This file is based on Joomla script.php and corresponding com_flexicontent install script
+Developper !!
+Use file /installuninstall.php
+Don't use /administrator/componentes/som_jtg//installuninstall.php
+*/
 
 // No direct access to this file
 defined('_JEXEC') or die('Restricted access');
@@ -253,6 +257,11 @@ class Com_JtgInstallerScript
 		JFolder::copy($src_folder_to_copy . '/' . $folder, $dest_folder_to_copy . '/' . $folder, $force = false);
 	}
 
+	// Copy difficulty level icons
+	$src_folder_to_copy = JPATH_SITE . '/components/com_jtg/assets/difficulty_level';
+	$dest_folder_to_copy = JPATH_SITE . '/images/jtrackgallery/difficulty_level';
+	JFolder::copy($src_folder_to_copy, $dest_folder_to_copy, $force = false);
+
 	echo '<tr><td colspan="3">' . JText::sprintf('COM_JTG_INSTALLED_VERSION', $this->release) . '</td></tr>';
 
 	// Update tracks user ID to current user id
@@ -311,6 +320,17 @@ class Com_JtgInstallerScript
 			{
 				JFolder::move(JPATH_SITE . '/images/jtrackgallery/' . $folder, JPATH_SITE . '/images/jtrackgallery/uploaded_tracks_images/' . $folder);
 			}
+		}
+
+		/*
+		 * If it does not exists:
+		 * Create difficulty level icons folder and copy icons in it
+		 */
+		$dest_folder_to_copy = JPATH_SITE . '/images/jtrackgallery/difficulty_level';
+
+		if (!JFolder::exists($dest_folder_to_copy))
+		{
+			JFolder::copy(JPATH_SITE . '/components/com_jtg/assets/images/difficulty_level', $dest_folder_to_copy, '', $force = false);
 		}
 
 		echo '<p>' . JText::sprintf('COM_JTG_UPDATED', $this->release) . '</p>';
@@ -373,6 +393,7 @@ class Com_JtgInstallerScript
 			"jtg_param_disable_terrains":"0",
 			"jtg_param_vote_show_stars":"0",
 			"jtg_param_show_speedchart":"1",
+			"jtg_param_elevation_filter_min_ascent":"10",
 			"jtg_param_show_heightchart":"1",
 			"jtg_param_show_durationcalc":"1",
 			"jtg_param_show_layerswitcher":"1",
@@ -391,7 +412,7 @@ class Com_JtgInstallerScript
 			"jtg_param_user":["0"],
 			"jtg_param_usergroup":["-1"],
 			"jtg_param_terrain":["-1"],
-			"jtg_param_level_from":"0",
+			"jtg_param_level_from":"1",
 			"jtg_param_level_to":"5",
 			"jtg_param_vote_from":"0",
 			"jtg_param_vote_to":"10"}\'';

@@ -303,7 +303,7 @@ class JtgHelper
 		$image = JUri::base() . 'images/jtrackgallery/cats/';
 		$catids = explode(",", $catid);
 		$return = array();
-		$height = ($iconheight > 0? ' height="' . $iconheight . '" ' : '');
+		$height = ($iconheight > 0? ' style="max-height:' . $iconheight . 'px" ' : '');
 
 		switch ($format)
 		{
@@ -966,12 +966,12 @@ class JtgHelper
 		$iconspath = JPATH_BASE . '/images/jtrackgallery/difficulty_level/';
 		$iconsurl = JUri::root() . 'images/jtrackgallery/difficulty_level/';
 		$levelString = $level . '/' . $levelMax;
-		$height = ($iconheight > 0? ' height="' . $iconheight . '" ' : '');
+		$height = ($iconheight > 0? ' style="max-height:' . $iconheight . 'px" ' : '');
 
 		if (JFile::exists($iconspath . $catid . '_' . (string) $level . '.png'))
 		{
 			// Use $catid_$level.png
-			return '<img ' . $height . ' src="' . $iconsurl . $catid . '_' . (string) $level . '.png" alt="' . $level . '" title="' . $levelString . '">';
+			return '<img ' . $height . ' src="' . $iconsurl . $catid . '_' . (string) $level . '.png" alt="' . $levelString . '" title="' . $levelString . '">';
 		}
 		elseif ( (JFile::exists($iconspath . $catid . '_l1.png'))
 				AND (JFile::exists($iconspath . $catid . '_l2.png'))
@@ -983,7 +983,9 @@ class JtgHelper
 			for ($i = $levelMin; $i <= $level; $i++)
 			{
 				$j = 1 + (int) (($i - $levelMin) / ($levelMax - $levelMin) * 3);
-				$return .= '<img ' . $height . ' src="' . $iconsurl . $catid . '_l' . $j . '.png" alt="' . $level . '" title="' . $levelString . '">';
+				$j = max(1,$j);
+				$j = min(3,$j);
+				$return .= '<img ' . $height . ' src="' . $iconsurl . $catid . '_l' . $j . '.png" alt="' . $levelString . '" title="' . $levelString . '">';
 			}
 
 			return $return;
@@ -991,7 +993,7 @@ class JtgHelper
 		elseif (JFile::exists($iconspath . (string) $level . '.png'))
 		{
 			// Use $level.png
-			return '<img ' . $height . ' src="' . $iconsurl . (string) $level . '.png" alt="' . $level . '" title="' . $levelString . '">';
+			return '<img ' . $height . ' src="' . $iconsurl . (string) $level . '.png" alt="' . $levelString . '" title="' . $levelString . '">';
 		}
 		elseif ( (JFile::exists($iconspath . 'l1.png'))
 				AND (JFile::exists($iconspath . 'l2.png'))
@@ -1003,7 +1005,7 @@ class JtgHelper
 			for ($i = $levelMin; $i <= $level; $i++)
 			{
 				$j = 1 + round(($i - $levelMin) / ($levelMax - $levelMin) * 2);
-				$return .= '<img ' . $height . ' src="' . $iconsurl . 'l' . $j . '.png" alt="' . $level . '" title="' . $levelString . '">';
+				$return .= '<img ' . $height . ' src="' . $iconsurl . 'l' . $j . '.png" alt="' . $levelString . '" title="' . $levelString . '">';
 			}
 
 			return $return;
