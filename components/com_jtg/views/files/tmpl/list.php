@@ -18,8 +18,12 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
+// Load core.js to enable tableordering
+JHtml::_('script', 'system/core.js', false, true);
+
 echo $this->lh;
 ?>
+
 <script type="text/javascript">
 
 	 Joomla.tableOrdering = function( order, dir, task )

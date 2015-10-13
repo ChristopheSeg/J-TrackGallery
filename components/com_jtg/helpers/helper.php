@@ -290,10 +290,11 @@ class JtgHelper
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $allcats  param_description
-	 * @param   integer       $catid    category ID
-	 * @param   unknown_type  $format   param_description
-	 * @param   unknown_type  $link     param_description
+	 * @param   unknown_type  $allcats     param_description
+	 * @param   integer       $catid       category ID
+	 * @param   unknown_type  $format      param_description
+	 * @param   unknown_type  $link        param_description
+	 * @param   integer       $iconheight  height of icons
 	 *
 	 * @return return_description
 	 */

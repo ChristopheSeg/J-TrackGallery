@@ -383,7 +383,7 @@ class JPagination extends JObject
 			$list['end']['active'] = false;
 			$list['end']['data'] = ($itemOverride) ? pagination_item_inactive($data->end) : $this->_item_inactive($data->end);
 		}
-
+// TODOTODO var_dump($list); die('');
 		if ($this->total > $this->limit)
 		{
 			return ($listOverride) ? pagination_list_render($list) : $this->_list_render($list);

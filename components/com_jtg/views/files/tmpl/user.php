@@ -17,6 +17,10 @@
 
 // No direct access
 defined('_JEXEC') or die('Restricted access');
+
+// Load core.js to enable tableordering
+JHtml::_('script', 'system/core.js', false, true);
+
 $user = JFactory::getUser();
 
 if ($user->id != 0)
