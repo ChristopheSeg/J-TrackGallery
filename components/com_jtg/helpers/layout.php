@@ -72,6 +72,12 @@ class LayoutHelper
 	 */
 	static public function navigation()
 	{
+		if  ($isModal = JRequest::getVar( 'print' ) == 1)
+		{
+			// Return an empty header when preparing for printing
+			return '';
+		}
+
 		$user = JFactory::getUser();
 		$juser = new JUser($user->id);
 		$uri = JFactory::getApplication()->input->get('layout');

@@ -40,6 +40,8 @@ class TableJTG_Cats extends JTable
 
 	var $image = null;
 
+	var $usepace = null;
+
 	var $ordering = null;
 
 	var $published = null;

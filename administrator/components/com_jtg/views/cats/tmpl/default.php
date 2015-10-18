@@ -35,8 +35,7 @@ $ordering = ($this->lists['order'] == 'ordering');
 		<thead>
 			<tr>
 				<th class="title"><?php echo JText::_('COM_JTG_NUM'); ?></th>
-				<th class="title" nowrap="nowrap"><?php echo JText::_('COM_JTG_ID'); ?>
-				</th>
+				<th class="title" nowrap="nowrap"><?php echo JText::_('COM_JTG_ID'); ?></th>
 				<th class="title"><input type="checkbox"
 					onclick="Joomla.checkAll(this)"
 					title="<?php echo JText::_('JGLOBAL_CHECK_ALL');?>" value=""
@@ -44,7 +43,8 @@ $ordering = ($this->lists['order'] == 'ordering');
 				<th class="title"><?php echo JText::_('COM_JTG_IMAGE'); ?></th>
 				<th class="title"><?php echo JText::_('COM_JTG_CAT'); ?></th>
 				<th class="title"><?php echo JText::_('COM_JTG_DESCRIPTION'); ?></th>
-<?php
+				<th class="title"><?php echo JText::_('COM_JTG_USEPACE'); ?></th>
+				<?php
 if ( $ordering !== false )
 {
 ?>
@@ -92,6 +92,7 @@ if ((isset($this->catpic[$this->list[$i]->id])) AND ( $this->catpic[$this->list[
 						<?php echo JText::_($row->treename); ?>
 				</a></td>
 				<td><?php echo JText::_($row->description); ?></td>
+				<td><?php echo $row->usepace? JText::_('JYES'): JText::_('JNO'); ?></td>
 	<?php
 	if ( $ordering !== false )
 	{

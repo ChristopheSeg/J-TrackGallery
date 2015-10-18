@@ -269,18 +269,36 @@ margin: 1px 0 0 0;
 				</td>
 			</tr>
 			<tr>
+				<td><?php echo JText::_('COM_JTG_CHARTBG'); ?></td>
+				<td>&nbsp;&nbsp;#<input type="text" name="charts_bg"
+					value="<?php echo $this->config->charts_bg; ?>" size="20" />
+				</td>
+			</tr>
+			<tr>
 				<td><?php echo JText::_('COM_JTG_CHARTLINEC'); ?></td>
 				<td>&nbsp;&nbsp;#<input type="text" name="charts_linec"
 					value="<?php echo $this->config->charts_linec; ?>" size="20" />
 				</td>
 			</tr>
 			<tr>
-				<td><?php echo JText::_('COM_JTG_CHARTBG'); ?></td>
-				<td>&nbsp;&nbsp;#<input type="text" name="charts_bg"
-					value="<?php echo $this->config->charts_bg; ?>" size="20" />
+				<td><?php echo JText::_('COM_JTG_CHARTLINEC_SPEED'); ?></td>
+				<td>&nbsp;&nbsp;#<input type="text" name="charts_linec_speed"
+					value="<?php echo $this->config->charts_linec_speed; ?>" size="20" />
 				</td>
 			</tr>
-		</tbody>
+			<tr>
+				<td><?php echo JText::_('COM_JTG_CHARTLINEC_PACE'); ?></td>
+				<td>&nbsp;&nbsp;#<input type="text" name="charts_linec_pace"
+					value="<?php echo $this->config->charts_linec_pace; ?>" size="20" />
+				</td>
+			</tr>
+			<tr>
+				<td><?php echo JText::_('COM_JTG_CHARTLINEC_HEARTBEAT'); ?></td>
+				<td>&nbsp;&nbsp;#<input type="text" name="charts_linec_heartbeat"
+					value="<?php echo $this->config->charts_linec_heartbeat; ?>" size="20" />
+				</td>
+			</tr>
+			</tbody>
 	</table>
 	&nbsp;
 	<?php

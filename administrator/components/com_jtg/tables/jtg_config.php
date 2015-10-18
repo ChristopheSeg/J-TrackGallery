@@ -56,6 +56,12 @@ class TableJTG_Config extends JTable
 
 	var $charts_linec	= null;
 
+	var $charts_linec_pace	= null;
+
+	var $charts_linec_speed	= null;
+
+	var $charts_linec_heartbeat	= null;
+
 	var $charts_bg		= null;
 
 	var $profile		= null;

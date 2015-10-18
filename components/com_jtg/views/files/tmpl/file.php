@@ -23,6 +23,13 @@ $maySeeSingleFile = $this->maySeeSingleFile($this);
 
 if ($maySeeSingleFile === true)
 {
+	$defaultlinecolor = "#000000";
+	$charts_bg = $this->cfg->charts_bg? '#' . $this->cfg->charts_bg :"#ffffff";
+	$charts_linec = $this->cfg->charts_linec? '#' . $this->cfg->charts_linec: $defaultlinecolor;
+	$charts_linec_speed = $this->cfg->charts_linec_speed? '#' . $this->cfg->charts_linec_speed: $defaultlinecolor;
+	$charts_linec_pace = $this->cfg->charts_linec_pace? '#' . $this->cfg->charts_linec_pace: $defaultlinecolor;
+	$charts_linec_heartbeat = $this->cfg->charts_linec_heartbeat? '#' . $this->cfg->charts_linec_heartbeat: $defaultlinecolor;
+
 	$durationbox = (bool) $this->params->get("jtg_param_show_durationcalc");
 	echo $this->map;
 
@@ -43,10 +50,12 @@ if ($maySeeSingleFile === true)
 	if ( $this->params->get("jtg_param_show_speedchart") AND $this->speedDataExists )
 	{
 		$speedchart = true;
+		$pacechart = $this->track->catid? $this->sortedcats[$this->track->catid]->usepace: 0;
 	}
 	else
 	{
 		$speedchart = false;
+		$pacechart = false;
 	}
 
 	if ($this->params->get("jtg_param_show_speedchart") AND $this->beatDataExists )
@@ -78,8 +87,16 @@ if ($maySeeSingleFile === true)
 		if ($speedchart)
 		{
 			// Speedchart is on left (first) axis or on right axis when there is a heighchart
+			$speedcharthide = 0;
 			$speedchartaxis = $heightchartaxis + 1;
 			$axisnumber++;
+
+			if ($pacechart)
+			{
+				// Pace is on same axis but speed must be hidden
+				$pacechartaxis = $speedchartaxis + 1;
+				$speedcharthide = 1;
+			}
 		}
 		else
 		{
@@ -141,11 +158,11 @@ if ($maySeeSingleFile === true)
 				plotOptions: {
 				area: {
 				stacking: 'normal',
-				lineColor: '#666666',
+				lineColor: '<?php echo $charts_linec; ?>',
 				lineWidth: 1,
 				marker: {
 					lineWidth: 1,
-					lineColor: '#666666'
+					lineColor: '<?php echo $charts_linec; ?>'
 				}
 				},
 				series: {
@@ -178,15 +195,46 @@ if ($maySeeSingleFile === true)
 					return this.value +'<?php echo JText::_('COM_JTG_ELEVATION_UNIT'); ?>';
 				},
 				style: {
-					color: '#89A54E'
+					color: '<?php echo $charts_linec_speed; ?>'
 				}
 				},
 				title: {
 				text: '<?php echo JText::_('COM_JTG_ELEVATION') . '(' . JText::_('COM_JTG_ELEVATION_UNIT'); ?>)',
 				style: {
-					color: '#89A54E'
+					color: '<?php echo $charts_linec_speed; ?>'
 				}
 				}
+			}
+<?php
+}
+
+if ($pacechart)
+{
+?>
+			, { // Pace data
+				gridLineWidth: 0,
+				title: {
+				text: '<?php echo JText::_('COM_JTG_PACE') . '(' . JText::_('COM_JTG_PACE_UNIT_' . strtoupper($this->cfg->unit)); ?>)',
+				style: {
+					color: '<?php echo $charts_linec_pace; ?>'
+				}
+				},
+				labels: {
+				formatter: function() {
+					return this.value +'<?php echo JText::_('COM_JTG_PACE_UNIT_' . strtoupper($this->cfg->unit)); ?>';
+				},
+				style: {
+					color: '<?php echo $charts_linec_pace; ?>'
+				}
+				}
+<?php
+if ($pacechartaxis == 2)
+{
+?>
+					,opposite: true // Suppress this if only one axis
+<?php
+}
+?>
 			}
 <?php
 }
@@ -199,7 +247,7 @@ if ($speedchart)
 				title: {
 				text: '<?php echo JText::_('COM_JTG_SPEED') . '(' . JText::_('COM_JTG_SPEED_UNIT_' . strtoupper($this->cfg->unit)); ?>)',
 				style: {
-					color: '#4572A7'
+					color: '<?php echo $charts_linec_speed; ?>'
 				}
 				},
 				labels: {
@@ -207,7 +255,7 @@ if ($speedchart)
 					return this.value +'<?php echo JText::_('COM_JTG_SPEED_UNIT_' . strtoupper($this->cfg->unit)); ?>';
 				},
 				style: {
-					color: '#4572A7'
+					color: '<?php echo $charts_linec_speed; ?>'
 				}
 				}
 <?php
@@ -230,7 +278,7 @@ if ($beatchart)
 				title: {
 				text: '<?php echo JText::_('COM_JTG_HEARTFREQU') . '(' . JText::_('COM_JTG_HEARTFREQU_UNIT'); ?>)',
 				style: {
-					color: '#AA4643'
+					color: '<?php echo $charts_linec_heartbeart; ?>'
 				}
 				},
 				labels: {
@@ -238,7 +286,7 @@ if ($beatchart)
 					return this.value +'<?php echo JText::_('COM_JTG_HEARTFREQU_UNIT'); ?>'
 				},
 				style: {
-					color: '#AA4643'
+					color: '<?php echo $charts_linec_heartbeart; ?>'
 				}
 				}
 	<?php
@@ -301,7 +349,7 @@ if (true)
 				verticalAlign: 'top',
 				y: 0,
 				floating: true,
-				backgroundColor: '#FFFFFF',
+				backgroundColor: '<?php echo $charts_bg; ?>',
 				labelFormatter: function() {
 				return this.name <?php echo $axisnumber > 1? "+ ' (" . JText::_('COM_JTG_CLICK_TO_HIDE') . ")'": ''; ?>;
 				}
@@ -314,7 +362,7 @@ if ($heightchart)
 				{
 				name: '<?php echo JText::_('COM_JTG_ELEVATION'); ?>',
 				unit: 'm',
-				color: '#4572A7',
+				color: '<?php echo $charts_linec; ?>',
 				yAxis: <?php echo $heightchartaxis - 1; ?>,
 				data: <?php echo $this->heighdata; ?>,
 				marker: {
@@ -328,19 +376,38 @@ if ($heightchart)
 <?php
 }
 
+if ($pacechart)
+{
+	?>
+				, {
+				name: '<?php echo JText::_('COM_JTG_PACE'); ?>',
+				unit:'<?php echo JText::_('COM_JTG_PACE_UNIT_' . strtoupper($this->cfg->unit)); ?>',
+				color: '<?php echo $charts_linec_pace; ?>',
+				yAxis: <?php echo $pacechartaxis - 1; ?>,
+				data: <?php echo $this->pacedata; ?>,
+				marker: {
+				enabled: false
+				},
+				tooltip: {
+				valueSuffix: ' <?php echo JText::_('COM_JTG_PACE_UNIT_' . strtoupper($this->cfg->unit)); ?>'
+				}
+
+			}
+<?php
+}
 if ($speedchart)
 {
 ?>
 				, {
 				name: '<?php echo JText::_('COM_JTG_SPEED'); ?>',
 				unit:'<?php echo JText::_('COM_JTG_SPEED_UNIT_' . strtoupper($this->cfg->unit)); ?>',
-				color: '#AA4643',
+				color: '<?php echo $charts_linec_speed; ?>',
 				yAxis: <?php echo $speedchartaxis - 1; ?>,
 				data: <?php echo $this->speeddata; ?>,
+				visible: <?php echo $this->pacedata? 'false': 'true'; ?>,
 				marker: {
 				enabled: false
 				},
-				dashStyle: 'shortdot',
 				tooltip: {
 				valueSuffix: ' <?php echo JText::_('COM_JTG_SPEED_UNIT_' . strtoupper($this->cfg->unit)); ?>'
 				}
@@ -355,7 +422,7 @@ if ($beatchart)
 				, {
 				name: '<?php echo JText::_('COM_JTG_HEARTFREQU'); ?>',
 				unit: '<?php echo JText::_('COM_JTG_HEARTFREQU_UNIT'); ?>',
-				color: '#89A54E',
+				color: '<?php echo $charts_linec_heartbeart; ?>',
 				data: <?php echo $this->beatdata; ?>,
 				tooltip: {
 				valueSuffix: '<?php echo JText::_('COM_JTG_HEARTFREQU_UNIT'); ?>'
@@ -374,7 +441,27 @@ if ($beatchart)
 	<?php
 	}
 
-	echo $this->parseTemplate("headline", $this->track->title, "jtg_param_header_map");
+	$printLink = '';
+
+
+		// Printing: 'print=1' will only be present in the url of the modal window, not in the presentation of the page
+		if (JRequest::getVar('print') == 1)
+		{
+			$href = '"#" onclick="window.print(); return false;"';
+			$printLink = "<a class =\"anchor\" style=\"display:inline; float:right;width:30px;\" title=\"Clic for Printing\" href= $href ><img src=\"index2_fichiers/printButton.png\"/></a>";
+		}
+		else
+		{
+			$href = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
+			$href = "window.open(this.href,'win2','" . $href . "'); return false;";
+			$href = JRoute::_("index.php?option=com_jtg&controller=files&task=file&id=" .
+					JFactory::getApplication()->input->get('id') .
+					'&tmpl=component&print=1" ' . $href
+					);
+			$printLink = "<a class =\"anchor\" style=\"display:inline; float:right;width:30px;\" title=\"Prepare for Printing\" href= $href ><img src=\"index2_fichiers/printButton.png\"/></a>";
+		}
+
+	echo $this->parseTemplate("headline", $printLink . $this->track->title, "jtg_param_header_map");
 	?>
 
 <style type="text/css">
@@ -402,6 +489,7 @@ img.olTileImage {
 
 </style>
 <?php
+
 if ($this->map)
 {
 	echo "<center><div id=\"jtg_map\" class=\"olMap\"></div><br /></center>\n";

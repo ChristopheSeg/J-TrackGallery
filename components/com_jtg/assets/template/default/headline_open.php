@@ -32,4 +32,5 @@ function ParseTemplate_Headline_open($linkname)
 	$link = str_replace("&", "&amp;", $link);
 
 	return "<div class=\"gps-headline\"><a class=\"anchor\" name=\"" . $linkname . "\" href=\"" . $link . "\">";
+
 }

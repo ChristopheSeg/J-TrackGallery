@@ -757,6 +757,7 @@ class JtgViewFiles extends JViewLegacy
 		$this->beatdata = $gpsData->beatData;
 		$this->heighdata = $gpsData->elevationData;
 		$this->speeddata = $gpsData->speedData;
+		$this->pacedata = $gpsData->paceData;
 		$this->speedDataExists = $gpsData->speedDataExists;
 		$this->elevationDataExists = $gpsData->elevationDataExists;
 		$this->beatDataExists = $gpsData->beatDataExists;

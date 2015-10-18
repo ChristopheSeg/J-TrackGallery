@@ -186,6 +186,7 @@ class JtgViewCats extends JViewLegacy
 		$lists['parent'] 	= JHtml::_('select.genericlist', $parent, 'parent', 'size="1"', 'id', 'name', '');
 		$config = JtgHelper::getConfig();
 		$images = $model->getPics();
+
 		$this->images = $images;
 		$this->lists = $lists;
 		$this->editor = $editor;
@@ -215,6 +216,7 @@ class JtgViewCats extends JViewLegacy
 		array_unshift($parent, $nullcat);
 		$data = $model->getCat($id);
 		$lists['block'] 	= JHtml::_('select.booleanlist', 'publish', 'class="inputbox" size="1"', $data->published);
+		$lists['usepace'] 	= JHtml::_('select.booleanlist', 'usepace', 'class="inputbox" size="1"', $data->usepace);
 		$lists['parent'] 	= JHtml::_('select.genericlist', $parent, 'parent', 'size="1"', 'id', 'name', $data->parent_id);
 
 		$config = JtgHelper::getConfig();

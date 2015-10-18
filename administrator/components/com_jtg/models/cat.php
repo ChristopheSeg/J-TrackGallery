@@ -290,11 +290,13 @@ class JtgModelCat extends JModelLegacy
 
 		$parent = JRequest::getInt('parent');
 		$image = JFactory::getApplication()->input->get('catpic');
+		$usepace = JFactory::getApplication()->input->get('usepace');
 
 		$query = "INSERT INTO #__jtg_cats SET"
 		. "\n parent_id='" . $parent . "',"
 		. "\n title='" . $title . "',"
 		. "\n image='" . $image . "',"
+		. "\n usepace='" . $usepace . "',"
 		. "\n description='" . $desc . "',"
 		. "\n published='" . $published . "'";
 
@@ -384,6 +386,7 @@ class JtgModelCat extends JModelLegacy
 		$file = JFactory::getApplication()->input->files->get('image');
 		$title = JFactory::getApplication()->input->get('title', '', 'string');
 		$image = JFactory::getApplication()->input->get('catpic');
+		$usepace = JFactory::getApplication()->input->get('usepace');
 
 		if ( $title == "" )
 		{
@@ -406,6 +409,7 @@ class JtgModelCat extends JModelLegacy
 		. "\n parent_id='" . $parent . "',"
 		. "\n title='" . $title . "',"
 		. "\n image='" . $image . "',"
+		. "\n usepace='" . $usepace . "',"
 		. "\n description='" . $desc . "',"
 		. "\n published='" . $published . "'"
 		. "\n WHERE id='" . $id . "'";

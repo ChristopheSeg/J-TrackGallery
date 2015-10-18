@@ -42,6 +42,8 @@ class GpsDataClass
 
 	var $speedData = '';
 
+	var $paceData = '';
+
 	var $elevationData = '';
 
 	var $beatData = '';
@@ -1208,6 +1210,7 @@ return true;
 		$elevationChartData = "";
 		$beatChartData = "";
 		$speedChartData = "";
+		$paceChartData = "";
 		$longitudeChartData = "";
 		$latitudeChartData = "";
 
@@ -1252,7 +1255,9 @@ return true;
 				}
 
 				$speed = $speed / ($i3 - $i2 + 1);
+				$pace = min(60/$speed, 60);
 				$speedChartData .= '[' . $distance . ',' . round($speed, 1) . '],';
+				$paceChartData .= '[' . $distance . ',' . round($pace, 1) . '],';
 			}
 
 			if ($this->elevationDataExists)
@@ -1272,6 +1277,7 @@ return true;
 		if ($this->speedDataExists)
 		{
 			$this->speedData = '[' . substr($speedChartData, 0, -1) . ']';
+			$this->paceData = '[' . substr($paceChartData, 0, -1) . ']';
 		}
 
 		if ($this->elevationDataExists)
