@@ -441,27 +441,7 @@ if ($beatchart)
 	<?php
 	}
 
-	$printLink = '';
-
-
-		// Printing: 'print=1' will only be present in the url of the modal window, not in the presentation of the page
-		if (JRequest::getVar('print') == 1)
-		{
-			$href = '"#" onclick="window.print(); return false;"';
-			$printLink = "<a class =\"anchor\" style=\"display:inline; float:right;width:30px;\" title=\"Clic for Printing\" href= $href ><img src=\"index2_fichiers/printButton.png\"/></a>";
-		}
-		else
-		{
-			$href = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
-			$href = "window.open(this.href,'win2','" . $href . "'); return false;";
-			$href = JRoute::_("index.php?option=com_jtg&controller=files&task=file&id=" .
-					JFactory::getApplication()->input->get('id') .
-					'&tmpl=component&print=1" ' . $href
-					);
-			$printLink = "<a class =\"anchor\" style=\"display:inline; float:right;width:30px;\" title=\"Prepare for Printing\" href= $href ><img src=\"index2_fichiers/printButton.png\"/></a>";
-		}
-
-	echo $this->parseTemplate("headline", $printLink . $this->track->title, "jtg_param_header_map");
+	echo $this->parseTemplate("headline", $this->track->title, "jtg_param_header_map", null, $this->track->title);
 	?>
 
 <style type="text/css">

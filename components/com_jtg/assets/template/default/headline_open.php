@@ -23,14 +23,44 @@ define('_PARSETEMPLATE_HEADLINE_OPEN', true);
  * function_description
  *
  * @param   unknown_type  $linkname  param_description
+ * @param   boolean       $printbutton true if a print button must be added there
  *
  * @return string
  */
-function ParseTemplate_Headline_open($linkname)
+function ParseTemplate_Headline_open($linkname, $printbutton = false)
 {
 	$link = JFactory::getURI()->toString() . "#" . $linkname;
 	$link = str_replace("&", "&amp;", $link);
 
-	return "<div class=\"gps-headline\"><a class=\"anchor\" name=\"" . $linkname . "\" href=\"" . $link . "\">";
+	if ($printbutton)
+	{
+		// Printing: 'print=1' will only be present in the url of the modal window, not in the presentation of the page
+		if (JRequest::getVar('print') == 1)
+		{
+			$printlink = "<a class =\"anchor\" style=\"display:inline;\" title=\"" . JText::_('COM_JTG_CLIC_FOR_PRINTING') . "\" href= \"javascript:window.print()\" ><img src=\"index2_fichiers/printButton.png\"/>";
+			$navlink = "";
+		}
+		else
+		{
+			$printhref = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
+			$printhref = "window.open(this.href,'win2','" . $printhref . "'); return false;";
+			$printhref = JRoute::_("index.php?option=com_jtg&controller=files&task=file&id=" .
+					JFactory::getApplication()->input->get('id') .
+					'&tmpl=component &print=1" ' . $printhref
+
+			);
+			$printlink = "<a class =\"anchor\" style=\"display:inline; float:right;width:30px;\" title=\"" . JText::_('COM_JTG_PREPARE_FOR_PRINTING') . "\" href= $printhref ><img src=\"index2_fichiers/printButton.png\"/></a>";
+			$navlink = "<a class=\"anchor\" name=\"" . $linkname . "\" href=\"" . $link . "\">";
+		}
+	}
+	else
+	{
+		$printlink = "";
+		$navlink = "<a class=\"anchor\" name=\"" . $linkname . "\" href=\"" . $link . "\">";
+
+	}
+
+	// headline_close will add "</a></div>"
+	return "<div class=\"gps-headline\">$printlink \n $navlink";
 
 }

@@ -1159,7 +1159,7 @@ class JtgViewFiles extends JViewLegacy
 	 *
 	 * @return return_description
 	 */
-	protected function parseTemplate($template, $content = null, $linkname = null, $only = null)
+	protected function parseTemplate($template, $content = null, $linkname = null, $only = null, $printbutton = false)
 	{
 		$tmpl = ($this->cfg->template = "") ? $this->cfg->template : 'default';
 		$templatepath = JPATH_BASE . "/components/com_jtg/assets/template/" . $tmpl . '/';
@@ -1175,7 +1175,7 @@ class JtgViewFiles extends JViewLegacy
 		$TLclose = $template . "_close";
 		$function = "ParseTemplate_" . $TLopen;
 		defined(strtoupper('_ParseTemplate_' . $template . '_open')) or include_once $templatepath . $TLopen . ".php";
-		$return = $function ($linkname);
+		$return = $function ($linkname, $printbutton);
 		$return .= $content;
 		$function = "ParseTemplate_" . $TLclose;
 		defined(strtoupper('ParseTemplate_' . $template . '_close')) or include_once $templatepath . $TLclose . ".php";
