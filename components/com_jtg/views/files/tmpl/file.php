@@ -25,6 +25,8 @@ if ($maySeeSingleFile === true)
 {
 	$defaultlinecolor = "#000000";
 	$charts_bg = $this->cfg->charts_bg? '#' . $this->cfg->charts_bg :"#ffffff";
+
+	// $charts_linec is used for elevation
 	$charts_linec = $this->cfg->charts_linec? '#' . $this->cfg->charts_linec: $defaultlinecolor;
 	$charts_linec_speed = $this->cfg->charts_linec_speed? '#' . $this->cfg->charts_linec_speed: $defaultlinecolor;
 	$charts_linec_pace = $this->cfg->charts_linec_pace? '#' . $this->cfg->charts_linec_pace: $defaultlinecolor;
@@ -76,51 +78,37 @@ if ($maySeeSingleFile === true)
 		if ($heightchart)
 		{
 			// Heightchart is always on left (first) axis
-			$heightchartaxis = 1;
+			$heightchartaxis = $axisnumber + 1;
+			$heightchartopposite = (($heightchartaxis & 1) == 0) ? 'true' : 'false';
 			$axisnumber ++;
-		}
-		else
-		{
-			$heightchartaxis = 0;
 		}
 
 		if ($speedchart)
 		{
-			// Speedchart is on left (first) axis or on right axis when there is a heighchart
-			$speedcharthide = 0;
-			$speedchartaxis = $heightchartaxis + 1;
-			$axisnumber++;
-
 			if ($pacechart)
 			{
 				// Pace is on same axis but speed must be hidden
-				$pacechartaxis = $speedchartaxis + 1;
+				$pacechartaxis = $axisnumber + 1;
+				$pacechartopposite = (($pacechartaxis & 1) == 0) ? 'true' : 'false';
+				$axisnumber ++;
 				$speedcharthide = 1;
 			}
-		}
-		else
-		{
-			$speedchartaxis = 0;
+
+			// Speedchart is on left (first) axis or on right axis when there is a heighchart
+			$speedcharthide = 0;
+			$speedchartaxis = $axisnumber + 1;
+			$speedchartopposite = (($speedchartaxis & 1) == 0) ? 'true' : 'false';
+			$axisnumber ++;
 		}
 
 		if ($beatchart)
 		{
 			// Beatchart is on left (first) axis or on right axis when there is a heighchart or a speed chart
-			if ($axisnumber = 1)
-			{
-				$beatchartaxis = 2;
-				$axisnumber = 2;
-			}
-			else
-			{
-				$beatchartaxis = 1;
-				$axisnumber = 1;
-			}
+			$beatchartaxis = $axisnumber + 1;
+			$beatchartopposite = (($beatchartaxis & 1) == 0) ? 'true' : 'false';
+			$axisnumber ++;
 		}
-		else
-		{
-			$beatchartaxis = 0;
-		}
+
 		// Code support for joomla version greater than 3.0
 		if (JVERSION >= 3.0)
 		{
@@ -150,7 +138,8 @@ if ($maySeeSingleFile === true)
 			$('#elevation').highcharts({
 			chart: {
 				type: 'line',
-				zoomType: 'xy'
+				zoomType: 'xy',
+				backgroundColor: '<?php echo $charts_bg; ?>'
 			},
 			 credits: {
 			enabled: 'false'
@@ -158,11 +147,11 @@ if ($maySeeSingleFile === true)
 				plotOptions: {
 				area: {
 				stacking: 'normal',
-				lineColor: '<?php echo $charts_linec; ?>',
+				lineColor: '#FFFFFF',
 				lineWidth: 1,
 				marker: {
 					lineWidth: 1,
-					lineColor: '<?php echo $charts_linec; ?>'
+					lineColor: '#FFFFFF'
 				}
 				},
 				series: {
@@ -175,7 +164,7 @@ if ($maySeeSingleFile === true)
 			},
 			xAxis: [{
 				labels: {
-				formatter: function() {
+					formatter: function() {
 					return this.value + '<?php echo JText::_('COM_JTG_DISTANCE_UNIT_' . strtoupper($this->cfg->unit)); ?>';
 				}
 			},
@@ -191,19 +180,20 @@ if ($maySeeSingleFile === true)
 			?>
 			{ // Elevation data
 				labels: {
-				formatter: function() {
+					formatter: function() {
 					return this.value +'<?php echo JText::_('COM_JTG_ELEVATION_UNIT'); ?>';
 				},
 				style: {
-					color: '<?php echo $charts_linec_speed; ?>'
+					color: '<?php echo $charts_linec; ?>'
 				}
 				},
 				title: {
 				text: '<?php echo JText::_('COM_JTG_ELEVATION') . '(' . JText::_('COM_JTG_ELEVATION_UNIT'); ?>)',
 				style: {
-					color: '<?php echo $charts_linec_speed; ?>'
+					color: '<?php echo $charts_linec; ?>'
 				}
 				}
+				,opposite: <?php echo  $heightchartopposite; ?>
 			}
 <?php
 }
@@ -227,14 +217,7 @@ if ($pacechart)
 					color: '<?php echo $charts_linec_pace; ?>'
 				}
 				}
-<?php
-if ($pacechartaxis == 2)
-{
-?>
-					,opposite: true // Suppress this if only one axis
-<?php
-}
-?>
+				,opposite: <?php echo $pacechartopposite; ?>
 			}
 <?php
 }
@@ -258,14 +241,7 @@ if ($speedchart)
 					color: '<?php echo $charts_linec_speed; ?>'
 				}
 				}
-<?php
-if ($speedchartaxis == 2)
-{
-?>
-					,opposite: true // Suppress this if only one axis
-<?php
-}
-?>
+				,opposite: <?php echo $speedchartopposite; ?>
 			}
 <?php
 }
@@ -289,15 +265,7 @@ if ($beatchart)
 					color: '<?php echo $charts_linec_heartbeart; ?>'
 				}
 				}
-	<?php
-	if ($beatchartaxis == 2)
-	{
-		// Suppress this if only one axis
-		?>
-					,opposite: true
-	<?php
-	}
-	?>
+				,opposite: <?php echo $beatchartopposite; ?>
 			}
 <?php
 }
@@ -349,7 +317,6 @@ if (true)
 				verticalAlign: 'top',
 				y: 0,
 				floating: true,
-				backgroundColor: '<?php echo $charts_bg; ?>',
 				labelFormatter: function() {
 				return this.name <?php echo $axisnumber > 1? "+ ' (" . JText::_('COM_JTG_CLICK_TO_HIDE') . ")'": ''; ?>;
 				}
@@ -395,6 +362,7 @@ if ($pacechart)
 			}
 <?php
 }
+
 if ($speedchart)
 {
 ?>
@@ -404,7 +372,7 @@ if ($speedchart)
 				color: '<?php echo $charts_linec_speed; ?>',
 				yAxis: <?php echo $speedchartaxis - 1; ?>,
 				data: <?php echo $this->speeddata; ?>,
-				visible: <?php echo $this->pacedata? 'false': 'true'; ?>,
+				visible: <?php echo $pacechart? 'false': 'true'; ?>,
 				marker: {
 				enabled: false
 				},
@@ -423,6 +391,7 @@ if ($beatchart)
 				name: '<?php echo JText::_('COM_JTG_HEARTFREQU'); ?>',
 				unit: '<?php echo JText::_('COM_JTG_HEARTFREQU_UNIT'); ?>',
 				color: '<?php echo $charts_linec_heartbeart; ?>',
+				yAxis: <?php echo $heartbeatchartaxis; ?>,
 				data: <?php echo $this->beatdata; ?>,
 				tooltip: {
 				valueSuffix: '<?php echo JText::_('COM_JTG_HEARTFREQU_UNIT'); ?>'
@@ -446,8 +415,8 @@ if ($beatchart)
 
 <style type="text/css">
 #jtg_map.olMap {
-	height: <?php echo$this->cfg->map_height; ?>;
-	width: <?php echo$this->cfg->map_width; ?>;
+	height: <?php echo $this->cfg->map_height; ?>;
+	width: <?php echo $this->cfg->map_width; ?>;
 	z-index: 0;
 }
 .olButton::before {

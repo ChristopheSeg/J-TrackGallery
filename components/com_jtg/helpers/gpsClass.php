@@ -1255,7 +1255,9 @@ return true;
 				}
 
 				$speed = $speed / ($i3 - $i2 + 1);
-				$pace = min(60/$speed, 60);
+
+				// Pace is limited for low speed $pace <=60 min/km or min/miles
+				$pace = 60/max($speed,1);
 				$speedChartData .= '[' . $distance . ',' . round($speed, 1) . '],';
 				$paceChartData .= '[' . $distance . ',' . round($pace, 1) . '],';
 			}
