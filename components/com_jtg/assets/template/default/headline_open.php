@@ -22,8 +22,8 @@ define('_PARSETEMPLATE_HEADLINE_OPEN', true);
 /**
  * function_description
  *
- * @param   unknown_type  $linkname  param_description
- * @param   boolean       $printbutton true if a print button must be added there
+ * @param   unknown_type  $linkname     param_description
+ * @param   boolean       $printbutton  true if a print button must be added there
  *
  * @return string
  */
@@ -37,7 +37,8 @@ function ParseTemplate_Headline_open($linkname, $printbutton = false)
 		// Printing: 'print=1' will only be present in the url of the modal window, not in the presentation of the page
 		if (JRequest::getVar('print') == 1)
 		{
-			$printlink = "<a class =\"anchor\" title=\"" . JText::_('COM_JTG_CLIC_FOR_PRINTING') . "\" href= \"javascript:window.print()\" ><img src=\"index2_fichiers/printButton.png\"/>";
+			$printlink = "<a class =\"anchor\" title=\"" . JText::_('COM_JTG_CLIC_FOR_PRINTING') .
+				"\" href= \"javascript:window.print()\" ><img src=\"/components/com_jtg/assets/images/printButton.png\"/>";
 			$navlink = "";
 		}
 		else
@@ -49,7 +50,9 @@ function ParseTemplate_Headline_open($linkname, $printbutton = false)
 					'&tmpl=component &print=1" ' . $printhref
 
 			);
-			$printlink = "<a class =\"anchor\" style=\"display:inline; float:right;width:30px;\" title=\"" . JText::_('COM_JTG_PREPARE_FOR_PRINTING') . "\" href= $printhref ><img src=\"index2_fichiers/printButton.png\"/></a>";
+			$printlink = "<a class =\"anchor\" style=\"display:inline; float:right;width:30px;\" title=\"" .
+				JText::_('COM_JTG_PREPARE_FOR_PRINTING') .
+				"\" href= $printhref ><img src=\"/components/com_jtg/assets/images/printButton.png\"/></a>";
 			$navlink = "<a class=\"anchor\" name=\"" . $linkname . "\" href=\"" . $link . "\">";
 		}
 	}
@@ -57,10 +60,8 @@ function ParseTemplate_Headline_open($linkname, $printbutton = false)
 	{
 		$printlink = "";
 		$navlink = "<a class=\"anchor\" name=\"" . $linkname . "\" href=\"" . $link . "\">";
-
 	}
 
-	// headline_close will add "</a></div>"
+	// Headline_close will add "</a></div>"
 	return "<div class=\"gps-headline\">$printlink \n $navlink";
-
 }
