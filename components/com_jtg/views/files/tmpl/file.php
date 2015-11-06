@@ -460,7 +460,7 @@ if ( $this->clicklist !== false ) {
 ?>
     </div>
 -->
-<div id="profile" style="width:<?php echo (int) $this->cfg->charts_width; ?>" >
+<div id="profile" style="width:<?php echo $this->cfg->charts_width; ?>" >
 	<?php
 	if ($havechart)
 	{
@@ -489,6 +489,18 @@ if ( $this->clicklist !== false ) {
 							<div align="center">
 								<span><?php echo JText::_('COM_JTG_TIMECOUNT'); ?> </span>
 							</div>
+						<?php if ($pacechart)
+						{ ?>
+							<div align="center">
+								<span> <label for="pace"> <?php echo JText::_('COM_JTG_AVG_SPEED_FROM_PACE'); ?>
+								</label> <input type="text" name="pace" id="pace" value=""
+									size="4" />
+								</span> <input type="button" name="button" class="button"
+									value="<?php echo JText::_('JSUBMIT'); ?>"
+									onclick="getAvgTimeFromPace(document.getElementById('pace').value,<?php echo $this->distance_float; ?>,
+									<?php echo '\'' . JText::_('COM_JTG_SEPARATOR_DEC') . '\''; ?>);" />
+							</div>
+						<?php } ?>
 							<div align="center">
 								<span> <label for="speed"> <?php echo JText::_('COM_JTG_AVG_SPEED'); ?>
 								</label> <input type="text" name="speed" id="speed" value=""
@@ -496,7 +508,7 @@ if ( $this->clicklist !== false ) {
 								</span> <input type="button" name="button" class="button"
 									value="<?php echo JText::_('JSUBMIT'); ?>"
 									onclick="getAvgTime(document.getElementById('speed').value,<?php echo $this->distance_float; ?>,
-				<?php echo '\'' . JText::_('COM_JTG_SEPARATOR_DEC') . '\''; ?>);" />
+									<?php echo '\'' . JText::_('COM_JTG_SEPARATOR_DEC') . '\''; ?>);" />
 							</div>
 							<div align="center">
 								<span> <label for="time"> <?php echo JText::_('COM_JTG_ESTIMATED_TIME'); ?>
