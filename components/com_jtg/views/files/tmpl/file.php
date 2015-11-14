@@ -495,6 +495,7 @@ if ( $this->clicklist !== false ) {
 								<span> <label for="pace"> <?php echo JText::_('COM_JTG_AVG_SPEED_FROM_PACE'); ?>
 								</label> <input type="text" name="pace" id="pace" value=""
 									size="4" />
+								<?php echo '(' . JText::_('COM_JTG_PACE_UNIT_' . strtoupper($this->cfg->unit)) . ')'; ?>
 								</span> <input type="button" name="button" class="button"
 									value="<?php echo JText::_('JSUBMIT'); ?>"
 									onclick="getAvgTimeFromPace(document.getElementById('pace').value,<?php echo $this->distance_float; ?>,
@@ -505,6 +506,7 @@ if ( $this->clicklist !== false ) {
 								<span> <label for="speed"> <?php echo JText::_('COM_JTG_AVG_SPEED'); ?>
 								</label> <input type="text" name="speed" id="speed" value=""
 									size="4" />
+								<?php echo '(' . JText::_('COM_JTG_SPEED_UNIT_' . strtoupper($this->cfg->unit)) . ')'; ?>
 								</span> <input type="button" name="button" class="button"
 									value="<?php echo JText::_('JSUBMIT'); ?>"
 									onclick="getAvgTime(document.getElementById('speed').value,<?php echo $this->distance_float; ?>,
