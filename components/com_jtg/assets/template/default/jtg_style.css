@@ -1037,6 +1037,7 @@ span.fileis img {
     border: 0 none;
     margin-right: 2px;
     padding: 0;
+    display: inline;
 }
 
 /* end is-xxx icons*/

@@ -1152,7 +1152,7 @@ class JtgViewFiles extends JViewLegacy
 	public function buildImageFiletypes($track, $wp, $route, $cache, $roundtrip, $iconheight)
 	{
 		$height = ($iconheight > 0? ' style="max-height:' . $iconheight . 'px" ' : ' ');
-		$imagelink = "<span class=\"fileis\">";
+		$imagelink = "";
 
 		if ( ( isset($track) ) AND ( $track == "1" ) )
 		{
@@ -1165,7 +1165,7 @@ class JtgViewFiles extends JViewLegacy
 
 		if ( isset($track) )
 		{
-			$imagelink .= "<img $height src =\"/components/com_jtg/assets/images/track$m.png\" title=\"" . JText::_('COM_JTG_ISTRACK') . "\"/>\n";
+			$imagelink .= "<img $height src =\"/components/com_jtg/assets/images/track$m.png\" title=\"" . JText::_('COM_JTG_ISTRACK' . $m) . "\"/>\n";
 		}
 		else
 		{
@@ -1187,7 +1187,7 @@ class JtgViewFiles extends JViewLegacy
 		}
 		else
 		{
-			$imagelink .= "<img $height src =\"/components/com_jtg/assets/images/roundtrip$m.png\" title=\"" . JText::_('COM_JTG_DKROUNDTRIP' . $m) . "\"/>\n";
+			$imagelink .= "<img $height src =\"/components/com_jtg/assets/images/roundtrip$m.png\" title=\"" . JText::_('COM_JTG_DKROUNDTRIP') . "\"/>\n";
 		}
 
 		//$imagelink .= "</td>";
@@ -1209,7 +1209,7 @@ class JtgViewFiles extends JViewLegacy
 		}
 		else
 		{
-			$imagelink .= "<img $height src =\"/components/com_jtg/assets/images/wp$m.png\" title=\"" . JText::_('COM_JTG_DKWP' . $m) . "\"/>\n";
+			$imagelink .= "<img $height src =\"/components/com_jtg/assets/images/wp$m.png\" title=\"" . JText::_('COM_JTG_DKWP') . "\"/>\n";
 		}
 
 		//$imagelink .= "</td>";
@@ -1242,10 +1242,10 @@ class JtgViewFiles extends JViewLegacy
 		}
 		else
 		{
-			$imagelink .= "<img $height src =\"/components/com_jtg/assets/images/cache$m.png\" title=\"" . JText::_('COM_JTG_DKCACHE' . $m) . "\"/>\n";
+			$imagelink .= "<img $height src =\"/components/com_jtg/assets/images/cache$m.png\" title=\"" . JText::_('COM_JTG_DKCACHE') . "\"/>\n";
 		}
 
-		$imagelink .= "</span>";
+		//$imagelink .= "</span>";
 
 		return $imagelink;
 	}

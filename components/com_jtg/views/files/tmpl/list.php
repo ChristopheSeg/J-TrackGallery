@@ -65,8 +65,6 @@ echo $this->lh;
 				</th>
 				<th><?php echo JHtml::_('grid.sort', JText::_('COM_JTG_CAT'), 'cat', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
 				</th>
-				<th><?php echo JHtml::_('grid.sort', JText::_('COM_JTG_CATXX'), 'cat', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
-				</th>
 				<th><?php echo JHtml::_('grid.sort', JText::_('COM_JTG_LEVEL'), 'level', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
 				</th>
 <?php
@@ -132,6 +130,8 @@ if ($this->cfg->usevote == 1)
 				$link = JRoute::_('index.php?option=com_jtg&view=files&layout=file&id=' . $row->id, false);
 				$profile = JtgHelper::getProfileLink($row->uid, $row->user);
 				$cat = JtgHelper::parseMoreCats($this->sortedcats, $row->catid, "list", true, $iconheight);
+				$height = ($iconheight > 0? ' style="max-height:' . $iconheight . 'px" ' : ' ');
+				$cat = $cat ? $cat: "<img $height src =\"/components/com_jtg/assets/images/cats/symbol_inter.png\" />\n";
 				$terrain = JtgHelper::parseMoreTerrains($this->sortedter, $row->terrain, "list", true);
 				$hits = JtgHelper::getLocatedFloat($row->hits);
 				$layoutHelper = new LayoutHelper;
@@ -139,6 +139,7 @@ if ($this->cfg->usevote == 1)
 				$links = null;
 				$levelMin = $this->params->get('jtg_param_level_from');
 				$levelMax = $this->params->get('jtg_param_level_to');
+				$catcolummwidth= 5 * (2+$iconheight)+1;
 				// TODO
 				$imagelink	= $this->buildImageFiletypes($row->istrack, $row->iswp, $row->isroute, $row->iscache,0,$iconheight);
 
@@ -187,8 +188,8 @@ if ($this->cfg->usevote == 1)
 				<td><?php echo $this->pagination->getRowOffset($i) . $links; ?></td>
 				<td><a href="<?php echo $link; ?>">
 					<?php echo $row->title; ?> </a></td>
-				<td><?php echo $cat; ?></td>
-				<td><?php echo $imagelink; ?></td>
+				<td  width="<?php echo $catcolummwidth . 'px'; ?>">
+				<?php echo '<span class="fileis">' . $cat . ' ' . $imagelink . '</span>'; ?></td>
 				<td><?php echo $level; ?></td>
 				<?php
 if (! $this->params->get("jtg_param_disable_terrains"))
