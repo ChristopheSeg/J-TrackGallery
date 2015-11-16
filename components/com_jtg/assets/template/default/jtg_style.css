@@ -1029,4 +1029,15 @@ div.button2jtg-left button {
 	background: transparent;
 	border: 0 solid #aaa;
 }
+/* is-xxx icons */
+
+
+span.fileis img {
+    float: left; 
+    border: 0 none;
+    margin-right: 2px;
+    padding: 0;
+}
+
+/* end is-xxx icons*/
 

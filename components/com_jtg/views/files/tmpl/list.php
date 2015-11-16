@@ -65,6 +65,8 @@ echo $this->lh;
 				</th>
 				<th><?php echo JHtml::_('grid.sort', JText::_('COM_JTG_CAT'), 'cat', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
 				</th>
+				<th><?php echo JHtml::_('grid.sort', JText::_('COM_JTG_CATXX'), 'cat', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
+				</th>
 				<th><?php echo JHtml::_('grid.sort', JText::_('COM_JTG_LEVEL'), 'level', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
 				</th>
 <?php
@@ -137,6 +139,8 @@ if ($this->cfg->usevote == 1)
 				$links = null;
 				$levelMin = $this->params->get('jtg_param_level_from');
 				$levelMax = $this->params->get('jtg_param_level_to');
+				// TODO
+				$imagelink	= $this->buildImageFiletypes($row->istrack, $row->iswp, $row->isroute, $row->iscache,0,$iconheight);
 
 				$level = JtgHelper::getLevelIcon($row->level, $row->catid, $levelMin, $levelMax, $iconheight);
 
@@ -184,6 +188,7 @@ if ($this->cfg->usevote == 1)
 				<td><a href="<?php echo $link; ?>">
 					<?php echo $row->title; ?> </a></td>
 				<td><?php echo $cat; ?></td>
+				<td><?php echo $imagelink; ?></td>
 				<td><?php echo $level; ?></td>
 				<?php
 if (! $this->params->get("jtg_param_disable_terrains"))
