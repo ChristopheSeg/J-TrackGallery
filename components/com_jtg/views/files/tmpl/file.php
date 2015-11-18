@@ -460,7 +460,7 @@ if ( $this->clicklist !== false ) {
 ?>
     </div>
 -->
-<div id="profile" style="width:<?php echo $this->cfg->charts_width; ?>" >
+<div id="profile" style="width:<?php echo $this->cfg->charts_width; ?>;" >
 	<?php
 	if ($havechart)
 	{

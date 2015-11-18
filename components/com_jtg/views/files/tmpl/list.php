@@ -22,6 +22,22 @@ defined('_JEXEC') or die('Restricted access');
 JHtml::_('script', 'system/core.js', false, true);
 
 echo $this->lh;
+
+$iconheight = $this->params->get('jtg_param_list_icon_max_height');
+$hide_icon_category = (bool) $this->params->get('jtg_param_tracks_list_hide_icon_category');
+$hide_icon_istrack = (bool) $this->params->get('jtg_param_tracks_list_hide_icon_istrack');
+$hide_icon_isroundtrip = (bool) $this->params->get('jtg_param_tracks_list_hide_icon_isroundtrip');
+$hide_icon_is_wp = (bool) $this->params->get('jtg_param_tracks_list_hide_icon_is_wp');
+$hide_icon_isgeocache = (bool) $this->params->get('jtg_param_tracks_list_hide_icon_isgeocache');
+$height = ($iconheight > 0? ' style="max-height:' . $iconheight . 'px;" ' : ' ');
+$levelMin = $this->params->get('jtg_param_level_from');
+$levelMax = $this->params->get('jtg_param_level_to');
+$catcolumnwidth = 0;
+$catcolumnwidth = $catcolumnwidth + ($hide_icon_category? 0: 2 + $iconheight) ;
+$catcolumnwidth = $catcolumnwidth + ($hide_icon_istrack? 0: 2 + $iconheight) ;
+$catcolumnwidth = $catcolumnwidth + ($hide_icon_isroundtrip? 0: 2 + $iconheight) ;
+$catcolumnwidth = $catcolumnwidth + ($hide_icon_is_wp? 0: 2 + $iconheight) ;
+$catcolumnwidth = $catcolumnwidth + ($hide_icon_isgeocache? 0: 2 + $iconheight) ;
 ?>
 
 <script type="text/javascript">
@@ -63,8 +79,10 @@ echo $this->lh;
 				<th>#</th>
 				<th><?php echo JHtml::_('grid.sort', JText::_('COM_JTG_TITLE'), 'title', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
 				</th>
+				<?php if ($catcolumnwidth > 0) {?>
 				<th><?php echo JHtml::_('grid.sort', JText::_('COM_JTG_CAT'), 'cat', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
 				</th>
+				<?php } ?>
 				<th><?php echo JHtml::_('grid.sort', JText::_('COM_JTG_LEVEL'), 'level', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
 				</th>
 <?php
@@ -126,22 +144,17 @@ if ($this->cfg->usevote == 1)
 					$row->title = "<font class=\"emptyEntry\">" . JText::_('COM_JTG_NO_TITLE') . "</font>";
 				}
 
-				$iconheight = $this->params->get('jtg_param_list_icon_max_height');
 				$link = JRoute::_('index.php?option=com_jtg&view=files&layout=file&id=' . $row->id, false);
 				$profile = JtgHelper::getProfileLink($row->uid, $row->user);
 				$cat = JtgHelper::parseMoreCats($this->sortedcats, $row->catid, "list", true, $iconheight);
-				$height = ($iconheight > 0? ' style="max-height:' . $iconheight . 'px" ' : ' ');
 				$cat = $cat ? $cat: "<img $height src =\"/components/com_jtg/assets/images/cats/symbol_inter.png\" />\n";
 				$terrain = JtgHelper::parseMoreTerrains($this->sortedter, $row->terrain, "list", true);
 				$hits = JtgHelper::getLocatedFloat($row->hits);
 				$layoutHelper = new LayoutHelper;
 				$votes = $layoutHelper->parseVoteFloat($row->vote, true);
 				$links = null;
-				$levelMin = $this->params->get('jtg_param_level_from');
-				$levelMax = $this->params->get('jtg_param_level_to');
-				$catcolummwidth= 5 * (2+$iconheight)+1;
-				// TODO
-				$imagelink	= $this->buildImageFiletypes($row->istrack, $row->iswp, $row->isroute, $row->iscache,0,$iconheight);
+				$imagelink = $this->buildImageFiletypes($row->istrack, $row->iswp, $row->isroute, $row->iscache, $row->isroundtrip, $iconheight,
+						$hide_icon_istrack, $hide_icon_is_wp, 0, $hide_icon_isgeocache, $hide_icon_isroundtrip);
 
 				$level = JtgHelper::getLevelIcon($row->level, $row->catid, $levelMin, $levelMax, $iconheight);
 
@@ -169,7 +182,7 @@ if ($this->cfg->usevote == 1)
 				}
 
 				if (( ( $this->uid != 0 ) AND ( $this->uid == $row->uid ) )
-					OR  ( JFactory::getUser()->get('isRoot') ) )
+					OR ( JFactory::getUser()->get('isRoot') ) )
 				{
 					// I can edit and delete my file (or I'm admin)
 					$editlink = JRoute::_('index.php?option=com_jtg&view=files&layout=form&id=' . $row->id, false);
@@ -188,8 +201,10 @@ if ($this->cfg->usevote == 1)
 				<td><?php echo $this->pagination->getRowOffset($i) . $links; ?></td>
 				<td><a href="<?php echo $link; ?>">
 					<?php echo $row->title; ?> </a></td>
-				<td  width="<?php echo $catcolummwidth . 'px'; ?>">
+				<?php if ($catcolumnwidth > 0) {?>
+					<td  width="<?php echo $catcolumnwidth . 'px'; ?>">
 				<?php echo '<span class="fileis">' . $cat . ' ' . $imagelink . '</span>'; ?></td>
+				<?php }?>
 				<td><?php echo $level; ?></td>
 				<?php
 if (! $this->params->get("jtg_param_disable_terrains"))

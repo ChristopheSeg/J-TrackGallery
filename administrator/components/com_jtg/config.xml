@@ -178,6 +178,36 @@
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
+		<field name="jtg_param_tracks_list_hide_icon_category" type="radio"
+			addfieldpath="/administrator/components/com_jtg/elements" default="0"
+			label="COM_JTG_LIST_HIDE_ICON_CATEGORY" description="COM_JTG_TT_LIST_HIDE_ICON_CATEGORY">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+		<field name="jtg_param_tracks_list_hide_icon_istrack" type="radio"
+			addfieldpath="/administrator/components/com_jtg/elements" default="0"
+			label="COM_JTG_LIST_HIDE_ICON_ISTRACK" description="COM_JTG_TT_LIST_ICON_ISTRACK">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+		<field name="jtg_param_tracks_list_hide_icon_isroundtrip" type="radio"
+			addfieldpath="/administrator/components/com_jtg/elements" default="0"
+			label="COM_JTG_LIST_HIDE_ICON_ISROUNDTRIP" description="COM_JTG_TT_LIST_HIDE_ICON_ISROUNDTRIP">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+		<field name="jtg_param_tracks_list_hide_icon_is_wp " type="radio"
+			addfieldpath="/administrator/components/com_jtg/elements" default="0"
+			label="COM_JTG_LIST_HIDE_ICON_ISWP" description="COM_JTG_TT_LIST_HIDE_ICON_ISWP">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+		<field name="jtg_param_tracks_list_hide_icon_isgeocache" type="radio"
+			addfieldpath="/administrator/components/com_jtg/elements" default="0"
+			label="COM_JTG_LIST_HIDE_ICON_ISGEOCACHE" description="COM_JTG_TT_LIST_HIDE_ICON_ISGEOCACHE">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
 	</fieldset>
 	<fieldset name="LIMIT" label="COM_JTG_TT_MENU_LIMIT">
 		<field type="spacer" addfieldpath="/administrator/components/com_jtg/elements" />

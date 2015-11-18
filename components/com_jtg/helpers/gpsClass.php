@@ -64,6 +64,8 @@ class GpsDataClass
 
 	var $isWaypoint = false;
 
+	var $isroundtrip = false;
+
 	var $distance = 0;
 
 	var $Date = "";
@@ -192,6 +194,32 @@ class GpsDataClass
 		$this->extractWPs();
 
 		$this->fileChecked = true;
+
+
+		// Resave calculated datas
+		$id = JFactory::getApplication()->input->get('id');
+
+		if ($id > 0)
+		{
+			$query = "UPDATE #__jtg_files SET"
+
+		. "\n istrack='" . $this->isTrack . "',"
+		. "\n iswp='" . $this->isWaypoint . "',"
+		. "\n isroute='" . $this->isRoute . "',"
+		. "\n isroundtrip='" . $this->isroundtrip . "',"
+		. "\n iscache='" . $this->isCache . "',"
+		. "\n start_n='" . $this->start[1] . "',"
+		. "\n start_e='" . $this->start[0] . "',"
+		. "\n distance='" . $this->distance . "',"
+		. "\n ele_asc='" . $this->totalAscent . "',"
+		. "\n ele_desc='" . $this->totalDescent . "'"
+		. "\n WHERE id='" . $id . "'";
+
+		$db = JFactory::getDBO();
+		$db->setQuery($query);
+		$db->execute();
+
+		}
 
 		return $this;
 	}
@@ -1055,6 +1083,37 @@ return true;
 		if ( ( $this->totalAscent == 0 ) or ($this->totalDescent == 0) )
 		{
 			$this->elevationDataExists = false;
+		}
+
+		// Is this track a roundtrip ?
+		$t = $this->trackCount;
+		$n = count($first_coord = $this->track[$t]->coords);
+		$first_coord = $this->track[1]->coords[0];
+		$first_lat_rad = deg2rad($first_coord[1]);
+		$first_lon_rad = deg2rad($first_coord[0]);
+		$last_coord = $this->track[$t]->coords[$n-1];
+		$last_lat_rad = deg2rad($last_coord[1]);
+		$last_lon_rad = deg2rad($last_coord[0]);
+
+		// Calculate distances in km
+		$earthRadius = 6378.137;
+		$dis_first_to_last = acos(
+				(sin($last_lat_rad) * sin($first_lat_rad)) +
+				(cos($last_lat_rad) * cos($first_lat_rad) *
+						cos($first_lon_rad - $last_lon_rad))
+				) * $earthRadius;
+
+				if (is_nan($dis_first_to_last))
+		{
+			$dis_first_to_last = 0;
+		}
+		if (($dis_first_to_last < 0.2) OR ( $dis_first_to_last < $this->distance/50) )
+		{
+			$this->isroundtrip = true;
+		}
+		else
+		{
+			$this->isroundtrip = false;
 		}
 
 		return;
