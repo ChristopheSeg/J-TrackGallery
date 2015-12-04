@@ -2484,11 +2484,40 @@ return true;
 	 *
 	 * @return Object
 	 */
-	private function buildMaps()
+	private function buildMaps($track, $params)
 	{
 		$maps = $this->getMaps("ordering");
 		$return = "";
 		$document = JFactory::getDocument();
+
+		// Search maps and overlays Defaults
+		$db = JFactory::getDBO();
+
+		// Ordering by id is useful in case no order has been set.
+		$query = "SELECT id FROM #__jtg_maps WHERE published=1 ORDER by ordering, id LIMIT 1";
+		$db->setQuery($query);
+		$ids = $db->loadObjectlist();
+		$defaultMap = $ids[0]->id;
+		$defaultOverlays = null;
+		$overlays = '';
+
+		// Search maps and overlays Defaults defined from categories
+
+		$query = "SELECT default_map, default_overlays FROM #__jtg_cats WHERE id =$track->catid";
+		$db->setQuery($query);
+		$cat_defaults = $db->loadObjectlist();
+		if (count($cat_defaults))
+		{
+			$catDefaultMap = $cat_defaults[0]->default_map;
+			$catDefaultOverlays = $cat_defaults[0]->default_overlays;
+		}
+
+		$defaultMap = $catDefaultMap? $catDefaultMap: $defaultMap;
+		$defaultOverlays = $catDefaultOverlays? $catDefaultOverlays: $defaultOverlays;
+		// Search maps and overlays Defaults defined track
+
+		$defaultMap = $track->default_map? $track->default_map: $defaultMap;
+		$defaultOverlays = $track->default_overlays? $track->default_overlays: $defaultOverlays;
 
 		for ($i = 0;$i < count($maps);$i++)
 		{
@@ -2524,33 +2553,24 @@ return true;
 					$return .= $code . "\n";
 				}
 
-				if (!isset($baselayer))
+				if ($defaultMap == $map->id)
 				{
 					$baselayer = "		olmap.setBaseLayer(layer" . $name . ");\n";
+				}
+
+				if (isset($defaultOverlays))
+				{
+					if (array_key_exists($map->id, '$defaultOverlays'))
+					{
+						// Set this as an active overlay
+						$overlays .= "		olmap.setVisibility(layer" . $name . ");\n";
+					}
 				}
 
 				$return .= "layer" . $name . " = new " . $param . ";\n" .
 						"olmap.addLayer(layer" . $name . ");\n";
 			}
 		}
-
-		// TODO: move this to overlays
-		$params = JComponentHelper::getParams('com_jtg');
-
-		/* This has been disabled since 0.9.17
-		if (! $params->get('jtg_param_disable_hillshade'))
-		{
-			$return .= "hs_name = \"" . JText::_('COM_JTG_HILL_SHADE_EUROPE') . "\";\n";
-			$return .= "hs_url = \"http://129.206.228.72/cached/hillshade?\";\n";
-			$return .= "hs_options = {layers: 'europe_wms:hs_srtm_europa',srs: 'EPSG:900913', format: 'image/jpeg', transparent: 'true',numZoomLevels: 19};\n";
-			$return .= "hs2_1_options = {layers: 'europe_wms:hs_srtm_europa',srs: 'EPSG:900913', format: 'image/jpeg',numZoomLevels: 19};\n";
-
-			$return .= "hs2 =  new OpenLayers.Layer.WMS( hs_name , hs_url , hs_options, {'buffer':1, removeBackBufferDelay:0, className:'olLayerGridCustom'});\n";
-			$return .= "hs2.setOpacity(0.3);\n";
-			$return .= "hs2_1 =  new OpenLayers.Layer.WMS( hs_name , hs_url , hs2_1_options,{'buffer':1, transitionEffect:'resize', removeBackBufferDelay:0, className:'olLayerGridCustom'});\n";
-			$return .= "olmap.addLayer( hs2,hs2_1 );\n";
-		}
-		*/
 
 		// TODO osm_getTileURL see http://wiki.openstreetmap.org/wiki/Talk:Openlayers_POI_layer_example
 		$document->addScript(JUri::root(true) . '/components/com_jtg/assets/js/jtg_getTileURL.js');
@@ -2561,7 +2581,7 @@ return true;
 			return false;
 		}
 
-		$return = $return . $baselayer;
+		$return = $return . $baselayer . $overlays;
 
 		return $return;
 	}
@@ -2571,29 +2591,14 @@ return true;
 	 *
 	 * @return string
 	 */
-	private function parseOLLayer()
+	private function parseOLLayer($track, $params)
 	{
-		$maps = $this->buildMaps();
+		$maps = $this->buildMaps($track, $params);
 		$layer = "// <!-- parseOLLayer BEGIN -->\n";
-		$layer .= $maps . "// <!-- parseOLLayer END -->\n";
+		$layer .= $maps . "\n// <!-- parseOLLayer END -->\n";
 
 		return $layer;
 
-		// TODO Set base Layer (actually return before !!
-		// What is layertoshow ??,
-		$layertoshow = array();
-
-		if ( $baselayer != false )
-		{
-			$layer .= "		olmap.setBaseLayer(" . $baselayer . ");\n";
-
-			return $layer;
-		}
-		else
-		{
-			return $layertoshow[0];
-		}
-		// Gib nur Mapnik aus, für den Fall der Fehlkonfiguration
 	}
 
 	/**
@@ -2783,7 +2788,7 @@ return true;
 
 		$map .= $this->parseOLMapControl($params, false);
 		$zeiten .= (int) round((microtime(true) - $jtg_microtime), 0) . " " . JText::_('COM_JTG_DEBUG_TIMES') . " parseOLMapControl<br />\n";
-		$map .= $this->parseOLLayer();
+		$map .= $this->parseOLLayer($track, $params);
 
 		$zeiten .= (int) round((microtime(true) - $jtg_microtime), 0) . " " . JText::_('COM_JTG_DEBUG_TIMES') . " parseOLLayer<br />\n";
 		$coords = $this->parseXMLlinesOL();
@@ -2833,6 +2838,7 @@ return true;
 	 */
 	public function writeSingleTrackOL($file,$params=false)
 	{
+		// TODO NO LONGER USED !!
 		// For little Map in Administration
 		$mainframe = JFactory::getApplication();
 		jimport('joomla.filesystem.file');

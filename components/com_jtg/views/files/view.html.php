@@ -446,6 +446,7 @@ class JtgViewFiles extends JViewLegacy
 		$date = JHtml::_('date', $track->date, JText::_('COM_JTG_DATE_FORMAT_LC4'));
 		$profile = JtgHelper::getProfileLink($track->uid, $track->user);
 		$comments = $model->getComments($id, $cfg->ordering);
+
 		/**
 		 // 	$comments = $cache->get(array (
 		 // 		$model,

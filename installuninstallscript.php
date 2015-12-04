@@ -258,7 +258,7 @@ class Com_JtgInstallerScript
 	}
 
 	// Copy difficulty level icons
-	$src_folder_to_copy = JPATH_SITE . '/components/com_jtg/assets/difficulty_level';
+	$src_folder_to_copy = JPATH_SITE . '/components/com_jtg/assets/images/difficulty_level';
 	$dest_folder_to_copy = JPATH_SITE . '/images/jtrackgallery/difficulty_level';
 	JFolder::copy($src_folder_to_copy, $dest_folder_to_copy, $force = false);
 
