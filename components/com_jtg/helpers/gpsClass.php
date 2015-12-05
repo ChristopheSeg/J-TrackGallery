@@ -2518,6 +2518,7 @@ return true;
 
 		$defaultMap = $track->default_map? $track->default_map: $defaultMap;
 		$defaultOverlays = $track->default_overlays? $track->default_overlays: $defaultOverlays;
+		$defaultOverlays = unserialize($defaultOverlays);
 
 		for ($i = 0;$i < count($maps);$i++)
 		{
@@ -2558,17 +2559,19 @@ return true;
 					$baselayer = "		olmap.setBaseLayer(layer" . $name . ");\n";
 				}
 
-				if (isset($defaultOverlays))
+				// Activate default overlays
+				if (is_array($defaultOverlays))
 				{
-					if (array_key_exists($map->id, '$defaultOverlays'))
+					if (in_array($map->id, $defaultOverlays))
 					{
 						// Set this as an active overlay
-						$overlays .= "		olmap.setVisibility(layer" . $name . ");\n";
+						$overlays .= "layer" . $name . ".setVisibility(true);\n";
 					}
 				}
 
 				$return .= "layer" . $name . " = new " . $param . ";\n" .
-						"olmap.addLayer(layer" . $name . ");\n";
+						$overlays .
+						"olmap.addLayer(layer" . $name . ");\n ";
 			}
 		}
 
@@ -2581,7 +2584,7 @@ return true;
 			return false;
 		}
 
-		$return = $return . $baselayer . $overlays;
+		$return = $return . $baselayer;
 
 		return $return;
 	}

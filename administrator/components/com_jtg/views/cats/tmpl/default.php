@@ -43,6 +43,8 @@ $ordering = ($this->lists['order'] == 'ordering');
 				<th class="title"><?php echo JText::_('COM_JTG_IMAGE'); ?></th>
 				<th class="title"><?php echo JText::_('COM_JTG_CAT'); ?></th>
 				<th class="title"><?php echo JText::_('COM_JTG_DESCRIPTION'); ?></th>
+				<th class="title"><?php echo JText::_('COM_JTG_DEFAULT_MAP'); ?></th>
+				<th class="title"><?php echo JText::_('COM_JTG_DEFAULT_OVERLAYS'); ?></th>
 				<th class="title"><?php echo JText::_('COM_JTG_USEPACE'); ?></th>
 				<?php
 if ( $ordering !== false )
@@ -72,6 +74,22 @@ for ($i = 0; $i < $n; $i++)
 	$row = $this->list[$i];
 	$checked 	= JHtml::_('grid.checkedout', $row, $i);
 	$published 	= JHtml::_('grid.published', $row, $i);
+	$temp = unserialize($row->default_overlays);
+	if (is_array($temp))
+	{
+		if ($temp[0]<>0)
+		{
+			$default_overlays_string = implode(",", $temp);
+		}
+		else
+		{
+			$default_overlays_string='';
+		}
+	}
+	else
+	{
+		$default_overlays_string='';
+	}
 
 ?>
 			<tr class="<?php echo $k? "row$k row-odd":"row$k row-even"; ?>">
@@ -92,6 +110,8 @@ if ((isset($this->catpic[$this->list[$i]->id])) AND ( $this->catpic[$this->list[
 						<?php echo JText::_($row->treename); ?>
 				</a></td>
 				<td><?php echo JText::_($row->description); ?></td>
+				<td><?php echo $row->default_map? $row->default_map: ''; ?></td>
+				<td><?php echo $default_overlays_string; ?></td>
 				<td><?php echo $row->usepace? JText::_('JYES'): JText::_('JNO'); ?></td>
 	<?php
 	if ( $ordering !== false )

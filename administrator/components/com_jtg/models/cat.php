@@ -291,12 +291,22 @@ class JtgModelCat extends JModelLegacy
 		$parent = JRequest::getInt('parent');
 		$image = JFactory::getApplication()->input->get('catpic');
 		$usepace = JFactory::getApplication()->input->get('usepace');
+		$default_map = JFactory::getApplication()->input->get('default_map');
+		$default_overlays = JFactory::getApplication()->input->get('default_overlays',null,'array');
+		if ($default_overlays[0]==0)
+		{
+			// None has been selected: deselect all other selection (multiple selection)
+			$default_overlays=array(0);
+		}
+		$default_overlays = serialize($default_overlays);
 
 		$query = "INSERT INTO #__jtg_cats SET"
 		. "\n parent_id='" . $parent . "',"
 		. "\n title='" . $title . "',"
 		. "\n image='" . $image . "',"
 		. "\n usepace='" . $usepace . "',"
+		. "\n default_map='" . $default_map . "',"
+		. "\n default_overlays='" . $default_overlays . "',"
 		. "\n description='" . $desc . "',"
 		. "\n published='" . $published . "'";
 
@@ -387,6 +397,14 @@ class JtgModelCat extends JModelLegacy
 		$title = JFactory::getApplication()->input->get('title', '', 'string');
 		$image = JFactory::getApplication()->input->get('catpic');
 		$usepace = JFactory::getApplication()->input->get('usepace');
+		$default_map = JFactory::getApplication()->input->get('default_map');
+		$default_overlays = JFactory::getApplication()->input->get('default_overlays',null,'array');
+		if ($default_overlays[0]==0)
+		{
+			// None has been selected: deselect all other selection (multiple selection)
+			$default_overlays=array(0);
+		}
+		$default_overlays = serialize($default_overlays);
 
 		if ( $title == "" )
 		{
@@ -410,6 +428,8 @@ class JtgModelCat extends JModelLegacy
 		. "\n title='" . $title . "',"
 		. "\n image='" . $image . "',"
 		. "\n usepace='" . $usepace . "',"
+		. "\n default_map='" . $default_map . "',"
+		. "\n default_overlays='" . $default_overlays . "',"
 		. "\n description='" . $desc . "',"
 		. "\n published='" . $published . "'"
 		. "\n WHERE id='" . $id . "'";

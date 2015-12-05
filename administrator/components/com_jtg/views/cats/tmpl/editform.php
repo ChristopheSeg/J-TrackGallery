@@ -52,6 +52,14 @@ $image = $this->data->image;
 				<td><?php echo $this->lists['block']; ?></td>
 			</tr>
 			<tr>
+				<td width="150px"><?php echo JText::_('COM_JTG_DEFAULT_MAP'); ?></td>
+				<td><?php echo $this->lists['default_map']; ?></td>
+			</tr>
+			<tr>
+				<td width="150px"><?php echo JText::_('COM_JTG_DEFAULT_OVERLAYS'); ?></td>
+				<td><?php echo $this->lists['default_overlays']; ?></td>
+			</tr>
+			<tr>
 				<td width="150px"><?php echo JText::_('COM_JTG_USEPACE'); ?></td>
 				<td><?php echo $this->lists['usepace']; ?></td>
 			</tr>

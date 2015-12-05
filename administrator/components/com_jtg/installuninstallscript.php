@@ -15,7 +15,11 @@
  *
  */
 
-// This file is based on Joomla script.php and corresponding com_flexicontent install script
+/* This file is based on Joomla script.php and corresponding com_flexicontent install script
+Developper !!
+Use file /installuninstall.php
+Don't use /administrator/componentes/som_jtg//installuninstall.php
+*/
 
 // No direct access to this file
 defined('_JEXEC') or die('Restricted access');
@@ -35,8 +39,8 @@ class Com_JtgInstallerScript
 	 * preflight runs before anything else and while the extracted files are in the uploaded temp folder.
 	 * If preflight returns false, Joomla will abort the update and undo everything already done.
 	 *
-	 * @param   unknown_type  $type    param_description
-	 * @param   unknown_type  $parent  param_description
+	 * @param   string  $type    the type of change (install, update or discover_install, not uninstall).
+	 * @param   object  $parent  the class calling this method.
 	 *
 	 * @return return_description
 	 */
@@ -138,14 +142,16 @@ class Com_JtgInstallerScript
 			"images/jtrackgallery",
 			"images/jtrackgallery/cats",
 			"images/jtrackgallery/terrain",
+			"images/jtrackgallery/language",
 			"images/jtrackgallery/uploaded_tracks",
 			"images/jtrackgallery/uploaded_tracks/import"
 	);
 
 	$folders_to_chmod = array (
+			"images/jtrackgallery/cats",
+			"images/jtrackgallery/language",
 			"images/jtrackgallery/uploaded_tracks",
-			"images/jtrackgallery/uploaded_tracks/import",
-			"components/com_jtg/assets/images/symbols",
+			"images/jtrackgallery/uploaded_tracks/import"
 	);
 
 	echo '<table><tr><td colspan="3"><b>' . JText::_('COM_JTG_FILES_FOLDERS_TO_CREATE') . '</td></tr>';
@@ -206,9 +212,26 @@ class Com_JtgInstallerScript
 	// Copy additional.ini language files without erasing existing files
 	$src_folder_to_copy = JPATH_SITE . '/components/com_jtg/assets/language';
 	$dest_folder_to_copy = JPATH_SITE . '/images/jtrackgallery/language';
-	JFolder::copy($src_folder_to_copy, $dest_folder_to_copy, $force = false);
+	$folders = JFolder::folders($src_folder_to_copy, false);
 
-	// Copy example tracks
+	// For each language folder
+	foreach ($folders as $folder)
+	{
+		$src_folder_to_copy2 = $src_folder_to_copy . '/' . $folder;
+		$dest_folder_to_copy2 = $dest_folder_to_copy . '/' . $folder;
+		$files = JFolder::files($src_folder_to_copy2);
+		JFolder::create($dest_folder_to_copy2);
+
+		foreach ($files as $file)
+		{
+			if (!JFile::exists($dest_folder_to_copy2 . '/' . $file) )
+			{
+				JFile::copy($src_folder_to_copy2 . '/' . $file, $dest_folder_to_copy2 . '/' . $file);
+			}
+		}
+	}
+
+	// Copy example tracks without erasing existing files
 	$src_folder_to_copy = JPATH_SITE . '/components/com_jtg/assets/uploaded_tracks';
 	$dest_folder_to_copy = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks';
 	$files = JFolder::files($src_folder_to_copy);
@@ -226,15 +249,30 @@ class Com_JtgInstallerScript
 	$src_folder_to_copy = JPATH_SITE . '/components/com_jtg/assets/uploaded_tracks_images';
 	$dest_folder_to_copy = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks_images';
 
-	// Copy entire folder if destination folder don't exist
-	if (!JFolder::exists($dest_folder_to_copy))
+	$folders = JFolder::folders($src_folder_to_copy, 'track_*', false);
+
+	// For each uploaded_tracks_images folder
+	foreach ($folders as $folder)
 	{
-		JFolder::copy($src_folder_to_copy, $dest_folder_to_copy, $force = false);
+		JFolder::copy($src_folder_to_copy . '/' . $folder, $dest_folder_to_copy . '/' . $folder, $force = false);
 	}
+
+	// Copy difficulty level icons
+	$src_folder_to_copy = JPATH_SITE . '/components/com_jtg/assets/images/difficulty_level';
+	$dest_folder_to_copy = JPATH_SITE . '/images/jtrackgallery/difficulty_level';
+	JFolder::copy($src_folder_to_copy, $dest_folder_to_copy, $force = false);
 
 	echo '<tr><td colspan="3">' . JText::sprintf('COM_JTG_INSTALLED_VERSION', $this->release) . '</td></tr>';
 
+	// Update tracks user ID to current user id
+	$db = JFactory::getDBO();
+	$application = JFactory::getApplication();
+	$uid = JFactory::getUser($row->uid);
+	$db->setQuery("UPDATE `#__jtg_files` SET `uid` = '$uid' WHERE 1");
+	$db->execute();
+
 	// You can have the backend jump directly to the newly installed component configuration page
+
 	// $parent->getParent()->setRedirectURL('index.php?option=com_jtg');
 
 	echo '<tr><td colspan="3">';
@@ -265,6 +303,34 @@ class Com_JtgInstallerScript
 		if ( version_compare($oldRelease, '0.7.0', '<'))
 		{
 			// Installed version is lower then 0.7.0 ==> do some stuff
+		}
+
+		/*
+		 * Move existing old image gallery
+		 * from /images/jtrackgallery/track_xx (version<= 0.9.9)
+		 * to /images/jtrackgallery/uploaded_tracks_images/track_xx (version> 0.9.9)
+		*/
+
+		$folders = JFolder::folders(JPATH_SITE . '/images/jtrackgallery', '^track*', false);
+
+		// Move entire folder (track_xx) if destination folder don't exist
+		foreach ($folders as $folder)
+		{
+			if (!JFolder::exists(JPATH_SITE . '/images/jtrackgallery/uploaded_tracks_images/' . $folder))
+			{
+				JFolder::move(JPATH_SITE . '/images/jtrackgallery/' . $folder, JPATH_SITE . '/images/jtrackgallery/uploaded_tracks_images/' . $folder);
+			}
+		}
+
+		/*
+		 * If it does not exists:
+		 * Create difficulty level icons folder and copy icons in it
+		 */
+		$dest_folder_to_copy = JPATH_SITE . '/images/jtrackgallery/difficulty_level';
+
+		if (!JFolder::exists($dest_folder_to_copy))
+		{
+			JFolder::copy(JPATH_SITE . '/components/com_jtg/assets/images/difficulty_level', $dest_folder_to_copy, '', $force = false);
 		}
 
 		echo '<p>' . JText::sprintf('COM_JTG_UPDATED', $this->release) . '</p>';
@@ -306,26 +372,28 @@ class Com_JtgInstallerScript
 		if (( $type == 'install' ) and ($componentJtgIsInstalled !== null) )
 		{
 			// This is a successful install (not an upgrade):
-			// affect sample tracks to this admin user
+			// affect sample tracks to current (admin) user
 			$user = JFactory::getUser();
-			$uid = $user->get('id');
+			$uid = $user->id;
 
-			if ($uid !== 430)
-			{
-				$query = 'UPDATE #__jtg_files SET uid =' . $uid . ' WHERE uid =430';
-				$db->setQuery($query);
-				$db->execute();
-			}
+			$query = 'UPDATE #__jtg_files SET uid =' . $uid . ' WHERE 1';
+			$db->setQuery($query);
+			$db->execute();
 
-			// Save default params
+			// TODO Save default params directly in table
 			$query = 'UPDATE #__extensions SET params = ';
-			$query .= '\' {"jtg_param_newest":"10","jtg_param_mostklicks":"10",
-			"jtg_param_best":"0","jtg_param_rand":"0",
+			$query .= '\' {
+			"jtg_param_display_jtg_credits":"1",
+			"jtg_param_newest":"10",
+			"jtg_param_mostklicks":"10",
+			"jtg_param_best":"0",
+			"jtg_param_rand":"0",
 			"jtg_param_otherfiles":"0",
 			"jtg_param_lh":"1",
 			"jtg_param_disable_terrains":"0",
 			"jtg_param_vote_show_stars":"0",
 			"jtg_param_show_speedchart":"1",
+			"jtg_param_elevation_filter_min_ascent":"10",
 			"jtg_param_show_heightchart":"1",
 			"jtg_param_show_durationcalc":"1",
 			"jtg_param_show_layerswitcher":"1",
@@ -335,15 +403,16 @@ class Com_JtgInstallerScript
 			"jtg_param_show_scale":"1",
 			"jtg_param_allow_mousemove":"1",
 			"jtg_param_allow_keymove":"0",
+			"jtg_param_offer_download_original":"1",
 			"jtg_param_offer_download_gpx":"1",
-			"jtg_param_offer_download_kml":"0",
+			"jtg_param_offer_download_kml":"1",
 			"jtg_param_offer_download_tcx":"0",
 			"jtg_param_tracks":"0",
 			"jtg_param_cats":["-1"],
 			"jtg_param_user":["0"],
 			"jtg_param_usergroup":["-1"],
 			"jtg_param_terrain":["-1"],
-			"jtg_param_level_from":"0",
+			"jtg_param_level_from":"1",
 			"jtg_param_level_to":"5",
 			"jtg_param_vote_from":"0",
 			"jtg_param_vote_to":"10"}\'';
