@@ -254,6 +254,11 @@ class JtgViewFiles extends JViewLegacy
 		$catid = "";
 		$document = JFactory::getDocument();
 
+		$default_map = $model->getDefaultMaps();
+		array_unshift($default_map, array('id' => 0, "name" => JText::_('JNONE')) );
+		$default_overlays = $model->getDefaultOverlays();
+		array_unshift($default_overlays, array('id' => 0, "name" => JText::_('JNONE')) );
+
 		if (isset ($id))
 		{
 			// Update part
@@ -269,6 +274,8 @@ class JtgViewFiles extends JViewLegacy
 			$value_published = $track->published;
 			$value_hidden = $track->hidden;
 			$sellevel = $track->level;
+			$value_default_map = $track->default_map;
+			$value_default_overlays= unserialize($track->default_overlays);
 		}
 		else
 		{
@@ -281,6 +288,8 @@ class JtgViewFiles extends JViewLegacy
 			$value_published = 1;
 			$value_hidden = 0;
 			$sellevel = 0;
+			$value_default_map = null;
+			$value_default_overlays= null;
 		}
 
 		$level = $model->getLevelSelect($sellevel);
@@ -337,6 +346,9 @@ class JtgViewFiles extends JViewLegacy
 		$lists['access'] = JtgHelper::getAccessList($track->access);
 		$lists['hidden']	= JHtml::_('select.genericlist', $yesnolist, 'hidden', 'class="inputbox" size="1"', 'id', 'title', $value_hidden);
 		$lists['published']	= JHtml::_('select.genericlist', $yesnolist, 'published', 'class="inputbox" size="1"', 'id', 'title', $value_published);
+		$lists['default_map'] 	= JHtml::_('select.genericlist', $default_map, 'default_map', 'size="1"', 'id', 'name', $value_default_map);
+		$size=min(4,count($default_overlays));
+		$lists['default_overlays'] 	= JHtml::_('select.genericlist', $default_overlays, 'default_overlays[]', 'class="inputbox" multiple="true" size="' . $size . '"', 'id', 'name', $value_default_overlays);
 
 		$this->imgcount = $imgcount;
 		$this->images = $images;
@@ -376,6 +388,7 @@ class JtgViewFiles extends JViewLegacy
 		$sitename = $mainframe->getCfg('sitename');
 		$document = JFactory::getDocument();
 		$document->addScript('http://www.openlayers.org/api/OpenLayers.js');
+		// $document->addScript('/components/com_jtg/assets/js/OpenLayers.js');
 		$document->addScript('http://www.openstreetmap.org/openlayers/OpenStreetMap.js');
 
 		// Code support for joomla version greater than 3.0

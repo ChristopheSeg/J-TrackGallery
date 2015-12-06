@@ -185,6 +185,20 @@ if ($this->cfg->access == 1)
 					echo $k;
 					$k = 1 - $k;
 					?>">
+					<td><?php echo JText::_('COM_JTG_FILE_DEFAULT_MAP'); ?></td>
+					<td><?php echo $this->lists['default_map']; ?></td>
+				</tr>
+				<tr class="sectiontableentry<?php
+					echo $k;
+					$k = 1 - $k;
+					?>">
+					<td><?php echo JText::_('COM_JTG_FILE_DEFAULT_OVERLAYS'); ?></td>
+					<td><?php echo $this->lists['default_overlays']; ?></td>
+				</tr>
+				<tr class="sectiontableentry<?php
+					echo $k;
+					$k = 1 - $k;
+					?>">
 					<td><?php echo JText::_('COM_JTG_TERRAIN'); ?>
 					<?php echo JHtml::tooltip(JText::_('COM_JTG_TT_TERRAIN'), JText::_('COM_JTG_TT_HEADER'), 'tooltip.png'); ?>
 					</td>

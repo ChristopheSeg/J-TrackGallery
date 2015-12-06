@@ -878,6 +878,16 @@ class JtgModelFiles extends JModelLegacy
 		$hidden = JRequest::getInt('hidden', 0);
 		$published = JRequest::getInt('published', 0);
 
+		$default_map = JFactory::getApplication()->input->get('default_map');
+		$default_overlays = JFactory::getApplication()->input->get('default_overlays',null,'array');
+		if ($default_overlays[0]==0)
+		{
+			// None has been selected: deselect all other selection (multiple selection)
+			$default_overlays=array(0);
+		}
+		$default_overlays = serialize($default_overlays);
+
+
 		// Images upload part
 		$cfg = JtgHelper::getConfig();
 		$types = explode(',', $cfg->type);
@@ -903,9 +913,17 @@ class JtgModelFiles extends JModelLegacy
 			}
 		}
 
-		$query = "UPDATE #__jtg_files SET" . "\n catid='" . $catid . "'," . "\n title='" . $title . "'," . "\n terrain='" . $terrain . "'," .
+		$query = "UPDATE #__jtg_files SET" .
+				"\n catid='" . $catid . "'," .
+				"\n title='" . $title . "'," .
+				"\n terrain='" . $terrain . "'," .
 				"\n description='" . $desc . "'," .
-				"\n level='" . $level . "'," . "\n hidden='" . $hidden . "'," . "\n published='" . $published . "'," . "\n access='" . $access . "'" .
+				"\n level='" . $level . "'," .
+				"\n hidden='" . $hidden . "'," .
+				"\n published='" . $published . "'," .
+				"\n default_map='" . $default_map . "'," .
+				"\n default_overlays='" . $default_overlays . "'," .
+				"\n access='" . $access . "'" .
 				"\n WHERE id='" . $id . "'";
 
 		$db->setQuery($query);
@@ -1344,5 +1362,62 @@ class JtgModelFiles extends JModelLegacy
 		$return = JHtml::_('email.cloak', $mail, true, $link, 0);
 
 		return $return;
+	}
+
+	/**
+	 * get a list for default maps
+	 *
+	 * @param   unknown_type  $exclusion  param_description
+	 *
+	 * @return unknown
+	 */
+	function getDefaultMaps()
+	{
+		$mainframe = JFactory::getApplication();
+		$db = JFactory::getDBO();
+
+		$query = "SELECT id,name FROM #__jtg_maps WHERE published=1
+				AND NOT (param LIKE \"%isBaseLayer: false%\" OR param LIKE \"%isBaseLayer:false%\")";
+		$db->setQuery($query);
+		$result = $db->loadObjectList();
+		$newresult = array();
+
+
+		foreach ($result as $k => $v)
+		{
+			$newresult[$k] = $v;
+			$newresult[$k]->name = JText::_($newresult[$k]->name);
+		}
+
+		return $newresult;
+	}
+
+	/**
+	 * get a list for default overlays
+	 *
+	 * @param   unknown_type  $exclusion  param_description
+	 *
+	 * @return unknown
+	 */
+	function getDefaultOverlays()
+	{
+		$mainframe = JFactory::getApplication();
+		$db = JFactory::getDBO();
+
+		$query = "SELECT id,name FROM #__jtg_maps WHERE published=1
+				AND (param LIKE \"%isBaseLayer: false%\" OR param LIKE \"%isBaseLayer:false%\")";
+		$db->setQuery($query);
+		$result = $db->loadObjectList();
+		$newresult = array();
+
+
+		foreach ($result as $k => $v)
+		{
+			$newresult[$k] = $v;
+			$newresult[$k]->name = JText::_($newresult[$k]->name);
+		}
+
+		return $newresult;
+
 	}
 }

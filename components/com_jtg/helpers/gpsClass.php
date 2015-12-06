@@ -1936,7 +1936,7 @@ return true;
 		$map = false;
 		$map .= $this->parseScriptOLHead();
 		$map .= $this->parseOLMapControl($params, false);
-		$map .= $this->parseOLLayer();
+		$map .= $this->parseOLLayer($tracks, $params);
 		/*
 		 $map .= $this->parseOLPOIs(); // Currently not active
 		*/
@@ -2503,22 +2503,27 @@ return true;
 
 		// Search maps and overlays Defaults defined from categories
 
-		$query = "SELECT default_map, default_overlays FROM #__jtg_cats WHERE id =$track->catid";
-		$db->setQuery($query);
-		$cat_defaults = $db->loadObjectlist();
-		if (count($cat_defaults))
+		if (isset($track->catid))
 		{
-			$catDefaultMap = $cat_defaults[0]->default_map;
-			$catDefaultOverlays = $cat_defaults[0]->default_overlays;
+			if ($track->catid > 0)
+			{
+				$query = "SELECT default_map, default_overlays FROM #__jtg_cats WHERE id =$track->catid";
+				$db->setQuery($query);
+				$cat_defaults = $db->loadObjectlist();
+				if (count($cat_defaults))
+				{
+					$catDefaultMap = $cat_defaults[0]->default_map;
+					$catDefaultOverlays = $cat_defaults[0]->default_overlays;
+				}
+				$defaultMap = $catDefaultMap? $catDefaultMap: $defaultMap;
+				$defaultOverlays = $catDefaultOverlays? $catDefaultOverlays: $defaultOverlays;
+			}
+
+			// Search maps and overlays Defaults defined by track
+			$defaultMap = $track->default_map? $track->default_map: $defaultMap;
+			$defaultOverlays = $track->default_overlays? $track->default_overlays: $defaultOverlays;
+			$defaultOverlays = unserialize($defaultOverlays);
 		}
-
-		$defaultMap = $catDefaultMap? $catDefaultMap: $defaultMap;
-		$defaultOverlays = $catDefaultOverlays? $catDefaultOverlays: $defaultOverlays;
-		// Search maps and overlays Defaults defined track
-
-		$defaultMap = $track->default_map? $track->default_map: $defaultMap;
-		$defaultOverlays = $track->default_overlays? $track->default_overlays: $defaultOverlays;
-		$defaultOverlays = unserialize($defaultOverlays);
 
 		for ($i = 0;$i < count($maps);$i++)
 		{

@@ -184,6 +184,14 @@ if ($this->id >= 1)
 				<td><?php echo JText::_('COM_JTG_HIDDEN'); ?>:</td>
 				<td><?php echo $this->lists['hidden']; ?></td>
 			</tr>
+			<tr class="row0 row-odd">
+				<td><?php echo JText::_('COM_JTG_FILE_DEFAULT_MAP'); ?></td>
+				<td><?php echo $this->lists['default_map']; ?></td>
+			</tr>
+			<tr class="row0 row-even">
+				<td><?php echo JText::_('COM_JTG_FILE_DEFAULT_OVERLAYS'); ?></td>
+				<td><?php echo $this->lists['default_overlays']; ?></td>
+			</tr>
 			<tr class="row1 row-odd">
 				<td><?php echo JText::_('COM_JTG_TERRAIN'); ?>:</td>
 				<td><?php echo $this->lists['terrain']; ?></td>

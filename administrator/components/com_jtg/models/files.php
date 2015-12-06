@@ -1026,6 +1026,63 @@ class JtgModelFiles extends JModelLegacy
 	}
 
 	/**
+	 * get a list for default maps
+	 *
+	 * @param   unknown_type  $exclusion  param_description
+	 *
+	 * @return unknown
+	 */
+	function getDefaultMaps()
+	{
+		$mainframe = JFactory::getApplication();
+		$db = JFactory::getDBO();
+
+		$query = "SELECT id,name FROM #__jtg_maps WHERE published=1
+				AND NOT (param LIKE \"%isBaseLayer: false%\" OR param LIKE \"%isBaseLayer:false%\")";
+		$db->setQuery($query);
+		$result = $db->loadObjectList();
+		$newresult = array();
+
+
+		foreach ($result as $k => $v)
+		{
+			$newresult[$k] = $v;
+			$newresult[$k]->name = JText::_($newresult[$k]->name);
+		}
+
+		return $newresult;
+	}
+
+	/**
+	 * get a list for default overlays
+	 *
+	 * @param   unknown_type  $exclusion  param_description
+	 *
+	 * @return unknown
+	 */
+	function getDefaultOverlays()
+	{
+		$mainframe = JFactory::getApplication();
+		$db = JFactory::getDBO();
+
+		$query = "SELECT id,name FROM #__jtg_maps WHERE published=1
+				AND (param LIKE \"%isBaseLayer: false%\" OR param LIKE \"%isBaseLayer:false%\")";
+		$db->setQuery($query);
+		$result = $db->loadObjectList();
+		$newresult = array();
+
+
+		foreach ($result as $k => $v)
+		{
+			$newresult[$k] = $v;
+			$newresult[$k]->name = JText::_($newresult[$k]->name);
+		}
+
+		return $newresult;
+
+	}
+
+	/**
 	 * function_description
 	 *
 	 * @param   object  $track  track object
@@ -1218,6 +1275,15 @@ class JtgModelFiles extends JModelLegacy
 			$terrain = "";
 		}
 
+		$default_map = JFactory::getApplication()->input->get('default_map');
+		$default_overlays = JFactory::getApplication()->input->get('default_overlays',null,'array');
+		if ($default_overlays[0]==0)
+		{
+			// None has been selected: deselect all other selection (multiple selection)
+			$default_overlays=array(0);
+		}
+		$default_overlays = serialize($default_overlays);
+
 		$desc = $db->escape(implode(' ', JFactory::getApplication()->input->get('description', '', 'array')));
 		$file = JFactory::getApplication()->input->files->get('file');
 		$file_tmp = explode('/', $file);
@@ -1334,6 +1400,8 @@ class JtgModelFiles extends JModelLegacy
 			. "\n iswp='" . $isWaypoint . "',"
 			. "\n isroute='" . $isRoute . "',"
 			. "\n iscache='" . $isCache . "',"
+			. "\n default_map='" . $default_map . "',"
+			. "\n default_overlays='" . $default_overlays . "',"
 			. "\n hidden='" . $hidden . "'";
 
 			$db->setQuery($query);
@@ -1616,6 +1684,15 @@ class JtgModelFiles extends JModelLegacy
 		$hidden = JFactory::getApplication()->input->get('hidden');
 		$published = JFactory::getApplication()->input->get('published');
 
+		$default_map = JFactory::getApplication()->input->get('default_map');
+		$default_overlays = JFactory::getApplication()->input->get('default_overlays',null,'array');
+		if ($default_overlays[0]==0)
+		{
+			// None has been selected: deselect all other selection (multiple selection)
+			$default_overlays=array(0);
+		}
+		$default_overlays = serialize($default_overlays);
+
 		$allimages = $this->getImages($id);
 		$imgpath = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks_images/track_' . $id . '/';
 
@@ -1687,6 +1764,8 @@ class JtgModelFiles extends JModelLegacy
 		. "\n level='" . $level . "',"
 		. "\n access='" . $access . "',"
 		. "\n published='" . $published . "',"
+		. "\n default_map='" . $default_map . "',"
+		. "\n default_overlays='" . $default_overlays . "',"
 		. "\n hidden='" . $hidden . "'"
 		. "\n WHERE id='" . $id . "'";
 		$db->setQuery($query);
