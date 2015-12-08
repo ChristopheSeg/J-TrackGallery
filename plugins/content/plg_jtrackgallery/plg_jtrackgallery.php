@@ -1,205 +1,179 @@
 <?php
-// Code de securite
-defined( '_JEXEC' ) or die( 'Restricted access' );
+/**
+ * @version		0.9
+ * @package		J!TrackGallery plugin plg_jtrackgallery
+ * @author    	Christophe Seguinot - http://jtrackgallery.net
+ * @copyright
+ * @license		GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
+ *
+ * This plugin in inspired from Simple Image Gallery (plugin)
+ * developped by JoomlaWorks - http://www.joomlaworks.net
+ */
 
-// Importation des routines du plugin
-jimport( 'joomla.plugin.plugin');
+// no direct access
+defined('_JEXEC') or die('Restricted access');
 
-// Definition de la classe du plugin
-class plgContentplg_jtrackgallery extends JPlugin
-{
-	var $plg_name = "plg_jtrackgallery";
+jimport('joomla.plugin.plugin');
+if (version_compare(JVERSION, '1.6.0', 'ge')){
+	jimport('joomla.html.parameter');
+}
 
-	var $open_tag = "|[";
+class plgContentPlg_jtrackgallery extends JPlugin {
 
-	var $close_tag = "]|";
+  // JoomlaWorks reference parameters
+	var $plg_name					= "plg_jtrackgallery";
+	var $plg_tag					= "JTRACKGALLERY";
+	var $plg_copyrights_start		= "\n\n<!-- J!TrackGallery \"plg_jtrackgallery\" Plugin (v0.9) starts here -->\n";
+	var $plg_copyrights_end			= "\n<!-- J!TrackGallery \"plg_jtrackgallery\" Plugin (v0.9) ends here -->\n\n";
 
-	var $separator_tag = "|@|";
+	function plgContentPlg_jtrackgallery( &$subject, $params ){
+		parent::__construct( $subject, $params );
 
-	var $nb_map = 0;
-
-	function __construct(&$subject, $config)
-	{
-		parent::__construct($subject, $config);
+		// Define the DS constant under Joomla! 3.0+
+		if (!defined('DS')){
+			define('DS', DIRECTORY_SEPARATOR);
+		}
 	}
 
-	// On content prepare plugin action
-	public function onContentPrepare($context, &$article, &$params)
-	{
-		// Plugin regexp tag
-		$regex_plg_jtrackgallery = "#{JTRACKGALLERY(.*?)}(.*?){/JTRACKGALLERY}#s";
-
-		// function call to create content and replace plugin tag
-		$article->text = preg_replace_callback($regex_plg_jtrackgallery, array(&$this,'plg_jtrackgallery'), $article->text);
-
-
-/*		$article->text .=
-		"<script type=\"text/javascript\"><!--//--><![CDATA[//><!--
-		 //--><!]]></script>
-		 ";
-*/
-
-
-		return true;
+	// Joomla! 1.5
+	function onPrepareContent(&$row, &$params, $page = 0){
+		$this->renderJtrackGalleryPlugin($row, $params, $page = 0);
 	}
 
+	// Joomla! 2.5+
+	function onContentPrepare($context, &$row, &$params, $page = 0){
+		$this->renderJtrackGalleryPlugin($row, $params, $page = 0);
+	}
 
-	function plg_jtrackgallery(&$matches)
-	{
+	// The main function
+	function renderJtrackGalleryPlugin(&$row, &$params, $page = 0){
+		// API
+		jimport('joomla.filesystem.file');
+		$mainframe = JFactory::getApplication();
+		$document  = JFactory::getDocument();
 
-		$html = "<br>--PLG_JTRACKGALLERY--<br>";
-		$html .= "<pre>". print_r($matches) . "</pre>";
-		$html .= "<br>--PLG_JTRACKGALLERY--<br>";
-		return $html;
-
-		$this->nb_map ++;
-
-		$params = $matches[1]; // paramettres
-		$overlays = $matches[2]; // overlays
-		$param_default['width'] = $this->params->get('width');
-		$param_default['height'] = $this->params->get('height');
-		$param_default['lon'] = $this->params->get('longitude');
-		$param_default['lat'] = $this->params->get('latitude');
-
-
-		$overlayshtml= $this->createHTMLoverlays($overlays);
-
-
-
-		$regex_width = "#.*width=\'(.*)\'.*#s";
-		$regex_height = "#.*height=\'(.*)\'.*#s";
-		$regex_lon = "#.*lon=\'(.*)\'.*#s";
-		$regex_lat = "#.*lat=\'(.*)\'.*#s";
-
-		$param['width'] = preg_replace($regex_width, "$1", $params);
-		$param['height'] = preg_replace($regex_height, "$1", $params);
-		$param['lon'] = preg_replace($regex_lon, "$1", $params);
-		$param['lat'] = preg_replace($regex_lat, "$1", $params);
-
-
-		if($param['lat'] == $params) // si le paramettre n'est pas présent
-			$param['lat'] = $param_default['lat'];
-		if($param['lon'] == $params) // si le paramettre n'est pas présent
-			$param['lon'] = $param_default['lon'];
-		if($param['height'] == $params) // si le paramettre n'est pas présent
-			$param['height'] = $param_default['height'];
-		if($param['width'] == $params) // si le paramettre n'est pas présent
-			$param['width'] = $param_default['width'];
-
-		$key  = $this->params->get('key');
-
-		$html = "<div id=\"viewerDiv$this->nb_map\" style=\"width:". $param['width'] ."px; height:". $param['height']."px; \"></div>\n";
-
-		if($this->nb_map == 1)
-		{
-			$html .= "<script type=\"text/javascript\" src=\"http://api.ign.fr/geoportail/api/js/latest/GeoportalExtended.js\">
-					  <!-- -->
-					  </script>";
-
+		// Assign paths
+		$sitePath = JPATH_SITE;
+		$siteUrl  = JURI::root(true);
+		if (version_compare(JVERSION, '1.6.0', 'ge')){
+			$pluginLivePath = $siteUrl.'/plugins/content/'.$this->plg_name.'/'.$this->plg_name;
+			$defaultImagePath = 'images';
+		} else {
+			$pluginLivePath = $siteUrl.'/plugins/content/'.$this->plg_name;
+			$defaultImagePath = 'images/stories';
 		}
 
+		// Check if plugin is enabled
+		if (JPluginHelper::isEnabled('content', $this->plg_name) == false) return;
 
-		//TODO : listener sur actions séparés (pour le onload)
-		$html .= "<script type=\"text/javascript\"><!--//--><![CDATA[//><!--
+		// Bail out if the page format is not what we want
+		$allowedFormats = array('', 'html', 'feed', 'json');
+		if (!in_array(JRequest::getCmd('format'), $allowedFormats)) return;
 
-				  var load$this->nb_map= function() {
-					  var VIEWER$this->nb_map = Geoportal.load(
-						  // div's ID:
-						  'viewerDiv$this->nb_map',
-						  // API's keys:
-						  ['".$key."'],
-						  {// map's center :
-							  // longitude:
-							  lon:".$param['lon'].",
-							  // latitude:
-							  lat:".$param['lat']."
-						  },5
-						  ".$overlayshtml."
+		// Simple performance check to determine whether plugin should process further
+		if (JString::strpos($row->text, $this->plg_tag) === false) return;
 
-					  );
-				  };
-				  //--><!]]></script>";
+		// expression to search for
+		$regex = "#{".$this->plg_tag."}(.*?){/".$this->plg_tag."}#is";
 
-		return $html;
+		// Find all instances of the plugin and put them in $matches
+		preg_match_all($regex, $row->text, $matches);
 
-	}
+		// Number of plugins
+		$count = count($matches[0]);
 
+		// Plugin only processes if there are any instances of the plugin in the text
+		if (!$count) return;
 
-	function createHTMLoverlays($overlays)
-	{
+		// Load the plugin language file the proper way
+		JPlugin::loadLanguage('plg_content_'.$this->plg_name, JPATH_ADMINISTRATOR);
+
+		// Check for basic requirements
 
 
-		$regex_overlays = "#.*\{layer:(.*?) (.*?)/\}.*#si";
+		// ----------------------------------- Get plugin parameters -----------------------------------
 
-		$overlaysmodified = preg_replace_callback($regex_overlays, array(&$this,'createoverlays'), $overlays);
+		// Get plugin info
+		$plugin = JPluginHelper::getPlugin('content', $this->plg_name);
 
-		$overlaysTab = explode($this->separator_tag, $overlaysmodified);
+		// Control external parameters and set variable for controlling plugin layout within modules
+		if (!$params) $params = class_exists('JParameter') ? new JParameter(null) : new JRegistry(null);
+		$parsedInModule = $params->get('parsedInModule');
 
-		$htmloverlays = array();
+		$pluginParams = class_exists('JParameter') ? new JParameter($plugin->params) : new JRegistry($plugin->params);
 
-		foreach ($overlaysTab as $overlay)
+		$galleries_rootfolder = ($params->get('galleries_rootfolder')) ? $params->get('galleries_rootfolder') : $pluginParams->get('galleries_rootfolder', $defaultImagePath);
+		$popup_engine = 'jquery_fancybox';
+		$jQueryHandling = $pluginParams->get('jQueryHandling', '1.8.3');
+		$thb_template = 'Classic';
+		$thb_width = (!is_null($params->get('thb_width', null))) ? $params->get('thb_width') : $pluginParams->get('thb_width', 200);
+		$thb_height = (!is_null($params->get('thb_height', null))) ? $params->get('thb_height') : $pluginParams->get('thb_height', 160);
+		$smartResize = 1;
+		$jpg_quality = $pluginParams->get('jpg_quality', 80);
+		$showcaptions = 0;
+		$cache_expire_time = $pluginParams->get('cache_expire_time', 1440) * 60; // Cache expiration time in minutes
+		// Advanced
+		$memoryLimit = (int)$pluginParams->get('memoryLimit');
+		if ($memoryLimit) ini_set("memory_limit", $memoryLimit."M");
+
+		// Cleanups
+		// Remove first and last slash if they exist
+		if (substr($galleries_rootfolder, 0, 1) == '/') $galleries_rootfolder = substr($galleries_rootfolder, 1);
+		if (substr($galleries_rootfolder, -1, 1) == '/') $galleries_rootfolder = substr($galleries_rootfolder, 0, -1);
+
+		// Includes
+		//require_once (dirname(__FILE__).DS.$this->plg_name.DS.'includes'.DS.'helper.php');
+
+		// Other assignments
+		$transparent = $pluginLivePath.'/includes/images/transparent.gif';
+
+		// When used with K2 extra fields
+		if (!isset($row->title)) $row->title = '';
+
+		// Variable cleanups for K2
+		if (JRequest::getCmd('format') == 'raw')
 		{
-			if(!preg_match("#^\s*$#s",$overlay))//si on a une chaine vide ou exclusivement composée d'espaces
+			$this->plg_copyrights_start = '';
+			$this->plg_copyrights_end = '';
+		}
+
+		// ----------------------------------- Prepare the output -----------------------------------
+
+		// Process plugin tags
+		if (preg_match_all($regex, $row->text, $matches, PREG_PATTERN_ORDER) > 0){
+
+			// start the replace loop
+			foreach ($matches[0] as $key => $match)
 			{
-				$type = substr($overlay,0,stripos($overlay,":"));//recuperer le type de la carte
-				$htmloverlaystab[$type][] = substr($overlay,stripos($overlay,":")+1);
+
+				$tagcontent = preg_replace("/{.+?}/", "", $match);
+				$plg_html = "<br>--PLG_JTRACKGALLERY--<br>";
+				$plg_html .="<br>  $tagcontent";
+				$tagparams = explode(',',$tagcontent);
+				foreach ($tagparams as $tagparam)
+				{
+					$temp = explode('=',trim($tagparam));
+					$plg_html .= "<br>  %$temp[0]==$temp[1]%";
+				}
+
+				// test id or filename correspond to one track in database
+
+				// TEST
+				$plg_html .= "<br>--PLG_JTRACKGALLERY--<br>";
+
+
+				// Do the replace
+				$row->text = preg_replace("#{".$this->plg_tag."}".$tagcontent."{/".$this->plg_tag."}#s", $plg_html, $row->text);
+
+			}// end foreach
+
+			// Global head includes
+			if (JRequest::getCmd('format') == '' || JRequest::getCmd('format') == 'html'){
+				$document->addScript($pluginLivePath.'/includes/js/behaviour.js');
 			}
-		}
 
-		// on a maintenant $htmloverlaytab de la forme : array( <type de couche> => array( '{ }','{}', ...),
-		//													  <type de couche> => array( '{ }','{}', ...))
+		} // end if
 
-		$overlaystab2 = array();
-		foreach ($htmloverlaystab as $type => $overlaytypetab)
-		{
-			$overlaytypetab = preg_replace("#\<br \/\>#","\n", $overlaytypetab);
-			$overlaytypetab = preg_replace("#\<p\>|\<\/p\>#","", $overlaytypetab);
-			$overlaystab2[$type] = "'".$type."':[";
-			$overlaystab2[$type] .= implode(",",$overlaytypetab);
-			$overlaystab2[$type] .= "]";
-		}
+	} // END FUNCTION
 
-		//maintenant, $overlaystab2 est un tableau contenant une liste de toute les couche dans la bonne syntaxe pour être affichés
-
-
-		$rec_call="";
-		if($this->nb_map != 1)
-		{
-			$rec_call = "onView:function() {load".($this->nb_map-1)."();},";
-		}
-
-
-		return ",\n{\nlayers:['ORTHOIMAGERY.ORTHOPHOTOS', 'GEOGRAPHICALGRIDSYSTEMS.MAPS'], overlays:{".implode(',',$overlaystab2)."},language:'fr',".$rec_call."viewerClass:Geoportal.Viewer.Default}";
-
-	}
-
-
-
-
-	function createoverlays($matches)
-	{//$layers est : soit de la forme {layers:[type de la couche] <paramettres> /} soit d'une autre forme ou vide
-
-		$overlayName = $this->nb_map+rand();
-
-		$type = $matches[1];
-		$params = $matches[2];
-
-		$regex['url'] = "#^.*url:".preg_quote($this->open_tag)."(.*)".preg_quote($this->close_tag).".*$#isU";
-		$regex['option'] = "#^.*options:".preg_quote($this->open_tag)."(.*)".preg_quote($this->close_tag).".*$#isU";
-
-		$url = preg_replace($regex['url'], "$1", $params);
-		$options = preg_replace($regex['option'], "$1", $params);
-
-		if($url == $params) // si le paramettre n'est pas présent
-			return null;
-		if($options == $params) // si le paramettre n'est pas présent
-			$tag_options = "";
-		else
-			$tag_options = ", options:$options";
-
-		$html = $this->separator_tag . $type.":{name:\"$overlayName\", url:\"$url\"$tag_options}".$this->separator_tag;
-
-		return $html;
-	}
-
-}?>
+} // END CLASS
