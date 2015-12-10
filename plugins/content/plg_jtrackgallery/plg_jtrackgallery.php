@@ -11,169 +11,154 @@
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined ( '_JEXEC' ) or die ( 'Restricted access' );
 
-jimport('joomla.plugin.plugin');
-if (version_compare(JVERSION, '1.6.0', 'ge')){
-	jimport('joomla.html.parameter');
+jimport ( 'joomla.plugin.plugin' );
+if (version_compare ( JVERSION, '1.6.0', 'ge' )) {
+	jimport ( 'joomla.html.parameter' );
 }
-
 class plgContentPlg_jtrackgallery extends JPlugin {
 
-  // JoomlaWorks reference parameters
-	var $plg_name					= "plg_jtrackgallery";
-	var $plg_tag					= "JTRACKGALLERY";
-	var $plg_copyrights_start		= "\n\n<!-- J!TrackGallery \"plg_jtrackgallery\" Plugin (v0.9) starts here -->\n";
-	var $plg_copyrights_end			= "\n<!-- J!TrackGallery \"plg_jtrackgallery\" Plugin (v0.9) ends here -->\n\n";
 
-	function plgContentPlg_jtrackgallery( &$subject, $params ){
-		parent::__construct( $subject, $params );
 
-		// Define the DS constant under Joomla! 3.0+
-		if (!defined('DS')){
-			define('DS', DIRECTORY_SEPARATOR);
-		}
-	}
-
-	// Joomla! 1.5
-	function onPrepareContent(&$row, &$params, $page = 0){
-		$this->renderJtrackGalleryPlugin($row, $params, $page = 0);
-	}
-
-	// Joomla! 2.5+
-	function onContentPrepare($context, &$row, &$params, $page = 0){
-		$this->renderJtrackGalleryPlugin($row, $params, $page = 0);
+	function onContentPrepare($context, &$row, &$params, $page = 0) {
+		$this->renderJtrackGalleryPlugin ( $row, $params, $page = 0 );
 	}
 
 	// The main function
-	function renderJtrackGalleryPlugin(&$row, &$params, $page = 0){
+	private function renderJtrackGalleryPlugin(&$row, &$params, $page = 0) {
 		// API
-		jimport('joomla.filesystem.file');
-		$mainframe = JFactory::getApplication();
-		$document  = JFactory::getDocument();
+		jimport ( 'joomla.filesystem.file' );
+		$mainframe = JFactory::getApplication ();
+		$document = JFactory::getDocument ();
 
 		// Assign paths
+		$plg_name = "plg_jtrackgallery";
+		$plg_tag = "JTRACKGALLERY";
+		$plg_copyrights_start = "\n\n<!-- J!TrackGallery \"plg_jtrackgallery\" Plugin (v0.9) starts here -->\n";
+		$plg_copyrights_end = "\n<!-- J!TrackGallery \"plg_jtrackgallery\" Plugin (v0.9) ends here -->\n\n";
+
 		$sitePath = JPATH_SITE;
-		$siteUrl  = JURI::root(true);
-		if (version_compare(JVERSION, '1.6.0', 'ge')){
-			$pluginLivePath = $siteUrl.'/plugins/content/'.$this->plg_name.'/'.$this->plg_name;
-			$defaultImagePath = 'images';
-		} else {
-			$pluginLivePath = $siteUrl.'/plugins/content/'.$this->plg_name;
-			$defaultImagePath = 'images/stories';
-		}
+		$siteUrl = JURI::root ( true );
+		$pluginLivePath = $siteUrl . '/plugins/content/' . $plg_name;
 
 		// Check if plugin is enabled
-		if (JPluginHelper::isEnabled('content', $this->plg_name) == false) return;
+		if (JPluginHelper::isEnabled ( 'content', $plg_name ) == false)
+			return;
 
-		// Bail out if the page format is not what we want
-		$allowedFormats = array('', 'html', 'feed', 'json');
-		if (!in_array(JRequest::getCmd('format'), $allowedFormats)) return;
+			// Bail out if the page format is not what we want
+		$allowedFormats = array (
+				'',
+				'html'
+		);
+		if (! in_array ( JRequest::getCmd ( 'format' ), $allowedFormats ))
+			return;
 
-		// Simple performance check to determine whether plugin should process further
-		if (JString::strpos($row->text, $this->plg_tag) === false) return;
+			// Simple performance check to determine whether plugin should process further
+		if (JString::strpos ( $row->text, $plg_tag ) === false)
+			return;
 
-		// expression to search for
-		$regex = "#{".$this->plg_tag."}(.*?){/".$this->plg_tag."}#is";
+			// expression to search for
+		$regex = "#{" . $plg_tag . "}(.*?){/" . $plg_tag . "}#is";
 
 		// Find all instances of the plugin and put them in $matches
-		preg_match_all($regex, $row->text, $matches);
+		preg_match_all ( $regex, $row->text, $matches );
 
 		// Number of plugins
-		$count = count($matches[0]);
+		$count = count ( $matches [0] );
 
 		// Plugin only processes if there are any instances of the plugin in the text
-		if (!$count) return;
+		if (! $count)
+			return;
 
-		// Load the plugin language file the proper way
-		JPlugin::loadLanguage('plg_content_'.$this->plg_name, JPATH_ADMINISTRATOR);
+			// Load the plugin language file the proper way
+		JPlugin::loadLanguage ( 'plg_content_' . $plg_name, JPATH_ADMINISTRATOR );
 
 		// Check for basic requirements
-
+		$db = JFactory::getDBO ();
 
 		// ----------------------------------- Get plugin parameters -----------------------------------
 
 		// Get plugin info
-		$plugin = JPluginHelper::getPlugin('content', $this->plg_name);
+		$plugin = JPluginHelper::getPlugin ( 'content', $plg_name );
 
 		// Control external parameters and set variable for controlling plugin layout within modules
-		if (!$params) $params = class_exists('JParameter') ? new JParameter(null) : new JRegistry(null);
-		$parsedInModule = $params->get('parsedInModule');
 
-		$pluginParams = class_exists('JParameter') ? new JParameter($plugin->params) : new JRegistry($plugin->params);
-
-		$galleries_rootfolder = ($params->get('galleries_rootfolder')) ? $params->get('galleries_rootfolder') : $pluginParams->get('galleries_rootfolder', $defaultImagePath);
-		$popup_engine = 'jquery_fancybox';
-		$jQueryHandling = $pluginParams->get('jQueryHandling', '1.8.3');
-		$thb_template = 'Classic';
-		$thb_width = (!is_null($params->get('thb_width', null))) ? $params->get('thb_width') : $pluginParams->get('thb_width', 200);
-		$thb_height = (!is_null($params->get('thb_height', null))) ? $params->get('thb_height') : $pluginParams->get('thb_height', 160);
-		$smartResize = 1;
-		$jpg_quality = $pluginParams->get('jpg_quality', 80);
-		$showcaptions = 0;
-		$cache_expire_time = $pluginParams->get('cache_expire_time', 1440) * 60; // Cache expiration time in minutes
-		// Advanced
-		$memoryLimit = (int)$pluginParams->get('memoryLimit');
-		if ($memoryLimit) ini_set("memory_limit", $memoryLimit."M");
-
-		// Cleanups
-		// Remove first and last slash if they exist
-		if (substr($galleries_rootfolder, 0, 1) == '/') $galleries_rootfolder = substr($galleries_rootfolder, 1);
-		if (substr($galleries_rootfolder, -1, 1) == '/') $galleries_rootfolder = substr($galleries_rootfolder, 0, -1);
-
-		// Includes
-		//require_once (dirname(__FILE__).DS.$this->plg_name.DS.'includes'.DS.'helper.php');
-
-		// Other assignments
-		$transparent = $pluginLivePath.'/includes/images/transparent.gif';
-
-		// When used with K2 extra fields
-		if (!isset($row->title)) $row->title = '';
-
-		// Variable cleanups for K2
-		if (JRequest::getCmd('format') == 'raw')
-		{
-			$this->plg_copyrights_start = '';
-			$this->plg_copyrights_end = '';
-		}
 
 		// ----------------------------------- Prepare the output -----------------------------------
 
 		// Process plugin tags
-		if (preg_match_all($regex, $row->text, $matches, PREG_PATTERN_ORDER) > 0){
+		if (preg_match_all ( $regex, $row->text, $matches, PREG_PATTERN_ORDER ) > 0) {
 
 			// start the replace loop
-			foreach ($matches[0] as $key => $match)
-			{
+			foreach ( $matches [0] as $key => $match ) {
 
-				$tagcontent = preg_replace("/{.+?}/", "", $match);
-				$plg_html = "<br>--PLG_JTRACKGALLERY--<br>";
-				$plg_html .="<br>  $tagcontent";
-				$tagparams = explode(',',$tagcontent);
-				foreach ($tagparams as $tagparam)
-				{
-					$temp = explode('=',trim($tagparam));
-					$plg_html .= "<br>  %$temp[0]==$temp[1]%";
+				$plg_params = array (
+						"id" => 0,
+						"gpxfilename" => ''
+				);
+				$tagcontent = preg_replace ( "/{.+?}/", "", $match );
+				$tagparams = explode ( ',', strip_tags ( $tagcontent ) );
+
+				foreach ( $tagparams as $tagparam ) {
+					$temp = explode ( '=', $tagparam );
+					$plg_params [trim ( $temp [0] )] = trim ( $temp [1] );
+				}
+				$plg_params ['id'] = ( int ) $plg_params ['id'];
+				$warningtext = '<br>-- id=' . ($plg_params ['id'] ? $plg_params ['id'] : 'null') . ' <br>--gpxfilename=' . ($plg_params ['gpxfilename'] ? $plg_params ['gpxfilename'] : '');
+
+				if ((! $plg_params ['id'] > 0) and (! $plg_params ['gpxfilename'])) {
+					JError::raiseNotice ( '', JText::_ ( 'PLG_JTG_TRACK_NOT_SPECIFIED' ) . "()" );
+				}
+				// Test if given id or filename correspond to one track in database
+				if ($plg_params ['gpxfilename']) {
+					// Determine the id of the filename
+					$query = "SELECT id FROM `#__jtg_files` WHERE file='" . $plg_params ['gpxfilename'] . "'";
+					if ($plg_params ['id'] > 0) {
+						$query .= " or id=" . $plg_params ['id'];
+					}
+					$db->setQuery ( $query );
+					$db->execute ();
+					$ids = $db->loadObjectList ();
+
+					if (count ( $ids ) > 0 and ( int ) $ids [0]->id > 0)
+					{
+						$plg_params ['id'] = ( int ) $ids [0]->id;
+					}
+					else
+					{
+						JError::raiseNotice ( '', JText::_ ( 'PLG_JTG_TRACK_NOT_FOUND' ) . "($warningtext)" );
+						$plg_params ['id'] = 0;
+					}
 				}
 
-				// test id or filename correspond to one track in database
+				if ($plg_params ['id'] > 0) {
+					// Generate the html code for the map
+					$plg_html = $plg_copyrights_start;
+					$plg_html .= $this->rendermap($plg_params);
+					$plg_html .= $plg_copyrights_end;
+					// Do the replace
+					$row->text = str_replace ( $match, $plg_html, $row->text );
+				} else {
+					// Remove tag?
+					$plg_html = $plg_copyrights_start;
+					$plg_html .= "<br>--ERROR PLG_JTRACKGALLERY--<br>" .
+						' id=' . ($plg_params['id'] ? $plg_params['id'] : 'null') .
+						' gpxfilename=' . ($plg_params ['gpxfilename'] ? $plg_params ['gpxfilename'] : '');
+					$plg_html .= $plg_copyrights_end;
 
-				// TEST
-				$plg_html .= "<br>--PLG_JTRACKGALLERY--<br>";
+					// Do the replace
+					$row->text = str_replace ( $match, $plg_html, $row->text );
+				}
 
-
-				// Do the replace
-				$row->text = preg_replace("#{".$this->plg_tag."}".$tagcontent."{/".$this->plg_tag."}#s", $plg_html, $row->text);
-
-			}// end foreach
-
-			// Global head includes
-			if (JRequest::getCmd('format') == '' || JRequest::getCmd('format') == 'html'){
-				$document->addScript($pluginLivePath.'/includes/js/behaviour.js');
-			}
+			} // end foreach
 
 		} // end if
-
 	} // END FUNCTION
+	private function rendermap($plg_params)
+	{
+		$map="<br>THIS IS A MAP<br>";
+		return $map;
+	}
 
 } // END CLASS
