@@ -21,17 +21,6 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
-				<field name="key"
-					type="input"
-					class="text"
-					size="20"
-					default=""
-					required="true"
-					filter="string"
-					description="PLG_JTRACKGALLERY_FIELD_KEY_DESC"
-					label="PLG_JTRACKGALLERY_FIELD_KEY_LABEL" 
-				>
-				</field>
 				<field name="width"
 					type="input"
 					class="text"
@@ -48,24 +37,6 @@
 					default="500"
 					description="PLG_JTRACKGALLERY_FIELD_HEIGHT_DESC"
 					label="PLG_JTRACKGALLERY_FIELD_HEIGHT_LABEL" 
-				>
-				</field>
-				<field name="longitude"
-					type="input"
-					class="text"
-					size="10"
-					default="2.731525"
-					description="PLG_JTRACKGALLERY_FIELD_LON_DESC"
-					label="PLG_JTRACKGALLERY_FIELD_LON_LABEL" 
-				>
-				</field>
-				<field name="latitude"
-					type="input"
-					class="text"
-					size="10"
-					default="45.833333"
-					description="PLG_JTRACKGALLERY_FIELD_LAT_DESC"
-					label="PLG_JTRACKGALLERY_FIELD_LAT_LABEL" 
 				>
 				</field>
 			</fieldset>

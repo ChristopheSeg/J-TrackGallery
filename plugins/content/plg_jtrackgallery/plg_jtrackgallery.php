@@ -74,8 +74,8 @@ class plgContentPlg_jtrackgallery extends JPlugin {
 		if (! $count)
 			return;
 
-			// Load the plugin language file the proper way
-		JPlugin::loadLanguage ( 'plg_content_' . $plg_name, JPATH_ADMINISTRATOR );
+			// Load the plugin language file
+		JFactory::getLanguage()->load('plg_content_jtrackgallery', JPATH_SITE . '/plugins/content/plg_jtrackgallery',	null, true);
 
 		// Check for basic requirements
 		$db = JFactory::getDBO ();
