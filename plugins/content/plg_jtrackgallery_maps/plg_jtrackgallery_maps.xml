@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="plugin"  group="content" version="2.5" method="upgrade">
-	<name>PLG_JTRACKGALLERY</name>
+	<name>PLG_JTRACKGALLERY_MAPS</name>
 	<author>Christophe Seguinot</author>
 	<creationDate>December 2015</creationDate>	<copyright>(C) 2010-2012 IGNF. All rights reserved.</copyright>
 <license>GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html</license>
 	<authorEmail>christophe@jtrackgallery.net</authorEmail>
 	<authorUrl>http://jtrackgallery.net/</authorUrl>
 	<version>0.1</version>
-	<description>PLG_JTRACKGALLERY_XML_DESCRIPTION</description>
+	<description>PLG_JTRACKGALLERY_MAPS_XML_DESCRIPTION</description>
 		<files>
-		<filename plugin="plg_jtrackgallery">plg_jtrackgallery.php</filename>
+		<filename plugin="plg_jtrackgallery_maps">plg_jtrackgallery_maps.php</filename>
 		<filename>index.html</filename>
 	</files>
 	<languages>
-		<language tag="fr-FR">language/fr-FR/fr-FR.plg_content_jtrackgallery.ini</language>
-		<language tag="fr-FR">language/fr-FR/fr-FR.plg_content_jtrackgallery.sys.ini</language>
-		<language tag="en-GB">language/en-GB/en-GB.plg_content_jtrackgallery.ini</language>
-		<language tag="en-GB">language/en-GB/en-GB.plg_content_jtrackgallery.sys.ini</language>
+		<language tag="fr-FR">language/fr-FR/fr-FR.plg_content_jtrackgallery_maps.ini</language>
+		<language tag="fr-FR">language/fr-FR/fr-FR.plg_content_jtrackgallery_maps.sys.ini</language>
+		<language tag="en-GB">language/en-GB/en-GB.plg_content_jtrackgallery_maps.ini</language>
+		<language tag="en-GB">language/en-GB/en-GB.plg_content_jtrackgallery_maps.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">
@@ -26,8 +26,8 @@
 					class="text"
 					size="4"
 					default="500"
-					description="PLG_JTRACKGALLERY_FIELD_WIDTH_DESC"
-					label="PLG_JTRACKGALLERY_FIELD_WIDTH_LABEL" 
+					description="PLG_JTRACKGALLERY_MAPS_FIELD_WIDTH_DESC"
+					label="PLG_JTRACKGALLERY_MAPS_FIELD_WIDTH_LABEL" 
 				>
 				</field>
 				<field name="height"
@@ -35,8 +35,8 @@
 					class="text"
 					size="4"
 					default="500"
-					description="PLG_JTRACKGALLERY_FIELD_HEIGHT_DESC"
-					label="PLG_JTRACKGALLERY_FIELD_HEIGHT_LABEL" 
+					description="PLG_JTRACKGALLERY_MAPS_FIELD_HEIGHT_DESC"
+					label="PLG_JTRACKGALLERY_MAPS_FIELD_HEIGHT_LABEL" 
 				>
 				</field>
 			</fieldset>

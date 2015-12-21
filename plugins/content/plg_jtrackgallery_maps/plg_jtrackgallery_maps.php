@@ -1,7 +1,7 @@
 <?php
 /**
  * @version		0.9
- * @package		J!TrackGallery plugin plg_jtrackgallery
+ * @package		J!TrackGallery plugin plg_jtrackgallery_maps
  * @author    	Christophe Seguinot - http://jtrackgallery.net
  * @copyright
  * @license		GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -17,24 +17,24 @@ jimport ( 'joomla.plugin.plugin' );
 if (version_compare ( JVERSION, '1.6.0', 'ge' )) {
 	jimport ( 'joomla.html.parameter' );
 }
-class plgContentPlg_jtrackgallery extends JPlugin {
+class plgContentPlg_jtrackgallery_maps extends JPlugin {
 
 	function onContentPrepare($context, &$row, &$params, $page = 0) {
-		$this->renderJtrackGalleryPlugin ( $row, $params, $page = 0 );
+		$this->renderJtrackGalleryMapsPlugin ( $row, $params, $page = 0 );
 	}
 
 	// The main function
-	private function renderJtrackGalleryPlugin(&$row, &$params, $page = 0) {
+	private function renderJtrackGalleryMapsPlugin(&$row, &$params, $page = 0) {
 		// API
 		jimport ( 'joomla.filesystem.file' );
 		$mainframe = JFactory::getApplication ();
 		$document = JFactory::getDocument ();
 
 		// Assign paths
-		$plg_name = "plg_jtrackgallery";
+		$plg_name = "plg_jtrackgallery_maps";
 		$plg_tag = "JTRACKGALLERY";
-		$plg_copyrights_start = "\n\n<!-- J!TrackGallery \"plg_jtrackgallery\" Plugin (v0.9) starts here -->\n";
-		$plg_copyrights_end = "\n<!-- J!TrackGallery \"plg_jtrackgallery\" Plugin (v0.9) ends here -->\n\n";
+		$plg_copyrights_start = "\n\n<!-- J!TrackGallery \"plg_jtrackgallery_maps\" Plugin (v0.9) starts here -->\n";
+		$plg_copyrights_end = "\n<!-- J!TrackGallery \"plg_jtrackgallery_maps\" Plugin (v0.9) ends here -->\n\n";
 
 		$sitePath = JPATH_SITE;
 		$siteUrl = JURI::root ( true );
@@ -46,7 +46,7 @@ class plgContentPlg_jtrackgallery extends JPlugin {
 
 		// Check
 		if (!JComponentHelper::isEnabled('com_jtg', true)) {
-			return JError::raiseError(JText::_('PLG_JTG_COM_JTG_NOT_INSTALLED'));
+			return JError::raiseError(JText::_('PLG_JTG_MAPS_COM_JTG_NOT_INSTALLED'));
 		}
 
 		// Bail out if the page format is not what we want
@@ -75,7 +75,7 @@ class plgContentPlg_jtrackgallery extends JPlugin {
 			return;
 
 			// Load the plugin language file
-		JFactory::getLanguage()->load('plg_content_jtrackgallery', JPATH_SITE . '/plugins/content/plg_jtrackgallery',	null, true);
+		JFactory::getLanguage()->load('plg_content_jtrackgallery_maps', JPATH_SITE . '/plugins/content/plg_jtrackgallery_maps',	null, true);
 
 		// Check for basic requirements
 		$db = JFactory::getDBO ();
@@ -109,7 +109,7 @@ class plgContentPlg_jtrackgallery extends JPlugin {
 				$warningtext = ' id=' . ($plg_params ['id'] ? $plg_params ['id'] : 'null') . ' gpxfilename=' . ($plg_params ['gpxfilename'] ? $plg_params ['gpxfilename'] : '') ;
 
 				if ((! $plg_params ['id'] > 0) and (! $plg_params ['gpxfilename'])) {
-					JError::raiseNotice ( '', JText::_ ( 'PLG_JTG_TRACK_NOT_SPECIFIED' ) . "()" );
+					JError::raiseNotice ( '', JText::_ ( 'PLG_JTG_MAPS_TRACK_NOT_SPECIFIED' ) . "()" );
 				}
 				// Test if given id or filename correspond to one track in database
 				if ($plg_params ['gpxfilename']) {
@@ -128,7 +128,7 @@ class plgContentPlg_jtrackgallery extends JPlugin {
 					}
 					else
 					{
-						JError::raiseNotice ( '', JText::_ ( 'PLG_JTG_TRACK_NOT_FOUND' ) . " ($warningtext)" );
+						JError::raiseNotice ( '', JText::_ ( 'PLG_JTG_MAPS_TRACK_NOT_FOUND' ) . " ($warningtext)" );
 						$plg_params ['id'] = 0;
 					}
 				}
@@ -145,12 +145,12 @@ class plgContentPlg_jtrackgallery extends JPlugin {
 					}
 					else
 					{
-						JError::raiseNotice ( '', JText::_ ( 'PLG_JTG_CANT_RENDER_TRACKS' ));
-						$plg_html .= JText::_ ( 'PLG_JTG_CANT_RENDER_TRACKS' );
+						JError::raiseNotice ( '', JText::_ ( 'PLG_JTG_MAPS_CANT_RENDER_TRACKS' ));
+						$plg_html .= JText::_ ( 'PLG_JTG_MAPS_CANT_RENDER_TRACKS' );
 					}
 
 				} else {
-					$plg_html .= JText::_ ( 'PLG_JTG_TRACK_NOT_FOUND' ) . " ($warningtext)" ;
+					$plg_html .= JText::_ ( 'PLG_JTG_MAPS_TRACK_NOT_FOUND' ) . " ($warningtext)" ;
 				}
 				$plg_html .= $plg_copyrights_end;
 				// Do the replace
@@ -182,7 +182,7 @@ class plgContentPlg_jtrackgallery extends JPlugin {
 
 
 		// Edit file
-		$cache = JFactory::getCache('plg_jtrackgallery');
+		$cache = JFactory::getCache('plg_jtrackgallery_maps');
 		$params = JComponentHelper::getParams('com_jtg');
 
 		require_once JPATH_SITE . '/components/com_jtg/models/files.php';

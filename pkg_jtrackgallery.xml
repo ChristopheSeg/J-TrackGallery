@@ -17,7 +17,7 @@
    <file type="module" id="mod_jtrackgallery_latest" client="site">mod_jtrackgallery_latest.zip</file>
    <file type="module" id="mod_jtrackgallery_stats" client="site">mod_jtrackgallery_stats.zip</file>
    <file type="component" id="com_jtg" >com_jtrackgallery.zip</file>
-   <file type="plugin" id="plg_jtrackgallery" >plg_jtrackgallery.zip</file>
+   <file type="plugin" id="plg_jtrackgallery_maps" >plg_jtrackgallery_maps.zip</file>
  </files>
  <updateservers>
    <server type="collection" priority="1" name="J!Track Gallery Update Site">http://jtrackgallery.net/downloads/J-TrackGallery-extensionset.xml</server>
