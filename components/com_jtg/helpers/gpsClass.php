@@ -2114,7 +2114,6 @@ return true;
 		$document = JFactory::getDocument();
 		$document->addScript( JUri::root(true) . '/components/com_jtg/assets/js/patches_OL-popup-autosize.js');
 		$document->addScript( JUri::root(true) . '/components/com_jtg/assets/js/FeaturePopups.js');
-		$document->addScript( JUri::root(true) . '/components/com_jtg/assets/js/animatedCursor.js');
 		$document->addScript( JUri::root(true) . '/components/com_jtg/assets/js/jtgOverView.js');
 
 		$marker = "// <!-- parseOLMarker BEGIN -->\n";
@@ -2410,19 +2409,25 @@ return true;
 		$string .= "layer_vectors = new OpenLayers.Layer.Vector(\"" . JText::_('COM_JTG_TRACKS') . "\", { displayInLayerSwitcher: true } );\n";
 		$string .= "olmap.addLayer(layer_vectors);\n";
 		$i = 0;
+		$cache = JFactory::getCache();
 
 		foreach ($rows AS $row)
 		{
 			$file = "images/jtrackgallery/uploaded_tracks/" . $row->file;
-			$coords = $this->getCoords($file);
+			$filename = $file;
+			$gpsData = new GpsDataClass("Kilometer");
+			$gpsData = $cache->get(array ( $gpsData, 'loadFileAndData' ), array ($file, $filename ), "Kilometer");
+			$coords = $gpsData->allCoords;
 			$string .= "geometries = new Array();geometries.push(drawLine([\n";
 
 			if ($coords)
 			{
+				$string .= "// <!-- parseOLSingleTrack BEGIN -->\n";
 				foreach ($coords as $key => $fetch)
 				{
 					$string .= "[" . $coords[$key][0] . "," . $coords[$key][1] . "],";
 				}
+				$string .= "// <!-- parseOLSingleTrack END -->\n";
 			}
 			else
 			{
@@ -3102,31 +3107,33 @@ return true;
 		$string_se = "";
 		$center = "";
 
+		$center .= "\n// <!-- parseOLTrack BEGIN -->\n";
+		$center .= "longitudeData = $this->longitudeData;\n";
+		$center .= "latitudeData = $this->latitudeData;\n";
+		$center .= "var points = [];\n";
+		$center .= "var style ={strokeOpacity: 0.7, strokeColor: \"#ff00ff\", strokeWidth: 5, graphicZIndex: 5}\n";
+		$center .= "for (var i = 0; i < longitudeData.length; i++) {\n";
+		$center .= "	var point = new OpenLayers.Geometry.Point(longitudeData[i], latitudeData[i]). transform(new OpenLayers.Projection(\"EPSG:4326\"), olmap.getProjectionObject());\n";
+		$center .= "	points.push(point);\n";
+		$center .= "}\n";
+		$center .= "var line = new OpenLayers.Geometry.LineString(points);\n";
+		$center .= "var linefeature  = new OpenLayers.Feature.Vector(line, null, style);\n";
+		$track_name = htmlentities($this->trackname, ENT_QUOTES, 'UTF-8');
+		$center .= "\n// <!-- parseOLMapAnimatedCursorLayer BEGIN -->\n";
+		$center .= "animatedCursorLayer = new OpenLayers.Layer.Vector(\"$track_name\");\n";
+		$center .= "animatedCursorLayer.addFeatures([linefeature]);\n";
+		$center .= "animatedCursorLayer.gpxfeature = animatedCursorLayer.features[0];\n";
+		$center .= "olmap.addLayer(animatedCursorLayer);\n";
+
 		// TODO if (AnimatedCursorLayer)
 		if (true)
 		{
-			/* AnimatedCursorLayer
-			 * This MUST be added after olmap.zoomToExtent
-			*/
+			/* Add AnimatedCursor
+			 * MUST be added after olmap.zoomToExtent
+			 */
 			$document = JFactory::getDocument();
 			$document->addScript( JUri::root(true) . '/components/com_jtg/assets/js/animatedCursor.js');
 
-			$center .= "\n// <!-- parseOLMapAnimatedCursorLayer BEGIN -->\n";
-			$center .= "longitudeData = $this->longitudeData;\n";
-			$center .= "latitudeData = $this->latitudeData;\n";
-			$center .= "var points = [];\n";
-			$center .= "var style ={strokeOpacity: 0.7, strokeColor: \"#ff00ff\", strokeWidth: 5, graphicZIndex: 5}\n";
-			$center .= "for (var i = 0; i < longitudeData.length; i++) {\n";
-			$center .= "	var point = new OpenLayers.Geometry.Point(longitudeData[i], latitudeData[i]). transform(new OpenLayers.Projection(\"EPSG:4326\"), olmap.getProjectionObject());\n";
-			$center .= "	points.push(point);\n";
-			$center .= "}\n";
-			$center .= "var line = new OpenLayers.Geometry.LineString(points);\n";
-			$center .= "var linefeature  = new OpenLayers.Feature.Vector(line, null, style);\n";
-			$track_name = htmlentities($this->trackname, ENT_QUOTES, 'UTF-8');
-			$center .= "animatedCursorLayer = new OpenLayers.Layer.Vector(\"$track_name\");\n";
-			$center .= "animatedCursorLayer.addFeatures([linefeature]);\n";
-			$center .= "animatedCursorLayer.gpxfeature = animatedCursorLayer.features[0];\n";
-			$center .= "olmap.addLayer(animatedCursorLayer);\n";
 			$center .= "\n// <!-- parseOLMapAnimatedCursorIcon BEGIN -->\n";
 			$center .= "animatedCursorIcon = new OpenLayers.Layer.Markers(\"Animated Cursor\", {\n";
 			$center .= "displayInLayerSwitcher: false });\n";
@@ -3145,7 +3152,7 @@ return true;
 			$center .= "<!-- AnimatedCursorLayer not activated -->\n";
 		}
 
-		$center .= "// <!-- parseOLMapAnimatedCursorLayer END -->\n";
+		$center .= "\n// <!-- parseOLTrack END -->\n";
 
 		$string = "// <!-- parseXMLlines BEGIN -->\n";
 
