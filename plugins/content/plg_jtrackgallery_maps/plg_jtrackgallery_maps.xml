@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="plugin"  group="content" version="2.5" method="upgrade">
-	<name>PLG_JTRACKGALLERY_MAPS</name>
+	<name>PLG_JTG_MAPS</name>
 	<author>Christophe Seguinot</author>
 	<creationDate>December 2015</creationDate>
     <license>GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html</license>
 	<authorEmail>christophe@jtrackgallery.net</authorEmail>
 	<authorUrl>http://jtrackgallery.net/</authorUrl>
 	<version>0.1</version>
-	<description>PLG_JTRACKGALLERY_MAPS_XML_DESCRIPTION</description>
+	<description>PLG_JTG_MAPS_XML_DESCRIPTION</description>
 		<files>
 		<filename plugin="plg_jtrackgallery_maps">plg_jtrackgallery_maps.php</filename>
 		<filename>index.html</filename>
@@ -21,22 +21,22 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
-				<field name="width"
+				<field name="map_width"
 					type="input"
 					class="text"
 					size="4"
-					default="500"
-					description="PLG_JTRACKGALLERY_MAPS_FIELD_WIDTH_DESC"
-					label="PLG_JTRACKGALLERY_MAPS_FIELD_WIDTH_LABEL" 
+					default="100%"
+					description="PLG_JTG_MAPS_FIELD_WIDTH_DESC"
+					label="PLG_JTG_MAPS_FIELD_WIDTH_LABEL" 
 				>
 				</field>
-				<field name="height"
+				<field name="map_height"
 					type="input"
 					class="text"
 					size="4"
-					default="500"
-					description="PLG_JTRACKGALLERY_MAPS_FIELD_HEIGHT_DESC"
-					label="PLG_JTRACKGALLERY_MAPS_FIELD_HEIGHT_LABEL" 
+					default="300px"
+					description="PLG_JTG_MAPS_FIELD_HEIGHT_DESC"
+					label="PLG_JTG_MAPS_FIELD_HEIGHT_LABEL" 
 				>
 				</field>
 			</fieldset>

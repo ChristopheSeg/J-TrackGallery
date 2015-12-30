@@ -32,7 +32,7 @@ class plgContentPlg_jtrackgallery_maps extends JPlugin {
 
 		// Assign paths
 		$plg_name = "plg_jtrackgallery_maps";
-		$plg_tag = "JTRACKGALLERY";
+		$plg_tag = "JTRACKGALLERYMAP";
 		$plg_copyrights_start = "\n\n<!-- J!TrackGallery \"plg_jtrackgallery_maps\" Plugin (v0.9) starts here -->\n";
 		$plg_copyrights_end = "\n<!-- J!TrackGallery \"plg_jtrackgallery_maps\" Plugin (v0.9) ends here -->\n\n";
 
@@ -84,7 +84,12 @@ class plgContentPlg_jtrackgallery_maps extends JPlugin {
 
 		// Get plugin info
 		$plugin = JPluginHelper::getPlugin ( 'content', $plg_name );
+		// Load params into and empty object
+		$plgParams = new JRegistry();
 
+		if ($plugin && isset($plugin->params)) {
+			$plgParams->loadString($plugin->params);
+		}
 		// ----------------------------------- Prepare the output -----------------------------------
 
 		// Process plugin tags
@@ -94,7 +99,7 @@ class plgContentPlg_jtrackgallery_maps extends JPlugin {
 			$map_count = 0;
 			foreach ( $matches [0] as $key => $match ) {
 
-				$plg_params = array (
+				$plg_call_params = array (
 						"id" => 0,
 						"gpxfilename" => ''
 				);
@@ -103,20 +108,20 @@ class plgContentPlg_jtrackgallery_maps extends JPlugin {
 
 				foreach ( $tagparams as $tagparam ) {
 					$temp = explode ( '=', $tagparam );
-					$plg_params [trim ( $temp [0] )] = trim ( $temp [1] );
+					$plg_call_params [trim ( $temp [0] )] = trim ( $temp [1] );
 				}
-				$plg_params ['id'] = ( int ) $plg_params ['id'];
-				$warningtext = ' id=' . ($plg_params ['id'] ? $plg_params ['id'] : 'null') . ' gpxfilename=' . ($plg_params ['gpxfilename'] ? $plg_params ['gpxfilename'] : '') ;
+				$plg_call_params ['id'] = ( int ) $plg_call_params ['id'];
+				$warningtext = ' id=' . ($plg_call_params ['id'] ? $plg_call_params ['id'] : 'null') . ' gpxfilename=' . ($plg_call_params ['gpxfilename'] ? $plg_call_params ['gpxfilename'] : '') ;
 
-				if ((! $plg_params ['id'] > 0) and (! $plg_params ['gpxfilename'])) {
+				if ((! $plg_call_params ['id'] > 0) and (! $plg_call_params ['gpxfilename'])) {
 					JError::raiseNotice ( '', JText::_ ( 'PLG_JTG_MAPS_TRACK_NOT_SPECIFIED' ) . "()" );
 				}
 				// Test if given id or filename correspond to one track in database
-				if ($plg_params ['gpxfilename']) {
+				if ($plg_call_params ['gpxfilename']) {
 					// Determine the id of the filename
-					$query = "SELECT id FROM `#__jtg_files` WHERE file='" . $plg_params ['gpxfilename'] . "'";
-					if ($plg_params ['id'] > 0) {
-						$query .= " or id=" . $plg_params ['id'];
+					$query = "SELECT id FROM `#__jtg_files` WHERE file='" . $plg_call_params ['gpxfilename'] . "'";
+					if ($plg_call_params ['id'] > 0) {
+						$query .= " or id=" . $plg_call_params ['id'];
 					}
 					$db->setQuery ( $query );
 					$db->execute ();
@@ -124,24 +129,24 @@ class plgContentPlg_jtrackgallery_maps extends JPlugin {
 
 					if (count ( $ids ) > 0 and ( int ) $ids [0]->id > 0)
 					{
-						$plg_params ['id'] = ( int ) $ids [0]->id;
+						$plg_call_params ['id'] = ( int ) $ids [0]->id;
 					}
 					else
 					{
 						JError::raiseNotice ( '', JText::_ ( 'PLG_JTG_MAPS_TRACK_NOT_FOUND' ) . " ($warningtext)" );
-						$plg_params ['id'] = 0;
+						$plg_call_params ['id'] = 0;
 					}
 				}
 
 				$plg_html = $plg_copyrights_start;
 
-				if ($plg_params ['id'] > 0)
+				if ($plg_call_params ['id'] > 0)
 				{
 					// Generate the html code for the map
 					$map_count += 1;
 					if ($map_count <2)
 					{
-						$plg_html .= $this->rendermap($plg_params);
+						$plg_html .= $this->rendermap($plgParams, $plg_call_params);
 					}
 					else
 					{
@@ -161,7 +166,7 @@ class plgContentPlg_jtrackgallery_maps extends JPlugin {
 		}
 	}
 
-	private function rendermap($plg_params)
+	private function rendermap($plgParams, $plg_call_params)
 	{
 		$document = JFactory::getDocument();
 		$document->addStyleSheet(JUri::base(true) . '/components/com_jtg/template.css');
@@ -187,7 +192,7 @@ class plgContentPlg_jtrackgallery_maps extends JPlugin {
 
 		require_once JPATH_SITE . '/components/com_jtg/models/files.php';
 		$model = JModelLegacy::getInstance( 'Files', 'JtgModel' );
-		$track = $cache->get(array($model, 'getFile'), array($plg_params['id']));
+		$track = $cache->get(array($model, 'getFile'), array($plg_call_params['id']));
 		$document = JFactory::getDocument();
 		require_once JPATH_SITE . '/components/com_jtg/helpers/gpsClass.php';
 		$document->addScript('http://www.openlayers.org/api/OpenLayers.js');
@@ -222,8 +227,13 @@ img.olTileImage {
 	max-width: none !important;
 }
 </style>';
-		$map_width = isset ($plg_params ['map_width'])? $plg_params ['map_width']: $cfg->map_width;
-		$map_height = isset ($plg_params ['map_height'])? $plg_params ['map_height']: $cfg->map_height;
+		$plgParams_map_width = $plgParams->get('map_width', false);
+		$plgParams_map_height = $plgParams->get('map_height', false);
+		$map_width = $plgParams_map_width? $plgParams_map_width: $cfg->map_width;
+		$map_height = $plgParams_map_height? $plgParams_map_height: $cfg->map_height;
+
+		$map_width = isset ($plg_call_params ['map_width'])? $plg_call_params ['map_width']: $map_width;
+		$map_height = isset ($plg_call_params ['map_height'])? $plg_call_params ['map_height']: $map_height;
 
 		$map .= ("\n<div id=\"jtg_map\"  align=\"center\" class=\"olMap\" ");
 		$map .= ("style=\"width: $map_width; height: $map_height; background-color:#EEE; vertical-align:middle;\" >");
