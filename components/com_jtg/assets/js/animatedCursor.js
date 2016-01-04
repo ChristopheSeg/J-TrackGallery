@@ -2,7 +2,7 @@
 // Animated cursor on track
 // Design and javascript Code inspired from http://www.utagawavtt.com/
 
-function hover_profil_graph(longitude, latitude, originalIdx)
+function hover_profil_graph(longitude, latitude, originalIdx, autocenter)
 {
 	// enable moving cursor
 	animatedCursorIcon.setVisibility(true); // for opera broken in Firefox
@@ -39,8 +39,10 @@ function hover_profil_graph(longitude, latitude, originalIdx)
 	// ************************************************
 
 	// if the point is out of the map, center on it
-	if (animatedCursorIcon.markers.length > 0 && !animatedCursorIcon.markers[0].onScreen()) {
+	if (autocenter) {
+		if (animatedCursorIcon.markers.length > 0 && !animatedCursorIcon.markers[].onScreen()) {
 		olmap.setCenter(lonlat);
+		}
 	}
 
 }

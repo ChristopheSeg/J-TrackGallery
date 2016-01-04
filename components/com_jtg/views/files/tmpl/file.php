@@ -272,8 +272,10 @@ if ($beatchart)
 ?>
 			],
 <?php
-// TODO if (AnimatedCursorLayer)
-if (true)
+// If AnimatedCursorLayer is enabled
+// jtg_param_use_map_autocentering
+$autocenter = (bool) $this->params->get("jtg_param_use_map_autocentering");
+if (! (bool) $this->params->get("jtg_param_disable_map_animated_cursor"))
 {
 ?>
 			plotOptions: {
@@ -282,7 +284,7 @@ if (true)
 						events: {
 							mouseOver: function () {
 								var index = this.series.processedXData.indexOf(this.x);
-								hover_profil_graph(longitudeData[index],latitudeData[index], index);
+								hover_profil_graph(longitudeData[index],latitudeData[index], index, <?php echo $autocenter ?>);
 							}
 						}
 					},
