@@ -40,7 +40,7 @@ function hover_profil_graph(longitude, latitude, originalIdx, autocenter)
 
 	// if the point is out of the map, center on it
 	if (autocenter) {
-		if (animatedCursorIcon.markers.length > 0 && !animatedCursorIcon.markers[].onScreen()) {
+		if (animatedCursorIcon.markers.length > 0 && !animatedCursorIcon.markers[0].onScreen()) {
 		olmap.setCenter(lonlat);
 		}
 	}

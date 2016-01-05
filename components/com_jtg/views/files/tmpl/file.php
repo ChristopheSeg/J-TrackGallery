@@ -274,8 +274,8 @@ if ($beatchart)
 <?php
 // If AnimatedCursorLayer is enabled
 // jtg_param_use_map_autocentering
-$autocenter = (bool) $this->params->get("jtg_param_use_map_autocentering");
-if (! (bool) $this->params->get("jtg_param_disable_map_animated_cursor"))
+$autocenter = (bool) $this->params->get("jtg_param_use_map_autocentering", true) ? 'true':'false';
+if (! (bool) $this->params->get("jtg_param_disable_map_animated_cursor", false))
 {
 ?>
 			plotOptions: {
