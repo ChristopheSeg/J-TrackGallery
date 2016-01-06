@@ -7,7 +7,7 @@
 <license>GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html</license>
 <authorEmail>christophe@jtrackgallery.net</authorEmail>
 <authorUrl>http://jtrackgallery.net/</authorUrl>
-<version>0.9.21</version>
+<version>0.9.22</version>
 <description>MOD_JTG_STATS_DESCRIPTION</description>
 <files>
 	<filename module="mod_jtrackgallery_stats">mod_jtrackgallery_stats.php</filename>
@@ -19,12 +19,16 @@
 <languages folder="language">
 	<language tag="de-DE">de-DE/de-DE.mod_jtrackgallery_stats.ini</language>
 	<language tag="en-GB">en-GB/en-GB.mod_jtrackgallery_stats.ini</language>
+	<language tag="es-ES">es-ES/es-ES.mod_jtrackgallery_stats.ini</language>
 	<language tag="fr-FR">fr-FR/fr-FR.mod_jtrackgallery_stats.ini</language>
+	<language tag="nl-NL">nl-NL/nl-NL.mod_jtrackgallery_stats.ini</language>
 	<language tag="pl-PL">pl-PL/pl-PL.mod_jtrackgallery_stats.ini</language>
 	
 	<language tag="de-DE">de-DE/de-DE.mod_jtrackgallery_stats.sys.ini</language>
 	<language tag="en-GB">en-GB/en-GB.mod_jtrackgallery_stats.sys.ini</language>
+	<language tag="es-ES">es-ES/es-ES.mod_jtrackgallery_stats.sys.ini</language>
 	<language tag="fr-FR">fr-FR/fr-FR.mod_jtrackgallery_stats.sys.ini</language>
+	<language tag="nl-NL">nl-NL/nl-NL.mod_jtrackgallery_stats.sys.ini</language>
 	<language tag="pl-PL">pl-PL/pl-PL.mod_jtrackgallery_stats.sys.ini</language>
 </languages>
 <config><fields name="params"><fieldset name="basic" label="MOD_JTG_STATS_CONFIGURATION">

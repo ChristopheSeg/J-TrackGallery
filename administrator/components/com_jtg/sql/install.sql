@@ -4,6 +4,8 @@ CREATE TABLE IF NOT EXISTS `#__jtg_maps` (
 	`name` varchar(50) NOT NULL,
 	`ordering` int(2) NOT NULL,
 	`published` int(1) NOT NULL,
+	`default_map` INT(2) NULL DEFAULT NULL,
+	`default_overlays` TEXT NULL DEFAULT NULL,
 	`param` varchar(500),
 	`script` varchar(300),
 	`code` varchar(300),
