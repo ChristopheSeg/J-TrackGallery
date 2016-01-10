@@ -208,7 +208,7 @@
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
-		<field name="jtg_param_tracks_list_hide_icon_is_wp " type="radio"
+		<field name="jtg_param_tracks_list_hide_icon_is_wp" type="radio"
 			addfieldpath="/administrator/components/com_jtg/elements" default="0"
 			label="COM_JTG_LIST_HIDE_ICON_ISWP" description="COM_JTG_TT_LIST_HIDE_ICON_ISWP">
 			<option value="1">JYES</option>

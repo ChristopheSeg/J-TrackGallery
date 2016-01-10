@@ -300,9 +300,17 @@ class Com_JtgInstallerScript
 		// Upgrading from $oldRelease to $this->release
 		$oldRelease = $this->getParam('version');
 
-		if ( version_compare($oldRelease, '0.7.0', '<'))
+		// If installed version is equal to then 0.9.21 ==> remove plugin plg_jtrackgallery_maps v0.1
+		$plg_folder = JPATH_SITE . '/plugins/content/plg_jtrackgallery_maps/';
+		if (JFolder::exists($plg_folder))
 		{
-			// Installed version is lower then 0.7.0 ==> do some stuff
+			// Remove old plugin version
+			JFolder::delete($plg_folder);
+			$db = JFactory::getDBO();
+			$application = JFactory::getApplication();
+			$uid = JFactory::getUser($row->uid);
+			$db->setQuery("DELETE FROM `#__extensions` WHERE element ='plg_jtrackgallery_maps'");
+			$db->execute();
 		}
 
 		/*
