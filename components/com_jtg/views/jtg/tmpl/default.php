@@ -33,7 +33,7 @@ echo $this->gpsData->writeOLMap($this->where, $this->tracks, $this->params);
 #jtg_map.fullscreen {
 	height: 800px;
 	width: 100%;
-	z-index: 20;
+	z-index: 10000;
 }
 #jtg_map img{
 	max-width: none; /* joomla3 max-width=100% breaks popups*/

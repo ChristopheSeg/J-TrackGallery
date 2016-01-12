@@ -81,14 +81,29 @@ function getAvgTime(speed_str, length, decimal_separator)  {
 
 function getAvgTimeFromPace(pace_str, length, decimal_separator) {
 
-	if (decimal_separator == '.')
+	// check pace format
+	var n = pace_str.indexOf(":");
+	if (n>=0)
 	{
-		var pace = pace_str;
+		// Pace format is time format mm:ss
+		var pace_parts = pace_str.split(":");
+		if (!pace_parts[1]) pace_parts[1] = 0;
+		if (!pace_parts[0]) pace_parts[0] = 0;
+		var pace = pace_parts[1]/60 + pace_parts[0]/1;
 	}
 	else
 	{
-		var pace = pace_str.replace(decimal_separator, '.');
+		// Pace format is tdecimal
+		if (decimal_separator == '.')
+		{
+			var pace = pace_str;
+		}
+		else
+		{
+			var pace = pace_str.replace(decimal_separator, '.');
+		}
 	}
+
 	var time = length * pace / 60;
 	var timestring = time.toString();
 	var parts = timestring.split(".");

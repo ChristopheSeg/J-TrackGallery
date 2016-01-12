@@ -428,7 +428,7 @@ if ($beatchart)
 #jtg_map.fullscreen {
 	height: 800px;
 	width: 100%;
-	z-index: 20;
+	z-index: 10000;
 }
 
 /* Fix Bootstrap-Openlayers issue */
