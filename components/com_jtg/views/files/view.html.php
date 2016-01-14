@@ -553,15 +553,7 @@ class JtgViewFiles extends JViewLegacy
 		$jscript = "<script type=\"text/javascript\">
 		Joomla.submitbutton = function(pressbutton)  {
 		var form = document.adminForm;
-		// Do field validation
-		if (document.getElementById('format').value == \"\"){
-		alert( \"" . JText::_('COM_JTG_NEED_FORMAT', true) . "\" );
-	}
-	else
-	{
-	submitform( pressbutton);
-	}
-	}
+		submitform( pressbutton);
 	</script>\n";
 
 		$imageBlock = null;

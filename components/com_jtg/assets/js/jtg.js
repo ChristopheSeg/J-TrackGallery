@@ -52,14 +52,9 @@ else
 
 function getAvgTime(speed_str, length, decimal_separator)  {
 
-		if (decimal_separator == '.')
-		{
-			var speed = speed_str;
-		}
-		else
-		{
-			var speed = speed_str.replace(decimal_separator, '.');
-		}
+		// Speed format is with decimal separator or . or ,
+		var speed = speed_str.replace(decimal_separator, '.');
+		speed = speed.replace(',', '.');
 		if (speed ==0)
 		{
 			// set speed to 1 when null!
@@ -82,8 +77,8 @@ function getAvgTime(speed_str, length, decimal_separator)  {
 function getAvgTimeFromPace(pace_str, length, decimal_separator) {
 
 	// check pace format
-	var n = pace_str.indexOf(":");
-	if (n>=0)
+	//var n = pace_str.indexOf(":");
+	if (pace_str.indexOf(":")>=0)
 	{
 		// Pace format is time format mm:ss
 		var pace_parts = pace_str.split(":");
@@ -93,15 +88,9 @@ function getAvgTimeFromPace(pace_str, length, decimal_separator) {
 	}
 	else
 	{
-		// Pace format is tdecimal
-		if (decimal_separator == '.')
-		{
-			var pace = pace_str;
-		}
-		else
-		{
-			var pace = pace_str.replace(decimal_separator, '.');
-		}
+		// Pace format is decimal separator or . or ,
+		var pace_str = pace_str.replace(decimal_separator, '.');
+		pace = pace.replace(',', '.');
 	}
 
 	var time = length * pace / 60;

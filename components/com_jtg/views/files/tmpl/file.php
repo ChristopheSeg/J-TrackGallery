@@ -648,6 +648,7 @@ else
 
 if ($this->cfg->download >= 1)
 {
+	$download_buttons ='';
 	echo $this->parseTemplate("headline", JText::_('COM_JTG_DOWNLOAD'), "jtg_param_header_download");
 	echo $this->parseTemplate("description", null, null, "open");
 
@@ -661,22 +662,30 @@ if ($this->cfg->download >= 1)
 		if ( (bool) $this->params->get("jtg_param_offer_download_original") )
 		{
 			$ext = JFile::getExt($this->track->file);
-			$download_option = "	<option value=\"original\">" . JText::_('COM_JTG_ORIGINAL_FILE') . " ($ext)</option>\n";
+			$download_buttons .= "<button class=\"button\" type=\"button\"
+			onclick=\"document.getElementById('format').value = 'original';Joomla.submitbutton('download')\">
+			$ext ". JText::_('COM_JTG_ORIGINAL_FILE') ."</button>";
 		}
 
 		if ( (bool) $this->params->get("jtg_param_offer_download_gpx") )
 		{
-			$download_option .= "	<option value=\"gpx\">" . JText::_('COM_JTG_CONVERTED_FILE') . " GPX</option>\n";
+			$download_buttons .= "<button class=\"button\" type=\"button\"
+			onclick=\"document.getElementById('format').value = 'gpx';Joomla.submitbutton('download')\">
+			GPX " . JText::_('COM_JTG_CONVERTED_FILE') ."</button>";
 		}
 
 		if ( (bool) $this->params->get("jtg_param_offer_download_kml") )
 		{
-			$download_option .= "	<option value=\"kml\">" . JText::_('COM_JTG_CONVERTED_FILE') . " KML</option>\n";
+			$download_buttons .= "<button class=\"button\" type=\"button\"
+			onclick=\"document.getElementById('format').value = 'kml';Joomla.submitbutton('download')\">
+			KML " . JText::_('COM_JTG_CONVERTED_FILE') . "</button>";
 		}
 
 		if ( (bool) $this->params->get("jtg_param_offer_download_tcx") )
 		{
-			$download_option .= "	<option value=\"tcx\">" . JText::_('COM_JTG_CONVERTED_FILE') . " TCX (Garmin)</option>\n";
+			$download_buttons .= "<button class=\"button\" type=\"button\"
+			onclick=\"document.getElementById('format').value = 'tcx';Joomla.submitbutton('download')\">
+			TCX " . JText::_('COM_JTG_CONVERTED_FILE') . "</button>";
 		}
 
 		echo $this->jscript;
@@ -684,19 +693,12 @@ if ($this->cfg->download >= 1)
 <form name="adminForm" id="adminForm" method="post"
 	action="<?php echo $this->action; ?>">
 
-	<span><label for="format"><?php echo JText::_('COM_JTG_FORMAT'); ?>&nbsp;</label>
-		<select name="format" id="format">
-			<option value="">
-				<?php echo JText::_('COM_JTG_SELECT'); ?>
-			</option>
-			<?php echo $download_option; ?>
-	</select>
-		<button class="button" type="button"
-			onclick="Joomla.submitbutton('download')">
-			<?php echo JText::_('COM_JTG_DOWNLOAD_THIS_TRACK') ?>
-		</button>
-	<?php
+	<span><label for="format"><?php echo JText::_('COM_JTG_DOWNLOAD_THIS_TRACK'); ?>&nbsp;</label>
+
+		<?php echo $download_buttons;?>
+			<?php
 	echo JHtml::_('form.token') . "\n"; ?>
+	<input type="hidden" name="format" id="format" value="original" />
 	<input type="hidden" name="option" value="com_jtg" /> <input
 		type="hidden" name="id" value="<?php echo $this->track->id; ?>" /> <input
 		type="hidden" name="task" value="" />
