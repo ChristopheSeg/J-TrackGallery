@@ -550,7 +550,7 @@ class JPagination extends JObject
 	{
 		// Initialise variables.
 		$lang = JFactory::getLanguage();
-		$html = "<div class=\"container\"><div class=\"jtgpagination\">\n";
+		$html = "<div class=\"jtg_container\"><div class=\"jtgpagination\">\n";
 
 		$html .= "\n<div class=\"limit\">" . JText::_('JGLOBAL_DISPLAY_NUM') . $list['limitfield'] . "";
 		$html .= $list['pageslinks'];

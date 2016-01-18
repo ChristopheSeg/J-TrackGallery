@@ -663,7 +663,7 @@ span label {
 	-moz-box-sizing: content-box;
 	box-sizing: content-box;
 }
-.container { width: 100%; }
+.jtg_container { width: 100%; }
 
 .gps-navi a:hover,.gps-navi a:active {
 	text-decoration: none;
