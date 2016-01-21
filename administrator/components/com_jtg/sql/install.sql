@@ -3,6 +3,7 @@ CREATE TABLE IF NOT EXISTS `#__jtg_maps` (
 	`id` int(2) NOT NULL AUTO_INCREMENT,
 	`name` varchar(50) NOT NULL,
 	`ordering` int(2) NOT NULL,
+	`usepace` TINYINT(1) NOT NULL DEFAULT '0', 
 	`published` int(1) NOT NULL,
 	`default_map` INT(2) NULL DEFAULT NULL,
 	`default_overlays` TEXT NULL DEFAULT NULL,

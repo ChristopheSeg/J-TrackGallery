@@ -300,6 +300,17 @@ class Com_JtgInstallerScript
 		// Upgrading from $oldRelease to $this->release
 		$oldRelease = $this->getParam('version');
 
+		// Bug in 0.9.22 1054 Unknown column 'usepace' in 'field list' SQL=INSERT INTO xxxx_jtg_cats
+
+		$db = JFactory::getDBO();
+		$db->setQuery("SELECT usepace FROM `#__jtg_cats` WHERE 1 ");
+		$count = $db->getNumRows();
+		if (!$count)
+		{
+			// The usepace row does not exits
+			$db->setQuery("ALTER TABLE `#__jtg_cats` ADD `usepace` TINYINT(1) NOT NULL DEFAULT '0' AFTER `ordering`; ");
+			$db->execute();		}
+
 		// If installed version is equal to then 0.9.21 ==> remove plugin plg_jtrackgallery_maps v0.1
 		$plg_folder = JPATH_SITE . '/plugins/content/plg_jtrackgallery_maps/';
 		if (JFolder::exists($plg_folder))
