@@ -21,6 +21,7 @@ CREATE TABLE IF NOT EXISTS `#__jtg_cats` (
 	`description` varchar(255),
 	`image` varchar(60),
 	`ordering` int(10) NOT NULL,
+	`usepace` TINYINT(1) NOT NULL DEFAULT '0', 
 	`published` int(10) NOT NULL,
 	`default_map` INT(2) NULL DEFAULT NULL,
 	`default_overlays` TEXT NULL DEFAULT NULL, 

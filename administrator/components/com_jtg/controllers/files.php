@@ -61,7 +61,6 @@ class JtgControllerFiles extends JtgController
 		$jInput = JFactory::getApplication()->input;
 		$jFileInput = new jInput($_FILES);
 		$files = $jFileInput->get('files', array(), 'array');
-
 		$model = $this->getModel('files');
 		$dest = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks' .
 				'/import/';

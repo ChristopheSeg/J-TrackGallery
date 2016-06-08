@@ -207,12 +207,12 @@ class JtgViewFiles extends JViewLegacy
 		if (JVERSION >= 3.0)
 		{
 			JHtml::_('jquery.framework');
-			JHtml::script(Juri::base() . 'components/com_jtg/assets/js/multifile.js');
+			JHtml::script(Juri::base() . 'components/com_jtg/assets/js/jquery.MultiFile.js');
 		}
 		else
 		{
 			JHtml::script('jquery.js', 'components/com_jtg/assets/js/', false);
-			JHtml::script('multifile.js', 'components/com_jtg/assets/js/', false);
+			JHtml::script('jquery.MultiFile.js', 'components/com_jtg/assets/js/', false);
 		}
 
 		JHtml::_('behavior.modal');
@@ -553,7 +553,7 @@ class JtgViewFiles extends JViewLegacy
 		$jscript = "<script type=\"text/javascript\">
 		Joomla.submitbutton = function(pressbutton)  {
 		var form = document.adminForm;
-		submitform( pressbutton);
+		submitform( pressbutton);}
 	</script>\n";
 
 		$imageBlock = null;

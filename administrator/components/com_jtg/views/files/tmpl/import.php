@@ -73,6 +73,7 @@ $document->addStyleDeclaration($style);
 	$regex = "(.[gG][pP][xX]$|.[tT][rR][kK]$|.[kK][mM][lL]$)";
 	$me = JFactory::getUser();
 	$files = JFolder::files($importdir, $regex, true, true);
+
 	$model = $this->getModel();
 	$terrain = $model->getTerrain("*", true, " WHERE published=1 ");
 	$terrainsize = count($terrain);
@@ -170,7 +171,6 @@ $document->addStyleDeclaration($style);
 			$filename_wof = $filename_wof[(count($filename_wof) - 1)];
 
 			// $filename = strtolower(JFile::getName($file));
-
 
 			if (in_array(strtolower($filename_wof), $filesdir) )
 			{

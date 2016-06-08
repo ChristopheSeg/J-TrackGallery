@@ -564,13 +564,13 @@ class JtgViewFiles extends JViewLegacy
 		if (JVERSION >= 3.0)
 		{
 			JHtml::_('jquery.framework');
-			JHtml::script(Juri::root() . 'components/com_jtg/assets/js/multifile.js');
+			JHtml::script(Juri::root() . 'components/com_jtg/assets/js/jquery.MultiFile.js');
 			JHTML::_('behavior.framework');
 		}
 		else
 		{
 			JHtml::script('jquery.js', 'components/com_jtg/assets/js/', false);
-			JHtml::script('multifile.js', 'components/com_jtg/assets/js/', false);
+			JHtml::script('jquery.MultiFile.js', 'components/com_jtg/assets/js/', false);
 			JHtml::script('mootools.js', '/media/system/js/', false);
 			JHtml::script('core-uncompressed.js', 'media/system/js/', false);
 		}
@@ -590,13 +590,13 @@ class JtgViewFiles extends JViewLegacy
 		if (JVERSION >= 3.0)
 		{
 			JHtml::_('jquery.framework');
-			JHtml::script(Juri::base() . 'components/com_jtg/assets/js/multifile.js');
+			JHtml::script(Juri::base() . 'components/com_jtg/assets/js/jquery.MultiFile.js');
 			JHTML::_('behavior.framework');
 		}
 		else
 		{
 			JHtml::script('jquery.js', 'components/com_jtg/assets/js/', false);
-			JHtml::script('multifile.js', 'components/com_jtg/assets/js/', false);
+			JHtml::script('jquery.MultiFile.js', 'components/com_jtg/assets/js/', false);
 			JHtml::script('mootools.js', '/media/system/js/', false);
 		}
 

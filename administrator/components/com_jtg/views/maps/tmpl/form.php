@@ -53,13 +53,13 @@ else
 }
 
 JToolBarHelper::help("maps/newmap", true);
-
+	$document = JFactory::getDocument();
 if ($id)
 {
 	$cache = JFactory::getCache('com_jtg');
 	$cfg = JtgHelper::getConfig();
 	$model = $this->getModel();
-	$document = JFactory::getDocument();
+
 }
 
 if (JVERSION >= 3.0)

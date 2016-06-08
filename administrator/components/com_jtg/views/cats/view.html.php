@@ -192,8 +192,14 @@ class JtgViewCats extends JViewLegacy
 		$lists['block'] 	= JHtml::_('select.booleanlist', 'publish', 'class="inputbox" size="1"', 1);
 		$lists['usepace'] 	= JHtml::_('select.booleanlist', 'usepace', 'class="inputbox" size="1"', false);
 		$lists['parent'] 	= JHtml::_('select.genericlist', $parent, 'parent', 'size="1"', 'id', 'name', '');
-		$lists['default_map'] 	= JHtml::_('select.genericlist', $default_map, 'default_map', 'size="1"', 'id', 'name', $data->default_map);
-		$lists['default_overlays'] 	= JHtml::_('select.genericlist', $default_overlays, 'default_overlays[]', 'class="inputbox" multiple="true" size="' . $size . '"', 'id', 'name', unserialize($data->default_overlays));
+		$lists['default_map'] 	= JHtml::_('select.genericlist', $default_map, 'default_map', 'size="1"', 'id', 'name', '');
+		$lists['default_overlays'] 	= JHtml::_('select.genericlist', $default_overlays, 'default_overlays[]', 'class="inputbox" multiple="true" size="'
+				. $size . '"', 'id', 'name', '');
+/*
+ * 		$lists['default_map'] 	= JHtml::_('select.genericlist', $default_map, 'default_map', 'size="1"', 'id', 'name', $data->default_map);
+		$lists['default_overlays'] 	= JHtml::_('select.genericlist', $default_overlays, 'default_overlays[]', 'class="inputbox" multiple="true" size="'
+				. $size . '"', 'id', 'name', unserialize($data->default_overlays));
+*/
 		$config = JtgHelper::getConfig();
 		$images = $model->getPics();
 
@@ -233,6 +239,7 @@ class JtgViewCats extends JViewLegacy
 		$size=min(4,count($default_overlays));
 
 		$data = $model->getCat($id);
+
 		$lists['block'] 	= JHtml::_('select.booleanlist', 'publish', 'class="inputbox" size="1"', $data->published);
 		$lists['usepace'] 	= JHtml::_('select.booleanlist', 'usepace', 'class="inputbox" size="1"', $data->usepace);
 		$lists['parent'] 	= JHtml::_('select.genericlist', $parent, 'parent', 'size="1"', 'id', 'name', $data->parent_id);
