@@ -27,7 +27,9 @@ JToolBarHelper::save('uploadfiles', 'Upload');
 $accept = array("gpx","tcx", "kml");
 $max = 100;
 ?>
-
+<script type="text/javascript">
+	jQuery.noConflict();
+</script>
 <table class="adminlist">
 	<tbody>
 		<tr>
@@ -37,7 +39,7 @@ $max = 100;
 					<?php echo JText::sprintf('COM_JTG_ALLOWED_FILETYPES', implode(", ", $accept)); ?>
 					<br />
 					<?php echo JText::_('COM_JTG_MAXIMAL') . " " . $max; ?>
-					<br /> <br /> <input type="file" name="files[]" class="multi"
+					<br /> <br /> <input type="file" name="files[]" class="multi" multiple="multiple"
 						maxlength="<?php echo $max; ?>"
 						accept="<?php echo implode("|", $accept) ?>" /> <br /> <br /> <input
 						type="radio" name="toimport" value="1" checked="checked">
@@ -46,7 +48,7 @@ $max = 100;
 					<?php echo JText::_('COM_JTG_REDIRECT_TO_IMPORT_NO') ?>
 					<input type="hidden" name="option" value="com_jtg" /> <input
 						type="hidden" name="controller" value="files" /> <input
-						type="hidden" name="task" value="" />
+						type="hidden" name="task" value="uploadfiles" />
 					<?php echo JHtml::_('form.token'); ?>
 				</form> <br /> <br /> <input type='submit'
 				value='<?php echo JText::_('COM_JTG_UPLOAD') ?>' class='submit'

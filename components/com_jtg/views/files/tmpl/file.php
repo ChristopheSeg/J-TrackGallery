@@ -122,8 +122,8 @@ if ($maySeeSingleFile === true)
 <!-- begin Charts -->
 
 <script type="text/javascript">
-		jQuery.noConflict();
-		</script>
+	jQuery.noConflict();
+</script>
 <script
 	src="http://code.highcharts.com/highcharts.js"></script>
 <script

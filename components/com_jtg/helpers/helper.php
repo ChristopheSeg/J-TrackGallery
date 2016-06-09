@@ -244,6 +244,7 @@ class JtgHelper
 	 */
 	static public function uploadfile($file, $dest)
 	{
+
 		if ( ( $file["error"] != 0 )
 			OR ( $file["size"] == 0 ))
 		{
@@ -254,7 +255,6 @@ class JtgHelper
 		$filename = JFile::makeSafe($file['name']);
 		$randnumber = (50 - strlen($filename));
 		$fncount = 0;
-
 		while (true)
 		{
 			if (!JFile::exists($dest . $filename))

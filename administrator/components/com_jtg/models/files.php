@@ -177,12 +177,10 @@ class JtgModelFiles extends JModelLegacy
 		 * remove the return statement inside for loop!
 		*/
 
-var_dump($files);
-		if (count($files['name']) > 1)
+		if (count($files['name']) > 0)
 		{
 			foreach ($files['name'] as $key => $value)
 			{
-				echo "<br>TODO $key $value";
 				if ($value != "")
 				{
 					$filename = JFile::makesafe($value);
@@ -206,7 +204,6 @@ var_dump($files);
 				}
 			}
 		}
-
 		return true;
 	}
 
