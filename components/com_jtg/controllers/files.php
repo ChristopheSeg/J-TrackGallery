@@ -107,6 +107,15 @@ class JtgControllerFiles extends JtgController
 			$this->setRedirect(JRoute::_('index.php?option=com_jtg', false), false);
 		}
 
+		// Make sure user is logged in and have the necessary access rights
+		if (! (JtgHelper::userHasFrontendRights() AND JtgHelper::userHasFrontendDeleteRights() ) )
+		{
+			$mainframe=JFactory::getApplication();
+			$mainframe->redirect(JRoute::_('index.php?option=com_jtg&view=files&layout=user', false),
+					JText::_('COM_JTG_ALERT_NOT_AUTHORISED'), 'Error');
+			exit(0);
+		}
+
 		$id = JRequest::getInt('id');
 		$model = $this->getModel('files');
 
@@ -132,6 +141,7 @@ class JtgControllerFiles extends JtgController
 
 		if (!$user->get('id'))
 		{
+
 			$this->setRedirect(JRoute::_('index.php?option=com_jtg', false), false);
 		}
 

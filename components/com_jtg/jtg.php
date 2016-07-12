@@ -40,11 +40,11 @@ JFactory::getLanguage()->load('com_jtg_common', JPATH_SITE . '/components/com_jt
 // Com_jtg_additional language files are in /images/jtrackgallery/language
 // folder
 JFactory::getLanguage()->load(
-		'com_jtg_additional/' . JPATH_SITE . '/images/jtrackgallery', 'en-GB',
+		'com_jtg_additional/', JPATH_SITE . '/images/jtrackgallery', 'en-GB',
 		true
 		);
 JFactory::getLanguage()->load(
-		'com_jtg_additional/' . JPATH_SITE . '/images/jtrackgallery', null, true
+		'com_jtg_additional/', JPATH_SITE . '/images/jtrackgallery', null, true
 );
 $cfg = JtgHelper::getConfig();
 

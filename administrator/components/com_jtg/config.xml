@@ -26,7 +26,7 @@
 			label="COM_JTG_MENU_RESTRICTEDFILES" description="COM_JTG_TT_MENU_RESTRICTEDFILES">
 			<option value="0">JNO</option>
 			<option value="1">COM_JTG_REGISTERED</option>
-			<option value="2">JYES</option>
+			<option value="2">COM_JTG_PRIVATE</option>
 		</field>
 		<field name="jtg_param_lh" type="radio"
 			addfieldpath="/administrator/components/com_jtg/elements" default="1"
@@ -57,6 +57,12 @@
 			label="COM_JTG_MENU_SHOW_HEIGHTCHART" description="COM_JTG_TT_MENU_SHOW_HEIGHTCHART">
 			<option value="1">COM_JTG_AUTOMATIC</option>
 			<option value="0">JHIDE</option>
+		</field>
+		<field name="jtg_param_hide_track_info" type="radio"
+			addfieldpath="/administrator/components/com_jtg/elements" default="0"
+			label="COM_JTG_MENU_HIDE_TRACKINFO" description="COM_JTG_TT_MENU_HIDE_TRACKINFO">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 		<field name="jtg_param_disable_map_animated_cursor" addfieldpath="/administrator/components/com_jtg/elements"
 			type="radio" default="O" label="COM_JTG_MENU_DISABLE_MAP_ANIMATED_CURSOR"

@@ -100,11 +100,12 @@ if ($user->id != 0)
 					<a
 					href="index.php?option=com_jtg&view=files&layout=form&id=<?php echo $row->id; ?>">
 						<img <?php echo $edit ?>
-						src="<?php echo JPATH_SITE ?>/components/com_jtg/assets/images/edit_f2.png" width="16px" />
+						src="<?php echo JUri::root() ?>components/com_jtg/assets/images/edit_f2.png" width="16px" />
 				</a> <a
-					href="index.php?option=com_jtg&controller=files&task=delete&id=<?php echo $row->id; ?>">
+					href="index.php?option=com_jtg&controller=files&task=delete&id=<?php echo $row->id; ?>"
+					onclick="return confirm('<?php echo JText::_('COM_JTG_VALIDATE_DELETE_TRACK')?>')">
 						<img <?php echo $delete ?>
-						src="<?php echo JPATH_SITE ?>/components/com_jtg/assets/images/cancel_f2.png" width="16px" />
+						src="<?php echo JUri::root() ?>components/com_jtg/assets/images/cancel_f2.png" width="16px" />
 				</a>
 				</td>
 				<td><a href="<?php echo $link; ?>">

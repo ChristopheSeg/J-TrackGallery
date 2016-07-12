@@ -561,7 +561,7 @@ class JtgHelper
 	/**
 	 * function_description
 	 *
-	 * @return bool true if user has FrontEnd rights
+	 * @return bool true if user has FrontEnd rights (for uploading tracks)
 	 */
 	static public function userHasFrontendRights()
 	{
@@ -591,6 +591,41 @@ class JtgHelper
 
 		return false;
 	}
+
+	/**
+	 * function_description
+	 *
+	 * @return bool true if user has FrontEnd rights (for deleting tracks)
+	 */
+	static public function userHasFrontendDeleteRights()
+	{
+		$user_groups = JFactory::getUser()->getAuthorisedGroups();
+
+		// Admin (root) is not allowed excepted if explicitly given the right to delte in front-end.
+
+		if (!$user_groups)
+		{
+			return false;
+		}
+		// Seems $user_groups is never empty !!
+		$cfg_id = unserialize(self::getConfig()->deletegid);
+
+		if (!$cfg_id )
+		{
+			return false;
+		}
+
+		foreach ($cfg_id as $key => $group)
+		{
+			if (array_search($group, $user_groups) )
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 
 	/**
 	 * function_description
@@ -913,7 +948,8 @@ class JtgHelper
 	 *
 	 * @param   string   $where       input where statement
 	 * @param   string   $access      File access level
-	 * @param   integer  $otherfiles  0 for non registered, 1 for registered, 2 for special users
+	 * @param   integer  $otherfiles  0 for non registered, 1 for registered,
+	 * 		2 for special users 9 for author (defined in backend)
 	 *
 	 * @return sql where statement according to access restriction
 	 */
@@ -928,7 +964,7 @@ class JtgHelper
 
 		switch ($otherfiles)
 		{
-			case 0: // No
+			case 0: // No restriction
 				return $where . "a.access <= " . $access;
 				break;
 

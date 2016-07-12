@@ -32,6 +32,7 @@ CREATE TABLE IF NOT EXISTS `#__jtg_cats` (
 CREATE TABLE IF NOT EXISTS `#__jtg_config` (
   `id` int(10) NOT NULL,
   `gid` varchar(150) NOT NULL DEFAULT 'a:0:{}',
+  `deletegid` varchar(150) NOT NULL DEFAULT 'a:0:{}',
   `unit` varchar(20) NOT NULL,
   `type` varchar(30) NOT NULL,
   `max_size` int(10) NOT NULL,
@@ -72,8 +73,8 @@ CREATE TABLE IF NOT EXISTS `#__jtg_config` (
 
 TRUNCATE `#__jtg_config`;
 
-INSERT  IGNORE INTO `#__jtg_config`(`id`, `gid`, `unit`, `type`, `max_size`, `max_geoim_height`, `max_thumb_height`, `terms`, `terms_id`, `sort`, `map_height`, `map_width`, `charts_width`, `charts_height`, `charts_linec`, `charts_linec_pace`, `charts_linec_speed`, `charts_linec_heartbeat`, `charts_bg`, `profile`, `template`, `comment_who`, `inform_autor`, `captcha`, `ordering`, `comments`, `access`, `approach`, `routingiconset`, `usevote`, `download`, `max_images`, `gallery`, `gallery_code`, `showcharts`, `level`, `maxTrkptDisplay`) VALUES
-(1, 'a:1:{i:0;s:1:"2";}', 'Kilometer', 'jpg,jpeg,png,gif', 1500, 400, 210, 0, 0, 5, '500px', '100%', '100%', '180px', '33FF66', 'FFCC33', '66CCFF', 'FF99CC', 'FFFFFF', '0', 'default', 'N;', 1, 0, 'DESC', 0, 0, 'no', 'real', 1, 2, 10, 'highslide', '{gallery}%folder%{/gallery}										', 2, 'COM_JTG_LEVEL_1\r\nCOM_JTG_LEVEL_2\r\nCOM_JTG_LEVEL_3\r\nCOM_JTG_LEVEL_4\r\nCOM_JTG_LEVEL_5', 6000);
+INSERT  IGNORE INTO `#__jtg_config`(`id`, `gid`, `deletegid`,`unit`, `type`, `max_size`, `max_geoim_height`, `max_thumb_height`, `terms`, `terms_id`, `sort`, `map_height`, `map_width`, `charts_width`, `charts_height`, `charts_linec`, `charts_linec_pace`, `charts_linec_speed`, `charts_linec_heartbeat`, `charts_bg`, `profile`, `template`, `comment_who`, `inform_autor`, `captcha`, `ordering`, `comments`, `access`, `approach`, `routingiconset`, `usevote`, `download`, `max_images`, `gallery`, `gallery_code`, `showcharts`, `level`, `maxTrkptDisplay`) VALUES
+(1, 'a:1:{i:0;s:1:"2";}', 'a:1:{i:0;s:1:"2";}', 'Kilometer', 'jpg,jpeg,png,gif', 1500, 400, 210, 0, 0, 5, '500px', '100%', '100%', '180px', '33FF66', 'FFCC33', '66CCFF', 'FF99CC', 'FFFFFF', '0', 'default', 'N;', 1, 0, 'DESC', 0, 0, 'no', 'real', 1, 2, 10, 'highslide', '{gallery}%folder%{/gallery}										', 2, 'COM_JTG_LEVEL_1\r\nCOM_JTG_LEVEL_2\r\nCOM_JTG_LEVEL_3\r\nCOM_JTG_LEVEL_4\r\nCOM_JTG_LEVEL_5', 6000);
 
 CREATE TABLE IF NOT EXISTS `#__jtg_files` (
 	`id` int(10) NOT NULL AUTO_INCREMENT,

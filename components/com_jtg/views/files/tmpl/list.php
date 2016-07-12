@@ -52,7 +52,7 @@ $catcolumnwidth = $catcolumnwidth + ($hide_icon_isgeocache? 0: 2 + $iconheight) 
 	}
 </script>
 
-<form action="<?php echo $this->action; ?>" method="post"
+<form action="<?php echo JURI::getInstance(); ?>" method="post"
 	name="adminForm" id="adminForm">
 	<table style="width:100%;">
 		<tr>
@@ -191,7 +191,7 @@ if ($this->cfg->usevote == 1)
 					"<img title=\"" . JText::_('JACTION_EDIT') . "\" alt=\"" .
 						JText::_('JACTION_EDIT') . "\" src=\"" . JUri::root() . "components/com_jtg/assets/images/edit_f2.png\" width=\"16px\" />" .
 					"</a> " .
-					"<a href=\"" . $deletelink . "\">" .
+					"<a href=\"" . $deletelink . "\" onclick=\"return confirm('". JText::_('COM_JTG_VALIDATE_DELETE_TRACK') ."')\">" .
 					"<img title=\"" . JText::_('JACTION_DELETE') . "\" alt=\"" .
 						JText::_('JACTION_DELETE') . "\" src=\"" . JUri::root() . "components/com_jtg/assets/images/cancel_f2.png\" width=\"16px\" />" .
 					"</a>";

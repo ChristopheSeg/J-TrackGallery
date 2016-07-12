@@ -109,6 +109,13 @@ margin: 1px 0 0 0;
 			<tr>
 				<td>
 					<?php echo '<span class="hasTip" title="' . JText::_('COM_JTG_TT_TITLE')
+					. '::' . JText::_('COM_JTG_TT_DELETE_GID_DESC') . '">' . JText::_('COM_JTG_AUTHORISED_GROUPS_DELETE') . '</span>'; ?>
+				</td>
+				<td><?php echo $this->lists['deletegid']; ?></td>
+			</tr>
+			<tr>
+				<td>
+					<?php echo '<span class="hasTip" title="' . JText::_('COM_JTG_TT_TITLE')
 					. '::' . JText::_('COM_JTG_TT_USE_ACCESS_LEVEL') . '">' . JText::_('COM_JTG_USE_ACCESS_LEVEL') . '</span>'; ?>
 				</td>
 				<td><?php echo $this->lists['access']; ?></td>

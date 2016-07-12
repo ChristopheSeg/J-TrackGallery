@@ -19,6 +19,7 @@
 defined('_JEXEC') or die('Restricted access');
 echo $this->lh;
 
+$JtgHelper = new JtgHelper;
 $maySeeSingleFile = $this->maySeeSingleFile($this);
 
 if ($maySeeSingleFile === true)
@@ -38,6 +39,15 @@ if ($maySeeSingleFile === true)
 	if ( ( $this->cfg->gallery == "jd2" ) OR ( $this->cfg->gallery == "jd21" )  OR ( $this->cfg->gallery == "highslide" ) )
 	{
 		echo $this->galscript;
+	}
+
+	if ( $this->params->get("jtg_param_hide_track_info") )
+	{
+		$gps_info = false;
+	}
+	else
+	{
+		$gps_info = true;
 	}
 
 	if ( $this->params->get("jtg_param_show_heightchart") AND $this->elevationDataExists)
@@ -462,6 +472,10 @@ if ( $this->clicklist !== false ) {
 ?>
     </div>
 -->
+	<?php
+	if ($havechart or $gps_info)
+	{
+		?>
 <div id="profile" style="width:<?php echo $this->cfg->charts_width; ?>;" >
 	<?php
 	if ($havechart)
@@ -471,6 +485,8 @@ if ( $this->clicklist !== false ) {
 		; height: <?php echo $this->cfg->charts_height; ?>;"></div>
 	<?php
 	}
+
+	if ($gps_info){
 	?>
 	<div class="gps-info">
 		<table border=0 style="width:98%;" align="center">
@@ -581,7 +597,6 @@ if ($this->track->ele_desc)
 				<tr>
 					<td><?php echo JText::_('COM_JTG_CATS'); ?>:</td>
 					<td colspan="2"><?php
-					$JtgHelper = new JtgHelper;
 					echo $JtgHelper->parseMoreCats($this->sortedcats, $this->track->catid, "TrackDetails", true);
 					?>
 					</td>
@@ -603,8 +618,10 @@ if ($this->track->ele_desc)
 		</table>
 	</div>
 	<div class="no-float"></div>
+	<?php } // end if $gps_info?>
 </div>
 <?php
+	} // end if ($havechart or $gps_info)
 if ($this->cfg->usevote == 1)
 {
 	echo $this->parseTemplate("headline", JText::_('COM_JTG_VOTING'), "jtg_param_header_rating");

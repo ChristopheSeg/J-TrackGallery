@@ -81,6 +81,14 @@ class JtgModeljtg extends JModelLegacy
 			$where = " AND ( " . $where . " )";
 		}
 
+		/*
+		 * $access 0 1 or 2
+		 * a.access = track access level
+		 * 0 for everybody
+		 * 1 for registered users
+		 * 2 for access limited to author (private)
+		 * 9 for administrators
+		 */
 		if ( $access !== null )
 		{
 			$where .= " AND a.access <= " . $access;

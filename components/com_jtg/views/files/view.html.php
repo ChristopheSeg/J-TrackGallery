@@ -796,6 +796,7 @@ class JtgViewFiles extends JViewLegacy
 		$user = JFactory::getUser();
 		$uid = $user->get('id');
 		$gid = $user->get('gid');
+		$deletegid = $user->get('deletegid');
 		$lh = LayoutHelper::navigation();
 		$footer = LayoutHelper::footer();
 		$cfg = JtgHelper::getConfig();
@@ -879,6 +880,7 @@ class JtgViewFiles extends JViewLegacy
 		$this->rows = $rows;
 		$this->uid = $uid;
 		$this->gid = $gid;
+		$this->deletegid = $deletegid;
 		$this->pagination = $pagination;
 		$this->lh = $lh;
 		$this->footer = $footer;

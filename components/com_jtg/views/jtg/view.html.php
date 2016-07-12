@@ -76,9 +76,11 @@ class JtgViewjtg extends JViewLegacy
 		$sortedcats = $model->getCatsData(true);
 		$where = LayoutHelper::filterTracks($cats);
 
-		$access = JtgHelper::giveAccessLevel();
-		$otherfiles = $params->get('jtg_param_otherfiles');
+		$access = JtgHelper::giveAccessLevel(); // User access level
+		$otherfiles = $params->get('jtg_param_otherfiles');// Access level defined in backend
 		$mayisee = JtgHelper::MayIsee($where, $access, $otherfiles);
+		if (JDEBUG) JFactory::getApplication()->enqueueMessage("TODOTODO access = $access", 'message');
+		if (JDEBUG) JFactory::getApplication()->enqueueMessage("TODOTODO otherfiles = $otherfiles", 'message');
 		$boxlinktext = array(
 				0 => JText::_('COM_JTG_LINK_VIEWABLE_FOR_PUBLIC'),
 				1 => JText::_('COM_JTG_LINK_VIEWABLE_FOR_REGISTERED'),

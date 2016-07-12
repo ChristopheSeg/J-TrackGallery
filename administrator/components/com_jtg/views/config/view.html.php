@@ -162,6 +162,7 @@ class JtgViewConfig extends JViewLegacy
 		$db->setQuery($query);
 		$gtree = $db->loadObjectList();
 		$lists['gid']				= JHtml::_('select.genericlist', $gtree, 'gid[]', 'class="inputbox" multiple="true" size="8"', 'value', 'text', unserialize($config->gid));
+		$lists['deletegid']				= JHtml::_('select.genericlist', $gtree, 'deletegid[]', 'class="inputbox" multiple="true" size="8"', 'value', 'text', unserialize($config->deletegid));
 
 		if ($row)
 		{

@@ -30,6 +30,8 @@ class TableJTG_Config extends JTable
 
 	var $gid			= null;
 
+	var $deletegid		= null;
+
 	var $unit			= null;
 
 	var $type			= null;

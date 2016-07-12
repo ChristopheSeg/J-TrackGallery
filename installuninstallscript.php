@@ -124,7 +124,7 @@ class Com_JtgInstallerScript
 		?>
 	<br />
 	<img
-		src="<?php echo JPATH_SITE . '/components/com_jtg/assets/images/logo_JTG.png'; ?>"
+		src="<?php echo JUri::root . 'components/com_jtg/assets/images/logo_JTG.png'; ?>"
 		alt="J!Track Gallery" />
 	<br />
 	<table class="adminlist" border="1" style="width:100%;">
@@ -303,14 +303,12 @@ class Com_JtgInstallerScript
 		// Bug in 0.9.22 1054 Unknown column 'usepace' in 'field list' SQL=INSERT INTO xxxx_jtg_cats
 
 		$db = JFactory::getDBO();
-		$db->setQuery("SELECT usepace FROM `#__jtg_cats` WHERE 1 ");
-		$count = $db->getNumRows();
-		if (!$count)
-		{
+		$columns = $db->getTableColumns('#__jtg_cats');
+		if(!isset($columns['usepace'])){
 			// The usepace row does not exits
 			$db->setQuery("ALTER TABLE `#__jtg_cats` ADD `usepace` TINYINT(1) NOT NULL DEFAULT '0' AFTER `ordering`; ");
-			$db->execute();		}
-
+			$db->execute();
+		}
 		// If installed version is equal to then 0.9.21 ==> remove plugin plg_jtrackgallery_maps v0.1
 		$plg_folder = JPATH_SITE . '/plugins/content/plg_jtrackgallery_maps/';
 		if (JFolder::exists($plg_folder))
@@ -414,6 +412,7 @@ class Com_JtgInstallerScript
 			"jtg_param_show_speedchart":"1",
 			"jtg_param_elevation_filter_min_ascent":"10",
 			"jtg_param_show_heightchart":"1",
+			"jtg_param_hide_track_info":"0",
 			"jtg_param_show_durationcalc":"1",
 			"jtg_param_show_layerswitcher":"1",
 			"jtg_param_show_panzoombar":"1",
