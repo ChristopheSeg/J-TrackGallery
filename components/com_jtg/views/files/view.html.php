@@ -1294,7 +1294,6 @@ class JtgViewFiles extends JViewLegacy
 
 			return;
 		}
-
 		$TLopen = $template . "_open";
 		$TLclose = $template . "_close";
 		$function = "ParseTemplate_" . $TLopen;
@@ -1304,7 +1303,6 @@ class JtgViewFiles extends JViewLegacy
 		$function = "ParseTemplate_" . $TLclose;
 		defined(strtoupper('ParseTemplate_' . $template . '_close')) or include_once $templatepath . $TLclose . ".php";
 		$return .= $function ($linkname);
-
 		return $return;
 	}
 }

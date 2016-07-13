@@ -337,6 +337,12 @@ class JtgModelFiles extends JModelLegacy
 			$where .= " AND " . $pubhid;
 		}
 
+		// Add frontend filtering related to access level
+
+		$access = JtgHelper::giveAccessLevel(); // User access level
+		$params = $mainframe->getParams();
+		$otherfiles = $params->get('jtg_param_otherfiles');// Access level defined in backend
+		$where = JtgHelper::MayIsee($where, $access, $otherfiles);
 		return $where;
 	}
 

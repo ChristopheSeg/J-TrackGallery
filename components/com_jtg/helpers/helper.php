@@ -961,6 +961,9 @@ class JtgHelper
 		{
 			$where = $where . " AND ";
 		}
+		if (JDEBUG) JFactory::getApplication()->enqueueMessage("TODOTODO access = $access", 'message');
+		if (JDEBUG) JFactory::getApplication()->enqueueMessage("TODOTODO otherfiles = $otherfiles", 'message');
+		if (JDEBUG) JFactory::getApplication()->enqueueMessage("TODOTODO2 where = $where", 'message');
 
 		switch ($otherfiles)
 		{
@@ -969,7 +972,6 @@ class JtgHelper
 				break;
 
 			case 1: // Registered users
-				// TODO access <>0 because of previous break!!!
 				if ( ( $access == 0 ) OR ( $access == 1 ) )
 				{
 					return $where . "( a.access = 0 OR a.access = 1 )";

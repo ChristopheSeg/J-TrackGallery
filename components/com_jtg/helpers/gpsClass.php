@@ -1923,7 +1923,7 @@ return true;
 	public function writeOLMap($where,$tracks,$params)
 	{
 		$cfg = JtgHelper::getConfig();
-
+// var_dump($where); die('TODOTODO');
 		// 	$cnates = $this->getMapNates();
 		$rows = $this->getTracks($where);
 
@@ -2177,7 +2177,6 @@ return true;
 						$link .= "&nbsp;<img alt=\\\"" . JText::_('COM_JTG_PRIVATE') . "\" src=\\\"" . $iconpath . "private_only.png\\\" />";
 						break;
 				}
-
 				$link .= "</a></b>";
 
 				if ( $row->cat != "" )

@@ -763,7 +763,6 @@ if (! $this->params->get("jtg_param_disable_terrains"))
 if ($this->track->description)
 {
 	echo $this->parseTemplate("headline", JText::_('COM_JTG_DESCRIPTION'), "jtg_param_header_description");
-
 	echo $this->parseTemplate("description", JHTML::_('content.prepare', $this->track->description));
 }
 else

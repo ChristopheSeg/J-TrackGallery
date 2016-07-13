@@ -38,6 +38,8 @@ $catcolumnwidth = $catcolumnwidth + ($hide_icon_istrack? 0: 2 + $iconheight) ;
 $catcolumnwidth = $catcolumnwidth + ($hide_icon_isroundtrip? 0: 2 + $iconheight) ;
 $catcolumnwidth = $catcolumnwidth + ($hide_icon_is_wp? 0: 2 + $iconheight) ;
 $catcolumnwidth = $catcolumnwidth + ($hide_icon_isgeocache? 0: 2 + $iconheight) ;
+$cfg = JtgHelper::getConfig();
+$iconpath = JUri::root() . "components/com_jtg/assets/template/" . $cfg->template . "/images/";
 ?>
 
 <script type="text/javascript">
@@ -143,7 +145,19 @@ if ($this->cfg->usevote == 1)
 				{
 					$row->title = "<font class=\"emptyEntry\">" . JText::_('COM_JTG_NO_TITLE') . "</font>";
 				}
-
+				$link_only='';
+				switch ($row->access)
+				{
+					case 1:
+						$link_only = "&nbsp;<img alt=\"" . JText::_('COM_JTG_REGISTERED') . "\" src=\"" . $iconpath . "registered_only.png\" />";
+						break;
+					case 2:
+						$link_only = "&nbsp;<img alt=\"" . JText::_('COM_JTG_ADMINISTRATORS') . "\" src=\"" . $iconpath . "special_only.png\" />";
+						break;
+					case 9:
+						$link_only = "&nbsp;<img alt=\"" . JText::_('COM_JTG_PRIVATE') . "\" src=\"" . $iconpath . "private_only.png\" />";
+						break;
+				}
 				$link = JRoute::_('index.php?option=com_jtg&view=files&layout=file&id=' . $row->id, false);
 				$profile = JtgHelper::getProfileLink($row->uid, $row->user);
 				$cat = JtgHelper::parseMoreCats($this->sortedcats, $row->catid, "list", true, $iconheight);
@@ -181,6 +195,7 @@ if ($this->cfg->usevote == 1)
 					$profile .= "<font class=\"emptyEntry\">" . JText::_('COM_JTG_NO_USER') . "</font>&nbsp;";
 				}
 
+
 				if (( ( $this->uid != 0 ) AND ( $this->uid == $row->uid ) )
 					OR ( JFactory::getUser()->get('isRoot') ) )
 				{
@@ -200,7 +215,7 @@ if ($this->cfg->usevote == 1)
 			<tr class="sectiontableentry<?php echo $k; ?>">
 				<td><?php echo $this->pagination->getRowOffset($i) . $links; ?></td>
 				<td><a href="<?php echo $link; ?>">
-					<?php echo $row->title; ?> </a></td>
+					<?php echo $row->title; ?> </a><?php echo $link_only?></td>
 				<?php if ($catcolumnwidth > 0) {?>
 					<td  width="<?php echo $catcolumnwidth . 'px'; ?>">
 				<?php echo '<span class="fileis">' . $cat . ' ' . $imagelink . '</span>'; ?></td>
