@@ -978,13 +978,12 @@ class JtgHelper
 				}
 				else
 				{
-					return;
+					return $where;
 				}
 				break;
 
 			case 2: // Special, administrators
-				// TODO why
-				return;
+				return $where;
 				break;
 		}
 	}

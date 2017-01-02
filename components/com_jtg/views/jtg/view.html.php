@@ -88,13 +88,23 @@ class JtgViewjtg extends JViewLegacy
 				9 => JText::_('COM_JTG_LINK_VIEWABLE_FOR_PRIVATE')
 		);
 
+		$lh = '';
+
 		if ((bool) $params->get('jtg_param_lh'))
 		{
-			$lh = LayoutHelper::navigation();
+			$lh .= LayoutHelper::navigation();
 		}
 		else
 		{
 			$lh = null;
+		}
+
+		$intro_text = $params->get('intro_text_overview');
+		if ($intro_text)
+		{
+			$lh .= '<div class="intro_text_overview">';
+			$lh .= $intro_text;
+			$lh .= '</div>';
 		}
 
 		$footer = LayoutHelper::footer();

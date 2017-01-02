@@ -132,7 +132,7 @@ function addClusteredLayerOfMarkers(){
 		    hoverList: '${html}',
 		    hoverItem: '${.name}<br>',
 		    // select: single & list
-		    single: '<div><h2>${.name}</h2>${.description}</div>',
+		    single: '<div>${.name}${.description}</div>',
 		    item: '<li>${.name}</li>',
 		    list: '${html}'
 		}}]

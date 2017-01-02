@@ -68,6 +68,12 @@ class JtgModelMAp extends JModelLegacy
 	 */
 	function saveorder($order, $cid = array())
 	{
+		/*
+		 * TODOTODO
+		 * This function is not working (no mapid !!! so $groupings[] = $row->mapid; unactivated)
+		 * It is a copy of same function from cat.php model
+		 * which must be implemented/corrected
+		 */
 		$row = $this->getTable('jtg_maps');
 		$groupings = array();
 
@@ -77,7 +83,10 @@ class JtgModelMAp extends JModelLegacy
 			$row->load((int) $cid[$i]);
 
 			// Track categories
-			$groupings[] = $row->mapid;
+			if (isset($row->mapid))
+			{
+				$groupings[] = $row->mapid;
+			}
 
 			if ($row->ordering != $order[$i])
 			{

@@ -2511,7 +2511,7 @@ return true;
 		{
 			if ($track->catid > 0)
 			{
-				$query = "SELECT default_map, default_overlays FROM #__jtg_cats WHERE id =$track->catid";
+				$query = "SELECT default_map, default_overlays FROM #__jtg_cats WHERE id IN($track->catid)";
 				$db->setQuery($query);
 				$cat_defaults = $db->loadObjectlist();
 				if (count($cat_defaults))

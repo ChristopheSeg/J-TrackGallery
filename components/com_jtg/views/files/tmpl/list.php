@@ -40,6 +40,14 @@ $catcolumnwidth = $catcolumnwidth + ($hide_icon_is_wp? 0: 2 + $iconheight) ;
 $catcolumnwidth = $catcolumnwidth + ($hide_icon_isgeocache? 0: 2 + $iconheight) ;
 $cfg = JtgHelper::getConfig();
 $iconpath = JUri::root() . "components/com_jtg/assets/template/" . $cfg->template . "/images/";
+
+// no longer needed JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+
+// JTG_FILTER_TODO
+//Get trackcategory options
+JFormHelper::addFieldPath(JPATH_COMPONENT . '/models/fields');
+$trackcategory = JFormHelper::loadFieldType('Trackcategory', false);
+$trackcategoryOptions=$trackcategory->getOptions(); // works only if you set your field getOptions on public!!
 ?>
 
 <script type="text/javascript">
@@ -58,6 +66,35 @@ $iconpath = JUri::root() . "components/com_jtg/assets/template/" . $cfg->templat
 	name="adminForm" id="adminForm">
 	<table style="width:100%;">
 		<tr>
+			<td> <!--   // JTG_FILTER_TODO-->
+				<!--
+				<fieldset id="filter-bar">
+					<div class="filter-search fltlft">
+						<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->escape($this->searchterms); ?>" title="<?php echo JText::_('Search in company, etc.'); ?>" />
+						<button type="submit">
+							<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>
+						</button>
+						<button type="button" onclick="document.id('filter_search').value='';this.form.submit();">
+							<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>
+						</button>
+					</div>
+					<div class="filter-select fltrt">
+						xxx<select name="filter_state" class="inputbox" onchange="this.form.submit()">
+							<option value="">
+								<?php echo JText::_('JOPTION_SELECT_PUBLISHED');?>
+							</option>
+							<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions', array('archived'=>false)), 'value', 'text', $this->state->get('filter.state'), true);?>
+						</select>
+
+						<select name="filter_type" class="inputbox" onchange="this.form.submit()">
+							<option value=""> - Select trackcategory - </option>
+							<?php echo JHtml::_('select.options', $trackcategoryOptions, 'value', 'text', $this->state->get('filter.trackcategory'));?>
+						</select>
+
+					</div>
+				</fieldset>
+				 -->
+			</td>
 			<td><?php echo JText::_('COM_JTG_FILTER'); ?>: <input type="text"
 				name="search" id="searchfield"
 				value="<?php echo html_entity_decode($this->lists['search']);?>"
@@ -74,6 +111,7 @@ $iconpath = JUri::root() . "components/com_jtg/assets/template/" . $cfg->templat
 			</td>
 		</tr>
 	</table>
+	<div style="overflow-x:auto;">
 	<table class="tracktable">
 		<thead>
 			<tr
@@ -259,6 +297,7 @@ if ($this->cfg->usevote == 1)
 			?>
 		</tbody>
 	</table>
+	</div>
 	<input type="hidden" name="option" value="com_jtg" /> <input
 		type="hidden" name="task" value="" /> <input type="hidden"
 		name="filter_order" value="<?php echo $this->lists['order']; ?>" /> <input

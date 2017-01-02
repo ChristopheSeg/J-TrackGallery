@@ -175,6 +175,19 @@ class JtgViewFiles extends JViewLegacy
 
 		if ($this->getLayout() == 'list')
 		{
+			// BEGIN tracks filter
+			$this->state = $this->get('State');
+			$this->items = $this->get('Items');
+			$this->pagination = $this->get('Pagination');
+
+			// Get filter form.
+			$this->filterForm = $this->get('FilterForm');
+
+			// Get active filters.
+			$this->activeFilters = $this->get('ActiveFilters');
+
+			// END tracks filter
+
 			$this->_displayList($tpl);
 
 			return;
@@ -387,8 +400,8 @@ class JtgViewFiles extends JViewLegacy
 		$params = JComponentHelper::getParams('com_jtg');
 		$sitename = $mainframe->getCfg('sitename');
 		$document = JFactory::getDocument();
-		$document->addScript('http://www.openlayers.org/api/OpenLayers.js');
-		// $document->addScript('/components/com_jtg/assets/js/OpenLayers.js');
+		// $document->addScript('http://www.openlayers.org/api/OpenLayers.js');
+		$document->addScript( JUri::root(true) . '/components/com_jtg/assets/js/OpenLayers.js');
 		$document->addScript('http://www.openstreetmap.org/openlayers/OpenStreetMap.js');
 
 		// Code support for joomla version greater than 3.0
@@ -809,6 +822,18 @@ class JtgViewFiles extends JViewLegacy
 
 		$order = JRequest::getVar('order', 'order', 'post', 'string');
 		$ordering = '';
+
+		// JTG_FILTER_TODO
+		$this->items		= $this->get('Items');
+		$this->pagination	= $this->get('Pagination');
+		$this->state		= $this->get('State');
+
+		//Following variables used more than once
+		$this->sortColumn 	= $this->state->get('list.ordering');
+		$this->sortDirection	= $this->state->get('list.direction');
+		$this->searchterms	= $this->state->get('filter.search');
+		// JTG_FILTER_TODO
+
 		switch ($params->get('jtg_param_track_ordering'))
 		{
 			case 'none':

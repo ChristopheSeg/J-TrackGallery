@@ -25,6 +25,8 @@ jimport('joomla.application.component.model');
  * @since       0.8
  */
 
+
+
 class JtgModelFiles extends JModelLegacy
 {
 	/**
@@ -44,11 +46,84 @@ class JtgModelFiles extends JModelLegacy
 	/**
 	 * Constructor
 	 */
-	public function __construct()
-	{
-		parent::__construct();
+
+	//Add this handy array with database fields to search in
+	// sera utilisé pour la recherche seulement
+	// protected $searchInFields = array('text','a.title','someotherfieldtosearchin');
+	protected $searchInFields = array('text','a.title');
+
+	//Override construct to allow filtering and ordering on our fields
+	public function __construct($config = array()) {
+	 	$config['filter_fields']=array_merge($this->searchInFields,array('a.company'));
+		parent::__construct($config);
 	}
 
+
+	protected function getListQuery(){
+		// JTG_FILTER_TODO  query for tracks fusionner avcec _buildquery
+		$db = JFactory::getDBO();
+		$query = $db->getQuery(true);
+
+		//CHANGE THIS QUERY AS YOU NEED...
+		$query->select('id As value, title As text')
+		->from('#__jtg_cats as a')
+		->order(	$db->escape($this->getState('list.ordering', 'pa.id')) . ' ' .
+				$db->escape($this->getState('list.direction', 'desc')));
+
+		// Filter search // Extra: Search more than one fields and for multiple words
+		/*
+		 *
+		 $regex = str_replace(' ', '|', $this->getState('filter.search'));
+		if (!empty($regex)) {
+			$regex=' REGEXP '.$db->quote($regex);
+			$query->where('('.implode($regex.' OR ',$this->searchInFields).$regex.')');
+		}
+		*/
+
+		// Filter company
+		$trackcategory= $db->escape($this->getState('filter.trackcategory'));
+		if (!empty($trackcategory)) {
+			$query->where('(a.title='.$trackcategory.')');
+		}
+
+		// Filter by state (published, trashed, etc.)
+		$query->where('a.published = 1');
+
+		//echo $db->replacePrefix( (string) $query );//debug
+		return $query;
+	}
+
+	/**
+	 * Method to auto-populate the model state.
+	 *
+	 * Note. Calling getState in this method will result in recursion.
+	 *
+	 * @since	1.6
+	 */
+	protected function populateState($ordering = null, $direction = null)
+	{
+		// JTG_FILTER_TODO
+		// Initialise variables.
+		$app = JFactory::getApplication();
+
+		/*
+		// Load the filter state.
+		$search = $app->getUserStateFromRequest($this->context.'.filter.search', 'filter_search');
+		//Omit double (white-)spaces and set state
+		$this->setState('filter.search', preg_replace('/\s+/',' ', $search));
+
+		//Filter (dropdown) state
+		$state = $app->getUserStateFromRequest($this->context.'.filter.state', 'filter_state', '', 'string');
+		$this->setState('filter.state', $state);
+
+		*/
+		//Filter (dropdown) company
+		$trackcategory= $app->getUserStateFromRequest('filter.trackcategory', 'filter_trackcategory', '', 'string');
+		$this->setState('filter.trackcategory', $trackcategory);
+
+		//Takes care of states: list. limit / start / ordering / direction
+		parent::populateState('a.title', 'asc');
+	}
 	/**
 	 * function_description
 	 *
@@ -158,6 +233,7 @@ class JtgModelFiles extends JModelLegacy
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_total))
 		{
+			if (JDEBUG) JFactory::getApplication()->enqueueMessage("TODOTODO4 ");
 			$query = $this->_buildQuery();
 			$this->_total = $this->_getListCount($query);
 		}
@@ -190,13 +266,12 @@ class JtgModelFiles extends JModelLegacy
 
 		$db = JFactory::getDBO();
 
-		$query = "SELECT a.*, b.title AS cat, b.image AS image, c.username AS user" . "\n FROM #__jtg_files AS a" .
+		$query = "SELECT a.*, b.title AS cat, b.image AS image, c.name AS user" . "\n FROM #__jtg_files AS a" .
 				"\n LEFT JOIN #__jtg_cats AS b ON a.catid=b.id"
 				// 	. "\n LEFT JOIN #__jtg_cats AS b ON a.catid"
 		// 	. "\n LEFT JOIN #__users AS c ON a.uid\n"
 		. "\n LEFT JOIN #__users AS c ON a.uid=c.id\n"
 		. $where . $userwhere . $orderby;
-
 		return $query;
 	}
 
@@ -310,13 +385,10 @@ class JtgModelFiles extends JModelLegacy
 			$where[] = 'LOWER(a.title) LIKE ' . $db->Quote('%' . $db->escape($search, true) . '%', false);
 			$where[] = 'LOWER(b.title) LIKE ' . $db->Quote('%' . $db->escape($search, true) . '%', false);
 			$where[] = 'LOWER(c.username) LIKE ' . $db->Quote('%' . $db->escape($search, true) . '%', false);
-			$index = "d";
+			// TODO  seems this (next line) is wrong. What is it for?
+			// $index = "d";
 		}
 
-		if ($cat)
-		{
-			$where[] = '(' . $index . '.catid) LIKE ' . $db->Quote('%' . $db->escape($cat, true) . '%', false);
-		}
 
 		if ($terrain)
 		{
@@ -326,7 +398,7 @@ class JtgModelFiles extends JModelLegacy
 		}
 
 		$pubhid = "( a.published = '1' AND a.hidden = '0' )";
-		$where = (count($where) ? ' WHERE ' . implode(' OR ', $where) : '');
+		$where = (count($where) ? ' WHERE (' . implode(' OR ', $where) . ') ' : '');
 
 		if ($where == "")
 		{
@@ -337,12 +409,18 @@ class JtgModelFiles extends JModelLegacy
 			$where .= " AND " . $pubhid;
 		}
 
+		if ($cat)
+		{
+			$where .= ' AND ' . $index . '.catid LIKE ' . $db->Quote('%' . $db->escape($cat, true) . '%', false);
+		}
+
 		// Add frontend filtering related to access level
 
 		$access = JtgHelper::giveAccessLevel(); // User access level
 		$params = $mainframe->getParams();
 		$otherfiles = $params->get('jtg_param_otherfiles');// Access level defined in backend
 		$where = JtgHelper::MayIsee($where, $access, $otherfiles);
+		if (JDEBUG) JFactory::getApplication()->enqueueMessage("TODOTODO3 where = $where", 'message');
 		return $where;
 	}
 
@@ -601,7 +679,7 @@ class JtgModelFiles extends JModelLegacy
 
 		$db = JFactory::getDBO();
 
-		$query = "SELECT a.*, b.title AS cat, b.image AS image, c.username AS user" . "\n FROM #__jtg_files AS a" .
+		$query = "SELECT a.*, b.title AS cat, b.image AS image, c.name AS user" . "\n FROM #__jtg_files AS a" .
 				"\n LEFT JOIN #__jtg_cats AS b ON a.catid=b.id" . "\n LEFT JOIN #__users AS c ON a.uid=c.id" . "\n WHERE a.id='" . $id . "'";
 
 		$db->setQuery($query);

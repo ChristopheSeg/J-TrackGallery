@@ -285,7 +285,7 @@ class JtgModelDownload extends JModelLegacy
 		$mainframe = JFactory::getApplication();
 		$db = JFactory::getDBO();
 
-		$query = "SELECT a.*, b.title AS cat, b.image AS image, c.username AS user"
+		$query = "SELECT a.*, b.title AS cat, b.image AS image, c.name AS user"
 		. "\n FROM #__jtg_files AS a"
 		. "\n LEFT JOIN #__jtg_cats AS b ON a.catid=b.id"
 		. "\n LEFT JOIN #__users AS c ON a.uid=c.id"

@@ -62,7 +62,8 @@ if ($this->id >= 1)
 	$track = $cache->get(array($model, 'getFile'), array($this->id));
 	$document = JFactory::getDocument();
 	require_once '../components/com_jtg/helpers/gpsClass.php';
-	$document->addScript('http://www.openlayers.org/api/OpenLayers.js');
+	// $document->addScript('http://www.openlayers.org/api/OpenLayers.js');
+	$document->addScript( JUri::root(true) . '/components/com_jtg/assets/js/OpenLayers.js');
 	$document->addScript( JUri::root(true) . '/components/com_jtg/assets/js/fullscreen.js');
 	$document->addScript('http://www.openstreetmap.org/openlayers/OpenStreetMap.js');
 	$document->addScript( JUri::root(true) . '/components/com_jtg/assets/js/jtg.js');

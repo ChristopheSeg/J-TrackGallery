@@ -16,6 +16,7 @@
  */
 
 defined('_JEXEC') or die('Restricted access');
+
 echo $this->lh;
 echo $this->gpsData->writeOLMap($this->where, $this->tracks, $this->params);
 ?>
@@ -35,8 +36,10 @@ echo $this->gpsData->writeOLMap($this->where, $this->tracks, $this->params);
 	width: 100%;
 	z-index: 10000;
 }
-#jtg_map img{
-	max-width: none; /* joomla3 max-width=100% breaks popups*/
+/* Fix Joomla3 max-width=100% breaks popups
+   Fix Yooytheme theme.css also breaks popups */
+#jtg_map canvas,img{
+	max-width: none;
 }
 
 /* Fix Bootstrap-Openlayers issue */

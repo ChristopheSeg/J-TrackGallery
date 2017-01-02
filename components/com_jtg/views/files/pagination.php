@@ -474,7 +474,7 @@ class JPagination extends JObject
 				'select.genericlist',
 				$limits,
 				$this->prefix . 'limit',
-				'class="inputbox" style="width:60px; height: 22px" size="1" onchange="this.form.submit()"',
+				'class="inputbox" style="width:60px;" size="1" onchange="this.form.submit()"',
 				'value',
 				'text',
 				$selected
