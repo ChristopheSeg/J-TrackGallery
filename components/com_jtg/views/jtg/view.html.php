@@ -43,6 +43,8 @@ class JtgViewjtg extends JViewLegacy
 		$cfg = JtgHelper::getConfig();
 		$gpsData = new GpsDataClass($cfg->unit);
 		$document = JFactory::getDocument();
+		$user = JFactory::getUser();
+		$uid = $user->id;
 		jimport('joomla.filesystem.file');
 
 		// Load Openlayers stylesheet first (for overridding)
@@ -79,8 +81,6 @@ class JtgViewjtg extends JViewLegacy
 		$access = JtgHelper::giveAccessLevel(); // User access level
 		$otherfiles = $params->get('jtg_param_otherfiles');// Access level defined in backend
 		$mayisee = JtgHelper::MayIsee($where, $access, $otherfiles);
-		if (JDEBUG) JFactory::getApplication()->enqueueMessage("TODOTODO access = $access", 'message');
-		if (JDEBUG) JFactory::getApplication()->enqueueMessage("TODOTODO otherfiles = $otherfiles", 'message');
 		$boxlinktext = array(
 				0 => JText::_('COM_JTG_LINK_VIEWABLE_FOR_PUBLIC'),
 				1 => JText::_('COM_JTG_LINK_VIEWABLE_FOR_REGISTERED'),
@@ -109,8 +109,8 @@ class JtgViewjtg extends JViewLegacy
 
 		$footer = LayoutHelper::footer();
 		$disclaimericons = LayoutHelper::disclaimericons();
-
 		$rows = $model->getTracksData(null, null, $where);
+
 		$geo = JRoute::_('index.php?option=com_jtg&view=jtg&layout=geo', false);
 		$this->newest =	null;
 
@@ -141,8 +141,7 @@ class JtgViewjtg extends JViewLegacy
 		}
 
 		$toptracks = LayoutHelper::parseToptracks($params);
-		$published = "\na.published = 1 AND a.hidden = 0";
-
+		$published = "\n ( (a.published = 1 AND a.hidden = 0) OR ( a.uid='$uid' ) ) ";
 		switch ($mayisee)
 		{
 			case null:

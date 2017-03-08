@@ -88,7 +88,6 @@ class JtgViewFiles extends JViewLegacy
 		{
 			$registred = false;
 		}
-
 		$owner = (int) $param->track->uid;
 
 		if ( ( $access == 9 ) AND ( $uid != $owner ) )
@@ -507,13 +506,6 @@ class JtgViewFiles extends JViewLegacy
 
 		$document->addScript( JUri::root(true) . '/components/com_jtg/assets/js/fullscreen.js');
 
-		/**
-		 // TODO remove script from file.php and use method addscript
-		 // 		if ( ($this->params->get("jtg_param_show_heightchart"))  AND $track ) {
-		 // 		$document->addScript('http://code.highcharts.com/highcharts.js');
-		 // 		$document->addScript('http://code.highcharts.com/modules/exporting.js');
-		 // 	}
-		 */
 		$action = "/index.php?option=com_jtg&amp;controller=download&amp;task=download";
 		$file = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks/' . strtolower($track->file);
 		$gpsData = new GpsDataClass($cfg->unit);

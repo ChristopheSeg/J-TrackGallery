@@ -961,9 +961,6 @@ class JtgHelper
 		{
 			$where = $where . " AND ";
 		}
-		if (JDEBUG) JFactory::getApplication()->enqueueMessage("TODOTODO access = $access", 'message');
-		if (JDEBUG) JFactory::getApplication()->enqueueMessage("TODOTODO otherfiles = $otherfiles", 'message');
-		if (JDEBUG) JFactory::getApplication()->enqueueMessage("TODOTODO2 where = $where", 'message');
 
 		switch ($otherfiles)
 		{

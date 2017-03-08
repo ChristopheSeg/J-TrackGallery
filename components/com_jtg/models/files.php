@@ -63,7 +63,8 @@ class JtgModelFiles extends JModelLegacy
 		// JTG_FILTER_TODO  query for tracks fusionner avcec _buildquery
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
-
+		$user = JFactory::getUser();
+		$uid = $user->id;
 		//CHANGE THIS QUERY AS YOU NEED...
 		$query->select('id As value, title As text')
 		->from('#__jtg_cats as a')
@@ -86,8 +87,8 @@ class JtgModelFiles extends JModelLegacy
 			$query->where('(a.title='.$trackcategory.')');
 		}
 
-		// Filter by state (published, trashed, etc.)
-		$query->where('a.published = 1');
+		// Filter by state (published, trashed, etc.) OR user tracks
+		$query->where("(( a.published = '1' ) OR ( a.uid='$uid'))");
 
 		//echo $db->replacePrefix( (string) $query );//debug
 		return $query;
@@ -233,7 +234,6 @@ class JtgModelFiles extends JModelLegacy
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_total))
 		{
-			if (JDEBUG) JFactory::getApplication()->enqueueMessage("TODOTODO4 ");
 			$query = $this->_buildQuery();
 			$this->_total = $this->_getListCount($query);
 		}
@@ -376,6 +376,8 @@ class JtgModelFiles extends JModelLegacy
 		$search = JFactory::getApplication()->input->get('search');
 		$cat = JFactory::getApplication()->input->get('cat');
 		$terrain = JFactory::getApplication()->input->get('terrain');
+		$user = JFactory::getUser();
+		$uid = $user->id;
 		$index = "a";
 		$where = array();
 		$db = JFactory::getDBO();
@@ -397,7 +399,8 @@ class JtgModelFiles extends JModelLegacy
 			$where[] = '(' . $index . '.terrain) LIKE ' . $db->Quote('%' . $db->escape($terrain, true) . '%', false);
 		}
 
-		$pubhid = "( a.published = '1' AND a.hidden = '0' )";
+		// Restrict track list to published not hidden tracks OR user tracks
+		$pubhid = "(( a.published = '1' AND a.hidden = '0' ) OR ( a.uid='$uid'))";
 		$where = (count($where) ? ' WHERE (' . implode(' OR ', $where) . ') ' : '');
 
 		if ($where == "")
@@ -420,7 +423,6 @@ class JtgModelFiles extends JModelLegacy
 		$params = $mainframe->getParams();
 		$otherfiles = $params->get('jtg_param_otherfiles');// Access level defined in backend
 		$where = JtgHelper::MayIsee($where, $access, $otherfiles);
-		if (JDEBUG) JFactory::getApplication()->enqueueMessage("TODOTODO3 where = $where", 'message');
 		return $where;
 	}
 

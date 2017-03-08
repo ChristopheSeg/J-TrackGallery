@@ -1398,7 +1398,7 @@ return true;
 			$catimage = "images/jtrackgallery/cats/symbol_inter.png";
 		}
 
-		$simagesize = getimagesize($catimage);
+		$simagesize = getimagesize(JPATH_SITE . '/' . $catimage);
 		$sizex = $simagesize[0];
 		$sizey = $simagesize[1];
 		$maximagesize = 26;
@@ -1923,7 +1923,7 @@ return true;
 	public function writeOLMap($where,$tracks,$params)
 	{
 		$cfg = JtgHelper::getConfig();
-// var_dump($where); die('TODOTODO');
+
 		// 	$cnates = $this->getMapNates();
 		$rows = $this->getTracks($where);
 
@@ -2105,6 +2105,8 @@ return true;
 	private function parseOLMarker($track_array, $visibility = true)
 	{
 		$cfg = JtgHelper::getConfig();
+		$user = JFactory::getUser();
+		$uid = $user->id;
 
 		if (!$track_array)
 		{
@@ -2127,7 +2129,8 @@ return true;
 			$lon = $row->start_e;
 			$lat = $row->start_n;
 
-			if ($row->published == 1 AND ( ( $lon ) OR ( $lon ) ))
+			// view published or used tracks
+			if ( ($row->published == 1 OR $row->uid == $uid)  AND ( ( $lon ) OR ( $lon ) ))
 			{
 				$link = "<a href=\"" . $url . "\"";
 
@@ -2537,7 +2540,7 @@ return true;
 			$param = str_replace("{name}", $realname, html_entity_decode($map->param));
 			$script = html_entity_decode($map->script);
 
-			if ($map->published == 1)
+			if ( ($map->published == 1) OR ($map->uid == $uid) )
 			{
 				if ($script)
 				{

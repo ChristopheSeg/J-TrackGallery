@@ -112,7 +112,12 @@ $trackcategoryOptions=$trackcategory->getOptions(); // works only if you set you
 		</tr>
 	</table>
 	<div style="overflow-x:auto;">
-	<table class="tracktable">
+	<?php if (!count($this->rows)) {
+		JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_LIST_NO_TRACK'), 'Warning');
+		echo '<b>' . JText::_('COM_JTG_LIST_NO_TRACK') . '</b>';
+	} else {
+	?>
+		<table class="tracktable">
 		<thead>
 			<tr
 				class="sectiontableheader<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
@@ -125,42 +130,42 @@ $trackcategoryOptions=$trackcategory->getOptions(); // works only if you set you
 				<?php } ?>
 				<th><?php echo JHtml::_('grid.sort', JText::_('COM_JTG_LEVEL'), 'level', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
 				</th>
-<?php
-if (! $this->params->get("jtg_param_disable_terrains"))
-{
-?>
-				<th>
-				<?php echo JHtml::_('grid.sort', JText::_('COM_JTG_TERRAIN'), 'terrain', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
-				</th>
-<?php
-}
+				<?php
+				if (! $this->params->get("jtg_param_disable_terrains"))
+				{
+				?>
+								<th>
+								<?php echo JHtml::_('grid.sort', JText::_('COM_JTG_TERRAIN'), 'terrain', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
+								</th>
+				<?php
+				}
 
-if (! $this->params->get("jtg_param_tracks_list_hide_users"))
-{
-?>
-				<th>
-				<?php echo JHtml::_('grid.sort', JText::_('COM_JTG_USER'), 'user', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
-				</th>
-<?php
-}
+				if (! $this->params->get("jtg_param_tracks_list_hide_users"))
+				{
+				?>
+								<th>
+								<?php echo JHtml::_('grid.sort', JText::_('COM_JTG_USER'), 'user', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
+								</th>
+				<?php
+				}
 
-if (! $this->params->get("jtg_param_tracks_list_hide_hits"))
-{
-?>				<th>
-				<?php echo JHtml::_('grid.sort', JText::_('COM_JTG_HITS'), 'hits', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
-				</th>
-<?php
-}
+				if (! $this->params->get("jtg_param_tracks_list_hide_hits"))
+				{
+				?>				<th>
+								<?php echo JHtml::_('grid.sort', JText::_('COM_JTG_HITS'), 'hits', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
+								</th>
+				<?php
+				}
 
-if ($this->cfg->usevote == 1)
-{
-?>
-				<th>
-				<?php echo JHtml::_('grid.sort', JText::_('COM_JTG_VOTING'), 'vote', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
-				</th>
-<?php
-}
-?>
+				if ($this->cfg->usevote == 1)
+				{
+				?>
+								<th>
+								<?php echo JHtml::_('grid.sort', JText::_('COM_JTG_VOTING'), 'vote', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
+								</th>
+				<?php
+				}
+				?>
 				<th>
 				<?php echo JHtml::_('grid.sort', JText::_('COM_JTG_DISTANCE'), 'distance', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
 				</th>
@@ -260,35 +265,35 @@ if ($this->cfg->usevote == 1)
 				<?php }?>
 				<td><?php echo $level; ?></td>
 				<?php
-if (! $this->params->get("jtg_param_disable_terrains"))
-{
-?>
-				<td><?php echo $terrain; ?></td>
-<?php
-}
+				if (! $this->params->get("jtg_param_disable_terrains"))
+				{
+				?>
+								<td><?php echo $terrain; ?></td>
+				<?php
+				}
 
-if (! $this->params->get("jtg_param_tracks_list_hide_users"))
-{
-?>
+				if (! $this->params->get("jtg_param_tracks_list_hide_users"))
+				{
+				?>
 
-				<td><?php echo $profile; ?></td>
-<?php
-}
+								<td><?php echo $profile; ?></td>
+				<?php
+				}
 
-if (! $this->params->get("jtg_param_tracks_list_hide_hits"))
-{
-?>
-				<td><?php echo $hits; ?></td>
-<?php
-}
+				if (! $this->params->get("jtg_param_tracks_list_hide_hits"))
+				{
+				?>
+								<td><?php echo $hits; ?></td>
+				<?php
+				}
 
-if ($this->cfg->usevote == 1)
-{
-?>
-				<td><?php echo $votes; ?></td>
-<?php
-}
-?>
+				if ($this->cfg->usevote == 1)
+				{
+				?>
+								<td><?php echo $votes; ?></td>
+				<?php
+				}
+				?>
 				<td><?php echo $distance; ?></td>
 			</tr>
 			<?php
@@ -297,6 +302,7 @@ if ($this->cfg->usevote == 1)
 			?>
 		</tbody>
 	</table>
+	<?php } ?>
 	</div>
 	<input type="hidden" name="option" value="com_jtg" /> <input
 		type="hidden" name="task" value="" /> <input type="hidden"

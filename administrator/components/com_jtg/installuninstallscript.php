@@ -18,7 +18,7 @@
 /* This file is based on Joomla script.php and corresponding com_flexicontent install script
 Developper !!
 Use file /installuninstallscript.php
-Don't use /administrator/componentes/som_jtg//installuninstallscript.php
+Don't use /administrator/componentes/com_jtg//installuninstallscript.php
 */
 
 // No direct access to this file
