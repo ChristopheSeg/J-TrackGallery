@@ -1297,7 +1297,7 @@ class JtgModelFiles extends JModelLegacy
 	{
 		$user = JFactory::getUser();
 		$latlon = JtgHelper::getLatLon($user->id);
-		$link = "http://openrouteservice.org/?";
+		$link = "https://openrouteservice.org/?";
 
 		if (isset($latlon[0]))
 		{
@@ -1328,7 +1328,7 @@ class JtgModelFiles extends JModelLegacy
 	 */
 	function approachcm ($to_lat, $to_lon, $lang)
 	{
-		$link = "http://maps.cloudmade.com/?";
+		$link = "https://maps.cloudmade.com/?";
 		$user = JFactory::getUser();
 		$latlon = JtgHelper::getLatLon($user->id);
 
@@ -1380,7 +1380,7 @@ class JtgModelFiles extends JModelLegacy
 	function approachcmkey ($to_lat, $to_lon, $lang)
 	{
 		$key = "651006379c18424d8b5104ed4b7dc210";
-		$link = "http://navigation.cloudmade.com/" . $key . "/api/0.3/";
+		$link = "https://navigation.cloudmade.com/" . $key . "/api/0.3/";
 		$user = JFactory::getUser();
 		$latlon = JtgHelper::getLatLon($user->id);
 

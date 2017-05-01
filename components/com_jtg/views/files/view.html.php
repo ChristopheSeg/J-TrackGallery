@@ -401,7 +401,7 @@ class JtgViewFiles extends JViewLegacy
 		$document = JFactory::getDocument();
 		// $document->addScript('http://www.openlayers.org/api/OpenLayers.js');
 		$document->addScript( JUri::root(true) . '/components/com_jtg/assets/js/OpenLayers.js');
-		$document->addScript('http://www.openstreetmap.org/openlayers/OpenStreetMap.js');
+		$document->addScript('https://www.openstreetmap.org/openlayers/OpenStreetMap.js');
 
 		// Code support for joomla version greater than 3.0
 		if (JVERSION >= 3.0)
@@ -486,7 +486,8 @@ class JtgViewFiles extends JViewLegacy
 
 		// Load Openlayers stylesheet first (for overridding)
 		// TODO add openlayers style in JTrackGallery (url may vary!)
-		$document->addStyleSheet('http://dev.openlayers.org/theme/default/style.css');
+		//$document->addStyleSheet('https://dev.openlayers.org/theme/default/style.css');
+		$document->addStyleSheet(JUri::root(true) . '/components/com_jtg/assets/template/default/openlayers_style.css');
 
 		// Then load jtg_map stylesheet
 		$tmpl = ($cfg->template = "") ? $cfg->template : 'default';

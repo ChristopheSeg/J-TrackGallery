@@ -50,7 +50,7 @@ foreach ($tracks as $track)
 	{
 		$link = JRoute::_('index.php?option=com_jtg&view=files&layout=file&id=' . $track->id);
 		echo '<div align="center" style="margin-bottom:20px;">';
-		echo '<img src="http://maps.googleapis.com/maps/api/staticmap?center=' . $track->start_n . ',' .
+		echo '<img src="https://maps.googleapis.com/maps/api/staticmap?center=' . $track->start_n . ',' .
 			$track->start_e . '&zoom=' . $zoom . '&size=' . $width . 'x' . $heigth .
 			'&maptype=' . $map . '&markers=color:' . $color . '|' . $track->start_n . ',' .
 			$track->start_e . ($apikey? '&key=' . $apikey: '') . '&sensor=false" >';
@@ -80,7 +80,7 @@ foreach ($tracks as $track)
 		echo '<table><tr>';
 		$link = JRoute::_('index.php?option=com_jtg&view=files&layout=file&id=' . $track->id);
 		echo '<td align="center" style="padding: 10px" valign="top">';
-		echo '<img src="http://maps.googleapis.com/maps/api/staticmap?center=' . $track->start_n . ',' .
+		echo '<img src="https://maps.googleapis.com/maps/api/staticmap?center=' . $track->start_n . ',' .
 			$track->start_e . '&zoom=' . $zoom . '&size=' . $width . 'x' . $heigth . '&maptype=' .
 			$map . '&markers=color:' . $color . '|' . $track->start_n . ',' . $track->start_e .
 			($apikey? '&key=' . $apikey: '') . '&sensor=false" >';
