@@ -135,9 +135,9 @@ if ($maySeeSingleFile === true)
 	jQuery.noConflict();
 </script>
 <script
-	src="http://code.highcharts.com/highcharts.js"></script>
+	src="https://code.highcharts.com/highcharts.js"></script>
 <script
-	src="http://code.highcharts.com/modules/exporting.js"></script>
+	src="https://code.highcharts.com/modules/exporting.js"></script>
 
 <script type="text/javascript">
 		var isIE=0;
@@ -604,13 +604,13 @@ if ($this->track->ele_desc)
 				<tr>
 					<td><?php echo JText::_('COM_JTG_BIG_MAP') ?>:</td>
 					<td colspan="2"><a rel="width[1000];height[700];" class="jcebox"
-						href="http://maps.google.com/maps?q=<?php echo $this->track->start_n . "," . $this->track->start_e; ?>"
+						href="https://maps.google.com/maps?q=<?php echo $this->track->start_n . "," . $this->track->start_e; ?>"
 						target="_blank">Google</a>, <a rel="width[1000];height[700];"
 						class="jcebox"
-						href="http://openstreetmap.org/?mlat=<?php echo $this->track->start_n . "&amp;mlon=" . $this->track->start_e; ?>"
+						href="https://openstreetmap.org/?mlat=<?php echo $this->track->start_n . "&amp;mlon=" . $this->track->start_e; ?>"
 						target="_blank">OpenStreetMap</a>, <a
 						rel="width[1000];height[700];" class="jcebox"
-						href="http://www.geocaching.com/map/default.aspx?lat=<?php echo $this->track->start_n . "&amp;lng=" . $this->track->start_e; ?>"
+						href="https://www.geocaching.com/map/default.aspx?lat=<?php echo $this->track->start_n . "&amp;lng=" . $this->track->start_e; ?>"
 						target="_blank">Geocaching.com</a>
 					</td>
 				</tr>
@@ -890,10 +890,10 @@ else
 ?>
 <div style="display: none">
 	<!-- load necessary pics in background -->
-	<img src="http://www.openlayers.org/api/img/cloud-popup-relative.png"
+	<img src="https://www.openlayers.org/api/img/cloud-popup-relative.png"
 		alt="display:none" /> <img
-		src="http://www.openlayers.org/api/img/marker.png" alt="display:none" />
-	<img src="http://www.openlayers.org/api/theme/default/img/close.gif"
+		src="https://www.openlayers.org/api/img/marker.png" alt="display:none" />
+	<img src="https://www.openlayers.org/api/theme/default/img/close.gif"
 		alt="display:none" />
 </div>
 <?php
