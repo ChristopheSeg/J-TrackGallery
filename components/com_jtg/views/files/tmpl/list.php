@@ -242,6 +242,7 @@ $trackcategoryOptions=$trackcategory->getOptions(); // works only if you set you
 				if (( ( $this->uid != 0 ) AND ( $this->uid == $row->uid ) )
 					OR ( JFactory::getUser()->get('isRoot') ) )
 				{
+					// TODO VOIR Forum
 					// I can edit and delete my file (or I'm admin)
 					$editlink = JRoute::_('index.php?option=com_jtg&view=files&layout=form&id=' . $row->id, false);
 					$deletelink = JRoute::_('index.php?option=com_jtg&controller=files&task=delete&id=' . $row->id, false);

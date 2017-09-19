@@ -17,8 +17,8 @@
 
 /* This file is based on Joomla script.php and corresponding com_flexicontent install script
 Developper !!
-Use file /installuninstallscript.php
-Don't use /administrator/componentes/com_jtg//installuninstallscript.php
+Use file /installuninstall.php
+Don't use /administrator/componentes/com_jtg//installuninstall.php which is copied by joomla during install
 */
 
 // No direct access to this file
@@ -433,7 +433,9 @@ class Com_JtgInstallerScript
 			"jtg_param_level_from":"1",
 			"jtg_param_level_to":"5",
 			"jtg_param_vote_from":"0",
-			"jtg_param_vote_to":"10"}\'';
+			"jtg_param_vote_to":"10",
+			"jtg_param_list_icon_max_height":"24"
+		}\'';
 			$query .= ' WHERE name = "com_jtg" AND type = "Component"';
 			$db->setQuery($query);
 			$db->execute();
