@@ -25,6 +25,8 @@ jimport('joomla.application.component.model');
  * @since       0.8
  */
 
+
+
 class JtgModelFiles extends JModelLegacy
 {
 	/**
@@ -44,11 +46,85 @@ class JtgModelFiles extends JModelLegacy
 	/**
 	 * Constructor
 	 */
-	public function __construct()
-	{
-		parent::__construct();
+
+	//Add this handy array with database fields to search in
+	// sera utilisé pour la recherche seulement
+	// protected $searchInFields = array('text','a.title','someotherfieldtosearchin');
+	protected $searchInFields = array('text','a.title');
+
+	//Override construct to allow filtering and ordering on our fields
+	public function __construct($config = array()) {
+	 	$config['filter_fields']=array_merge($this->searchInFields,array('a.company'));
+		parent::__construct($config);
 	}
 
+
+	protected function getListQuery(){
+		// JTG_FILTER_TODO  query for tracks fusionner avcec _buildquery
+		$db = JFactory::getDBO();
+		$query = $db->getQuery(true);
+		$user = JFactory::getUser();
+		$uid = $user->id;
+		//CHANGE THIS QUERY AS YOU NEED...
+		$query->select('id As value, title As text')
+		->from('#__jtg_cats as a')
+		->order(	$db->escape($this->getState('list.ordering', 'pa.id')) . ' ' .
+				$db->escape($this->getState('list.direction', 'desc')));
+
+		// Filter search // Extra: Search more than one fields and for multiple words
+		/*
+		 *
+		 $regex = str_replace(' ', '|', $this->getState('filter.search'));
+		if (!empty($regex)) {
+			$regex=' REGEXP '.$db->quote($regex);
+			$query->where('('.implode($regex.' OR ',$this->searchInFields).$regex.')');
+		}
+		*/
+
+		// Filter company
+		$trackcategory= $db->escape($this->getState('filter.trackcategory'));
+		if (!empty($trackcategory)) {
+			$query->where('(a.title='.$trackcategory.')');
+		}
+
+		// Filter by state (published, trashed, etc.) OR user tracks
+		$query->where("(( a.published = '1' ) OR ( a.uid='$uid'))");
+
+		//echo $db->replacePrefix( (string) $query );//debug
+		return $query;
+	}
+
+	/**
+	 * Method to auto-populate the model state.
+	 *
+	 * Note. Calling getState in this method will result in recursion.
+	 *
+	 * @since	1.6
+	 */
+	protected function populateState($ordering = null, $direction = null)
+	{
+		// JTG_FILTER_TODO
+		// Initialise variables.
+		$app = JFactory::getApplication();
+
+		/*
+		// Load the filter state.
+		$search = $app->getUserStateFromRequest($this->context.'.filter.search', 'filter_search');
+		//Omit double (white-)spaces and set state
+		$this->setState('filter.search', preg_replace('/\s+/',' ', $search));
+
+		//Filter (dropdown) state
+		$state = $app->getUserStateFromRequest($this->context.'.filter.state', 'filter_state', '', 'string');
+		$this->setState('filter.state', $state);
+
+		*/
+		//Filter (dropdown) company
+		$trackcategory= $app->getUserStateFromRequest('filter.trackcategory', 'filter_trackcategory', '', 'string');
+		$this->setState('filter.trackcategory', $trackcategory);
+
+		//Takes care of states: list. limit / start / ordering / direction
+		parent::populateState('a.title', 'asc');
+	}
 	/**
 	 * function_description
 	 *
@@ -190,13 +266,12 @@ class JtgModelFiles extends JModelLegacy
 
 		$db = JFactory::getDBO();
 
-		$query = "SELECT a.*, b.title AS cat, b.image AS image, c.username AS user" . "\n FROM #__jtg_files AS a" .
+		$query = "SELECT a.*, b.title AS cat, b.image AS image, c.name AS user" . "\n FROM #__jtg_files AS a" .
 				"\n LEFT JOIN #__jtg_cats AS b ON a.catid=b.id"
 				// 	. "\n LEFT JOIN #__jtg_cats AS b ON a.catid"
 		// 	. "\n LEFT JOIN #__users AS c ON a.uid\n"
 		. "\n LEFT JOIN #__users AS c ON a.uid=c.id\n"
 		. $where . $userwhere . $orderby;
-
 		return $query;
 	}
 
@@ -301,6 +376,8 @@ class JtgModelFiles extends JModelLegacy
 		$search = JFactory::getApplication()->input->get('search');
 		$cat = JFactory::getApplication()->input->get('cat');
 		$terrain = JFactory::getApplication()->input->get('terrain');
+		$user = JFactory::getUser();
+		$uid = $user->id;
 		$index = "a";
 		$where = array();
 		$db = JFactory::getDBO();
@@ -310,13 +387,10 @@ class JtgModelFiles extends JModelLegacy
 			$where[] = 'LOWER(a.title) LIKE ' . $db->Quote('%' . $db->escape($search, true) . '%', false);
 			$where[] = 'LOWER(b.title) LIKE ' . $db->Quote('%' . $db->escape($search, true) . '%', false);
 			$where[] = 'LOWER(c.username) LIKE ' . $db->Quote('%' . $db->escape($search, true) . '%', false);
-			$index = "d";
+			// TODO  seems this (next line) is wrong. What is it for?
+			// $index = "d";
 		}
 
-		if ($cat)
-		{
-			$where[] = '(' . $index . '.catid) LIKE ' . $db->Quote('%' . $db->escape($cat, true) . '%', false);
-		}
 
 		if ($terrain)
 		{
@@ -325,8 +399,9 @@ class JtgModelFiles extends JModelLegacy
 			$where[] = '(' . $index . '.terrain) LIKE ' . $db->Quote('%' . $db->escape($terrain, true) . '%', false);
 		}
 
-		$pubhid = "( a.published = '1' AND a.hidden = '0' )";
-		$where = (count($where) ? ' WHERE ' . implode(' OR ', $where) : '');
+		// Restrict track list to published not hidden tracks OR user tracks
+		$pubhid = "(( a.published = '1' AND a.hidden = '0' ) OR ( a.uid='$uid'))";
+		$where = (count($where) ? ' WHERE (' . implode(' OR ', $where) . ') ' : '');
 
 		if ($where == "")
 		{
@@ -335,6 +410,11 @@ class JtgModelFiles extends JModelLegacy
 		else
 		{
 			$where .= " AND " . $pubhid;
+		}
+
+		if ($cat)
+		{
+			$where .= ' AND ' . $index . '.catid LIKE ' . $db->Quote('%' . $db->escape($cat, true) . '%', false);
 		}
 
 		// Add frontend filtering related to access level
@@ -426,7 +506,7 @@ class JtgModelFiles extends JModelLegacy
 		$catid = JFactory::getApplication()->input->get('catid', null, 'array');
 		$catid = $catid ? implode(',', $catid) : '';
 		$level = JFactory::getApplication()->input->get('level', 0, 'integer');
-		$title = JFactory::getApplication()->input->get('title', '', 'string');
+		$title = $db->quote(JFactory::getApplication()->input->get('title', '', 'string'));
 		$terrain = JFactory::getApplication()->input->get('terrain', null, 'array');
 		$terrain = $terrain ? implode(', ', $terrain) : '';
 		$desc = $db->escape(implode(' ', JFactory::getApplication()->input->get('description', '', 'array')));
@@ -505,7 +585,7 @@ class JtgModelFiles extends JModelLegacy
 		$query = "INSERT INTO #__jtg_files SET"
 		. "\n uid='" . $uid . "',"
 		. "\n catid='" . $catid . "',"
-		. "\n title='" . $title . "',"
+		. "\n title=" . $title . ","
 		. "\n file='" .	strtolower($filename) . "',"
 		. "\n terrain='" . $terrain . "',"
 		. "\n description='" . $desc . "',"
@@ -601,7 +681,7 @@ class JtgModelFiles extends JModelLegacy
 
 		$db = JFactory::getDBO();
 
-		$query = "SELECT a.*, b.title AS cat, b.image AS image, c.username AS user" . "\n FROM #__jtg_files AS a" .
+		$query = "SELECT a.*, b.title AS cat, b.image AS image, c.name AS user" . "\n FROM #__jtg_files AS a" .
 				"\n LEFT JOIN #__jtg_cats AS b ON a.catid=b.id" . "\n LEFT JOIN #__users AS c ON a.uid=c.id" . "\n WHERE a.id='" . $id . "'";
 
 		$db->setQuery($query);
@@ -842,7 +922,7 @@ class JtgModelFiles extends JModelLegacy
 		$catid = JFactory::getApplication()->input->get('catid', null, 'array');
 		$catid = $catid ? implode(',', $catid) :  '';
 		$level = JFactory::getApplication()->input->get('level', 0, 'integer');
-		$title = JFactory::getApplication()->input->get('title', '', 'string');
+		$title = $db->quote(JFactory::getApplication()->input->get('title', '', 'string'));
 		$allimages = $this->getImages($id);
 		$imgpath = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks_images/track_' . $id . '/';
 
@@ -921,7 +1001,7 @@ class JtgModelFiles extends JModelLegacy
 
 		$query = "UPDATE #__jtg_files SET" .
 				"\n catid='" . $catid . "'," .
-				"\n title='" . $title . "'," .
+				"\n title=" . $title . "," .
 				"\n terrain='" . $terrain . "'," .
 				"\n description='" . $desc . "'," .
 				"\n level='" . $level . "'," .
@@ -1109,11 +1189,11 @@ class JtgModelFiles extends JModelLegacy
 	{
 		$mainframe = JFactory::getApplication();
 
-		$name = JFactory::getApplication()->input->get('name');
+		$name = $db->quote(JFactory::getApplication()->input->get('name'));
 		$email = JFactory::getApplication()->input->get('email', '', 'Raw');
 		$homepage = JFactory::getApplication()->input->get('homepage');
-		$title = JFactory::getApplication()->input->get('title', '', 'string');
-		$text = JFactory::getApplication()->input->get('text', '', 'raw');
+		$title = $db->quote(JFactory::getApplication()->input->get('title', '', 'string'));
+		$text = $db->quote(JFactory::getApplication()->input->get('text', '', 'raw'));
 
 		if ($text == "")
 		{
@@ -1121,8 +1201,8 @@ class JtgModelFiles extends JModelLegacy
 		}
 
 		$db = JFactory::getDBO();
-		$query = "INSERT INTO #__jtg_comments SET" . "\n tid='" . $id . "'," . "\n user='" . $name . "'," . "\n email='" . $email . "'," .
-				"\n homepage='" . $homepage . "'," . "\n title='" . $title . "'," . "\n text='" . $text . "'," . "\n published='1'";
+		$query = "INSERT INTO #__jtg_comments SET" . "\n tid='" . $id . "'," . "\n user=" . $name . "," . "\n email='" . $email . "'," .
+				"\n homepage='" . $homepage . "'," . "\n title=" . $title . "," . "\n text=" . $text . "," . "\n published='1'";
 
 		$db->setQuery($query);
 		$db->execute();
@@ -1217,7 +1297,7 @@ class JtgModelFiles extends JModelLegacy
 	{
 		$user = JFactory::getUser();
 		$latlon = JtgHelper::getLatLon($user->id);
-		$link = "http://openrouteservice.org/?";
+		$link = "https://openrouteservice.org/?";
 
 		if (isset($latlon[0]))
 		{
@@ -1248,7 +1328,7 @@ class JtgModelFiles extends JModelLegacy
 	 */
 	function approachcm ($to_lat, $to_lon, $lang)
 	{
-		$link = "http://maps.cloudmade.com/?";
+		$link = "https://maps.cloudmade.com/?";
 		$user = JFactory::getUser();
 		$latlon = JtgHelper::getLatLon($user->id);
 
@@ -1300,7 +1380,7 @@ class JtgModelFiles extends JModelLegacy
 	function approachcmkey ($to_lat, $to_lon, $lang)
 	{
 		$key = "651006379c18424d8b5104ed4b7dc210";
-		$link = "http://navigation.cloudmade.com/" . $key . "/api/0.3/";
+		$link = "https://navigation.cloudmade.com/" . $key . "/api/0.3/";
 		$user = JFactory::getUser();
 		$latlon = JtgHelper::getLatLon($user->id);
 

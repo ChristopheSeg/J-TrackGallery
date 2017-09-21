@@ -69,7 +69,7 @@ class JtgControllerDownload extends JtgController
 		header("Pragma: public");
 		header("Content-Type: " . $mime . "; charset=UTF-8");
 		header("Content-Disposition: attachment; filename=\"" . $trackname . "." . strtolower($output_format) . "\"");
-		header("Content Transfer-Encoding:binary");
+		header("Content-Transfer-Encoding:binary");
 		header("Cache-Control: post-check=0, pre-check=0");
 		echo $model->download($id, $format, $track);
 	}

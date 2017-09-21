@@ -959,32 +959,29 @@ class JtgHelper
 
 		if ( $where != "" )
 		{
-			$where = $where . " AND ";
+			$andwhere =  " AND ";
 		}
-		if (JDEBUG) JFactory::getApplication()->enqueueMessage("TODOTODO access = $access", 'message');
-		if (JDEBUG) JFactory::getApplication()->enqueueMessage("TODOTODO otherfiles = $otherfiles", 'message');
-		if (JDEBUG) JFactory::getApplication()->enqueueMessage("TODOTODO2 where = $where", 'message');
+		else {$andwhere ='';}
 
 		switch ($otherfiles)
 		{
 			case 0: // No restriction
-				return $where . "a.access <= " . $access;
+				return $where . $andwhere . "a.access <= " . $access;
 				break;
 
 			case 1: // Registered users
 				if ( ( $access == 0 ) OR ( $access == 1 ) )
 				{
-					return $where . "( a.access = 0 OR a.access = 1 )";
+					return $where . $andwhere . "( a.access = 0 OR a.access = 1 )";
 				}
 				else
 				{
-					return;
+					return $where;
 				}
 				break;
 
 			case 2: // Special, administrators
-				// TODO why
-				return;
+				return $where;
 				break;
 		}
 	}

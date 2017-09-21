@@ -88,7 +88,6 @@ class JtgViewFiles extends JViewLegacy
 		{
 			$registred = false;
 		}
-
 		$owner = (int) $param->track->uid;
 
 		if ( ( $access == 9 ) AND ( $uid != $owner ) )
@@ -175,6 +174,19 @@ class JtgViewFiles extends JViewLegacy
 
 		if ($this->getLayout() == 'list')
 		{
+			// BEGIN tracks filter
+			$this->state = $this->get('State');
+			$this->items = $this->get('Items');
+			$this->pagination = $this->get('Pagination');
+
+			// Get filter form.
+			$this->filterForm = $this->get('FilterForm');
+
+			// Get active filters.
+			$this->activeFilters = $this->get('ActiveFilters');
+
+			// END tracks filter
+
 			$this->_displayList($tpl);
 
 			return;
@@ -387,9 +399,9 @@ class JtgViewFiles extends JViewLegacy
 		$params = JComponentHelper::getParams('com_jtg');
 		$sitename = $mainframe->getCfg('sitename');
 		$document = JFactory::getDocument();
-		$document->addScript('http://www.openlayers.org/api/OpenLayers.js');
-		// $document->addScript('/components/com_jtg/assets/js/OpenLayers.js');
-		$document->addScript('http://www.openstreetmap.org/openlayers/OpenStreetMap.js');
+		// $document->addScript('http://www.openlayers.org/api/OpenLayers.js');
+		$document->addScript( JUri::root(true) . '/components/com_jtg/assets/js/OpenLayers.js');
+		$document->addScript('https://www.openstreetmap.org/openlayers/OpenStreetMap.js');
 
 		// Code support for joomla version greater than 3.0
 		if (JVERSION >= 3.0)
@@ -474,7 +486,8 @@ class JtgViewFiles extends JViewLegacy
 
 		// Load Openlayers stylesheet first (for overridding)
 		// TODO add openlayers style in JTrackGallery (url may vary!)
-		$document->addStyleSheet('http://dev.openlayers.org/theme/default/style.css');
+		//$document->addStyleSheet('https://dev.openlayers.org/theme/default/style.css');
+		$document->addStyleSheet(JUri::root(true) . '/components/com_jtg/assets/template/default/openlayers_style.css');
 
 		// Then load jtg_map stylesheet
 		$tmpl = ($cfg->template = "") ? $cfg->template : 'default';
@@ -494,13 +507,6 @@ class JtgViewFiles extends JViewLegacy
 
 		$document->addScript( JUri::root(true) . '/components/com_jtg/assets/js/fullscreen.js');
 
-		/**
-		 // TODO remove script from file.php and use method addscript
-		 // 		if ( ($this->params->get("jtg_param_show_heightchart"))  AND $track ) {
-		 // 		$document->addScript('http://code.highcharts.com/highcharts.js');
-		 // 		$document->addScript('http://code.highcharts.com/modules/exporting.js');
-		 // 	}
-		 */
 		$action = "/index.php?option=com_jtg&amp;controller=download&amp;task=download";
 		$file = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks/' . strtolower($track->file);
 		$gpsData = new GpsDataClass($cfg->unit);
@@ -809,6 +815,18 @@ class JtgViewFiles extends JViewLegacy
 
 		$order = JRequest::getVar('order', 'order', 'post', 'string');
 		$ordering = '';
+
+		// JTG_FILTER_TODO
+		$this->items		= $this->get('Items');
+		$this->pagination	= $this->get('Pagination');
+		$this->state		= $this->get('State');
+
+		//Following variables used more than once
+		$this->sortColumn 	= $this->state->get('list.ordering');
+		$this->sortDirection	= $this->state->get('list.direction');
+		$this->searchterms	= $this->state->get('filter.search');
+		// JTG_FILTER_TODO
+
 		switch ($params->get('jtg_param_track_ordering'))
 		{
 			case 'none':

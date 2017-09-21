@@ -18,7 +18,7 @@
 /* This file is based on Joomla script.php and corresponding com_flexicontent install script
 Developper !!
 Use file /installuninstall.php
-Don't use /administrator/componentes/som_jtg//installuninstall.php
+Don't use /administrator/componentes/com_jtg//installuninstall.php which is copied by joomla during install
 */
 
 // No direct access to this file
@@ -124,7 +124,7 @@ class Com_JtgInstallerScript
 		?>
 	<br />
 	<img
-		src="<?php echo JUri::root . 'components/com_jtg/assets/images/logo_JTG.png'; ?>"
+		src="<?php echo JUri::root() . 'components/com_jtg/assets/images/logo_JTG.png'; ?>"
 		alt="J!Track Gallery" />
 	<br />
 	<table class="adminlist" border="1" style="width:100%;">
@@ -433,7 +433,9 @@ class Com_JtgInstallerScript
 			"jtg_param_level_from":"1",
 			"jtg_param_level_to":"5",
 			"jtg_param_vote_from":"0",
-			"jtg_param_vote_to":"10"}\'';
+			"jtg_param_vote_to":"10",
+			"jtg_param_list_icon_max_height":"24"
+		}\'';
 			$query .= ' WHERE name = "com_jtg" AND type = "Component"';
 			$db->setQuery($query);
 			$db->execute();

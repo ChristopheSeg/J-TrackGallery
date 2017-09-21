@@ -48,6 +48,7 @@ if ($user->id != 0)
 			</td>
 		</tr>
 	</table>
+	<div style="overflow-x:auto;">
 	<table class="tracktable">
 		<thead>
 			<tr
@@ -94,6 +95,7 @@ if ($user->id != 0)
 				$link = JRoute::_('index.php?option=com_jtg&view=files&layout=file&id=' . $row->id, false);
 				$cats = JtgHelper::parseMoreCats($this->cats, $row->catid, "array");
 				$cats = implode(", ", $cats);
+				// TODO VOIR forum
 				?>
 			<tr class="sectiontableentry<?php echo $k; ?>">
 				<td align="center"><?php echo $this->pagination->getRowOffset($i); ?>
@@ -128,6 +130,7 @@ if ($user->id != 0)
 			</tr>
 		</tfoot>
 	</table>
+	</div>
 	<input type="hidden" name="option" value="com_jtg" /> <input
 		type="hidden" name="filter_order"
 		value="<?php echo $this->lists['order']; ?>" /> <input type="hidden"

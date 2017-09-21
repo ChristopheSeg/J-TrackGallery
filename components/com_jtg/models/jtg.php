@@ -96,9 +96,11 @@ class JtgModeljtg extends JModelLegacy
 
 		$mainframe = JFactory::getApplication();
 		$db = JFactory::getDBO();
+		$user = JFactory::getUser();
+		$uid = $user->id;
 		$query = "SELECT a.*, b.title AS cat FROM #__jtg_files AS a"
 		. "\n LEFT JOIN #__jtg_cats AS b"
-		. "\n ON a.catid=b.id WHERE a.published = 1" . $where
+		. "\n ON a.catid=b.id WHERE (a.published = 1 OR a.uid='$uid') " . $where
 		. "\n" . $order
 		. "\n" . $limit;
 		$db->setQuery($query);

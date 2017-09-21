@@ -40,6 +40,14 @@ $catcolumnwidth = $catcolumnwidth + ($hide_icon_is_wp? 0: 2 + $iconheight) ;
 $catcolumnwidth = $catcolumnwidth + ($hide_icon_isgeocache? 0: 2 + $iconheight) ;
 $cfg = JtgHelper::getConfig();
 $iconpath = JUri::root() . "components/com_jtg/assets/template/" . $cfg->template . "/images/";
+
+// no longer needed JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+
+// JTG_FILTER_TODO
+//Get trackcategory options
+JFormHelper::addFieldPath(JPATH_COMPONENT . '/models/fields');
+$trackcategory = JFormHelper::loadFieldType('Trackcategory', false);
+$trackcategoryOptions=$trackcategory->getOptions(); // works only if you set your field getOptions on public!!
 ?>
 
 <script type="text/javascript">
@@ -58,6 +66,35 @@ $iconpath = JUri::root() . "components/com_jtg/assets/template/" . $cfg->templat
 	name="adminForm" id="adminForm">
 	<table style="width:100%;">
 		<tr>
+			<td> <!--   // JTG_FILTER_TODO-->
+				<!--
+				<fieldset id="filter-bar">
+					<div class="filter-search fltlft">
+						<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->escape($this->searchterms); ?>" title="<?php echo JText::_('Search in company, etc.'); ?>" />
+						<button type="submit">
+							<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>
+						</button>
+						<button type="button" onclick="document.id('filter_search').value='';this.form.submit();">
+							<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>
+						</button>
+					</div>
+					<div class="filter-select fltrt">
+						xxx<select name="filter_state" class="inputbox" onchange="this.form.submit()">
+							<option value="">
+								<?php echo JText::_('JOPTION_SELECT_PUBLISHED');?>
+							</option>
+							<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions', array('archived'=>false)), 'value', 'text', $this->state->get('filter.state'), true);?>
+						</select>
+
+						<select name="filter_type" class="inputbox" onchange="this.form.submit()">
+							<option value=""> - Select trackcategory - </option>
+							<?php echo JHtml::_('select.options', $trackcategoryOptions, 'value', 'text', $this->state->get('filter.trackcategory'));?>
+						</select>
+
+					</div>
+				</fieldset>
+				 -->
+			</td>
 			<td><?php echo JText::_('COM_JTG_FILTER'); ?>: <input type="text"
 				name="search" id="searchfield"
 				value="<?php echo html_entity_decode($this->lists['search']);?>"
@@ -74,7 +111,13 @@ $iconpath = JUri::root() . "components/com_jtg/assets/template/" . $cfg->templat
 			</td>
 		</tr>
 	</table>
-	<table class="tracktable">
+	<div style="overflow-x:auto;">
+	<?php if (!count($this->rows)) {
+		JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_LIST_NO_TRACK'), 'Warning');
+		echo '<b>' . JText::_('COM_JTG_LIST_NO_TRACK') . '</b>';
+	} else {
+	?>
+		<table class="tracktable">
 		<thead>
 			<tr
 				class="sectiontableheader<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
@@ -87,42 +130,42 @@ $iconpath = JUri::root() . "components/com_jtg/assets/template/" . $cfg->templat
 				<?php } ?>
 				<th><?php echo JHtml::_('grid.sort', JText::_('COM_JTG_LEVEL'), 'level', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
 				</th>
-<?php
-if (! $this->params->get("jtg_param_disable_terrains"))
-{
-?>
-				<th>
-				<?php echo JHtml::_('grid.sort', JText::_('COM_JTG_TERRAIN'), 'terrain', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
-				</th>
-<?php
-}
+				<?php
+				if (! $this->params->get("jtg_param_disable_terrains"))
+				{
+				?>
+								<th>
+								<?php echo JHtml::_('grid.sort', JText::_('COM_JTG_TERRAIN'), 'terrain', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
+								</th>
+				<?php
+				}
 
-if (! $this->params->get("jtg_param_tracks_list_hide_users"))
-{
-?>
-				<th>
-				<?php echo JHtml::_('grid.sort', JText::_('COM_JTG_USER'), 'user', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
-				</th>
-<?php
-}
+				if (! $this->params->get("jtg_param_tracks_list_hide_users"))
+				{
+				?>
+								<th>
+								<?php echo JHtml::_('grid.sort', JText::_('COM_JTG_USER'), 'user', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
+								</th>
+				<?php
+				}
 
-if (! $this->params->get("jtg_param_tracks_list_hide_hits"))
-{
-?>				<th>
-				<?php echo JHtml::_('grid.sort', JText::_('COM_JTG_HITS'), 'hits', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
-				</th>
-<?php
-}
+				if (! $this->params->get("jtg_param_tracks_list_hide_hits"))
+				{
+				?>				<th>
+								<?php echo JHtml::_('grid.sort', JText::_('COM_JTG_HITS'), 'hits', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
+								</th>
+				<?php
+				}
 
-if ($this->cfg->usevote == 1)
-{
-?>
-				<th>
-				<?php echo JHtml::_('grid.sort', JText::_('COM_JTG_VOTING'), 'vote', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
-				</th>
-<?php
-}
-?>
+				if ($this->cfg->usevote == 1)
+				{
+				?>
+								<th>
+								<?php echo JHtml::_('grid.sort', JText::_('COM_JTG_VOTING'), 'vote', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
+								</th>
+				<?php
+				}
+				?>
 				<th>
 				<?php echo JHtml::_('grid.sort', JText::_('COM_JTG_DISTANCE'), 'distance', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
 				</th>
@@ -199,6 +242,7 @@ if ($this->cfg->usevote == 1)
 				if (( ( $this->uid != 0 ) AND ( $this->uid == $row->uid ) )
 					OR ( JFactory::getUser()->get('isRoot') ) )
 				{
+					// TODO VOIR Forum
 					// I can edit and delete my file (or I'm admin)
 					$editlink = JRoute::_('index.php?option=com_jtg&view=files&layout=form&id=' . $row->id, false);
 					$deletelink = JRoute::_('index.php?option=com_jtg&controller=files&task=delete&id=' . $row->id, false);
@@ -222,35 +266,35 @@ if ($this->cfg->usevote == 1)
 				<?php }?>
 				<td><?php echo $level; ?></td>
 				<?php
-if (! $this->params->get("jtg_param_disable_terrains"))
-{
-?>
-				<td><?php echo $terrain; ?></td>
-<?php
-}
+				if (! $this->params->get("jtg_param_disable_terrains"))
+				{
+				?>
+								<td><?php echo $terrain; ?></td>
+				<?php
+				}
 
-if (! $this->params->get("jtg_param_tracks_list_hide_users"))
-{
-?>
+				if (! $this->params->get("jtg_param_tracks_list_hide_users"))
+				{
+				?>
 
-				<td><?php echo $profile; ?></td>
-<?php
-}
+								<td><?php echo $profile; ?></td>
+				<?php
+				}
 
-if (! $this->params->get("jtg_param_tracks_list_hide_hits"))
-{
-?>
-				<td><?php echo $hits; ?></td>
-<?php
-}
+				if (! $this->params->get("jtg_param_tracks_list_hide_hits"))
+				{
+				?>
+								<td><?php echo $hits; ?></td>
+				<?php
+				}
 
-if ($this->cfg->usevote == 1)
-{
-?>
-				<td><?php echo $votes; ?></td>
-<?php
-}
-?>
+				if ($this->cfg->usevote == 1)
+				{
+				?>
+								<td><?php echo $votes; ?></td>
+				<?php
+				}
+				?>
 				<td><?php echo $distance; ?></td>
 			</tr>
 			<?php
@@ -259,6 +303,8 @@ if ($this->cfg->usevote == 1)
 			?>
 		</tbody>
 	</table>
+	<?php } ?>
+	</div>
 	<input type="hidden" name="option" value="com_jtg" /> <input
 		type="hidden" name="task" value="" /> <input type="hidden"
 		name="filter_order" value="<?php echo $this->lists['order']; ?>" /> <input

@@ -1398,7 +1398,7 @@ return true;
 			$catimage = "images/jtrackgallery/cats/symbol_inter.png";
 		}
 
-		$simagesize = getimagesize($catimage);
+		$simagesize = getimagesize(JPATH_SITE . '/' . $catimage);
 		$sizex = $simagesize[0];
 		$sizey = $simagesize[1];
 		$maximagesize = 26;
@@ -1923,7 +1923,7 @@ return true;
 	public function writeOLMap($where,$tracks,$params)
 	{
 		$cfg = JtgHelper::getConfig();
-// var_dump($where); die('TODOTODO');
+
 		// 	$cnates = $this->getMapNates();
 		$rows = $this->getTracks($where);
 
@@ -2105,6 +2105,8 @@ return true;
 	private function parseOLMarker($track_array, $visibility = true)
 	{
 		$cfg = JtgHelper::getConfig();
+		$user = JFactory::getUser();
+		$uid = $user->id;
 
 		if (!$track_array)
 		{
@@ -2127,7 +2129,8 @@ return true;
 			$lon = $row->start_e;
 			$lat = $row->start_n;
 
-			if ($row->published == 1 AND ( ( $lon ) OR ( $lon ) ))
+			// view published or used tracks
+			if ( ($row->published == 1 OR $row->uid == $uid)  AND ( ( $lon ) OR ( $lon ) ))
 			{
 				$link = "<a href=\"" . $url . "\"";
 
@@ -2491,6 +2494,7 @@ return true;
 	private function buildMaps($track, $params)
 	{
 		$maps = $this->getMaps("ordering");
+
 		$return = "";
 		$document = JFactory::getDocument();
 
@@ -2500,8 +2504,7 @@ return true;
 		// Ordering by id is useful in case no order has been set.
 		$query = "SELECT id FROM #__jtg_maps WHERE published=1 ORDER by ordering, id LIMIT 1";
 		$db->setQuery($query);
-		$ids = $db->loadObjectlist();
-		$defaultMap = $ids[0]->id;
+		$defaultMap = $db->loadResult();
 		$defaultOverlays = null;
 		$overlays = '';
 
@@ -2511,19 +2514,19 @@ return true;
 		{
 			if ($track->catid > 0)
 			{
-				$query = "SELECT default_map, default_overlays FROM #__jtg_cats WHERE id =$track->catid";
+				$query = "SELECT default_map, default_overlays FROM #__jtg_cats AS cat
+					LEFT JOIN #__jtg_maps as map ON cat.default_map =map.id WHERE cat.id IN (12) AND map.published=1";
 				$db->setQuery($query);
 				$cat_defaults = $db->loadObjectlist();
 				if (count($cat_defaults))
 				{
-					$catDefaultMap = $cat_defaults[0]->default_map;
-					$catDefaultOverlays = $cat_defaults[0]->default_overlays;
+					$defaultMap = $cat_defaults[0]->default_map;
+					$defaultOverlays = $cat_defaults[0]->default_overlays;
 				}
-				$defaultMap = $catDefaultMap? $catDefaultMap: $defaultMap;
-				$defaultOverlays = $catDefaultOverlays? $catDefaultOverlays: $defaultOverlays;
 			}
 
 			// Search maps and overlays Defaults defined by track
+			// TODO exclude unpublished map/overlay from this!!
 			$defaultMap = $track->default_map? $track->default_map: $defaultMap;
 			$defaultOverlays = $track->default_overlays? $track->default_overlays: $defaultOverlays;
 			$defaultOverlays = unserialize($defaultOverlays);

@@ -227,6 +227,9 @@
 			<option value="0">JNO</option>
 		</field>
 	</fieldset>
+	<fieldset name="INTRO_TEXT" label="COM_JTG_TT_MENU_INTRO_TEXT">
+		<field name="intro_text_overview" type="editor" label="COM_JTG_TT_INTRO_TEXT_OVERVIEW" description="COM_JTG_TT_INTRO_TEXT_OVERVIEW_DESCRIPTION" width="300" filter="safehtml" />
+	</fieldset>
 	<fieldset name="LIMIT" label="COM_JTG_TT_MENU_LIMIT">
 		<field type="spacer" addfieldpath="/administrator/components/com_jtg/elements" />
 		<field type="spacer" name="myspacer5" class="text"

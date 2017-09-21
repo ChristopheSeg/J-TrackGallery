@@ -39,7 +39,7 @@ class TableJTG_Maps extends JTable
 
 	var $script			= null;
 
-	var $code			= nul;
+	var $code			= null;
 
 	var $checked_out	= null;
 
