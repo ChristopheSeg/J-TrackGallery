@@ -506,7 +506,7 @@ class JtgModelFiles extends JModelLegacy
 		$catid = JFactory::getApplication()->input->get('catid', null, 'array');
 		$catid = $catid ? implode(',', $catid) : '';
 		$level = JFactory::getApplication()->input->get('level', 0, 'integer');
-		$title = $db->quote(JFactory::getApplication()->input->get('title', '', 'string'));
+		$title = JFactory::getApplication()->input->get('title', '', 'string');
 		$terrain = JFactory::getApplication()->input->get('terrain', null, 'array');
 		$terrain = $terrain ? implode(', ', $terrain) : '';
 		$desc = $db->escape(implode(' ', JFactory::getApplication()->input->get('description', '', 'array')));
@@ -585,7 +585,7 @@ class JtgModelFiles extends JModelLegacy
 		$query = "INSERT INTO #__jtg_files SET"
 		. "\n uid='" . $uid . "',"
 		. "\n catid='" . $catid . "',"
-		. "\n title=" . $title . ","
+		. "\n title='" . $title . "',"
 		. "\n file='" .	strtolower($filename) . "',"
 		. "\n terrain='" . $terrain . "',"
 		. "\n description='" . $desc . "',"
@@ -922,7 +922,7 @@ class JtgModelFiles extends JModelLegacy
 		$catid = JFactory::getApplication()->input->get('catid', null, 'array');
 		$catid = $catid ? implode(',', $catid) :  '';
 		$level = JFactory::getApplication()->input->get('level', 0, 'integer');
-		$title = $db->quote(JFactory::getApplication()->input->get('title', '', 'string'));
+		$title = JFactory::getApplication()->input->get('title', '', 'string');
 		$allimages = $this->getImages($id);
 		$imgpath = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks_images/track_' . $id . '/';
 
@@ -1001,7 +1001,7 @@ class JtgModelFiles extends JModelLegacy
 
 		$query = "UPDATE #__jtg_files SET" .
 				"\n catid='" . $catid . "'," .
-				"\n title=" . $title . "," .
+				"\n title='" . $title . "'," .
 				"\n terrain='" . $terrain . "'," .
 				"\n description='" . $desc . "'," .
 				"\n level='" . $level . "'," .
@@ -1189,11 +1189,11 @@ class JtgModelFiles extends JModelLegacy
 	{
 		$mainframe = JFactory::getApplication();
 
-		$name = $db->quote(JFactory::getApplication()->input->get('name'));
+		$name = JFactory::getApplication()->input->get('name');
 		$email = JFactory::getApplication()->input->get('email', '', 'Raw');
 		$homepage = JFactory::getApplication()->input->get('homepage');
-		$title = $db->quote(JFactory::getApplication()->input->get('title', '', 'string'));
-		$text = $db->quote(JFactory::getApplication()->input->get('text', '', 'raw'));
+		$title = JFactory::getApplication()->input->get('title', '', 'string');
+		$text = JFactory::getApplication()->input->get('text', '', 'raw');
 
 		if ($text == "")
 		{
@@ -1201,8 +1201,8 @@ class JtgModelFiles extends JModelLegacy
 		}
 
 		$db = JFactory::getDBO();
-		$query = "INSERT INTO #__jtg_comments SET" . "\n tid='" . $id . "'," . "\n user=" . $name . "," . "\n email='" . $email . "'," .
-				"\n homepage='" . $homepage . "'," . "\n title=" . $title . "," . "\n text=" . $text . "," . "\n published='1'";
+		$query = "INSERT INTO #__jtg_comments SET" . "\n tid='" . $id . "'," . "\n user='" . $name . "'," . "\n email='" . $email . "'," .
+				"\n homepage='" . $homepage . "'," . "\n title='" . $title . "'," . "\n text='" . $text . "'," . "\n published='1'";
 
 		$db->setQuery($query);
 		$db->execute();
@@ -1297,7 +1297,7 @@ class JtgModelFiles extends JModelLegacy
 	{
 		$user = JFactory::getUser();
 		$latlon = JtgHelper::getLatLon($user->id);
-		$link = "https://openrouteservice.org/?";
+		$link = "http://openrouteservice.org/?";
 
 		if (isset($latlon[0]))
 		{
@@ -1328,7 +1328,7 @@ class JtgModelFiles extends JModelLegacy
 	 */
 	function approachcm ($to_lat, $to_lon, $lang)
 	{
-		$link = "https://maps.cloudmade.com/?";
+		$link = "http://maps.cloudmade.com/?";
 		$user = JFactory::getUser();
 		$latlon = JtgHelper::getLatLon($user->id);
 
@@ -1380,7 +1380,7 @@ class JtgModelFiles extends JModelLegacy
 	function approachcmkey ($to_lat, $to_lon, $lang)
 	{
 		$key = "651006379c18424d8b5104ed4b7dc210";
-		$link = "https://navigation.cloudmade.com/" . $key . "/api/0.3/";
+		$link = "http://navigation.cloudmade.com/" . $key . "/api/0.3/";
 		$user = JFactory::getUser();
 		$latlon = JtgHelper::getLatLon($user->id);
 

@@ -95,7 +95,6 @@ if ($user->id != 0)
 				$link = JRoute::_('index.php?option=com_jtg&view=files&layout=file&id=' . $row->id, false);
 				$cats = JtgHelper::parseMoreCats($this->cats, $row->catid, "array");
 				$cats = implode(", ", $cats);
-				// TODO VOIR forum
 				?>
 			<tr class="sectiontableentry<?php echo $k; ?>">
 				<td align="center"><?php echo $this->pagination->getRowOffset($i); ?>

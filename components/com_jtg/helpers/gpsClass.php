@@ -1651,7 +1651,7 @@ return true;
 		// Trennung nach <p>Katitel</p> BEGIN
 		$desc = str_replace('</p>', "", $desc);
 		$desc = explode('<p>', $desc);
-		$newdesc = "";
+		$newdesc = array();
 		$count_letters = 0;
 		$return = "";
 
@@ -2494,7 +2494,6 @@ return true;
 	private function buildMaps($track, $params)
 	{
 		$maps = $this->getMaps("ordering");
-
 		$return = "";
 		$document = JFactory::getDocument();
 
@@ -2502,32 +2501,37 @@ return true;
 		$db = JFactory::getDBO();
 
 		// Ordering by id is useful in case no order has been set.
-		$query = "SELECT id FROM #__jtg_maps WHERE published=1 ORDER by ordering, id LIMIT 1";
+		$query = "SELECT id FROM #__jtg_maps WHERE published=1 ORDER by ordering, id";
 		$db->setQuery($query);
-		$defaultMap = $db->loadResult();
+		$ids = $db->loadColumn();
+		$defaultMap = $ids[0];
 		$defaultOverlays = null;
 		$overlays = '';
 
-		// Search maps and overlays Defaults defined from categories
+		// Search maps and overlays Defaults defined from categories (excluding unpublished maps)
 
 		if (isset($track->catid))
 		{
-			if ($track->catid > 0)
+			if ( ($track->catid > 0) AND (in_array($track->catid, $ids)) )
 			{
-				$query = "SELECT default_map, default_overlays FROM #__jtg_cats AS cat
-					LEFT JOIN #__jtg_maps as map ON cat.default_map =map.id WHERE cat.id IN (12) AND map.published=1";
+				$query = "SELECT default_map, default_overlays FROM #__jtg_cats WHERE id IN($track->catid)";
 				$db->setQuery($query);
 				$cat_defaults = $db->loadObjectlist();
-				if (count($cat_defaults))
+				var_dump($cat_defaults);if (count($cat_defaults))
 				{
-					$defaultMap = $cat_defaults[0]->default_map;
-					$defaultOverlays = $cat_defaults[0]->default_overlays;
+					$catDefaultMap = $cat_defaults[0]->default_map;
+					$catDefaultOverlays = $cat_defaults[0]->default_overlays;
 				}
+				$defaultMap = $catDefaultMap? $catDefaultMap: $defaultMap;
+				$defaultOverlays = $catDefaultOverlays? $catDefaultOverlays: $defaultOverlays;
 			}
 
-			// Search maps and overlays Defaults defined by track
-			// TODO exclude unpublished map/overlay from this!!
-			$defaultMap = $track->default_map? $track->default_map: $defaultMap;
+			// Search maps and overlays Defaults defined by track (excluding unpublished map)
+
+			if ( $track->default_map AND (in_array($track->default_map, $ids)))
+			{
+				$defaultMap = $track->default_map;
+			}
 			$defaultOverlays = $track->default_overlays? $track->default_overlays: $defaultOverlays;
 			$defaultOverlays = unserialize($defaultOverlays);
 		}
@@ -2540,7 +2544,7 @@ return true;
 			$param = str_replace("{name}", $realname, html_entity_decode($map->param));
 			$script = html_entity_decode($map->script);
 
-			if ($map->published == 1)
+			if ( ($map->published == 1) OR ( isset($iud) AND ($map->uid == $uid) ))
 			{
 				if ($script)
 				{

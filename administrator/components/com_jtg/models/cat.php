@@ -279,7 +279,6 @@ class JtgModelCat extends JModelLegacy
 			return false;
 		}
 
-		$title = $db->quote($title);
 		$published = JRequest::getInt('publish');
 		$desc = JFactory::getApplication()->input->get('desc', '', 'raw');
 
@@ -289,7 +288,6 @@ class JtgModelCat extends JModelLegacy
 			$desc = substr($desc, 3, -4);
 		}
 
-		$desc=$db->quote($desc);
 		$parent = JRequest::getInt('parent');
 		$image = JFactory::getApplication()->input->get('catpic');
 		$usepace = JFactory::getApplication()->input->get('usepace');
@@ -304,12 +302,12 @@ class JtgModelCat extends JModelLegacy
 
 		$query = "INSERT INTO #__jtg_cats SET"
 		. "\n parent_id='" . $parent . "',"
-		. "\n title=" . $title . ","
+		. "\n title='" . $title . "',"
 		. "\n image='" . $image . "',"
 		. "\n usepace='" . $usepace . "',"
 		. "\n default_map='" . $default_map . "',"
 		. "\n default_overlays='" . $default_overlays . "',"
-		. "\n description=" . $desc . ","
+		. "\n description='" . $desc . "',"
 		. "\n published='" . $published . "'";
 
 		$db->setQuery($query);
@@ -415,7 +413,6 @@ class JtgModelCat extends JModelLegacy
 			return false;
 		}
 
-		$title = $db->quote($title);
 		$published = JRequest::getInt('publish');
 		$desc = JFactory::getApplication()->input->get('desc', '', 'raw');
 
@@ -424,17 +421,16 @@ class JtgModelCat extends JModelLegacy
 			// Remove enclosing <p> tags,try translating text, add <p> tags
 			$desc = substr($desc, 3, -4);
 		}
-		$desc=$db->quote($desc);
 
 		$parent = JRequest::getInt('parent');
 		$query = "UPDATE #__jtg_cats SET"
 		. "\n parent_id='" . $parent . "',"
-		. "\n title=" . $title . ","
+		. "\n title='" . $title . "',"
 		. "\n image='" . $image . "',"
 		. "\n usepace='" . $usepace . "',"
 		. "\n default_map='" . $default_map . "',"
 		. "\n default_overlays='" . $default_overlays . "',"
-		. "\n description=" . $desc . ","
+		. "\n description='" . $desc . "',"
 		. "\n published='" . $published . "'"
 		. "\n WHERE id='" . $id . "'";
 

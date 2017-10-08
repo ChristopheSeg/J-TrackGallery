@@ -216,14 +216,14 @@ class JtgModelComments extends JModelLegacy
 		$mainframe = JFactory::getApplication();
 
 		$id     = JRequest::getInt('id');
-		$title  = $db->quote(JFactory::getApplication()->input->get('title', '', 'string'));
-		$text   = $db->quote(JFactory::getApplication()->input->get('text', '', 'raw'));
+		$title  = JFactory::getApplication()->input->get('title', '', 'string');
+		$text   = JFactory::getApplication()->input->get('text', '', 'raw');
 
 		$db = JFactory::getDBO();
 
 		$query = "UPDATE #__jtg_comments SET"
-		. "\n title=" . $title . ","
-		. "\n text=" . $text . " "
+		. "\n title='" . $title . "',"
+		. "\n text='" . $text . "'"
 		. "\n WHERE id='" . $id . "'";
 		$db->setQuery($query);
 		$db->execute();

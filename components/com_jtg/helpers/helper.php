@@ -959,20 +959,19 @@ class JtgHelper
 
 		if ( $where != "" )
 		{
-			$andwhere =  " AND ";
+			$where = $where . " AND ";
 		}
-		else {$andwhere ='';}
 
 		switch ($otherfiles)
 		{
 			case 0: // No restriction
-				return $where . $andwhere . "a.access <= " . $access;
+				return $where . "a.access <= " . $access;
 				break;
 
 			case 1: // Registered users
 				if ( ( $access == 0 ) OR ( $access == 1 ) )
 				{
-					return $where . $andwhere . "( a.access = 0 OR a.access = 1 )";
+					return $where . "( a.access = 0 OR a.access = 1 )";
 				}
 				else
 				{

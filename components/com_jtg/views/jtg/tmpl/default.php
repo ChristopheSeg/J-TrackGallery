@@ -366,10 +366,10 @@ if ($this->rand != 0)
 	?>
 	<div style="display: none">
 		<img alt="cloud-popup-relative.png"
-			src="https://www.openlayers.org/api/img/cloud-popup-relative.png" /> <img
-			alt="marker.png" src="https://www.openlayers.org/api/img/marker.png" />
+			src="http://www.openlayers.org/api/img/cloud-popup-relative.png" /> <img
+			alt="marker.png" src="http://www.openlayers.org/api/img/marker.png" />
 		<img alt="close.png"
-			src="https://www.openlayers.org/api/theme/default/img/close.gif" />
+			src="http://www.openlayers.org/api/theme/default/img/close.gif" />
 	</div>
 	<?php
 	echo $this->footer;
