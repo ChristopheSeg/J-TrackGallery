@@ -1437,7 +1437,7 @@ class JtgModelFiles extends JModelLegacy
 			$jFileInput = new jInput($_FILES);
 			$images = $jFileInput->get('images', array(), 'array');
 
-			if (count($images['name']) > 1)
+			if (count($images['name']) > 0)
 			{
 				$cfg = JtgHelper::getConfig();
 				$types = explode(',', $cfg->type);
