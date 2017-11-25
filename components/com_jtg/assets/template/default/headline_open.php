@@ -38,7 +38,7 @@ function ParseTemplate_Headline_open($linkname, $printbutton = false)
 		if (JRequest::getVar('print') == 1)
 		{
 			$printlink = "<a class =\"anchor\" title=\"" . JText::_('COM_JTG_CLIC_FOR_PRINTING') .
-				"\" href= \"javascript:window.print()\" ><img src=\"/components/com_jtg/assets/images/printButton.png\"/>";
+				"\" href= \"javascript:window.print()\" ><img src=\"components/com_jtg/assets/images/printButton.png\"/>";
 			$navlink = "";
 		}
 		else
@@ -52,7 +52,7 @@ function ParseTemplate_Headline_open($linkname, $printbutton = false)
 			);
 			$printlink = "<a class =\"anchor\" style=\"display:inline; float:right;width:30px;\" title=\"" .
 				JText::_('COM_JTG_PREPARE_FOR_PRINTING') .
-				"\" href= $printhref ><img src=\"/components/com_jtg/assets/images/printButton.png\"/></a>";
+				"\" href= $printhref ><img src=\"components/com_jtg/assets/images/printButton.png\"/></a>";
 			$navlink = "<a class=\"anchor\" name=\"" . $linkname . "\" href=\"" . $link . "\">";
 		}
 	}

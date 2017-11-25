@@ -204,7 +204,7 @@ $trackcategoryOptions=$trackcategory->getOptions(); // works only if you set you
 				$link = JRoute::_('index.php?option=com_jtg&view=files&layout=file&id=' . $row->id, false);
 				$profile = JtgHelper::getProfileLink($row->uid, $row->user);
 				$cat = JtgHelper::parseMoreCats($this->sortedcats, $row->catid, "list", true, $iconheight);
-				$cat = $cat ? $cat: "<img $height src =\"/components/com_jtg/assets/images/cats/symbol_inter.png\" />\n";
+				$cat = $cat ? $cat: "<img $height src =\"components/com_jtg/assets/images/cats/symbol_inter.png\" />\n";
 				$terrain = JtgHelper::parseMoreTerrains($this->sortedter, $row->terrain, "list", true);
 				$hits = JtgHelper::getLocatedFloat($row->hits);
 				$layoutHelper = new LayoutHelper;

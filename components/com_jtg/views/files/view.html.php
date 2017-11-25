@@ -1205,11 +1205,11 @@ class JtgViewFiles extends JViewLegacy
 
 			if ( isset($track) )
 			{
-				$imagelink .= "<img $height src =\"/components/com_jtg/assets/images/track$m.png\" title=\"" . JText::_('COM_JTG_ISTRACK' . $m) . "\"/>\n";
+				$imagelink .= "<img $height src =\"components/com_jtg/assets/images/track$m.png\" title=\"" . JText::_('COM_JTG_ISTRACK' . $m) . "\"/>\n";
 			}
 			else
 			{
-				$imagelink .= "<img $height src =\"/components/com_jtg/assets/images/track$m.png\" title=\"" . JText::_('COM_JTG_DKTRACK') . "\"/>\n";
+				$imagelink .= "<img $height src =\"components/com_jtg/assets/images/track$m.png\" title=\"" . JText::_('COM_JTG_DKTRACK') . "\"/>\n";
 			}
 		}
 
@@ -1226,11 +1226,11 @@ class JtgViewFiles extends JViewLegacy
 
 			if ( isset($roundtrip) )
 			{
-				$imagelink .= "<img $height src =\"/components/com_jtg/assets/images/roundtrip$m.png\" title=\"" . JText::_('COM_JTG_ISROUNDTRIP' . $m) . "\"/>\n";
+				$imagelink .= "<img $height src =\"components/com_jtg/assets/images/roundtrip$m.png\" title=\"" . JText::_('COM_JTG_ISROUNDTRIP' . $m) . "\"/>\n";
 			}
 			else
 			{
-				$imagelink .= "<img $height src =\"/components/com_jtg/assets/images/roundtrip$m.png\" title=\"" . JText::_('COM_JTG_DKROUNDTRIP') . "\"/>\n";
+				$imagelink .= "<img $height src =\"components/com_jtg/assets/images/roundtrip$m.png\" title=\"" . JText::_('COM_JTG_DKROUNDTRIP') . "\"/>\n";
 			}
 		}
 
@@ -1247,11 +1247,11 @@ class JtgViewFiles extends JViewLegacy
 
 			if ( isset($wp) )
 			{
-				$imagelink .= "<img $height src =\"/components/com_jtg/assets/images/wp$m.png\" title=\"" . JText::_('COM_JTG_ISWP' . $m) . "\"/>\n";
+				$imagelink .= "<img $height src =\"components/com_jtg/assets/images/wp$m.png\" title=\"" . JText::_('COM_JTG_ISWP' . $m) . "\"/>\n";
 			}
 			else
 			{
-				$imagelink .= "<img $height src =\"/components/com_jtg/assets/images/wp$m.png\" title=\"" . JText::_('COM_JTG_DKWP') . "\"/>\n";
+				$imagelink .= "<img $height src =\"components/com_jtg/assets/images/wp$m.png\" title=\"" . JText::_('COM_JTG_DKWP') . "\"/>\n";
 			}
 		}
 
@@ -1279,11 +1279,11 @@ class JtgViewFiles extends JViewLegacy
 
 			if ( isset($cache) )
 			{
-				$imagelink .= "<img $height src =\"/components/com_jtg/assets/images/cache$m.png\" title=\"" . JText::_('COM_JTG_ISCACHE' . $m) . "\"/>\n";
+				$imagelink .= "<img $height src =\"components/com_jtg/assets/images/cache$m.png\" title=\"" . JText::_('COM_JTG_ISCACHE' . $m) . "\"/>\n";
 			}
 			else
 			{
-				$imagelink .= "<img $height src =\"/components/com_jtg/assets/images/cache$m.png\" title=\"" . JText::_('COM_JTG_DKCACHE') . "\"/>\n";
+				$imagelink .= "<img $height src =\"components/com_jtg/assets/images/cache$m.png\" title=\"" . JText::_('COM_JTG_DKCACHE') . "\"/>\n";
 			}
 		}
 
