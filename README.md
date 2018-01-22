@@ -1,4 +1,4 @@
-###J!TrackGallery
+### J!TrackGallery
 
 J!TrackGallery is a Joomla Track Gallery component.  
 Our Goal is to provide a non commercial, free, open source, GNU/GPL2 licensed component for Joomla 2.5 and 3.x. 
@@ -8,11 +8,11 @@ Allowing to seamlessly upload GPX tracks and display maps on Joomla based websit
 - J!Track Gallery J!3.2 demo  : see http://demoj3.jtrackgallery.net/
 - J!Track Gallery forum: http://jtrackgallery.net/forum/
 
-####Status of the Project
+#### Status of the Project
 0.9.27 version of J!Track Gallery have been pushed in March 2017.  
 Last months commits were mostly related to adding new feature and bug fix.
 
-####History of J!TrackGallery  
+#### History of J!TrackGallery  
 J!TrackGallery may be considered as a fork of [InJooosm](http://injooosm.sourceforge.net/)
 This valuable component is no longer maintained (last version is for Joomla 1.5). At the beginning of this project, I was not able to reach previous author so I decided to rename the component from InJooOSM to J!TrackGallery. 
 
