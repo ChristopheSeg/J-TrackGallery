@@ -729,6 +729,7 @@ private function extractCoordsGPX($xmlcontents)
 										$xmlcontents->read();
 									}
 
+									// set other elements a la waypoint? (cmt, desc, sym)
 									if ( ($xmlcontents->name == 'trkpt') AND ($xmlcontents->nodeType == XMLReader::END_ELEMENT) )
 									{
 										// End Trkpt
@@ -772,6 +773,156 @@ private function extractCoordsGPX($xmlcontents)
 								// Tag is not trk, trkseg, nor Name: proceed
 							}
 						}
+						break;
+					case 'rte':
+						// Route
+						$trackname = '';
+						$i_trk++;
+				                $coords = array();
+					 	$i_trkpt = 0;
+						$ele = 0;
+						$time = '0';
+
+						while ( ('rte' !== $endElement) )
+						{
+							$xmlcontents->read();
+
+							if ($xmlcontents->nodeType == XMLReader::END_ELEMENT)
+							{
+								// </xxx> found
+								$endElement = $xmlcontents->localName;
+							}
+							else
+							{
+								$endElement = '';
+							}
+							// Extract rte data
+							if ( ($xmlcontents->name == 'name') AND ($xmlcontents->nodeType == XMLReader::ELEMENT) )
+							{
+								$xmlcontents->read();
+								$trackname = $xmlcontents->value;
+
+								// Read end tag
+								$xmlcontents->read();
+							}
+						        if ( ($xmlcontents->name == 'rtept') AND ($xmlcontents->nodeType == XMLReader::ELEMENT) )
+							{
+								// Rtept found
+								// Add to trkseg for line drawing and as waypoints
+
+								$i_wpt++;
+								$this->wps[$i_wpt] = new WpClass;
+								$lat = (float) $xmlcontents->getAttribute('lat');
+								$lon = (float) $xmlcontents->getAttribute('lon');
+								$this->wps[$i_wpt]->sym = 'wp';
+								$this->wps[$i_wpt]->lat = $lat;
+								$this->wps[$i_wpt]->lon = $lon;
+
+								$i_trkpt++;
+								$lat = (float) $xmlcontents->getAttribute('lat');
+								$lon = (float) $xmlcontents->getAttribute('lon');
+
+								if ( $lat > $this->bbox_lat_max )
+								{
+									$this->bbox_lat_max = $lat;
+								}
+
+								if ( $lat < $this->bbox_lat_min )
+								{
+									$this->bbox_lat_min = $lat;
+								}
+
+								if ( $lon > $this->bbox_lon_max )
+								{
+									$this->bbox_lon_max = $lon;
+								}
+
+								if ( $lon < $this->bbox_lon_min )
+								{
+									$this->bbox_lon_min = $lon;
+								}
+								// Read end tag
+								$xmlcontents->read();
+
+								$endRoutePoint = false;
+								$extensionsFound  = false;
+								while (!$endRoutePoint)
+								{
+								   if ( ($xmlcontents->name == 'ele') AND ($xmlcontents->nodeType == XMLReader::ELEMENT) )
+								   {
+								      // rtept elevation found
+								      $xmlcontents->read();
+								      $ele = (float) $xmlcontents->value;
+								      $this->wps[$i_wpt]->ele = $ele;
+								      // Read end tag
+								      $xmlcontents->read();
+								   }
+
+								   if ( ($xmlcontents->name == 'time') AND ($xmlcontents->nodeType == XMLReader::ELEMENT) )
+								   {
+								     // rtept time found
+								     $xmlcontents->read();
+								     $time = (string) $xmlcontents->value;
+     								     $this->wps[$i_wpt]->timr = $time;
+								     // Read end tag
+								     $xmlcontents->read();
+								   }
+								   if ( ($xmlcontents->name == 'extensions') AND ($xmlcontents->nodeType == XMLReader::ELEMENT) ) {
+								      // Skip extensions, but push via/shaping point
+								      $extensionsFound = true;
+								      while ( !(($xmlcontents->name == 'extensions') AND ($xmlcontents->nodeType == XMLReader::END_ELEMENT))) {
+								      if ( ($xmlcontents->name == 'gpxx:rpt') AND ($xmlcontents->nodeType == XMLReader::ELEMENT) )
+								        {
+								          $latsub = (float) $xmlcontents->getAttribute('lat');
+								          $lonsub = (float) $xmlcontents->getAttribute('lon');
+                                                                          $coords[] = array((string) $lonsub, (string) $latsub, (string) 0, (string) 0, 0);
+								        }
+								        $xmlcontents->read();
+							              }
+								   }	
+
+								   if ( ($xmlcontents->name != 'time') AND ($xmlcontents->name != 'ele') AND ($xmlcontents->nodeType == XMLReader::ELEMENT) ) {
+								      $key = $xmlcontents->localName;
+								      $xmlcontents->read();
+								      $value = $xmlcontents->value;
+								      $this->wps[$i_wpt]->$key = $value;
+								      $xmlcontents->read();
+								   }
+								   if ( ($xmlcontents->name == 'rtept') AND ($xmlcontents->nodeType == XMLReader::END_ELEMENT) )
+								   {
+								      // End Rtept
+								      if (!$extensionsFound) 
+								         $coords[] = array((string) $lon, (string) $lat, (string) $ele, (string) $time, 0);
+								      $endRoutePoint = true;
+								   }
+								   if ( !$endRoutePoint )
+								      $xmlcontents->read();
+						             }
+						       }
+					 	}
+						$coordinatesCount = count($coords);
+
+						if ($coordinatesCount > 1 )
+						{
+							// This is a track with more than 2 points
+							$this->isRoute = true;
+							$this->trackCount++;
+							$this->track[$this->trackCount] = new stdClass;
+							$this->track[$this->trackCount]->description = '';
+							if ($trackname)
+							{
+								$this->track[$this->trackCount]->trackname = $trackname;
+							}
+							else
+							{
+								$this->track[$this->trackCount]->trackname = $this->trackfilename . '-' . (string) $this->trackCount;
+							}
+
+							$this->track[$this->trackCount]->coords = $coords;
+							$this->track[$this->trackCount]->start = ($coords[0][0] . "," . $coords[0][1]);
+							$this->track[$this->trackCount]->stop = ($coords[$coordinatesCount - 1][0] . "," . $coords[$coordinatesCount - 1][1]);
+						}
+					
 						break;
 				}
 			}
@@ -1468,11 +1619,15 @@ return true;
 
 		$icon = $pngfile;
 		$xml = $this->loadFile($xmlfile);
-		$sizex = $xml->sizex;
-		$sizey = $xml->sizey;
-		$offsetx = $xml->offsetx;
-		$offsety = $xml->offsety;
-
+		if ($xml === false) {
+                  echo "Error loading icon xml file: $xmlfile<br>\n";
+                }
+		else {
+		  $sizex = $xml->sizex;
+		  $sizey = $xml->sizey;
+		  $offsetx = $xml->offsetx;
+		  $offsety = $xml->offsety;
+                }
 		return $unknownicon . "var icon = new OpenLayers.Icon('" . $icon . "',\n			new OpenLayers.Size(" . $sizex . ", " . $sizey . "),\n			new OpenLayers.Pixel(" . $offsetx . ", " . $offsety . "));\n";
 	}
 
@@ -1530,8 +1685,7 @@ return true;
 
 		foreach ($this->wps as $wp)
 		{
-			$replace = array("
-					","'");
+			$replace = array("\n","'");
 			$with = array("<br />","\'");
 			$hasURL = isset($wp->URL);
 			$isGeocache = $this->isGeocache($wp->value);
@@ -1567,7 +1721,7 @@ return true;
 
 			if ($desc)
 			{
-				$wpcode .= "<b>" . JText::_('COM_JTG_DESCRIPTION') . ":</b> " . $desc;
+				$wpcode .= "<br><b>" . JText::_('COM_JTG_DESCRIPTION') . ":</b> " . $desc;
 			}
 
 			if ( ($cmt) AND ($desc != $cmt) )
@@ -2496,6 +2650,9 @@ return true;
 		$maps = $this->getMaps("ordering");
 		$return = "";
 		$document = JFactory::getDocument();
+
+		$user = JFactory::getUser();
+		$uid = $user->id;
 
 		// Search maps and overlays Defaults
 		$db = JFactory::getDBO();
