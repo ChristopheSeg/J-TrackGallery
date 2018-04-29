@@ -401,7 +401,7 @@ class JtgViewFiles extends JViewLegacy
 		$document = JFactory::getDocument();
 		// $document->addScript('http://www.openlayers.org/api/OpenLayers.js');
 		$document->addScript( JUri::root(true) . '/components/com_jtg/assets/js/OpenLayers.js');
-		$document->addScript('http://www.openstreetmap.org/openlayers/OpenStreetMap.js');
+		$document->addScript('///www.openstreetmap.org/openlayers/OpenStreetMap.js');
 
 		// Code support for joomla version greater than 3.0
 		if (JVERSION >= 3.0)
@@ -486,7 +486,7 @@ class JtgViewFiles extends JViewLegacy
 
 		// Load Openlayers stylesheet first (for overridding)
 		// TODO add openlayers style in JTrackGallery (url may vary!)
-		$document->addStyleSheet('http://dev.openlayers.org/theme/default/style.css');
+		$document->addStyleSheet('///dev.openlayers.org/theme/default/style.css');
 
 		// Then load jtg_map stylesheet
 		$tmpl = ($cfg->template = "") ? $cfg->template : 'default';
@@ -1191,7 +1191,7 @@ class JtgViewFiles extends JViewLegacy
 	{
 		$height = ($iconheight > 0? ' style="max-height:' . $iconheight . 'px;" ' : ' ');
 		$imagelink = "";
-
+		$iconpath = JUri::root()."/components/com_jtg/assets/images";
 		if (!$hide_icon_istrack)
 		{
 			if ( ( isset($track) ) AND ( $track == "1" ) )
@@ -1205,11 +1205,19 @@ class JtgViewFiles extends JViewLegacy
 
 			if ( isset($track) )
 			{
-				$imagelink .= "<img $height src =\"components/com_jtg/assets/images/track$m.png\" title=\"" . JText::_('COM_JTG_ISTRACK' . $m) . "\"/>\n";
+<<<<<<< HEAD
+				$imagelink .= "<img $height src =\"$iconpath/track$m.png\" title=\"" . JText::_('COM_JTG_ISTRACK' . $m) . "\"/>\n";
 			}
 			else
 			{
-				$imagelink .= "<img $height src =\"components/com_jtg/assets/images/track$m.png\" title=\"" . JText::_('COM_JTG_DKTRACK') . "\"/>\n";
+				$imagelink .= "<img $height src =\"$iconpath/track$m.png\" title=\"" . JText::_('COM_JTG_DKTRACK') . "\"/>\n";
+=======
+				$imagelink .= "<img $height src =\"/components/com_jtg/assets/images/track$m.png\" title=\"" . JText::_('COM_JTG_ISTRACK' . $m) . "\"/>\n";
+			}
+			else
+			{
+				$imagelink .= "<img $height src =\"/components/com_jtg/assets/images/track$m.png\" title=\"" . JText::_('COM_JTG_DKTRACK') . "\"/>\n";
+>>>>>>> parent of 985b4e0... Change absolute URL to relative for icons; needed for subdomains
 			}
 		}
 
@@ -1226,11 +1234,19 @@ class JtgViewFiles extends JViewLegacy
 
 			if ( isset($roundtrip) )
 			{
-				$imagelink .= "<img $height src =\"components/com_jtg/assets/images/roundtrip$m.png\" title=\"" . JText::_('COM_JTG_ISROUNDTRIP' . $m) . "\"/>\n";
+<<<<<<< HEAD
+				$imagelink .= "<img $height src =\"$iconpath/roundtrip$m.png\" title=\"" . JText::_('COM_JTG_ISROUNDTRIP' . $m) . "\"/>\n";
 			}
 			else
 			{
-				$imagelink .= "<img $height src =\"components/com_jtg/assets/images/roundtrip$m.png\" title=\"" . JText::_('COM_JTG_DKROUNDTRIP') . "\"/>\n";
+				$imagelink .= "<img $height src =\"$iconpath/roundtrip$m.png\" title=\"" . JText::_('COM_JTG_DKROUNDTRIP') . "\"/>\n";
+=======
+				$imagelink .= "<img $height src =\"/components/com_jtg/assets/images/roundtrip$m.png\" title=\"" . JText::_('COM_JTG_ISROUNDTRIP' . $m) . "\"/>\n";
+			}
+			else
+			{
+				$imagelink .= "<img $height src =\"/components/com_jtg/assets/images/roundtrip$m.png\" title=\"" . JText::_('COM_JTG_DKROUNDTRIP') . "\"/>\n";
+>>>>>>> parent of 985b4e0... Change absolute URL to relative for icons; needed for subdomains
 			}
 		}
 
@@ -1247,11 +1263,19 @@ class JtgViewFiles extends JViewLegacy
 
 			if ( isset($wp) )
 			{
-				$imagelink .= "<img $height src =\"components/com_jtg/assets/images/wp$m.png\" title=\"" . JText::_('COM_JTG_ISWP' . $m) . "\"/>\n";
+<<<<<<< HEAD
+				$imagelink .= "<img $height src =\"$iconpath/wp$m.png\" title=\"" . JText::_('COM_JTG_ISWP' . $m) . "\"/>\n";
 			}
 			else
 			{
-				$imagelink .= "<img $height src =\"components/com_jtg/assets/images/wp$m.png\" title=\"" . JText::_('COM_JTG_DKWP') . "\"/>\n";
+				$imagelink .= "<img $height src =\"$iconpath/wp$m.png\" title=\"" . JText::_('COM_JTG_DKWP') . "\"/>\n";
+=======
+				$imagelink .= "<img $height src =\"/components/com_jtg/assets/images/wp$m.png\" title=\"" . JText::_('COM_JTG_ISWP' . $m) . "\"/>\n";
+			}
+			else
+			{
+				$imagelink .= "<img $height src =\"/components/com_jtg/assets/images/wp$m.png\" title=\"" . JText::_('COM_JTG_DKWP') . "\"/>\n";
+>>>>>>> parent of 985b4e0... Change absolute URL to relative for icons; needed for subdomains
 			}
 		}
 
@@ -1279,11 +1303,19 @@ class JtgViewFiles extends JViewLegacy
 
 			if ( isset($cache) )
 			{
-				$imagelink .= "<img $height src =\"components/com_jtg/assets/images/cache$m.png\" title=\"" . JText::_('COM_JTG_ISCACHE' . $m) . "\"/>\n";
+<<<<<<< HEAD
+				$imagelink .= "<img $height src =\"$iconpath/cache$m.png\" title=\"" . JText::_('COM_JTG_ISCACHE' . $m) . "\"/>\n";
 			}
 			else
 			{
-				$imagelink .= "<img $height src =\"components/com_jtg/assets/images/cache$m.png\" title=\"" . JText::_('COM_JTG_DKCACHE') . "\"/>\n";
+				$imagelink .= "<img $height src =\"$iconpath/cache$m.png\" title=\"" . JText::_('COM_JTG_DKCACHE') . "\"/>\n";
+=======
+				$imagelink .= "<img $height src =\"/components/com_jtg/assets/images/cache$m.png\" title=\"" . JText::_('COM_JTG_ISCACHE' . $m) . "\"/>\n";
+			}
+			else
+			{
+				$imagelink .= "<img $height src =\"/components/com_jtg/assets/images/cache$m.png\" title=\"" . JText::_('COM_JTG_DKCACHE') . "\"/>\n";
+>>>>>>> parent of 985b4e0... Change absolute URL to relative for icons; needed for subdomains
 			}
 		}
 
