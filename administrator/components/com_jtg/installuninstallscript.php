@@ -267,7 +267,7 @@ class Com_JtgInstallerScript
 	// Update tracks user ID to current user id
 	$db = JFactory::getDBO();
 	$application = JFactory::getApplication();
-	$uid = JFactory::getUser($row->uid);
+	$uid = $user->id;
 	$db->setQuery("UPDATE `#__jtg_files` SET `uid` = '$uid' WHERE 1");
 	$db->execute();
 
@@ -317,7 +317,6 @@ class Com_JtgInstallerScript
 			JFolder::delete($plg_folder);
 			$db = JFactory::getDBO();
 			$application = JFactory::getApplication();
-			$uid = JFactory::getUser($row->uid);
 			$db->setQuery("DELETE FROM `#__extensions` WHERE element ='plg_jtrackgallery_maps'");
 			$db->execute();
 		}

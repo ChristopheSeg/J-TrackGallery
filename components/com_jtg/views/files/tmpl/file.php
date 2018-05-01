@@ -135,9 +135,9 @@ if ($maySeeSingleFile === true)
 	jQuery.noConflict();
 </script>
 <script
-	src="http://code.highcharts.com/highcharts.js"></script>
+	src="///code.highcharts.com/highcharts.js"></script>
 <script
-	src="http://code.highcharts.com/modules/exporting.js"></script>
+	src="///code.highcharts.com/modules/exporting.js"></script>
 
 <script type="text/javascript">
 		var isIE=0;
