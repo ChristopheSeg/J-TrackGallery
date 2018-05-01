@@ -46,6 +46,8 @@ echo $this->gpsData->writeOLMap($this->where, $this->tracks, $this->params);
 .olMap img { max-width: none !important;
 }
 
+.olPopup img { max-width: none ! important; }
+
 img.olTileImage {
 	max-width: none !important;
 }
@@ -54,9 +56,6 @@ img.olTileImage {
 	<div id="jtg_map" class="olMap"></div>
 	<script src="/components/com_jtg/assets/js/fullscreen.js"
 		type="text/javascript"></script>
-	<script type="text/javascript">slippymap_init("map");
-	</script>
-
 </center>
 <?php
 
@@ -374,4 +373,8 @@ if ($this->rand != 0)
 	<?php
 	echo $this->footer;
 	?>
+	<script type="text/javascript">
+	    var olmap={ title: 'com_jtg_map_object' } 
+	    slippymap_init("map");
+	</script>
 </div>
