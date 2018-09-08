@@ -1425,7 +1425,7 @@ return true;
 
 		$offsetx = round(-($sizex / 2));
 		$offsety = round(-($sizey / 2));
-		$iconuri = JUri::base() . $catimage;
+		$iconuri = JUri::root() . $catimage;
 		$iconStyle = "{graphicWidth: $sizex , graphicHeight: $sizey, graphicXOffset: $offsetx, graphicYOffset: $offsety, externalGraphic: '$iconuri'}";
 
 		return $iconStyle;
@@ -2681,7 +2681,7 @@ return true;
 		$max_geoim_height = (int) $max_geoim_height;
 		$foundpics = false;
 		$map = "// <!-- parseOLGeotaggedImgs BEGIN -->\n";
-		$httppath = JUri::base() . "images/jtrackgallery/uploaded_tracks_images/track_" . $id . "/";
+		$httppath = JUri::root() . "images/jtrackgallery/uploaded_tracks_images/track_" . $id . "/";
 		$folder = JPATH_SITE . "/images/jtrackgallery/uploaded_tracks_images/" . 'track_' . $id . '/';
 		$map .= "layer_geotaggedImgs = new OpenLayers.Layer.Markers(\"" . JText::_('COM_JTG_GEOTAGGED_IMAGES') . "\"," .
 				" { displayInLayerSwitcher: true });" .
@@ -3147,7 +3147,7 @@ return true;
 			$center .= "animatedCursorIcon.setVisibility(false);\n";
 			$center .= "var size = new OpenLayers.Size(32,32);\n";
 			$center .= "var offset = new OpenLayers.Pixel(-16,-32);\n";
-			$center .= "var cursorIcon = new OpenLayers.Icon(\"" . JUri::base() . "/components/com_jtg/assets/images/orange-dot.png\",size,offset);\n";
+			$center .= "var cursorIcon = new OpenLayers.Icon(\"" . JUri::root() . "/components/com_jtg/assets/images/orange-dot.png\",size,offset);\n";
 			$center .= "var lonLatStart = new OpenLayers.LonLat(" . $this->track[1]->start . ") . ";
 			$center .= "transform(new OpenLayers.Projection(\"EPSG:4326\"), olmap.getProjectionObject());\n";
 			$center .= "animatedCursorIcon.addMarker(new OpenLayers.Marker(lonLatStart,cursorIcon));\n";

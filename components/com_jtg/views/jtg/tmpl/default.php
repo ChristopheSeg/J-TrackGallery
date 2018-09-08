@@ -54,8 +54,6 @@ img.olTileImage {
 </style>
 <center>
 	<div id="jtg_map" class="olMap"></div>
-	<script src="/components/com_jtg/assets/js/fullscreen.js"
-		type="text/javascript"></script>
 </center>
 <?php
 

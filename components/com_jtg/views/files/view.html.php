@@ -1205,19 +1205,11 @@ class JtgViewFiles extends JViewLegacy
 
 			if ( isset($track) )
 			{
-<<<<<<< HEAD
 				$imagelink .= "<img $height src =\"$iconpath/track$m.png\" title=\"" . JText::_('COM_JTG_ISTRACK' . $m) . "\"/>\n";
 			}
 			else
 			{
 				$imagelink .= "<img $height src =\"$iconpath/track$m.png\" title=\"" . JText::_('COM_JTG_DKTRACK') . "\"/>\n";
-=======
-				$imagelink .= "<img $height src =\"/components/com_jtg/assets/images/track$m.png\" title=\"" . JText::_('COM_JTG_ISTRACK' . $m) . "\"/>\n";
-			}
-			else
-			{
-				$imagelink .= "<img $height src =\"/components/com_jtg/assets/images/track$m.png\" title=\"" . JText::_('COM_JTG_DKTRACK') . "\"/>\n";
->>>>>>> parent of 985b4e0... Change absolute URL to relative for icons; needed for subdomains
 			}
 		}
 
@@ -1234,19 +1226,11 @@ class JtgViewFiles extends JViewLegacy
 
 			if ( isset($roundtrip) )
 			{
-<<<<<<< HEAD
 				$imagelink .= "<img $height src =\"$iconpath/roundtrip$m.png\" title=\"" . JText::_('COM_JTG_ISROUNDTRIP' . $m) . "\"/>\n";
 			}
 			else
 			{
 				$imagelink .= "<img $height src =\"$iconpath/roundtrip$m.png\" title=\"" . JText::_('COM_JTG_DKROUNDTRIP') . "\"/>\n";
-=======
-				$imagelink .= "<img $height src =\"/components/com_jtg/assets/images/roundtrip$m.png\" title=\"" . JText::_('COM_JTG_ISROUNDTRIP' . $m) . "\"/>\n";
-			}
-			else
-			{
-				$imagelink .= "<img $height src =\"/components/com_jtg/assets/images/roundtrip$m.png\" title=\"" . JText::_('COM_JTG_DKROUNDTRIP') . "\"/>\n";
->>>>>>> parent of 985b4e0... Change absolute URL to relative for icons; needed for subdomains
 			}
 		}
 
@@ -1263,19 +1247,11 @@ class JtgViewFiles extends JViewLegacy
 
 			if ( isset($wp) )
 			{
-<<<<<<< HEAD
 				$imagelink .= "<img $height src =\"$iconpath/wp$m.png\" title=\"" . JText::_('COM_JTG_ISWP' . $m) . "\"/>\n";
 			}
 			else
 			{
 				$imagelink .= "<img $height src =\"$iconpath/wp$m.png\" title=\"" . JText::_('COM_JTG_DKWP') . "\"/>\n";
-=======
-				$imagelink .= "<img $height src =\"/components/com_jtg/assets/images/wp$m.png\" title=\"" . JText::_('COM_JTG_ISWP' . $m) . "\"/>\n";
-			}
-			else
-			{
-				$imagelink .= "<img $height src =\"/components/com_jtg/assets/images/wp$m.png\" title=\"" . JText::_('COM_JTG_DKWP') . "\"/>\n";
->>>>>>> parent of 985b4e0... Change absolute URL to relative for icons; needed for subdomains
 			}
 		}
 
@@ -1303,19 +1279,11 @@ class JtgViewFiles extends JViewLegacy
 
 			if ( isset($cache) )
 			{
-<<<<<<< HEAD
 				$imagelink .= "<img $height src =\"$iconpath/cache$m.png\" title=\"" . JText::_('COM_JTG_ISCACHE' . $m) . "\"/>\n";
 			}
 			else
 			{
 				$imagelink .= "<img $height src =\"$iconpath/cache$m.png\" title=\"" . JText::_('COM_JTG_DKCACHE') . "\"/>\n";
-=======
-				$imagelink .= "<img $height src =\"/components/com_jtg/assets/images/cache$m.png\" title=\"" . JText::_('COM_JTG_ISCACHE' . $m) . "\"/>\n";
-			}
-			else
-			{
-				$imagelink .= "<img $height src =\"/components/com_jtg/assets/images/cache$m.png\" title=\"" . JText::_('COM_JTG_DKCACHE') . "\"/>\n";
->>>>>>> parent of 985b4e0... Change absolute URL to relative for icons; needed for subdomains
 			}
 		}
 
