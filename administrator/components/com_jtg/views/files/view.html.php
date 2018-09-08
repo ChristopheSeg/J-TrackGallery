@@ -158,28 +158,19 @@ class JtgViewFiles extends JViewLegacy
 	{
 		$imagelink = "<table class=\"fileis\"><tr>";
 
+		$foundtrackroute = 0;
 		if ( ( isset($track) ) AND ( $track == "1" ) )
 		{
-			$m = (string) 1;
+			$imagelink .= "<td class=\"icon\"><span class=\"track1\" title=\"" . JText::_('COM_JTG_ISTRACK1') . "\"></span></td>";
+       			$foundtrackroute = 1;
 		}
-		else
+		if ( ( isset($route) ) AND ( $route == "1" ) )
 		{
-			$m = (string) 0;
+			$imagelink .= "<td class=\"icon\"><span class=\"route1\" title=\"" . JText::_('COM_JTG_ISROUTE1') . "\"></span></td>";
+			$foundtrackroute = 1;
 		}
-
-		$imagelink .= "<td class=\"icon\">";
-
-		if ( isset($track) )
-		{
-			$imagelink .= "<span class=\"track" . $m . "\" title=\"" . JText::_('COM_JTG_ISTRACK' . $m) . "\"></span>";
-		}
-		else
-		{
-			$imagelink .= "<span class=\"track" . $m . "\" title=\"" . JText::_('COM_JTG_DKTRACK') .
-			"\" style=\"text-align:center\"><font size=\"+2\">?</font>";
-		}
-
-		$imagelink .= "</td>";
+		if (!$foundtrackroute)
+			$imagelink .= "<td class=\"icon\"><span class=\"track0\" title=\"" . JText::_('COM_JTG_ISTRACK0') . "\"></span></td>";
 
 		if ( ( isset($wp) ) AND ( $wp == "1" ) )
 		{
@@ -203,17 +194,6 @@ class JtgViewFiles extends JViewLegacy
 		}
 
 		$imagelink .= "</td>";
-		/*
-		 if ( ( isset($route) ) AND ( $route == "1" ) ) $m = (string)1; else $m = (string)0;
-		$imagelink .= "<td class=\"icon\">";
-		if ( isset($route) )
-			$imagelink .= "<span class=\"route" . $m . "\" title=\"" . JText::_('COM_JTG_ISROUTE'.$m ) . "\">";
-		else
-			$imagelink .= "<span class=\"route" . $m . "\" title=\"" . JText::_('COM_JTG_DKROUTE' ) .
-			"\" style=\"text-align:center\"><font size=\"+2\">?</font>";
-		$imagelink .= "</span>";
-		$imagelink .= "</td>";
-		*/
 
 		if ( ( isset($cache) ) AND ( $cache == "1" ) )
 		{

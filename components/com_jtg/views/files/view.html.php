@@ -1175,7 +1175,6 @@ class JtgViewFiles extends JViewLegacy
 
 	/**
 	 * function_description
-	 * $route and $hide_icon_is_route are not used
 	 *
 	 *
 	 * @param   unknown_type  $template  param_description
@@ -1192,23 +1191,21 @@ class JtgViewFiles extends JViewLegacy
 		$iconpath = JUri::root()."/components/com_jtg/assets/images";
 		if (!$hide_icon_istrack)
 		{
+			$foundtrackroute = 0;
 			if ( ( isset($track) ) AND ( $track == "1" ) )
-				{
-				$m = (string) 1;
-			}
-			else
 			{
-				$m = (string) 0;
+				$imagelink .= "<img $height src =\"$iconpath/track1.png\" title=\"" . JText::_('COM_JTG_ISTRACK1') . "\"/>\n";
+                                $foundtrackroute = 1;
 			}
 
-			if ( isset($track) )
+			if ( ( isset($route) ) AND ( $route == "1" ) )
 			{
-				$imagelink .= "<img $height src =\"$iconpath/track$m.png\" title=\"" . JText::_('COM_JTG_ISTRACK' . $m) . "\"/>\n";
+				$imagelink .= "<img $height src =\"$iconpath/route1.png\" title=\"" . JText::_('COM_JTG_ISROUTE1') . "\"/>\n";
+				$foundtrackroute = 1;
 			}
-			else
-			{
-				$imagelink .= "<img $height src =\"$iconpath/track$m.png\" title=\"" . JText::_('COM_JTG_DKTRACK') . "\"/>\n";
-			}
+
+			if ( !$foundtrackroute )
+				$imagelink .= "<img $height src =\"$iconpath/track0.png\" title=\"" . JText::_('COM_JTG_ISTRACK0') . "\"/>\n";
 		}
 
 		if (! $hide_icon_isroundtrip)
@@ -1253,17 +1250,6 @@ class JtgViewFiles extends JViewLegacy
 			}
 		}
 
-		/*
-		 if ( ( isset($route) ) AND ( $route == "1" ) ) $m = (string)1; else $m = (string)0;
-			$imagelink .= "<td class=\"icon\">";
-			if ( isset($route) )
-				$imagelink .= "<span class=\"route" . $m . "\" title=\"" . JText::_('COM_JTG_ISROUTE'.$m ) . "\">";
-				else
-					$imagelink .= "<span class=\"route" . $m . "\" title=\"" . JText::_('COM_JTG_DKROUTE' ) .
-					"\" style=\"text-align:center\"><font size=\"+2\">?</font>";
-					$imagelink .= "</span>";
-					$imagelink .= "</td>";
-					*/
 		if (!$hide_icon_isgeocache)
 		{
 			if ( ( isset($cache) ) AND ( $cache == "1" ) )
