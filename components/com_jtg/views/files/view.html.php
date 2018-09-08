@@ -399,7 +399,6 @@ class JtgViewFiles extends JViewLegacy
 		$params = JComponentHelper::getParams('com_jtg');
 		$sitename = $mainframe->getCfg('sitename');
 		$document = JFactory::getDocument();
-		// $document->addScript('http://www.openlayers.org/api/OpenLayers.js');
 		$document->addScript( JUri::root(true) . '/components/com_jtg/assets/js/OpenLayers.js');
 		$document->addScript('///www.openstreetmap.org/openlayers/OpenStreetMap.js');
 
@@ -484,9 +483,8 @@ class JtgViewFiles extends JViewLegacy
 		$user = JFactory::getUser();
 		$document = JFactory::getDocument();
 
-		// Load Openlayers stylesheet first (for overridding)
-		// TODO add openlayers style in JTrackGallery (url may vary!)
-		$document->addStyleSheet('///dev.openlayers.org/theme/default/style.css');
+		// Load Openlayers stylesheet first (for overriding)
+                $document->addStyleSheet(JUri::root(true) . '/components/com_jtg/assets/template/default/openlayers_style.css');
 
 		// Then load jtg_map stylesheet
 		$tmpl = ($cfg->template = "") ? $cfg->template : 'default';
