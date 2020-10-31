@@ -772,7 +772,35 @@ class JtgHelper
 	}
 
 	/**
-	 * creates the images
+	 * Rotate image based on EXIF data; some browswers do not
+         * correctly display unrotated figures
+	 *
+         * @param Imagick object $image input image
+         */
+
+static public function autoRotateImage($image) { 
+    $orientation = $image->getImageOrientation(); 
+
+    switch($orientation) { 
+        case imagick::ORIENTATION_BOTTOMRIGHT: 
+            $image->rotateimage("#000", 180); // rotate 180 degrees 
+        break; 
+
+        case imagick::ORIENTATION_RIGHTTOP: 
+            $image->rotateimage("#000", 90); // rotate 90 degrees CW 
+        break; 
+
+        case imagick::ORIENTATION_LEFTBOTTOM: 
+            $image->rotateimage("#000", -90); // rotate 90 degrees CCW 
+        break; 
+    } 
+
+    // Now that it's auto-rotated, make sure the EXIF data is correct in case the EXIF gets saved with the image! 
+    $image->setImageOrientation(imagick::ORIENTATION_TOPLEFT); 
+} 
+ 
+	/**
+	 * creates the images; resize if original is larger than maxsize
 	 *
 	 * @param   string  $file_tmp_name  param_description
 	 * @param   string  $ext            param_description
@@ -781,7 +809,93 @@ class JtgHelper
 	 *
 	 * @return return_description
 	 */
-	static public function createimageandthumbs($file_tmp_name, $ext, $image_dir, $image)
+	static public function createimageandthumbs($file_tmp_name, $ext, $image_dir, $imagefname)
+	{
+                // TODO: could do this more elegantly; first check whether resizing is needed...
+                // TODO: also use imagick for thumbnails? reuse code?
+		if (!phpversion('imagick')) error_log('ERROR: Need imagick php component to resize images');
+
+		if (!phpversion('imagick') && phpversion('gd')) {
+			error_log('WARNING: falling back to using gd; this will strip exif data');
+			return createimageandthumbs_gd($file_tmp_name, $ext, $image_dir, $imagefname);
+		}
+
+		require_once JPATH_SITE . '/administrator/components/com_jtg/models/thumb_creation.php';
+		jimport('joomla.filesystem.file');
+                $image = new Imagick($file_tmp_name);
+                jtgHelper::autoRotateImage($image);
+		//list($width, $height) = getimagesize($file_tmp_name);
+		$height = $image->getImageHeight();
+		$width = $image->getImageWidth();
+		$cfg = self::getConfig();
+
+		// Pixsize in pixel
+		$maxsize = (int) $cfg->max_size;
+		$resized = false;
+
+		if ( ( $height > $maxsize ) OR ( $width > $maxsize ) )
+		{
+			if ( $height == $width )
+			{
+				// Square
+				$newheight = $maxsize;
+				$newwidth = $maxsize;
+			}
+			elseif ( $height < $width )
+			{
+				// Landscape
+				$newheight = $maxsize / $width * $height;
+				$newwidth = $maxsize;
+			}
+			else
+			{
+				// Portrait
+				$newheight = $maxsize;
+				$newwidth = $width / $height * $newheight;
+			}
+
+			$resized = true;
+			$newwidth = (int) $newwidth;
+			$newheight = (int) $newheight;
+		        $image->resizeImage($newwidth, $newheight, imagick::FILTER_LANCZOS, 1);
+		}
+		else
+		{
+			$newwidth = (int) $width;
+			$newheight = (int) $height;
+		}
+		$ext = JFile::getExt($imagefname);
+		if ( $ext != 'png' )
+			$imagefname = str_replace('.' . $ext, '.jpg', $imagefname);
+		$statusupload = $image->writeImage($image_dir.'/'.$imagefname);
+		$image->destroy();
+
+		if ($statusupload)
+		{
+			$statusthumbs = Com_Jtg_Create_thumbnails(
+					$image_dir, $imagefname,
+					$cfg->max_thumb_height, $cfg->max_geoim_height
+			);
+		}
+
+		if ($statusupload and $statusthumbs)
+		{
+			return true;
+		}
+
+		return false;
+	}
+	/**
+	 * creates the images; resize if original is larger than maxsize
+	 *
+	 * @param   string  $file_tmp_name  param_description
+	 * @param   string  $ext            param_description
+	 * @param   string  $image_dir      param_description
+	 * @param   string  $image          param_description
+	 *
+	 * @return return_description
+	 */
+	static public function createimageandthumbs_gd($file_tmp_name, $ext, $image_dir, $image)
 	{
 		require_once JPATH_SITE . '/administrator/components/com_jtg/models/thumb_creation.php';
 		$filepath = $image_dir . $image;

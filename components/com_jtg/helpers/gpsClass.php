@@ -195,30 +195,6 @@ class GpsDataClass
 
 		$this->fileChecked = true;
 
-
-		// Resave calculated datas
-		$id = JFactory::getApplication()->input->get('id');
-
-		if ($id > 0)
-		{
-			$query = "UPDATE #__jtg_files SET"
-
-		. "\n istrack='" . $this->isTrack . "',"
-		. "\n iswp='" . $this->isWaypoint . "',"
-		. "\n isroute='" . $this->isRoute . "',"
-		. "\n isroundtrip='" . $this->isroundtrip . "',"
-		. "\n iscache='" . $this->isCache . "',"
-		. "\n start_n='" . $this->start[1] . "',"
-		. "\n start_e='" . $this->start[0] . "',"
-		. "\n distance='" . $this->distance . "',"
-		. "\n ele_asc='" . $this->totalAscent . "',"
-		. "\n ele_desc='" . $this->totalDescent . "'"
-		. "\n WHERE id='" . $id . "'";
-
-		$db = JFactory::getDBO();
-		$db->setQuery($query);
-		$db->execute();
-
 		}
 
 		return $this;
@@ -2656,6 +2632,7 @@ return true;
 
 					// TODO does thumbnail have original image exif data??
 					// TODO CACHE THIS
+<<<<<<< HEAD
 					// This gets stripped if the picture size is reduced on upload
 					$exif_orig = exif_read_data($folder . $image);
 					$exif = exif_read_data($imagepath);
@@ -2674,8 +2651,8 @@ return true;
 						}
 
 						$foundpics = true;
-						$height = (int) $exif["COMPUTED"]["Height"];
-						$width = (int) $exif["COMPUTED"]["Width"];
+						$height = (int) $exif_thumb["COMPUTED"]["Height"];
+						$width = (int) $exif_thumb["COMPUTED"]["Width"];
 
 						if ( ( $height > $max_geoim_height ) OR ( $width > $max_geoim_height ) )
 						{
