@@ -453,7 +453,13 @@ img.olTileImage {
 
 if ($this->map)
 {
-	echo "<center><div id=\"jtg_map\" class=\"olMap\"></div><br /></center>\n";
+?>
+	<center><div id="jtg_map" class="olMap"></div><br /></center>
+        <div id="popup" class="ol-popup">
+          <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+          <div id="popup-content"></div>
+      </div>
+<?php
 }
 ?>
 <!--    <div>

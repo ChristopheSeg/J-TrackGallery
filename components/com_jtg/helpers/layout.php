@@ -199,11 +199,11 @@ class LayoutHelper
 	 */
 	static public function parseMap($document)
 	{
-		// $document->addScript('http://www.openlayers.org/api/OpenLayers.js');
-		$document->addScript( JUri::root(true) . '/components/com_jtg/assets/js/OpenLayers.js');
-		$document->addScript( JUri::root(true) . '/components/com_jtg/assets/js/fullscreen.js');
-		$document->addScript('///www.openstreetmap.org/openlayers/OpenStreetMap.js');
+                // MvL TODO: Used in jtg view, but not in file view?
+                // where is this used? Remove duplication?
+		$document->addScript( JUri::root(true) . '/components/com_jtg/assets/js/ol.js');
 		$document->addScript( JUri::root(true) . '/components/com_jtg/assets/js/jtg.js');
+                $document->addStyleSheet( JUri::root(true) . '/components/com_jtg/assets/template/default/ol.css');  // Load OpenLayers Stylesheet
 	}
 
 	/**

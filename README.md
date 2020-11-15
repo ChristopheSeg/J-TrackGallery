@@ -1,4 +1,4 @@
-###J!TrackGallery
+### J!TrackGallery
 
 J!TrackGallery is a Joomla Track Gallery component.  
 Our Goal is to provide a non commercial, free, open source, GNU/GPL2 licensed component for Joomla 2.5 and 3.x. 
@@ -7,12 +7,21 @@ Allowing to seamlessly upload GPX tracks and display maps on Joomla based websit
 - J!Track Gallery J!2.5 demo  : see http://demoj25.jtrackgallery.net/
 - J!Track Gallery J!3.2 demo  : see http://demoj3.jtrackgallery.net/
 - J!Track Gallery forum: http://jtrackgallery.net/forum/
+- For bug reports etc to this version, use the [github issues page](https://github.com/mastervanleeuwen/J-TrackGallery/issues)
 
-####Status of the Project
+#### Status of the Project
+
+0.9.28 (15 November 2020) is an inofficial release of J!Track Gallery; the main changes with respect to 0.9.27 are:
+- Move to OpenLayers v6. This changes the appearance of maps, and makes future additions easier
+- Switching between maps in the front end (user view) is not supported by the new openlayers, and has been disabled
+- Support for Route information from Garmin Basecamp
+- Google maps support is not present by default; the terms and conditions no longer allow to display Google Maps with the OpenLayers API. There is a workaround for this, but it has not been implemented in Joomla Track Gallery yet.
+
 0.9.27 version of J!Track Gallery have been pushed in March 2017.  
 Last months commits were mostly related to adding new feature and bug fix.
 
-####History of J!TrackGallery  
+#### History of J!TrackGallery  
+
 J!TrackGallery may be considered as a fork of [InJooosm](http://injooosm.sourceforge.net/)
 This valuable component is no longer maintained (last version is for Joomla 1.5). At the beginning of this project, I was not able to reach previous author so I decided to rename the component from InJooOSM to J!TrackGallery. 
 

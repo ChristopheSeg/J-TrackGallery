@@ -172,8 +172,8 @@ class plgContentJtrackgallery_maps extends JPlugin {
 	private function rendermap($plgParams, $plg_call_params)
 	{
 		$document = JFactory::getDocument();
-		// removed $document->addStyleSheet(JUri::base(true) . '/components/com_jtg/template.css');
-		$document->addStyleSheet(JUri::base(true) . 'components/com_jtg/assets/template/default/openlayers_style.css');
+		$document->addStyleSheet(JUri::base(true) . 'components/com_jtg/assets/template/default/ol.css');
+		$document->addStyleSheet(JUri::base(true) . 'components/com_jtg/assets/template/default/ol.css.map');
 
 		// Add jtg_map stylesheet
 		require_once JPATH_SITE . '/components/com_jtg/helpers/helper.php';
@@ -198,10 +198,8 @@ class plgContentJtrackgallery_maps extends JPlugin {
 		$track = $cache->get(array($model, 'getFile'), array($plg_call_params['id']));
 		$document = JFactory::getDocument();
 		require_once JPATH_SITE . '/components/com_jtg/helpers/gpsClass.php';
-		// $document->addScript('http://www.openlayers.org/api/OpenLayers.js');
-		$document->addScript( JUri::root(true) . '/components/com_jtg/assets/js/OpenLayers.js');
-		$document->addScript( JUri::root(true) . '/components/com_jtg/assets/js/fullscreen.js');
-		$document->addScript('https://www.openstreetmap.org/openlayers/OpenStreetMap.js');
+		$document->addScript( JUri::root(true) . '/components/com_jtg/assets/js/ol.js');
+		$document->addScript( JUri::root(true) . '/components/com_jtg/assets/js/ol.js.map');
 		$document->addScript( JUri::root(true) . '/components/com_jtg/assets/js/jtg.js');
 		$file = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks/' . $track->file;
 		$gpsData = new GpsDataClass($cfg->unit);

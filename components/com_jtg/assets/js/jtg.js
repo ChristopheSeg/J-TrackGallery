@@ -1,55 +1,3 @@
-// Version: 2010-02-15 16:54
-
-function addlayer_geotaggedImgs(ll, popupClass, popupContentHTML, closeBox, overflow, icon, map) {
-	var feature = new OpenLayers.Feature(layer_geotaggedImgs, ll);
-	feature.closeBox = closeBox;
-	feature.popupClass = popupClass;
-	feature.data.popupContentHTML = popupContentHTML;
-	feature.data.overflow = (overflow) ? "auto" : "hidden";
-	var marker = new OpenLayers.Marker(ll,icon);
-	marker.feature = feature;
-	var markerClick = function (evt) {
-		if (this.popup == null) {
-			this.popup = this.createPopup(this.closeBox);
-			map.addPopup(this.popup);
-			this.popup.show();
-		}
-else
-{
-			this.popup.toggle();
-		}
-		currentPopup = this.popup;
-		OpenLayers.Event.stop(evt);
-	};
-	marker.events.register("mousedown", feature, markerClick);
-	layer_geotaggedImgs.addMarker(marker);
-}
-
-function addlayer_startstop(ll, popupClass, popupContentHTML, closeBox, overflow, icon, map) {
-	var feature = new OpenLayers.Feature(layer_startstop, ll);
-	feature.closeBox = closeBox;
-	feature.popupClass = popupClass;
-	feature.data.popupContentHTML = popupContentHTML;
-	feature.data.overflow = (overflow) ? "auto" : "hidden";
-	var marker = new OpenLayers.Marker(ll,icon);
-	marker.feature = feature;
-	var markerClick = function (evt) {
-		if (this.popup == null) {
-			this.popup = this.createPopup(this.closeBox);
-			map.addPopup(this.popup);
-			this.popup.show();
-		}
-else
-{
-			this.popup.toggle();
-		}
-		currentPopup = this.popup;
-		OpenLayers.Event.stop(evt);
-	};
-	marker.events.register("mousedown", feature, markerClick);
-	layer_startstop.addMarker(marker);
-}
-
 function getAvgTime(speed_str, length, decimal_separator)  {
 
 		// Speed format is with decimal separator or . or ,
@@ -124,132 +72,6 @@ function submitform(pressbutton){
 		document.adminForm.onsubmit();
 	}
 	document.adminForm.submit();
-}
-
-/*
- * Einige Funktionen die ursprünglich von http://wiki.openstreetmap.org/wiki/DE:Karte_in_Webseite_einbinden stammen,
- * teilweise modifiziert
- *
- * Some functions from the example at http://wiki.openstreetmap.org/wiki/DE:Karte_in_Webseite_einbinden, some
- * slightly modified
- */
-function jumpTo(lon, lat, zoom) {
-    var x = Lon2Merc(lon);
-    var y = Lat2Merc(lat);
-    map.setCenter(new OpenLayers.LonLat(x, y), zoom);
-    return false;
-}
-
-function Lon2Merc(lon) {
-    return 20037508.34 * lon / 180;
-}
-
-function Lat2Merc(lat) {
-    var PI = 3.14159265358979323846;
-    lat = Math.log(Math.tan( (90 + lat) * PI / 360)) / (PI / 180);
-    return 20037508.34 * lat / 180;
-}
-
-function addMarker(layer, lon, lat, popupContentHTML, showPopupOnLoad, iconId) {
-
-    // Koordinaten in LonLat umwandeln
-    var ll = new OpenLayers.LonLat(Lon2Merc(lon), Lat2Merc(lat));
-
-    // Feature erstellen und konfigurieren (Popup und Marker)
-    var feature = new OpenLayers.Feature(layer, ll);
-    feature.closeBox = true;
-    feature.popupClass = OpenLayers.Class(OpenLayers.Popup.FramedCloud, {minSize: new OpenLayers.Size(200, 120) } );
-    feature.data.popupContentHTML = popupContentHTML;
-    feature.data.overflow = "auto";
-    feature.data.icon = makeIcon(iconId);
-
-    // Marker erstellen
-    var marker = feature.createMarker();
-
-    /*
-     * Handler Funktionen für die Mouse-Events
-     */
-    // Click
-    var markerClick = function(evt) {
-	// Wenn das Popup nicht sichtbar ist, dann kann es nicht fest sichtbar sein
-	if (!this.popup.visible())
-		this.popup.clicked = false;
-	if (this.popup.clicked == true) {
-		this.popup.clicked = false;
-		this.popup.hide();
-    	}
-    	else {
-		this.popup.clicked = true;
-		if (!this.popup.visible())
-			this.popup.show();
-	}
-        OpenLayers.Event.stop(evt);
-    };
-    // Hover
-    var markerHover = function(evt) {
-	// Wenn das Popup nicht sichtbar ist, dann kann es nicht fest sichtbar sein
-	if (!this.popup.visible())
-		this.popup.clicked = false;
-	if (!this.popup.clicked)
-		this.popup.show();
-
-	OpenLayers.Event.stop(evt);
-	};
-	// Hover End
-	var markerHoverEnd = function(evt) {
-	if (!this.popup.clicked) {
-		this.popup.hide();
-	}
-	OpenLayers.Event.stop(evt);
-	};
-
-	// Events auf den Marker registrieren und als Objekt das Feature übergeben
-	marker.events.register("mousedown", feature, markerClick);
-	if (showPopupOnHover) {
-		marker.events.register("mouseover", feature, markerHover);
-    	marker.events.register("mouseout", feature, markerHoverEnd);
-    }
-
-    // Erstellten Marker der Ebene hinzufügen
-    layer.addMarker(marker);
-
-    // Popup erstellen, der Karte hinzufügen und anzeigen, falls gewünscht
-    olmap.addPopup(feature.createPopup(feature.closeBox));
-
-    if (showPopupOnLoad != true) {
-		// Wenn das Popup nicht angezeigt werden soll, verstecken und auf 'nicht angeklickt' setzen
-		feature.popup.hide();
-		feature.popup.clicked = false;
-    }
-else
-{
-		// Das Popup wird direkt angezeigt und zwar solange bis man es explizit schließt
-		feature.popup.clicked = true;
-    }
-
-    return marker;
-}
-
-/*
- *
- * Creates a new marker icon
- *
- * using the icons-array (defined in the html-file)
- *
- * index
- * 0	address to the image
- * 1	width of the image
- * 2	height
- * 3	factor by which the image should be offset horizontally
- * 4	factor by which the image should be offset vertically
- *
- * please see the icon array itself for examples of values
- */
-function makeIcon(iconId) {
-	var size = new OpenLayers.Size(icons[iconId][1],icons[iconId][2]);
-	var offset = new OpenLayers.Pixel(-(size.w*icons[iconId][3]), -(size.h*icons[iconId][4]));
-	var icon = new OpenLayers.Icon(icons[iconId][0],size,offset);
-	return icon;
 }
 
 function getCycleTileURL(bounds) {
@@ -405,3 +227,72 @@ function checkUtilVersion(version) {
 		alert("map.html and util.js versions do not match.\n\nPlease reload the page using your browsers 'reload' feature.\n\nIf the problem persists and you are the owner of this site, you may need to update the map's files . ");
 	}
 }
+
+// MvL: could move this to a separate file ?; similar function used in jtgOverview.js, but no clusterig here?
+function addPopup() {
+    /**
+     * Elements that make up the popup.
+     */
+    var container = document.getElementById('popup');
+    var closer = document.getElementById('popup-closer');
+    if (container == null || closer == null)
+       return;
+
+    var popupActive = false;
+    /**
+     * Create an overlay to anchor the popup to the map.
+     */
+    var overlay = new ol.Overlay({
+        element: container,
+        autoPan: true,
+        autoPanAnimation: {
+            duration: 250
+        }
+    });
+
+    /**
+     * Add a click handler to hide the popup.
+     * @return {boolean} Don't follow the href.
+     */
+    closer.onclick = function() {
+        overlay.setPosition(undefined);
+        closer.blur();
+       popupActive = false;
+        return false;
+    };
+
+    olmap.addOverlay(overlay);
+    
+    function popupInfo(event) {
+       var point = 0;
+       var pixel = olmap.getEventPixel(event.originalEvent);
+       olmap.forEachFeatureAtPixel(pixel, function(feature) {
+            if (feature.getGeometry().getType() == 'Point') { 
+               point = feature;
+            }
+        });
+       if (point) {
+       // Set content of popup
+       var content = document.getElementById('popup-content');
+       content.innerHTML = point.get('name');
+       // show image if available?
+       // and position
+       var coordinate = event.coordinate; // MvL TODO: change to point.getGeometry().getCoordinate; converted to pixels
+       overlay.setPosition(coordinate);
+       popupActive = true;
+       }
+       else {
+           overlay.setPosition(undefined);
+           popupActive = false;
+       }
+    }
+ 
+    /**
+     * Add a click handler to the map to render the popup.
+     * MvL: change this to add handler to points
+     */
+    olmap.on('singleclick', function(evt) {
+        var pixel = olmap.getEventPixel(evt.originalEvent);
+        popupInfo(evt);
+    });
+};

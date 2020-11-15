@@ -53,7 +53,12 @@ img.olTileImage {
 }
 </style>
 <center>
-	<div id="jtg_map" class="olMap"></div>
+      <div id="jtg_map" class="olMap"></div>
+
+      <div id="popup" class="ol-popup">
+          <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+          <div id="popup-content"></div>
+      </div>
 </center>
 <?php
 
@@ -358,7 +363,7 @@ if ($this->rand != 0)
 ?>
 <div class="no-float">
 	<?php
-
+/*
 	// Needed Pics preload
 	?>
 	<div style="display: none">
@@ -369,6 +374,7 @@ if ($this->rand != 0)
 			src="///www.openlayers.org/api/theme/default/img/close.gif" />
 	</div>
 	<?php
+*/
 	echo $this->footer;
 	?>
 	<script type="text/javascript">

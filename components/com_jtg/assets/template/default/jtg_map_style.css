@@ -12,49 +12,6 @@
 	max-width: none;
 }
 
-
-.olControlLayerSwitcher {
-	opacity: 0.8 !important;
-	margin: 5px;
-	top: 40px;
-	right: 0px;
-	padding: 5px;
-	width: 20em;
-	font-family: sans-serif;
-	font-weight: bold;
-	text-align: left;
-	font-size: 100%;
-	color: #4D553D;
-	background-color: #D1D6BE;
-	border-radius: 4px;
-	box-shadow: 0 3px 3px #111;
-}
-
-.olControlLayerSwitcher .layersDiv {
-	background-color: transparent !important;
-	opacity: 1 !important;
-}
-
-.olControlLayerSwitcher div {
-	background-color: transparent !important;
-}
-
-.olControlLayerSwitcher .minimizeDiv {
-	right: 0px;
-	top: 0px;
-	left: auto;
-}
-
-.olControlLayerSwitcher .maximizeDiv {
-	right: 0px;
-	top: 0px;
-	left: auto;
-}
-
-.olControlLayerSwitcher .baseLbl {
-	font-size: small;
-}
-
 #jtg_map label,.olMap input,.olMap button,#jtg_map.olButton,.olMap select,.olMap textarea
 	{
 	font-family: Roboto, Arial, ​sans-serif;
@@ -67,70 +24,12 @@
 	margin-top: 0px;
 }
 
-.olControlZoom {
-	top: auto;
-	bottom: 45px !important;
-	height: 25px;
-	left: 10px;
-	box-shadow: 0 3px 3px #888;
-}
-/* Style for FullScreen*/
-.olControlNavToolbar {
-	text-align: center;
-	top: 5px !important;
-	left: auto !important;
-	right: 5px;
-	margin: 0;
-	background-color: #D1D6BE;
-	border-radius: 4px;
-	box-shadow: 0 3px 3px #888;
-}
-
-.olControlNavigationItemActive,.olControlNavigationItemInactive,.olControlZoomBoxItemActive,.olControlZoomBoxItemInactive
-	{
-	float: left !important;
-	margin: 2px !important;
-	/* display: none;   desactivated*/
-}
-
-.olControlNavToolbar div,.olControlEditingToolbar div {
-	margin: 2px;
-	width: 24px;
-	height: 22px;
-	cursor: pointer;
-}
-
-.olControlNavToolbar 
-.olControlNavigationItemActive,.olControlEditingToolbar 
-.olControlNavigationItemActive {
-	background-position: -103px -24px;
-}
-
-.olControlNavToolbar 
-.olControlZoomBoxItemInactive {
-	background-position: -128px -1px;
-}
-
-.olControlAttribution {
+.ol-attribution {
 	bottom: 0.2em;
 }
 
-div.olControlMousePosition {
+.ol-mouse-position {
 	bottom: 1.5em;
-}
-
-.buttonFullScreenItemInactive {
-	float: left !important;
-	margin: 2px !important;
-	cursor: pointer;
-	background-image: url("ol_images/view_fullscreen.png") !important;
-}
-
-.buttonFullScreenItemActive {
-	float: left !important;
-	margin: 2px !important;
-	cursor: pointer;
-	background-image: url("ol_images/leave_fullscreen.png") !important;
 }
 
 #jtg_map.olMap { /* this is for normal size map */
@@ -154,3 +53,55 @@ div.olControlMousePosition {
 	height: 250px;
 	width: 500px;
 }
+
+// Style for pop up
+.olPopup img { max-width: none ! important; }
+
+img.olTileImage {
+        max-width: none !important;
+}
+
+/* styles for popups */
+.ol-popup {
+    position: absolute;
+    background-color: white;
+    -webkit-filter: drop-shadow(0 1px 4px rgba(0,0,0,0.2));
+    filter: drop-shadow(0 1px 4px rgba(0,0,0,0.2));
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid #cccccc;
+    bottom: 12px;
+    left: -50px;
+    min-width: 280px;
+}
+.ol-popup:after, .ol-popup:before {
+    top: 100%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+}
+.ol-popup:after {
+    border-top-color: white;
+    border-width: 10px;
+    left: 48px;
+    margin-left: -10px;
+}
+.ol-popup:before {
+    border-top-color: #cccccc;
+    border-width: 11px;
+    left: 48px;
+    margin-left: -11px;
+}
+.ol-popup-closer {
+    text-decoration: none;
+    position: absolute;
+    top: 2px;
+    right: 8px;
+}
+.ol-popup-closer:after {
+    content: "✖";
+}
+

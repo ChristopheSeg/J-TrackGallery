@@ -399,9 +399,7 @@ class JtgViewFiles extends JViewLegacy
 		$params = JComponentHelper::getParams('com_jtg');
 		$sitename = $mainframe->getCfg('sitename');
 		$document = JFactory::getDocument();
-		$document->addScript( JUri::root(true) . '/components/com_jtg/assets/js/OpenLayers.js');
-		$document->addScript('///www.openstreetmap.org/openlayers/OpenStreetMap.js');
-
+                $document->addScript( JUri::root(true) . '/components/com_jtg/assets/js/ol.js');  // Load OpenLayers
 		// Code support for joomla version greater than 3.0
 		if (JVERSION >= 3.0)
 		{
@@ -484,7 +482,7 @@ class JtgViewFiles extends JViewLegacy
 		$document = JFactory::getDocument();
 
 		// Load Openlayers stylesheet first (for overriding)
-                $document->addStyleSheet(JUri::root(true) . '/components/com_jtg/assets/template/default/openlayers_style.css');
+                $document->addStyleSheet(JUri::root(true) . '/components/com_jtg/assets/template/default/ol.css');
 
 		// Then load jtg_map stylesheet
 		$tmpl = ($cfg->template = "") ? $cfg->template : 'default';
@@ -501,8 +499,6 @@ class JtgViewFiles extends JViewLegacy
 
 		// Kartenauswahl BEGIN
 		$document->addScript( JUri::root(true) . '/components/com_jtg/assets/js/jtg.js');
-
-		$document->addScript( JUri::root(true) . '/components/com_jtg/assets/js/fullscreen.js');
 
 		$action = "/index.php?option=com_jtg&amp;controller=download&amp;task=download";
 		$file = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks/' . strtolower($track->file);

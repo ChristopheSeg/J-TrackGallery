@@ -1401,11 +1401,10 @@ return true;
 		$this->isWaypoint = true;
 
 		$center = "// <!-- parseOLMapCenterSingleTrack BEGIN -->\n";
-		$center .= "var min = lonLatToMercator(new OpenLayers.LonLat";
-		$center .= "(" . $this->bbox_lon_min . "," . $this->bbox_lat_min . "));\n";
-		$center .= "var max = lonLatToMercator(new OpenLayers.LonLat";
-		$center .= "(" . $this->bbox_lon_max . "," . $this->bbox_lat_max . "));\n";
-		$center .= "olmap.zoomToExtent(new OpenLayers.Bounds(min.lon, min.lat, max.lon, max.lat));\n";
+                $center .= "olview.fit( ol.proj.transformExtent( [ ".
+                           "$this->bbox_lon_min, ".
+                           "$this->bbox_lat_min, $this->bbox_lon_max, ".
+                           "$this->bbox_lat_max ], 'EPSG:4326', olview.getProjection()), {padding: [50, 50, 50, 75]} );\n";
 		$center .= "// <!-- parseOLMapCenterSingleTrack END -->\n";
 		$this->wpCenter = $center;
 	}
@@ -1552,7 +1551,7 @@ return true;
 		$simagesize = getimagesize(JPATH_SITE . '/' . $catimage);
 		$sizex = $simagesize[0];
 		$sizey = $simagesize[1];
-		$maximagesize = 26;
+		$maximagesize = 32;
 
 		if ( ( $sizex > $maximagesize ) OR ( $sizey > $maximagesize) )
 		{
@@ -1574,10 +1573,8 @@ return true;
 			}
 		}
 
-		$offsetx = round(-($sizex / 2));
-		$offsety = round(-($sizey / 2));
 		$iconuri = JUri::root() . $catimage;
-		$iconStyle = "{graphicWidth: $sizex , graphicHeight: $sizey, graphicXOffset: $offsetx, graphicYOffset: $offsety, externalGraphic: '$iconuri'}";
+		$iconStyle = "new ol.style.Icon({size: [$sizex , $sizey], anchor: [0.5, 1], src: '$iconuri'})"; // MvL: could make a cache with these objects and use them once?
 
 		return $iconStyle;
 	}
@@ -1625,10 +1622,10 @@ return true;
 		else {
 		  $sizex = $xml->sizex;
 		  $sizey = $xml->sizey;
-		  $offsetx = $xml->offsetx;
-		  $offsety = $xml->offsety;
+		  $offsetx = -$xml->offsetx;
+		  $offsety = -$xml->offsety;
                 }
-		return $unknownicon . "var icon = new OpenLayers.Icon('" . $icon . "',\n			new OpenLayers.Size(" . $sizex . ", " . $sizey . "),\n			new OpenLayers.Pixel(" . $offsetx . ", " . $offsety . "));\n";
+		return $unknownicon . "var icon = new ol.style.Icon({src: '" . $icon . "',\n			size: [" . $sizex . ", " . $sizey . "],\n			anchorXUnits: 'pixels', anchorYUnits: 'pixels',\n anchor: [" . $offsetx . ", " . $offsety . "]});\n";
 	}
 
 	/**
@@ -1678,8 +1675,9 @@ return true;
 		}
 
 		$wpcode = "// <!-- parseWPs BEGIN -->\n";
-		$wpcode .= "wps = new OpenLayers.Layer.Markers(\"" . JText::_('COM_JTG_WAYPOINTS') . "\");";
-		$wpcode .= "olmap.addLayer(wps);";
+		$wpcode .= "wps = new ol.source.Vector();\n";
+		$wpcode .= "wplayer = new ol.layer.Vector({title: \"" . JText::_('COM_JTG_WAYPOINTS') . "\", source: wps});";
+		$wpcode .= "olmap.addLayer(wplayer);";
 		$wpcode .= "addWPs();";
 		$wpcode .= "function addWPs() {\n";
 
@@ -1714,9 +1712,9 @@ return true;
 				$sym = $wp->sym;
 			}
 
-			$wpcode .= "llwp = new OpenLayers.LonLat(" . $wp->lon . "," . $wp->lat . ").transform(new OpenLayers . ";
-			$wpcode .= "Projection(\"EPSG:4326\"), olmap.getProjectionObject());\n";
-			$wpcode .= "popupClasswp = AutoSizeFramedCloud;\n";
+			$wpcode .= "llwp = new ol.proj.fromLonLat([" . $wp->lon . "," . $wp->lat . "], olview.getProjection());\n ";
+//			$wpcode .= "Projection(\"EPSG:4326\"), olmap.getProjectionObject());\n";
+//			$wpcode .= "popupClasswp = AutoSizeFramedCloud;\n";
 			$wpcode .= "popupContentHTMLwp = '" . $name . $URL;
 
 			if ($desc)
@@ -1737,7 +1735,7 @@ return true;
 
 			$wpcode .= "';\n";
 			$wpcode .= $this->parseOwnIcon($sym);
-			$wpcode .= "addWP(llwp, popupClasswp, popupContentHTMLwp, true, true, icon);\n";
+			$wpcode .= "addWP(llwp, popupContentHTMLwp, true, true, icon);\n";
 		}
 
 		$wpcode .= "	}\n";
@@ -1757,29 +1755,10 @@ return true;
 		* overflow - {Boolean} Let the popup overflow scrollbars?
 		*/
 
-		$wpcode .= "	function addWP(ll, popupClass, popupContentHTML, closeBox, overflow, icon) {
-		var feature = new OpenLayers.Feature(wps, ll);
-		feature.closeBox = closeBox;
-		feature.popupClass = popupClass;
-		feature.data.popupContentHTML = popupContentHTML;
-		feature.data.overflow = (overflow) ? \"auto\" : \"hidden\";
-		var wp = new OpenLayers.Marker(ll,icon);
-		wp.feature = feature;
-		var markerClick = function (evt) {
-		if (this.popup == null) {
-		this.popup = this.createPopup(this.closeBox);
-		olmap.addPopup(this.popup);
-		this.popup.show();
-	}
-	else
-	{
-	this.popup.toggle();
-	}
-	currentPopup = this.popup;
-	OpenLayers.Event.stop(evt);
-	};
-	wp.events.register(\"mousedown\", feature, markerClick);
-	wps.addMarker(wp);
+		$wpcode .= "	function addWP(ll, popupContentHTML, closeBox, overflow, icon) {
+		var wp = new ol.Feature({ geometry: new ol.geom.Point(ll), name: popupContentHTML });
+                wp.setStyle(new ol.style.Style({image: icon}));
+		wps.addFeature(wp);
 	}\n";
 		$wpcode .= "// <!-- parseWPs END -->\n";
 
@@ -2107,7 +2086,6 @@ return true;
 
 		$map .= $this->parseOLMarker($rows);
 		$map .= $this->parseOLMapCenter($rows);
-		$map .= $this->parseOLMapFunctions();
 		$map .= $this->parseScriptOLFooter();
 
 		return $map;
@@ -2196,58 +2174,16 @@ return true;
 		}
 
 		$center = "// <!-- parseOLMapCenter BEGIN -->\n";
-		$center .= "var min = lonLatToMercator(new OpenLayers.LonLat";
-		$center .= "(" . $bbox_lon_min . "," . $bbox_lat_min . "));\nvar max = lonLatToMercator";
-		$center .= "(new OpenLayers.LonLat(" . $bbox_lon_max . "," . $bbox_lat_max . "));\n";
-		$center .= "olmap.zoomToExtent(new OpenLayers.Bounds(min.lon, min.lat, max.lon, max.lat));\n";
+                $center .= "var min = ol.proj.fromLonLat(\n";
+                $center .= "[" . $bbox_lon_min . "," . $bbox_lat_min . "],olview.getProjection());\n".
+                           " var max = ol.proj.fromLonLat(\n";
+                $center .= "[" . $bbox_lon_max . "," . $bbox_lat_max . "],olview.getProjection());\n";
+                $center .= "olview.fit(min.concat(max), {padding: [50, 50, 50, 75]});\n";
 		$center .= "// <!-- parseOLMapCenter END -->\n";
 
 		return $center;
 	}
 
-	/**
-	 * function_description
-	 *
-	 * @return string
-	 */
-	private function parseOLMapFunctions()
-	{
-		$marker = "// <!-- parseOLMapFunctions BEGIN -->\n";
-		/*
-		 $marker .= "	/**
-		* Function: lonLatToMercator
-		* OpenLayers-Karte mit OSM-Daten aufbauen
-		* Version 2009-09-07
-		* \"EPSG:41001\" -> 4326
-		* http://www.fotodrachen.de/javascripts/map.js
-		* Parameters:
-		* ll - {<OpenLayers.LonLat>}
-		*/
-
-		$marker .= "	function lonLatToMercator(ll) {
-		var lon = ll.lon * 20037508.34 / 180;
-		var lat = Math.log(Math.tan((90 + ll.lat) * Math.PI / 360)) / (Math.PI / 180);
-		lat = lat * 20037508.34 / 180;
-		return new OpenLayers.LonLat(lon, lat);
-	}\n";
-
-		$marker .= "// <!-- parseOLMapFunctions END -->\n";
-
-		return $marker;
-	}
-
-	/**
-	 * function_description
-	 *
-	 * @return string
-	 */
-	/*
-	 * private function parseOLStartStop() {
-	.* $startstop = "// <!-- parseOLStartStop BEGIN -->\n";
-	.* $startstop .= "// <!-- parseOLStartStop END -->\n";
-	.* return $startstop;
-	* }
-	*/
 	/**
 	 * function_description
 	 *
@@ -2268,8 +2204,6 @@ return true;
 		}
 
 		$document = JFactory::getDocument();
-		$document->addScript( JUri::root(true) . '/components/com_jtg/assets/js/patches_OL-popup-autosize.js');
-		$document->addScript( JUri::root(true) . '/components/com_jtg/assets/js/FeaturePopups.js');
 		$document->addScript( JUri::root(true) . '/components/com_jtg/assets/js/jtgOverView.js');
 
 		$marker = "// <!-- parseOLMarker BEGIN -->\n";
@@ -2383,168 +2317,6 @@ return true;
 	/**
 	 * function_description
 	 *
-	 * @param   unknown_type  $track_array  param_description
-	 * @param   unknown_type  $visibility   param_description
-	 *
-	 * @return string
-	 */
-	private function parseOLMarker_old($track_array, $visibility = true)
-	{
-		$cfg = JtgHelper::getConfig();
-
-		if (!$track_array)
-		{
-			return false;
-		}
-
-		$marker = "// <!-- parseOLMarker BEGIN -->\n";
-
-		if ( $visibility != true )
-		{
-			$marker .= "	markers = new OpenLayers.Layer.Markers(\"" . JText::_('COM_JTG_OTHER_STARTPOINTS') . "\");\n";
-		}
-		else
-		{
-			$marker .= "	markers = new OpenLayers.Layer.Markers(\"" . JText::_('COM_JTG_STARTPOINTS') . "\");\n";
-		}
-
-		$marker .= "	olmap.addLayer(markers);\n";
-		$marker .= "	addMarkers();\n";
-
-		if ( $visibility != true )
-		{
-			$marker .= "	markers.setVisibility(false);\n";
-		}
-
-		$marker .= "	function addMarkers() {\n";
-		$i = 0;
-
-		foreach ( $track_array AS $row )
-		{
-			$link = JROUTE::_("index.php?option=com_jtg&view=files&layout=file&id=" . $row->id);
-			$lon = $row->start_e;
-			$lat = $row->start_n;
-
-			if ($row->published == 1 AND ( ( $lon ) OR ( $lon ) ))
-			{
-				$marker .= "ll = new OpenLayers.LonLat(" . $lon . "," . $lat . ") . ";
-				$marker .= "transform(new OpenLayers.Projection(\"EPSG:4326\"), olmap.getProjectionObject()); ";
-				$marker .= "popupClass = AutoSizeFramedCloud; ";
-				$marker .= "popupContentHTML = '<b>" . JText::_('COM_JTG_TITLE') . ": <a href=\"" . $link . "\"";
-
-				switch ($row->access)
-				{
-					case 0:
-						// Public
-						$marker .= ">";
-						break;
-					case 9:
-						// Private
-						$marker .= " title=\\\"" . JText::_('COM_JTG_PRIVATE') . "\">";
-						break;
-					case 1:
-						// Registered
-						$marker .= " title=\\\"" . JText::_('COM_JTG_REGISTERED') . "\">";
-						break;
-					case 2:
-						// Admin
-						$marker .= " title=\\\"" . JText::_('COM_JTG_ADMINISTRATORS') . "\">";
-						break;
-				}
-
-				if ($row->title)
-				{
-					$marker .= str_replace(array("'"), array("\'"), $row->title);
-				}
-				else
-				{
-					$marker .= "<i>" . str_replace(array("'"), array("\'"), JText::_('COM_JTG_NO_TITLE')) . "</i>";
-				}
-
-				if ( $row->access != 0 )
-				{
-					$iconpath = JUri::root() . "components/com_jtg/assets/template/" . $cfg->template . "/images/";
-				}
-
-				switch ($row->access)
-				{
-					case 1:
-						$marker .= "&nbsp;<img alt=\\\"" . JText::_('COM_JTG_REGISTERED') . "\" src=\\\"" . $iconpath . "registered_only.png\\\" />";
-						break;
-					case 2:
-						$marker .= "&nbsp;<img alt=\\\"" . JText::_('COM_JTG_ADMINISTRATORS') . "\" src=\\\"" . $iconpath . "special_only.png\\\" />";
-						break;
-					case 9:
-						$marker .= "&nbsp;<img alt=\\\"" . JText::_('COM_JTG_PRIVATE') . "\" src=\\\"" . $iconpath . "private_only.png\\\" />";
-						break;
-				}
-
-				$marker .= "</a></b>";
-
-				if ( $row->cat != "" )
-				{
-					$marker .= "<br />" . str_replace(array("'"), array("\'"), JText::_('COM_JTG_CAT')) . ": ";
-					$marker .= JtgHelper::parseMoreCats($this->sortedcats, $row->catid, "box", true);
-				}
-				else
-				{
-					$marker .= "<br /><i>" . str_replace(array("'"), array("\'"), JText::_('COM_JTG_CAT_NONE')) . "</i>";
-				}
-
-				// Add track description, after striping HTML tags
-				$marker .= $this->showDesc($row->description);
-				$marker .= "'; ";
-
-				// Start icon
-				$marker .= $this->parseCatIcon($row->catid, $row->istrack, $row->iswp, $row->isroute);
-
-				// End icon
-			}
-			else
-			{
-				// Dummy line for Coding standard
-			}
-		}
-
-		$marker .= "	}\n";
-
-		$marker .= "function addMarker(ll, popupClass, popupContentHTML, closeBox, overflow, icon) {
-		var feature = new OpenLayers.Feature(markers, ll);
-		feature.closeBox = closeBox;
-		feature.popupClass = popupClass;
-		feature.data.popupContentHTML = popupContentHTML;
-		feature.data.overflow = (overflow) ? \"auto\" : \"hidden\";
-		var marker = new OpenLayers.Marker(ll,icon);
-		marker.feature = feature;
-		";
-
-		$marker .= "
-		var markerClick = function (evt) {
-		if (this.popup == null) {
-		this.popup = this.createPopup(this.closeBox);
-		olmap.addPopup(this.popup);
-		this.popup.show();
-	}
-	else
-	{
-	this.popup.toggle();
-	}
-	currentPopup = this.popup;
-	OpenLayers.Event.stop(evt);
-	};
-	";
-
-		// MouseDown
-		$marker .= "		marker.events.register(\"mousedown\", feature, markerClick);\n";
-		$marker .= "		markers.addMarker(marker);}\n";
-		$marker .= "// <!-- parseOLMarker END -->\n";
-
-		return $marker;
-	}
-
-	/**
-	 * function_description
-	 *
 	 * @param   unknown_type  $rows  param_description
 	 *
 	 * @return string
@@ -2562,15 +2334,22 @@ return true;
 
 		$color = $this->calculateAllColors(count($rows));
 		$string = "// <!-- parseOLTracks BEGIN -->\n";
-		$string .= "layer_vectors = new OpenLayers.Layer.Vector(\"" . JText::_('COM_JTG_TRACKS') . "\", { displayInLayerSwitcher: true } );\n";
-		$string .= "olmap.addLayer(layer_vectors);\n";
+                // MvL: TODO see whether we can keep the name and other options \"" . JText::_('COM_JTG_TRACKS') . "\", { displayInLayerSwitcher: true } );\n";
+		//$string .= "olmap.addLayer(layer_vectors);\n";
 		$i = 0;
 		$cache = JFactory::getCache();
 
+                // MvL: things to check: the vectors are now added one by one instead of as layers with many vectors.
+                // Check whether GPX parsing works for route...
 		foreach ($rows AS $row)
 		{
-			$file = "images/jtrackgallery/uploaded_tracks/" . $row->file;
+			$file = JUri::base()."images/jtrackgallery/uploaded_tracks/" . $row->file;
 			$filename = $file;
+                        // MvL TODO: check file type; this code builds the overview map?
+                        $string .= "layer_vector = new ol.layer.Vector({";
+                        $string.="source: new ol.source.Vector({ url: '".$file."', format: new ol.format.GPX() }),\n";
+                        /*
+                        // MvL: check remove
 			$gpsData = new GpsDataClass("Kilometer");
 			$gpsData = $cache->get(array ( $gpsData, 'loadFileAndData' ), array ($file, $filename ), "Kilometer");
 			$coords = $gpsData->allCoords;
@@ -2589,8 +2368,12 @@ return true;
 			{
 				// Dummy line for Coding standard (else required!)
 			}
+                        */
 
-			$string .= "],\n{strokeColor:\"" . $this->getHexColor("#" . $color[$i]) . "\",\nstrokeWidth: 2,\nfillColor: \"" . $this->getHexColor("#" . $color[$i]) . "\",\nfillOpacity: 0.4}));\n";
+			//$string .= "],\n{strokeColor:\"" . $this->getHexColor("#" . $color[$i]) . "\",\nstrokeWidth: 2,\nfillColor: \"" . $this->getHexColor("#" . $color[$i]) . "\",\nfillOpacity: 0.4}));\n";
+                        $string .= "   style: new ol.style.Style({ stroke: new ol.style.Stroke({ color:'" . $this->getHexColor("#" . $color[$i]) . "',\n width: 2}) })";
+                        $string .= "});\n";
+                        $string .= "olmap.addLayer(layer_vector);\n";
 			$i++;
 		}
 
@@ -2729,7 +2512,8 @@ return true;
 
 				if ($defaultMap == $map->id)
 				{
-					$baselayer = "		olmap.setBaseLayer(layer" . $name . ");\n";
+					//$baselayer = "		olmap.setBaseLayer(layer" . $name . ");\n";
+					$baselayer = "		\n";// MvL TODO check how to deal with base layers
 				}
 
 				// Activate default overlays
@@ -2749,6 +2533,7 @@ return true;
 		}
 
 		// TODO osm_getTileURL see http://wiki.openstreetmap.org/wiki/Talk:Openlayers_POI_layer_example
+                // MvL: TODO can probably remove this?
 		$document->addScript(JUri::root(true) . '/components/com_jtg/assets/js/jtg_getTileURL.js');
 
 		if ( !isset($baselayer))
@@ -2840,10 +2625,6 @@ return true;
 		$map = "// <!-- parseOLGeotaggedImgs BEGIN -->\n";
 		$httppath = JUri::root() . "images/jtrackgallery/uploaded_tracks_images/track_" . $id . "/";
 		$folder = JPATH_SITE . "/images/jtrackgallery/uploaded_tracks_images/" . 'track_' . $id . '/';
-		$map .= "layer_geotaggedImgs = new OpenLayers.Layer.Markers(\"" . JText::_('COM_JTG_GEOTAGGED_IMAGES') . "\"," .
-				" { displayInLayerSwitcher: true });" .
-				"\n	olmap.addLayer(layer_geotaggedImgs);" .
-				"\n	layer_geotaggedImgs.setVisibility(true);\n";
 
 		if (JFolder::exists($folder))
 		{
@@ -2851,6 +2632,15 @@ return true;
 
 			if ($imgs)
 			{
+				$xml = simplexml_load_file($httpiconpath . "foto.xml");
+				$sizex = $xml->sizex;
+				$sizey = $xml->sizey;
+				$offsetx = -$xml->offsetx;
+				$offsety = -$xml->offsety;
+				$map .= "photoIcon = new ol.style.Icon({src: '" . $iconfolder . "foto.png', anchorXUnits: 'pixels', anchorYUnits: 'pixels', anchor: [".$offsetx.", ".$offsety."] } );\n";
+				$map .= "layer_geotaggedImgs = new ol.layer.Vector({title: \"" . JText::_('COM_JTG_GEOTAGGED_IMAGES') . "\"," .
+			      " displayInLayerSwitcher: true, source: new ol.source.Vector(), style: new ol.style.Style( { image: photoIcon} ) });" .
+				"\n	olmap.addLayer(layer_geotaggedImgs);";
 				foreach ($imgs AS $image)
 				{
 					// Retrieve thumbnail path
@@ -2866,14 +2656,15 @@ return true;
 
 					// TODO does thumbnail have original image exif data??
 					// TODO CACHE THIS
-					$exif = exif_read_data($folder . $image);
-
-					if ( isset($exif['GPSLatitude']))
+					// This gets stripped if the picture size is reduced on upload
+					$exif_orig = exif_read_data($folder . $image);
+					$exif = exif_read_data($imagepath);
+					if ( isset($exif_orig['GPSLatitude']))
 					{
 						// Is geotagged
-						if (isset($exif["GPSImgDirection"]))
+						if (isset($exif_orig["GPSImgDirection"]))
 						{
-							$direction = $exif["GPSImgDirection"];
+							$direction = $exif_orig["GPSImgDirection"];
 							$direction = explode('/', $direction);
 							$direction = (float) ((int) $direction[0] / (int) $direction[1]);
 						}
@@ -2905,23 +2696,13 @@ return true;
 							}
 						}
 
-						$lon = $this->getGps($exif['GPSLongitude'], $exif['GPSLongitudeRef']);
-						$lat = $this->getGps($exif['GPSLatitude'], $exif['GPSLatitudeRef']);
+						$lon = $this->getGps($exif_orig['GPSLongitude'], $exif_orig['GPSLongitudeRef']);
+						$lat = $this->getGps($exif_orig['GPSLatitude'], $exif_orig['GPSLatitudeRef']);
 						$size = "width=\"" . (int) $width . "\" height=\"" . (int) $height . "\"";
 						$image = "<img " . $size . " src=\"" . $imagepath . "\" alt=\"" . $image . "\" title=\"" . $image . "\">";
-						$xml = simplexml_load_file($httpiconpath . "foto.xml");
-						$sizex = $xml->sizex;
-						$sizey = $xml->sizey;
-						$offsetx = $xml->offsetx;
-						$offsety = $xml->offsety;
-
-						$map .= "var lonLatlayer_geotaggedImgs = new OpenLayers.LonLat(" . $lon . "," . $lat . ").transform(new OpenLayers.Projection(\"EPSG:4326\"),olmap.getProjectionObject());" .
-								"\n	var sizelayer_geotaggedImgs = new OpenLayers.Size(" . $sizex . "," . $sizey . ");" .
-								"\n	var offsetlayer_geotaggedImgs = new OpenLayers.Pixel(" . $offsetx . "," . $offsety . ");" .
-								"\n	var iconlayer_geotaggedImgs = new OpenLayers.Icon(\"" . $iconfolder . "foto.png\",sizelayer_geotaggedImgs,offsetlayer_geotaggedImgs);" .
-								"\n	popupContentHTML_geotaggedImgs = '" . $image . "';" .
-								"\n	popupClass_geotaggedImgs = AutoSizeAnchored;" .
-								"\n	addlayer_geotaggedImgs(lonLatlayer_geotaggedImgs, popupClass_geotaggedImgs, popupContentHTML_geotaggedImgs, true, false, iconlayer_geotaggedImgs, olmap);\n";
+						$map .= "var lonLatImg = new ol.proj.fromLonLat([" . $lon . "," . $lat . "],olview.getProjection());\n";
+						$map .= "photoFeat = new ol.Feature( {geometry: new ol.geom.Point(lonLatImg), name: '".$image."'} );\n";
+						$map .= "layer_geotaggedImgs.getSource().addFeature(photoFeat);\n";
 					}
 				}
 			}
@@ -2967,7 +2748,7 @@ return true;
 		$map .= $this->parseOLLayer($track, $params);
 
 		$zeiten .= (int) round((microtime(true) - $jtg_microtime), 0) . " " . JText::_('COM_JTG_DEBUG_TIMES') . " parseOLLayer<br />\n";
-		$coords = $this->parseXMLlinesOL();
+		$coords = $this->parseXMLlinesOL($params);
 		$zeiten .= (int) round((microtime(true) - $jtg_microtime), 0) . " " . JText::_('COM_JTG_DEBUG_TIMES') . " parseXMLlinesOL<br />\n";
 
 		if ( $this->allCoords !== null )
@@ -2994,8 +2775,6 @@ return true;
 		}
 
 		$zeiten .= (int) round((microtime(true) - $jtg_microtime ), 0) . " " . JText::_('COM_JTG_DEBUG_TIMES') . " parseOLMapCenterSingleTrack<br />\n";
-		$map .= $this->parseOLMapFunctions();
-		$zeiten .= (int) round((microtime(true) - $jtg_microtime ), 0) . " " . JText::_('COM_JTG_DEBUG_TIMES') . " parseOLMapFunctions<br />\n";
 
 		$map .= $this->parseScriptOLFooter();
 		$zeiten .= (int) round((microtime(true) - $jtg_microtime ), 0) . " " . JText::_('COM_JTG_DEBUG_TIMES') . " parseScriptOLFooter<br />\n";
@@ -3025,7 +2804,7 @@ return true;
 		$map .= $this->parseOLMap();
 		$map .= $this->parseOLMapControl($params, true);
 		$map .= $this->parseOLLayer();
-		$coords = $this->parseXMLlinesOL();
+		$coords = $this->parseXMLlinesOL($params);
 		$map .= $coords['coords'];
 
 		if ($this->wps)
@@ -3041,8 +2820,6 @@ return true;
 		{
 			$map .= $wp['center'];
 		}
-
-		$map .= $this->parseOLMapFunctions();
 
 		$map .= $this->parseScriptOLFooter();
 		$map .= "<!-- writeSingleTrackCOM_JTG END -->\n";
@@ -3073,15 +2850,20 @@ return true;
 
 		$map = "\n<!-- parseScriptOLHead BEGIN -->\n";
 		$map .= "<script type=\"text/javascript\">\n";
-		$map .= "	OpenLayers.Popup.FramedCloud.prototype.autoSize = false;\n";
-		$map .= "	var AutoSizeFramedCloud = OpenLayers.Class(OpenLayers.Popup.FramedCloud, {\n	'autoSize': true\n	});\n";
-		$map .= "	var AutoSizeAnchored = OpenLayers.Class(OpenLayers.Popup.Anchored, {\n	'autoSize': true\n		});\n";
 		$map .= "	function slippymap_init() {\n";
 		$map .= "			// Control images folder : remember the trailing slash\n";
 
 		// TODO ACCOUNT FOR TEMPLATES
-		$map .= "			OpenLayers.ImgPath = \"$imgpath\" \n";
-		$map .= "			olmap = new OpenLayers.Map ( {theme: null, div: \"jtg_map\",\n";
+		//$map .= "			OpenLayers.ImgPath = \"$imgpath\" \n";
+		//$map .= "			olmap = new OpenLayers.Map ( {theme: null, div: \"jtg_map\",\n";
+                // MvL TODO: set image path?
+                $map .= "olview = new ol.View( {\n";
+                $map .= "                               center: [0, 0],\n";
+                //$map .= "                               zoom: 1,\n";
+                //$map .= "                               numZoomLevels: 19,\n";
+                $map .= "                               units: \"m\",\n";
+                $map .= "                       } );\n\n";
+                $map .= "                       olmap = new ol.Map ( { target: \"jtg_map\",\n";
 		$map .= "// <!-- parseScriptOLHead END -->\n";
 
 		return $map;
@@ -3096,6 +2878,7 @@ return true;
 	{
 		$map = "// <!-- parseScriptOLFooter BEGIN -->\n";
 
+		$map .= " addPopup();\n";
 		// Close slippymap_s_init script
 		$map .= "}\n";
 		$map .= "</script>\n";
@@ -3133,85 +2916,66 @@ return true;
 		$control .= "		controls:[\n";
 		$control .= "// 	Don't forget to remove comma in last line.\n// 	Otherwise it doesn't work with IE.\n";
 
-		if ( ( $params === false ) OR ( $params->get('jtg_param_allow_keymove') != "0" ) )
-		{
-			$control .= "				new OpenLayers.Control.KeyboardDefaults(),	// Tastatur: hoch, runter, links, rechts, +, -\n";
-		}
-
 		if ( ( $params === false ) OR ( $params->get('jtg_param_show_mouselocation') != "0" ) )
 		{
-			$control .= "				new OpenLayers.Control.MousePosition(),		// Koordinate des Mauszeigers (lat, lon)\n";
+			$control .= "				new ol.control.MousePosition( {coordinateFormat: ol.coordinate.createStringXY(4), projection: 'EPSG:4326' }),\n"; // Show mouse coordinate
 		}
 
 		if ( ( $params === false ) OR ( $params->get('jtg_param_show_layerswitcher') != "0" ) )
 		{
-			$control .= "				new OpenLayers.Control.LayerSwitcher(),		// Menue zum ein/aus-Schalten der Layer\n";
+                        // MvL: Layerswitcher is not default in OL6
+			//$control .= "				new OpenLayers.Control.LayerSwitcher(),		// Menue zum ein/aus-Schalten der Layer\n";
 		}
 
 		if ( $adminonly === false)
 		{
 			if ( ( $params === false ) OR ( $params->get('jtg_param_show_panzoombar') != "0" ) )
 			{
-				$control .= "				new OpenLayers.Control.PanZoomBar(),		// Zoombalken\n";
+				$control .= "				new ol.control.ZoomSlider(),\n";
 			}
 
 			if ( ( $params === false ) OR ( $params->get('jtg_param_show_attribution') != "0" ) )
 			{
-				$control .= "				new OpenLayers.Control.Attribution(),		// CC-By-SA ... \n";
+				$control .= "				new ol.control.Attribution(),		// CC-By-SA ... \n";
 			}
 
 			if ( ( $params === false ) OR ( $params->get('jtg_param_show_scale') != "0" ) )
 			{
-				$control .= "				new OpenLayers.Control.ScaleLine({\n					topOutUnits: '" .
+				$control .= "				new ol.control.ScaleLine({\n					topOutUnits: '" .
 					$topOutUnits . "',\n					topInUnits: '" .
 					$topInUnits . "',\n					bottomOutUnits: '" .
 					$bottomOutUnits . "',\n					bottomInUnits: '" .
 					$bottomInUnits . "'\n				}),
-									// Maßstab (nur an Äquator genau?)\n";
+							// Scalebar \n";
 			}
 		}
 
 		$control .= "			],\n";
-		$control .= "				maxExtent: new OpenLayers.Bounds(-20037508.34,-20037508.34,20037508.34,20037508.34),\n";
-		$control .= "				maxResolution: 156543.0399,\n";
-		$control .= "				numZoomLevels: 19,\n";
-		$control .= "				units: \"m\",\n";
-		$control .= "				projection: new OpenLayers.Projection(\"EPSG:900913\"),\n";
-		$control .= "				displayProjection: new OpenLayers.Projection(\"EPSG:4326\")\n";
-		$control .= "			} );\n\n";
+                $control .= "view: olview } );\n";
 
 		// Don't use fullscreen option on admin site
 		if ( $_SERVER['SCRIPT_URL'] !== '/administrator/index.php')
 		{
-			// Add FullScreen Toggle control Source from http://www.utagawavtt.com
-			$control .= "		// <!-- parseOLMapFullscreen button BEGIN -->\n";
-			$control .= "		var fullscreenToolbar = new OpenLayers.Control.NavToolbar();\n";
-			$control .= "		var button_fullscreen = new OpenLayers.Control.Button({\n";
-			$control .= "			displayClass: \"buttonFullScreen\",\n";
-			$control .= "			trigger: switch_fullscreen2 // Switch_fullscreen\n";
-			$control .= "		});\n";
-			$control .= "		button_fullscreen.title = \"Plein écran\";\n";
-			$control .= "		fullscreenToolbar.addControls([button_fullscreen]);\n";
+			$control .= "		var fullscreenToolbar = new ol.control.FullScreen();\n";
 			$control .= "		olmap.addControl(fullscreenToolbar);\n";
-			$control .= "		// <!-- parseOLMapFullscreen button END -->\n";
 		}
 
-		$control .= "		// <!-- parseOLMapmouse wheel (this must stay after NavToolbar) BEGIN -->\n";
-
-		if ( ( $params === false ) OR ( $params->get('jtg_param_allow_mousemove') != "0" ) )
+                // TODO: this can be implemented more elegantly by setting interactions when the map is created.
+		if ( $params->get('jtg_param_allow_keymove') == "0" ) 
 		{
-			$control .= "				var mousewheelcontrol = new OpenLayers.Control.Navigation();		// with mouse Zoom/move\n";
-			$control .= "				olmap.addControl(mousewheelcontrol);\n";
-		}
-		else
-		{
-			// See http://www.stoimen.com/blog/2009/06/20/openlayers-disable-mouse-wheel-on-zoom/
-			$control .= "				var controls = olmap.getControlsByClass('OpenLayers.Control.Navigation'); \n";
-			$control .= "				for (var i = 0; i < controls.length; ++i) \n";
-			$control .= "				controls[i].disableZoomWheel(); \n";
+			$control .= "		olmap.getInteractions().forEach(function(interaction) { ".
+				"  if (interaction instanceof ol.interaction.KeyboardPan) { interaction.setActive(false); } }, this);\n";
+			$control .= "		olmap.getInteractions().forEach(function(interaction) { ".
+				"  if (interaction instanceof ol.interaction.KeyboardZoom) { interaction.setActive(false); } }, this);\n";
 		}
 
-		$control .= "		// <!-- parseOLMapmouse wheel (this must stay after NavToolbar) END -->\n";
+		if ( $params->get('jtg_param_allow_mousemove') == "0" ) 
+		{
+			$control .= "		olmap.getInteractions().forEach(function(interaction) { ".
+				"  if (interaction instanceof ol.interaction.MouseWheelZoom) { interaction.setActive(false); } }, this);\n";
+			$control .= "		olmap.getInteractions().forEach(function(interaction) { ".
+				"  if (interaction instanceof ol.interaction.Pointer) { interaction.setActive(false); } }, this);\n";
+		}
 		$control .= "// <!-- parseOLMapControl END -->\n";
 
 		return $control;
@@ -3258,7 +3022,7 @@ return true;
 	 *
 	 * @return array
 	 */
-	private function parseXMLlinesOL()
+	private function parseXMLlinesOL($params)
 	{
 		// 	global $jtg_microtime;
 
@@ -3271,43 +3035,52 @@ return true;
 		$center = "";
 
 		$center .= "\n// <!-- parseOLTrack BEGIN -->\n";
+		$center .= "var gpsTrack = new ol.layer.Vector({ \n";
+$center .= "           source: new ol.source.Vector(),
+                // {\n"; // MvL: need to complete this!  // NB: GPX converter does not work for routes
+                //$center .= "             url: '".JUri::Root()."images/jtrackgallery/uploaded_tracks/$this->trackfilename',\n";
+                //$center .= "             format: new ol.format.GPX() }),\n";
+		$center .= "             style: new ol.style.Style({\n";
+		$center .= "             stroke: new ol.style.Stroke({\n";
+		$center .= "             color: '#ff00ff', width: 5 }) })\n";
+		$center .= "           });\n";
+		$center .= "    olmap.addLayer(gpsTrack);\n";
+		// GPX parsing here is used for routes, for the animated cursor, and for the graphs
+		// TODO: set opacity to 0.7; this is now part of the color
 		$center .= "longitudeData = $this->longitudeData;\n";
 		$center .= "latitudeData = $this->latitudeData;\n";
 		$center .= "var points = [];\n";
-		$center .= "var style ={strokeOpacity: 0.7, strokeColor: \"#ff00ff\", strokeWidth: 5, graphicZIndex: 5}\n";
 		$center .= "for (var i = 0; i < longitudeData.length; i++) {\n";
-		$center .= "	var point = new OpenLayers.Geometry.Point(longitudeData[i], latitudeData[i]). transform(new OpenLayers.Projection(\"EPSG:4326\"), olmap.getProjectionObject());\n";
-		$center .= "	points.push(point);\n";
-		$center .= "}\n";
-		$center .= "var line = new OpenLayers.Geometry.LineString(points);\n";
-		$center .= "var linefeature  = new OpenLayers.Feature.Vector(line, null, style);\n";
+                $center .= "    points.push(ol.proj.fromLonLat([longitudeData[i], latitudeData[i]], olview.getProjection()));\n";
+                $center .= "}\n";
+                $center .= "    gpsTrack.getSource().addFeature(new ol.Feature({geometry: new ol.geom.LineString(points)}));\n";
 		$track_name = htmlentities($this->trackname, ENT_QUOTES, 'UTF-8');
-		$center .= "\n// <!-- parseOLMapAnimatedCursorLayer BEGIN -->\n";
-		$center .= "animatedCursorLayer = new OpenLayers.Layer.Vector(\"$track_name\");\n";
-		$center .= "animatedCursorLayer.addFeatures([linefeature]);\n";
-		$center .= "animatedCursorLayer.gpxfeature = animatedCursorLayer.features[0];\n";
-		$center .= "olmap.addLayer(animatedCursorLayer);\n";
+                if (($params === false) OR ($params->get('jtg_param_disable_map_animated_cursor') == "0") ) {
+			$center .= "\n// <!-- parseOLMapAnimatedCursorLayer BEGIN -->\n";
+			$center .= "urlbase = '".JUri::base()."';\n"; // needed in animatedCurser.js
+			$center .= "animatedCursorLayer = new ol.layer.Vector({ ".
+				"    title: \"$track_name\",\n".
+				"    source: new ol.source.Vector(),\n".
+				"    style: animated_cursor_style,\n".
+				"    visible: false\n".
+				"});\n";
+			$center .= "animatedCursorLineFeature = new ol.Feature({ \n";
+			$center .= "     geometry: new ol.geom.LineString(points)});\n";
+			$center .= "animatedCursorLineFeature.setId('cursorTrack');\n";
+			$center .= "animatedCursorLayer.getSource().addFeature(animatedCursorLineFeature);\n";
+			$center .= "animatedCursorLayer.gpxPoints = points;\n";
+			$center .= "olmap.addLayer(animatedCursorLayer);\n";
 
-		// TODO if (AnimatedCursorLayer)
-		if (true)
-		{
 			/* Add AnimatedCursor
-			 * MUST be added after olmap.zoomToExtent
-			 */
+		 	* MUST be added after olmap.zoomToExtent
+		 	*/
 			$document = JFactory::getDocument();
 			$document->addScript( JUri::root(true) . '/components/com_jtg/assets/js/animatedCursor.js');
 
 			$center .= "\n// <!-- parseOLMapAnimatedCursorIcon BEGIN -->\n";
-			$center .= "animatedCursorIcon = new OpenLayers.Layer.Markers(\"Animated Cursor\", {\n";
-			$center .= "displayInLayerSwitcher: false });\n";
-			$center .= "olmap.addLayer(animatedCursorIcon);\n";
-			$center .= "animatedCursorIcon.setVisibility(false);\n";
-			$center .= "var size = new OpenLayers.Size(32,32);\n";
-			$center .= "var offset = new OpenLayers.Pixel(-16,-32);\n";
-			$center .= "var cursorIcon = new OpenLayers.Icon(\"" . JUri::root() . "/components/com_jtg/assets/images/orange-dot.png\",size,offset);\n";
-			$center .= "var lonLatStart = new OpenLayers.LonLat(" . $this->track[1]->start . ") . ";
-			$center .= "transform(new OpenLayers.Projection(\"EPSG:4326\"), olmap.getProjectionObject());\n";
-			$center .= "animatedCursorIcon.addMarker(new OpenLayers.Marker(lonLatStart,cursorIcon));\n";
+                	$center .= "animatedCursorIcon = new ol.geom.Point( ol.proj.fromLonLat([".$this->track[1]->start."], olview.getProjection()));\n";
+                	// setting the style directly for a feature does not seem to work...
+                	$center .= "animatedCursorLayer.getSource().addFeature( new ol.Feature( { geometry: animatedCursorIcon } ) );\n";
 			$center .= "// <!-- parseOLMapAnimatedCursorIcon END -->\n";
 		}
 		else
@@ -3326,6 +3099,17 @@ return true;
 
 		$tracksColors = $this->calculateAllColors($this->trackCount);
 
+                $string .= "var startMarkers = new ol.layer.Vector( {\n".
+                           "   source: new ol.source.Vector(),\n".
+                           "   style: new ol.style.Style({\n".
+                           "      image: new ol.style.Icon({ src: '$iconpath/trackStart.png',\n".
+                           "           anchorOrigin: 'bottom-left', anchor: [0,0] })\n})\n});\n";
+                $string .= "var endMarkers = new ol.layer.Vector( {\n".
+                           "   source: new ol.source.Vector(),\n".
+                           "   style: new ol.style.Style({\n".
+                           "      image: new ol.style.Icon({ src: '$iconpath/trackDest.png',\n".
+                           "           anchorOrigin: 'bottom-right', anchor: [0,0] })\n})\n});\n";
+
 		for ($i = 1; $i <= $this->trackCount; $i++)
 		{
 			$m = microtime(true);
@@ -3333,44 +3117,30 @@ return true;
 			$subid = $link . "&amp;subid=" . $i;
 			$color = "#" . $tracksColors[$i - 1];
 
-			$string_se .= "var lonLatStart" . $i . " = new OpenLayers.LonLat(" . $this->track[$i]->start . ") . ";
-			$string_se .= "transform(new OpenLayers.Projection(\"EPSG:4326\"), olmap.getProjectionObject());\n";
-			$string_se .= "var lonLatStop" . $i . " = new OpenLayers.LonLat(" . $this->track[$i]->stop . ") . ";
-			$string_se .= "transform(new OpenLayers.Projection(\"EPSG:4326\"), olmap.getProjectionObject());\n";
-			$string_se .= "var sizeStart" . $i . " = new OpenLayers.Size(24,24);\n";
-			$string_se .= "var sizeStop" . $i . " = new OpenLayers.Size(24,24);\n";
-			$string_se .= "var offsetStart" . $i . " = new OpenLayers.Pixel(-3,-22);\n";
-			$string_se .= "var offsetStop" . $i . " = new OpenLayers.Pixel(-19,-22);\n";
-			$string_se .= "var iconStart" . $i . " = ";
-			$string_se .= "new OpenLayers.Icon(\"" . $iconpath . "trackStart.png\",";
-			$string_se .= "sizeStart" . $i . ",offsetStart" . $i . ");\n";
-			$string_se .= "var iconStop" . $i . " = new OpenLayers.Icon(\"" . $iconpath . "trackDest.png\",";
-			$string_se .= "sizeStop" . $i . ",offsetStop" . $i . ");\n";
-			$string_se .= "layer_startstop.addMarker(new OpenLayers.Marker(lonLatStop" . $i . ",iconStop" . $i . "));\n";
-			$string_se .= "popupClassStart = AutoSizeFramedCloud;\n";
-			$string_se .= "popupContentHTMLStart = '";
-			$string_se .= "<font style=\"font-weight: bold;\" color=\"" . $color . "\">";
-			$string_se .= ($this->track[$i]->trackname? htmlentities($this->track[$i]->trackname, ENT_QUOTES, 'UTF-8') : JText::_('COM_JTG_TRACK') . $i);
-			$string_se .= "</font>";
-			$string_se .= "';\n";
-			$string_se .= "addlayer_startstop(lonLatStart" . $i . ", popupClassStart, popupContentHTMLStart, true, false, iconStart" . $i . ", olmap);\n";
-		}
+                        $string_se .= " startMarkers.getSource().addFeature( new ol.Feature({ \n".
+                                      "      geometry: new ol.geom.Point(ol.proj.transform( [".$this->track[$i]->start."],\n".
+                                      "           'EPSG:4326',   'EPSG:3857')),\n".
+                                      "      name: 'Start $i'\n".
+                                      " }) );\n";
+                        $string_se .= " endMarkers.getSource().addFeature( new ol.Feature({ \n".
+                                      "      geometry: new ol.geom.Point(ol.proj.transform( [".$this->track[$i]->stop."],\n".
+                                      "           'EPSG:4326',   'EPSG:3857')),\n".
+                                      "      name: 'End $i'\n".
+                                      " }) );\n";
 
-		$string .= "layer_startstop = new OpenLayers.Layer.Markers(";
-		$string .= "\"" . $i . ": " . $track_name . "\"";
-		$string .= ", { displayInLayerSwitcher: false }";
-		$string .= ");";
-		$string .= "olmap.addLayer(layer_startstop);";
-		$string .= "layer_startstop.setVisibility(true);";
+		}
+                $string_se .= "olmap.addLayer(startMarkers);\n";
+                $string_se .= "olmap.addLayer(endMarkers);\n";
 		$string .= $string_se;
 		$string .= "// <!-- parseXMLlines END -->\n";
 
 		$center .= "// <!-- parseOLMapCenterSingleTrack BEGIN -->\n";
-		$center .= "var min = lonLatToMercator(new OpenLayers.LonLat";
-		$center .= "(" . $this->bbox_lon_min . "," . $this->bbox_lat_min . "));\n";
-		$center .= "var max = lonLatToMercator(new OpenLayers.LonLat";
-		$center .= "(" . $this->bbox_lon_max . "," . $this->bbox_lat_max . "));\n";
-		$center .= "olmap.zoomToExtent(new OpenLayers.Bounds(min.lon, min.lat, max.lon, max.lat));\n";
+                $center .= "olview.fit( ol.proj.transformExtent( [ ".
+                           "$this->bbox_lon_min, ".
+                           "$this->bbox_lat_min, $this->bbox_lon_max, ".
+                           "$this->bbox_lat_max ], 'EPSG:4326', olview.getProjection()), {padding: [50, 50, 50, 75]} );\n";
+                // Add button to 'zoom to fit':
+                $center .= "olmap.addControl( new ol.control.ZoomToExtent( {extent: olview.calculateExtent()} ) );\n";
 		$center .= "// <!-- parseOLMapCenterSingleTrack END -->\n";
 
 		return array( "coords" => $string, "center" => $center );

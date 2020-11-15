@@ -146,18 +146,14 @@ PRIMARY KEY (`user_id`)
 
 
 INSERT IGNORE INTO `#__jtg_maps` (`name`, `ordering`, `published`, `param`, `script`, `code`) VALUES
-('COM_JTG_MAP_MAPNIK', 1, 1, 'OpenLayers.Layer.OSM.Mapnik("{name}")', '', ''),
-('COM_JTG_MAP_OSM_HIKE_AND_BIKE', 2, 1, 'OpenLayers.Layer.XYZ("{name}", "http://a.tiles.wmflabs.org/hikebike/${z}/${x}/${y}.png",{displayOutsideMaxExtent: true, isBaseLayer: true, attribution: "Map Data © <a href=http://www.openstreetmap.org/copyright>OpenStreetMap</a> contributors", transitionEffect: "resize" })', '', ''),
-('COM_JTG_MAP_CYCLEMAP', 3, 1, 'OpenLayers.Layer.OSM.CycleMap("{name}")', '', ''),
-('COM_JTG_MAP_GOOGLE_SAT', 5, 1, 'OpenLayers.Layer.Google( "{name}", {type: google.maps.MapTypeId.SATELLITE, numZoomLevels: 22})', 'http://maps.google.com/maps/api/js?v=3&amp;sensor=false', ''),
-('COM_JTG_MAP_GOOGLE_STREET', 6, 1, 'OpenLayers.Layer.Google( "{name}",  {numZoomLevels: 20})', 'http://maps.google.com/maps/api/js?v=3&amp;sensor=false', ''),
-('COM_JTG_MAP_GOOGLE_HYBRID', 7, 1, 'OpenLayers.Layer.Google( "{name}",  {type: google.maps.MapTypeId.HYBRID, numZoomLevels: 20})', 'http://maps.google.com/maps/api/js?v=3&amp;sensor=false', ''),
-('COM_JTG_MAP_GOOGLE_PHYSICAL', 8, 1, 'OpenLayers.Layer.Google("{name}", {type: google.maps.MapTypeId.TERRAIN} )', 'http://maps.google.com/maps/api/js?v=3&amp;sensor=false', ''),
-('COM_JTG_MAP_BING_AERIAL', 9, 1, 'OpenLayers.Layer.Bing({ name: "{name}", key: BingApiKey, type: "Aerial", wrapDateLine: true })', '', 'var BingApiKey =  &quot;AgnrTXBLS7KIuV5RyjA13-TlQSvXeEb43C0063AgZrNb6bldYkrH1omznJi5Mq3S&quot;;'),
-('COM_JTG_MAP_BING_ROAD', 10, 1, 'OpenLayers.Layer.Bing({ name: "{name}", key: BingApiKey, type: "Road", wrapDateLine: true })', '', 'var BingApiKey = &quot;AgnrTXBLS7KIuV5RyjA13-TlQSvXeEb43C0063AgZrNb6bldYkrH1omznJi5Mq3S&quot;;'),
-('COM_JTG_MAP_BING_HYBRID', 11, 1, 'OpenLayers.Layer.Bing({ name: "{name}", key: BingApiKey, type: "AerialWithLabels", wrapDateLine: true })', '', 'var BingApiKey = &quot;AgnrTXBLS7KIuV5RyjA13-TlQSvXeEb43C0063AgZrNb6bldYkrH1omznJi5Mq3S&quot;;'),
-('COM_JTG_MAP_FRENCH_IGN_GEOPORTAL', 12, 1, 'OpenLayers.Layer.WMTS({ 		name: "{name}", 		url: "http://gpp3-wxs.ign.fr/"+ ign_api_key + "/wmts", 		layer: "GEOGRAPHICALGRIDSYSTEMS.MAPS", 		matrixSet: "PM",         projection: new OpenLayers.Projection("EPSG:900913"),         units: "m", 		theme: null, 		style: "normal", 		numZoomLevels: 19, 		attribution: "Map base: ©IGN  Terms of Service" 	})', '', 'var ign_api_key = &quot;10gwaoqj0yqvlfi94vw12rns&quot;;'),
-('COM_JTG_MAP_HIKE_AND_BIKE_HILLSHADE', 13, 1, 'OpenLayers.Layer.XYZ("{name}", "http://a.tiles.wmflabs.org/hillshading/${z}/${x}/${y}.png",{displayOutsideMaxExtent: true, isBaseLayer: false, visibility: false, attribution: "Hillshading: SRTM3 v2 (<a href=http://www2.jpl.nasa.gov/srtm/>NASA</a>)" , transitionEffect: "resize" })', '', '');
+('COM_JTG_MAP_MAPNIK', 1, 1, 'ol.layer.Tile({ source: new ol.source.OSM(), })', '', ''),
+('COM_JTG_MAP_OSM_HIKE_AND_BIKE', 2, 1, 'ol.layer.Tile( { source: new ol.source.XYZ({name: "{name}", url: "https://{a-c}.tiles.wmflabs.org/hikebike/{z}/{x}/{y}.png", isBaseLayer: true, attributions: [ ol.source.OSM.ATTRIBUTION ] }) })', '', ''),
+('COM_JTG_MAP_CYCLEMAP', 3, 1, 'ol.layer.Tile({ source: new ol.source.OSM({ attributions: [ ol.source.OSM.ATTRIBUTION ], url: "http://{a-c}.tile.thunderforest.com/cycle/{z}/{x}/{y}.png?apikey=" }) })', '', ''),
+('COM_JTG_MAP_BING_AERIAL', 4, 1, 'ol.layer.Tile({name: "{name}", source: new ol.source.BingMaps({key: BingApiKey, imagerySet: "Aerial" })})', '', 'var BingApiKey = ;'),
+('COM_JTG_MAP_BING_ROAD', 5, 1, 'ol.layer.Tile({name: "{name}", source: new ol.source.BingMaps({key: BingApiKey, imagerySet: "Road" })})', '', 'var BingApiKey = '),
+('COM_JTG_MAP_BING_HYBRID', 6, 1, 'ol.layer.Tile({name: "{name}", source: new ol.source.BingMaps({key: BingApiKey, imagerySet: "AerialWtthLabels" })})', '', 'var BingApiKey = &quot;AgnrTXBLS7KIuV5RyjA13-TlQSvXeEb43C0063AgZrNb6bldYkrH1omznJi5Mq3S&quot;;'),
+('COM_JTG_MAP_FRENCH_IGN_GEOPORTAL', 7, 1, 'ol.layer.Tile({name: "{name}", source: new ol.source.WMTS({ url: "https://wxs.ign.fr/"+IGNapiKey+"/geoportail/wmts", 		layer: "GEOGRAPHICALGRIDSYSTEMS.MAPS", 	matrixSet: "PM",  format: "image/jpeg", projection: "EPSG:3857",   units: "m",  tileGrid: getIGNTileGrid(), style: "normal",  attributions: ["Map base: ©IGN  Terms of Service"] }) }), 'components/com_jtg/assets/js/ign.js', 'var IGNapiKey = &quot;choisirgeoportail&quot;;'),
+('COM_JTG_MAP_HIKE_AND_BIKE_HILLSHADE', 13, 1, 'ol.layer.Tile( { name: "{name}", source: new ol.source.XYZ( {  url: "http://{a-c}.tiles.wmflabs.org/hillshading/{z}/{x}/{y}.png",  attributions: "Hillshading: SRTM3 v2 (<a href=http://www2.jpl.nasa.gov/srtm/>NASA</a>)" }) , isBaseLayer: false, visibility: false, transitionEffect: "resize" })', '', '');
 
 
 INSERT IGNORE INTO `#__jtg_cats` (`id`, `parent_id`, `title`, `description`, `image`, `ordering`, `published`, `checked_out`) VALUES

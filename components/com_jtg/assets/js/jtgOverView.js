@@ -6,18 +6,114 @@ function addMarkers() {
 	arrayOfMarkers = [];
 	for (i=0; i<markers.length; i++)
 	{
-		ll = new OpenLayers.LonLat(markers[i].lon, markers[i].lat) . transform(new OpenLayers.Projection("EPSG:4326"), olmap.getProjectionObject());
-		var f= new OpenLayers.Feature.Vector(
-			new OpenLayers.Geometry.Point(ll.lon, ll.lat),
-				{description:'Marker_'+i} ,
-			markers[i].iconStyle
-		);
-		f.attributes = {
-			description : markers[i].description,
-			name : markers[i].link
-		}
+		ll = ol.proj.fromLonLat([markers[i].lon, markers[i].lat], olview.getProjection());
+		var f= new ol.Feature( {
+			 geometry: new ol.geom.Point(ll,
+				{description:'Marker_'+i}) ,
+                         description: markers[i].description,
+                         name: markers[i].link
+		} );
+                // MvL check: Somehow you cannot set the style in the constructor. Not sure why
+                f.setStyle( new ol.style.Style( {
+                            image: markers[i].iconStyle } ));
 		arrayOfMarkers.push(f);
 	}
+}
+
+// MvL: could move this to a separate file
+function addPopup() {
+    /**
+     * Elements that make up the popup.
+     */
+    var container = document.getElementById('popup');
+    var content = document.getElementById('popup-content');
+    var closer = document.getElementById('popup-closer');
+
+    var popupActive = false;
+    /**
+     * Create an overlay to anchor the popup to the map.
+     */
+    var overlay = new ol.Overlay({
+        element: container,
+        autoPan: true,
+        autoPanAnimation: {
+            duration: 250
+        }
+    });
+
+
+    /**
+     * Add a click handler to hide the popup.
+     * @return {boolean} Don't follow the href.
+     */
+    closer.onclick = function() {
+        overlay.setPosition(undefined);
+        closer.blur();
+       popupActive = false;
+        return false;
+    };
+
+    olmap.addOverlay(overlay);
+
+    function displayClusterInfo(pixel) {
+        var clusters = [];
+        olmap.forEachFeatureAtPixel(pixel, function(feature) {
+            if (feature.get('features')) { // only take clusters of features
+               clusters.push(feature);
+            }
+        });
+        if (clusters.length > 0) {
+            features = clusters[0].get('features');
+            var info = [];
+            var i, ii;
+            for (i = 0, ii = features.length; i < ii; ++i) {
+               info.push(features[i].get('name'));
+            }
+            content.innerHTML = info.join('<br>\n') || '(unknown)';
+            if (features.length == 1) {
+               content.innerHTML += features[0].get('description');
+            }
+           return true;
+            //olmap.getTarget().style.cursor = 'pointer';
+        } else {
+            content.innerHTML = '&nbsp;';
+            //olmap.getTarget().style.cursor = '';
+           return false;
+       }
+    }
+
+    /**
+     * Add a click handler to the map to render the popup.
+     */
+    olmap.on('singleclick', function(evt) {
+        var pixel = olmap.getEventPixel(evt.originalEvent);
+
+       if (displayClusterInfo(pixel)) {
+            var coordinate = evt.coordinate;
+            overlay.setPosition(coordinate);
+           popupActive = true;
+       }
+       else {
+           overlay.setPosition(undefined);
+           popupActive = false;
+       }
+    });
+
+    // Handler for pointer movement
+    olmap.on('pointermove', function(evt) {
+       if (evt.dragging || popupActive) {
+           return;
+       }
+        var pixel = olmap.getEventPixel(evt.originalEvent);
+
+       if (displayClusterInfo(pixel)) {
+            var coordinate = evt.coordinate;
+            overlay.setPosition(coordinate);
+       }
+       else {
+           overlay.setPosition(undefined);
+       }
+    });
 }
 
 // Clustering
@@ -27,12 +123,13 @@ function addClusteredLayerOfMarkers(){
             // Define three colors that will be used to style the cluster features
             // depending on the number of features they contain.
             var colors = {
-                low: "rgb(255,153,51)",
-                middle: "rgb(255,128,0)",
-                high: "rgb(204,102,0)"
+                low: [255,153,51],
+                middle: [255,128,0],
+                high: [204,102,0]
             };
 
             // Define three rules to style the cluster features.
+            /*
             var lowRule = new OpenLayers.Rule({
                 filter: new OpenLayers.Filter.Comparison({
                     type: OpenLayers.Filter.Comparison.BETWEEN,
@@ -100,46 +197,69 @@ function addClusteredLayerOfMarkers(){
             var style = new OpenLayers.Style(null, {
                 rules: [lowRule, middleRule, highRule]
             });
-
+            */
+            // Create a vector layers and add markers
+            addMarkers();
             // Create a vector layers
-            var layerVectorForMarkers = new OpenLayers.Layer.Vector("Features", {
+            var source = new ol.source.Vector({
+                features: arrayOfMarkers
+            });
+            var styleCache = {};
+            var layerVectorForMarkers = new ol.layer.Vector({name: "Features",
+                source: new ol.source.Cluster({ source: source }),
+                style: function(feature) {
+                  var size = feature.get('features').length;
+                  if (size == 1) {
+                    return feature.get('features')[0].getStyle();
+                  }
+                  var style = styleCache[size];
+                  if (!style) {
+                  var fillColor = colors.low;
+                  var pointRadius = 10;
+                  if (size > 5 && size < 20) {
+                    fillColor = colors.middle;
+                    pointRadius = 15;
+                  }
+                  else if (size >= 20) {
+                    fillColor = colors.high;
+                    pointRadius = 20;
+                  }
+
+                  style = new ol.style.Style({
+                    image: new ol.style.Circle({
+                      radius: pointRadius,
+                      stroke: new ol.style.Stroke({
+                         color: fillColor.concat([0.5]), //'#fff'
+                         width: 12
+                      }),
+                      fill: new ol.style.Fill({
+                        color: fillColor.concat([0.9]) //'#3399CC'
+                      })
+                    }),
+                    text: new ol.style.Text({
+                       text: size.toString(),
+                       fill: new ol.style.Fill({
+                          color: '#fff'
+                       })
+                    })
+                  });
+                  styleCache[size] = style;
+                  }
+                  return style;
+                }
+            });
+            /*
+            var layerVectorForMarkers = new ol.layer.Vector("Features", {
                 renderers: ['Canvas','SVG'],
                 displayInLayerSwitcher: false,
             strategies: [
 			new OpenLayers.Strategy.Cluster({distance: 15, threshold: 2})],
                 styleMap:  new OpenLayers.StyleMap(style)
             });
-
-            // Create a vector layers and add markers
-	addMarkers();
+*/
 	olmap.addLayer(layerVectorForMarkers);
-	layerVectorForMarkers.addFeatures(arrayOfMarkers);
 
-
-
-	// Create control and add some layers
-	// ----------------------------------
-	// original source: https://github.com/jorix/OL-FeaturePopups
-
-	var featurePopupControl = new OpenLayers.Control.FeaturePopups({
-	    boxSelectionOptions: {},
-	    layers: [
-		[
-		// Uses: Templates for hover & select and safe selection
-		layerVectorForMarkers, {templates: {
-		    // hover: single & list
-		    hover: '${.name}',
-		    hoverList: '${html}',
-		    hoverItem: '${.name}<br>',
-		    // select: single & list
-		    single: '<div>${.name}${.description}</div>',
-		    item: '<li>${.name}</li>',
-		    list: '${html}'
-		}}]
-	    ]
-	});
-	// featurePopupControl.layerListTemplate: 'XXX${html}'
-	olmap.addControl(featurePopupControl);
+        // addPopup(); // Now done in main javascript slippymap_init()
 
 }
 
