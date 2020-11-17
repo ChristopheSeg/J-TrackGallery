@@ -1,13 +1,17 @@
 ### J!TrackGallery
 
-J!TrackGallery is a Joomla Track Gallery component.  
-Our Goal is to provide a non commercial, free, open source, GNU/GPL2 licensed component for Joomla 2.5 and 3.x. 
-Allowing to seamlessly upload GPX tracks and display maps on Joomla based website.
-- J!Track Gallery manual: http://jtrackgallery.net/wiki/manual 
-- J!Track Gallery J!2.5 demo  : see http://demoj25.jtrackgallery.net/
-- J!Track Gallery J!3.2 demo  : see http://demoj3.jtrackgallery.net/
-- J!Track Gallery forum: http://jtrackgallery.net/forum/
-- For bug reports etc to this version, use the [github issues page](https://github.com/mastervanleeuwen/J-TrackGallery/issues)
+J!TrackGallery is a Joomla GPS Track Gallery component.  
+Our Goal is to provide a non commercial, free, open source, GNU/GPL3 licensed component for Joomla 3.x (with some backward compatibility), which allows
+ to seamlessly upload GPX tracks and display maps and tracks on Joomla based website.
+- J!Track Gallery documentation: https://mastervanleeuwen.github.io/J-TrackGallery/
+- For bug reports and enhancement requests, please use the [github issues page](https://github.com/mastervanleeuwen/J-TrackGallery/issues)
+
+#### Technical notes
+
+J!TrackGallery uses:
+- OpenLayers for maps and GPS track drawing
+- Highslide to display (geotagged) photos
+- The 'gd' PHP package to perform image operations like thumbnail creation for photos
 
 #### Status of the Project
 
@@ -22,6 +26,7 @@ Last months commits were mostly related to adding new feature and bug fix.
 
 #### History of J!TrackGallery  
 
+The original versions of J!TrackGallery were written by Christoph Seguinot and published on the jtrackgallery.net website. The website recently disappeared; new versions are hosted on Github.
 J!TrackGallery may be considered as a fork of [InJooosm](http://injooosm.sourceforge.net/)
 This valuable component is no longer maintained (last version is for Joomla 1.5). At the beginning of this project, I was not able to reach previous author so I decided to rename the component from InJooOSM to J!TrackGallery. 
 
