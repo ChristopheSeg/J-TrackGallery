@@ -1,37 +1,33 @@
-## Welcome to GitHub Pages
+### J!TrackGallery
 
-You can use the [editor on GitHub](https://github.com/mastervanleeuwen/J-TrackGallery/edit/master/docs/index.md) to maintain and preview the content for your website in Markdown files.
+J!TrackGallery is a Joomla Track Gallery component, which allows to store and display GPS track data and photos.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+Our Goal is to provide a non commercial, free, open source, GNU/GPL2 licensed component for Joomla 3.x and future versions (with some backward compatibility for older Joomla versions). 
+Allowing to seamlessly upload GPX tracks and display maps on Joomla based website.
 
-### Markdown
+- Documentation pages can be found [here](https://mastervanleeuwen.github.io/J-TrackGallery/)
+- The code is hosted on [github](https://github.com/mastervanleeuwen/J-TrackGallery)
+- For bug reports etc to this version, use the [github issues page](https://github.com/mastervanleeuwen/J-TrackGallery/issues)
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+#### Status of the Project
 
-```markdown
-Syntax highlighted code block
+0.9.28 (15 November 2020) is an inofficial release of J!Track Gallery; the main changes with respect to 0.9.27 are:
+- Move to OpenLayers v6. This changes the appearance of maps, and makes future additions easier
+- Switching between maps in the front end (user view) is not supported by the new openlayers, and has been disabled
+- Support for Route information from Garmin Basecamp
+- Google maps support is not present by default; the terms and conditions no longer allow to display Google Maps with the OpenLayers API. There is a workaround for this, but it has not been implemented in Joomla Track Gallery yet.
 
-# Header 1
-## Header 2
-### Header 3
+0.9.27 version of J!Track Gallery have been pushed in March 2017.  
+Last months commits were mostly related to adding new feature and bug fix.
 
-- Bulleted
-- List
+#### History of J!TrackGallery  
 
-1. Numbered
-2. List
+This is a continuation of the J!TrackGallery project that has been developed by Christophe Seguinot who also maintained a home/commmunity page at http://jtrackgallery.net which is no longer available
+J!TrackGallery may be considered as a fork of [InJooosm](http://injooosm.sourceforge.net/)
+This valuable component is no longer maintained (last version is for Joomla 1.5). At the beginning of this project, I was not able to reach previous author so I decided to rename the component from InJooOSM to J!TrackGallery. 
 
-**Bold** and _Italic_ and `Code` text
+It may be note that **InJooosm** was a fork of [joomgpstracks](http://www.joomlaos.de/Joomla_CMS_Downloads/Joomla_Komponenten/JoomGPSTracks.html)
 
-[Link](url) and ![Image](src)
-```
+ - Many Thanks to *Michael Pfister* (JoomGPSTracks) and *Christian Knorr* (InJooOSM) for providing this valuable component to the Open source community. 
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/mastervanleeuwen/J-TrackGallery/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+N.B. For those who always use InJooosm 0.5.7, see manual: http://jtrackgallery.net/wiki/install/migrate-from-injoosm
