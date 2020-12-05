@@ -15,6 +15,11 @@ J!TrackGallery uses:
 
 #### Status of the Project
 
+0.9.29 (5 Dec 2020) photo information is now stored in the database; the main fields are the geotag information and a title field
+- Image titles can be set/added in the update track forms and are shown in the gallery view as well as the popups on the map
+- Geotag information is extracted from the exif in the image file; plan to add possibility to set this in the edit view in the future
+several tweaks to layout and style of pages
+
 0.9.28 (15 November 2020) is an inofficial release of J!Track Gallery; the main changes with respect to 0.9.27 are:
 - Move to OpenLayers v6. This changes the appearance of maps, and makes future additions easier
 - Switching between maps in the front end (user view) is not supported by the new openlayers, and has been disabled
