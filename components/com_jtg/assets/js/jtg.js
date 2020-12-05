@@ -19,7 +19,7 @@ function getAvgTime(speed_str, length, decimal_separator)  {
 		var m = m2.split(".");
 		var time2 = parts[0] + "h " + m[1] + "m";
 		document.getElementById('time').value = time2;
-		document.getElementById('pace').value = '';
+		//document.getElementById('pace').value = '';
 }
 
 function getAvgTimeFromPace(pace_str, length, decimal_separator) {

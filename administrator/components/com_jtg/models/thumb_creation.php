@@ -96,8 +96,8 @@ function Com_Jtg_Create_thumbnails($image_dir, $image_name, $max_thumb_height = 
 	jimport('joomla.filesystem.folder');
 	jimport('joomla.filesystem.file');
 	$ext = JFile::getExt($image_name);
-	$image_path = $image_dir . $image_name;
-	$thumb_dir = $image_dir . 'thumbs/';
+	$image_path = $image_dir . '/'. $image_name;
+	$thumb_dir = $image_dir . '/thumbs/';
 
 	if (! JFolder::exists($thumb_dir))
 	{

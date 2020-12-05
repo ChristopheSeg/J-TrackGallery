@@ -6,6 +6,8 @@ DROP TABLE IF EXISTS `#__jtg_config`;
 
 DROP TABLE IF EXISTS `#__jtg_files`;
 
+DROP TABLE IF EXISTS `#__jtg_photos`;
+
 DROP TABLE IF EXISTS `#__jtg_votes`;
 
 DROP TABLE IF EXISTS `#__jtg_terrains`;

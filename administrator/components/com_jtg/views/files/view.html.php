@@ -658,50 +658,20 @@ class JtgViewFiles extends JViewLegacy
 			// 		$lists['access']	= JHtml::_('list.accesslevel', $row );
 			$lists['hidden'] = JHtml::_('select.genericlist', $yesnolist, 'hidden', 'class="inputbox" size="2"', 'id', 'title', $track->hidden);
 			$lists['uid'] = JHtml::_('list.users', 'uid', $track->uid, 1, null, 'name', 0);
-			$img_dir = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks_images/track_' . $id . '/';
 
-			if (!JFolder::exists($img_dir))
-			{
-				JFolder::create($img_dir, 0777);
-			}
+			$imagelist = $model->getImages($id);
 
 			$img_path = JUri::root() . 'images/jtrackgallery/uploaded_tracks_images/track_' . $id . '/';
-			$thumb_dir = $img_dir . 'thumbs/';
-			$thumb_dir = $img_dir . 'thumbs/';
-			$images = null;
-
-			// TODO recreate thumbnails: this must be done only when updating track, not always!!
-			if (JFolder::exists($img_dir))
+			
+			$images = "<div class=\"jtg-photo-grid\">";
+			foreach ($imagelist as $image) 
 			{
-				$imgs = JFolder::files($img_dir);
-
-				if ($imgs)
-				{
-					if (!JFolder::exists($thumb_dir))
-					{
-						JFolder::create($thumb_dir);
-					}
-
-					require_once JPATH_SITE . '/administrator/components/com_jtg/models/thumb_creation.php';
-
-					foreach ($imgs AS $image)
-					{
-						$thumb_name = 'thumb1_' . $image;
-						$thumb = Com_Jtg_Create_thumbnails($img_dir, $image, $cfg->max_thumb_height, $cfg->max_geoim_height);
-
-						if (! $thumb)
-						{
-							$images .= "<input type=\"checkbox\" name=\"deleteimage_" . str_replace('.', null, $image) . "\" value=\"" . $image . "\">" . JText::_('COM_JTG_DELETE_IMAGE') . " (" . $image . ")<br />"
-									. "<img src=\"" . $img_path . $image . "\" alt=\"" . $image . "\" title=\"" . $image . "\" /><br /><br />\n";
-						}
-						else
-						{
-							$images .= "<input type=\"checkbox\" name=\"deleteimage_" . str_replace('.', null, $image) . "\" value=\"" . $image . "\">" . JText::_('COM_JTG_DELETE_IMAGE') . " (" . $image . " {only thumbnail displayed})<br />"
-									. "<img src=\"" . $img_path . 'thumbs/' . $thumb_name . "\" alt=\"" . $image . "\" title=\"" . $image . " (thumbnail)\" /><br /><br />\n";
-						}
-					}
-				}
+				$thumb_name = 'thumb1_' . $image->filename;
+				$images .= "<div class=\"jtg-photo-item\"\><input type=\"checkbox\" name=\"deleteimage_" . $image->id. "\" value=\"" . $image->filename . "\">" . JText::_('COM_JTG_DELETE_IMAGE') . " (" . $image->filename . ")<br />\n".
+				"<img src=\"" . $img_path . 'thumbs/' . $thumb_name . "\" alt=\"" . $image->filename . "\" title=\"" . $image->filename . " (thumbnail)\" /><br />\n".
+				"<input type=\"text\" name=\"img_title_".$image->id. "\" value=\"".$image->title."\" placeholder=\"Title\"> <br /></div>\n";
 			}
+         $images .= "</div>";
 
 			$lists['published'] = JHtml::_('select.genericlist', $yesnolist, 'published', 'class="inputbox" size="2"', 'id', 'title', $track->published);
 			$lists['values'] = JtgHelper::giveGeneratedValues('backend', $this->buildImageFiletypes($track->istrack, $track->iswp, $track->isroute, $track->iscache), $track);

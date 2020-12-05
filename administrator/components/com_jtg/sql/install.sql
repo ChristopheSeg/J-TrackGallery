@@ -113,7 +113,7 @@ CREATE TABLE IF NOT EXISTS `#__jtg_photos` (
 	`title` varchar(256),
 	`filename` varchar(50) NOT NULL,
 	`lat` float(24),
-        `long` float(24), 
+        `lon` float(24), 
 	PRIMARY KEY (`id`),
         FOREIGN KEY (`trackID`) REFERENCES `#__jtg_files(id)`
 ) ENGINE=MyISAM	DEFAULT CHARSET=utf8;

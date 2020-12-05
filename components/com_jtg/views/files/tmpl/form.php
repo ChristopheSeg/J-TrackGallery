@@ -89,7 +89,7 @@ if ( (JtgHelper::userHasFrontendRights() ) OR (isset($this->id)) )
 {
 ?>
 <div class="componentheading">
-	<?php echo $title; ?>
+	<h1><?php echo $title; ?></h1>
 </div>
 <div>
 	<form name="adminForm" id="adminForm" method="post"
@@ -208,10 +208,10 @@ if ($this->cfg->access == 1)
 					echo $k;
 					$k = 1 - $k;
 					?>">
-					<td><?php echo JText::_('COM_JTG_DESCRIPTION'); ?>*
+					<td colspan="2"><p><?php echo JText::_('COM_JTG_DESCRIPTION'); ?>*:
 						<?php echo JHtml::tooltip(JText::_('COM_JTG_TT_DESC'), JText::_('COM_JTG_TT_HEADER'), 'tooltip.png'); ?>
-					</td>
-					<td><?php echo $this->editor->display('description', $description, '100%', '200', '15', '25', false, null); ?>
+					</p>
+					<?php echo $this->editor->display('description', $description, '100%', '200', '15', '25', false, null); ?>
 					</td>
 				</tr>
 				<tr class="sectiontableentry<?php
@@ -236,12 +236,11 @@ if ($this->cfg->access == 1)
 					$accept = explode(",", $accept);
 					$tt = JText::sprintf('COM_JTG_ALLOWED_FILETYPES', implode(", ", $accept)) . '  ' . JText::_('COM_JTG_MAXIMAL') . ' ' . $max_images;
 					?>
-					<td><?php echo JText::_('COM_JTG_IMAGES'); ?>
+					<td colspan="2"><?php echo JText::_('COM_JTG_IMAGES'); ?> :
 					<?php
 					echo JHtml::tooltip($tt, JText::_('COM_JTG_TT_HEADER'), 'tooltip.png');
 					?>
-					</td>
-					<td><input
+					<input
 					<?php
 					echo $max_images <= 0 ? 'disabled="disabled" ': ''; ?>
 						type="file" name="images[]" class="multi"

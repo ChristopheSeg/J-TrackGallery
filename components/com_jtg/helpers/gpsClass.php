@@ -195,8 +195,6 @@ class GpsDataClass
 
 		$this->fileChecked = true;
 
-		}
-
 		return $this;
 	}
 
@@ -2310,22 +2308,22 @@ return true;
 
 		$color = $this->calculateAllColors(count($rows));
 		$string = "// <!-- parseOLTracks BEGIN -->\n";
-                // MvL: TODO see whether we can keep the name and other options \"" . JText::_('COM_JTG_TRACKS') . "\", { displayInLayerSwitcher: true } );\n";
+		// MvL: TODO see whether we can keep the name and other options \"" . JText::_('COM_JTG_TRACKS') . "\", { displayInLayerSwitcher: true } );\n";
 		//$string .= "olmap.addLayer(layer_vectors);\n";
 		$i = 0;
 		$cache = JFactory::getCache();
 
-                // MvL: things to check: the vectors are now added one by one instead of as layers with many vectors.
-                // Check whether GPX parsing works for route...
+		// MvL: things to check: the vectors are now added one by one instead of as layers with many vectors.
 		foreach ($rows AS $row)
 		{
 			$file = JUri::base()."images/jtrackgallery/uploaded_tracks/" . $row->file;
 			$filename = $file;
-                        // MvL TODO: check file type; this code builds the overview map?
-                        $string .= "layer_vector = new ol.layer.Vector({";
-                        $string.="source: new ol.source.Vector({ url: '".$file."', format: new ol.format.GPX() }),\n";
-                        /*
-                        // MvL: check remove
+			// MvL TODO: check file type; this code builds the overview map?
+			$string .= "layer_vector = new ol.layer.Vector({";
+			$string.="source: new ol.source.Vector({ url: '".$file."', format: new ol.format.GPX() }),\n";
+
+         /*
+			// MvL: check remove
 			$gpsData = new GpsDataClass("Kilometer");
 			$gpsData = $cache->get(array ( $gpsData, 'loadFileAndData' ), array ($file, $filename ), "Kilometer");
 			$coords = $gpsData->allCoords;
@@ -2344,12 +2342,11 @@ return true;
 			{
 				// Dummy line for Coding standard (else required!)
 			}
-                        */
-
 			//$string .= "],\n{strokeColor:\"" . $this->getHexColor("#" . $color[$i]) . "\",\nstrokeWidth: 2,\nfillColor: \"" . $this->getHexColor("#" . $color[$i]) . "\",\nfillOpacity: 0.4}));\n";
-                        $string .= "   style: new ol.style.Style({ stroke: new ol.style.Stroke({ color:'" . $this->getHexColor("#" . $color[$i]) . "',\n width: 2}) })";
-                        $string .= "});\n";
-                        $string .= "olmap.addLayer(layer_vector);\n";
+			*/
+			$string .= "   style: new ol.style.Style({ stroke: new ol.style.Stroke({ color:'" . $this->getHexColor("#" . $color[$i]) . "',\n width: 2}) })";
+			$string .= "});\n";
+			$string .= "olmap.addLayer(layer_vector);\n";
 			$i++;
 		}
 
@@ -2593,7 +2590,7 @@ return true;
 	 *
 	 * @return string html code to display geotagged images
 	 */
-	private function parseOLGeotaggedImgs($id, $max_geoim_height, $iconfolder, $httpiconpath)
+	private function parseOLGeotaggedImgs($id, $max_geoim_height, $iconfolder, $httpiconpath, $imageList)
 	{
 		jimport('joomla.filesystem.folder');
 		$max_geoim_height = (int) $max_geoim_height;
@@ -2602,90 +2599,66 @@ return true;
 		$httppath = JUri::root() . "images/jtrackgallery/uploaded_tracks_images/track_" . $id . "/";
 		$folder = JPATH_SITE . "/images/jtrackgallery/uploaded_tracks_images/" . 'track_' . $id . '/';
 
-		if (JFolder::exists($folder))
+		if ($imageList)
 		{
-			$imgs = JFolder::files($folder, false);
-
-			if ($imgs)
+			$xml = simplexml_load_file($httpiconpath . "foto.xml");
+ 			$sizex = $xml->sizex;
+			$sizey = $xml->sizey;
+			$offsetx = -$xml->offsetx;
+			$offsety = -$xml->offsety;
+			$map .= "photoIcon = new ol.style.Icon({src: '" . $iconfolder . "foto.png', anchorXUnits: 'pixels', anchorYUnits: 'pixels', anchor: [".$offsetx.", ".$offsety."] } );\n";
+			$map .= "layer_geotaggedImgs = new ol.layer.Vector({title: \"" . JText::_('COM_JTG_GEOTAGGED_IMAGES') . "\"," .
+		      " displayInLayerSwitcher: true, source: new ol.source.Vector(), style: new ol.style.Style( { image: photoIcon} ) });" .
+			"\n	olmap.addLayer(layer_geotaggedImgs);";
+			foreach ($imageList AS $image)
 			{
-				$xml = simplexml_load_file($httpiconpath . "foto.xml");
-				$sizex = $xml->sizex;
-				$sizey = $xml->sizey;
-				$offsetx = -$xml->offsetx;
-				$offsety = -$xml->offsety;
-				$map .= "photoIcon = new ol.style.Icon({src: '" . $iconfolder . "foto.png', anchorXUnits: 'pixels', anchorYUnits: 'pixels', anchor: [".$offsetx.", ".$offsety."] } );\n";
-				$map .= "layer_geotaggedImgs = new ol.layer.Vector({title: \"" . JText::_('COM_JTG_GEOTAGGED_IMAGES') . "\"," .
-			      " displayInLayerSwitcher: true, source: new ol.source.Vector(), style: new ol.style.Style( { image: photoIcon} ) });" .
-				"\n	olmap.addLayer(layer_geotaggedImgs);";
-				foreach ($imgs AS $image)
-				{
+            if ($image->lon) {
 					// Retrieve thumbnail path
-					if ( JFile::exists($folder . 'thumbs' . '//thumb1_' . $image))
+					if ( JFile::exists($folder . 'thumbs/thumb1_' . $image->filename))
 					{
-						$imagepath = $httppath . 'thumbs/thumb1_' . $image;
+						$imagepath = $httppath . 'thumbs/thumb1_' . $image->filename;
 					}
 					else
 					{
 						// TODO recreate thumbnail if it does not exists (case direct FTP upload of images)
-						$imagepath = $httppath . $image;
+						$imagepath = $httppath . $image->filename;
 					}
 
-					// TODO does thumbnail have original image exif data??
-					// TODO CACHE THIS
-<<<<<<< HEAD
-					// This gets stripped if the picture size is reduced on upload
-					$exif_orig = exif_read_data($folder . $image);
-					$exif = exif_read_data($imagepath);
-					if ( isset($exif_orig['GPSLatitude']))
+					$foundpics = true;
+					$imginfo = getimagesize($folder.'/thumbs/thumb1_'.$image->filename);
+					$width = $imginfo[0];
+					$height = $imginfo[1];
+
+					if ( ( $height > $max_geoim_height ) OR ( $width > $max_geoim_height ) )
 					{
-						// Is geotagged
-						if (isset($exif_orig["GPSImgDirection"]))
+						if ( $height == $width ) // Square
 						{
-							$direction = $exif_orig["GPSImgDirection"];
-							$direction = explode('/', $direction);
-							$direction = (float) ((int) $direction[0] / (int) $direction[1]);
+							$height = $max_geoim_height;
+							$width = $max_geoim_height;
 						}
-						else
+						elseif ( $height < $width ) // Landscape
 						{
-							$direction = false;
+							$height = $max_geoim_height / $width * $height;
+							$width = $max_geoim_height;
 						}
-
-						$foundpics = true;
-						$height = (int) $exif_thumb["COMPUTED"]["Height"];
-						$width = (int) $exif_thumb["COMPUTED"]["Width"];
-
-						if ( ( $height > $max_geoim_height ) OR ( $width > $max_geoim_height ) )
+						else // Portrait
 						{
-							if ( $height == $width ) // Square
-							{
-								$height = $max_geoim_height;
-								$width = $max_geoim_height;
-							}
-							elseif ( $height < $width ) // Landscape
-							{
-								$height = $max_geoim_height / $width * $height;
-								$width = $max_geoim_height;
-							}
-							else // Portrait
-							{
-								$height = $max_geoim_height;
-								$width = $height * $max_geoim_height / $width;
-							}
+							$height = $max_geoim_height;
+							$width = $height * $max_geoim_height / $width;
 						}
-
-						$lon = $this->getGps($exif_orig['GPSLongitude'], $exif_orig['GPSLongitudeRef']);
-						$lat = $this->getGps($exif_orig['GPSLatitude'], $exif_orig['GPSLatitudeRef']);
-						$size = "width=\"" . (int) $width . "\" height=\"" . (int) $height . "\"";
-						$image = "<img " . $size . " src=\"" . $imagepath . "\" alt=\"" . $image . "\" title=\"" . $image . "\">";
-						$map .= "var lonLatImg = new ol.proj.fromLonLat([" . $lon . "," . $lat . "],olview.getProjection());\n";
-						$map .= "photoFeat = new ol.Feature( {geometry: new ol.geom.Point(lonLatImg), name: '".$image."'} );\n";
-						$map .= "layer_geotaggedImgs.getSource().addFeature(photoFeat);\n";
 					}
-				}
+
+					$size = "width=\"" . (int) $width . "\" height=\"" . (int) $height . "\"";
+					$imagehttp = "<img " . $size . " src=\"" . $imagepath . "\" alt=\"" . $image->filename . "\" title=\"" . $image->title . "\">";
+					if (strlen($image->title)) $imagehttp .= "<p>".$image->title."</p><br>";
+					$map .= "var lonLatImg = new ol.proj.fromLonLat([" . $image->lon . "," . $image->lat . "],olview.getProjection());\n";
+					$map .= "photoFeat = new ol.Feature( {geometry: new ol.geom.Point(lonLatImg), name: '".$imagehttp."'} );\n";
+					$map .= "layer_geotaggedImgs.getSource().addFeature(photoFeat);\n";
+            }
 			}
 		}
 
-		if ( $foundpics == false )
+		if ( ! $imageList )
 		{
 			return false;
 		}
@@ -2703,7 +2676,7 @@ return true;
 	 *
 	 * @return return_description
 	 */
-	public function writeTrackOL($track, $params)
+	public function writeTrackOL($track, $params, $imageList)
 	{
 		$mainframe = JFactory::getApplication();
 		$jtg_microtime = microtime(true);
@@ -2743,7 +2716,7 @@ return true;
 		}
 
 		$zeiten .= (int) round((microtime(true) - $jtg_microtime ), 0) . " " . JText::_('COM_JTG_DEBUG_TIMES') . " parseOLMarker<br />\n";
-		$map .= $this->parseOLGeotaggedImgs($track->id, $cfg->max_geoim_height, $iconpath, $httpiconpath);
+		$map .= $this->parseOLGeotaggedImgs($track->id, $cfg->max_geoim_height, $iconpath, $httpiconpath, $imageList);
 		$zeiten .= (int) round((microtime(true) - $jtg_microtime ), 0) . " " . JText::_('COM_JTG_DEBUG_TIMES') . " parseOLGeotaggedImgs<br />\n";
 
 		if ($this->wps !== false)
@@ -2931,7 +2904,7 @@ return true;
                 $control .= "view: olview } );\n";
 
 		// Don't use fullscreen option on admin site
-		if ( $_SERVER['SCRIPT_URL'] !== '/administrator/index.php')
+		if ( strpos(JUri::base(), '/administrator/') == false ) // There is probably a better way to do this
 		{
 			$control .= "		var fullscreenToolbar = new ol.control.FullScreen();\n";
 			$control .= "		olmap.addControl(fullscreenToolbar);\n";

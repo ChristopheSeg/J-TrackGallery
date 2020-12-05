@@ -716,15 +716,15 @@ if ($this->cfg->download >= 1)
 <form name="adminForm" id="adminForm" method="post"
 	action="<?php echo $this->action; ?>">
 
-	<span><label for="format"><?php echo JText::_('COM_JTG_DOWNLOAD_THIS_TRACK'); ?>&nbsp;</label>
+	<span><label for="format"><?php echo JText::_('COM_JTG_DOWNLOAD_THIS_TRACK'); ?>&nbsp;</label></span>
 
 		<?php echo $download_buttons;?>
 			<?php
 	echo JHtml::_('form.token') . "\n"; ?>
 	<input type="hidden" name="format" id="format" value="original" />
 	<input type="hidden" name="option" value="com_jtg" /> <input
-		type="hidden" name="id" value="<?php echo $this->track->id; ?>" /> <input
-		type="hidden" name="task" value="" />
+		type="hidden" name="id" value="<?php echo $this->track->id; ?>" /> 
+    <input type="hidden" name="task" value="" />
 </form>
 <?php echo $this->parseTemplate("description", null, null, "close"); ?>
 <div class="no-float"></div>
@@ -776,7 +776,7 @@ else
 	echo '<a name="jtg_param_header_description"></a>';
 }
 
-if (($this->images) AND ( $this->cfg->gallery != "none" ))
+if (($this->imageBlock) AND ( $this->cfg->gallery != "none" ))
 {
 	echo $this->parseTemplate('headline', JText::_('COM_JTG_GALLERY'), 'jtg_param_header_gallery');
 	echo $this->parseTemplate('description', $this->imageBlock);

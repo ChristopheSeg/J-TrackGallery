@@ -625,9 +625,6 @@ class JtgModelFiles extends JModelLegacy
 
 		if (count($images) > 0)
 		{
-			$img_dir = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks_images/track_' . $rows->id . '/';
-			JFolder::create($img_dir, 0777);
-
 			foreach ($images['name'] as $key => $value)
 			{
 				if ($value != "")
@@ -637,7 +634,7 @@ class JtgModelFiles extends JModelLegacy
 
 					if (in_array(strtolower($ext), $types))
 					{
-						JtgHelper::createimageandthumbs($images['tmp_name'][$key], $ext, $img_dir, $imgfilename);
+						JtgHelper::createimageandthumbs($rows->id,$images['tmp_name'][$key], $ext, $imgfilename);
 					}
 				}
 			}
@@ -859,6 +856,12 @@ class JtgModelFiles extends JModelLegacy
 			JFolder::delete($folder);
 		}
 
+		$img_path = JPATH_SITE . 'images/jtrackgallery/uploaded_tracks_images/track_' . $id;
+		if (JFolder::exists($img_path))
+		{
+			JFolder::delete($img_path);
+		}
+
 		// File (gpx?) delete
 		$filename = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks/' . $file->file;
 
@@ -870,6 +873,12 @@ class JtgModelFiles extends JModelLegacy
 		$query = "DELETE FROM #__jtg_files" . "\n WHERE id='" . $id . "'";
 		$db->setQuery($query);
 
+		if (! $db->execute())
+		{
+			return false;
+		}
+
+		$query = "DELETE FROM #__jtg_photos WHERE trackID='" . $id . "'";
 		if ($db->execute())
 		{
 			return true;
@@ -887,7 +896,7 @@ class JtgModelFiles extends JModelLegacy
 	 *
 	 * @return return_description
 	 */
-	function getImages ($id)
+	function getImageFiles ($id)
 	{
 		$img_dir = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks_images/track_' . $id;
 
@@ -900,6 +909,31 @@ class JtgModelFiles extends JModelLegacy
 
 		return $images;
 	}
+
+	/*
+	 * get list of images for a track from database
+ 	 *
+    * @param integer  $id Track id
+    *
+    * @return object
+    */
+   function getImages($id)
+   {
+       $mainframe = JFactory::getApplication(); // TODO: remove this line?
+       $db = JFactory::getDBO();
+       $query = "SELECT * FROM #__jtg_photos"
+         . "\n WHERE trackID='" . $id . "'";
+       $db->setQuery($query);
+       $result = $db->loadObjectList();
+
+       if ($db->getErrorNum())
+       {
+          echo $db->stderr();
+          return false;
+       }
+       return $result;
+	}
+
 
 	/**
 	 * function_description
@@ -922,24 +956,7 @@ class JtgModelFiles extends JModelLegacy
 		$catid = JFactory::getApplication()->input->get('catid', null, 'array');
 		$catid = $catid ? implode(',', $catid) :  '';
 		$level = JFactory::getApplication()->input->get('level', 0, 'integer');
-		$title = JFactory::getApplication()->input->get('title', '', 'string');
-		$allimages = $this->getImages($id);
-		$imgpath = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks_images/track_' . $id . '/';
-
-		foreach ($allimages as $key => $image)
-		{
-			$image = JFactory::getApplication()->input->get('deleteimage_' . str_replace('.', null, $image));
-
-			if ($image !== null)
-			{
-				JFile::delete($imgpath . $image);
-
-				// Delete thumbnails too
-				JFile::delete($imgpath . 'thumbs/thumb0_' . $image);
-				JFile::delete($imgpath . 'thumbs/thumb1_' . $image);
-				JFile::delete($imgpath . 'thumbs/thumb2_' . $image);
-			}
-		}
+		$title = $db->quote(JFactory::getApplication()->input->get('title', '', 'string'));
 
 		$terrain = JFactory::getApplication()->input->get('terrain', null, 'array');
 
@@ -957,9 +974,6 @@ class JtgModelFiles extends JModelLegacy
 		*/
 		$desc = $db->escape(implode(' ', JFactory::getApplication()->input->get('description', '', 'array')));
 
-		$jInput = JFactory::getApplication()->input;
-		$jFileInput = new jInput($_FILES);
-		$images = $jFileInput->get('images', array(), 'array');
 		$access = JRequest::getInt('access', 0);
 		$hidden = JRequest::getInt('hidden', 0);
 		$published = JRequest::getInt('published', 0);
@@ -973,35 +987,62 @@ class JtgModelFiles extends JModelLegacy
 		}
 		$default_overlays = serialize($default_overlays);
 
+		$imagelist = $this->getImages($id);
+		$imgpath = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks_images/track_' . $id . '/';
+		foreach ($imagelist as $image)
+		{
+			$delimage = JFactory::getApplication()->input->get('deleteimage_' . $image->id);
+         if ($delimage !== null)
+         {
+            JFile::delete($imgpath . $delimage);
+            JFile::delete($imgpath . 'thumbs/' . 'thumb0_' . $delimage);
+            JFile::delete($imgpath . 'thumbs/' . 'thumb1_' . $delimage);
+            JFile::delete($imgpath . 'thumbs/' . 'thumb2_' . $delimage);
+            $query = "DELETE FROM #__jtg_photos\n WHERE id='".$image->id."'";
+            $db->setQuery($query);
+            $db->execute();
+            if ($db->getErrorNum())
+            {
+               echo $db->stderr();
+            }
+         }
+  			// Set image title
+         $img_title = JFactory::getApplication()->input->get('img_title_' . $image->id, '', 'string');
+         if ($img_title !== null and $img_title != $image->title) {
+             $query = "UPDATE #__jtg_photos SET title=".$db->quote($img_title)." WHERE id='".$image->id."'";
+             $db->setQuery($query);
+             $db->execute();
+
+             if ($db->getErrorNum())
+             {
+                 echo $db->stderr();
+             }
+			}
+      }
 
 		// Images upload part
+		$jInput = JFactory::getApplication()->input;
+		$jFileInput = new jInput($_FILES);
+		$newimages = $jFileInput->get('images', array(), 'array');
 		$cfg = JtgHelper::getConfig();
 		$types = explode(',', $cfg->type);
-
-		if ($images)
+		if ($newimages)
 		{
-			if (! JFolder::exists($imgpath))
+			foreach ($newimages['name'] as $key => $value)
 			{
-				JFolder::create($imgpath, 0777);
-			}
+				$filename = JFile::makesafe($value);
+				$ext = JFile::getExt($newimages['name'][$key]);
 
-			foreach ($images['name'] as $key => $value)
-			{
-				if ($value)
+				if (in_array(strtolower($ext), $types))
 				{
-					$ext = JFile::getExt($images['name'][$key]);
-
-					if (in_array(strtolower($ext), $types))
-					{
-						JtgHelper::createimageandthumbs($images['tmp_name'][$key], $ext, $imgpath, $images['name'][$key]);
-					}
+					JtgHelper::createimageandthumbs($id,$newimages['tmp_name'][$key], $ext, $filename);
 				}
 			}
 		}
 
 		$query = "UPDATE #__jtg_files SET" .
 				"\n catid='" . $catid . "'," .
-				"\n title='" . $title . "'," .
+				"\n title=" . $title . "," .
 				"\n terrain='" . $terrain . "'," .
 				"\n description='" . $desc . "'," .
 				"\n level='" . $level . "'," .

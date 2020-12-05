@@ -387,9 +387,9 @@ class JtgModelFiles extends JModelLegacy
 	}
 
 	/**
-	 * function_description
+	 * get information about a single track from database
 	 *
-	 * @param   string  $id  param_description
+	 * @param integer  $id Track id
 	 *
 	 * @return object
 	 */
@@ -416,6 +416,32 @@ class JtgModelFiles extends JModelLegacy
 		}
 
 		return $result;
+	}
+
+	/**
+	 * get list of images for a track from database
+	 *
+	 * @param integer  $id Track id
+	 *
+	 * @return object
+	 */
+	function getImages($id)
+	{
+		$mainframe = JFactory::getApplication();
+                $db = JFactory::getDBO();
+                $query = "SELECT * FROM #__jtg_photos"
+                . "\n WHERE trackID='" . $id . "'";
+                $db->setQuery($query);
+                $result = $db->loadObjectList();
+
+                if ($db->getErrorNum())
+                {
+                        echo $db->stderr();
+
+                        return false;
+                }
+
+                return $result;
 	}
 
 	/**
@@ -571,6 +597,11 @@ class JtgModelFiles extends JModelLegacy
 				{
 					JFolder::delete($folder);
 				}
+				$img_path = JPATH_SITE . 'images/jtrackgallery/uploaded_tracks_images/track_' . $row->id;
+				if (JFolder::exists($img_path))
+				{
+					JFolder::delete($img_path);
+				}
 				// File (gpx?) delete
 				$filename = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks/' . $row->file;
 
@@ -581,6 +612,16 @@ class JtgModelFiles extends JModelLegacy
 			}
 			// Delete from DB
 			$query = 'DELETE FROM #__jtg_files WHERE id IN ( ' . $cids . ' )';
+			$this->_db->setQuery($query);
+
+			if (!$this->_db->execute())
+			{
+				$this->setError($this->_db->getErrorMsg());
+
+				return false;
+			}
+
+			$query = 'DELETE FROM #__jtg_photos WHERE trackID IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
 			if (!$this->_db->execute())
@@ -1432,7 +1473,6 @@ class JtgModelFiles extends JModelLegacy
 			$id = $result->id;
 
 			// Images upload part
-			$imgpath = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks_images/track_' . $id . '/';
 			$jInput = JFactory::getApplication()->input;
 			$jFileInput = new jInput($_FILES);
 			$images = $jFileInput->get('images', array(), 'array');
@@ -1441,7 +1481,6 @@ class JtgModelFiles extends JModelLegacy
 			{
 				$cfg = JtgHelper::getConfig();
 				$types = explode(',', $cfg->type);
-				JFolder::create($imgpath, 0777);
 
 				foreach ($images['name'] as $key => $value)
 				{
@@ -1452,7 +1491,7 @@ class JtgModelFiles extends JModelLegacy
 
 						if (in_array(strtolower($ext), $types))
 						{
-							JtgHelper::createimageandthumbs($images['tmp_name'][$key], $ext, $imgpath, $imgfilename);
+							JtgHelper::createimageandthumbs($id,$images['tmp_name'][$key], $ext, $imgfilename);
 						}
 					}
 				}
@@ -1609,30 +1648,27 @@ class JtgModelFiles extends JModelLegacy
 
 				return false;
 			}
-			else
+			$query = "SELECT id FROM #__jtg_files WHERE file='" . strtolower($filename) . "'";
+
+			$db->setQuery($query);
+			$rows = $db->loadObject();
+
+			// Images upload part
+			$jInput = JFactory::getApplication()->input;
+			$jFileInput = new jInput($_FILES);
+			$newimages = $jFileInput->get('images', array(), 'array');	
+			$cfg = JtgHelper::getConfig();
+			$types = explode(',', $cfg->type);
+
+			if (count($newimages) > 0 )
 			{
-				// Fehlt noch ...
-				$id = 0;
-				$images = 0;
-
-				$sourcePath = JPATH_SITE . '/images/joomgpstracks/' . md5($title);
-				$destPath = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks_images/track_' . $id;
-
-				if (count($images) > 0 )
+				foreach ($newimages['name'] as $key => $value)
 				{
-					JFolder::create($destPath, 0777);
-					/*
-					$img_dir = JPATH_SITE . '/images/jtrackgallery/' . md5($title);
-					*/
+					$ext = JFile::getExt($newimages['name'][$key]);
 
-					foreach ($images['name'] as $key => $value)
+					if (in_array($ext, $types))
 					{
-						$ext = JFile::getExt($images['name'][$key]);
-
-						if (in_array($ext, $types))
-						{
-							JtgHelper::createimageandthumbs($images['tmp_name'][$key], $ext, $destPath,  $images['name'][$key]);
-						}
+						JtgHelper::createimageandthumbs($row->id, $images['tmp_name'][$key], $ext, $images['name'][$key]);
 					}
 				}
 			}
@@ -1642,13 +1678,14 @@ class JtgModelFiles extends JModelLegacy
 	}
 
 	/**
-	 * function_description
+	 * Read image list from files system
+         *   deprecated; used to be called getImages()
 	 *
 	 * @param   unknown_type  $id  param_description
 	 *
 	 * @return return_description
 	 */
-	function getImages($id)
+	function getImageFiles($id)
 	{
 		jimport('joomla.filesystem.folder');
 		$img_dir = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks_images/track_' . $id;
@@ -1696,21 +1733,36 @@ class JtgModelFiles extends JModelLegacy
 		}
 		$default_overlays = serialize($default_overlays);
 
-		$allimages = $this->getImages($id);
+		$imagelist = $this->getImages($id);
 		$imgpath = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks_images/track_' . $id . '/';
 
-		if ($allimages)
+		foreach ($imagelist as $image)
 		{
-			foreach ($allimages AS $key => $image)
+			$delimage = JFactory::getApplication()->input->get('deleteimage_' . $image->id);
+			if ($delimage !== null)
 			{
-				$image = JFactory::getApplication()->input->get('deleteimage_' . str_replace('.', null, $image));
-
-				if ($image !== null)
+				JFile::delete($imgpath . $delimage);
+				JFile::delete($imgpath . 'thumbs/' . 'thumb0_' . $delimage);
+				JFile::delete($imgpath . 'thumbs/' . 'thumb1_' . $delimage);
+				JFile::delete($imgpath . 'thumbs/' . 'thumb2_' . $delimage);
+				$query = "DELETE FROM #__jtg_photos\n WHERE id='".$image->id."'";
+				$db->setQuery($query);
+				$db->execute();
+				if ($db->getErrorNum())
 				{
-					JFile::delete($imgpath . $image);
-					JFile::delete($imgpath . 'thumbs/' . 'thumb0_' . $image);
-					JFile::delete($imgpath . 'thumbs/' . 'thumb1_' . $image);
-					JFile::delete($imgpath . 'thumbs/' . 'thumb2_' . $image);
+					echo $db->stderr();
+				}
+			}
+         // Set image title
+			$img_title = JFactory::getApplication()->input->get('img_title_' . $image->id, '', 'string');
+			if ($img_title !== null and $img_title != $image->title) {
+				$query = "UPDATE #__jtg_photos SET title=".$db->quote($img_title)." WHERE id='".$image->id."'";
+				$db->setQuery($query);
+				$db->execute();
+
+				if ($db->getErrorNum())
+				{
+					echo $db->stderr();
 				}
 			}
 		}
@@ -1737,22 +1789,22 @@ class JtgModelFiles extends JModelLegacy
 		// 	images upload part
 		$jInput = JFactory::getApplication()->input;
 		$jFileInput = new jInput($_FILES);
-		$images = $jFileInput->get('images', array(), 'array');
+		$newimages = $jFileInput->get('images', array(), 'array');
 
-		if (count($images['name']) > 0)
+		if (count($newimages['name']) > 0)
 		{
 			$cfg = JtgHelper::getConfig();
 			$types = explode(',', $cfg->type);
 			JFolder::create($imgpath, 0777);
 
-			foreach ($images['name'] as $key => $value)
+			foreach ($newimages['name'] as $key => $value)
 			{
 				$filename = JFile::makesafe($value);
-				$ext = JFile::getExt($images['name'][$key]);
+				$ext = JFile::getExt($newimages['name'][$key]);
 
 				if (in_array(strtolower($ext), $types))
 				{
-					JtgHelper::createimageandthumbs($images['tmp_name'][$key], $ext, $imgpath, $filename);
+					JtgHelper::createimageandthumbs($id,$newimages['tmp_name'][$key], $ext, $filename);
 				}
 			}
 		}

@@ -68,6 +68,7 @@ if ($this->id >= 1)
 	$file = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks/' . $this->track->file;
 	$gpsData = new GpsDataClass($cfg->unit);
 	$gpsData = $cache->get(array ( $gpsData, 'loadFileAndData' ), array ($file, $track->file ), $cfg->unit);
+   $imageList = $model->getImages($this->id);
 
 	if ($gpsData->displayErrors())
 	{
@@ -75,7 +76,7 @@ if ($this->id >= 1)
 	}
 	else
 	{
-		$map = $cache->get(array ( $gpsData, 'writeTrackOL' ), array ( $track, $params ));
+		$map = $cache->get(array ( $gpsData, 'writeTrackOL' ), array ( $track, $params, $imageList ));
 		$map.= '<style type="text/css">
 
 .olButton::before{
@@ -107,7 +108,7 @@ img.olTileImage {
 	<table class="adminlist">
 		<thead>
 			<tr>
-				<th colspan="3" align="center"><?php echo $title; ?></th>
+				<th colspan="2" align="center"><h1><?php echo $title; ?></h1></th><th></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -131,7 +132,7 @@ img.olTileImage {
 					}
 					?>
 				</td>
-				<td rowspan="12" width="1" valign="top"><?php echo $map; ?></td>
+				<td rowspan="12" valign="top"><?php echo $map; ?></td>
 			</tr>
 <?php
 if ($this->id >= 1)

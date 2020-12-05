@@ -305,50 +305,22 @@ class JtgViewFiles extends JViewLegacy
 		}
 
 		$level = $model->getLevelSelect($sellevel);
-		$img_dir = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks_images/track_' . $id . '/';
-		$thumb_dir = $img_dir . 'thumbs/';
 		$img_path = JUri::root() . 'images/jtrackgallery/uploaded_tracks_images/track_' . $id . "/";
 		$images = null;
 		$imgcount = 0;
 
-		if (JFolder::exists($img_dir))
-		{
-			$imgs = JFolder::files($img_dir);
-
-			if ($imgs)
-			{
-				$imgcount = count($imgs);
-
-				if (!JFolder::exists($thumb_dir))
-				{
-					JFolder::create($thumb_dir);
-				}
-
-				require_once JPATH_SITE . '/administrator/components/com_jtg/models/thumb_creation.php';
-
-				foreach ($imgs AS $image)
-				{
-					$ext = JFile::getExt($image);
-					$thumb_name = 'thumb1_' . $image;
-
-					// TODO Remove {Update or New File} update should have been already made before??
-					$thumb = Com_Jtg_Create_thumbnails($img_dir, $image, $cfg->max_thumb_height, $cfg->max_geoim_height);
-
-					if (! $thumb)
-					{
-						$images .= "<input type=\"checkbox\" name=\"deleteimage_" . str_replace('.', null, $image) . "\" value=\""
-						. $image . "\">" . JText::_('COM_JTG_DELETE_IMAGE') . " (" . $image . ")<br />" .
-						"<img src=\"" . $img_path . $image . "\" alt=\"" . $image . "\" title=\""
-						. $image . "\" /><br /><br />\n";
-					}
-					else
-					{
-						$images .= "<input type=\"checkbox\" name=\"deleteimage_" . str_replace('.', null, $image) . "\" value=\""
-						. $image . "\">" . JText::_('COM_JTG_DELETE_IMAGE') . " (" . $image . " {only thumbnail displayed})<br />" .
-						"<img src=\"" . $img_path . 'thumbs/' . $thumb_name . "\" alt=\"" . $image . "\" title=\"" . $image . " (thumbnail)\" /><br /><br />\n";
-					}
-				}
+      if (isset($id)) {
+			$imageList = $model->getImages($id);
+			$images = "<div class=\"jtg-photo-grid\">";
+			foreach ($imageList as $image) {
+				$thumb_name = 'thumb1_' . $image->filename;
+				$images .= "<div class=\"jtg-photo-item\"><input type=\"checkbox\" name=\"deleteimage_" . $image->id . "\" value=\""
+						. $image->filename . "\">" . JText::_('COM_JTG_DELETE_IMAGE') . " (" . $image->filename . ")<br />" .
+						"<img src=\"" . $img_path . 'thumbs/' . $thumb_name . "\" alt=\"" . $image->filename . "\" title=\"" . $image->filename . " (thumbnail)\" /><br />".
+						"<input type=\"text\" class=\"jtg-photo-title\" name=\"img_title_".$image->id . "\" value = \"".$image->title."\" placeholder=\"Title\" maxlength=\"256\"> <br /></div>\n";
+				$imgcount++;
 			}
+         $images .= "</div>";
 		}
 
 		$size = min(count($row), 6);
@@ -482,7 +454,7 @@ class JtgViewFiles extends JViewLegacy
 		$document = JFactory::getDocument();
 
 		// Load Openlayers stylesheet first (for overriding)
-                $document->addStyleSheet(JUri::root(true) . '/components/com_jtg/assets/template/default/ol.css');
+		$document->addStyleSheet(JUri::root(true) . '/components/com_jtg/assets/template/default/ol.css');
 
 		// Then load jtg_map stylesheet
 		$tmpl = ($cfg->template = "") ? $cfg->template : 'default';
@@ -500,11 +472,11 @@ class JtgViewFiles extends JViewLegacy
 		// Kartenauswahl BEGIN
 		$document->addScript( JUri::root(true) . '/components/com_jtg/assets/js/jtg.js');
 
-		$action = "/index.php?option=com_jtg&amp;controller=download&amp;task=download";
+		$action = JUri::root()."/index.php?option=com_jtg&amp;controller=download&amp;task=download";
 		$file = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks/' . strtolower($track->file);
 		$gpsData = new GpsDataClass($cfg->unit);
 
-		// Cache: $gpsData structure is cached, after LaodFileAndData
+		// Cache: $gpsData structure is cached, after LoadFileAndData
 		$gpsData = $cache->get(array ( $gpsData, 'loadFileAndData' ), array ($file, $track->file ), $cfg->unit);
 
 		if ($gpsData->displayErrors())
@@ -516,8 +488,9 @@ class JtgViewFiles extends JViewLegacy
 		}
 		else
 		{
+		   $imageList = $model->getImages($id);
 			// Kartenauswahl BEGIN
-			$map = $cache->get(array ( $gpsData, 'writeTrackOL' ), array ( $track, $params ));
+			$map = $cache->get(array ( $gpsData, 'writeTrackOL' ), array ( $track, $params, $imageList ));
 
 			// Kartenauswahl END
 			$distance_float = (float) $track->distance;
@@ -543,11 +516,13 @@ class JtgViewFiles extends JViewLegacy
 		// Load images if exists
 		$img_dir = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks_images/track_' . $id;
 
+                /*
 		if (JFolder::exists($img_dir))
 		{
 			$exclude = array ( '.db', '.txt' );
 			$images = JFolder::files($img_dir, '', false, false, $exclude);
 		}
+                */
 
 		$jscript = "<script type=\"text/javascript\">
 		Joomla.submitbutton = function(pressbutton)  {
@@ -557,10 +532,15 @@ class JtgViewFiles extends JViewLegacy
 
 		$imageBlock = null;
 
+		$imageList = $model->getImages($id);
+
+                /*
 		if ((isset($images) AND (count($images) > 0)))
 		{
 			$this->images = $images;
-
+		*/
+		if ($imageList !== null) {
+         $this->images = true;
 			switch ($cfg->gallery)
 			{
 				case 'jd2' :
@@ -573,24 +553,18 @@ class JtgViewFiles extends JViewLegacy
 					showCarousel: false
 			});
 			}
-			window.addEvent('domready',startGallery);
+			window.addEventListener('domready',startGallery);
 			</script>\n";
-					$document->addScript( JUri::root(true) . '/components/com_jtg/assets/js/jd.gallery.js');
+			JHTML::_('behavior.framework', true); // Load mootools
+			$document->addScript( JUri::root(true) . '/components/com_jtg/assets/js/jd.gallery.js');
 					$imageBlock .= "<div id=\"myGallery\">";
 
-					foreach ($images as $image)
+					foreach ($imageList as $image)
 					{
-						$ext = JFile::getExt($image);
-						$imgtypes = explode(',', $cfg->type);
-
-						if ( in_array(strtolower($ext), $imgtypes) )
-						{
-							$imageBlock .= "	<div class=\"imageElement\">
-							<h3>" . $track->title . " <small>(" . $image . ")</small></h3>
-							<p></p>
-							<img src=\"" . JUri::base() . "images/jtrackgallery/uploaded_tracks_images/track_" . $id . "/" . $image . "\" class=\"full\" height=\"0px\" />
-							</div>\n";
-						}
+						$imageBlock .= "	<div class=\"imageElement\"> <h3>" . $track->title . " <small>(" . $image->filename . ")</small></h3>
+						<p></p>
+						<img src=\"" . JUri::base() . "images/jtrackgallery/uploaded_tracks_images/track_" . $id . "/" . $image->filename . "\" class=\"full\" height=\"0px\" />
+						</div>\n";
 					}
 
 					$imageBlock .= "</div>\n";
@@ -641,71 +615,46 @@ class JtgViewFiles extends JViewLegacy
 
 					// TODO This style sheet is not overrided.
 					$imageBlock .= "\n<div class=\"highslide-gallery\" style=\"width: auto; margin: auto\">\n";
-					$imgcount = count($images);
+					$imageBlock .= "\n<div class=\"jtg-photo-grid\">\n";
+					$imgcount = count($imageList);
 
-					foreach ($images as $image)
+					foreach ($imageList as $image)
 					{
-						$ext = JFile::getExt($image);
-						$imgtypes = explode(',',  $cfg->type);
-
-						if ( in_array(strtolower($ext), $imgtypes) )
+						if ($imgcount < 5)
 						{
-							if ($imgcount < 5)
-							{
-								$thumb = 'thumbs/thumb1_' . $image;
-							}
-							else
-							{
-								$thumb = 'thumbs/thumb2_' . $image;
-							}
-
-							if ( ! JFile::exists(JPATH_SITE . '/images/jtrackgallery/uploaded_tracks_images/track_' . $id . '/' . $thumb) )
-							{
-								$thumb = $image;
-							}
-							else
-							{
-								// Dummy line for Coding standard
-							}
-
-							$imageBlock .= "	<a class=\"highslide\" href='" . JUri::base() . "images/jtrackgallery/uploaded_tracks_images/track_" . $id . "/" . $image . "' title=\"" . $image . "\" onclick=\"return hs.expand(this)\">
-							<img src=\"" . JUri::base() . "images/jtrackgallery/uploaded_tracks_images/track_" . $id . '/' . $thumb . "\" alt=\"$image\"  /></a>\n\n";
+							$thumb = 'thumbs/thumb1_' . $image->filename;
 						}
+						else
+						{
+							$thumb = 'thumbs/thumb2_' . $image->filename;
+						}
+
+						if ( ! JFile::exists(JPATH_SITE . '/images/jtrackgallery/uploaded_tracks_images/track_' . $id . '/' . $thumb) )
+						{
+							$thumb = $image->filename;
+						}
+						$title = $image->title;
+						if (strlen($title)==0) $title = $image->filename;
+						$imageBlock .= "	<div class=\"jtg-photo-item\"> <a class=\"highslide\" href='" . JUri::base() . "images/jtrackgallery/uploaded_tracks_images/track_" . $id . "/" . $image->filename . "' title=\"" . $title . "\" onclick=\"return hs.expand(this)\">
+							<img src=\"" . JUri::base() . "images/jtrackgallery/uploaded_tracks_images/track_" . $id . '/' . $thumb . "\" alt=\"$image->filename\"  /></a>
+                     <div class=\"jtg-caption\">$image->title</div> <br>
+                     </div>\n";
 					}
 
-					$imageBlock .= "</div>\n";
+					$imageBlock .= "</div></div>\n";
 					break;
 
 				case 'straight' :
 					$galscript = "";
-					$i = 0;
 
-					foreach ($images as $image)
+               $imageBlock .= "<div class=\"jtg-photo-grid\">\n";
+					foreach ($imageList as $image)
 					{
-						$i++;
-						$ext = JFile::getExt($image);
-						$imgtypes = explode(',', $cfg->type);
-
-						if (in_array(strtolower($ext), $imgtypes))
-						{
-							if ($i != 0)
-							{
-								$imageBlock .= "<br /><br />";
-							}
-							else
-							{
-								// Dummy line for Coding standard
-							}
-
-							$imageBlock .= "<img src=\"" . JUri::base() . "images/jtrackgallery/uploaded_tracks_images/track_" . $id . "/"
-							. $image . "\" alt=\"" . $track->title . " (" . $image . ")" . "\" title=\"" . $track->title
-							. " (" . $image . ")" . "\" />\n";
-						}
-						else
-						{
-							// Dummy line for Coding standard
-						}
+						$imageBlock .= "<div class=\"jtg-photo-item\"> <img src=\"" . JUri::base() . "images/jtrackgallery/uploaded_tracks_images/track_" . $id . "/"
+							. $image->filename . "\" alt=\"" . $image->filename . " (" . $image->filename . ")" . "\" title=\"" . $track->title
+							. "\" />\n <br>$image->title</div>";
 					}
+               $imageBlock .= "</div>\n";
 					break;
 
 				case 'ext_plugin':
@@ -721,7 +670,7 @@ class JtgViewFiles extends JViewLegacy
 		}
 		else
 		{
-			$this->images = false;
+			$this->images = null; //false;
 			$galscript = "";
 		}
 
@@ -754,9 +703,6 @@ class JtgViewFiles extends JViewLegacy
 		$this->distance = $distance;
 		$this->distance_float = $distance_float;
 		$this->action = $action;
-		/*
-		 * $this->images = $images;
-		 */
 		$this->date = $date;
 		$this->profile = $profile;
 		$this->beatdata = $gpsData->beatData;

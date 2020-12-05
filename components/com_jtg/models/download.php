@@ -73,7 +73,7 @@ class JtgModelDownload extends JModelLegacy
 			return null;
 		}
 
-		$coords = $gpsData->allCoords;
+		$coords = $gpsData->allCoords;  //  TODO: allCoords is no longer set 
 
 		switch ($format)
 		{

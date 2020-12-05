@@ -799,8 +799,53 @@ static public function autoRotateImage($image) {
     $image->setImageOrientation(imagick::ORIENTATION_TOPLEFT); 
 } 
  
+        /**
+         * function_description
+         *
+         * @param   unknown_type  $coordPart  param_description
+         *
+         * @return return_description
+         */
+        static public function gps2Num($coordPart)
+        {
+                $parts = explode('/', $coordPart);
+
+                if ((count($parts)) <= 0)
+                {
+                        return 0;
+                }
+
+                if ((count($parts)) == 1)
+                {
+                        return $parts[0];
+                }
+
+                return floatval($parts[0]) / floatval($parts[1]);
+        }
+	
+	 /**
+         * Pass in GPS.GPSLatitude or GPS.GPSLongitude or something in that format
+         *
+         * http://stackoverflow.com/questions/2526304/php-extract-gps-exif-data/2572991#2572991
+         * Thanks to Gerald Kaszuba http://geraldkaszuba.com/
+         *
+         * @param   unknown_type  $exifCoord  param_description
+         * @param   unknown_type  $hemi       param_description
+         *
+         * @return number
+         */
+        static public function getGpsFromExif($exifCoord, $hemi)
+        {
+                $degrees = count($exifCoord) > 0 ? jtgHelper::gps2Num($exifCoord[0]) : 0;
+                $minutes = count($exifCoord) > 1 ? jtgHelper::gps2Num($exifCoord[1]) : 0;
+		$seconds = count($exifCoord) > 2 ? jtgHelper::gps2Num($exifCoord[2]) : 0;
+                $flip = ($hemi == 'W' or $hemi == 'S') ? -1 : 1;
+
+                return $flip * ($degrees + $minutes / 60 + $seconds / 3600);
+        }
+
 	/**
-	 * creates the images; resize if original is larger than maxsize
+	 * resize if needed and convert to jpg using gd
 	 *
 	 * @param   string  $file_tmp_name  param_description
 	 * @param   string  $ext            param_description
@@ -809,98 +854,11 @@ static public function autoRotateImage($image) {
 	 *
 	 * @return return_description
 	 */
-	static public function createimageandthumbs($file_tmp_name, $ext, $image_dir, $imagefname)
+	static public function resizeConvertGd($file_tmp_name, $ext, $image_dir, $outfname)
 	{
-                // TODO: could do this more elegantly; first check whether resizing is needed...
-                // TODO: also use imagick for thumbnails? reuse code?
-		if (!phpversion('imagick')) error_log('ERROR: Need imagick php component to resize images');
-
-		if (!phpversion('imagick') && phpversion('gd')) {
-			error_log('WARNING: falling back to using gd; this will strip exif data');
-			return createimageandthumbs_gd($file_tmp_name, $ext, $image_dir, $imagefname);
-		}
-
-		require_once JPATH_SITE . '/administrator/components/com_jtg/models/thumb_creation.php';
-		jimport('joomla.filesystem.file');
-                $image = new Imagick($file_tmp_name);
-                jtgHelper::autoRotateImage($image);
-		//list($width, $height) = getimagesize($file_tmp_name);
-		$height = $image->getImageHeight();
-		$width = $image->getImageWidth();
-		$cfg = self::getConfig();
-
-		// Pixsize in pixel
-		$maxsize = (int) $cfg->max_size;
-		$resized = false;
-
-		if ( ( $height > $maxsize ) OR ( $width > $maxsize ) )
-		{
-			if ( $height == $width )
-			{
-				// Square
-				$newheight = $maxsize;
-				$newwidth = $maxsize;
-			}
-			elseif ( $height < $width )
-			{
-				// Landscape
-				$newheight = $maxsize / $width * $height;
-				$newwidth = $maxsize;
-			}
-			else
-			{
-				// Portrait
-				$newheight = $maxsize;
-				$newwidth = $width / $height * $newheight;
-			}
-
-			$resized = true;
-			$newwidth = (int) $newwidth;
-			$newheight = (int) $newheight;
-		        $image->resizeImage($newwidth, $newheight, imagick::FILTER_LANCZOS, 1);
-		}
-		else
-		{
-			$newwidth = (int) $width;
-			$newheight = (int) $height;
-		}
-		$ext = JFile::getExt($imagefname);
-		if ( $ext != 'png' )
-			$imagefname = str_replace('.' . $ext, '.jpg', $imagefname);
-		$statusupload = $image->writeImage($image_dir.'/'.$imagefname);
-		$image->destroy();
-
-		if ($statusupload)
-		{
-			$statusthumbs = Com_Jtg_Create_thumbnails(
-					$image_dir, $imagefname,
-					$cfg->max_thumb_height, $cfg->max_geoim_height
-			);
-		}
-
-		if ($statusupload and $statusthumbs)
-		{
-			return true;
-		}
-
-		return false;
-	}
-	/**
-	 * creates the images; resize if original is larger than maxsize
-	 *
-	 * @param   string  $file_tmp_name  param_description
-	 * @param   string  $ext            param_description
-	 * @param   string  $image_dir      param_description
-	 * @param   string  $image          param_description
-	 *
-	 * @return return_description
-	 */
-	static public function createimageandthumbs_gd($file_tmp_name, $ext, $image_dir, $image)
-	{
-		require_once JPATH_SITE . '/administrator/components/com_jtg/models/thumb_creation.php';
-		$filepath = $image_dir . $image;
 		jimport('joomla.filesystem.file');
 
+                error_log("File to load ".$file_tmp_name." ext ".$ext);
 		switch (strtolower($ext))
 		{
 			case 'jpeg':
@@ -959,55 +917,160 @@ static public function autoRotateImage($image) {
 		$tmp = imagecreatetruecolor($newwidth, $newheight);
 		imagecopyresampled($tmp, $src, 0, 0, 0, 0, $newwidth, $newheight, $width, $height);
 
+		$outfullname = $image_dir .'/'. $outfname;
 		switch (strtolower($ext))
 		{
 			case 'jpeg':
 			case 'pjpeg':
 			case 'jpg':
-				$filename = $filepath;
-
 				if ($resized)
 				{
 					// Upload the image and convert
-					$statusupload = imagejpeg($tmp, $filepath, 100);
+					$statusupload = imagejpeg($tmp, $outfullname, 100);
 				}
 				else
 				{
 					// Copy the image and convert NOT (for exif-data)
-					$statusupload = JFile::copy($file_tmp_name, $filepath);
+					$statusupload = JFile::copy($file_tmp_name, $outfullname);
 				}
 				break;
 
 			case 'png':
-				$filename = explode('.', $filepath);
-				$extension = $filename[(count($filename) - 1)];
-				$filename = str_replace('.' . $extension, '.jpg', $filepath);
-
-				// Upload the image
-				$statusupload = imagejpeg($tmp, $filename, 100);
-				break;
-
 			case 'gif':
-				$filename = explode('.', $filepath);
-				$extension = $filename[(count($filename) - 1)];
-				$filename = str_replace('.' . $extension, '.jpg', $filepath);
-
 				// Upload the image
-				$statusupload = imagejpeg($tmp, $filename, 100);
+				$statusupload = imagejpeg($tmp, $outfullname, 100);
 				break;
 		}
 
 		imagedestroy($tmp);
 
-		if ($statusupload)
+		return $statusupload;
+	}
+
+	/**
+	 * resize if needed and convert to jpg using ImageMagick
+	 *
+	 * @param   string  $file_tmp_name  param_description
+	 * @param   string  $ext            param_description
+	 * @param   string  $image_dir      param_description
+	 * @param   string  $image          param_description
+	 *
+	 * @return return_description
+	 */
+	static public function resizeConvertImk($file_tmp_name, $image_dir, $outfname) {
+		$image = new Imagick($file_tmp_name);
+		jtgHelper::autoRotateImage($image);
+		$height = $image->getImageHeight();
+		$width = $image->getImageWidth();
+		$cfg = self::getConfig();
+
+		// Pixsize in pixel
+		$maxsize = (int) $cfg->max_size;
+		$resized = false;
+
+		if ( ( $height > $maxsize ) OR ( $width > $maxsize ) )
 		{
-			$statusthumbs = Com_Jtg_Create_thumbnails(
-					$image_dir, $image,
-					$cfg->max_thumb_height, $cfg->max_geoim_height
-			);
+			if ( $height == $width )
+			{
+				// Square
+				$newheight = $maxsize;
+				$newwidth = $maxsize;
+			}
+			elseif ( $height < $width )
+			{
+				// Landscape
+				$newheight = $maxsize / $width * $height;
+				$newwidth = $maxsize;
+			}
+			else
+			{
+				// Portrait
+				$newheight = $maxsize;
+				$newwidth = $width / $height * $newheight;
+			}
+
+			$resized = true;
+			$newwidth = (int) $newwidth;
+			$newheight = (int) $newheight;
+			$image->resizeImage($newwidth, $newheight, imagick::FILTER_LANCZOS, 1);
+		}
+		else
+		{
+			$newwidth = (int) $width;
+			$newheight = (int) $height;
+		}
+		$status = $image->writeImage($image_dir.'/'.$outfname);
+		$image->destroy();
+		return $status;
+	}
+
+	/**
+	 * creates the images; resize if original is larger than maxsize
+	 *
+	 * @param   string  $file_tmp_name  param_description
+	 * @param   string  $ext            param_description
+	 * @param   string  $image_dir      param_description
+	 * @param   string  $image          param_description
+	 *
+	 * @return return_description
+	 */
+	static public function createimageandthumbs($trackID, $file_tmp_name, $ext, $outfname)
+	{
+
+		require_once JPATH_SITE . '/administrator/components/com_jtg/models/thumb_creation.php';
+		jimport('joomla.filesystem.file');
+		$cfg = self::getConfig();
+
+		$image_dir = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks_images/track_' . $trackID;
+		if (! JFolder::exists($image_dir))
+		{  	
+			JFolder::create($image_dir, 0777);
 		}
 
-		if ($statusupload and $statusthumbs)
+		$outfname = str_replace('.' . $ext, '.jpg', $outfname);		
+		if (phpversion('imagick')) {
+		   $statusupload = jtgHelper::resizeConvertImk($file_tmp_name, $image_dir, $outfname);
+		}
+		else if (phpversion('gd')) {
+		   $statusupload = jtgHelper::resizeConvertGd($file_tmp_name, $ext, $image_dir, $outfname);
+		}
+		else error_log('ERROR: need ImageMagick or gd extenstion to handle images');
+
+		if ($statusupload)
+		{
+
+		//
+		//  Add entry to image database
+		//
+		$query = "INSERT INTO #__jtg_photos SET" . "\n trackID='" . $trackID ."',\n".
+			"filename='".$outfname."'";
+
+		$exif = exif_read_data($file_tmp_name);
+		if ( isset($exif['GPSLatitude']))
+		{
+			$lon = jtgHelper::getGpsFromExif($exif['GPSLongitude'], $exif['GPSLongitudeRef']);
+			$lat = jtgHelper::getGpsFromExif($exif['GPSLatitude'], $exif['GPSLatitudeRef']);
+			$query .= ",\n lon='".$lon."',\n lat='".$lat."'";
+		}
+		
+		$db = JFactory::getDBO();
+		$db->setQuery($query);    
+		if (! $db->execute())
+		{
+			echo $db->stderr();
+			$statusdb = false;
+		}
+		else
+		{
+			$statusdb = true;
+		}
+
+		$statusthumbs = Com_Jtg_Create_thumbnails(
+					$image_dir, $outfname,
+					$cfg->max_thumb_height, $cfg->max_geoim_height);
+		}
+
+		if ($statusupload and $statusdb and $statusthumbs)
 		{
 			return true;
 		}

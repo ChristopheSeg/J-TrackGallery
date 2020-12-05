@@ -1,10 +1,12 @@
 <?php
 
+
 /**
  * @component  J!Track Gallery (jtg) for Joomla! 2.5 and 3.x
  *
  * @package     Com_Jtg
  * @subpackage  Backend
+ * @author      Marco van Leeuwen <mastervanleeuwen@gmail.com>
  * @author      Christophe Seguinot <christophe@jtrackgallery.net>
  * @author      Pfister Michael, JoomGPStracks <info@mp-development.de>
  * @author      Christian Knorr, InJooOSM  <christianknorr@users.sourceforge.net>
@@ -352,6 +354,77 @@ class Com_JtgInstallerScript
 
 		echo '<p>' . JText::sprintf('COM_JTG_UPDATED', $this->release) . '</p>';
 
+      // Check photo database; import photos if empty
+
+      $query = 'SELECT COUNT(*) FROM #__jtg_photos';
+      $db->setQuery($query);
+      $db->execute();
+      $nphotos = $db->loadResult();
+		if ( $nphotos == 0 )
+		{
+			require_once JPATH_SITE . '/components/com_jtg/helpers/helper.php';
+
+			$statusdb = true;
+
+      	$img_dir = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks_images';
+
+	      $query = 'SELECT id FROM #__jtg_files';
+	      $db->setQuery($query);
+	      $db->execute();
+			$ids = $db->loadColumn();
+
+			foreach ( $ids as $key => $id )
+	      {
+	         echo "Check track ".$id."<br>";
+				//
+				//  Add entry to image database
+  		    	//
+	        	if ( JFolder::exists($img_dir.'/track_'.$id) ) {
+					$cur_img_dir = $img_dir.'/track_'.$id;
+			  		$filenames = JFolder::files($cur_img_dir);
+					foreach ( $filenames as $fname ) 
+					{
+						// Check extension; change to lowercase .jpg
+						$ext = JFile::getExt($fname);
+						if ($ext !== "jpg")
+						{
+							if (in_array(strtolower($ext),array('jpg','jpeg')))
+							{
+								$newfname = JFile::stripExt($fname).'.jpg';
+								JFile::move($fname, $newfname, $cur_img_dir);
+								$fname = $newfname;
+							}
+  		                else $fname = false; // Not a valid image file
+						}
+						// insert in database
+						if ($fname)
+						{
+			        		$query = "INSERT INTO #__jtg_photos SET" . "\n trackID='" . $id ."',\n".
+                         "filename='".$fname."'";
+
+							$exif = exif_read_data($cur_img_dir.'/'.$fname);
+			   	   	if ( isset($exif['GPSLatitude']))
+			      		{
+			         		$lon = jtgHelper::getGpsFromExif($exif['GPSLongitude'], $exif['GPSLongitudeRef']);
+			         		$lat = jtgHelper::getGpsFromExif($exif['GPSLatitude'], $exif['GPSLatitudeRef']);
+		   		      	$query .= ",\n lon='".$lon."',\n lat='".$lat."'";
+  		 	   			}
+
+							$db->setQuery($query);  
+							if (! $db->execute())
+							{
+								echo $db->stderr();
+								$statusdb = false;
+							}
+							$nphotos++;
+						}
+					}
+				}
+			}
+			if ( $statusdb && $nphotos != 0) {
+				echo "Inserted $nphotos into database<br>";
+			}
+		}
 		// You can have the backend jump directly to the newly updated component configuration page
 		// $parent->getParent()->setRedirectURL('index.php?option=com_jtg');
 

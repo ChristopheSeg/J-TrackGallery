@@ -209,6 +209,22 @@ ul.rating li.ten a:hover {
 }
 
 /* end rating code */
+
+/* form fields */
+#speed {
+    width: 15%;
+    max-width: 5em;
+}
+
+#time {
+    width: 20%;
+    max-width: 6em;
+}
+
+.jtg-photo-title {
+    width: 80%;
+}
+
 h3 {
 	margin: 0 0 2px 0;
 	font-size: 110%
@@ -673,7 +689,7 @@ span label {
 .navi-part {
 	float: left;
 	margin: 5px 10px;
-	font-weight: bold;*
+	font-weight: bold;
 }
 
 .no-float {
@@ -907,6 +923,28 @@ span label {
 	padding-left: 10px;
 }
 
+/* Photo gallery styles */
+.jtg-photo-grid {
+	display: grid;
+	grid-gap: 5px 3%;
+	grid-template-columns: 30% 30% 30%;
+}
+
+.jtg-photo-item {
+	align: center;
+	text-align: center;
+}
+
+.jtg-caption {
+  text-align: center;
+}
+
+@media only screen and (max-width: 500px) {
+	.jtg-photo-grid {
+  		grid-gap: 5px 2%;
+  		grid-template-columns: 46% 46%;
+	}
+}
 
 /* Pagination on frontend  (from bluestork Joomla 2.5 admin style) */
 table.adminlist tfoot tr {
