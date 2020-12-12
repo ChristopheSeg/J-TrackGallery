@@ -15,6 +15,7 @@ J!TrackGallery uses:
 
 #### Status of the Project
 
+0.9.30 (12 Dec 2020) various technical fixes, including a fix in the install script and settings for automatic updates
 0.9.29 (5 Dec 2020) photo information is now stored in the database; the main fields are the geotag information and a title field
 - Image titles can be set/added in the update track forms and are shown in the gallery view as well as the popups on the map
 - Geotag information is extracted from the exif in the image file; plan to add possibility to set this in the edit view in the future
