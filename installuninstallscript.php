@@ -269,8 +269,10 @@ class Com_JtgInstallerScript
 	// Update tracks user ID to current user id
 	$db = JFactory::getDBO();
 	$application = JFactory::getApplication();
-	$uid = JFactory::getUser($row->uid);
-	$db->setQuery("UPDATE `#__jtg_files` SET `uid` = '$uid' WHERE 1");
+	$uid = JFactory::getUser();
+	$query = $db->getQuery(true);
+	$query->update($db->quoteName('#__jtg_files'))->set($db->quoteName('uid').'='.$db->quote($uid))->where('1'); // Todo: check this is done below as well
+	$db->setQuery($query);
 	$db->execute();
 
 	// You can have the backend jump directly to the newly installed component configuration page
@@ -308,7 +310,7 @@ class Com_JtgInstallerScript
 		$columns = $db->getTableColumns('#__jtg_cats');
 		if(!isset($columns['usepace'])){
 			// The usepace row does not exits
-			$db->setQuery("ALTER TABLE `#__jtg_cats` ADD `usepace` TINYINT(1) NOT NULL DEFAULT '0' AFTER `ordering`; ");
+			$db->setQuery("ALTER TABLE '#__jtg_cats' ADD 'usepace' TINYINT(1) NOT NULL DEFAULT '0' AFTER 'ordering'; ");
 			$db->execute();
 		}
 		// If installed version is equal to then 0.9.21 ==> remove plugin plg_jtrackgallery_maps v0.1
@@ -320,7 +322,7 @@ class Com_JtgInstallerScript
 			$db = JFactory::getDBO();
 			$application = JFactory::getApplication();
 			$uid = JFactory::getUser($row->uid);
-			$db->setQuery("DELETE FROM `#__extensions` WHERE element ='plg_jtrackgallery_maps'");
+			$db->setQuery("DELETE FROM '#__extensions' WHERE element ='plg_jtrackgallery_maps'");
 			$db->execute();
 		}
 
@@ -360,24 +362,23 @@ class Com_JtgInstallerScript
       $db->setQuery($query);
       $db->execute();
       $nphotos = $db->loadResult();
-		if ( $nphotos == 0 )
-		{
+	if ( $nphotos == 0 )
+	{
 			require_once JPATH_SITE . '/components/com_jtg/helpers/helper.php';
 
 			$statusdb = true;
 
       	$img_dir = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks_images';
 
-	      $query = 'SELECT id FROM #__jtg_files';
-	      $db->setQuery($query);
-	      $db->execute();
-			$ids = $db->loadColumn();
+      $query = 'SELECT id FROM #__jtg_files';
+      $db->setQuery($query);
+      $db->execute();
+	$ids = $db->loadColumn();
 
-			foreach ( $ids as $key => $id )
+	foreach ( $ids as $key => $id )
 	      {
-	         echo "Check track ".$id."<br>";
-				//
-				//  Add entry to image database
+			//
+			//  Add entry to image database
   		    	//
 	        	if ( JFolder::exists($img_dir.'/track_'.$id) ) {
 					$cur_img_dir = $img_dir.'/track_'.$id;
@@ -422,7 +423,7 @@ class Com_JtgInstallerScript
 				}
 			}
 			if ( $statusdb && $nphotos != 0) {
-				echo "Inserted $nphotos into database<br>";
+				echo "Inserted $nphotos photos into database<br>";
 			}
 		}
 		// You can have the backend jump directly to the newly updated component configuration page
@@ -456,7 +457,7 @@ class Com_JtgInstallerScript
 			// TODO truncate all com_jtg tables
 			$application->enqueueMessage('SHOULD TRUNCATE ALL TABLES');
 
-			// DROP TABLE `#__jtg_cats`, `#__jtg_cats2`, `#__jtg_comments`, `#__jtg_config`, `#__jtg_files`, `#__jtg_files2`, `#__jtg_maps`, `#__jtg_terrains`, `#__jtg_users`, `#__jtg_votes`;
+			// DROP TABLE '#__jtg_cats', '#__jtg_cats2', '#__jtg_comments', '#__jtg_config', '#__jtg_files', '#__jtg_files2', '#__jtg_maps', '#__jtg_terrains', '#__jtg_users', '#__jtg_votes';
 		}
 
 		if (( $type == 'install' ) and ($componentJtgIsInstalled !== null) )
