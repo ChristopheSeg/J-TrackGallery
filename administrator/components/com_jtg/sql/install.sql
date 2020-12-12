@@ -158,13 +158,13 @@ PRIMARY KEY (`user_id`)
 
 INSERT IGNORE INTO `#__jtg_maps` (`name`, `ordering`, `published`, `param`, `script`, `code`) VALUES
 ('COM_JTG_MAP_MAPNIK', 1, 1, 'ol.layer.Tile({ source: new ol.source.OSM(), })', '', ''),
-('COM_JTG_MAP_OSM_HIKE_AND_BIKE', 2, 1, 'ol.layer.Tile( { source: new ol.source.XYZ({name: "{name}", url: "https://{a-c}.tiles.wmflabs.org/hikebike/{z}/{x}/{y}.png", isBaseLayer: true, attributions: [ ol.source.OSM.ATTRIBUTION ] }) })', '', ''),
-('COM_JTG_MAP_CYCLEMAP', 3, 1, 'ol.layer.Tile({ source: new ol.source.OSM({ attributions: [ ol.source.OSM.ATTRIBUTION ], url: "http://{a-c}.tile.thunderforest.com/cycle/{z}/{x}/{y}.png?apikey=" }) })', '', ''),
-('COM_JTG_MAP_BING_AERIAL', 4, 1, 'ol.layer.Tile({name: "{name}", source: new ol.source.BingMaps({key: BingApiKey, imagerySet: "Aerial" })})', '', 'var BingApiKey = ;'),
-('COM_JTG_MAP_BING_ROAD', 5, 1, 'ol.layer.Tile({name: "{name}", source: new ol.source.BingMaps({key: BingApiKey, imagerySet: "Road" })})', '', 'var BingApiKey = '),
-('COM_JTG_MAP_BING_HYBRID', 6, 1, 'ol.layer.Tile({name: "{name}", source: new ol.source.BingMaps({key: BingApiKey, imagerySet: "AerialWtthLabels" })})', '', 'var BingApiKey = &quot;AgnrTXBLS7KIuV5RyjA13-TlQSvXeEb43C0063AgZrNb6bldYkrH1omznJi5Mq3S&quot;;'),
-('COM_JTG_MAP_FRENCH_IGN_GEOPORTAL', 7, 1, 'ol.layer.Tile({name: "{name}", source: new ol.source.WMTS({ url: "https://wxs.ign.fr/"+IGNapiKey+"/geoportail/wmts", 		layer: "GEOGRAPHICALGRIDSYSTEMS.MAPS", 	matrixSet: "PM",  format: "image/jpeg", projection: "EPSG:3857",   units: "m",  tileGrid: getIGNTileGrid(), style: "normal",  attributions: ["Map base: ©IGN  Terms of Service"] }) }), 'components/com_jtg/assets/js/ign.js', 'var IGNapiKey = &quot;choisirgeoportail&quot;;'),
-('COM_JTG_MAP_HIKE_AND_BIKE_HILLSHADE', 13, 1, 'ol.layer.Tile( { name: "{name}", source: new ol.source.XYZ( {  url: "http://{a-c}.tiles.wmflabs.org/hillshading/{z}/{x}/{y}.png",  attributions: "Hillshading: SRTM3 v2 (<a href=http://www2.jpl.nasa.gov/srtm/>NASA</a>)" }) , isBaseLayer: false, visibility: false, transitionEffect: "resize" })', '', '');
+('COM_JTG_MAP_OSM_HIKE_AND_BIKE', 2, 0, 'ol.layer.Tile( { source: new ol.source.XYZ({name: "{name}", url: "https://{a-c}.tiles.wmflabs.org/hikebike/{z}/{x}/{y}.png", isBaseLayer: true, attributions: [ ol.source.OSM.ATTRIBUTION ] }) })', '', ''),
+('COM_JTG_MAP_CYCLEMAP', 3, 0, 'ol.layer.Tile({ source: new ol.source.OSM({ attributions: [ ol.source.OSM.ATTRIBUTION ], url: "http://{a-c}.tile.thunderforest.com/cycle/{z}/{x}/{y}.png?apikey=" }) })', '', ''),
+('COM_JTG_MAP_BING_AERIAL', 4, 0, 'ol.layer.Tile({name: "{name}", source: new ol.source.BingMaps({key: BingApiKey, imagerySet: "Aerial" })})', '', 'var BingApiKey = ;'),
+('COM_JTG_MAP_BING_ROAD', 5, 0, 'ol.layer.Tile({name: "{name}", source: new ol.source.BingMaps({key: BingApiKey, imagerySet: "Road" })})', '', 'var BingApiKey = '),
+('COM_JTG_MAP_BING_HYBRID', 6, 0, 'ol.layer.Tile({name: "{name}", source: new ol.source.BingMaps({key: BingApiKey, imagerySet: "AerialWtthLabels" })})', '', 'var BingApiKey = &quot;AgnrTXBLS7KIuV5RyjA13-TlQSvXeEb43C0063AgZrNb6bldYkrH1omznJi5Mq3S&quot;;'),
+('COM_JTG_MAP_FRENCH_IGN_GEOPORTAL', 7, 0, 'ol.layer.Tile({name: "{name}", source: new ol.source.WMTS({ url: "https://wxs.ign.fr/"+IGNapiKey+"/geoportail/wmts", 		layer: "GEOGRAPHICALGRIDSYSTEMS.MAPS", 	matrixSet: "PM",  format: "image/jpeg", projection: "EPSG:3857",   units: "m",  tileGrid: getIGNTileGrid(), style: "normal",  attributions: ["Map base: ©IGN  Terms of Service"] }) })', 'components/com_jtg/assets/js/ign.js', 'var IGNapiKey = "choisirgeoportail";'),
+('COM_JTG_MAP_HIKE_AND_BIKE_HILLSHADE', 8, 0, 'ol.layer.Tile( { name: "{name}", source: new ol.source.XYZ( {  url: "http://{a-c}.tiles.wmflabs.org/hillshading/{z}/{x}/{y}.png",  attributions: "Hillshading: SRTM3 v2 (<a href=http://www2.jpl.nasa.gov/srtm/>NASA</a>)" }) , isBaseLayer: false, visibility: false, transitionEffect: "resize" })', '', '');
 
 
 INSERT IGNORE INTO `#__jtg_cats` (`id`, `parent_id`, `title`, `description`, `image`, `ordering`, `published`, `checked_out`) VALUES

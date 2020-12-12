@@ -46,7 +46,7 @@ class JtgModelConfig extends JModelLegacy
 	function saveConfig()
 	{
 		// Get post data
-		$row = JRequest::get('post');
+		$row = JFactory::getApplication()->input->getArray();
 
 		// Store tables if they not exists
 		$cfg = JtgHelper::getConfig();
@@ -167,7 +167,9 @@ class JtgModelConfig extends JModelLegacy
 				if (count($tempcontent) == 3)
 				{
 					$tempcontent = $tempcontent[1];
-					$zeile = str_replace(",", null, $zeile);
+					error_log("zeile $zeile");
+					$zeile = str_replace(",", '', $zeile);
+					error_log("zeile after replace $zeile");
 
 					if (in_array($tempcontent, $missingcolumns))
 					{

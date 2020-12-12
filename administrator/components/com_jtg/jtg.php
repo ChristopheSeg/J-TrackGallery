@@ -49,10 +49,11 @@ require_once JPATH_COMPONENT . '/controller.php';
 JLoader::import('components.com_jtg.helpers.gpsClass', JPATH_SITE, 'gpsClass');
 
 // Initialize the controller
-if ($controller = JRequest::getWord('controller'))
+$input = JFactory::getApplication()->input;
+if ($controller = $input->getWord('controller'))
 {
 	$path = JPATH_COMPONENT . '/controllers/' . $controller . '.php';
-	$getCmdTask = JFactory::getApplication()->input->get('task');
+	$getCmdTask = $input->get('task');
 
 	if (file_exists($path))
 	{
@@ -75,7 +76,7 @@ $controller->execute($getCmdTask);
 // Access check: is this user allowed to access the backend of J!TrackGallery?
 if (!JFactory::getUser()->authorise('core.manage', 'com_jtg'))
 {
-	return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+	return JFactory::getApplication()->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'),'warning');
 }
 
 // Redirect if set by the controller

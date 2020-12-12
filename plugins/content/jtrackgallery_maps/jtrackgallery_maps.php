@@ -46,7 +46,7 @@ class plgContentJtrackgallery_maps extends JPlugin {
 
 		// Check
 		if (!JComponentHelper::isEnabled('com_jtg', true)) {
-			return JError::raiseError(JText::_('PLG_JTG_MAPS_COM_JTG_NOT_INSTALLED'));
+			return JFactory::getApplication()->enqueueMessage(JText::_('PLG_JTG_MAPS_COM_JTG_NOT_INSTALLED'),'warning');
 		}
 
 		// Bail out if the page format is not what we want
@@ -54,7 +54,7 @@ class plgContentJtrackgallery_maps extends JPlugin {
 				'',
 				'html'
 		);
-		if (! in_array ( JRequest::getCmd ( 'format' ), $allowedFormats ))
+		if (! in_array ( JFactory::getApplication()->input->getCmd ( 'format' ), $allowedFormats ))
 			return;
 
 			// Simple performance check to determine whether plugin should process further
@@ -114,12 +114,12 @@ class plgContentJtrackgallery_maps extends JPlugin {
 				$warningtext = ' id=' . ($plg_call_params ['id'] ? $plg_call_params ['id'] : 'null') . ' gpxfilename=' . ($plg_call_params ['gpxfilename'] ? $plg_call_params ['gpxfilename'] : '') ;
 
 				if ((! $plg_call_params ['id'] > 0) and (! $plg_call_params ['gpxfilename'])) {
-					JError::raiseNotice ( '', JText::_ ( 'PLG_JTG_MAPS_TRACK_NOT_SPECIFIED' ) . "()" );
+					 JFactory::getApplication()->enqueueMessage(JText::_ ( 'PLG_JTG_MAPS_TRACK_NOT_SPECIFIED' ) . "()" );
 				}
 				// Test if given id or filename correspond to one track in database
 				if ($plg_call_params ['gpxfilename']) {
 					// Determine the id of the filename
-					$query = "SELECT id FROM `#__jtg_files` WHERE file='" . $plg_call_params ['gpxfilename'] . "'";
+					$query = "SELECT id FROM '#__jtg_files' WHERE file='" . $plg_call_params ['gpxfilename'] . "'";
 					if ($plg_call_params ['id'] > 0) {
 						$query .= " or id=" . $plg_call_params ['id'];
 					}
@@ -133,7 +133,7 @@ class plgContentJtrackgallery_maps extends JPlugin {
 					}
 					else
 					{
-						JError::raiseNotice ( '', JText::_ ( 'PLG_JTG_MAPS_TRACK_NOT_FOUND' ) . " ($warningtext)" );
+						JFactory::getApplication()->enqueueMessage( JText::_ ( 'PLG_JTG_MAPS_TRACK_NOT_FOUND' ) . " ($warningtext)" );
 						$plg_call_params ['id'] = 0;
 					}
 				}
@@ -153,7 +153,7 @@ class plgContentJtrackgallery_maps extends JPlugin {
 					}
 					else
 					{
-						JError::raiseNotice ( '', JText::_ ( 'PLG_JTG_MAPS_CANT_RENDER_TRACKS' ));
+						JFactory::getApplication()->enqueueMessage(JText::_ ( 'PLG_JTG_MAPS_CANT_RENDER_TRACKS' ));
 						$plg_html .= JText::_ ( 'PLG_JTG_MAPS_CANT_RENDER_TRACKS' );
 					}
                     

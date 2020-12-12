@@ -157,7 +157,7 @@ class JtgModelMaps extends JModelLegacy
 		$mainframe = JFactory::getApplication();
 		$db = JFactory::getDBO();
 		$query = "SELECT * FROM #__jtg_maps"
-		. "\n WHERE id='" . $id . "'";
+		. "\n WHERE id=" . $id;
 		$db->setQuery($query);
 		$result = $db->loadObject();
 
@@ -328,17 +328,18 @@ class JtgModelMaps extends JModelLegacy
 		$db = JFactory::getDBO();
 
 		// Get the post data
-		$publish = JRequest::getInt('publish');
-		$order = JRequest::getInt('order');
-		$name = JFactory::getApplication()->input->get('name', '', 'string');
+		$input = JFactory::getApplication()->input;
+		$publish = $input->getInt('publish');
+		$order = $input->getInt('order');
+		$name = $input->get('name', '', 'string');
 		$name = htmlentities($name);
 
 		// Raw extraction remove link (attribution need links)
 		// $param = JFactory::getApplication()->input->get('param', '', 'raw');
-		$param = JFactory::getApplication()->input->get('param', '', 'array');
-		$param = str_replace("'", '&#39;', htmlentities($param[0]));
+		$param = $input->get('param', '', 'array');
+		//$param = str_replace("'", '&#39;', htmlentities($param[0]));
 
-		$checked_out = JFactory::getApplication()->input->get('checked_out');
+		$checked_out = $input->get('checked_out');
 
 		if ( ( $name == "" ) OR ( $param == "" ) )
 		{
@@ -347,16 +348,16 @@ class JtgModelMaps extends JModelLegacy
 			return false;
 		}
 
-		$script = JFactory::getApplication()->input->get('script', '', 'raw');
+		$script = $input->get('script', '', 'raw');
 
 		$script = htmlentities($script);
-		$code = JFactory::getApplication()->input->get('code', '', 'raw');
+		$code = $input->get('code', '', 'raw');
 		$code = htmlentities($code);
 		$query = "INSERT INTO #__jtg_maps SET"
 		. "\n name='" . $name . "',"
 		. "\n ordering='" . $order . "',"
 		. "\n published='" . $publish . "',"
-		. "\n param='" . $param . "',"
+		. "\n param='" . $db->quote($param) . "',"
 		. "\n checked_out='" . $checked_out . "',"
 		. "\n code='" . $code . "'";
 
@@ -400,19 +401,20 @@ class JtgModelMaps extends JModelLegacy
 		$db = JFactory::getDBO();
 
 		// Get the post data
-		$publish = JRequest::getInt('publish');
-		$order = JRequest::getInt('order');
-		$id = JRequest::getInt('id');
-		$name = JFactory::getApplication()->input->get('name', '', 'string');
+		$input = JFactory::getApplication()->input;
+		$publish = $input->getInt('publish');
+		$order = $input->getInt('order');
+		$id = $input->getInt('id');
+		$name = $input->get('name', '', 'string');
 		$name = htmlentities($name);
 
 		// Raw extraction remove link (attribution need links)
 		// $param = JFactory::getApplication()->input->get('param', '', 'raw');
-		$param = JFactory::getApplication()->input->get('param', '', 'array');
+		$param = $input->get('param', '', 'array');
 		$param = str_replace("'", '&#39;', $param[0]);
 
-		$checked_out = JFactory::getApplication()->input->get('checked_out');
-		$code = JFactory::getApplication()->input->get('code', '', 'raw');
+		$checked_out = $input->get('checked_out');
+		$code = $input->get('code', '', 'raw');
 		$code = htmlentities($code);
 
 		if ( ( $name == "" ) OR ( $param == "" ) )
@@ -422,17 +424,17 @@ class JtgModelMaps extends JModelLegacy
 			return false;
 		}
 
-		$script = JFactory::getApplication()->input->get('script', '', 'raw');
+		$script = $input->get('script', '', 'raw');
 		$script = htmlentities($script);
 		$query = "UPDATE #__jtg_maps SET"
 		. "\n name='" . $name . "',"
 		. "\n ordering='" . $order . "',"
 		. "\n published='" . $publish . "',"
 		. "\n param='" . $param . "',"
-		. "\n script='" . $script . "',"
+		. "\n script=" . $db->quote($script) . ","
 		. "\n checked_out='" . $checked_out . "',"
-		. "\n code='" . $code . "'"
-		. "\n WHERE id IN (" . $id . ")";
+		. "\n code=" .$db->quote($code) 
+		. "\n WHERE id=".$id;
 
 		$db->setQuery($query);
 		$db->execute();

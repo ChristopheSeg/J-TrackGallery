@@ -5,6 +5,7 @@
  *
  * @package     Comjtg
  * @subpackage  Backend
+ * @author      Marco van Leeuwen <mastervanleeuwen@gmail.com>
  * @author      Christophe Seguinot <christophe@jtrackgallery.net>
  * @author      Pfister Michael, JoomGPStracks <info@mp-development.de>
  * @author      Christian Knorr, InJooOSM  <christianknorr@users.sourceforge.net>
@@ -279,8 +280,9 @@ class JtgModelCat extends JModelLegacy
 			return false;
 		}
 
-		$published = JRequest::getInt('publish');
-		$desc = JFactory::getApplication()->input->get('desc', '', 'raw');
+		$input = JFactory::getApplication()->input;
+		$published = $input->getInt('publish');
+		$desc = $input->get('desc', '', 'raw');
 
 		if ( (substr($desc, 0, 3) == '<p>') AND (substr($desc, -4, 4) == '</p>') )
 		{
@@ -288,11 +290,11 @@ class JtgModelCat extends JModelLegacy
 			$desc = substr($desc, 3, -4);
 		}
 
-		$parent = JRequest::getInt('parent');
-		$image = JFactory::getApplication()->input->get('catpic');
-		$usepace = JFactory::getApplication()->input->get('usepace');
-		$default_map = JFactory::getApplication()->input->get('default_map');
-		$default_overlays = JFactory::getApplication()->input->get('default_overlays',null,'array');
+		$parent = $input->getInt('parent');
+		$image = $input->get('catpic');
+		$usepace = $input->get('usepace');
+		$default_map = $input->get('default_map');
+		$default_overlays = $input->get('default_overlays',null,'array');
 		if ($default_overlays[0]==0)
 		{
 			// None has been selected: deselect all other selection (multiple selection)
@@ -392,13 +394,14 @@ class JtgModelCat extends JModelLegacy
 
 		$db = JFactory::getDBO();
 
-		$id = JRequest::getInt('id');
-		$file = JFactory::getApplication()->input->files->get('image');
-		$title = JFactory::getApplication()->input->get('title', '', 'string');
-		$image = JFactory::getApplication()->input->get('catpic');
-		$usepace = JFactory::getApplication()->input->get('usepace');
-		$default_map = JFactory::getApplication()->input->get('default_map');
-		$default_overlays = JFactory::getApplication()->input->get('default_overlays',null,'array');
+		$input = JFactory::getApplication()->input;
+		$id = $input->getInt('id');
+		$file = $input->files->get('image');
+		$title = $input->get('title', '', 'string');
+		$image = $input->get('catpic');
+		$usepace = $input->get('usepace');
+		$default_map = $input->get('default_map');
+		$default_overlays = $input->get('default_overlays',null,'array');
 		if ($default_overlays[0]==0)
 		{
 			// None has been selected: deselect all other selection (multiple selection)
@@ -413,8 +416,8 @@ class JtgModelCat extends JModelLegacy
 			return false;
 		}
 
-		$published = JRequest::getInt('publish');
-		$desc = JFactory::getApplication()->input->get('desc', '', 'raw');
+		$published = $input->getInt('publish');
+		$desc = $input->get('desc', '', 'raw');
 
 		if ( (substr($desc, 0, 3) == '<p>') AND (substr($desc, -4, 4) == '</p>') )
 		{
@@ -422,7 +425,7 @@ class JtgModelCat extends JModelLegacy
 			$desc = substr($desc, 3, -4);
 		}
 
-		$parent = JRequest::getInt('parent');
+		$parent = $input->getInt('parent');
 		$query = "UPDATE #__jtg_cats SET"
 		. "\n parent_id='" . $parent . "',"
 		. "\n title='" . $title . "',"

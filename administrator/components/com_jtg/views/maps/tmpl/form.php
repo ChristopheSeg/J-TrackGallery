@@ -107,7 +107,8 @@ if (JVERSION >= 3.0)
 
 						if (($id) AND (isset($map->param)))
 						{
-							$param = str_replace($replace, $with, $map->param);
+							//$param = str_replace($replace, $with, $map->param);
+							$param = htmlentities($map->param);
 						}
 						else
 						{
@@ -124,7 +125,8 @@ if (JVERSION >= 3.0)
 					value="<?php
 if (($id) AND (isset($map->script)))
 {
-	$script = str_replace($replace, $with, $map->script);
+	//$script = str_replace($replace, $with, $map->script);
+	$script = htmlentities($map->script);
 	echo $script;
 }
 ?>"

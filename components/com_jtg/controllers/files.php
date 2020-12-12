@@ -56,7 +56,6 @@ class JtgControllerFiles extends JtgController
 			exit;
 		}
 
-		$images =& $_FILES['images'];
 		$model = $this->getModel('files');
 
 		$ext = JFile::getExt($file['name']);
@@ -84,8 +83,9 @@ class JtgControllerFiles extends JtgController
 	 */
 	function vote()
 	{
-		$id = JRequest::getInt('id');
-		$rate = JRequest::getInt('rate');
+		$input = JFactory::getApplication()->input;
+		$id = $input->getInt('id');
+		$rate = $input->getInt('rate');
 		$model = $this->getModel('files');
 		$model->vote($id, $rate);
 
@@ -116,7 +116,7 @@ class JtgControllerFiles extends JtgController
 			exit(0);
 		}
 
-		$id = JRequest::getInt('id');
+		$id = JFactory::getApplication()->input->getInt('id');
 		$model = $this->getModel('files');
 
 		if (!$model->deleteFile($id))
@@ -147,7 +147,7 @@ class JtgControllerFiles extends JtgController
 
 		// Check for request forgeries
 		JSession::checkToken() or jexit(JTEXT::_('JINVALID_TOKEN'));
-		$id = JRequest::getInt('id');
+		$id = JFactory::getApplication()->input->getInt('id');
 		$model = $this->getModel('files');
 		$errormsg = $model->updateFile($id);
 
@@ -184,7 +184,7 @@ class JtgControllerFiles extends JtgController
 		// Check for request forgeries
 		JSession::checkToken() or jexit(JTEXT::_('JINVALID_TOKEN'));
 		$cfg = JtgHelper::getConfig();
-		$id = JRequest::getInt('id');
+		$id = JFactory::getApplication()->input->getInt('id');
 
 		if ($cfg->captcha == 1)
 		{

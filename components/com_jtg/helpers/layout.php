@@ -72,7 +72,8 @@ class LayoutHelper
 	 */
 	static public function navigation()
 	{
-		if  ($isModal = JRequest::getVar( 'print' ) == 1)
+		$input = JFactory::getApplication()->input;
+		if  ($isModal = $input->getInt( 'print' ) == 1)
 		{
 			// Return an empty header when preparing for printing
 			return '';
@@ -80,7 +81,7 @@ class LayoutHelper
 
 		$user = JFactory::getUser();
 		$juser = new JUser($user->id);
-		$uri = JFactory::getApplication()->input->get('layout');
+		$uri = $input->get('layout');
 		$navi = '';
 		$navi .= '<div class="gps-navi">';
 		$navi .= '<div class="navi-part"><a href="' .
@@ -109,7 +110,7 @@ class LayoutHelper
 			if ( ($uri != null) AND ($uri == 'file') )
 			{
 				$gpsfile = new JtgModelFiles;
-				$track = JFactory::getApplication()->input->get('id');
+				$track = $input->get('id');
 				$track = $gpsfile->getFile($track);
 
 				if ( ($track !== null)
@@ -118,11 +119,11 @@ class LayoutHelper
 					// User can delete or, update its own tracks
 					$navi .= '<div class="navi-part"><a href="' .
 							JRoute::_("index.php?option=com_jtg&view=files&layout=form&id=" .
-									JFactory::getApplication()->input->get('id')
+									$input->get('id')
 									) . '">' . JText::_('COM_JTG_UPDATE_GPS_FILE') . '</a></div>';
 					$navi .= '<div class="navi-part"><a href="' .
 							JRoute::_("index.php?option=com_jtg&controller=files&task=delete&id=" .
-									JFactory::getApplication()->input->get('id')
+									$input->get('id')
 									) . '">' . JText::_('COM_JTG_DELETE_FILE') . '</a></div>';
 				}
 			}

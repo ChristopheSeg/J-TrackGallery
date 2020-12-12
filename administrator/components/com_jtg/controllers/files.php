@@ -58,9 +58,8 @@ class JtgControllerFiles extends JtgController
 	function uploadfiles ()
 	{
 		JSession::checkToken() or jexit(JTEXT::_('JINVALID_TOKEN'));
-		$jInput = JFactory::getApplication()->input;
-		$jFileInput = new jInput($_FILES);
-		$files = $jFileInput->get('files', array(), 'array');
+		$jFileInput = JFactory::getApplication()->input->files;
+		$files = $jFileInput->get('files');
 		$model = $this->getModel('files');
 		$dest = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks' .
 				'/import/';

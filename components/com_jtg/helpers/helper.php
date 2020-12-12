@@ -858,7 +858,6 @@ static public function autoRotateImage($image) {
 	{
 		jimport('joomla.filesystem.file');
 
-                error_log("File to load ".$file_tmp_name." ext ".$ext);
 		switch (strtolower($ext))
 		{
 			case 'jpeg':
@@ -1034,7 +1033,7 @@ static public function autoRotateImage($image) {
 		else if (phpversion('gd')) {
 		   $statusupload = jtgHelper::resizeConvertGd($file_tmp_name, $ext, $image_dir, $outfname);
 		}
-		else error_log('ERROR: need ImageMagick or gd extenstion to handle images');
+		else JFactory::getApplication()->enqueueMessage('ERROR: need ImageMagick or gd extension to handle images','warning');
 
 		if ($statusupload)
 		{

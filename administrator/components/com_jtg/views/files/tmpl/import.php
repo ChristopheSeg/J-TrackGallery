@@ -167,6 +167,7 @@ $document->addStyleDeclaration($style);
 			// TODO Verify these lines !!
 			$filename = $filename . "." . $extension;
 			$filename = str_replace($importdir . '/', '', $filename);
+			// All the lines above seem to just get the 'file base name'  is there a utility function for this?
 			$filename_wof = explode('/', $filename);
 			$filename_wof = $filename_wof[(count($filename_wof) - 1)];
 

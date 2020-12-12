@@ -44,6 +44,7 @@ else
 JToolBarHelper::help('files/form', true);
 $document = JFactory::getDocument();
 $document->addStyleSheet(JUri::base(true) . '/components/com_jtg/template.css');
+$document->addStyleSheet(JUri::root(true) . '/components/com_jtg/assets/template/default/jtg_style.css');
 $document->addStyleSheet(JUri::root(true) . '/components/com_jtg/assets/template/default/ol.css');
 $document->addStyleSheet(JUri::root(true) . '/components/com_jtg/assets/template/default/ol.css.map');
 
@@ -68,7 +69,7 @@ if ($this->id >= 1)
 	$file = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks/' . $this->track->file;
 	$gpsData = new GpsDataClass($cfg->unit);
 	$gpsData = $cache->get(array ( $gpsData, 'loadFileAndData' ), array ($file, $track->file ), $cfg->unit);
-   $imageList = $model->getImages($this->id);
+	$imageList = $model->getImages($this->id);
 
 	if ($gpsData->displayErrors())
 	{

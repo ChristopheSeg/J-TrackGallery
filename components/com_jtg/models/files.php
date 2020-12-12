@@ -71,16 +71,6 @@ class JtgModelFiles extends JModelLegacy
 		->order(	$db->escape($this->getState('list.ordering', 'pa.id')) . ' ' .
 				$db->escape($this->getState('list.direction', 'desc')));
 
-		// Filter search // Extra: Search more than one fields and for multiple words
-		/*
-		 *
-		 $regex = str_replace(' ', '|', $this->getState('filter.search'));
-		if (!empty($regex)) {
-			$regex=' REGEXP '.$db->quote($regex);
-			$query->where('('.implode($regex.' OR ',$this->searchInFields).$regex.')');
-		}
-		*/
-
 		// Filter company
 		$trackcategory= $db->escape($this->getState('filter.trackcategory'));
 		if (!empty($trackcategory)) {
@@ -503,22 +493,21 @@ class JtgModelFiles extends JModelLegacy
 		$cache = JFactory::getCache('com_jtg');
 
 		// Get the post data
-		$catid = JFactory::getApplication()->input->get('catid', null, 'array');
+		$input = JFactory::getApplication()->input;
+		$catid = $input->get('catid', null, 'array');
 		$catid = $catid ? implode(',', $catid) : '';
-		$level = JFactory::getApplication()->input->get('level', 0, 'integer');
-		$title = JFactory::getApplication()->input->get('title', '', 'string');
-		$terrain = JFactory::getApplication()->input->get('terrain', null, 'array');
+		$level = $input->get('level', 0, 'integer');
+		$title = $input->get('title', '', 'string');
+		$terrain = $input->get('terrain', null, 'array');
 		$terrain = $terrain ? implode(', ', $terrain) : '';
 		$desc = $db->escape(implode(' ', JFactory::getApplication()->input->get('description', '', 'array')));
-		$file = JFactory::getApplication()->input->files->get('file');
+		$file = $input->files->get('file');
 		$uid = $user->get('id');
 		$date = date("Y-m-d");
-		$jInput = JFactory::getApplication()->input;
-		$jFileInput = new jInput($_FILES);
-		$images = $jFileInput->get('images', array(), 'array');
-		$access = JRequest::getInt('access', 0);
-		$hidden = JRequest::getInt('hidden', 0);
-		$published = JRequest::getInt('published', 0);
+		$images = $input->files->get('images');
+		$access = $input->getInt('access', 0);
+		$hidden = $input->getInt('hidden', 0);
+		$published = $input->getInt('published', 0);
 
 		// Upload the file
 		$upload_dir = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks/';
@@ -625,16 +614,16 @@ class JtgModelFiles extends JModelLegacy
 
 		if (count($images) > 0)
 		{
-			foreach ($images['name'] as $key => $value)
+			foreach ($images as $image)
 			{
-				if ($value != "")
+				if ($image['name'] != "")
 				{
-					$imgfilename = JFile::makesafe($value);
-					$ext = JFile::getExt($images['name'][$key]);
+					$imgfilename = JFile::makesafe($image['name']);
+					$ext = JFile::getExt($imgfilename);
 
 					if (in_array(strtolower($ext), $types))
 					{
-						JtgHelper::createimageandthumbs($rows->id,$images['tmp_name'][$key], $ext, $imgfilename);
+						JtgHelper::createimageandthumbs($rows->id,$image['tmp_name'], $ext, $imgfilename);
 					}
 				}
 			}
@@ -652,7 +641,7 @@ class JtgModelFiles extends JModelLegacy
 	{
 		$mainframe = JFactory::getApplication();
 
-		$id = JRequest::getInt('id');
+		$id = $mainframe->input->getInt('id');
 
 		if ($id)
 		{
@@ -953,12 +942,13 @@ class JtgModelFiles extends JModelLegacy
 		$user = JFactory::getUser();
 
 		// Get the post data
-		$catid = JFactory::getApplication()->input->get('catid', null, 'array');
+		$input = JFactory::getApplication()->input; 
+		$catid = $input->get('catid', null, 'array');
 		$catid = $catid ? implode(',', $catid) :  '';
-		$level = JFactory::getApplication()->input->get('level', 0, 'integer');
-		$title = $db->quote(JFactory::getApplication()->input->get('title', '', 'string'));
+		$level = $input->get('level', 0, 'integer');
+		$title = $db->quote($input->get('title', '', 'string'));
 
-		$terrain = JFactory::getApplication()->input->get('terrain', null, 'array');
+		$terrain = $input->get('terrain', null, 'array');
 
 		if ($terrain)
 		{
@@ -974,12 +964,12 @@ class JtgModelFiles extends JModelLegacy
 		*/
 		$desc = $db->escape(implode(' ', JFactory::getApplication()->input->get('description', '', 'array')));
 
-		$access = JRequest::getInt('access', 0);
-		$hidden = JRequest::getInt('hidden', 0);
-		$published = JRequest::getInt('published', 0);
+		$access = $input->getInt('access', 0);
+		$hidden = $input->getInt('hidden', 0);
+		$published = $input->getInt('published', 0);
 
-		$default_map = JFactory::getApplication()->input->get('default_map');
-		$default_overlays = JFactory::getApplication()->input->get('default_overlays',null,'array');
+		$default_map = $input->get('default_map');
+		$default_overlays = $input->get('default_overlays',null,'array');
 		if ($default_overlays[0]==0)
 		{
 			// None has been selected: deselect all other selection (multiple selection)
@@ -991,7 +981,7 @@ class JtgModelFiles extends JModelLegacy
 		$imgpath = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks_images/track_' . $id . '/';
 		foreach ($imagelist as $image)
 		{
-			$delimage = JFactory::getApplication()->input->get('deleteimage_' . $image->id);
+			$delimage = $input->get('deleteimage_' . $image->id);
          if ($delimage !== null)
          {
             JFile::delete($imgpath . $delimage);
@@ -1007,7 +997,7 @@ class JtgModelFiles extends JModelLegacy
             }
          }
   			// Set image title
-         $img_title = JFactory::getApplication()->input->get('img_title_' . $image->id, '', 'string');
+         $img_title = $input->get('img_title_' . $image->id, '', 'string');
          if ($img_title !== null and $img_title != $image->title) {
              $query = "UPDATE #__jtg_photos SET title=".$db->quote($img_title)." WHERE id='".$image->id."'";
              $db->setQuery($query);
@@ -1021,21 +1011,19 @@ class JtgModelFiles extends JModelLegacy
       }
 
 		// Images upload part
-		$jInput = JFactory::getApplication()->input;
-		$jFileInput = new jInput($_FILES);
-		$newimages = $jFileInput->get('images', array(), 'array');
+		$newimages = $input->files->get('images');
 		$cfg = JtgHelper::getConfig();
 		$types = explode(',', $cfg->type);
 		if ($newimages)
 		{
-			foreach ($newimages['name'] as $key => $value)
+			foreach ($newimages as $newimage)
 			{
-				$filename = JFile::makesafe($value);
-				$ext = JFile::getExt($newimages['name'][$key]);
+				$filename = JFile::makesafe($newimage['name']);
+				$ext = JFile::getExt($filename);
 
 				if (in_array(strtolower($ext), $types))
 				{
-					JtgHelper::createimageandthumbs($id,$newimages['tmp_name'][$key], $ext, $filename);
+					JtgHelper::createimageandthumbs($id,$newimage['tmp_name'], $ext, $filename);
 				}
 			}
 		}
@@ -1131,7 +1119,7 @@ class JtgModelFiles extends JModelLegacy
 		JHtml::_('behavior.formvalidation');
 		$editor = JFactory::getEditor('tinymce');
 		$user = JFactory::getUser();
-		$id = JRequest::getInt('id');
+		$id = JFactory::getApplication()->input->getInt('id');
 		?>
 
 		<script type="text/javascript">

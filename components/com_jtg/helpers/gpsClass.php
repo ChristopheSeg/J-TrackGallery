@@ -68,7 +68,7 @@ class GpsDataClass
 
 	var $distance = 0;
 
-	var $Date = "";
+	var $Date = false;
 
 	var $trackname = "";
 
@@ -698,7 +698,10 @@ private function extractCoordsGPX($xmlcontents)
 										// Trkpt time found
 										$xmlcontents->read();
 										$time = (string) $xmlcontents->value;
-
+										if ($this->Date === false) {
+											$dt = new DateTime($time);
+											$this->Date = $dt->format('Y-m-d');
+										}
 										// Read end tag
 										$xmlcontents->read();
 									}
@@ -2430,7 +2433,7 @@ return true;
 				$query = "SELECT default_map, default_overlays FROM #__jtg_cats WHERE id IN($track->catid)";
 				$db->setQuery($query);
 				$cat_defaults = $db->loadObjectlist();
-				var_dump($cat_defaults);if (count($cat_defaults))
+				if (count($cat_defaults))
 				{
 					$catDefaultMap = $cat_defaults[0]->default_map;
 					$catDefaultOverlays = $cat_defaults[0]->default_overlays;

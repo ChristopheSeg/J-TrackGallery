@@ -68,7 +68,7 @@ class JFormFieldTrackcategory extends JFormFieldList
 
 		// Check for a database error.
 		if ($db->getErrorNum()) {
-			JError::raiseWarning(500, $db->getErrorMsg());
+			JFactory::getApplication()->enqueueMessage($db->getErrorMsg(),"warning");
 		}
 
 		return $options;

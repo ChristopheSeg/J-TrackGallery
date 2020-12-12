@@ -61,7 +61,6 @@
 			<file>index.html</file>
 			<file>jtg.php</file>
 			<folder>controllers</folder>
-			<folder>elements</folder>
 			<folder>help</folder>
 			<folder>helpers</folder>
 			<folder>language</folder>

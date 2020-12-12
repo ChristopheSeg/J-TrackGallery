@@ -187,7 +187,7 @@ class JtgModelTerrain extends JModelLegacy
 	function save()
 	{
 		// Get post data
-		$row = JRequest::get('post');
+		$row = JFactory::getApplication()->input->getArray();
 		$table = $this->getTable('jtg_terrain');
 		$table->bind($row);
 

@@ -18,6 +18,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.controller');
+use Joomla\CMS\Factory;
 
 /**
  * class JtgControllerfor the jtg component
@@ -57,123 +58,124 @@ class JtgController extends JControllerLegacy
 		// Load the submenu.
 		JtgHelper::addSubmenu(JFactory::getApplication()->input->get('view', 'jtg'));
 
+		$input = Factory::getApplication()->input;
 		switch ($this->getTask())
 		{
 			default:
-				JRequest::setVar('view',	'default');
+				$input->set('view',	'default');
 				break;
 
 			case 'maps':
-				JRequest::setVar('view',	'maps');
-				JRequest::setVar('layout',	'default');
+				$input->set('view',	'maps');
+				$input->set('layout',	'default');
 				break;
 
 			case 'newmap':
 			case 'editmap':
-				JRequest::setVar('view',	'maps');
-				JRequest::setVar('layout',	'form');
+				$input->set('view',	'maps');
+				$input->set('layout',	'form');
 				break;
 
 			case 'config':
-				JRequest::setVar('view',	'config');
-				JRequest::setVar('layout',	'default');
+				$input->set('view',	'config');
+				$input->set('layout',	'default');
 				break;
 
 			case 'info':
-				JRequest::setVar('view',	'info');
-				JRequest::setVar('layout',	'default');
+				$input->set('view',	'info');
+				$input->set('layout',	'default');
 				break;
 
 			case 'cats':
-				JRequest::setVar('view',	'cats');
-				JRequest::setVar('layout',	'default');
+				$input->set('view',	'cats');
+				$input->set('layout',	'default');
 				break;
 
 			case 'newcat':
-				JRequest::setVar('view',	'cats');
-				JRequest::setVar('layout',	'form');
+				$input->set('view',	'cats');
+				$input->set('layout',	'form');
 				break;
 
 			case 'editcat':
-				JRequest::setVar('view',	'cats');
-				JRequest::setVar('layout',	'editform');
+				$input->set('view',	'cats');
+				$input->set('layout',	'editform');
 				break;
 
 			case 'managecatpics':
-				JRequest::setVar('view',	'cats');
-				JRequest::setVar('layout',	'managecatpics');
-				JRequest::setVar('task',	'default');
+				$input->set('view',	'cats');
+				$input->set('layout',	'managecatpics');
+				$input->set('task',	'default');
 				break;
 
 			case 'newcatpic':
-				JRequest::setVar('view',	'cats');
-				JRequest::setVar('layout',	'managecatpicsform');
-				JRequest::setVar('task',	'new');
+				$input->set('view',	'cats');
+				$input->set('layout',	'managecatpicsform');
+				$input->set('task',	'new');
 				break;
 
 			case 'editcatpic':
-				JRequest::setVar('view',	'cats');
-				JRequest::setVar('layout',	'managecatpicsform');
-				JRequest::setVar('task',	'edit');
+				$input->set('view',	'cats');
+				$input->set('layout',	'managecatpicsform');
+				$input->set('task',	'edit');
 				break;
 
 			case 'files':
 			case 'toshow':
 			case 'tohide':
-				JRequest::setVar('view',	'files');
-				JRequest::setVar('layout',	'default');
+				$input->set('view',	'files');
+				$input->set('layout',	'default');
 				break;
 
 			case 'upload':
-				JRequest::setVar('view',	'files');
-				JRequest::setVar('layout',	'upload');
+				$input->set('view',	'files');
+				$input->set('layout',	'upload');
 				break;
 
 			case 'newfiles':
-				JRequest::setVar('view',	'files');
-				JRequest::setVar('layout',	'import');
+				$input->set('view',	'files');
+				$input->set('layout',	'import');
 				break;
 
 			case 'newfile':
 			case 'editfile':
 			case 'updateGeneratedValues':
-				JRequest::setVar('view',	'files');
-				JRequest::setVar('layout',	'form');
+				$input->set('view',	'files');
+				$input->set('layout',	'form');
 				break;
 
 			case 'terrain':
-				JRequest::setVar('view',	'terrain');
-				JRequest::setVar('layout',	'default');
+				$input->set('view',	'terrain');
+				$input->set('layout',	'default');
 				break;
 
 			case 'newterrain':
 			case 'editterrain':
-				JRequest::setVar('view',	'terrain');
-				JRequest::setVar('layout',	'form');
+				$input->set('view',	'terrain');
+				$input->set('layout',	'form');
 				break;
 
 			case 'comments':
-				JRequest::setVar('view',	'comments');
-				JRequest::setVar('layout',	'default');
+				$input->set('view',	'comments');
+				$input->set('layout',	'default');
 				break;
 
 			case 'editComment':
-				JRequest::setVar('view',	'comments');
-				JRequest::setVar('layout',	'form');
+				$input->set('view',	'comments');
+				$input->set('layout',	'form');
 				break;
 
 			case 'importjgt':
-				JRequest::setVar('view',	'files');
-				JRequest::setVar('layout',	'importjgt');
+				$input->set('view',	'files');
+				$input->set('layout',	'importjgt');
 				break;
 			case 'element':
-				JRequest::setVar('view',	'files');
-				JRequest::setVar('layout',	'element');
+				$input->set('view',	'files');
+				$input->set('layout',	'element');
 				break;
 
 			case 'translations':
-				JRequest::setVar('view',	'translations');
-				JRequest::setVar('layout',	'default');
+				$input->set('view',	'translations');
+				$input->set('layout',	'default');
 				break;
 		}
 

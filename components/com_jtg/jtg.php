@@ -68,7 +68,7 @@ if (JFile::exists($template_css))
 }
 
 // Initialize the controller
-if ($controller = JRequest::getWord('controller'))
+if ($controller = JFactory::getApplication()->input->getWord('controller'))
 {
 	$path = JPATH_COMPONENT . '/controllers/' . $controller . '.php';
 

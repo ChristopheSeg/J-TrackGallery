@@ -262,7 +262,7 @@ class JtgViewFiles extends JViewLegacy
 		$row = $model->getCats();
 		$terrain = $model->getTerrain(" WHERE published=1 ");
 		$terms = JRoute::_('index.php?option=com_content&view=article&tmpl=component&id=' . $cfg->terms_id, false);
-		$id = (JRequest::getInt('id', null));
+		$id = (JFactory::getApplication()->input->getInt('id', null));
 		$catid = "";
 		$document = JFactory::getDocument();
 
@@ -403,7 +403,7 @@ class JtgViewFiles extends JViewLegacy
 
 		$model = $this->getModel();
 		$pathway = $mainframe->getPathway();
-		$id = JRequest::getInt('id');
+		$id = JFactory::getApplication()->input->getInt('id');
 		/**
 		 // $track = $model->getTrack($id);
 		 // $track = $cache->get(array($model, 'getTrack'), array($id));
@@ -752,7 +752,7 @@ class JtgViewFiles extends JViewLegacy
 		$document->setTitle(JText::_('COM_JTG_GPS_FILES') . " - " . $sitename);
 		$params = $mainframe->getParams();
 
-		$order = JRequest::getVar('order', 'order', 'post', 'string');
+		$order = JFactory::getApplication()->input->getVar('order', 'order', 'post', 'string');
 		$ordering = '';
 
 		// JTG_FILTER_TODO
@@ -819,7 +819,7 @@ class JtgViewFiles extends JViewLegacy
 		$search = JString::strtolower($search);
 		$limit = $mainframe->getUserStateFromRequest($option . '.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
 		$limitstart = $mainframe->getUserStateFromRequest($option . '.limitstart', 'limitstart', 0, 'int');
-		$limitstart = JRequest::getVar('limitstart', 0, '', 'int');
+		$limitstart = JFactory::getApplication()->input->getInt('limitstart', 0);
 		$action = JRoute::_('index.php?option=com_jtg&view=files&layout=list', false);
 
 		$lists['order'] = $filter_order;
@@ -870,7 +870,7 @@ class JtgViewFiles extends JViewLegacy
 		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_JTG_MY_FILES') . " - " . $sitename);
 
-		$order = JRequest::getVar('order', 'order', 'post', 'string');
+		$order = JFactory::getApplication()->input->getWord('order', 'order');
 
 		$filter_order = $mainframe->getUserStateFromRequest("$option.filter_order", 'filter_order', 'ordering', 'word');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest("$option.filter_order_Dir", 'filter_order_Dir', '', 'word');
@@ -878,7 +878,7 @@ class JtgViewFiles extends JViewLegacy
 		$search = JString::strtolower($search);
 		$limit = $mainframe->getUserStateFromRequest($option . '.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
 		$limitstart = $mainframe->getUserStateFromRequest($option . '.limitstart', 'limitstart', 0, 'int');
-		$limitstart = JRequest::getVar('limitstart', 0, '', 'int');
+		$limitstart = JFactory::getApplication()->input->getInt('limitstart', 0);
 		$action = JRoute::_('index.php?option=com_jtg&view=files&layout=user', false);
 
 		$lists['order'] = $filter_order;

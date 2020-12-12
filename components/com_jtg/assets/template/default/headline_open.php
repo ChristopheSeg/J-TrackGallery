@@ -35,7 +35,7 @@ function ParseTemplate_Headline_open($linkname, $printbutton = false)
 	if ($printbutton)
 	{
 		// Printing: 'print=1' will only be present in the url of the modal window, not in the presentation of the page
-		if (JRequest::getVar('print') == 1)
+		if (JFactory::getApplication()->input->getInt('print') == 1)
 		{
 			$printlink = "<a class =\"anchor\" title=\"" . JText::_('COM_JTG_CLIC_FOR_PRINTING') .
 				"\" href= \"javascript:window.print()\" ><img src=\"".JUri::Root(true)."/components/com_jtg/assets/images/printButton.png\"/>";
