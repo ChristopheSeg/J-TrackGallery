@@ -73,7 +73,7 @@ function addPopup() {
             if (features.length == 1) {
                content.innerHTML += features[0].get('description');
             }
-           return true;
+				return clusters[0].getGeometry().getClosestPoint(pixel);
             //olmap.getTarget().style.cursor = 'pointer';
         } else {
             content.innerHTML = '&nbsp;';
@@ -86,11 +86,8 @@ function addPopup() {
      * Add a click handler to the map to render the popup.
      */
     olmap.on('singleclick', function(evt) {
-        var pixel = olmap.getEventPixel(evt.originalEvent);
-
-       if (displayClusterInfo(pixel)) {
-            var coordinate = evt.coordinate;
-            overlay.setPosition(coordinate);
+       if ((coord = displayClusterInfo(evt.pixel))) {
+           overlay.setPosition(coord);
            popupActive = true;
        }
        else {
@@ -104,11 +101,9 @@ function addPopup() {
        if (evt.dragging || popupActive) {
            return;
        }
-        var pixel = olmap.getEventPixel(evt.originalEvent);
 
-       if (displayClusterInfo(pixel)) {
-            var coordinate = evt.coordinate;
-            overlay.setPosition(coordinate);
+       if ((coord = displayClusterInfo(evt.pixel))) {
+           overlay.setPosition(coord);
        }
        else {
            overlay.setPosition(undefined);
