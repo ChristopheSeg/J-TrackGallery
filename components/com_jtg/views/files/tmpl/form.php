@@ -55,7 +55,10 @@ Joomla.submitbutton = function(pressbutton)
 	// Do field validation
 	if (document.getElementById('title').value == ""){
 		alert( "<?php echo JText::_('COM_JTG_NEED_TITLE', true); ?>");
-}
+	}
+	if (document.getElementById('catid').value == "") {
+		alert( "<?php echo JText::_('COM_JTG_NEED_CATEGORY', true); ?>");
+   }
 <?php
 if ($this->cfg->terms == 1)
 {

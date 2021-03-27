@@ -299,7 +299,7 @@ class JtgViewFiles extends JViewLegacy
 			$selterrain = null;
 			$value_published = 1;
 			$value_hidden = 0;
-			$sellevel = 0;
+			$sellevel = 3;
 			$value_default_map = null;
 			$value_default_overlays= null;
 		}
