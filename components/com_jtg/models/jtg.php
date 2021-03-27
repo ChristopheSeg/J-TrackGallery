@@ -112,17 +112,20 @@ class JtgModeljtg extends JModelLegacy
 	/**
 	 * sort categories
 	 *
-	 * @param   boolean  $sort  parameter array
+	 * @param  boolean  $sort sort by id instead of title
+	 * @param  integer $catid select only this category 
 	 *
 	 * @return sorted rows
 	 */
-	static public function getCatsData($sort=false)
+	static public function getCatsData($sort=false, $catid=null)
 	{
 		$mainframe = JFactory::getApplication();
 		$db = JFactory::getDBO();
 
-		$query = "SELECT * FROM #__jtg_cats WHERE published = 1"
-		. "\n ORDER BY title ASC";
+		$query = "SELECT * FROM #__jtg_cats WHERE published = 1";
+		if ( !is_null($catid) )
+			$query .= " AND id =".$db->quote($catid);
+		$query .= "\n ORDER BY title ASC";
 
 		$db->setQuery($query);
 		$rows = $db->loadObjectList();

@@ -72,10 +72,14 @@ class JtgViewjtg extends JViewLegacy
 		// Show Tracks in Overview-Map?
 		$tracks = (bool) $params->get('jtg_param_tracks');
 
+		$catid = (JFactory::getApplication()->input->getInt('catid', null)); // get category
 		$model = $this->getModel();
-		$cats = $model->getCatsData();
-		$sortedcats = $model->getCatsData(true);
+		$cats = $model->getCatsData(false, $catid);
+		$sortedcats = $model->getCatsData(true, $catid);
 		$where = LayoutHelper::filterTracks($cats);
+		if (count($cats) == 0) {
+			$mainframe->enqueueMessage(JText::_('COM_JTG_CAT_NOT_FOUND'));
+		}
 
 		$access = JtgHelper::giveAccessLevel(); // User access level
 		$otherfiles = $params->get('jtg_param_otherfiles');// Access level defined in backend

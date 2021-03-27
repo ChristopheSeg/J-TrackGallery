@@ -646,10 +646,31 @@ class LayoutHelper
 		}
 	}
 
+
 	/**
-	 * function_description
+	 * parse category list from database query
 	 *
-	 * @param   unknown_type  $cats  param_description
+	 * @param  array $rows  array of category database rows
+	 *
+	 * @return string with where statement 
+	 */
+	static private function parseCats($rows)
+	{
+	    $subwhere = array();
+	    foreach ($rows as $row)
+	    {
+	        $cat = $row->id;
+	        $subwhere[] = "a.catid LIKE '%" . $cat . "%'";
+		}
+		if (count($subwhere)) return "( " . implode(' OR ', $subwhere) . " )";
+		return null;
+	}
+
+	/**
+	 * Construct where statement to filter tracks based on module settings
+    *   and list of categories
+	 *
+	 * @param   array $cats array of database rows with categories
 	 *
 	 * @return string
 	 */
@@ -672,6 +693,12 @@ class LayoutHelper
 		if ($layout !== null)
 		{
 			$catswhere[] = $layout;
+		}
+
+		$catsel = self::parseCats($cats);
+		if ($catsel !== null)
+		{
+			$catswhere[] = $catsel;
 		}
 
 		$layout = self::parseParam_Usergroup($params->get('jtg_param_usergroup'));

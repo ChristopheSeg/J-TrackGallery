@@ -5,6 +5,22 @@
 			<![CDATA[COM_JTG_DEFAULT_LAYOUT_DESCRIPTION]]>
 		</message>
 	</layout>
-
+	<fields name="request">
+	    <fieldset name="request">
+	        <field
+	            name="catid"
+                type="sql"
+                label="COM_JTG_CAT"
+                description="COM_JTG_CAT"
+                header="COM_JTG_CAT_SELECT"
+	            sql_select="id,title"
+                sql_from="#__jtg_cats"
+                sql_where="published=1"
+                key_field="id"
+                value_field="title"
+                translate="true">
+	        </field>
+	   </fieldset>
+    </fields>
 
 </metadata>
