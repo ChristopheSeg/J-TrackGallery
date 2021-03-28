@@ -1230,8 +1230,8 @@ class JtgModelFiles extends JModelLegacy
 		}
 
 		$db = JFactory::getDBO();
-		$query = "INSERT INTO #__jtg_comments SET" . "\n tid='" . $id . "'," . "\n user='" . $name . "'," . "\n email='" . $email . "'," .
-				"\n homepage='" . $homepage . "'," . "\n title='" . $title . "'," . "\n text='" . $text . "'," . "\n published='1'";
+		$query = "INSERT INTO #__jtg_comments SET" . "\n tid='" . $id . "'," . "\n user=" . $db->quote($name) . "," . "\n email=" . $db->quote($email) . "," .
+				"\n homepage=" . $db->quote($homepage) . "," . "\n title=" . $db->quote($title) . "," . "\n text=" . $db->quote($text) . "," . "\n published='1'";
 
 		$db->setQuery($query);
 		$db->execute();
@@ -1242,8 +1242,8 @@ class JtgModelFiles extends JModelLegacy
 			$mailer = JFactory::getMailer();
 			$config = JFactory::getConfig();
 			$sender = array(
-					$config->getValue('config.mailfrom'),
-					$config->getValue('config.fromname')
+				$mainframe->get('config.mailfrom'),
+				$mainframe->get('config.fromname')
 			);
 			$mailer->setSender($sender);
 			$user = JFactory::getUser();
@@ -1469,10 +1469,13 @@ class JtgModelFiles extends JModelLegacy
 	 *
 	 * @return return_description
 	 */
-	protected function parseEMailIcon ($mail)
+	function parseEMailIcon ($mail)
 	{
 		$cfg = JtgHelper::getConfig();
-		$link = "<img src=\"" . JUri::base() . "components/com_jtg/assets/template/" . $cfg->template . "/images/emailButton.png\" />";
+		// TODO: make this work; the cloaking function quotes the link, only works for text-links
+		//$link = "<img src=\"" . JUri::base() . "components/com_jtg/assets/template/" . $cfg->template . "/images/emailButton.png\" />";
+		//$link = JHtml::image(JUri::base() . "components/com_jtg/assets/template/" . $cfg->template . "/images/emailButton.png","email");
+      $link = "email";
 
 		$return = JHtml::_('email.cloak', $mail, true, $link, 0);
 
