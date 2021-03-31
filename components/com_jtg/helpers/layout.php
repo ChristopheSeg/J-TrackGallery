@@ -147,7 +147,7 @@ class LayoutHelper
 		if ($params->get('jtg_param_display_jtg_credits') == 1)
 		{
 			$footer = '<div class="gps-footer">' . JText::_('COM_JTG_POWERED_BY');
-			$footer .= ' <a href="http://jtrackgallery.net"';
+			$footer .= ' <a href="https://mastervanleeuwen.github.io/J-TrackGallery/"';
 			$footer .= ' target="_blank">J!Track Gallery</a>';
 
 			if ( (strpos($_SERVER['SERVER_NAME'], 'localcarto') !== false)
