@@ -629,6 +629,30 @@ class JtgModelFiles extends JModelLegacy
 			}
 		}
 
+		// Send e-mail
+		//if ($cfg->inform_autor == 1)
+		$params = $mainframe->getParams();
+		if ((int) $params->get('upload_notify_uid'))
+		{
+			$mailer = JFactory::getMailer();
+			$user = JUser::getInstance((int)  $params->get('upload_notify_uid'));
+			$recipient = $user->email;
+			$mailer->addRecipient($recipient);
+			$link = JUri::base() . "index.php?option=com_jtg&view=files&layout=file&id=" . $rows->id;
+			$msg = JText::_('COM_JTG_NEW_TRACK_MAIL_MSG');
+			$config = JFactory::getConfig();
+         $sitename = $config->get('sitename');
+			$body = sprintf($msg, $sitename, $link);
+			$mailer->setSubject(JText::_('COM_JTG_NEW_TRACK_MAIL_SUBJECT'));
+			$mailer->setBody($body);
+			$senderr = $mailer->Send();
+			if (! $senderr )
+			{
+				echo 'Error sending email: ' . $senderr->__toString();
+			}
+		}
+
+
 		return true;
 	}
 
@@ -1241,35 +1265,33 @@ class JtgModelFiles extends JModelLegacy
 		{
 			$mailer = JFactory::getMailer();
 			$config = JFactory::getConfig();
+         /*
+         // Not needed?
 			$sender = array(
 				$mainframe->get('config.mailfrom'),
 				$mainframe->get('config.fromname')
 			);
 			$mailer->setSender($sender);
+         */
+			/* This gets the information of the user that is leaving the comment
+         // Consider as additional option?
 			$user = JFactory::getUser();
 			$recipient = $user->email;
 			$mailer->addRecipient($recipient);
+         */
 			$link = JUri::base() . "index.php?option=com_jtg&view=files&layout=file&id=" . $id;
 			$msg = JText::_('COM_JTG_CMAIL_MSG');
-			$body = sprintf($msg, $link);
+         $sitename = $config->get('sitename');
+			$body = sprintf($msg, $sitename, $link);
 			$mailer->setSubject(JText::_('COM_JTG_CMAIL_SUBJECT'));
 			$mailer->setBody($body);
 
 			// Optional file attached
 			$mailer->addAttachment(JPATH_COMPONENT . '/assets/document.pdf');
-			/*
-			 * jimport('joomla.mail.helper'); $config = JFactory::getConfig();
-			* $autor = $this->getAutorData($id); $email = $autor->email; $from
-			* =$config->getValue( 'config.mailfrom' ); $sender
-			* =$config->getValue( 'config.fromname' ); $link = JUri::base() .
-			* "index.php?option=com_jtg&view=files&layout=file&id=" . $id; $msg
-			* = JText::_('COM_JTG_CMAIL_MSG'); $body = sprintf($msg, $link);
-			* $subject = JText::_('COM_JTG_CMAIL_SUBJECT'); // Clean the email
-			* data $subject = JMailHelper::cleanSubject($subject); $body =
-			* JMailHelper::cleanBody($body); $sender =
-			* JMailHelper::cleanAddress($sender); JMail::sendMail($from,
-					* $sender,$email,$subject,$body);
-			*/
+
+			$author = $this->getAuthorData($id); 
+			$email = $author->email; 
+			$mailer->addRecipient($email);
 			$send = $mailer->Send();
 
 			if ($send !== true)
@@ -1291,13 +1313,13 @@ class JtgModelFiles extends JModelLegacy
 	}
 
 	/**
-	 * function_description
+	 * Retrieve name, e-mail address of track author
 	 *
-	 * @param   unknown_type  $id  param_description
+	 * @param   int  $id track id
 	 *
-	 * @return return_description
+	 * @return  array with search result
 	 */
-	function getAutorData ($id)
+	function getAuthorData ($id)
 	{
 		$mainframe = JFactory::getApplication();
 

@@ -128,6 +128,10 @@
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
+		<field type="spacer" name="myspacer1b" class="text"
+			label="COM_JTG_MENUSPACER_UPLOAD_NOTIFY" />
+		<field name="upload_notify_uid" type="user"
+			label="COM_JTG_UPLOAD_NOTIFY_UID" default="0" />
 		<field type="spacer" name="myspacer2" class="text"
 			label="COM_JTG_MENUSPACER_DOWNLOAD" />
 		<field name="jtg_param_offer_download_original" type="radio"
