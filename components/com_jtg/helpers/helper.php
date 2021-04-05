@@ -560,15 +560,18 @@ class JtgHelper
 
 	/**
 	 * function_description
+	 * @params int trkuid User ID of track that is being shown (for 'own track' rights)
 	 *
 	 * @return bool true if user has FrontEnd rights (for uploading tracks)
 	 */
-	static public function userHasFrontendRights()
+	static public function userHasFrontendRights($trkuid = null)
 	{
 		$user_groups = JFactory::getUser()->getAuthorisedGroups();
 
 		// Admin (root) is not allowed excepted if explicitly given the right to manage front-end.
 
+		// User can edit their own tracks
+		if (JFactory::getUser()->id === $trkuid) return true;
 		if (!$user_groups)
 		{
 			return false;
@@ -597,7 +600,7 @@ class JtgHelper
 	 *
 	 * @return bool true if user has FrontEnd rights (for deleting tracks)
 	 */
-	static public function userHasFrontendDeleteRights()
+	static public function userHasFrontendDeleteRights($trkuid=null)
 	{
 		$user_groups = JFactory::getUser()->getAuthorisedGroups();
 

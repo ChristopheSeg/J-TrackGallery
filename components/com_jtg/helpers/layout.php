@@ -113,14 +113,18 @@ class LayoutHelper
 				$track = $input->get('id');
 				$track = $gpsfile->getFile($track);
 
-				if ( ($track !== null)
-					AND (( $user->get('id') == $track->uid ) ) )
+				if ( ($track !== null) &&
+						JtgHelper::userHasFrontendRights($track->uid) ) 
 				{
 					// User can delete or, update its own tracks
 					$navi .= '<div class="navi-part"><a href="' .
 							JRoute::_("index.php?option=com_jtg&view=files&layout=form&id=" .
 									$input->get('id')
 									) . '">' . JText::_('COM_JTG_UPDATE_GPS_FILE') . '</a></div>';
+				}
+				if ( ($track !== null) &&
+						JtgHelper::userHasFrontendDeleteRights($track->uid) ) 
+				{
 					$navi .= '<div class="navi-part"><a href="' .
 							JRoute::_("index.php?option=com_jtg&controller=files&task=delete&id=" .
 									$input->get('id')

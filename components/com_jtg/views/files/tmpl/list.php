@@ -239,18 +239,19 @@ $trackcategoryOptions=$trackcategory->getOptions(); // works only if you set you
 				}
 
 
-				if (( ( $this->uid != 0 ) AND ( $this->uid == $row->uid ) )
-					OR ( JFactory::getUser()->get('isRoot') ) )
+				if (JtgHelper::userHasFrontendRights($row->uid))
 				{
-					// I can edit and delete my file (or I'm admin)
 					$editlink = JRoute::_('index.php?option=com_jtg&view=files&layout=form&id=' . $row->id, false);
-					$deletelink = JRoute::_('index.php?option=com_jtg&controller=files&task=delete&id=' . $row->id, false);
 					$links = " <a href=\"" . $editlink . "\">" .
 					"<img title=\"" . JText::_('JACTION_EDIT') . "\" alt=\"" .
 						JText::_('JACTION_EDIT') . "\" src=\"" . JUri::root() . "components/com_jtg/assets/images/edit_f2.png\" width=\"16px\" />" .
-					"</a> " .
-					"<a href=\"" . $deletelink . "\" onclick=\"return confirm('". JText::_('COM_JTG_VALIDATE_DELETE_TRACK') ."')\">" .
-					"<img title=\"" . JText::_('JACTION_DELETE') . "\" alt=\"" .
+					"</a> ";
+				}
+				if (jtgHelper::userHasFrontendDeleteRights($row->uid))
+				{
+					$deletelink = JRoute::_('index.php?option=com_jtg&controller=files&task=delete&id=' . $row->id, false);
+					$links .= "<a href=\"" . $deletelink . "\" onclick=\"return confirm('". JText::_('COM_JTG_VALIDATE_DELETE_TRACK') ."')\">" .
+						"<img title=\"" . JText::_('JACTION_DELETE') . "\" alt=\"" .
 						JText::_('JACTION_DELETE') . "\" src=\"" . JUri::root() . "components/com_jtg/assets/images/cancel_f2.png\" width=\"16px\" />" .
 					"</a>";
 				}
