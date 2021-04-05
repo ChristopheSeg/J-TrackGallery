@@ -140,6 +140,9 @@ function _jtgParseRouteCategory($segments)
 			$vars['view'] = 'cats';
 			$vars['layout'] = 'default';
 			break;
+		case 'jtg':
+			$vars['view'] = 'jtg';
+			break;
 	}
 
 	if (!isset($vars))

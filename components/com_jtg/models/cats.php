@@ -51,6 +51,13 @@ class JtgModelCats extends JModelLegacy
 			$v->title = JText::_($v->title);
 			$pt 	= $v->parent_id;
 			$list 	= @$children[$pt] ? $children[$pt] : array();
+
+			// count tracks (could be done with a join statement?)
+			$querycount = "SELECT COUNT(tracks.id) AS ntracks FROM #__jtg_files AS tracks WHERE tracks.published = 1 AND hidden = 0 AND tracks.catid LIKE '%".$v->id."%'";
+		   $db->setQuery($querycount);
+		   $v->ntracks = $db->loadResult();
+
+			// store result
 			array_push($list, $v);
 			$children[$pt] = $list;
 		}

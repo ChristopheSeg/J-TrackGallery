@@ -72,7 +72,7 @@ class JtgViewjtg extends JViewLegacy
 		// Show Tracks in Overview-Map?
 		$tracks = (bool) $params->get('jtg_param_tracks');
 
-		$catid = (JFactory::getApplication()->input->getInt('catid', null)); // get category
+		$catid = (JFactory::getApplication()->input->getInt('cat', null)); // get category ID
 		$model = $this->getModel();
 		$cats = $model->getCatsData(false, $catid);
 		$sortedcats = $model->getCatsData(true, $catid);

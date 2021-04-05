@@ -688,17 +688,18 @@ class LayoutHelper
 			$where[] = $layout;
 		}
 
-		$layout = self::parseParam_Cats($params->get('jtg_param_cats'));
-
-		if ($layout !== null)
-		{
-			$catswhere[] = $layout;
-		}
-
 		$catsel = self::parseCats($cats);
 		if ($catsel !== null)
 		{
 			$catswhere[] = $catsel;
+		}
+		else {
+			$layout = self::parseParam_Cats($params->get('jtg_param_cats'));
+
+			if ($layout !== null)
+			{
+				$catswhere[] = $layout;
+			}
 		}
 
 		$layout = self::parseParam_Usergroup($params->get('jtg_param_usergroup'));
@@ -758,7 +759,7 @@ class LayoutHelper
 		}
 		else
 		{
-			$catswhere = "( " . implode(" OR \n", $catswhere) . " )";
+			$catswhere = "( " . implode(" AND \n", $catswhere) . " )";
 		}
 
 		if ( ( $catswhere != "") AND ( $where != "" ) )

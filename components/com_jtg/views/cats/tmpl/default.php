@@ -16,16 +16,24 @@
  */
 
 // No direct access
-defined('_JEXEC') or die('Restricted access');
+    defined('_JEXEC') or die('Restricted access');
 
-echo $this->lh;
+    echo $this->lh;
+    // Don't show description column when no description are set
+    $showdescription = false;
+    foreach ($this->cats as $cat) {
+        if (!empty($cat->description)) $showdescription = true;
+    }
+    	    
 ?>
-<table style="width:100%;" class="tracktable">
+<table class="tracktable">
 	<thead>
 		<tr class="sectiontableheader">
 			<th colspan="2" width="100px" align="center"><?php echo JText::_('COM_JTG_CAT'); ?>
 			</th>
-			<th align="center"><?php echo JText::_('COM_JTG_DESCRIPTION'); ?></th>
+			<?php if ($showdescription) 
+			    echo '<th align="left">'.JText::_('COM_JTG_DESCRIPTION').'</th>'; ?>
+			<th align="left"><?php echo JText::_('COM_JTG_NTRACK'); ?></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -33,7 +41,7 @@ echo $this->lh;
 		$k = 0;
 		$imgdir = JUri::base() . "images/jtrackgallery/cats/";
 
-		for ($i = 0, $n = count($this->cats); $i < $n; $i++)
+        for ($i = 0, $n = count($this->cats); $i < $n; $i++)
 		{
 			$cat = $this->cats[$i];
 			$cat->img = null;
@@ -42,8 +50,12 @@ echo $this->lh;
 			{
 				$cat->img = "&nbsp;<img title=\"" . JText::_($cat->title) . "\" alt=\"" . JText::_($cat->title) . "\" src=\"" . $imgdir . $cat->image . "\" />";
 			}
-
-			$link = JRoute::_('index.php?option=com_jtg&view=files&layout=list&cat=' . $cat->id);
+			if ((int)JFactory::getApplication()->getParams()->get('cat_link_view')==0) {
+				$link = JRoute::_('index.php?option=com_jtg&view=jtg&cat=' . $cat->id);
+			}
+			else {
+				$link = JRoute::_('index.php?option=com_jtg&view=files&layout=list&cat=' . $cat->id);
+			}
 			?>
 		<tr class="sectiontableentry<?php
 			echo $k;
@@ -52,10 +64,16 @@ echo $this->lh;
 			<td width="10%" align="center"><a href="<?php echo $link; ?>">
 				<?php echo $cat->img; ?>
 			</a></td>
-			<td><b><a href="<?php echo $link; ?>">
+			<td><b>
+				<?php if ($cat->ntracks) { ?>
+				<a href="<?php echo $link; ?>">
 				<?php echo JText::_($cat->treename); ?>
-				</a> </b></td>
-			<td><?php echo JText::_($cat->description); ?></td>
+				</a> 
+				<?php } else echo JText::_($cat->treename); ?>
+			</b></td>
+			<?php if ($showdescription) 
+			echo '<td> '.JText::_($cat->description).' </td>'; ?>
+			<td><?php echo $cat->ntracks; ?><td>
 		</tr>
 		<?php
 		}

@@ -8,7 +8,7 @@
 	<fields name="request">
 	    <fieldset name="request">
 	        <field
-	            name="catid"
+	            name="cat"
                 type="sql"
                 label="COM_JTG_CAT"
                 description="COM_JTG_CAT"
