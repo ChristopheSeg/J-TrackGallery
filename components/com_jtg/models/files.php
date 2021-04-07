@@ -638,13 +638,14 @@ class JtgModelFiles extends JModelLegacy
 			$user = JUser::getInstance((int)  $params->get('upload_notify_uid'));
 			$recipient = $user->email;
 			$mailer->addRecipient($recipient);
-			$link = JUri::base() . "index.php?option=com_jtg&view=files&layout=file&id=" . $rows->id;
+			$link = JRoute::_(JUri::base() . "index.php?option=com_jtg&view=files&layout=file&id=" . $rows->id);
 			$msg = JText::_('COM_JTG_NEW_TRACK_MAIL_MSG');
 			$config = JFactory::getConfig();
          $sitename = $config->get('sitename');
 			$body = sprintf($msg, $sitename, $link);
 			$mailer->setSubject(JText::_('COM_JTG_NEW_TRACK_MAIL_SUBJECT'));
 			$mailer->setBody($body);
+			$mailer->isHtml(true);
 			$senderr = $mailer->Send();
 			if (! $senderr )
 			{
@@ -1279,12 +1280,13 @@ class JtgModelFiles extends JModelLegacy
 			$recipient = $user->email;
 			$mailer->addRecipient($recipient);
          */
-			$link = JUri::base() . "index.php?option=com_jtg&view=files&layout=file&id=" . $id;
+			$link = JRoute::_(JUri::base() . "index.php?option=com_jtg&view=files&layout=file&id=" . $id);
 			$msg = JText::_('COM_JTG_CMAIL_MSG');
          $sitename = $config->get('sitename');
 			$body = sprintf($msg, $sitename, $link);
 			$mailer->setSubject(JText::_('COM_JTG_CMAIL_SUBJECT'));
 			$mailer->setBody($body);
+			$mailer->isHtml(true);
 
 			// Optional file attached
 			$mailer->addAttachment(JPATH_COMPONENT . '/assets/document.pdf');
