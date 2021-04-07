@@ -1242,9 +1242,9 @@ class JtgModelFiles extends JModelLegacy
 	{
 		$mainframe = JFactory::getApplication();
 
-		$name = JFactory::getApplication()->input->get('name');
+		$name = JFactory::getApplication()->input->get('name', '', 'string');
 		$email = JFactory::getApplication()->input->get('email', '', 'Raw');
-		$homepage = JFactory::getApplication()->input->get('homepage');
+		$homepage = JFactory::getApplication()->input->get('homepage', '', 'raw');
 		$title = JFactory::getApplication()->input->get('title', '', 'string');
 		$text = JFactory::getApplication()->input->get('text', '', 'raw');
 
@@ -1470,7 +1470,7 @@ class JtgModelFiles extends JModelLegacy
 	 *
 	 * @return return_description
 	 */
-	protected function parseHomepageIcon ($www)
+	function parseHomepageIcon ($www)
 	{
 		if ((! preg_match('/http\:\/\//', $www)) and (! preg_match('/https\:\/\//', $www)))
 		{
