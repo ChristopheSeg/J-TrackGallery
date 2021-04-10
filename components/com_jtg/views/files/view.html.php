@@ -516,14 +516,6 @@ class JtgViewFiles extends JViewLegacy
 		// Load images if exists
 		$img_dir = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks_images/track_' . $id;
 
-                /*
-		if (JFolder::exists($img_dir))
-		{
-			$exclude = array ( '.db', '.txt' );
-			$images = JFolder::files($img_dir, '', false, false, $exclude);
-		}
-                */
-
 		$jscript = "<script type=\"text/javascript\">
 		Joomla.submitbutton = function(pressbutton)  {
 		var form = document.adminForm;
@@ -534,12 +526,7 @@ class JtgViewFiles extends JViewLegacy
 
 		$imageList = $model->getImages($id);
 
-                /*
-		if ((isset($images) AND (count($images) > 0)))
-		{
-			$this->images = $images;
-		*/
-		if ($imageList !== null) {
+		if ($imageList !== null AND count($imageList) > 0) {
          $this->images = true;
 			switch ($cfg->gallery)
 			{
