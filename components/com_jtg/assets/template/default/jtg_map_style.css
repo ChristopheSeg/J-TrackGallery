@@ -29,7 +29,8 @@
 }
 
 .ol-mouse-position {
-	bottom: 1.5em;
+	left: 8px;
+	right: auto;
 }
 
 #jtg_map.olMap { /* this is for normal size map */
