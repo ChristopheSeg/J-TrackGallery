@@ -48,7 +48,6 @@ a.anchor:hover {
 .rating {
 	width: 160px;
 	height: 16px;
-	margin: 0 0 20px 0;
 	padding: 0;
 	list-style: none;
 	clear: both;
@@ -635,9 +634,39 @@ v\:rect,v\:roundrect,v\:line,v\:polyline,v\:curve,v\:arc,v\:oval,v\:image,v\:sha
 	padding-bottom: 10px;
 }
 
-.gps-info {
+.block-header {
+    font-size: 1.2em;
+	font-weight: bold;
+	padding: 7px 0;
+	border-bottom: 1px solid #000;
+}
+
+.block-text {
+    margin: 5px;
+}
+
+.gps-info-cont {
 	margin: auto;
-	padding: 10px 10px 10px 10px;
+}
+
+.gps-info {
+   display: inline-block;
+   min-width: 200px;
+   width: 49.5%;
+   vertical-align: top;
+}
+
+.gps-info-tab {
+   width: 100%;
+   border: 0;
+   margin: 5px;
+   vertical-align: top;
+}
+
+.timecalc {
+   display: inline;
+   margin-right: 5px;
+   margin-left: 5px;
 }
 
 span label {
@@ -838,6 +867,7 @@ span label {
 	left: 0;
 	margin-right: 150px;
 	float: left;
+	padding: 5px;
 }
 
 #downloadbox {

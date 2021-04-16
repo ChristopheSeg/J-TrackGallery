@@ -17,6 +17,7 @@
 
 // No direct access
 defined('_JEXEC') or die('Restricted access');
+use Joomla\CMS\Uri\Uri;
 echo $this->lh;
 
 $JtgHelper = new JtgHelper;
@@ -479,158 +480,133 @@ if ( $this->clicklist !== false ) {
     </div>
 -->
 	<?php
-	if ($havechart or $gps_info)
-	{
-		?>
-<div id="profile" style="width:<?php echo $this->cfg->charts_width; ?>;" >
-	<?php
 	if ($havechart)
 	{
-		?>
+	?>
+    <div id="profile" style="width:<?php echo $this->cfg->charts_width; ?>;" >
 	<div class="profile-img" id="elevation" style="width:<?php echo $this->cfg->charts_width; ?>
 		; height: <?php echo $this->cfg->charts_height; ?>;"></div>
+	</div>
 	<?php
 	}
 
 	if ($gps_info){
 	?>
-	<div class="gps-info">
-		<table border=0 style="width:98%;" align="center">
-			<thead>
-				<tr>
-					<th colspan="3"><?php echo JText::_('COM_JTG_DETAILS'); ?></th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td><?php echo JText::_('COM_JTG_UPLOADER'); ?>:</td>
-					<td><?php echo $this->profile; ?></td>
-					<td rowspan="6" valign="top"><?php
-					if ( ($durationbox) AND ($this->track->distance != "") AND ((float) $this->track->distance != 0))
-					{
-						?>
-						<div id="count-box">
-							<div align="center">
-								<span><?php echo JText::_('COM_JTG_TIMECOUNT'); ?> </span>
-							</div>
-						<?php if ($pacechart)
-						{ ?>
-							<div align="center">
-								<span> <label for="pace"> <?php echo JText::_('COM_JTG_AVG_SPEED_FROM_PACE'); ?>
-								</label> <input type="text" name="pace" id="pace" value=""
-									size="4" />
-								<?php echo '(' . JText::_('COM_JTG_PACE_UNIT_' . strtoupper($this->cfg->unit)) . ')'; ?>
-								</span> <input type="button" name="button" class="button"
-									value="<?php echo JText::_('JSUBMIT'); ?>"
-									onclick="getAvgTimeFromPace(document.getElementById('pace').value,<?php echo $this->distance_float; ?>,
-									<?php echo '\'' . JText::_('COM_JTG_SEPARATOR_DEC') . '\''; ?>);" />
-							</div>
-						<?php } ?>
-							<div align="center">
-								<span> <label for="speed"> <?php echo JText::_('COM_JTG_AVG_SPEED'); ?>
-								</label> <input type="text" name="speed" id="speed" value=""
-									size="4" />
-								<?php echo '(' . JText::_('COM_JTG_SPEED_UNIT_' . strtoupper($this->cfg->unit)) . ')'; ?>
-								</span> <input type="button" name="button" class="button"
-									value="<?php echo JText::_('JSUBMIT'); ?>"
-									onclick="getAvgTime(document.getElementById('speed').value,<?php echo $this->distance_float; ?>,
-									<?php echo '\'' . JText::_('COM_JTG_SEPARATOR_DEC') . '\''; ?>);" />
-							</div>
-							<div align="center">
-								<span> <label for="time"> <?php echo JText::_('COM_JTG_ESTIMATED_TIME'); ?>
-								</label> <input type="text" name="time" id="time" value=""
-									size="9" readonly="readonly" />
-								</span>
-							</div>
-						</div> <?php
-					}
-				?></td>
-				</tr>
-				<tr>
-					<td><?php echo JText::_('COM_JTG_DATE'); ?>:</td>
-					<td><?php echo $this->date; ?></td>
-				</tr>
-				<?php if ( $this->track->level != "0" )
-		{
-		?>
-				<tr>
-					<td><?php echo JText::_('COM_JTG_LEVEL'); ?>:</td>
-					<td><?php echo $this->level; ?></td>
-				</tr>
-<?php
-}
+	<div class="description"></div>
+	<div class="gps-info-cont">
+	    <div class="block-header"><?php echo JText::_('COM_JTG_DETAILS');?></div>
+		<div class="gps-info"><table class="gps-info-tab">
 
+<?php
 if ( ($this->track->distance != "") AND ((float) $this->track->distance != 0) )
 {
 ?>
-				<tr>
-					<td><?php echo JText::_('COM_JTG_DISTANCE'); ?>:</td>
-					<td><?php echo $this->distance; ?></td>
-				</tr>
+			<tr>
+				<td><?php echo JText::_('COM_JTG_DISTANCE'); ?>:</td>
+				<td><?php echo $this->distance; ?></td>
+			</tr>
 <?php
 }
 
 if ($this->track->ele_asc)
 {
 ?>
-				<tr>
-					<td><?php echo JText::_('COM_JTG_ELEVATION_UP'); ?>:</td>
-					<td><?php
-						echo $this->track->ele_asc;
-						echo ' ' . JText::_('COM_JTG_METERS');
-						?>
-					</td>
-				</tr>
+			<tr>
+				<td><?php echo JText::_('COM_JTG_ELEVATION_UP'); ?>:</td>
+				<td><?php
+					echo $this->track->ele_asc;
+					echo ' ' . JText::_('COM_JTG_METERS');
+					?>
+				</td>
+			</tr>
 <?php
 }
 
 if ($this->track->ele_desc)
 {
 ?>
-				<tr>
-					<td><?php echo JText::_('COM_JTG_ELEVATION_DOWN'); ?>:</td>
-					<td><?php echo $this->track->ele_desc; ?>
-						<?php echo ' ' . JText::_('COM_JTG_METERS'); ?>
+			<tr>
+				<td><?php echo JText::_('COM_JTG_ELEVATION_DOWN'); ?>:</td>	
+				<td><?php echo $this->track->ele_desc; ?>
+			    	<?php echo ' ' . JText::_('COM_JTG_METERS'); ?>
 					</td>
-				</tr>
+			</tr>
 <?php
 }
 ?>
+
+		<?php if ( $this->track->level != "0" )
+		{
+		?>
+			<tr>
+				<td><?php echo JText::_('COM_JTG_LEVEL'); ?>:</td>
+				<td><?php echo $this->level; ?></td>
+			</tr>
+<?php
+} ?>
+	 		<tr>
+				<td><?php echo JText::_('COM_JTG_CATS'); ?>:</td>
+				<td colspan="2"><?php
+				echo $JtgHelper->parseMoreCats($this->sortedcats, $this->track->catid, "TrackDetails", true);
+				?>
+				</td>
+			</tr>
+<?php
+if (! $this->params->get("jtg_param_disable_terrains"))
+{
+	// Terrain description is enabled
+	if ($this->track->terrain)
+	{
+		$terrain = $this->track->terrain;
+		$terrain = explode(',', $terrain);
+		$newterrain = array();
+
+		foreach ($terrain as $t)
+		{
+			$t = $this->model->getTerrain(' WHERE id=' . $t);
+
+			if ( ( isset($t[0])) AND ( $t[0]->published == 1 ) )
+			{
+				$newterrain[] = $t[0]->title;
+			}
+		}
+
+		$terrain = implode(', ', $newterrain);
+		//echo $this->parseTemplate('headline', JText::_('COM_JTG_TERRAIN'), "jtg_param_header_terrain");
+		//echo $this->parseTemplate('description', $terrain);
+		echo "<tr><td>".JText::_('COM_JTG_TERRAIN')."</td><td>".$terrain."</td></tr>";
+	}
+	else
+	{
+		echo "<a name=\"jtg_param_header_terrain\"></a>";
+	}
+}
+?>
+		</table>
+		</div>
+		<div class="gps-info">
+		<table class="gps-info-tab">
+				<tr>
+					<td><?php echo JText::_('COM_JTG_UPLOADER'); ?>:</td>
+					<td><?php echo $this->profile; ?></td>
+				</tr>
+					</td>
+				</tr>
+				<tr>
+					<td><?php echo JText::_('COM_JTG_DATE'); ?>:</td>
+					<td><?php echo $this->date; ?></td>
+				</tr>
 				<tr>
 					<td><?php echo JText::_('COM_JTG_HITS'); ?>:</td>
 					<td><?php echo $this->track->hits; ?></td>
 				</tr>
-				<tr>
-					<td><?php echo JText::_('COM_JTG_CATS'); ?>:</td>
-					<td colspan="2"><?php
-					echo $JtgHelper->parseMoreCats($this->sortedcats, $this->track->catid, "TrackDetails", true);
-					?>
-					</td>
-				</tr>
-				<tr>
-					<td><?php echo JText::_('COM_JTG_BIG_MAP') ?>:</td>
-					<td colspan="2"><a rel="width[1000];height[700];" class="jcebox"
-						href="///maps.google.com/maps?q=<?php echo $this->track->start_n . "," . $this->track->start_e; ?>"
-						target="_blank">Google</a>, <a rel="width[1000];height[700];"
-						class="jcebox"
-						href="///openstreetmap.org/?mlat=<?php echo $this->track->start_n . "&amp;mlon=" . $this->track->start_e; ?>"
-						target="_blank">OpenStreetMap</a>, <a
-						rel="width[1000];height[700];" class="jcebox"
-						href="///www.geocaching.com/map/default.aspx?lat=<?php echo $this->track->start_n . "&amp;lng=" . $this->track->start_e; ?>"
-						target="_blank">Geocaching.com</a>
-					</td>
-				</tr>
-			</tbody>
+
+				
 		</table>
-	</div>
-	<div class="no-float"></div>
-	<?php } // end if $gps_info?>
-</div>
-<?php
-	} // end if ($havechart or $gps_info)
-if ($this->cfg->usevote == 1)
-{
-	echo $this->parseTemplate("headline", JText::_('COM_JTG_VOTING'), "jtg_param_header_rating");
+	<?php
+    if ($this->cfg->usevote == 1)
+    {
+	//echo $this->parseTemplate("headline", JText::_('COM_JTG_VOTING'), "jtg_param_header_rating");
 	$template = "<div id=\"ratingbox\">
 	<ul id=\"1001\" class=\"rating " . $this->vote['class'] . "\">\n";
 
@@ -639,7 +615,7 @@ if ($this->cfg->usevote == 1)
 		$link = "index.php?option=com_jtg&controller=files&id=" . $this->track->id . "&task=vote&rate=" . $i . "#jtg_param_header_rating";
 		$link = JRoute::_($link, false);
 		$template .= "		<li id=\"" . $i . "\" class=\"rate " . $this->stars->$i . "\">\n"
-		. "			<a href=\"" . $link . "\" title=\"" . JText::_('COM_JTG_STARS_' . $i) . "\">" . $i . "</a>\n"
+		. "			<a href=\"" . $link . "\" title=\"" . JText::_('COM_JTG_STARS_' . $i) . "\" rel=\"nofollow\">" . $i . "</a>\n"
 		. "		</li>\n";
 	}
 
@@ -658,24 +634,60 @@ if ($this->cfg->usevote == 1)
 				) . "\n";
 	}
 
-	echo $this->parseTemplate("description", $template);
+	//echo $this->parseTemplate("description", $template);
+	echo $template."</div>";
+    }
+	else
+    {
+    	echo "<a name=\"jtg_param_header_rating\"></a>";
+    }
+
 	?>
+	</div>
+
+    <div class = "block-text">
+	    <?php echo JText::_('COM_JTG_BIG_MAP') ?>:
+			<a rel="width[1000];height[700];" class="jcebox"
+				href="///maps.google.com/maps?q=<?php echo $this->track->start_n . "," . $this->track->start_e; ?>"
+				target="_blank">Google</a>, 
+			<a rel="width[1000];height[700];"
+				class="jcebox"
+				href="///openstreetmap.org/?mlat=<?php echo $this->track->start_n . "&amp;mlon=" . $this->track->start_e; ?>"
+				target="_blank">OpenStreetMap</a>,
+			<a
+				rel="width[1000];height[700];" class="jcebox"
+				href="///www.geocaching.com/map/default.aspx?lat=<?php echo $this->track->start_n . "&amp;lng=" . $this->track->start_e; ?>"
+				target="_blank">Geocaching.com</a>
+	</div>
+	</div>
+
+	<div class="no-float"></div>
+<?php } // end if $gps_info
+?>
+
 <div class="no-float"></div>
-</div>
+
 <?php
+
+if ($this->track->description)
+{
+	echo $this->parseTemplate("headline", JText::_('COM_JTG_DESCRIPTION'), "jtg_param_header_description");
+	echo $this->parseTemplate("description", JHTML::_('content.prepare', $this->track->description));
 }
 else
 {
-	echo "<a name=\"jtg_param_header_rating\"></a>";
+	echo '<a name="jtg_param_header_description"></a>';
 }
 
+//echo $this->parseTemplate("headline","");
 if ($this->cfg->download >= 1)
 {
 	$download_buttons ='';
-	echo $this->parseTemplate("headline", JText::_('COM_JTG_DOWNLOAD'), "jtg_param_header_download");
-	echo $this->parseTemplate("description", null, null, "open");
-
-	if (($this->cfg->download == 2) AND ($this->user->get('id') == 0))
+	//echo $this->parseTemplate("headline", JText::_('COM_JTG_DOWNLOAD'), "jtg_param_header_download");
+	//echo $this->parseTemplate("description", null, null, "open");
+    echo "<div class=\"gps-info\"> <div class=\"block-header\">".
+          JText::_('COM_JTG_DOWNLOAD')."</div>";
+  	if (($this->cfg->download == 2) AND ($this->user->get('id') == 0))
 	{
 		// Registered users only
 		echo $this->parseTemplate("description", JText::_('COM_JTG_NOT_DOWNLOAD'));
@@ -716,9 +728,8 @@ if ($this->cfg->download >= 1)
 <form name="adminForm" id="adminForm" method="post"
 	action="<?php echo $this->action; ?>">
 
-	<span><label for="format"><?php echo JText::_('COM_JTG_DOWNLOAD_THIS_TRACK'); ?>&nbsp;</label></span>
-
-		<?php echo $download_buttons;?>
+	<div class="block-text"> <label for="format"><?php echo JText::_('COM_JTG_DOWNLOAD_THIS_TRACK'); ?>&nbsp;</label>
+    	<?php echo $download_buttons;?>
 			<?php
 	echo JHtml::_('form.token') . "\n"; ?>
 	<input type="hidden" name="format" id="format" value="original" />
@@ -726,54 +737,53 @@ if ($this->cfg->download >= 1)
 		type="hidden" name="id" value="<?php echo $this->track->id; ?>" /> 
     <input type="hidden" name="task" value="" />
 </form>
-<?php echo $this->parseTemplate("description", null, null, "close"); ?>
-<div class="no-float"></div>
-<!--</div>-->
+</div>
+<?php echo $this->parseTemplate("description", null, null, "close");
+	}
+	?>
+</div>
 <?php
-	}
-}
-else
-{
-	echo "<a name=\"jtg_param_header_download\"></a>";
 }
 
-if (! $this->params->get("jtg_param_disable_terrains"))
-{
-	// Terrain description is enabled
-	if ($this->track->terrain)
-	{
-		$terrain = $this->track->terrain;
-		$terrain = explode(',', $terrain);
-		$newterrain = array();
-
-		foreach ($terrain as $t)
-		{
-			$t = $this->model->getTerrain(' WHERE id=' . $t);
-
-			if ( ( isset($t[0])) AND ( $t[0]->published == 1 ) )
-			{
-				$newterrain[] = $t[0]->title;
-			}
-		}
-
-		$terrain = implode(', ', $newterrain);
-		echo $this->parseTemplate('headline', JText::_('COM_JTG_TERRAIN'), "jtg_param_header_terrain");
-		echo $this->parseTemplate('description', $terrain);
-	}
-	else
-	{
-		echo "<a name=\"jtg_param_header_terrain\"></a>";
-	}
-}
-
-if ($this->track->description)
-{
-	echo $this->parseTemplate("headline", JText::_('COM_JTG_DESCRIPTION'), "jtg_param_header_description");
-	echo $this->parseTemplate("description", JHTML::_('content.prepare', $this->track->description));
-}
-else
-{
-	echo '<a name="jtg_param_header_description"></a>';
+if ( ($durationbox) AND ($this->track->distance != "") AND ((float) $this->track->distance != 0))
+    {
+?>
+						<div class="gps-info">
+						<!-- <div id="count-box"> -->
+							<div class="block-header">
+							 <?php echo JText::_('COM_JTG_TIMECOUNT'); ?>
+							</div>
+						<?php if ($pacechart)
+						{ ?>
+								<div class="block-text"> <label class="timecalc" for="pace"> <?php echo JText::_('COM_JTG_AVG_SPEED_FROM_PACE'); ?>
+								</label> <input type="text" name="pace" id="pace" value=""
+									size="4" />
+								<?php echo '(' . JText::_('COM_JTG_PACE_UNIT_' . strtoupper($this->cfg->unit)) . ')'; ?>
+							    <input type="button" name="button" class="button"
+									value="<?php echo JText::_('JSUBMIT'); ?>"
+									onclick="getAvgTimeFromPace(document.getElementById('pace').value,<?php echo $this->distance_float; ?>,
+									<?php echo '\'' . JText::_('COM_JTG_SEPARATOR_DEC') . '\''; ?>);" /> 
+								</div>
+						<?php } ?>
+							
+								<div class="block-text"> <label class="timecalc" for="speed"><?php echo JText::_('COM_JTG_AVG_SPEED'); ?></label>
+								 <input type="text" name="speed" id="speed" value=""
+									size="4" />
+								<?php echo '(' . JText::_('COM_JTG_SPEED_UNIT_' . strtoupper($this->cfg->unit)) . ')'; ?>
+							
+								<input type="button" name="button" class="button"
+									value="<?php echo JText::_('JSUBMIT'); ?>"
+									onclick="getAvgTime(document.getElementById('speed').value,<?php echo $this->distance_float; ?>,
+									<?php echo '\'' . JText::_('COM_JTG_SEPARATOR_DEC') . '\''; ?>);" />
+								</div>
+									
+								<div class="block-text">
+								<label class="timecalc" for "time"><?php echo JText::_('COM_JTG_ESTIMATED_TIME'); ?></label>
+							    <input type="text" name="time" id="time" value=""
+									size="9" readonly="readonly" />
+								</div>
+						</div>
+<?php
 }
 
 if (($this->imageBlock) AND ( $this->cfg->gallery != "none" ))
@@ -825,7 +835,8 @@ if ($this->cfg->comments == 1)
 
 	if (!$this->comments)
 	{
-		echo "<div>" . JText::_('COM_JTG_NO_COMMENTS_DESC') . "</div>";
+		//echo "<div>" . JText::_('COM_JTG_NO_COMMENTS_DESC') . "</div>";
+		echo $this->parseTemplate("description",JText::_('COM_JTG_NO_COMMENTS_DESC'));
 	}
 	else
 	{
@@ -871,7 +882,7 @@ if ($this->cfg->comments == 1)
 	}
 	else
 	{
-		echo JText::_('COM_JTG_ADD_COMMENT_NOT_AUTH');
+		echo $this->parseTemplate('description',JText::_('COM_JTG_ADD_COMMENT_NOT_AUTH'));
 	}
 }
 elseif ($this->cfg->comments == 3)
