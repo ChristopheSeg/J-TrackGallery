@@ -192,6 +192,23 @@ class JtgViewFiles extends JViewLegacy
 			return;
 		}
 
+		if ($this->getLayout() == 'map')
+		{
+			// BEGIN tracks filter
+			$this->state = $this->get('State');
+
+			// Get filter form.
+			$this->filterForm = $this->get('FilterForm');
+
+			// Get active filters.
+			$this->activeFilters = $this->get('ActiveFilters');
+
+			// END tracks filter
+
+			$this->_displayMap($tpl);
+			return;
+		}
+
 		if ($this->getLayout() == 'user')
 		{
 			$this->_displayUserTracks($tpl);
@@ -814,14 +831,14 @@ class JtgViewFiles extends JViewLegacy
 		$lists['search'] = $search;
 
 		// $rows = $model->getData($limit, $limitstart );
-		$rows = $cache->get(array ( $model, 'getData' ), array ( $limit, $limitstart ));
-		$total = $this->get('Total');
+		//$rows = $cache->get(array ( $model, 'getData' ), array ( $limit, $limitstart ));
+		$total = $this->get('Total'); // This query does not work
 		$pagination = new JPagination($total, $limitstart, $limit);
 
 		$this->sortedcats = $sortedcats;
 		$this->sortedter = $sortedter;
 		$this->lists = $lists;
-		$this->rows = $rows;
+		//$this->rows = $rows;
 		$this->uid = $uid;
 		$this->gid = $gid;
 		$this->deletegid = $deletegid;
@@ -830,6 +847,151 @@ class JtgViewFiles extends JViewLegacy
 		$this->footer = $footer;
 		$this->action = $action;
 		$this->cfg = $cfg;
+		$this->params = $params;
+
+		parent::display($tpl);
+	}
+
+	/**
+	 * function_description
+	 *
+	 * @param   object  $tpl  template
+	 *
+	 * @return return_description
+	 */
+	function _displayMap($tpl)
+	{
+		$mainframe = JFactory::getApplication();
+		$option = JFactory::getApplication()->input->get('option');
+
+		$model = $this->getModel();
+		$cache = JFactory::getCache('com_jtg');
+		$sortedcats = JtgModeljtg::getCatsData(true);
+		$sortedter = JtgModeljtg::getTerrainData(true);
+		$user = JFactory::getUser();
+		$uid = $user->get('id');
+		$gid = $user->get('gid');
+		$deletegid = $user->get('deletegid');
+		$lh = LayoutHelper::navigation();
+		$footer = LayoutHelper::footer();
+		$cfg = JtgHelper::getConfig();
+		$pathway = $mainframe->getPathway();
+		$pathway->addItem(JText::_('COM_JTG_GPS_FILES'), '');
+		$sitename = $mainframe->getCfg('sitename');
+		$document = JFactory::getDocument();
+		$document->setTitle(JText::_('COM_JTG_GPS_FILES') . " - " . $sitename);
+		$params = $mainframe->getParams();
+		$this->gpsData = new GpsDataClass($cfg->unit);
+      jimport('joomla.filesystem.file');
+
+      // Load Openlayers stylesheet first (for overriding)
+      $tmpl = ($cfg->template = "") ? $cfg->template : 'default';
+      $document->addStyleSheet(JUri::root(true) . '/components/com_jtg/assets/template/'.$tmpl.'/ol.css');
+
+      // Then load jtg_map stylesheet
+      $document->addStyleSheet(JUri::root(true) . '/components/com_jtg/assets/template/' . $tmpl . '/jtg_map_style.css');
+
+      // Then override style with user templates
+      $template = $mainframe->getTemplate();
+      $template_jtg_map_style = 'templates/' . $template . '/css/jtg_map_style.css';
+
+      if ( JFile::exists($template_jtg_map_style))
+      {  
+         $document->addStyleSheet(JUri::root(true) . '/templates/' . $template . '/css/jtg_map_style.css');
+		}
+
+      // TODO: do we need this?
+		$sitename = $document->getTitle() . " - " . $mainframe->getCfg('sitename');
+      $mapsxml = JPATH_COMPONENT_ADMINISTRATOR . '/views/maps/maps.xml';
+      $this->params_maps = new JRegistry('com_jtg', $mapsxml);
+
+		// $params = JComponentHelper::getParams('com_jtg'); // Already loaded above?
+      LayoutHelper::parseMap($document); // Loads ol.js
+
+	   // Show Tracks in Overview-Map?
+      $showtracks = (bool) $params->get('jtg_param_tracks');
+
+		$order = JFactory::getApplication()->input->getVar('order', 'order', 'post', 'string');
+		$ordering = '';
+
+		// JTG_FILTER_TODO
+		$this->items		= $this->get('Items');
+		$this->state		= $this->get('State');
+
+		//Following variables used more than once
+		$this->searchterms	= $this->state->get('filter.search');
+		// JTG_FILTER_TODO
+
+		$catid = (JFactory::getApplication()->input->getInt('cat', null)); // get category ID	
+		$cats = $model->getCatsData(false, $catid);
+		$where = LayoutHelper::filterTracks($cats);
+      if (count($cats) == 0) {
+         $mainframe->enqueueMessage(JText::_('COM_JTG_CAT_NOT_FOUND'));
+      }
+
+      $access = JtgHelper::giveAccessLevel(); // User access level
+      $otherfiles = $params->get('jtg_param_otherfiles');// Access level defined in backend
+		$mayisee = JtgHelper::MayIsee($where, $access, $otherfiles);
+      $boxlinktext = array(
+            0 => JText::_('COM_JTG_LINK_VIEWABLE_FOR_PUBLIC'),
+            1 => JText::_('COM_JTG_LINK_VIEWABLE_FOR_REGISTERED'),
+            2 => JText::_('COM_JTG_LINK_VIEWABLE_FOR_SPECIAL'),
+            9 => JText::_('COM_JTG_LINK_VIEWABLE_FOR_PRIVATE')
+      );
+
+		// TODO: turn up empty with e.g. selected category in URL (cat=17)
+
+		$this->newest =   null;
+
+      if ($params->get('jtg_param_newest') != 0)
+      {  
+         $this->newest =   LayoutHelper::parseTopNewest($where, $mayisee, $model, $params->get('jtg_param_newest'));
+      }
+
+      $this->hits = null;
+
+      if ($params->get('jtg_param_mostklicks') != 0)
+      {  
+         $this->hits = LayoutHelper::parseTopHits($where, $mayisee, $model, $params->get('jtg_param_mostklicks'));
+      }
+
+      $this->best = null;
+
+      if ($params->get('jtg_param_best') != 0)
+      {  
+         $this->best = LayoutHelper::parseTopBest($where, $mayisee, $model, $params->get('jtg_param_best'), $params->get('jtg_param_vote_show_stars'));
+      }
+
+		$this->rand = null;
+
+      if ($params->get('jtg_param_rand') != 0)
+      {
+         $this->rand = LayoutHelper::parseTopRand($where, $mayisee, $model, $params->get('jtg_param_rand'));
+      }
+
+      $this->toptracks = LayoutHelper::parseToptracks($params);
+
+		$search = $mainframe->getUserStateFromRequest("$option.search", 'search', '', 'string');
+		$search = JString::strtolower($search);
+		$limit = $mainframe->getUserStateFromRequest($option . '.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
+		$action = JRoute::_('index.php?option=com_jtg&view=files&layout=map', false);
+
+		//$lists['order'] = $filter_order;
+		//$lists['order_Dir'] = $filter_order_Dir;
+		$lists['search'] = $search;
+
+		$this->sortedcats = $sortedcats;
+		$this->sortedter = $sortedter;
+		$this->boxlinktext = $boxlinktext;
+		$this->lists = $lists;
+		$this->uid = $uid;
+		$this->gid = $gid;
+		$this->deletegid = $deletegid;
+		$this->lh = $lh;
+		$this->footer = $footer;
+		$this->action = $action;
+		$this->cfg = $cfg;
+		$this->showtracks = $showtracks;
 		$this->params = $params;
 
 		parent::display($tpl);

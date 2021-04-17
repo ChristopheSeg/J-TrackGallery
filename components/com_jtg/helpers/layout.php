@@ -85,7 +85,7 @@ class LayoutHelper
 		$navi = '';
 		$navi .= '<div class="gps-navi">';
 		$navi .= '<div class="navi-part"><a href="' .
-				JRoute::_("index.php?option=com_jtg") .
+				JRoute::_("index.php?option=com_jtg&view=files&layout=map") .
 				'">' . JText::_('COM_JTG_OVERVIEW') . '</a></div>';
 		$navi .= '<div class="navi-part"><a href="' .
 				JRoute::_("index.php?option=com_jtg&view=cats&layout=default") . '">' . JText::_('COM_JTG_CATS') . '</a></div>';

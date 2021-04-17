@@ -48,10 +48,10 @@ class JtgViewjtg extends JViewLegacy
 		jimport('joomla.filesystem.file');
 
 		// Load Openlayers stylesheet first (for overriding)
-                $document->addStyleSheet(JUri::root(true) . '/components/com_jtg/assets/template/default/ol.css');
+		$tmpl = ($cfg->template = "") ? $cfg->template : 'default';
+      $document->addStyleSheet(JUri::root(true) . '/components/com_jtg/assets/template/'.$tmpl.'/ol.css');
 
 		// Then load jtg_map stylesheet
-		$tmpl = ($cfg->template = "") ? $cfg->template : 'default';
 		$document->addStyleSheet(JUri::root(true) . '/components/com_jtg/assets/template/' . $tmpl . '/jtg_map_style.css');
 
 		// Then override style with user templates

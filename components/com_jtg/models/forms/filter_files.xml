@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fields name="filter">
+		<field
+			name="search"
+			type="text"
+			label="COM_BANNERS_SEARCH_IN_TITLE"
+			hint="JSEARCH_FILTER"
+			class="js-stools-search-string"
+		/>
+		<field
+		    name="mindist"
+		    type="number"
+		    label="COM_JTG_DISTANCE"
+		    hint="COM_JTG_MIN_DISTANCE"
+		    onchange="this.form.submit();"
+		/>
+		<field
+		    name="maxdist"
+		    type="number"
+		    label="COM_JTG_DISTANCE"
+		    hint="COM_JTG_MAX_DISTANCE"
+		    onchange="this.form.submit()"
+		/>
+        <field
+            name="tracklevel"
+            type="list"
+            hint="COM_JTG_LEVEL"
+            onchange="this.form.submit()">
+            <option value="">COM_JTG_LEVEL</option>
+            <option value="1">COM_JTG_LEVEL_1</option>
+            <option value="2">COM_JTG_LEVEL_2</option>
+            <option value="3">COM_JTG_LEVEL_3</option>
+            <option value="4">COM_JTG_LEVEL_4</option>
+            <option value="5">COM_JTG_LEVEL_5</option>
+        </field>
+		<field
+		    name="trackcat"
+		    type="trackcategory"
+		    onchange="this.form.submit()"
+		/>
+	</fields>
+</form>

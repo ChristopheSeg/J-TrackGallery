@@ -27,7 +27,7 @@ jimport('joomla.application.component.model');
 
 
 
-class JtgModelFiles extends JModelLegacy
+class JtgModelFiles extends JModelList
 {
 	/**
 	 * files data array
@@ -47,40 +47,84 @@ class JtgModelFiles extends JModelLegacy
 	 * Constructor
 	 */
 
-	//Add this handy array with database fields to search in
-	// sera utilisé pour la recherche seulement
-	// protected $searchInFields = array('text','a.title','someotherfieldtosearchin');
-	protected $searchInFields = array('text','a.title');
 
 	//Override construct to allow filtering and ordering on our fields
 	public function __construct($config = array()) {
-	 	$config['filter_fields']=array_merge($this->searchInFields,array('a.company'));
-		parent::__construct($config);
+        if (empty($config['filter_fields']))
+	    	{
+				// MvL TODO: what is the function of these? Should they be the names of the database fields, or of the filterform fields
+		    	$config['filter_fields'] = array(
+		    	    'search',
+		    	    'mindist',
+		    	    'maxdist',
+		    	    'trackcat',
+		    	    'tracklevel');
+	    	}
+	 		parent::__construct($config);
 	}
 
 
 	protected function getListQuery(){
-		// JTG_FILTER_TODO  query for tracks fusionner avcec _buildquery
+		// TODO: remove _buildquery below
+		// TODO: add accesslevel logic, or remove completely? replace by per-track access using native Joomla! logic?
+		
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
 		$user = JFactory::getUser();
 		$uid = $user->id;
-		//CHANGE THIS QUERY AS YOU NEED...
-		$query->select('id As value, title As text')
-		->from('#__jtg_cats as a')
-		->order(	$db->escape($this->getState('list.ordering', 'pa.id')) . ' ' .
-				$db->escape($this->getState('list.direction', 'desc')));
-
+		
+		$query->select('a.*, c.name AS user')
+		->from('#__jtg_files as a')
+		->join('LEFT','#__users AS c ON a.uid=c.id');
+		
 		// Filter company
-		$trackcategory= $db->escape($this->getState('filter.trackcategory'));
-		if (!empty($trackcategory)) {
-			$query->where('(a.title='.$trackcategory.')');
+		$trackcat = $this->getState('filter.trackcat');
+		if (!empty($trackcat)) {
+		    //error_log('Got category from state '.$trackcat);
+			$query->where('a.catid LIKE '.$db->quote('%'.$trackcat.'%'));
 		}
-
+		else {
+		    $trackcat = JFactory::getApplication()->input->get('cat');
+		    //error_log('Got category from url '.$trackcat);
+		    if ($trackcat !== null) {
+		        $this->setState('filter.trackcat', $trackcat);
+		        $query->where('a.catid LIKE '.$db->quote('%'.$trackcat.'%'));
+		    }
+		}
+		$tracklevel = $this->getState('filter.tracklevel');
+		if (!empty($tracklevel)) {
+			$query->where('a.level = '.$db->quote($tracklevel));
+		}
 		// Filter by state (published, trashed, etc.) OR user tracks
-		$query->where("(( a.published = '1' ) OR ( a.uid='$uid'))");
+		if (JFactory::getApplication()->input->get('layout') == 'user') {
+			$query->where("a.uid=$uid");
+      }
+		else {
+			$query->where("(( a.published = '1' AND a.hidden = '0' ) OR ( a.uid=$uid))");
+		}
+	
+		// Filter: like / search
+		$search = $this->getState('filter.search');
 
-		//echo $db->replacePrefix( (string) $query );//debug
+		if (!empty($search))
+		{
+			$like = $db->quote('%' . $search . '%');
+			$query->where('title LIKE ' . $like);
+		}
+		$mindist = $this->getState('filter.mindist');
+		if (!empty($mindist)) $query->where("distance>".$mindist);
+		$maxdist = $this->getState('filter.maxdist');
+		if (!empty($maxdist)) $query->where("distance<".$maxdist);
+		
+		$orderby = $this->_buildContentOrderBy(false);
+		if (!empty($orderby)) $query->order($orderby);
+
+        // This may be a simpler way to sort?
+		//->order(	$db->escape($this->getState('list.ordering', 'pa.id')) . ' ' //.
+			//	$db->escape($this->getState('list.direction', 'desc')));
+
+		//error_log($db->replacePrefix( (string) $query ));//debug
+		
 		return $query;
 	}
 
@@ -109,9 +153,13 @@ class JtgModelFiles extends JModelLegacy
 
 		*/
 		//Filter (dropdown) company
-		$trackcategory= $app->getUserStateFromRequest('filter.trackcategory', 'filter_trackcategory', '', 'string');
-		$this->setState('filter.trackcategory', $trackcategory);
-
+		//$trackcategory= $app->getUserStateFromRequest('filter.trackcategory', 'filter_trackcategory', '', 'string'); 
+		
+		// not sure whether this works yet
+		/*
+		$trackcat = JFactory::getApplication()->getUserStateFromRequest('filter.trackcat','cat');
+		$this->setState('filter.trackcat', $trackcat);
+        */
 		//Takes care of states: list. limit / start / ordering / direction
 		parent::populateState('a.title', 'asc');
 	}
@@ -125,6 +173,7 @@ class JtgModelFiles extends JModelLegacy
 	 */
 	function getData ($limit, $limitstart)
 	{
+		// TODO: remove this function
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_data))
 		{
@@ -219,25 +268,9 @@ class JtgModelFiles extends JModelLegacy
 	 *
 	 * @return string
 	 */
-	function getTotal ()
-	{
-		// Lets load the content if it doesn't already exist
-		if (empty($this->_total))
-		{
-			$query = $this->_buildQuery();
-			$this->_total = $this->_getListCount($query);
-		}
-
-		return $this->_total;
-	}
-
-	/**
-	 * function_description
-	 *
-	 * @return string
-	 */
 	protected function _buildQuery ()
 	{
+		// error_log('call to buildQuery; obsolete function; may still be needed for user view?');
 		$mainframe = JFactory::getApplication();
 		$user = JFactory::getUser();
 		$orderby = $this->_buildContentOrderBy();
@@ -271,7 +304,7 @@ class JtgModelFiles extends JModelLegacy
 	 * @global string $option
 	 * @return string
 	 */
-	protected function _buildContentOrderBy ()
+	protected function _buildContentOrderBy (bool $addorder=true)
 	{
 		$mainframe = JFactory::getApplication();
 
@@ -342,14 +375,14 @@ class JtgModelFiles extends JModelLegacy
 		}
 		elseif ($filter_order == $ordering)
 		{
-			$orderby = ' ORDER BY ' . $ordering;
+			$orderby = $ordering;
 		}
 		else
 		{
-			$orderby = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir . ' , id ';
+			$orderby = $filter_order . ' ' . $filter_order_Dir . ' , id ASC';
 		}
 
-
+      if ($addorder && !empty($orderby)) $orderby = ' ORDER BY '.$orderby;
 		return $orderby;
 	}
 
@@ -1562,4 +1595,103 @@ class JtgModelFiles extends JModelLegacy
 		return $newresult;
 
 	}
+
+	 /**
+    * sort categories
+    *
+    * @param  boolean  $sort sort by id instead of title
+    * @param  integer $catid select only this category
+    *
+    * @return sorted rows
+    */
+	// TODO: this is now a static function in JtgModelFiles and JtgModelJtg; decide where it goes
+   static public function getCatsData($sort=false, $catid=null)
+   {
+      $mainframe = JFactory::getApplication();
+      $db = JFactory::getDBO();
+
+      $query = "SELECT * FROM #__jtg_cats WHERE published = 1";
+      if ( !is_null($catid) )
+         $query .= " AND id =".$db->quote($catid);
+      $query .= "\n ORDER BY title ASC";
+
+      $db->setQuery($query);
+      $rows = $db->loadObjectList();
+
+      if ( $sort === false )
+      {
+         return $rows;
+      }
+      else
+      {
+         $nullcat = array(
+               "id"        => 0,
+               "parent"    => 0,
+               "title"        => "<label title=\"" . JText::_('COM_JTG_CAT_NONE') . "\">-</label>",
+               "description"  => null,
+               "image"        => null,
+               "ordering"     => 0,
+               "published"    => 1,
+               "checked_out"  => 0
+         );
+         $nullcat = JArrayHelper::toObject($nullcat);
+   
+	      $sortedrow = array();
+
+         foreach ( $rows AS $cat )
+         {
+            $sortedrow[$cat->id] = $cat;
+         }
+
+         $sortedrow[0] = $nullcat;
+
+         return $sortedrow;
+      }
+   }
+
+	 /**
+    * Load a track(s) list in #__jtg_files according to incoming parameters
+    *
+    * @param   string  $order   ordering of the list
+    * @param   string  $limit   SQL limit statement
+    * @param   string  $where   SQL Where filter
+    * @param   string  $access  Track acces level
+    *
+    * @return Loadobjeclist() track lists extracted from #__jtg_files
+    *
+    * Used for most popular tracks etc in map view 
+    */
+   static public function getTracksData($order, $limit, $where = "",$access = null)
+   {
+      if ( $where != "" )
+      {
+         $where = " AND ( " . $where . " )";
+      }
+
+      /*
+       * $access 0 1 or 2
+       * a.access = track access level
+       * 0 for everybody
+       * 1 for registered users
+       * 2 for access limited to author (private)
+       * 9 for administrators
+       */
+      if ( $access !== null )
+      {
+         $where .= " AND a.access <= " . $access;
+      }
+
+      $mainframe = JFactory::getApplication();
+      $db = JFactory::getDBO();
+      $user = JFactory::getUser();
+      $uid = $user->id;
+      $query = "SELECT a.*, b.title AS cat FROM #__jtg_files AS a"
+      . "\n LEFT JOIN #__jtg_cats AS b"
+      . "\n ON a.catid=b.id WHERE (a.published = 1 OR a.uid='$uid') " . $where
+      . "\n" . $order
+      . "\n" . $limit;
+      $db->setQuery($query);
+      $rows = $db->loadObjectList();
+		return $rows;
+   }
 }

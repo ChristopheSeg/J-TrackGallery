@@ -64,55 +64,24 @@ $trackcategoryOptions=$trackcategory->getOptions(); // works only if you set you
 
 <form action="<?php echo JURI::getInstance(); ?>" method="post"
 	name="adminForm" id="adminForm">
+	<div class="row-fluid">
+            <div class="span12">
+                <?php
+                    echo JLayoutHelper::render(
+                        'joomla.searchtools.default',
+                        array('view' => $this)
+                    );
+                ?>
+            </div>
+        </div>
 	<table style="width:100%;">
-		<tr>
-			<td> <!--   // JTG_FILTER_TODO-->
-				<!--
-				<fieldset id="filter-bar">
-					<div class="filter-search fltlft">
-						<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->escape($this->searchterms); ?>" title="<?php echo JText::_('Search in company, etc.'); ?>" />
-						<button type="submit">
-							<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>
-						</button>
-						<button type="button" onclick="document.id('filter_search').value='';this.form.submit();">
-							<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>
-						</button>
-					</div>
-					<div class="filter-select fltrt">
-						xxx<select name="filter_state" class="inputbox" onchange="this.form.submit()">
-							<option value="">
-								<?php echo JText::_('JOPTION_SELECT_PUBLISHED');?>
-							</option>
-							<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions', array('archived'=>false)), 'value', 'text', $this->state->get('filter.state'), true);?>
-						</select>
-
-						<select name="filter_type" class="inputbox" onchange="this.form.submit()">
-							<option value=""> - Select trackcategory - </option>
-							<?php echo JHtml::_('select.options', $trackcategoryOptions, 'value', 'text', $this->state->get('filter.trackcategory'));?>
-						</select>
-
-					</div>
-				</fieldset>
-				 -->
-			</td>
-			<td><?php echo JText::_('COM_JTG_FILTER'); ?>: <input type="text"
-				name="search" id="searchfield"
-				value="<?php echo html_entity_decode($this->lists['search']);?>"
-				class="text_area" onchange="document.adminForm.submit();" />
-				<button class="button" onclick="this.form.submit();">
-					<?php echo JText::_('COM_JTG_APPLY'); ?>
-				</button>
-				<button class="button"
-					onclick="document.getElementById('searchfield').value='';this.form.getElementById('filter_state').value='';this.form.submit();">
-					<?php echo JText::_('COM_JTG_RESET'); ?>
-				</button>
-			</td>
+	    <tr>
 			<td style="text-align: right"><?php echo $this->pagination->getPagesCounter(); ?>
 			</td>
 		</tr>
 	</table>
 	<div style="overflow-x:auto;">
-	<?php if (!count($this->rows)) {
+	<?php if (empty($this->items)) {
 		JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_LIST_NO_TRACK'), 'Warning');
 		echo '<b>' . JText::_('COM_JTG_LIST_NO_TRACK') . '</b>';
 	} else {
@@ -179,11 +148,14 @@ $trackcategoryOptions=$trackcategory->getOptions(); // works only if you set you
 		<tbody>
 			<?php
 			$k = 0;
-
-			for ($i = 0, $n = count($this->rows); $i < $n; $i++)
+/*
+			for ($i = 0, $n = count($this->items); $i < $n; $i++)
 			{
-				$row = $this->rows[$i];
-
+				$row = $this->items[$i];
+				*/
+            //if (!empty($this->items)) 
+			foreach ($this->items as $i => $row)
+			{
 				if (!$row->title)
 				{
 					$row->title = "<font class=\"emptyEntry\">" . JText::_('COM_JTG_NO_TITLE') . "</font>";

@@ -2030,12 +2030,12 @@ return true;
 	 *
 	 * @return return_description
 	 */
-	public function writeOLMap($where,$tracks,$params)
+	public function writeOLMap($where,$showtracks,$params,$items=null)
 	{
 		$cfg = JtgHelper::getConfig();
 
 		// 	$cnates = $this->getMapNates();
-		$rows = $this->getTracks($where);
+		if (empty($items)) $items = $this->getTracks($where);
 
 		/*
 		 $user = JFactory::getUser();
@@ -2046,23 +2046,23 @@ return true;
 		$map = false;
 		$map .= $this->parseScriptOLHead();
 		$map .= $this->parseOLMapControl($params, false);
-		$map .= $this->parseOLLayer($tracks, $params);
+		$map .= $this->parseOLLayer($showtracks, $params);
 		/*
 		 $map .= $this->parseOLPOIs(); // Currently not active
 		*/
 
-		if ($tracks)
+		if ($showtracks)
 		{
-			// Schlecht bei vielen verfügbaren Tracks
-			$map .= $this->parseOLTracks($rows);
+			// Slow when there are many tracks
+			$map .= $this->parseOLTracks($items);
 		}
 
 		$file = JPATH_SITE . "/components/com_jtg/models/jtg.php";
 		require_once $file;
 		$this->sortedcats = JtgModeljtg::getCatsData(true);
 
-		$map .= $this->parseOLMarker($rows);
-		$map .= $this->parseOLMapCenter($rows);
+		$map .= $this->parseOLMarker($items);
+		$map .= $this->parseOLMapCenter($items);
 		$map .= $this->parseScriptOLFooter();
 
 		return $map;
@@ -2247,7 +2247,8 @@ return true;
 				}
 				$link .= "</a></b>";
 
-				if ( $row->cat != "" )
+				// TODO; check if cat data member exists; if not, use catid
+				if ( $row->catid != "" )
 				{
 					$cats = str_replace(array("'"), array("\'"), JText::_('COM_JTG_CAT')) . ": ";
 					$cats = JtgHelper::parseMoreCats($this->sortedcats, $row->catid, "box", true);
