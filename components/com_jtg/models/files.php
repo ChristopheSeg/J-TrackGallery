@@ -129,62 +129,6 @@ class JtgModelFiles extends JModelList
 	}
 
 	/**
-	 * Method to auto-populate the model state.
-	 *
-	 * Note. Calling getState in this method will result in recursion.
-	 *
-	 * @since	1.6
-	 */
-	protected function populateState($ordering = null, $direction = null)
-	{
-		// JTG_FILTER_TODO
-		// Initialise variables.
-		$app = JFactory::getApplication();
-
-		/*
-		// Load the filter state.
-		$search = $app->getUserStateFromRequest($this->context.'.filter.search', 'filter_search');
-		//Omit double (white-)spaces and set state
-		$this->setState('filter.search', preg_replace('/\s+/',' ', $search));
-
-		//Filter (dropdown) state
-		$state = $app->getUserStateFromRequest($this->context.'.filter.state', 'filter_state', '', 'string');
-		$this->setState('filter.state', $state);
-
-		*/
-		//Filter (dropdown) company
-		//$trackcategory= $app->getUserStateFromRequest('filter.trackcategory', 'filter_trackcategory', '', 'string'); 
-		
-		// not sure whether this works yet
-		/*
-		$trackcat = JFactory::getApplication()->getUserStateFromRequest('filter.trackcat','cat');
-		$this->setState('filter.trackcat', $trackcat);
-        */
-		//Takes care of states: list. limit / start / ordering / direction
-		parent::populateState('a.title', 'asc');
-	}
-	/**
-	 * function_description
-	 *
-	 * @param   unknown_type  $limit       param_description
-	 * @param   unknown_type  $limitstart  param_description
-	 *
-	 * @return return_description
-	 */
-	function getData ($limit, $limitstart)
-	{
-		// TODO: remove this function
-		// Lets load the content if it doesn't already exist
-		if (empty($this->_data))
-		{
-			$query = $this->_buildQuery();
-			$this->_data = $this->_getList($query, $limitstart, $limit);
-		}
-
-		return $this->_data;
-	}
-
-	/**
 	 * function_description
 	 *
 	 * @param   unknown_type  $selected  param_description
@@ -261,41 +205,6 @@ class JtgModelFiles extends JModelList
 		$return .= $selectedlevel . "/" . ($i - 1) . " - " . JText::_(trim($selectedtext));
 
 		return $return;
-	}
-
-	/**
-	 * function_description
-	 *
-	 * @return string
-	 */
-	protected function _buildQuery ()
-	{
-		// error_log('call to buildQuery; obsolete function; may still be needed for user view?');
-		$mainframe = JFactory::getApplication();
-		$user = JFactory::getUser();
-		$orderby = $this->_buildContentOrderBy();
-		$where = $this->_buildContentWhere();
-		$userwhere = "";
-
-
-		if (JFactory::getApplication()->input->get('layout') == 'user' && ! $where)
-		{
-			$userwhere = " WHERE uid='" . $user->get('id') . "'";
-		}
-		elseif (JFactory::getApplication()->input->get('layout') == 'user' && $where)
-		{
-			$userwhere = " AND uid='" . $user->get('id') . "'";
-		}
-
-		$db = JFactory::getDBO();
-
-		$query = "SELECT a.*, b.title AS cat, b.image AS image, c.name AS user" . "\n FROM #__jtg_files AS a" .
-				"\n LEFT JOIN #__jtg_cats AS b ON a.catid=b.id"
-				// 	. "\n LEFT JOIN #__jtg_cats AS b ON a.catid"
-		// 	. "\n LEFT JOIN #__users AS c ON a.uid\n"
-		. "\n LEFT JOIN #__users AS c ON a.uid=c.id\n"
-		. $where . $userwhere . $orderby;
-		return $query;
 	}
 
 	/**
@@ -379,7 +288,7 @@ class JtgModelFiles extends JModelList
 		}
 		else
 		{
-			$orderby = $filter_order . ' ' . $filter_order_Dir . ' , id ASC';
+			$orderby = $filter_order . ' ' . $filter_order_Dir . ', id ASC';
 		}
 
       if ($addorder && !empty($orderby)) $orderby = ' ORDER BY '.$orderby;

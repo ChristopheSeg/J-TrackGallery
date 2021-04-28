@@ -18,7 +18,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  HTML
  * @since       11.1
  */
-class JPagination extends JObject
+class JtgPagination extends JObject
 {
 	/**
 	 * @var    integer  The record number to start displaying from.

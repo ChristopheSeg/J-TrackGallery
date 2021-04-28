@@ -76,7 +76,7 @@ $trackcategoryOptions=$trackcategory->getOptions(); // works only if you set you
         </div>
 	<table style="width:100%;">
 	    <tr>
-			<td style="text-align: right"><?php echo $this->pagination->getPagesCounter(); ?>
+			<td style="text-align: right"><?php echo $this->pagination->getResultsCounter(); ?>
 			</td>
 		</tr>
 	</table>
@@ -94,7 +94,7 @@ $trackcategoryOptions=$trackcategory->getOptions(); // works only if you set you
 				<th><?php echo JHtml::_('grid.sort', JText::_('COM_JTG_TITLE'), 'title', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
 				</th>
 				<?php if ($catcolumnwidth > 0) {?>
-				<th><?php echo JHtml::_('grid.sort', JText::_('COM_JTG_CAT'), 'cat', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
+				<th><?php echo JHtml::_('grid.sort', JText::_('COM_JTG_CAT'), 'catid', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
 				</th>
 				<?php } ?>
 				<th><?php echo JHtml::_('grid.sort', JText::_('COM_JTG_LEVEL'), 'level', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
@@ -148,12 +148,6 @@ $trackcategoryOptions=$trackcategory->getOptions(); // works only if you set you
 		<tbody>
 			<?php
 			$k = 0;
-/*
-			for ($i = 0, $n = count($this->items); $i < $n; $i++)
-			{
-				$row = $this->items[$i];
-				*/
-            //if (!empty($this->items)) 
 			foreach ($this->items as $i => $row)
 			{
 				if (!$row->title)

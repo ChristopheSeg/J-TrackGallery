@@ -26,7 +26,7 @@ jimport('joomla.application.component.view');
  * jimport('joomla.html.pagination');
  * Now include a modified JPagination class working under J!2.5 and J3.x
  */
-include_once JPATH_BASE . '/components/com_jtg/views/files/pagination.php';
+//include_once JPATH_BASE . '/components/com_jtg/views/files/pagination.php';
 
 
 /**
@@ -147,6 +147,26 @@ class JtgViewFiles extends JViewLegacy
 	}
 
 	/**
+	 *  Reset the filter form and corresponding state
+	 *  Used between layout switches
+	 *
+	 */
+	protected function resetFilter($catid = null)
+	{
+		$this->get("State"); // need to get the state before we can change it
+		$filterform = $this->get('FilterForm');
+		$filterform->setValue("search","filter",null);
+		$this->getModel()->setState("filter.search",null);
+		$filterform->setValue("trackcat","filter",$catid);
+		$this->getModel()->setState("filter.trackcat",$catid);
+		$filterform->setValue("tracklevel","filter",null);
+		$this->getModel()->setState("filter.tracklevel",null);
+		$filterform->setValue("mindist","filter",null);
+		$this->getModel()->setState("filter.mindist",null);
+		$filterform->setValue("maxdist","filter",null);
+		$this->getModel()->setState("filter.maxdist",null);
+	}
+	/**
 	 * function_description
 	 *
 	 * @param   object  $tpl  template
@@ -157,6 +177,13 @@ class JtgViewFiles extends JViewLegacy
 	{
 		$file = JPATH_SITE . "/components/com_jtg/models/jtg.php";
 		require_once $file;
+
+		$app = JFactory::getApplication();
+		if ($app->getUserState("jtg.files.layout") && $this->getLayout() != $app->getUserState("jtg.files.layout")) {
+			// Reset filters when layout changes (list->files and vice versa)
+			$this->resetFilter($app->input->get('cat'));
+		}
+		$app->setUserState("jtg.files.layout",$this->getLayout());
 
 		if ($this->getLayout() == 'form')
 		{
@@ -174,18 +201,11 @@ class JtgViewFiles extends JViewLegacy
 
 		if ($this->getLayout() == 'list')
 		{
-			// BEGIN tracks filter
 			$this->state = $this->get('State');
 			$this->items = $this->get('Items');
 			$this->pagination = $this->get('Pagination');
-
-			// Get filter form.
 			$this->filterForm = $this->get('FilterForm');
-
-			// Get active filters.
 			$this->activeFilters = $this->get('ActiveFilters');
-
-			// END tracks filter
 
 			$this->_displayList($tpl);
 
@@ -194,16 +214,10 @@ class JtgViewFiles extends JViewLegacy
 
 		if ($this->getLayout() == 'map')
 		{
-			// BEGIN tracks filter
 			$this->state = $this->get('State');
-
-			// Get filter form.
+			$this->items = $this->get('Items');
 			$this->filterForm = $this->get('FilterForm');
-
-			// Get active filters.
 			$this->activeFilters = $this->get('ActiveFilters');
-
-			// END tracks filter
 
 			$this->_displayMap($tpl);
 			return;
@@ -211,6 +225,9 @@ class JtgViewFiles extends JViewLegacy
 
 		if ($this->getLayout() == 'user')
 		{
+			$this->state = $this->get('State');
+			$this->items = $this->get('Items');
+			$this->pagination = $this->get('Pagination');
 			$this->_displayUserTracks($tpl);
 
 		return;
@@ -290,8 +307,8 @@ class JtgViewFiles extends JViewLegacy
 
 		if (isset ($id))
 		{
-			// Update part
-			$track = $cache->get(array ( $model, 'getFile' ), array ( $id ));
+			// View/Update part
+			$track = $this->getModel()->getFile( $id );
 			$this->track = $track;
 			$this->id = $id;
 			$catid = $track->catid;
@@ -430,7 +447,7 @@ class JtgViewFiles extends JViewLegacy
 		 // 	require_once $file;
 		 */
 		$sortedcats = JtgModeljtg::getCatsData(true);
-		$track = $cache->get(array ( $model, 'getFile' ), array ( $id ));
+		$track = $this->getModel()->getFile( $id );
 
 		if ( ( !$track ) OR ( $track->id === null ) )
 		{
@@ -756,93 +773,24 @@ class JtgViewFiles extends JViewLegacy
 		$document->setTitle(JText::_('COM_JTG_GPS_FILES') . " - " . $sitename);
 		$params = $mainframe->getParams();
 
-		$order = JFactory::getApplication()->input->getVar('order', 'order', 'post', 'string');
-		$ordering = '';
-
-		// JTG_FILTER_TODO
-		$this->items		= $this->get('Items');
-		$this->pagination	= $this->get('Pagination');
-		$this->state		= $this->get('State');
-
 		//Following variables used more than once
 		$this->sortColumn 	= $this->state->get('list.ordering');
 		$this->sortDirection	= $this->state->get('list.direction');
-		$this->searchterms	= $this->state->get('filter.search');
-		// JTG_FILTER_TODO
-
-		switch ($params->get('jtg_param_track_ordering'))
-		{
-			case 'none':
-				$ordering = '';
-				break;
-			case 'title_a':
-				$ordering = ' a.title ASC';
-				break;
-			case 'title_d':
-				$ordering = ' a.title DESC';
-				break;
-			case 'level_a':
-				$ordering = ' a.level ASC';
-				break;
-			case 'level_d':
-				$ordering = ' a.level DESC';
-				break;
-			case 'title_a_catid_a':
-				$ordering = ' a.title ASC AND a.catid ASC';
-				break;
-			case 'title_a_catid_d':
-				$ordering = ' a.title ASC, a.catid DESC';
-				break;
-			case 'title_d_catid_a':
-				$ordering = ' a.title DESC, a.catid ASC';
-				break;
-			case 'title_d_catid_d':
-				$ordering = ' a.title DESC, a.catid ASC';
-				break;
-			case 'hits_a':
-				$ordering = ' a.hits ASC';
-				break;
-			case 'hits_d':
-				$ordering = ' a.hits DESC';
-				break;
-			case 'catid_a':
-				$ordering = ' a.catid ASC';
-				break;
-			case 'catid_d':
-				$ordering = ' a.catid DESC';
-				break;
-			default:
-				$ordering = '';
-				break;
-		}
 
 		$filter_order = $mainframe->getUserStateFromRequest("$option.filter_order", 'filter_order', '', 'cmd');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest("$option.filter_order_Dir", 'filter_order_Dir', '', 'cmd');
 
-		$search = $mainframe->getUserStateFromRequest("$option.search", 'search', '', 'string');
-		$search = JString::strtolower($search);
-		$limit = $mainframe->getUserStateFromRequest($option . '.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
-		$limitstart = $mainframe->getUserStateFromRequest($option . '.limitstart', 'limitstart', 0, 'int');
-		$limitstart = JFactory::getApplication()->input->getInt('limitstart', 0);
 		$action = JRoute::_('index.php?option=com_jtg&view=files&layout=list', false);
 
 		$lists['order'] = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
-		$lists['search'] = $search;
-
-		// $rows = $model->getData($limit, $limitstart );
-		//$rows = $cache->get(array ( $model, 'getData' ), array ( $limit, $limitstart ));
-		$total = $this->get('Total'); // This query does not work
-		$pagination = new JPagination($total, $limitstart, $limit);
 
 		$this->sortedcats = $sortedcats;
 		$this->sortedter = $sortedter;
 		$this->lists = $lists;
-		//$this->rows = $rows;
 		$this->uid = $uid;
 		$this->gid = $gid;
 		$this->deletegid = $deletegid;
-		$this->pagination = $pagination;
 		$this->lh = $lh;
 		$this->footer = $footer;
 		$this->action = $action;
@@ -911,17 +859,6 @@ class JtgViewFiles extends JViewLegacy
 	   // Show Tracks in Overview-Map?
       $showtracks = (bool) $params->get('jtg_param_tracks');
 
-		$order = JFactory::getApplication()->input->getVar('order', 'order', 'post', 'string');
-		$ordering = '';
-
-		// JTG_FILTER_TODO
-		$this->items		= $this->get('Items');
-		$this->state		= $this->get('State');
-
-		//Following variables used more than once
-		$this->searchterms	= $this->state->get('filter.search');
-		// JTG_FILTER_TODO
-
 		$catid = (JFactory::getApplication()->input->getInt('cat', null)); // get category ID	
 		$cats = $model->getCatsData(false, $catid);
 		$where = LayoutHelper::filterTracks($cats);
@@ -971,14 +908,7 @@ class JtgViewFiles extends JViewLegacy
 
       $this->toptracks = LayoutHelper::parseToptracks($params);
 
-		$search = $mainframe->getUserStateFromRequest("$option.search", 'search', '', 'string');
-		$search = JString::strtolower($search);
-		$limit = $mainframe->getUserStateFromRequest($option . '.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
 		$action = JRoute::_('index.php?option=com_jtg&view=files&layout=map', false);
-
-		//$lists['order'] = $filter_order;
-		//$lists['order_Dir'] = $filter_order_Dir;
-		$lists['search'] = $search;
 
 		$this->sortedcats = $sortedcats;
 		$this->sortedter = $sortedter;
@@ -1021,22 +951,13 @@ class JtgViewFiles extends JViewLegacy
 
 		$order = JFactory::getApplication()->input->getWord('order', 'order');
 
-		$filter_order = $mainframe->getUserStateFromRequest("$option.filter_order", 'filter_order', 'ordering', 'word');
+		$filter_order = $mainframe->getUserStateFromRequest("$option.filter_order", 'filter_order', '', 'word');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest("$option.filter_order_Dir", 'filter_order_Dir', '', 'word');
-		$search = $mainframe->getUserStateFromRequest("$option.search", 'search', '', 'string');
-		$search = JString::strtolower($search);
-		$limit = $mainframe->getUserStateFromRequest($option . '.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
-		$limitstart = $mainframe->getUserStateFromRequest($option . '.limitstart', 'limitstart', 0, 'int');
-		$limitstart = JFactory::getApplication()->input->getInt('limitstart', 0);
 		$action = JRoute::_('index.php?option=com_jtg&view=files&layout=user', false);
 
 		$lists['order'] = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
-		$lists['search'] = $search;
 
-		$rows = $cache->get(array ( $model, 'getData' ), array ( $limit, $limitstart ));
-		$total = $this->get('Total');
-		$pagination = new JPagination($total, $limitstart, $limit);
 		$cats = JtgModeljtg::getCatsData(true);
 		$sortedter = JtgModeljtg::getTerrainData(true);
 		$params = $mainframe->getParams();
@@ -1048,8 +969,6 @@ class JtgViewFiles extends JViewLegacy
 		$this->action = $action;
 		$this->cfg = $cfg;
 		$this->lists = $lists;
-		$this->rows = $rows;
-		$this->pagination = $pagination;
 
 		parent::display($tpl);
 	}

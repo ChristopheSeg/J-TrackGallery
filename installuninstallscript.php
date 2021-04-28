@@ -326,6 +326,13 @@ class Com_JtgInstallerScript
 			$db->execute();
 		}
 
+		/* J!Trackgallery >= 0.9.31: remove jtg/default view
+		 *  Funtionality now provided by files/map
+		 */
+
+		$folder = JPATH_SITE . '/components/com_jtg/views/jtg/tmpl';
+		JFile::delete($folder.'/default.php'); // Function checks whether file exists
+		JFile::delete($folder.'/default.xml');
 		/*
 		 * Move existing old image gallery
 		 * from /images/jtrackgallery/track_xx (version<= 0.9.9)

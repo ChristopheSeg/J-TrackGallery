@@ -38,12 +38,18 @@ if ($user->id != 0)
 		document.adminForm.submit( task );
 	}
 </script>
+<?php
+if (empty($this->items)) {
+	JFactory::getApplication()->enqueueMessage(JText::_('COM_JTG_LIST_NO_TRACK'), 'Warning');
+	echo '<b>' . JText::_('COM_JTG_LIST_NO_TRACK') . '</b>';
+} else 
+{ ?>
 <form action="<?php echo $this->action; ?>" method="post"
 	name="adminForm" id="adminForm">
 	<table style="width:100%;">
 		<tr>
-			<td><?php echo JText::_('JGLOBAL_DISPLAY_NUM') . '&nbsp;' . $this->pagination->getLimitBox(); ?>
-			</td>
+<!-- fixme:			<td><?php echo JText::_('JGLOBAL_DISPLAY_NUM') . '&nbsp;' . $this->pagination->getLimitBox(); ?>
+			</td> -->
 			<td style="text-align: right"><?php echo $this->pagination->getResultsCounter(); ?>
 			</td>
 		</tr>
@@ -56,7 +62,7 @@ if ($user->id != 0)
 				<th width="60px">#</th>
 				<th><?php echo JHtml::_('grid.sort', JText::_('COM_JTG_TITLE'), 'title', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
 				</th>
-				<th width="80px"><?php echo JHtml::_('grid.sort', JText::_('COM_JTG_CAT'), 'cat', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
+				<th width="80px"><?php echo JHtml::_('grid.sort', JText::_('COM_JTG_CAT'), 'catid', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
 				</th>
 				<th width="50px"><?php echo JHtml::_('grid.sort', JText::_('COM_JTG_HITS'), 'hits', @$this->lists['order_Dir'], @$this->lists['order'], 'files'); ?>
 				</th>
@@ -76,9 +82,8 @@ if ($user->id != 0)
 			$delete = "title=\"" . $delete . "\" alt=\"" . $delete . "\"";
 			$k = 0;
 
-			for ($i = 0, $n = count($this->rows); $i < $n; $i++)
+			foreach ($this->items as $i => $row)
 			{
-				$row = $this->rows[$i];
 				$terrain = JtgHelper::parseMoreTerrains($this->sortedter, $row->terrain, "array");
 				$terrain = implode(", ", $terrain);
 
@@ -124,8 +129,7 @@ if ($user->id != 0)
 		</tbody>
 		<tfoot>
 			<tr class="sectiontablefooter">
-				<td colspan="7" align="center"><?php echo $this->pagination->getPagesLinks($this->rows); ?>
-					<?php echo $this->pagination->getResultsCounter(); ?></td>
+				<td colspan="7" align="center"><?php echo $this->pagination->getListFooter(); ?> </td>
 			</tr>
 		</tfoot>
 	</table>
@@ -137,6 +141,7 @@ if ($user->id != 0)
 		value="<?php echo $this->lists['order_Dir']; ?>" />
 </form>
 <?php
+}
 }
 else
 {

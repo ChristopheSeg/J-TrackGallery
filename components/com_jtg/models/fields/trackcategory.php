@@ -49,6 +49,7 @@ class JFormFieldTrackcategory extends JFormFieldList
 	{
 		// Initialize variables.
 		$options = array();
+		$options[] = array('value' => "0", 'text' => JText::_('COM_JTG_CAT_SELECT')); 
 
 		$db	= JFactory::getDbo();
 		$query	= $db->getQuery(true);
@@ -61,10 +62,11 @@ class JFormFieldTrackcategory extends JFormFieldList
 		// Get the options.
 		$db->setQuery($query);
 
-		$options = $db->loadObjectList();
-		foreach ($options as $key => &$option) {
+		$optionsdb = $db->loadObjectList();
+		foreach ($optionsdb as $key => &$option) {
 			$option->text = JText::_($option->text);
 		}
+		$options = array_merge($options, $optionsdb);
 
 		// Check for a database error.
 		if ($db->getErrorNum()) {
