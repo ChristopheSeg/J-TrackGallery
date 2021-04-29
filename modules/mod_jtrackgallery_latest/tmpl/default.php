@@ -50,10 +50,12 @@ foreach ($tracks as $track)
 	{
 		$link = JRoute::_('index.php?option=com_jtg&view=files&layout=file&id=' . $track->id);
 		echo '<div align="center" style="margin-bottom:20px;">';
-		echo '<img src="https://maps.googleapis.com/maps/api/staticmap?center=' . $track->start_n . ',' .
-			$track->start_e . '&zoom=' . $zoom . '&size=' . $width . 'x' . $heigth .
-			'&maptype=' . $map . '&markers=color:' . $color . '|' . $track->start_n . ',' .
+		if ($map != 'none') { 
+			echo '<img src="https://maps.googleapis.com/maps/api/staticmap?center=' . $track->start_n . ',' .
+			$track->start_e . '&zoom=' . $zoom . '&size=' . $width . 'x' . $height .
+			'&maptype=' . 	$map . '&markers=color:' . $color . '|' . $track->start_n . ',' .
 			$track->start_e . ($apikey? '&key=' . $apikey: '') . '&sensor=false" >';
+		}
 		echo '<div align="center"><a href="' . $link . '">' . $track->title . '</a></div>';
 
 		if ($tcustom_enable)
@@ -64,7 +66,7 @@ foreach ($tracks as $track)
 		{
 			if ( ($params->get('cats') != 0 ) and ($track->cat) )
 			{
-				echo '<div align="center">' . sprintf($params->get('tcats'), $track->cat) . '</div>';
+				echo '<div align="center">' . sprintf($params->get('tcats'), JText::_($track->cat)) . '</div>';
 			}
 
 			if ($params->get('distance') != 0)
@@ -80,10 +82,12 @@ foreach ($tracks as $track)
 		echo '<table><tr>';
 		$link = JRoute::_('index.php?option=com_jtg&view=files&layout=file&id=' . $track->id);
 		echo '<td align="center" style="padding: 10px" valign="top">';
+		if ( $map != 'none' ) {
 		echo '<img src="https://maps.googleapis.com/maps/api/staticmap?center=' . $track->start_n . ',' .
-			$track->start_e . '&zoom=' . $zoom . '&size=' . $width . 'x' . $heigth . '&maptype=' .
+			$track->start_e . '&zoom=' . $zoom . '&size=' . $width . 'x' . $height . '&maptype=' .
 			$map . '&markers=color:' . $color . '|' . $track->start_n . ',' . $track->start_e .
 			($apikey? '&key=' . $apikey: '') . '&sensor=false" >';
+		}
 		echo '<div align="center"><a href="' . $link . '">' . $track->title . '</a></div>';
 
 		if ($tcustom_enable)
@@ -94,7 +98,7 @@ foreach ($tracks as $track)
 		{
 			if ( ($params->get('cats') != 0 ) and ($track->cat) )
 			{
-				echo '<div align="center">' . sprintf($params->get('tcats'), $track->cat) . '</div>';
+				echo '<div align="center">' . sprintf($params->get('tcats'), JText::_($track->cat)) . '</div>';
 			}
 
 			if ($params->get('distance') != 0)

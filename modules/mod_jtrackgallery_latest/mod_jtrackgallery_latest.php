@@ -21,7 +21,7 @@ require_once dirname(__FILE__) . '/helper.php';
 $latest = new ModjtrackgalleryLatestHelper;
 
 $width = $params->get('width');
-$heigth = $params->get('heigth');
+$height = $params->get('height');
 $zoom = $params->get('zoom');
 $map = $params->get('map');
 $color = $params->get('color');

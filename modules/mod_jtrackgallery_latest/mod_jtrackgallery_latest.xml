@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="2.5" method="upgrade">
-<name>MOD_JTG_LATEST</name>
+<name>J!Trackgallery recent tracks</name>
 <author>Modified for J!trackGallery by Christophe Seguinot - Modded By Jason Oxley - Original Author Michael Pfister</author>
 <creationDate>September 2010</creationDate>
 <copyright>(C) 2010 All rights reserved.</copyright>
@@ -40,16 +40,17 @@
 
 	<field name="moduleclass_sfx" type="text" label="MOD_JTG_LATEST_MODULE_SFX" description="MOD_JTG_LATEST_MODULE_SFX_DESCRIPTION" size="15" />
 	<field name="apikey" type="text" label="MOD_JTG_LATEST_GOOGLE_API_KEY" size="15" description="MOD_JTG_LATEST_GOOGLE_API_KEY_DESCRIPTION"/>
-	<field name="count" type="text" label="MOD_JTG_LATEST_MAPS_TO_DISPLAY" size="15" default="5" />
+	<field name="count" type="text" label="MOD_JTG_LATEST_ENTRIES" size="15" default="5" />
 	<field name="width" type="text" label="MOD_JTG_LATEST_MAP_WIDTH" size="15" default="150" />
-	<field name="heigth" type="text" label="MOD_JTG_LATEST_MAP_HEIGHT" default="150" size="15" />
+	<field name="height" type="text" label="MOD_JTG_LATEST_MAP_HEIGHT" default="150" size="15" />
 	<field name="zoom" type="text" label="MOD_JTG_LATEST_ZOOM_LEVEL" size="15" description="MOD_JTG_LATEST_ZOOM_LEVEL_DESCRIPTION" default="6" />
-	<field name="map" type="list" label="MOD_JTG_LATEST_MAPTYPE" default="roadmap">
-		<option value="roadmap">MOD_JTG_LATEST_Roadmap</option>
-		<option value="mobile">MOD_JTG_LATEST_Mobile</option>
-		<option value="satellite">MOD_JTG_LATEST_Satellite</option>
-		<option value="terrain">MOD_JTG_LATEST_Terrain</option>
-		<option value="hybrid">MOD_JTG_LATEST_Hybrid</option>
+	<field name="map" type="list" label="MOD_JTG_LATEST_MAPTYPE" default="none">
+		<option value="none">MOD_JTG_LATEST_NOMAP</option>
+		<option value="roadmap">MOD_JTG_LATEST_ROADMAP</option>
+		<option value="mobile">MOD_JTG_LATEST_MOBILE</option>
+		<option value="satellite">MOD_JTG_LATEST_SATELLITE</option>
+		<option value="terrain">MOD_JTG_LATEST_TERRAIN</option>
+		<option value="hybrid">MOD_JTG_LATEST_HYBRID</option>
 	</field>
 	<field name="color" type="list" label="MOD_JTG_LATEST_MARKERCOLOR" default="red">
 		<option value="black">MOD_JTG_LATEST_Black</option>
@@ -68,13 +69,13 @@
 	</field>
 
 	<field type="spacer" name="myspacer1" hr="true" />
-	<field name="tcats" type="text" label="MOD_JTG_LATEST_CATEGORY_TEXT" size="40" default="Categorie: %s" description="MOD_JTG_LATEST_CATEGORY_DEFAULT" />
+	<field name="tcats" type="text" label="MOD_JTG_LATEST_CATEGORY_TEXT" size="40" default="Category: %s" description="MOD_JTG_LATEST_CATEGORY_DEFAULT" />
 	<field name="cats" type="radio" label="MOD_JTG_LATEST_CATEGORY" default="0">
 		<option value="1">JYes</option>
 		<option value="0">JNo</option>
 	</field>
 	<field type="spacer" name="myspacer2" hr="true" />
-	<field name="tdistance" type="text" label="MOD_JTG_LATEST_DISTANCE_TEXT" size="40" default="%s Km" description="MOD_JTG_LATEST_DISTANCE_DEFAULT" />
+	<field name="tdistance" type="text" label="MOD_JTG_LATEST_DISTANCE_TEXT" size="40" default="%s km" description="MOD_JTG_LATEST_DISTANCE_DEFAULT" />
 	<field name="distance" type="radio" label="MOD_JTG_LATEST_DISTANCE" default="0">
 		<option value="1">JYes</option>
 		<option value="0">JNo</option>
