@@ -105,4 +105,8 @@ img.olTileImage {
 .ol-popup-closer:after {
     content: "✖";
 }
+#popup-content {
+    max-height: 250px;
+    overflow-y: auto;
+}
 

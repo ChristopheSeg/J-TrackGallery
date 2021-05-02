@@ -2654,7 +2654,7 @@ return true;
 
 					$size = "width=\"" . (int) $width . "\" height=\"" . (int) $height . "\"";
 					$imagehttp = "<img " . $size . " src=\"" . $imagepath . "\" alt=\"" . $image->filename . "\" title=\"" . $image->title . "\">";
-					if (strlen($image->title)) $imagehttp .= "<p>".$image->title."</p><br>";
+					if (strlen($image->title)) $imagehttp .= "<p>".$image->title."</p>";
 					$map .= "var lonLatImg = new ol.proj.fromLonLat([" . $image->lon . "," . $image->lat . "],olview.getProjection());\n";
 					$map .= "photoFeat = new ol.Feature( {geometry: new ol.geom.Point(lonLatImg), name: '".$imagehttp."'} );\n";
 					$map .= "layer_geotaggedImgs.getSource().addFeature(photoFeat);\n";
