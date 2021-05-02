@@ -43,8 +43,8 @@
 	<fields name="list">
 		<field
 			name="limit"
-			type="limitbox"
-			class="input-mini"
+			type="hidden"
+			class="hidden"
 			default="25"
 			label="COM_CONTENT_LIST_LIMIT"
 			onchange="this.form.submit();"

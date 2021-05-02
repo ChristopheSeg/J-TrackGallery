@@ -202,6 +202,8 @@ class JtgViewFiles extends JViewLegacy
 		if ($this->getLayout() == 'list')
 		{
 			$this->state = $this->get('State');
+			$this->getModel()->getState('list.limit');
+			$this->getModel()->setState('list.limit',25);
 			$this->items = $this->get('Items');
 			$this->pagination = $this->get('Pagination');
 			$this->filterForm = $this->get('FilterForm');
@@ -215,6 +217,8 @@ class JtgViewFiles extends JViewLegacy
 		if ($this->getLayout() == 'map')
 		{
 			$this->state = $this->get('State');
+			$this->getModel()->getState('list.limit');
+			$this->getModel()->setState('list.limit',0);
 			$this->items = $this->get('Items');
 			$this->filterForm = $this->get('FilterForm');
 			$this->activeFilters = $this->get('ActiveFilters');
@@ -226,6 +230,8 @@ class JtgViewFiles extends JViewLegacy
 		if ($this->getLayout() == 'user')
 		{
 			$this->state = $this->get('State');
+			$this->getModel()->getState('list.limit');
+			$this->getModel()->setState('list.limit',25);
 			$this->items = $this->get('Items');
 			$this->pagination = $this->get('Pagination');
 			$this->_displayUserTracks($tpl);
@@ -913,7 +919,6 @@ class JtgViewFiles extends JViewLegacy
 		$this->sortedcats = $sortedcats;
 		$this->sortedter = $sortedter;
 		$this->boxlinktext = $boxlinktext;
-		$this->lists = $lists;
 		$this->uid = $uid;
 		$this->gid = $gid;
 		$this->deletegid = $deletegid;
