@@ -62,7 +62,7 @@ $trackcategoryOptions=$trackcategory->getOptions(); // works only if you set you
 	}
 </script>
 
-<form action="<?php echo JURI::getInstance(); ?>" method="post"
+<form action="<?php echo $this->action; ?>" method="post"
 	name="adminForm" id="adminForm">
 	<div class="row-fluid">
             <div class="span12">

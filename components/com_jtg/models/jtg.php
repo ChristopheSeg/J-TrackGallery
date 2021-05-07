@@ -28,15 +28,78 @@ jimport('joomla.application.component.model');
  * @since       0.8
  */
 
-class JtgModeljtg extends JModelLegacy
+class JtgModeljtg extends JModelList
 {
 	/**
 	 * Constructor
 	 */
 	public function __construct()
 	{
+		if (empty($config['filter_fields']))
+		{
+			$config['filter_fields'] = array(
+				'search',
+				'mindist',
+				'maxdist',
+				'trackcat',
+				'tracklevel');
+		}
 		parent::__construct();
 	}
+
+   protected function getListQuery(){
+      // TODO: add accesslevel logic, or remove completely? replace by per-track access using native Joomla! logic?
+
+      $db = JFactory::getDBO();
+      $query = $db->getQuery(true);
+      $user = JFactory::getUser();
+      $uid = $user->id;
+
+      $query->select('a.*, c.name AS user')
+      ->from('#__jtg_files as a')
+      ->join('LEFT','#__users AS c ON a.uid=c.id');
+
+      // Filter company
+      $trackcat = $this->getState('filter.trackcat');
+      if (!empty($trackcat)) {
+         $query->where('a.catid LIKE '.$db->quote('%'.$trackcat.'%'));
+      }
+      else {
+          $trackcat = JFactory::getApplication()->input->get('cat');
+          if ($trackcat !== null) {
+              $this->setState('filter.trackcat', $trackcat);
+              $query->where('a.catid LIKE '.$db->quote('%'.$trackcat.'%'));
+          }
+      }
+      $tracklevel = $this->getState('filter.tracklevel');
+      if (!empty($tracklevel)) {
+         $query->where('a.level = '.$db->quote($tracklevel));
+      }
+      // Filter by state (published, trashed, etc.) OR user tracks
+      if (JFactory::getApplication()->input->get('layout') == 'user') {
+         $query->where("a.uid=$uid");
+      }
+      else {
+         $query->where("(( a.published = '1' AND a.hidden = '0' ) OR ( a.uid=$uid))");
+      }
+  
+      // Filter: like / search
+      $search = $this->getState('filter.search');
+
+      if (!empty($search))
+      {
+         $like = $db->quote('%' . $search . '%');
+         $query->where('title LIKE ' . $like);
+      }
+      $mindist = $this->getState('filter.mindist');
+      if (!empty($mindist)) $query->where("distance>".$mindist);
+      $maxdist = $this->getState('filter.maxdist');
+      if (!empty($maxdist)) $query->where("distance<".$maxdist);
+
+      //error_log($db->replacePrefix( (string) $query ));//debug
+
+      return $query;
+   }
 
 	/**
 	 * function_description

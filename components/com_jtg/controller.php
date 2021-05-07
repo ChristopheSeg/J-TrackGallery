@@ -46,8 +46,7 @@ class JtgController extends JControllerLegacy
 		$input = JFactory::getApplication()->input;
 		if (! $input->get('view'))
 		{
-			$input->set('view', 'files');
-			$input->set('layout', 'map');
+			$input->set('view', 'jtg');
 		}
 
 		// Update the hit count for the file

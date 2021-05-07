@@ -330,9 +330,9 @@ class Com_JtgInstallerScript
 		 *  Funtionality now provided by files/map
 		 */
 
-		$folder = JPATH_SITE . '/components/com_jtg/views/jtg/tmpl';
-		JFile::delete($folder.'/default.php'); // Function checks whether file exists
-		JFile::delete($folder.'/default.xml');
+		$folder = JPATH_SITE . '/components/com_jtg/views/files/tmpl';
+		JFile::delete($folder.'/map.php'); // Function checks whether file exists
+		JFile::delete($folder.'/map.xml');
 		/*
 		 * Move existing old image gallery
 		 * from /images/jtrackgallery/track_xx (version<= 0.9.9)

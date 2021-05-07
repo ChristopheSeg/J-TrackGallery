@@ -16,7 +16,9 @@
  */
 
 defined('_JEXEC') or die('Restricted access');
-
+$this->items = $this->get('Items');
+$this->filterForm = $this->get('FilterForm');
+$this->activeFilters = $this->get('ActiveFilters');
 echo $this->lh;
 echo $this->gpsData->writeOLMap(null, $this->showtracks, $this->params, $this->items);
 ?>

@@ -70,7 +70,7 @@ class JtgViewjtg extends JViewLegacy
 		LayoutHelper::parseMap($document);
 
 		// Show Tracks in Overview-Map?
-		$tracks = (bool) $params->get('jtg_param_tracks');
+		$showtracks = (bool) $params->get('jtg_param_tracks');
 
 		$catid = (JFactory::getApplication()->input->getInt('cat', null)); // get category ID
 		$model = $this->getModel();
@@ -103,11 +103,15 @@ class JtgViewjtg extends JViewLegacy
 		}
 
 		$intro_text = $params->get('intro_text_overview');
-		if ($intro_text)
+		if ($intro_text && $this->getLayout() != 'map')
 		{
 			$lh .= '<div class="intro_text_overview">';
 			$lh .= $intro_text;
 			$lh .= '</div>';
+		}
+		if ($this->getLayout() == 'map') {
+			// Map layout is default layout without intro text
+			$tpl = null;
 		}
 
 		$footer = LayoutHelper::footer();
@@ -175,7 +179,7 @@ class JtgViewjtg extends JViewLegacy
 		$this->cfg = $cfg;
 		$this->geo = $geo;
 		$this->toptracks = $toptracks;
-		$this->tracks = $tracks;
+		$this->showtracks = $showtracks;
 		$this->params = $params;
 
 		parent::display($tpl);

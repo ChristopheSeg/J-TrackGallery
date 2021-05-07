@@ -40,14 +40,4 @@
 		    onchange="this.form.submit()"
 		/>
 	</fields>
-	<fields name="list">
-		<field
-			name="limit"
-			type="limitbox"
-			class="input-mini"
-			default="25"
-			label="COM_CONTENT_LIST_LIMIT"
-			onchange="this.form.submit();"
-		/>
-	</fields>
 </form>

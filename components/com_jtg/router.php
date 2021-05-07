@@ -162,6 +162,9 @@ function _jtgParseRouteCategory($segments)
  */
 function _jtgParseRouteSubCategory($segments)
 {
+	$vars['view'] = $segments[0];
+	$vars['layout'] = $segments[1];
+	// TODO: could remove the case statements? keep files/map?
 	switch ($segments[0])
 	{
 		case 'files':
@@ -178,7 +181,7 @@ function _jtgParseRouteSubCategory($segments)
 					break;
 
 				case 'map':
-					$vars['view'] = 'files';
+					$vars['view'] = 'jtg';
 					$vars['layout'] = 'map';
 					break;
 

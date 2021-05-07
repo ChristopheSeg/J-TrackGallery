@@ -850,7 +850,7 @@ if ($this->cfg->comments == 1)
 			<?php echo $i + 1 . ": " . $comment->title; ?>
 		</div>
 		<div class="date">
-			<?php echo JHtml::_('date', $comment->date, JText::_('COM_JTG_DATE_FORMAT_LC4')); ?>
+			<?php if ($comment->date != null) echo JHtml::_('date', $comment->date, JText::_('COM_JTG_DATE_FORMAT_LC4')); ?>
 		</div>
 		<div class="no-float"></div>
 	</div>
