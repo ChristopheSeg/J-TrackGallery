@@ -16,6 +16,8 @@
  */
 
 defined('_JEXEC') or die('Restricted access');
+$this->get('State'); // have to get state before we can set state variables
+$this->getModel()->setState('list.limit','0'); // show all tracks
 $this->items = $this->get('Items');
 $this->filterForm = $this->get('FilterForm');
 $this->activeFilters = $this->get('ActiveFilters');
