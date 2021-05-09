@@ -297,9 +297,43 @@ class JtgViewFiles extends JViewLegacy
 		if (isset ($id))
 		{
 			// View/Update part
+
+      	// Load Openlayers stylesheet first (for overriding)
+	      $document->addStyleSheet(JUri::root(true) . '/components/com_jtg/assets/template/default/ol.css');
+
+   	   // Then load jtg_map stylesheet
+      	$tmpl = ($cfg->template = "") ? $cfg->template : 'default';
+      	$document->addStyleSheet(JUri::root(true) . '/components/com_jtg/assets/template/' . $tmpl . '/jtg_map_style.css');
+
+      	// Then override style with user templates
+      	$template = $mainframe->getTemplate();
+      	$template_jtg_map_style = 'templates/' . $template . '/css/jtg_map_style.css';
+
+      	if ( JFile::exists($template_jtg_map_style) )
+      	{
+        		$document->addStyleSheet(JUri::root(true).$template_jtg_map_style);
+      	}
+
+	      $document->addScript( JUri::root(true) . '/components/com_jtg/assets/js/ol.js');  // Load OpenLayers
+   	   $document->addScript( JUri::root(true) . '/components/com_jtg/assets/js/jtg.js');
+
 			$track = $this->getModel()->getFile( $id );
 			$this->track = $track;
 			$this->id = $id;
+			$gpsData = new GpsDataClass($cfg->unit);
+			$file = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks/' . strtolower($track->file);
+			$cache = JFactory::getCache('com_jtg');
+			// Cache: $gpsData structure is cached, after LoadFileAndData
+			$gpsData = $cache->get(array ( $gpsData, 'loadFileAndData' ), array ($file, $track->file ), $cfg->unit);
+
+			if (! $gpsData->displayErrors())
+      	{
+				$params = JComponentHelper::getParams('com_jtg');
+				$makepreview = false;
+				if (!JFile::exists(JPATH_SITE . '/images/jtrackgallery/maps/track_'.$id.'.png')) $makepreview = true;
+				$this->map = $cache->get(array ( $gpsData, 'writeTrackOL' ), array ( $track, $params, null, $makepreview));
+      	}
+
 			$catid = $track->catid;
 			$catid = explode(",", $catid);
 			$pathway->addItem(JText::_('COM_JTG_UPDATE_GPS_FILE'), '');
@@ -394,7 +428,7 @@ class JtgViewFiles extends JViewLegacy
 		$params = JComponentHelper::getParams('com_jtg');
 		$sitename = $mainframe->getCfg('sitename');
 		$document = JFactory::getDocument();
-                $document->addScript( JUri::root(true) . '/components/com_jtg/assets/js/ol.js');  // Load OpenLayers
+		$document->addScript( JUri::root(true) . '/components/com_jtg/assets/js/ol.js');  // Load OpenLayers
 		// Code support for joomla version greater than 3.0
 		if (JVERSION >= 3.0)
 		{
@@ -489,7 +523,7 @@ class JtgViewFiles extends JViewLegacy
 
 		if ( JFile::exists($template_jtg_map_style) )
 		{
-			$document->addStyleSheet(JUri::root(true) . '/templates/' . $template . '/css/jtg_map_style.css');
+        	$document->addStyleSheet(JUri::root(true).$template_jtg_map_style);
 		}
 
 		// Kartenauswahl BEGIN

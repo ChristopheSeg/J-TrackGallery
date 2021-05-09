@@ -38,7 +38,7 @@ class JtgControllerFiles extends JtgController
 	}
 
 	/**
-	 * function_description
+	 * Save GPS file with information fields
 	 *
 	 * @return return_description
 	 */
@@ -77,6 +77,43 @@ class JtgControllerFiles extends JtgController
 	}
 
 	/**
+	 * Upload GPX file; goes back to form view for map rendering
+	 *
+	 * @return return_description
+	 */
+	function uploadGPX()
+	{
+      // Check for request forgeries
+      JSession::checkToken() or jexit(JTEXT::_('JINVALID_TOKEN'));
+      $file = JFactory::getApplication()->input->files->get('file');
+
+      if (!$file['name'])
+      {
+         echo "<script> alert('" . JText::_('COM_JTG_FILE_UPLOAD_NO_FILE') . "'); window.history.go(-1); </script>\n";
+         exit;
+      }
+
+      $model = $this->getModel('files');
+
+      $ext = JFile::getExt($file['name']);
+
+      if ($ext == 'kml' || $ext == 'gpx' || $ext == 'tcx')
+		{
+			$id = $model->saveFile();
+			if (!$id)
+			{  
+				echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+			}
+			JFactory::getApplication()->setUserState('com_jtg.newfileid',$id);
+			$this->setRedirect(JRoute::_('index.php?option=com_jtg&view=files&layout=form&id=' . $id, false), false);
+      }
+      else
+      {  
+         echo "<script> alert('" . $file['name'] . JText::_('COM_JTG_GPS_FILE_ERROR') . "'); window.history.go(-1); </script>\n";
+         exit;
+      }
+	}
+	/**
 	 * function_description
 	 *
 	 * @return return_description
@@ -94,7 +131,23 @@ class JtgControllerFiles extends JtgController
 	}
 
 	/**
-	 * function_description
+	 * cancel update of track
+	 *
+	 * @return return_description
+	 */
+ 	function cancel()
+   {
+		$input = JFactory::getApplication()->input;
+		$id = $input->getInt('id');
+		if ($id) {
+			$this->setRedirect(JRoute::_('index.php?option=com_jtg&view=files&layout=file&id='.$id, false), false);
+		}
+		else {
+			$this->setRedirect(JRoute::_('index.php?option=com_jtg', false), false);
+		}
+	}
+	/**
+	 * delete track
 	 *
 	 * @return return_description
 	 */
@@ -130,6 +183,26 @@ class JtgControllerFiles extends JtgController
 	}
 
 	/**
+	 * delete new track
+	 * (called from form field when canceling after uploading a file)
+	 *
+	 * @return return_description
+	 */
+	function deletenew()
+	{
+		$id = JFactory::getApplication()->getUserState('com_jtg.newfileid',$id);
+		$model = $this->getModel('files');
+
+		if (!$model->deleteFile($id))
+		{
+			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+		}
+		else
+		{
+			$this->setRedirect(JRoute::_('index.php?option=com_jtg&view=files&layout=user', false), false);
+		}
+	}
+	/**
 	 * function_description
 	 *
 	 * @return return_description
@@ -157,6 +230,7 @@ class JtgControllerFiles extends JtgController
 		}
 		else
 		{
+			JFactory::getApplication()->setUserState('com_jtg.newfileid',-1);
 			$this->setRedirect(JRoute::_('index.php?option=com_jtg&view=files&layout=file&id=' . $id, false), false);
 		}
 	}

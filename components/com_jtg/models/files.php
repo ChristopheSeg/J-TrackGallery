@@ -421,7 +421,7 @@ class JtgModelFiles extends JModelList
 	/**
 	 * function_description
 	 *
-	 * @return boolean
+	 * @return integer id of new file
 	 */
 	function saveFile ()
 	{
@@ -594,9 +594,7 @@ class JtgModelFiles extends JModelList
 				echo 'Error sending email: ' . $senderr->__toString();
 			}
 		}
-
-
-		return true;
+		return $rows->id;
 	}
 
 	/**
@@ -943,6 +941,13 @@ class JtgModelFiles extends JModelList
 			$default_overlays=array(0);
 		}
 		$default_overlays = serialize($default_overlays);
+
+		$mappreview = $input->get('mappreview','','BASE64');
+		if (!empty($mappreview)) {
+			$previewdata = base64_decode($mappreview);
+			$imgpath = JPATH_SITE . '/images/jtrackgallery/maps/track_' . $id . '.png';
+			file_put_contents($imgpath, $previewdata);
+		}
 
 		$imagelist = $this->getImages($id);
 		$imgpath = JPATH_SITE . '/images/jtrackgallery/uploaded_tracks_images/track_' . $id . '/';

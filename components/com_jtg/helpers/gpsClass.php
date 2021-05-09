@@ -2680,7 +2680,7 @@ return true;
 	 *
 	 * @return return_description
 	 */
-	public function writeTrackOL($track, $params, $imageList)
+	public function writeTrackOL($track, $params, $imageList, $makepreview = false)
 	{
 		$mainframe = JFactory::getApplication();
 		$jtg_microtime = microtime(true);
@@ -2730,6 +2730,21 @@ return true;
 
 		$zeiten .= (int) round((microtime(true) - $jtg_microtime ), 0) . " " . JText::_('COM_JTG_DEBUG_TIMES') . " parseOLMapCenterSingleTrack<br />\n";
 
+		if ($makepreview) {
+			$prevwidth = 1080;
+			$prevheight = 640;
+			$map .= "olmap.once('rendercomplete', function () { 
+			   var origSize = olmap.getSize();
+				var origResolution = olmap.getView().getResolution();
+				//makePreview($prevwidth, $prevheight, origSize, origResolution);
+				makePreview(origSize[0], origSize[1], origSize, origResolution);
+				// Set preview size
+				var printSize = [$prevwidth, $prevheight];
+				//olmap.setSize(printSize); // Changes centering, without changing aspect ratio
+				var scaling = Math.min(printSize[0] / origSize[0], printSize[1] / origSize[1]);
+				//olmap.getView().setResolution(origResolution / scaling); 
+			});";
+		}
 		$map .= $this->parseScriptOLFooter();
 		$zeiten .= (int) round((microtime(true) - $jtg_microtime ), 0) . " " . JText::_('COM_JTG_DEBUG_TIMES') . " parseScriptOLFooter<br />\n";
 		$map .= "\n<!-- writeTrackCOM_JTG END -->\n";

@@ -145,6 +145,7 @@ class Com_JtgInstallerScript
 			"images/jtrackgallery/cats",
 			"images/jtrackgallery/terrain",
 			"images/jtrackgallery/language",
+			"images/jtrackgallery/maps",
 			"images/jtrackgallery/uploaded_tracks",
 			"images/jtrackgallery/uploaded_tracks/import"
 	);
@@ -436,6 +437,8 @@ class Com_JtgInstallerScript
 		// You can have the backend jump directly to the newly updated component configuration page
 		// $parent->getParent()->setRedirectURL('index.php?option=com_jtg');
 
+		// 0.9.32 folder for map images
+		JFolder::create(JPATH_SITE . '/images/jtrackgallery/maps');
 		return true;
 	}
 

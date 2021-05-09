@@ -295,4 +295,41 @@ function addPopup() {
         var pixel = olmap.getEventPixel(evt.originalEvent);
         popupInfo(evt);
     });
-};
+}
+
+function makePreview(width, height, origSize, origResolution) {
+	var mapCanvas = document.createElement('canvas');
+	mapCanvas.width = width;
+	mapCanvas.height = height;
+	var mapContext = mapCanvas.getContext('2d');
+	Array.prototype.forEach.call(
+		document.querySelectorAll('.ol-layer canvas'),
+		function (canvas) {
+			if (canvas.width > 0) {
+				var opacity = canvas.parentNode.style.opacity;
+				mapContext.globalAlpha = opacity === '' ? 1 : Number(opacity);
+				var transform = canvas.style.transform;
+				// Get the transform parameters from the style's transform matrix
+				var matrix = transform
+					.match(/^matrix\(([^\(]*)\)$/)[1]
+					.split(',')
+					.map(Number);
+				// Apply the transform to the export map context
+
+				CanvasRenderingContext2D.prototype.setTransform.apply(
+					mapContext,
+					matrix
+				);
+				mapContext.drawImage(canvas, 0, 0);
+			}
+		}
+	);
+
+	dataUrl = mapCanvas.toDataURL('image/png');
+	imgdata = dataUrl.match(/data:(image\/.+);base64,(.+)/);
+	document.getElementById('mappreview').value=imgdata[2];
+
+	// Reset original map size
+	olmap.setSize(origSize);
+	olmap.getView().setResolution(origResolution);
+}

@@ -18,25 +18,45 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
-if (isset($this->id))
+//
+// This form has three states or modes:
+//   1) Update mode: update existing record
+//   2a) New mode (no id set)
+//   2b) New mode, but a file has been uploaded, also $id is set
+// The disctinction between 2b and 1 is now made based on whether 
+// the title is already set; this logic can be improved.
+//
+$tracktitle='';
+if (isset($this->id) && !empty($this->track->title))
 {
 	$description = $this->track->description;
-	$button = "submitbutton('update')";
+	$buttonaction = "submitbutton('update')";
 	$buttontext = JText::_('COM_JTG_SAVE_TO_FILEVIEW');
 	$title = JText::_('COM_JTG_UPDATE_GPS_FILE');
+	$tracktitle = $this->track->title;
 }
 else
 {
-	$description = "";
-	$button = "submitbutton('save')";
+	$description = '';
+	if (isset($this->track->description)) $description = $this->track->description;
 	$buttontext = JText::_('COM_JTG_SAVE');
 	$title = JText::_('COM_JTG_NEW_TRACK');
+	if (isset($this->id)) {
+		$buttonaction = "submitbutton('update')";
+		$tracktitle = $this->track->file;
+	}
+	else {
+		// TODO: This should normally not happen, since the file needs to be uploaded first?
+		$buttonaction = "submitbutton('save')";
+	}
 }
 
 $cfg = JtgHelper::getConfig();
 $user = JFactory::getUser();
 $juser = new JUser($user->id);
 $k = 0;
+
+echo $this->map;
 ?>
 <script type="text/javascript">
 
@@ -84,7 +104,37 @@ else
 
 }
 </script>
+
 <?php
+if (isset($this->map)) 
+{
+?>
+<style type="text/css">
+#jtg_map.olMap {
+   height: <?php echo $this->cfg->map_height; ?>;
+   width: <?php echo $this->cfg->map_width; ?>;
+   z-index: 0;
+}
+.olButton::before {
+   display: none;
+}
+
+#jtg_map.fullscreen {
+   height: 800px;
+   width: 100%;
+   z-index: 10000;
+}
+
+/* Fix Bootstrap-Openlayers issue */
+img.olTileImage {
+   max-width: none !important;
+}
+.olPopup img { max-width: none !important;
+}
+
+</style>
+<?php
+}
 echo $this->lh;
 
 //  if ( ($user->get('id')) AND ($juser->get('gid') >= $this->cfg->gid ) OR (isset($this->id)) ){
@@ -93,6 +143,12 @@ if ( (JtgHelper::userHasFrontendRights() ) OR (isset($this->id)) )
 ?>
 <div class="componentheading">
 	<h1><?php echo $title; ?></h1>
+</div>
+<div>
+   <center><div id="jtg_map" class="olMap"></div><br /></center>
+        <div id="popup" class="ol-popup">
+          <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+          <div id="popup-content"></div>
 </div>
 <div>
 	<form name="adminForm" id="adminForm" method="post"
@@ -111,7 +167,7 @@ if (!isset($this->id))
 					<?php echo JHtml::tooltip(JText::_('COM_JTG_TT_FILES'), JText::_('COM_JTG_TT_HEADER'), 'tooltip.png');
 					?>
 					</td>
-					<td><input type="file" name="file" value="" size="30" /></td>
+					<td><input type="file" name="file" value="" size="30" onchange="submitform('uploadGPX')"></td>
 				</tr>
 <?php
 }
@@ -124,6 +180,13 @@ else
 					?>">
 					<td><?php echo JText::_('COM_JTG_ID'); ?>:</td>
 					<td><font color="grey"><?php echo $this->id; ?> </font></td>
+				</tr>
+				<tr class="sectiontableentry<?php
+					echo $k;
+					$k = 1 - $k;
+					?>">
+					<td><?php echo JText::_('COM_JTG_FILE'); ?>:</td>
+					<td><font color="grey"><?php echo $this->track->file; ?> </font></td>
 				</tr>
 <?php
 }
@@ -148,7 +211,7 @@ else
 				?>">
 					<td><?php echo JText::_('COM_JTG_TITLE'); ?>*</td>
 					<td><input id="title" type="text" name="title"
-						value="<?php echo isset($this->id)? $this->track->title: ''; ?>"
+						value="<?php echo $tracktitle; ?>"
 						size="30" /></td>
 				</tr>
 				<tr class="sectiontableentry<?php
@@ -217,6 +280,7 @@ if ($this->cfg->access == 1)
 					<?php echo $this->editor->display('description', $description, '100%', '200', '15', '25', false, null); ?>
 					</td>
 				</tr>
+				<input id="mappreview" type="hidden" name="mappreview">
 				<tr class="sectiontableentry<?php
 					echo $k;
 					$k = 1 - $k;
@@ -279,27 +343,32 @@ if ($this->cfg->access == 1)
 		<input type="hidden" name="task" value="" />
 		<div>
 			<br />
-			<button class="button" type="button" onclick="<?php echo $button; ?>">
+			<button class="button" type="button" onclick="<?php echo $buttonaction; ?>">
 				<?php echo $buttontext; ?>
 			</button>
 			<button class="button" type="button" onclick="submitbutton('reset')">
 				<?php echo JText::_('COM_JTG_RESET') ?>
 			</button>
 			<?php
-			if (isset($this->id))
+			if (isset($this->id) && !empty($this->track->title))
 			{
-				$reject = "index.php?option=com_jtg&amp;view=files&amp;layout=file&amp;id=" . $this->id;
-				$cancel = JText::_('COM_JTG_CANCEL_TO_FILEVIEW');
+				//$reject = "index.php?option=com_jtg&amp;view=files&amp;layout=file&amp;id=" . $this->id;
+				$canceltext = JText::_('COM_JTG_CANCEL_TO_FILEVIEW');
+				$cancelaction = "submitbutton('cancel')";
 			}
 			else
 			{
-				$reject = "index.php?option=com_jtg";
-				$cancel = JText::_('JCANCEL');
+				//$reject = "index.php?option=com_jtg";
+				$canceltext = JText::_('JCANCEL');
+				if (isset($this->id)) {
+				    $cancelaction = "submitform('deletenew')";
+				}
+				else $cancelaction = "submitform('cancel')";	
 			}
 			?>
 			<button class="button" type="button"
-				onclick="window.location.replace('<?php echo $reject; ?>')">
-				<?php echo $cancel; ?>
+				onclick="<?php echo $cancelaction;?>">
+				<?php echo $canceltext; ?>
 			</button>
 		</div>
 	</form>
@@ -312,3 +381,9 @@ else
 }
 
 echo $this->footer;
+
+if (isset($this->map)) {
+	echo "\n<script type=\"text/javascript\">\n
+   var olmap={ title: 'com_jtg_map_object' } \n
+   slippymap_init();</script>\n";
+}

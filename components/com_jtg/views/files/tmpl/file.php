@@ -129,7 +129,15 @@ if ($maySeeSingleFile === true)
 		{
 			JHtml::script('jquery.js', 'components/com_jtg/assets/js/', false);
 		}
+		$mapimagefile='images/jtrackgallery/maps/track_'.$this->track->id.'.png';
+		if (JFile::exists(JPATH_SITE.'/'.$mapimagefile)) {
+			JFactory::getDocument()->setMetaData('og:image',JUri::base().$mapimagefile,'property');
+		}
 		?>
+
+<div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v10.0&appId=504399847271326&autoLogAppEvents=1" nonce="kKhGPPnX"></script>
+
 <!-- begin Charts -->
 
 <script type="text/javascript">
@@ -460,6 +468,8 @@ if ($this->map)
           <a href="#" id="popup-closer" class="ol-popup-closer"></a>
           <div id="popup-content"></div>
       </div>
+
+
 <?php
 }
 ?>
@@ -659,6 +669,7 @@ if (! $this->params->get("jtg_param_disable_terrains"))
 				href="///www.geocaching.com/map/default.aspx?lat=<?php echo $this->track->start_n . "&amp;lng=" . $this->track->start_e; ?>"
 				target="_blank">Geocaching.com</a>
 	</div>
+<div class="fb-share-button" data-href="<?php echo Uri::getInstance()->toString()?>" data-layout="button" data-size="small"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=<?php echo urlencode(Uri::getInstance()->toString())?>&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Share</a></div>
 	</div>
 
 	<div class="no-float"></div>
