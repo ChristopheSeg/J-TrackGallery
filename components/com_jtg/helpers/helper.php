@@ -1181,7 +1181,7 @@ static public function autoRotateImage($image) {
 		$iconsurl = JUri::root() . 'images/jtrackgallery/difficulty_level/';
 		$levelString = $level . '/' . $levelMax;
 		$levels = ($levelMax > $levelMin);
-		$height = ($iconheight > 0? ' style="max-height:' . $iconheight . 'px" ' : '');
+		$height = ($iconheight > 0? ' style="max-height:' . $iconheight . 'px;display:inline;" ' : ' style="display:none;" ');
 
 		if ($levels AND JFile::exists($iconspath . $catid . '_' . (string) $level . '.png'))
 		{

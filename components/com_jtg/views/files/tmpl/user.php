@@ -129,7 +129,7 @@ if (empty($this->items)) {
 		</tbody>
 		<tfoot>
 			<tr class="sectiontablefooter">
-				<td colspan="7" align="center"><?php echo $this->pagination->getListFooter(); ?> </td>
+				<td colspan="7" align="center"><div class="pagination"><?php echo $this->pagination->getPagesLinks(); ?> </div></td>
 			</tr>
 		</tfoot>
 	</table>

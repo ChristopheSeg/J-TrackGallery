@@ -142,7 +142,7 @@ $trackcategoryOptions=$trackcategory->getOptions(); // works only if you set you
 		</thead>
 		<tfoot>
 			<tr class="sectiontablefooter">
-				<td colspan="8" align="center"><?php echo $this->pagination->getListFooter();?></td>
+				<td colspan="9" align="center"><div class="pagination"> <?php echo $this->pagination->getPagesLinks();?> </div></td>
 			</tr>
 		</tfoot>
 		<tbody>
