@@ -31,7 +31,7 @@ else
 	$document->addScriptDeclaration("var alerttext = '" . str_replace("'", "\'", JText::_('COM_JTG_HOMEPOSITION_GUESTS')) . "';");
 }
 
-$document->addScript( JUri::root(true) . '/media/system/js/mootools.js');
+//$document->addScript( JUri::root(true) . '/media/system/js/mootools.js');
 $document->addScriptDeclaration('var iconpath = \'' . $iconpath . '\';');
 $document->addScript( JUri::root(true) . '/components/com_jtg/assets/js/homeposition.js');
 
@@ -46,7 +46,7 @@ if ( JFolder::exists(JPATH_SITE . '/' . $imgpath))
 }
 else
 {
-	$imgpath = JUri::root() . 'components/com_jtg/assets/template/default/ol_images/';
+	$imgpath = JUri::root() . 'components/com_jtg/assets/template/default/images/';
 }
 
 
@@ -58,8 +58,7 @@ $defaultvars = (
 		"	var imgpath = '" . $imgpath . "';
 		var jtg_param_geo_lat = " . (float) $params->get('jtg_param_geo_lat') . ";
 		var jtg_param_geo_lon = " . (float) $params->get('jtg_param_geo_lon') . ";
-		var jtg_param_geo_zoom = " . (int) $params->get('jtg_param_geo_zoom') . ";
-		var jtg_param_geo_zoom_loggedin = " . (int) $params->get('jtg_param_geo_zoom_loggedin') . ";\n");
+		var jtg_param_geo_zoom = " . (int) JFactory::getApplication()->getParams()->get('map_zoom') . ";\n");
 
 if ( $userid )
 {
@@ -118,8 +117,8 @@ for ($x = 0;$x <= count($latlon);$x++)
 			if (empty($vars))
 			{
 				$vars = (
-						"	var SizeIconOtherUser = new OpenLayers.Size(22,22);
-						var OffsetIconOtherUser = new OpenLayers.Pixel(-11,-14);
+						"	var SizeIconOtherUser = [22,22];
+						var OffsetIconOtherUser = [-0.5,-0.66];
 						var IconOtherUser = '" . $iconpath . "user.png';
 						var MarkerHomePosition = '" . $homepos . "';
 						var inittext = '" . JText::_('COM_JTG_HERE_LIVE') . ": ';

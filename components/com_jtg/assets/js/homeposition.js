@@ -1,5 +1,4 @@
-// Version 2011-02-24 15:39
-
+// Updated to openlayers 6
 /**
 * Function: lonLatToMercator
 * OpenLayers-Karte mit OSM-Daten aufbauen
@@ -18,88 +17,56 @@ function lonLatToMercator(ll) {
 }
 
 function handleFillLL() {
-	layerHome.removeFeatures(layerHome.features);
+    // Set home position marker to lat, lon entered on page
+	layerHome.getSource().clear();
 	var lat = document.getElementById("lat").value;
 	var lon = document.getElementById("lon").value;
-	var latlon = lonLatToMercator(new OpenLayers.LonLat(lon,lat));
-	var marker = [];
-	marker.push(new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(latlon.lon,latlon.lat)));
-	layerHome.addFeatures(marker);
+	layerHome.getSource().addFeature(new ol.Feature( {
+	        geometry: new ol.geom.Point(ol.proj.fromLonLat( [lon, lat], olview.getProjection()))} )
+	        );
 }
 
 function mapcenter() {
 	var lat = document.getElementById("lat").value;
 	var lon = document.getElementById("lon").value;
-	var lonlat = lonLatToMercator(new OpenLayers.LonLat(lon,lat));
-	map.setCenter(lonlat);
+    olview.setCenter(ol.proj.fromLonLat([lon, lat], olview.getProjection()));
 }
 
 function mapfirstcenter() {
 	var lat = document.getElementById("lat").value;
 	var lon = document.getElementById("lon").value;
+	zoom = jtg_param_geo_zoom;
 	if (!lat || !lon) {
+		// FIXME: These are currently not settable in the config
 		lat = jtg_param_geo_lat;
 		lon = jtg_param_geo_lon;
-		zoom = jtg_param_geo_zoom;
 		alert(alerttext);
-	} else zoom = jtg_param_geo_zoom_loggedin;
-	var lonlat = lonLatToMercator(new OpenLayers.LonLat(lon,lat));
-	map.setCenter(lonlat,zoom);
+	}
+	olview.setZoom(zoom);
+	olview.setCenter(ol.proj.fromLonLat([lon, lat], olview.getProjection())); 
 }
 
 function handleMapClick(evt) {
 //set Marker on click
-	layerHome.removeFeatures(layerHome.features);
-	var pixel = new OpenLayers.Pixel(evt.xy.x, evt.xy.y);
-	var lonLat = map.getLonLatFromViewPortPx(pixel);
-	var marker = [];
-	marker.push(new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(lonLat.lon, lonLat.lat)));
-	layerHome.addFeatures(marker);
-	OpenLayers.Event.stop(evt);
-};
+	layerHome.getSource().clear();
+    var lonlat = ol.proj.toLonLat(evt.coordinate, olview.getProjection() );
+    var output = document.getElementById("lat");
+	output.value = lonlat[1];
+    output = document.getElementById("lon");
+	output.value = lonlat[0];
 
-/**
- * Function: addMarker
- * Add a new marker to the markers layer given the following lonlat, 
- *     popupClass, and popup contents HTML. Also allow specifying 
- *     whether or not to give the popup a close box.
- * 
- * Parameters:
- * ll - {<OpenLayers.LonLat>} Where to place the marker
- * popupClass - {<OpenLayers.Class>} Which class of popup to bring up 
- *     when the marker is clicked.
- * popupContentHTML - {String} What to put in the popup
- * closeBox - {Boolean} Should popup have a close box?
- * overflow - {Boolean} Let the popup overflow scrollbars?
- */
-function addMarker(ll, popupClass, popupContentHTML, closeBox, overflow, icon) {
-	var feature = new OpenLayers.Feature(layerOUsers, ll);
-	feature.closeBox = closeBox;
-	feature.popupClass = popupClass;
-	feature.data.popupContentHTML = popupContentHTML;
-	feature.data.overflow = (overflow) ? "auto" : "hidden";
-	var marker = new OpenLayers.Marker(ll,icon);
-	marker.feature = feature;
-	var markerClick = function (evt) {
-		if (this.popup == null) {
-			this.popup = this.createPopup(this.closeBox);
-			map.addPopup(this.popup);
-			this.popup.show();
-		}
-else
-{
-			this.popup.toggle();
-		}
-	currentPopup = this.popup;
-	OpenLayers.Event.stop(evt);
-	};
-// layerOUsers.events.register("mouseover", feature, markerClick);
-	layerOUsers.events.register("mousedown", feature, markerClick);
-	layerOUsers.addMarker(marker);
+	var marker = [];
+	marker.push(new ol.Feature({ geometry: new ol.geom.Point(evt.coordinate)}));
+	layerHome.getSource().addFeatures(marker);
+	mapcenter();
 }
 
-function showOtherUserInfo(ll, userhtml) {
-	var feature = new OpenLayers.Feature(layerOUsers, ll);
+function showOtherUserInfo(lon, lat, userhtml) {
+	//OpenLayers.Feature(layerOUsers, ll);
+	var feature = new ol.Feature( {
+	        geometry: new ol.geom.Point(ol.proj.fromLonLat([lon, lat], olview.getProjection()))}
+	    );
+	/*
 	var marker = new OpenLayers.Marker(ll, new OpenLayers.Icon(
 		IconOtherUser,
 		SizeIconOtherUser,
@@ -109,78 +76,68 @@ function showOtherUserInfo(ll, userhtml) {
 		// mootols required
 		document.getElementById("otheruser").innerHTML=userhtml;
 	}
-	currentPopup = this.popup;
-	layerOUsers.events.register("mouseover", feature, markerClick);
-	layerOUsers.addMarker(marker);
+	*/
+	//currentPopup = this.popup;
+	//layerOUsers.events.register("mouseover", feature, markerClick);
+	// TODO: add popup info
+	layerOUsers.getSource().addFeature(feature);
 }
 
 function parseOtherUsers() {
 	if ( otherusers ) {
 		for (i=0;i<otherusers;i++) {
-		layerOUsers = new OpenLayers.Layer.Markers(name[i]);
-		map.addLayer(layerOUsers);
-			var lonlat = lonLatToMercator(new OpenLayers.LonLat(lon[i],lat[i]));
-			ll = new OpenLayers.LonLat(
-				lonlat.lon,lonlat.lat).transform(
-					new OpenLayers.Projection("EPSG:4326"),
-					map.getProjectionObject());
-					popupContentHTML = inittext + '<b>' + name[i] + '</b> <small>(' + link[i] + ')</small>  ' + distancetext + distance[i] + '<br />';
+		    // TODO: don't need a layer for every user? check where to set name
+		    layerOUsers = new ol.layer.Vector(
+		        { source: new ol.source.Vector(),
+                style: new ol.style.Style({
+                    image: new ol.style.Icon({ src: IconOtherUser }),
+		        name: name[i]
+                })
+            });
+		    map.addLayer(layerOUsers);
+			popupContentHTML = inittext + '<b>' + name[i] + '</b> <small>(' + link[i] + ')</small>  ' + distancetext + distance[i] + '<br />';
 // 				popupContentHTML = link[i];
-					showOtherUserInfo(ll, popupContentHTML );
+			showOtherUserInfo(lon[i], lat[i], popupContentHTML );
 		}
 	}
 }
 //TODO ACCOUNT FOR TEMPLATES See gpsclass.php
 function init() {
-	OpenLayers.ImgPath = imgpath,
-	map = new OpenLayers.Map('jtg_map',{
-		controls:[
-				new OpenLayers.Control.MousePosition(),		// Koordinate des Mauszeigers (lat, lon)
-				new OpenLayers.Control.PanZoomBar(),		// Zoombalken
-				new OpenLayers.Control.Navigation(),		// mit Maus verschieb- und zoombar
-				new OpenLayers.Control.Attribution()		// Lizenz
-// 			new OpenLayers.Control.LayerSwitcher(),		// Menü zum ein/aus-Schalten der Layer
-			],
-			theme: null ,
-			maxExtent: new OpenLayers.Bounds(-20037508.34,-20037508.34,20037508.34,20037508.34),
-			maxResolution: 156543.0399,
-			numZoomLevels: 19,
-			units: "m",
-			projection: new OpenLayers.Projection("EPSG:900913"),
-			displayProjection: new OpenLayers.Projection("EPSG:4326")
-	});
+
+    olview = new ol.View( { 
+        center: [0, 0],
+        units: "m",
+        zoom: 8
+    } );
+    map = new ol.Map ( { target: "jtg_map",
+                controls: [
+                    new ol.control.MousePosition( {coordinateFormat: ol.coordinate.createStringXY(4), projection: 'EPSG:4326' }),
+                    new ol.control.ZoomSlider(),
+                    new ol.control.Attribution() ],
+                view: olview
+    } );
+    var layerMapnik = new ol.layer.Tile({ source: new ol.source.OSM() });
+    map.addLayer(layerMapnik);
+
+    layerHome = new ol.layer.Vector( {
+	    source: new ol.source.Vector(),
+	    style: new ol.style.Style({
+	        image: new ol.style.Icon({ src: imgpath+'home.png'})
+		}),
+		name: MarkerHomePosition
+    });
 	if ( MarkerHomePosition != 'false' ) {
-		layerHome = new OpenLayers.Layer.Vector(MarkerHomePosition, layerHome_options());
+	    // Todo correctly set icon path
+        //TODO: use layerHome_options()          
+        //OpenLayers.Layer.Vector(MarkerHomePosition, layerHome_options());
 		map.addLayer(layerHome);
 	}
 	parseOtherUsers();
-	var layerMapnik = new OpenLayers.Layer.OSM.Mapnik("Mapnik");
-	map.addLayer(layerMapnik);
-	mapfirstcenter();
-	var click = new OpenLayers.Control.Click();
-	map.addControl(click);
-	click.activate();
-	map.events.register('click', map, handleMapClick);
+    mapfirstcenter();
+    map.on('click', handleMapClick);
 	handleFillLL();
+	// TODO: make popup work
 }
-
-OpenLayers.Control.Click = OpenLayers.Class(OpenLayers.Control, {
-	defaultHandlerOptions: {'single': true},
-	initialize: function(options) {
-		this.handlerOptions = OpenLayers.Util.extend({}, this.defaultHandlerOptions);
-		OpenLayers.Control.prototype.initialize.apply(this, arguments);
-		this.handler = new OpenLayers.Handler.Click(this, {'click': this.trigger}, this.handlerOptions);
-	},
-	trigger: function(e) {
-		var lonlat = map.getLonLatFromViewPortPx(e.xy);
-			lonlat.transform(new OpenLayers.Projection("EPSG:900913"), new OpenLayers.Projection("EPSG:4326"));
-		var output = document.getElementById("lat");
-		output.value = lonlat.lat;
-		var output = document.getElementById("lon");
-		output.value = lonlat.lon;
-	mapcenter();
-	}
-});
 
 function layerHome_options() {
 	return {		styleMap: new OpenLayers.StyleMap({
@@ -201,6 +158,7 @@ function layerHome_options() {
 }
 
 /*
+// popup code?
 function showOtherUserInfo(ll, popupClass, popupContentHTML, closeBox, overflow, userhtml) {
 	var feature = new OpenLayers.Feature(layerOUsers, ll);
 	feature.closeBox = closeBox;
