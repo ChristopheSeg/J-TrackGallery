@@ -53,12 +53,12 @@ else
 $scriptheader = ("<script type=\"text/javascript\">
 		var iconpath = '" . $iconpath . "';\n");
 
-$params = $this->params;
+$app = JFactory::getApplication();
 $defaultvars = (
 		"	var imgpath = '" . $imgpath . "';
-		var jtg_param_geo_lat = " . (float) $params->get('jtg_param_geo_lat') . ";
-		var jtg_param_geo_lon = " . (float) $params->get('jtg_param_geo_lon') . ";
-		var jtg_param_geo_zoom = " . (int) JFactory::getApplication()->getParams()->get('map_zoom') . ";\n");
+		var jtg_param_geo_lat = " . $app->input->getFloat('jtg_param_geo_lat') . ";
+		var jtg_param_geo_lon = " . $app->input->getFloat('jtg_param_geo_lon') . ";
+		var jtg_param_geo_zoom = " . $app->input->getInt('jtg_param_geo_zoom') . ";\n");
 
 if ( $userid )
 {
