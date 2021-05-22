@@ -63,7 +63,7 @@ class JtgControllerDownload extends JtgController
 		}
 		else
 		{
-			$mime = "application/x-octet-stream";
+			$mime = "application/octet-stream";
 		}
 
 		header("Pragma: public");
@@ -72,5 +72,6 @@ class JtgControllerDownload extends JtgController
 		//header("Content-Transfer-Encoding:binary"); // Causes an error with speeady loading on Google Chrome
 		header("Cache-Control: post-check=0, pre-check=0");
 		echo $model->download($id, $format, $track);
+		exit; // Needed for iOS
 	}
 }
