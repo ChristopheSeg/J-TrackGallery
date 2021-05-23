@@ -87,7 +87,7 @@ CREATE TABLE IF NOT EXISTS `#__jtg_files` (
 	`published` int(10) NOT NULL DEFAULT '1',
 	`default_map` INT(2) NULL DEFAULT NULL,
 	`default_overlays` TEXT NULL DEFAULT NULL,
-	`date` date NOT NULL DEFAULT GETDATE(),
+	`date` date NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	`hits` int(10) NOT NULL,
 	`checked_out` int(10) NOT NULL,
 	`start_n` varchar(20) NOT NULL,
