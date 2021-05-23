@@ -140,8 +140,8 @@ CREATE TABLE IF NOT EXISTS `#__jtg_comments` (
 	`user` VARCHAR( 20 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
 	`title` VARCHAR( 100 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
 	`text` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
-	`email` VARCHAR( 40 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
-	`homepage` VARCHAR( 50 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+	`email` VARCHAR( 80 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+	`homepage` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
 	`published` INT( 5 ) NOT NULL ,
 	`date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 PRIMARY KEY ( `id` )

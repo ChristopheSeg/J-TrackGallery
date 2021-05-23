@@ -1126,11 +1126,20 @@ class JtgModelFiles extends JModelList
 					maxlength='50' /></td>
 			</tr>
 			<tr>
-				<td><label for='email'><?php echo JText::_('COM_JTG_EMAIL'); ?>*</label>
+				<td>
+					<label for='show-email'><?php echo JText::_('COM_JTG_SHOW_EMAIL'); ?></label>
 				</td>
-				<td><input type='text' name='email' id='email' size='30'
+				<td>
+					<input type='checkbox' name='show-email' onchange="document.getElementById('email').disabled=!this.checked;">
+				</td>
+			</tr>
+			<tr>
+				<td><label for='email'><?php echo JText::_('COM_JTG_EMAIL'); ?></label>
+				</td>
+				<td>
+					<input type='text' name='email' id='email' size='30' disabled 
 					value='<?php echo $user->get('email'); ?>'
-					class='required validate-email' maxlength='50' /></td>
+					class='validate-email' maxlength='50' /></td>
 			</tr>
 			<tr>
 				<td><label for='homepage'><?php echo JText::_('COM_JTG_INFO_AUTHOR_WWW'); ?>
@@ -1146,7 +1155,7 @@ class JtgModelFiles extends JModelList
 			</tr>
 			<tr>
 				<td colspan='2'><label for='text'><?php echo JText::_('COM_JTG_COMMENT_TEXT'); ?>*</label>
-					<?php echo $editor->display('text', '', '100%', '100', '80', '10', false, null, null);?>
+					<?php echo $editor->display('text', '', '100%', '50', '80', '8', false, null, null);?>
 				</td>
 			</tr>
 <?php if ($cfg->captcha == 1)

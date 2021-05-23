@@ -869,8 +869,9 @@ if ($this->cfg->comments == 1)
 		<?php echo $comment->user; ?>
 		<br />
 		<?php
-		echo $this->model->parseEMailIcon($comment->email);
-
+		if (! empty($comment->email) ) {
+			echo $this->model->parseEMailIcon($comment->email);
+		}
 		if ($comment->homepage)
 		{
 			echo ' ' . $this->model->parseHomepageIcon($comment->homepage);
