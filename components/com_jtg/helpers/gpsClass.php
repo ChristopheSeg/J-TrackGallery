@@ -2030,7 +2030,7 @@ return true;
 	 *
 	 * @return return_description
 	 */
-	public function writeOLMap($where,$showtracks,$params,$items=null)
+	public function writeOLMap($where,$showtracks,$params,$items=null,$geoloc=false)
 	{
 		$cfg = JtgHelper::getConfig();
 
@@ -2062,7 +2062,14 @@ return true;
 		$this->sortedcats = JtgModeljtg::getCatsData(true);
 
 		$map .= $this->parseOLMarker($items);
-		$map .= $this->parseOLMapCenter($items);
+		if ($geoloc) {
+			$map .= "  geolocate();\n";
+			$map .= "  olview.setZoom(jtgMapZoomLevel);\n";
+		}
+		else
+		{
+			$map .= $this->parseOLMapCenter($items);
+		}
 		$map .= $this->parseScriptOLFooter();
 
 		return $map;
@@ -2182,6 +2189,7 @@ return true;
 
 		$document = JFactory::getDocument();
 		$document->addScript( JUri::root(true) . '/components/com_jtg/assets/js/jtgOverView.js');
+		$document->addScript( JUri::root(true) . '/components/com_jtg/assets/js/geolocation.js');
 
 		$marker = "// <!-- parseOLMarker BEGIN -->\n";
 		$marker .= "markers = [\n";
@@ -2510,7 +2518,7 @@ return true;
 		}
 
 		// TODO osm_getTileURL see http://wiki.openstreetmap.org/wiki/Talk:Openlayers_POI_layer_example
-                // MvL: TODO can probably remove this?
+		// TODO: can probably remove this?
 		$document->addScript(JUri::root(true) . '/components/com_jtg/assets/js/jtg_getTileURL.js');
 
 		if ( !isset($baselayer))

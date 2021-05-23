@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<layout title="COM_JTG_MENU_DEFAULT_LAYOUT">
+	<layout title="COM_JTG_MENU_MAP_LAYOUT">
 		<message>
-			<![CDATA[COM_JTG_DEFAULT_LAYOUT_DESCRIPTION]]>
+			<![CDATA[COM_JTG_MAP_LAYOUT_DESCRIPTION]]>
 		</message>
 	</layout>
 	<fields name="request">

@@ -181,6 +181,7 @@ class JtgViewjtg extends JViewLegacy
 		$this->toptracks = $toptracks;
 		$this->showtracks = $showtracks;
 		$this->params = $params;
+		$this->default_zoom = $mainframe->getParams()->get('map_zoom');
 
 		parent::display($tpl);
 	}

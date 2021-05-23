@@ -22,7 +22,7 @@ $this->items = $this->get('Items');
 $this->filterForm = $this->get('FilterForm');
 $this->activeFilters = $this->get('ActiveFilters');
 echo $this->lh;
-echo $this->gpsData->writeOLMap(null, $this->showtracks, $this->params, $this->items);
+echo $this->gpsData->writeOLMap(null, $this->showtracks, $this->params, $this->items, JFactory::getApplication()->input->get('geoloc'));
 ?>
 
 <style type="text/css">
@@ -65,6 +65,7 @@ img.olTileImage {
       </div>
 	<div>
 	<br>
+<div id="geo-msg"></div>
    <form action="<?php echo JURI::getInstance(); ?>" method="post"
    name="adminForm" id="adminForm">
    <div class="row-fluid">
@@ -399,6 +400,7 @@ if ($this->rand != 0)
 	?>
 	<script type="text/javascript">
 	    var olmap={ title: 'com_jtg_map_object' } 
+		 var jtgMapZoomLevel = <?php echo $this->default_zoom; ?>;
 	    slippymap_init("map");
 	</script>
 </div>
