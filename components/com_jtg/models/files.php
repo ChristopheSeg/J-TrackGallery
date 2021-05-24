@@ -1122,7 +1122,7 @@ class JtgModelFiles extends JModelList
 				<td><label for='name'><?php echo JText::_('COM_JTG_NAME'); ?>*</label>
 				</td>
 				<td><input type='text' name='name' id='name' size='20'
-					value='<?php echo $user->get('name'); ?>' class='required'
+					value='<?php echo $user->get('username'); ?>' class='required'
 					maxlength='50' /></td>
 			</tr>
 			<tr>
@@ -1199,6 +1199,7 @@ class JtgModelFiles extends JModelList
 	{
 		$mainframe = JFactory::getApplication();
 
+		$uid = JFactory::getUser()->id;
 		$name = JFactory::getApplication()->input->get('name', '', 'string');
 		$email = JFactory::getApplication()->input->get('email', '', 'Raw');
 		$homepage = JFactory::getApplication()->input->get('homepage', '', 'raw');
@@ -1211,7 +1212,9 @@ class JtgModelFiles extends JModelList
 		}
 
 		$db = JFactory::getDBO();
-		$query = "INSERT INTO #__jtg_comments SET" . "\n tid='" . $id . "'," . "\n user=" . $db->quote($name) . "," . "\n email=" . $db->quote($email) . "," .
+		$query = "INSERT INTO #__jtg_comments SET" . "\n tid='" . $id . "'," . 
+				"\n uid=" . $uid . "," .
+				"\n user=" . $db->quote($name) . "," . "\n email=" . $db->quote($email) . "," .
 				"\n homepage=" . $db->quote($homepage) . "," . "\n title=" . $db->quote($title) . "," . "\n text=" . $db->quote($text) . "," . "\n published='1'";
 
 		$db->setQuery($query);

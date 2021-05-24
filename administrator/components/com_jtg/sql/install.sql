@@ -136,6 +136,7 @@ CREATE TABLE IF NOT EXISTS `#__jtg_terrains` (
 
 CREATE TABLE IF NOT EXISTS `#__jtg_comments` (
 	`id` INT( 10 ) NOT NULL AUTO_INCREMENT ,
+	`uid` INT( 10 ) ,
 	`tid` INT( 10 ) NOT NULL ,
 	`user` VARCHAR( 20 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
 	`title` VARCHAR( 100 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
