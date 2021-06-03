@@ -182,6 +182,7 @@ class JtgViewjtg extends JViewLegacy
 		$this->showtracks = $showtracks;
 		$this->params = $params;
 		$this->default_zoom = $mainframe->getParams()->get('map_zoom');
+		if (empty($this->default_zoom)) $this->default_zoom = 6; // for backward compatibility
 
 		parent::display($tpl);
 	}
