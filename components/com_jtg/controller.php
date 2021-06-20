@@ -49,6 +49,12 @@ class JtgController extends JControllerLegacy
 			$input->set('view', 'jtg');
 		}
 
+		if ($input->get('view') == 'jtg')
+		{
+			$view = $this->getView('jtg','html');
+			$view->setModel($this->getModel('DPCalLocations')); // Add second model
+		}
+
 		// Update the hit count for the file
 		if ($input->get('view') == 'files')
 		{

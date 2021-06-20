@@ -175,6 +175,13 @@
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
+		<field type="spacer" name="myspacer4" class="text"
+			label="COM_JTG_MENUSPACER_DPCAL_INTEGRATION" />
+		<field name="dpcallocs_overview" type="radio" default="0"
+			label="COM_JTG_MENU_DPCAL_OVERVIEW">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
 	</fieldset>
 	<fieldset name="ORDERING" label="COM_JTG_TT_TRACKS_LIST">
 		<field name="jtg_param_track_ordering" type="list"

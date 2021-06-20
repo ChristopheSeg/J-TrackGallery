@@ -20,6 +20,21 @@ function addMarkers() {
 	}
 }
 
+function addDPCalLocs(locations, markerstyle) {
+	for (i=0; i<locations.length; i++)
+	{
+		ll = ol.proj.fromLonLat([locations[i].lon, locations[i].lat], olview.getProjection());
+		var f= new ol.Feature( {
+			 geometry: new ol.geom.Point(ll,
+				{description:'Location_'+i}) ,
+					name: '<a href="'+locations[i].url+'">'+locations[i].title+'</a>',
+					description: ''
+		} );
+      f.setStyle( markerstyle );
+		arrayOfMarkers.push(f);
+	}
+}
+
 // MvL: could move this to a separate file
 function addPopup() {
     /**
@@ -195,6 +210,8 @@ function addClusteredLayerOfMarkers(){
             */
             // Create a vector layers and add markers
             addMarkers();
+				// TODO: pass these as arguments instead of global vars
+				addDPCalLocs(DPCalLocs, DPCalMarkerStyle);
             // Create a vector layers
             var source = new ol.source.Vector({
                 features: arrayOfMarkers

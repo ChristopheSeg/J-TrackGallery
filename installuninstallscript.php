@@ -519,6 +519,7 @@ class Com_JtgInstallerScript
 			"jtg_param_vote_from":"0",
 			"jtg_param_vote_to":"10",
 			"map_zoom":"6",
+			"dpcallocs_overview":"0",
 			"jtg_param_list_icon_max_height":"24"
 		}\'';
 			$query .= ' WHERE name = "com_jtg" AND type = "Component"';

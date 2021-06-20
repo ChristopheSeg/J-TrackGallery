@@ -2409,6 +2409,27 @@ return true;
 	}
 
 	/**
+	 * Parse DPCalendar location for marker drawing
+	 *
+	 * @param   unknown_type  $items calendar items
+	 *
+	 * @return string: javascript array
+	 */
+	function parseDPCalLocations($items)
+	{
+		$DPCalLocArray = array();
+		foreach ($items as $item)
+		{
+			$DPCalItem = "  \n{\n    'lon' : $item->longitude,\n";
+			$DPCalItem .= "    'lat' : $item->latitude,\n";
+			$DPCalItem .= "    'title' : '".htmlentities($item->title)."',\n";
+			$DPCalItem .= "    'url' : '".JRoute::_("index.php?option=com_dpcalendar&view=location&id=$item->id")."'\n";
+			$DPCalItem .= "  }";
+			$DPCalLocArray[] = $DPCalItem;
+		}
+		return "[ ".implode(',', $DPCalLocArray)." ];";	
+	}
+	/**
 	 * function_description
 	 *
 	 * @return Object

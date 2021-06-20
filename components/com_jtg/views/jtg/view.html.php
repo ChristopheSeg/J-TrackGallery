@@ -167,6 +167,14 @@ class JtgViewjtg extends JViewLegacy
 				break;
 		}
 
+		if ($mainframe->getParams()->get('dpcallocs_overview'))
+		{
+			// Get locations from DPCalendar
+			$dpcalmodel = $this->getModel("DPCalLocations");
+			$this->dpcallocs = $dpcalmodel->getItems(); 
+		}
+		else $this->dpcallocs = array();
+
 		$this->lh = $lh;
 		$this->boxlinktext = $boxlinktext;
 		$this->footer = $footer;
