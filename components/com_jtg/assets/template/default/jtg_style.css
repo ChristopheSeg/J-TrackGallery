@@ -611,7 +611,6 @@ v\:rect,v\:roundrect,v\:line,v\:polyline,v\:curve,v\:arc,v\:oval,v\:image,v\:sha
 #count-box {
 	margin: 0 10px;
 	border: 1px solid #aaa6a6;
-	background-color: #FFFFFF;
 	padding: 20px;
 }
 
@@ -684,9 +683,7 @@ span label {
 
 .gps-navi {
 	padding: 10px;
-	background-color: silver;
-	background-image: url(images/nav_bg.png);
-	background-repeat: repeat-x;
+	background-color: whitesmoke;
 	margin: 0 0 20px 0;
 	border: 1px solid #aaa6a6;
 	height: 30px;
@@ -760,9 +757,7 @@ span label {
 	padding-right: 5px;
 	display: block;
 	border-bottom: 1px solid #aaa6a6;
-	background-color: silver;
-	background-image: url(images/list_bg.png);
-	background-repeat: repeat-x;
+	background-color: whitesmoke;
 }
 
 .toptracks_1_title ul.title,.toptracks_2_title ul.title,.toptracks_3_title ul.title,.toptracks_4_title ul.title
@@ -854,12 +849,10 @@ span label {
 .description {
 	padding: 10px 0 10px 10px;
 	width: 100%;
-	background-color: #FFFFFF;
 }
 
 #gps-time {
 	margin: 0 20px 0 20px;
-	background-color: #FFFFFF;
 	border: 1px solid #aaa6a6;
 }
 
@@ -904,8 +897,7 @@ span label {
 
 .comment-header {
 	height: 25px;
-	background-image: url(images/list_bg.png);
-	background-repeat: repeat-x;
+	background-color: whitesmoke;
 	padding: 2px 0 0 25px;
 }
 
@@ -933,7 +925,6 @@ span label {
 	padding: 5px 20px 20px 20px;
 	width: 400px;
 	overflow: hidden;
-	border-left: 1px solid #aaa6a6;
 }
 
 .comment-form {
@@ -944,8 +935,7 @@ span label {
 
 .comment-form th {
 	height: 25px;
-	background-image: url(images/list_bg.png);
-	background-repeat: repeat-x;
+	background-color: whitesmoke;
 	padding: 1px 0 0 25px;
 }
 
@@ -983,7 +973,6 @@ table.adminlist tfoot tr {
 
 	/* Table td/th styles */
 table.adminlist tfoot td,table.adminlist tfoot th {
-	background-color: #ffffff;
 	border-top: 1px solid #738498;
 }
 
@@ -1100,7 +1089,7 @@ div.button2jtg-left button {
 /* is-xxx icons */
 
 
-span.fileis img {
+.fileis img {
     float: left; 
     border: 0 none;
     margin-right: 2px;

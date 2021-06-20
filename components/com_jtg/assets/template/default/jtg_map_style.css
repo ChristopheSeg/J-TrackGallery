@@ -12,16 +12,20 @@
 	max-width: none;
 }
 
-#jtg_map label,.olMap input,.olMap button,#jtg_map.olButton,.olMap select,.olMap textarea
-	{
-	font-family: Roboto, Arial, ​sans-serif;
+#jtg_map label {
+	font-family: Roboto, Arial, sans-serif;
 	/* Roboto used by Google Maps , added to avoid font resizing when GoogleMaps selected*/
-	font-size: 11px;
+	font-size: 12px;
 	font-weight: inherit;
 	line-height: inherit;
 	display: inline;
 	margin-bottom: 0px;
 	margin-top: 0px;
+}
+
+.olMap input,.olMap button,#jtg_map.olButton,.olMap select,.olMap textarea
+	{
+	font-size: 12px;
 }
 
 .ol-attribution {
