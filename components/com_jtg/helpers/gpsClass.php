@@ -1035,7 +1035,7 @@ return true;
 		$d = 0;
 		$this->allDistances[0] = 0;
 		/*
-		 if ( $this->unit == "Kilometer" )
+		 if ( strtolower($this->unit) == "kilometer" )
 		 {
 		$earthRadius = 6378.137;
 		}
@@ -2895,7 +2895,7 @@ return true;
 	 */
 	private function parseOLMapControl($params, $adminonly = false)
 	{
-		if ( $this->unit == "Kilometer" )
+		if ( strtolower($this->unit) == "kilometer" )
 		{
 			$topOutUnits = "km";
 			$topInUnits = "m";

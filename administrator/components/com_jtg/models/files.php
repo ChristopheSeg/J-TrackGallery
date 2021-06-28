@@ -909,16 +909,15 @@ class JtgModelFiles extends JModelLegacy
 				$hidden = $input->get('hidden_' . $i);
 				$file_tmp = explode('/', $file);
 				$filename = strtolower($file_tmp[(count($file_tmp) - 1)]);
-				$file_tmp = File::MakeSafe($filename);
+				$target = File::MakeSafe($filename);
 				$extension = JFile::getExt($file_tmp);
 
-				// Truncate filename to 50 characters
-				if (strlen($file_tmp) > 50)
+				// Truncate filename to 127 characters
+				if (strlen($target) > 127)
 				{
-					$file_tmp = substr($file_tmp, 0, 50);
+					$target = substr($target, 0, 123);
+				   $target .= "." . $extension;
 				}
-
-				$target = $file_tmp . "." . $extension;
 
 				if ( (!$file_replace ) and (in_array($target, $existingfiles)) )
 				{
@@ -926,7 +925,7 @@ class JtgModelFiles extends JModelLegacy
 
 					while (true)
 					{
-						$target = $file_tmp . '_' . $fncount . "." . $extension;
+						$target = JFile::stripExt($target). '_' . $fncount . "." . $extension; // TODO: does not work with long filenames
 
 						if (!in_array($target, $existingfiles))
 						{
@@ -951,8 +950,8 @@ class JtgModelFiles extends JModelLegacy
 				$cache = JFactory::getCache();
 
 				// TODO use $target below!!
-				$gpsData = new GpsDataClass("Kilometer");
-				$gpsData = $cache->get(array ( $gpsData, 'loadFileAndData' ), array ($file, $filename ), "Kilometer");
+				$gpsData = new GpsDataClass("kilometer");
+				$gpsData = $cache->get(array ( $gpsData, 'loadFileAndData' ), array ($file, $filename ), "kilometer");
 				$errors = $gpsData->displayErrors();
 
 				if ($errors)
@@ -970,7 +969,8 @@ class JtgModelFiles extends JModelLegacy
 					if (!JFile::delete($file))
 					{
 						// TODO JTEXT + warning
-						echo JText::sprintf('COM_JTG_FILE_DELETE_FAILED', $file);
+
+						JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_JTG_FILE_DELETE_FAILED', $file), 'Warning');
 
 						// TODO check if exit is correct here ???
 						exit;
@@ -1378,10 +1378,10 @@ class JtgModelFiles extends JModelLegacy
 
 		// Get the start coordinates
 		// Default unit
-		$gpsData = new GpsDataClass("Kilometer");
+		$gpsData = new GpsDataClass("kilometer");
 		$file = $upload_dir . $target;
 		$cache = JFactory::getCache();
-		$gpsData = $cache->get(array ( $gpsData, 'loadFileAndData' ), array ($file, $target), "Kilometer");
+		$gpsData = $cache->get(array ( $gpsData, 'loadFileAndData' ), array ($file, $target), "kilometer");
 		$errors = $gpsData->displayErrors();
 
 		if ($errors)
@@ -1739,7 +1739,7 @@ class JtgModelFiles extends JModelLegacy
 					echo $db->stderr();
 				}
 			}
-         		// Set image title
+			// Set image title
 			$img_title = $input->get('img_title_' . $image->id, '', 'string');
 			if ($img_title !== null and $img_title != $image->title) {
 				$query = "UPDATE #__jtg_photos SET title=".$db->quote($img_title)." WHERE id='".$image->id."'";
